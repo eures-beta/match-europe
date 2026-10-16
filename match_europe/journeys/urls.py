@@ -1,7 +1,13 @@
 from django.urls import path
 from . import views
+from . import employer_api
 
 urlpatterns = [
+    path('previews/employer-landing/<path:path>', employer_api.preview),
+    path('forms/eures-beta/site.css', employer_api.historical_css),
+    path('local-api/imports/', employer_api.imports),
+    path('local-api/imports/source/', employer_api.read_source),
+    path('local-api/imports/<uuid:id>/', employer_api.imports),
     path('imported-offers/<uuid:pk>/', views.imported_offer, name='imported_offer'),
     path('', views.dashboard, name='dashboard'), path('access/', views.access, name='access'),
     path('demo/<int:pk>/', views.demo_login, name='demo_login'), path('confirm/<str:token>/', views.confirm, name='confirm'),
