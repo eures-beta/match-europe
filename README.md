@@ -157,3 +157,83 @@ et appliquer la règle aux administrateurs sans contournement. Ce réglage GitHu
 n’est pas modifié par cette PR. Les protections des dépôts privés d’organisation
 nécessitent un abonnement GitHub compatible. Black contrôle le format Python,
 pas les erreurs métier, la sécurité, les templates ou le JavaScript.
+---
+
+# Match Europe — premier prototype Django
+
+Archive de travail partagée pour conserver et discuter le premier prototype local Match Europe. **Cette branche et sa PR ne sont pas une proposition de mise en production ou de fusion en l’état.**
+
+La pile est Django / PostgreSQL / Bootstrap. Le code historique Flask/Grist reste dans [eures-beta/eures-beta](https://github.com/eures-beta/eures-beta) ; il n’est pas importé comme application dans ce dépôt.
+
+## Ce qui est conservé
+
+- Parcours candidat, employeur, conseiller et administrateur avec données de démonstration fictives.
+- Accès par lien de confirmation simulé, contrôle des droits par objet et conversation candidat–employeur–conseiller.
+- Import employeur depuis PDF, URL publique ou texte, brouillons par session, vérification et contact entreprise.
+- Affectation d’un conseiller aux imports par l’administration, séparée du matching de démonstration.
+- Pages employeur FR/EN/DE ; **la V2 est la référence UX retenue**.
+- Diagnostic Web Push local isolé, sans inscription automatique au pilote.
+
+## Lancer en local
+
+Prérequis : Python 3.12+, PostgreSQL et ses outils (`initdb`, `pg_ctl`, `createdb`), gettext (`msgfmt`). Le lanceur trouve aussi les binaires PostgreSQL installés avec Homebrew. Ne pas utiliser une base contenant des données réelles.
+
+```sh
+cd match_europe
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python run_local.py
+```
+
+Ouvrir <http://127.0.0.1:8014/access/> pour les quatre rôles fictifs.
+
+Pour le parcours employeur V2, arrêter le serveur HTTP précédent puis lancer :
+
+```sh
+ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
+```
+
+Ouvrir <http://127.0.0.1:8015/previews/employer-landing/import-v2-fr.html> (EN/DE disponibles). La page d’accueil employeur est `/previews/employer-landing/fr.html`.
+
+**Attention :** ce second mode peut consulter la source publique fournie et interroger Nominatim pour un lieu. Si une clé sandbox est explicitement configurée, il peut enregistrer puis relire une offre inactive chez le prestataire. Il ne lance pas de matching, de qualification, de contact candidat ou de SMS. Sans clé, l’échec est explicite et le brouillon reste local. Les champs contact ne sont pas envoyés au prestataire ; le texte libre de l’annonce n’est pas expurgé automatiquement.
+
+Le mode non-démo reste volontairement bloqué. Ne pas exposer ce serveur sur Internet. Les comptes démo partagés ne conviennent pas à des données personnelles réelles.
+
+## Structure
+
+| Chemin | Contenu |
+| --- | --- |
+| `match_europe/config/` | Réglages Django et journalisation |
+| `match_europe/journeys/` | Modèles, migrations, droits, services, vues et tests |
+| `match_europe/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
+| `previews/employer-landing/` | Parcours employeur de référence V2, V1 conservée et diagnostic Push |
+| `forms/eures-beta/` | Deux ressources de présentation héritées, pas un serveur Flask |
+| `docs/` | Périmètre, décisions, ordre de lecture et limites |
+
+## Vérifier
+
+Depuis `match_europe/`, après initialisation de la base locale :
+
+```sh
+.venv/bin/python manage.py check
+.venv/bin/python manage.py makemigrations --check --dry-run
+.venv/bin/python manage.py test journeys --noinput
+```
+
+Les tests PostgreSQL créent une base distincte et simulent les services externes. Aucun secret, base, session, document utilisateur ou abonnement de notification n’est versionné. Le lanceur compile les catalogues gettext ; les `.mo` sont aussi inclus comme ressources du prototype.
+
+## Limites et lecture de la PR
+
+Voir [le guide de revue](docs/PROTOTYPE_REVIEW.md), [l’état de reprise](HANDOFF.md), [les décisions](docs/DECISIONS.md) et [les consignes](AGENTS.md).
+
+Ce partage conserve des étapes successives et du code exploratoire : styles en ligne, HTML généré dupliqué, prévisualisations non entièrement intégrées à Django templates, diagnostic Push surtout francophone et documentation historique. Il ne certifie ni conformité juridique, ni accessibilité complète, ni aptitude à la production. Aucun email réel n’est envoyé ; le diagnostic Push n’est pas raccordé au parcours métier.
+
+## Web Push facultatif pour le diagnostic local
+
+```sh
+cd match_europe
+.venv/bin/python -m pip install -r requirements-push-test.txt
+ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
+```
+
+Ouvrir `/previews/employer-landing/push-test.html`. L’activation nécessite une action explicite et l’autorisation du navigateur. Le test envoie uniquement un message générique ; les clés VAPID générées sont ignorées dans `.runtime/`. L’abonnement est propre à la session locale. Ne pas considérer HTTP 201 ou la permission comme preuve de réception : l’utilisateur doit confirmer la bannière ou le Centre de notifications.
