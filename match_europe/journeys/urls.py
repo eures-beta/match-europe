@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views
-from . import employer_api
+from . import employer_api, push_test
 
 urlpatterns = [
+    path('local-api/push-test/<str:action>/', push_test.api),
+    path('previews/employer-landing/push-test-sw.js', push_test.worker),
     path('previews/employer-landing/<path:path>', employer_api.preview),
     path('forms/eures-beta/site.css', employer_api.historical_css),
     path('local-api/imports/', employer_api.imports),
