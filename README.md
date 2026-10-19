@@ -7,13 +7,6 @@ Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstra
 - Aucun modèle, rôle, parcours, service externe ou habillage métier ajouté.
 - Aucune migration applicative : seules les migrations natives Django sont utilisées.
 
-## URL de recette
-
-Depuis la décision du 16 octobre 2026, les futurs développements de ce dépôt
-sont destinés à être déployés sur <https://matcheurope-alpha.beta.francetravail.fr/>.
-Cette alpha sert au développement et à la validation ; elle n'est pas un
-environnement de production métier. Voir [AGENTS.md](AGENTS.md) pour les consignes.
-
 ## Démarrage local
 
 Prérequis : Python 3.12 et PostgreSQL 17 démarré. Créer une base et un rôle locaux
