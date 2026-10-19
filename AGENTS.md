@@ -55,26 +55,9 @@
   inutiles. Le traitement des PR empilées directement dépendantes est la seule
   exception à ce nettoyage ciblé, sauf demande explicite de l'humain.
 
-## URL de recette de référence
+## Séparation entre code et exploitation
 
-Décision validée par Eric le 16 octobre 2026 : les futurs développements de ce
-dépôt ont pour destination de déploiement l'alpha FT :
-
-https://matcheurope-alpha.beta.francetravail.fr/
-
-Cette adresse est l'environnement partagé de développement et de validation,
-et ne constitue pas une mise en production métier. Le squelette de ME#3 y a été
-installé le 16 octobre 2026 ; les futurs déploiements doivent conserver ce domaine.
-
-Après chaque déploiement, vérifier le contrôle `/health`, les pages concernées
-et leurs fichiers statiques, puis indiquer la version déployée et le résultat des
-contrôles. Prévoir un retour arrière avant de remplacer la version en service.
-
-Cette destination de référence ne demande pas un déploiement automatique à
-chaque modification et n'autorise pas à elle seule une fusion ou une modification
-d'un autre environnement. Respecter le périmètre demandé pour chaque tâche.
-
-Ne pas inscrire de secrets, d'accès serveur ou de procédures internes FT dans
-ce dépôt public. Conserver les configurations et procédures de déploiement FT
-dans l'espace privé approprié. Configurer les adresses d'environnement hors du
-code applicatif, sans les coder en dur.
+Ce dépôt public contient le code et les instructions de développement local.
+Les destinations, configurations et procédures propres aux environnements
+restent dans les dépôts privés de déploiement. Ne pas inscrire ici de secrets,
+d’accès serveur ou de consigne imposant une infrastructure particulière.
