@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<section class="panel narrow"><h1>Confirm your connection</h1><p>This action verifies access to your email address. It does not verify your company identity.</p><form method="post">{% csrf_token %}<button class="btn btn-primary">Confirm and enter my workspace</button></form></section>{% endblock %}

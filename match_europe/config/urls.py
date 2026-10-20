@@ -1,3 +1,3 @@
-from django.urls import path
-from django.views.generic import TemplateView
-urlpatterns=[path('',TemplateView.as_view(template_name='home.html'))]
+from django.urls import include, path
+from django.contrib.staticfiles.views import serve
+urlpatterns=[path('static/<path:path>',serve,{'insecure':True}),path('',include('journeys.urls'))]

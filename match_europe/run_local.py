@@ -26,7 +26,7 @@ exists = subprocess.run(['psql', '-d', 'postgres', '-tAc', "SELECT 1 FROM pg_dat
                         env=env, capture_output=True, text=True, check=True).stdout.strip()
 if exists != '1':
     subprocess.run(['createdb', 'me_local'], env=env, check=True)
-for args in [['migrate', '--noinput']]:
+for args in [['migrate', '--noinput'], ['seed_demo']]:
     subprocess.run([sys.executable, 'manage.py', *args], env=env, check=True)
 port = int(os.environ.get('ME_LOCAL_PORT', '8014'))
 if not 1024 <= port <= 65535:
