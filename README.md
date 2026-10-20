@@ -113,3 +113,9 @@ les dépôts privés de déploiement.
 fonctionne, `503` sinon. Cette route n’est pas mise en cache et reste accessible
 en HTTP pour les sondes internes, même lorsque les autres pages redirigent
 vers HTTPS.
+
+La sonde est traitée avant les middlewares qui valident le nom d’hôte : un
+orchestrateur peut ainsi utiliser l’adresse IP éphémère de l’instance. Seul le
+chemin exact `/health/` bénéficie de ce traitement ; sa réponse ne contient ni
+nom d’hôte ni URL. Les autres routes conservent `ALLOWED_HOSTS` et leurs contrôles
+habituels.

@@ -34,6 +34,18 @@ class CollectedStaticTests(SimpleTestCase):
 
 
 class HealthTests(TestCase):
+    @override_settings(ALLOWED_HOSTS=["testserver"], SECURE_SSL_REDIRECT=True)
+    def test_probe_accepts_an_instance_ip_without_relaxing_other_routes(self):
+        response = self.client.get("/health/", HTTP_HOST="192.0.2.17:8080")
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.content, b"")
+        self.assertNotIn("Location", response)
+        self.assertIn("no-store", response["Cache-Control"])
+        self.assertEqual(self.client.head("/health/", HTTP_HOST="192.0.2.17:8080").status_code, 204)
+        self.assertEqual(self.client.post("/health/", HTTP_HOST="192.0.2.17:8080").status_code, 405)
+        for path in ("/", "/admin/", "/health/anything"):
+            self.assertEqual(self.client.get(path, HTTP_HOST="192.0.2.17:8080").status_code, 400)
+
     @override_settings(SECURE_SSL_REDIRECT=True)
     def test_health_checks_postgresql_without_https_redirect_or_cache(self):
         response = self.client.get("/health/")
@@ -44,6 +56,6 @@ class HealthTests(TestCase):
 
     def test_failed_database_returns_no_internal_details(self):
         with patch("config.health.connection.cursor", side_effect=OperationalError("fictional-secret")):
-            response = self.client.get("/health/")
+            response = self.client.get("/health/", HTTP_HOST="probe.example.invalid")
         self.assertEqual(response.status_code, 503)
         self.assertEqual(response.content, b"")
