@@ -33,8 +33,33 @@ class JourneysTests(TestCase):
         self.client.force_login(self.users[role])
 
 
+    def test_offer_and_match_object_permissions(self):
+        outsider = User.objects.create_user('other@example.invalid')
+        Profile.objects.create(user=outsider, role='employer', verified=True)
+        self.client.force_login(outsider)
+        self.assertEqual(self.client.get(reverse('offer', args=[self.offer.pk])).status_code, 404)
+        self.assertEqual(self.client.post(reverse('offer', args=[self.offer.pk]), {'action': 'suggest'}).status_code, 404)
+        self.as_role('candidate')
+        self.assertEqual(self.client.get(reverse('offer', args=[self.offer.pk])).status_code, 404)
+        self.assertEqual(self.client.get(reverse('match', args=[self.match.pk])).status_code, 404)
+        self.as_role('employer')
+        self.assertEqual(self.client.get(reverse('match', args=[self.match.pk])).status_code, 404)
 
+    def test_employer_cannot_trigger_suggestions_or_change_validated_offer(self):
+        self.as_role('employer')
+        for action in ['suggest', 'validate', 'question']:
+            self.assertEqual(self.client.post(reverse('offer', args=[self.offer.pk]), {'action': action}).status_code, 404)
 
+    def test_no_dispatch_before_validation_and_email_confirmation(self):
+        self.offer.sent_at = None
+        self.offer.validated_at = None
+        with self.assertRaises(ValueError):
+            dispatch_offer(self.offer, self.users['employer'])
+        self.offer.validated_at = timezone.now()
+        Profile.objects.filter(user=self.users['employer']).update(verified=False)
+        self.offer.employer.refresh_from_db()
+        with self.assertRaises(ValueError):
+            dispatch_offer(self.offer, self.users['employer'])
 
     def test_tokens_expire_are_single_use_and_get_does_not_consume(self):
         raw = issue_token(self.users['employer'])
@@ -48,6 +73,10 @@ class JourneysTests(TestCase):
         AccessToken.objects.update(expires=timezone.now() - timedelta(seconds=1))
         self.assertIsNone(consume_token(raw))
 
+    def test_csrf_required(self):
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.users['adviser'])
+        self.assertEqual(client.post(reverse('match', args=[self.match.pk]), {'action': 'invite'}).status_code, 403)
 
     def test_invitation_creates_only_draft_access_not_verified_identity(self):
         token = invite_for(self.users['adviser'])
@@ -74,6 +103,11 @@ class JourneysTests(TestCase):
         self.assertFalse(form.is_valid())
 
 
+    def test_demo_adapter_never_calls_network(self):
+        with patch('socket.create_connection', side_effect=AssertionError('Network forbidden')):
+            call_command('seed_demo', verbosity=0)
+            self.as_role('adviser')
+            self.assertEqual(self.client.get('/').status_code, 200)
 
     def test_employer_pdf_draft_questions_and_validation(self):
         from pypdf import PdfWriter

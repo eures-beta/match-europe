@@ -232,6 +232,14 @@ def offer(request, pk):
                     else:
                         messages.success(request, _('Draft saved.'))
                         return redirect('offer', pk=pk)
+        elif action == 'suggest':
+            if user.pk != obj.adviser_id and user.profile.role != 'admin':
+                forbid()
+            try:
+                suggest_candidates(obj, user)
+            except ValueError as exc:
+                messages.error(request, str(exc))
+            return redirect('offer', pk=pk)
         else:
             forbid()
     visible_matches = obj.matches.select_related('candidate') if user.pk == obj.adviser_id or user.profile.role == 'admin' else []
@@ -265,6 +273,33 @@ def candidate_edit(request):
             messages.success(request, _('Draft saved.'))
             return redirect('candidate_edit')
     return render(request, 'candidate.html', {'candidate': obj, 'form': form, 'email_link': request.session.get('demo_email_link')})
+
+
+@require_identity
+def match_detail(request, pk):
+    user = request.me_user
+    obj = get_object_or_404(Match.objects.select_related('candidate__user', 'offer__employer', 'offer__adviser'), pk=pk)
+    if not allowed_match(user, obj) or (user.pk == obj.candidate.user_id and obj.state == Match.State.SUGGESTED):
+        forbid()
+    is_candidate = user.pk == obj.candidate.user_id
+    is_employer = user.pk == obj.offer.employer_id
+    is_adviser = user.pk == obj.offer.adviser_id
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        with transaction.atomic():
+            obj = Match.objects.select_for_update().get(pk=pk)
+            if action == 'invite' and is_adviser and obj.state == Match.State.SUGGESTED:
+                obj.state = Match.State.INVITED
+                notify(obj.candidate.user, 'An offer is waiting for you', reverse('match', args=[pk]))
+            else:
+                forbid()
+            obj.save()
+            audit(user, action, obj)
+        return redirect('match', pk=pk)
+    answers = {a.question_id: a for a in obj.answers.all()}
+    questions = [{'q': q, 'answer': answers.get(q.pk), 'choices': q.choices()} for q in obj.offer.questions.all()]
+    return render(request, 'match.html', {'match': obj, 'questions': questions, 'is_candidate': is_candidate,
+                  'is_employer': is_employer, 'is_adviser': is_adviser, 'review_form': ReviewForm()})
 
 
 @require_identity
