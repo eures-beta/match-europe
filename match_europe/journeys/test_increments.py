@@ -46,6 +46,7 @@ class PreviewResourceTests(SimpleTestCase):
         from unittest.mock import patch
         from urllib.parse import urljoin
         pages=['en.html','fr.html','de.html','import-en.html','privacy-en.html']
+        pages+=['import-v2-en.html','import-v2-fr.html','import-v2-de.html']
         with patch.dict(os.environ,{'ME_EMPLOYER_LOCAL_API':'1'}):
             for page in pages:
                 url='/previews/employer-landing/'+page
