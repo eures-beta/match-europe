@@ -153,6 +153,19 @@
       form.reset(); status.textContent = ''; error.textContent = ''; downloadValidated.hidden = true;
       if(result.synced) { showCompletion(result); return; }
       this.stage = result.stage === 'prepare' ? 'prepare-step' : 'review-step';
+      document.querySelectorAll('.document-warnings').forEach(node => node.remove());
+      if (result.data.extractionWarnings?.length) {
+        const box = document.createElement('section'); box.className = 'document-warnings'; box.setAttribute('role','status');
+        const heading = document.createElement('h2'); heading.textContent = t.documentWarnings.title; box.append(heading);
+        const list = document.createElement('ul');
+        for (const warning of result.data.extractionWarnings) {
+          const item = document.createElement('li');
+          item.textContent = (t.documentWarnings[warning.field] || t.documentWarnings.other) + (warning.values.length ? ' : ' + warning.values.join(' / ') : '');
+          list.append(item);
+        }
+        box.append(list);
+        document.getElementById(this.stage).querySelector('h1').after(box);
+      }
       if (this.stage === 'prepare-step') {
         for (const name of ['title','companyName','city','description']) document.getElementById('prepare-'+name).value=result.data[name] || '';
         document.getElementById('prepare-error').textContent=result.error ? (t.errors[result.error] || t.errors.sandbox_error) : '';
