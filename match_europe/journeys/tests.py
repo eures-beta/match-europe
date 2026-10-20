@@ -49,6 +49,16 @@ class JourneysTests(TestCase):
         self.assertIsNone(consume_token(raw))
 
 
+    def test_invitation_creates_only_draft_access_not_verified_identity(self):
+        token = invite_for(self.users['adviser'])
+        url = reverse('access') + '?role=employer&invite=' + token
+        self.client.get(url)
+        self.client.post(url, {'email': 'new@example.invalid'})
+        person = User.objects.get(username='new@example.invalid')
+        self.assertFalse(person.profile.verified)
+        self.assertEqual(person.profile.adviser_id, self.users['adviser'].pk)
+        self.assertEqual(self.client.get(reverse('upload')).status_code, 200)
+        self.assertEqual(self.client.get(reverse('offer', args=[self.offer.pk])).status_code, 404)
 
     def test_existing_email_does_not_grant_draft_access(self):
         url = reverse('access') + '?role=employer&invite=' + invite_for(self.users['adviser'])
@@ -59,9 +69,40 @@ class JourneysTests(TestCase):
 
 
 
+    def test_pdf_validation(self):
+        form = UploadForm({'agreement': True}, {'document': SimpleUploadedFile('bad.pdf', b'not a PDF')})
+        self.assertFalse(form.is_valid())
 
 
 
+    def test_employer_pdf_draft_questions_and_validation(self):
+        from pypdf import PdfWriter
+        self.as_role('employer')
+        content = BytesIO()
+        writer = PdfWriter()
+        writer.add_blank_page(width=595, height=842)
+        writer.write(content)
+        response = self.client.post(reverse('upload'), {'agreement': 'yes', 'document': SimpleUploadedFile('fiction.pdf', content.getvalue())})
+        self.assertEqual(response.status_code, 302)
+        obj = Offer.objects.exclude(pk=self.offer.pk).get()
+        self.assertEqual(obj.state, 'draft')
+        self.assertFalse(obj.sent_at)
+        self.assertEqual(self.client.get(reverse('offer', args=[obj.pk])).status_code, 200)
+        self.client.post(reverse('offer', args=[obj.pk]), {'action': 'save', 'title': 'Brouillon incomplet'})
+        obj.refresh_from_db()
+        self.assertEqual(obj.title, 'Brouillon incomplet')
+        self.client.post(reverse('offer', args=[obj.pk]), {'action': 'question', 'text': 'Quand êtes-vous disponible ?', 'options': 'Lundi|À discuter'})
+        self.assertEqual(obj.questions.count(), 1)
+        self.client.post(reverse('offer', args=[obj.pk]), {'action': 'validate', 'agreement': 'yes', 'title': 'Brouillon incomplet'})
+        obj.refresh_from_db()
+        self.assertEqual(obj.state, 'draft')
+        fields = {'action': 'validate', 'agreement': 'yes', 'title': 'Poste fictif', 'company': 'Société fictive',
+                  'location': 'Bruxelles', 'description': 'Description fictive détaillée', 'cross_border': 'yes', 'relocation': 'discuss'}
+        self.client.post(reverse('offer', args=[obj.pk]), fields)
+        obj.refresh_from_db()
+        self.assertEqual(obj.state, 'synced')
+        self.assertIsNotNone(obj.sent_at)
+        self.assertEqual(Match.objects.filter(offer=obj).count(), 0)
 
 
 
