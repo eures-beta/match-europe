@@ -79,10 +79,37 @@ l'accès d'un superutilisateur avec une véritable base PostgreSQL.
 
 ## Limites
 
-Configuration de développement : `runserver` ne constitue pas un serveur de production.
-Avant tout déploiement, prévoir serveur WSGI/ASGI, HTTPS, fichiers statiques,
-variables propres à l'environnement et vérification `check --deploy`.
+`runserver` est réservé au développement. Le serveur WSGI et les statiques sont
+décrits ci-dessous ; chaque déploiement doit encore configurer HTTPS, ses variables
+propres à l'environnement et examiner les résultats de `check --deploy`.
 `DJANGO_DEBUG` est désactivé par défaut ; une clé secrète est obligatoire.
 
 Bootstrap est conservé sous `match_europe/static/vendor/bootstrap/`, avec sa licence MIT
 incluse dans ce dossier. Aucun JavaScript ni outil de compilation frontend.
+
+## Exécution avec un serveur applicatif
+
+Avec les variables de connexion PostgreSQL, `DJANGO_SECRET_KEY` et
+`DJANGO_ALLOWED_HOSTS` renseignées :
+
+```sh
+python manage.py migrate --noinput
+python manage.py collectstatic --noinput
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 1
+```
+
+WhiteNoise sert les fichiers statiques collectés, y compris Bootstrap et
+l’administration, avec `DJANGO_DEBUG=0`. Aucun stockage persistant de documents
+utilisateur n’est configuré par ce socle.
+
+Pour un environnement HTTPS, définir `DJANGO_HTTPS=1` et les origines exactes
+dans `DJANGO_CSRF_TRUSTED_ORIGINS`. `DJANGO_TRUST_PROXY=1` n’est approprié que si
+le proxy de confiance remplace `X-Forwarded-Proto` et constitue le seul accès
+à l’application. `PGSSLMODE` permet de configurer le mode TLS PostgreSQL.
+Les domaines, comptes et procédures propres aux environnements restent dans
+les dépôts privés de déploiement.
+
+`GET /health/` vérifie la connexion PostgreSQL : réponse vide `204` si elle
+fonctionne, `503` sinon. Cette route n’est pas mise en cache et reste accessible
+en HTTP pour les sondes internes, même lorsque les autres pages redirigent
+vers HTTPS.
