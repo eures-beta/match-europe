@@ -17,6 +17,7 @@ path('conversations/<int:pk>/feed/', views.conversation_feed, name='conversation
 path('notifications/read/', views.read_notifications, name='read_notifications'),
 path('manifest.webmanifest', views.manifest),
 path('sw.js', views.service_worker),
+path('imported-offers/<uuid:pk>/', views.imported_offer, name='imported_offer'),
 path('local-api/imports/',employer_api.imports),
 path('local-api/imports/source/',employer_api.read_source),
 path('local-api/imports/<uuid:id>/',employer_api.imports)
