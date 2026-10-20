@@ -37,3 +37,24 @@ class IncrementTests(TestCase):
         offer=Offer.objects.get()
         self.assertEqual(self.client.get('/offers/%s/' % offer.pk).status_code,200)
         self.client.logout();self.assertEqual(self.client.get('/offers/%s/' % offer.pk).status_code,302)
+
+
+from django.test import SimpleTestCase
+class PreviewResourceTests(SimpleTestCase):
+    def test_preview_local_resources(self):
+        import os,re
+        from unittest.mock import patch
+        from urllib.parse import urljoin
+        pages=['en.html','fr.html','de.html','import-en.html','privacy-en.html']
+        with patch.dict(os.environ,{'ME_EMPLOYER_LOCAL_API':'1'}):
+            for page in pages:
+                url='/previews/employer-landing/'+page
+                response=self.client.get(url)
+                self.assertEqual(response.status_code,200,url)
+                html=response.content.decode()
+                for attribute,reference in re.findall(r'(src|href)="([^"]+)',html):
+                    if reference.startswith(('https:','http:','data:','#')):continue
+                    if attribute=='href' and not reference.endswith('.css'):continue
+                    resource=self.client.get(urljoin(url,reference))
+                    self.assertEqual(resource.status_code,200,reference)
+                    resource.close()

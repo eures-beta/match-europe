@@ -20,5 +20,7 @@ path('sw.js', views.service_worker),
 path('imported-offers/<uuid:pk>/', views.imported_offer, name='imported_offer'),
 path('local-api/imports/',employer_api.imports),
 path('local-api/imports/source/',employer_api.read_source),
-path('local-api/imports/<uuid:id>/',employer_api.imports)
+path('local-api/imports/<uuid:id>/',employer_api.imports),
+path('previews/employer-landing/<path:path>',employer_api.preview),
+path('forms/eures-beta/site.css',employer_api.historical_css)
 ]
