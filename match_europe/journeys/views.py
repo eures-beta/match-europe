@@ -296,6 +296,24 @@ def match_detail(request, pk):
             elif action == 'decline' and is_candidate and obj.state in [Match.State.INVITED, Match.State.ANSWERING, Match.State.CLARIFY]:
                 obj.state = Match.State.DECLINED
                 notify(obj.offer.adviser, 'Candidate response received', reverse('match', args=[pk]))
+            elif action in ['save_answers', 'submit_answers'] and is_candidate and obj.state in [Match.State.ANSWERING, Match.State.CLARIFY]:
+                responses = []
+                for question in obj.offer.questions.all():
+                    choice = request.POST.get(f'choice_{question.pk}', '').strip()
+                    text = request.POST.get(f'text_{question.pk}', '').strip()
+                    if (choice and choice not in question.choices()) or len(text) > 4000:
+                        return HttpResponse(_('Invalid answer.'), status=400)
+                    responses.append((question, choice, text))
+                if action == 'submit_answers' and (any(not c and not t for q, c, t in responses) or not request.POST.get('agreement')):
+                    messages.error(request, _('Answer each question or explain what needs clarification, and confirm your agreement to introduction.'))
+                    return redirect('match', pk=pk)
+                for question, choice, text in responses:
+                    Answer.objects.update_or_create(match=obj, question=question, defaults={'choice': choice, 'text': text})
+                if action == 'submit_answers':
+                    obj.candidate_agreement = True
+                    obj.state = Match.State.REVIEW
+                    notify(obj.offer.adviser, 'Prequalification ready for review', reverse('match', args=[pk]))
+                    notify(obj.offer.employer, 'Prequalification ready for review', reverse('match', args=[pk]))
             else:
                 forbid()
             obj.save()
