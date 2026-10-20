@@ -291,6 +291,11 @@ def match_detail(request, pk):
             if action == 'invite' and is_adviser and obj.state == Match.State.SUGGESTED:
                 obj.state = Match.State.INVITED
                 notify(obj.candidate.user, 'An offer is waiting for you', reverse('match', args=[pk]))
+            elif action == 'interested' and is_candidate and obj.state == Match.State.INVITED:
+                obj.state = Match.State.ANSWERING
+            elif action == 'decline' and is_candidate and obj.state in [Match.State.INVITED, Match.State.ANSWERING, Match.State.CLARIFY]:
+                obj.state = Match.State.DECLINED
+                notify(obj.offer.adviser, 'Candidate response received', reverse('match', args=[pk]))
             else:
                 forbid()
             obj.save()
