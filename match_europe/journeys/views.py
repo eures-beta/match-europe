@@ -160,9 +160,30 @@ def sign_out(request):
 
 @require_identity
 def dashboard(request):
-    user=request.me_user
-    return render(request, 'dashboard.html', {'offers':Offer.objects.filter(employer=user), 'candidate':Candidate.objects.filter(user=user).first(), 'matches':Match.objects.filter(offer__adviser=user), 'email_link':request.session.get('demo_email_link')})
-
+    user = request.me_user
+    role = user.profile.role
+    offers = Offer.objects.none()
+    matches = Match.objects.none()
+    candidate = None
+    invitation = None
+    if role == 'employer':
+        offers = Offer.objects.filter(employer=user)
+        matches = Match.objects.filter(offer__employer=user, state__in=['review', 'clarify', 'introduced'])
+    elif role == 'candidate':
+        candidate = Candidate.objects.filter(user=user).first()
+        matches = Match.objects.filter(candidate__user=user).exclude(state='suggested')
+    elif role in ['adviser', 'admin'] and user.profile.verified:
+        offers = Offer.objects.all() if role == 'admin' else Offer.objects.filter(adviser=user)
+        matches = Match.objects.filter(offer__in=offers)
+        if role == 'adviser':
+            invitation = invite_for(user)
+    else:
+        forbid()
+    return render(request, 'dashboard.html', {'offers': offers.order_by('-created'), 'matches': matches.select_related('offer', 'candidate'),
+                  'candidate': candidate, 'invitation': invitation,
+                  'email_link': request.session.get('demo_email_link'),
+                  'events': Event.objects.order_by('-created')[:30] if role == 'admin' else [],
+                  'people': Profile.objects.select_related('user') if role == 'admin' else []})
 
 
 @require_identity
@@ -357,10 +378,27 @@ def conversation_allowed(user, conv):
 
 @require_identity
 def conversation(request, pk):
-    conv=get_object_or_404(Conversation, pk=pk)
-    if not conversation_allowed(request.me_user,conv): forbid()
-    return HttpResponse('Conversation opened. Messaging arrives in the next increment.')
+    obj = get_object_or_404(Conversation.objects.select_related('match__candidate__user', 'match__offer__employer', 'match__offer__adviser'), pk=pk)
+    user = request.me_user
+    if not conversation_allowed(user, obj):
+        forbid()
+    form = MessageForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        msg = Message.objects.create(conversation=obj, sender=user, body=form.cleaned_data['body'])
+        audit(user, 'message_sent', msg)
+        for recipient in [obj.match.candidate.user, obj.match.offer.employer, obj.match.offer.adviser]:
+            if recipient.pk != user.pk:
+                notify(recipient, 'New message', reverse('conversation', args=[pk]))
+        return redirect('conversation', pk=pk)
+    return render(request, 'conversation.html', {'conversation': obj, 'form': form, 'chat_messages': obj.messages.select_related('sender__profile')})
 
+
+@require_identity
+def conversation_feed(request, pk):
+    obj = get_object_or_404(Conversation, pk=pk)
+    if not conversation_allowed(request.me_user, obj):
+        forbid()
+    return JsonResponse({'count': obj.messages.count(), 'latest': obj.messages.order_by('-pk').values_list('pk', flat=True).first()})
 
 
 @require_identity
