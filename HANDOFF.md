@@ -157,6 +157,8 @@ Suite locale du 20 octobre : séparation des missions/conditions et du profil pa
 
 Publication autorisée par Eric le 20 octobre après recette locale : ajouter ces modifications à la PR de conservation nº 2, demander `dejafait` en reviewer ; ne pas fusionner ni déployer. Vérification finale : 73 tests PostgreSQL passent, y compris l’association de chaque niveau à sa langue (par exemple `French : A1`) et l’isolement des services externes pour la recette. Les documents sources et données locales restent hors Git.
 
+Correction de cette interprétation le même jour : Eric demande une nouvelle PR intitulée « amélioration de l'import des PDF », basée sur `codex/initial-django-prototype` (branche de la PR nº 2), avec `dejafait` en reviewer. La PR nº 2 est restaurée à `51537d0` ; les améliorations sont conservées sur `codex/employer-document-reader-pr2`. Aucun changement direct de `main`, fusion ou déploiement.
+
 ## Partage initial — 16 octobre 2026
 
 Cette branche importe une photographie du prototype local, extraite du checkout historique au commit de base `d64f88cd5cbc260c8249cd9ba3842158bc876247` avec ses fichiers de prototype alors non suivis. Aucune réécriture de l’historique du dépôt historique ni copie de sa base locale.
