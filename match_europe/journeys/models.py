@@ -1,19 +1,27 @@
 from django.conf import settings
+
+
 from django.db import models
+
+
+from django.utils.translation import gettext_lazy as _
+
+
 import uuid
 
-class Profile(models.Model):
 
+class Profile(models.Model):
     class Role(models.TextChoices):
-        EMPLOYER = ('employer', 'Employer')
-        CANDIDATE = ('candidate', 'Candidate')
-        ADVISER = ('adviser', 'Adviser')
-        ADMIN = ('admin', 'Administrator')
+        EMPLOYER = 'employer', _('Employer')
+        CANDIDATE = 'candidate', _('Candidate')
+        ADVISER = 'adviser', _('Adviser')
+        ADMIN = 'admin', _('Administrator')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     role = models.CharField(max_length=16, choices=Role.choices)
     verified = models.BooleanField(default=False)
     adviser = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name='supported_profiles')
     name = models.CharField(max_length=150, blank=True)
+
 
 class AccessToken(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -22,19 +30,20 @@ class AccessToken(models.Model):
     expires = models.DateTimeField()
     used = models.BooleanField(default=False)
 
+
 class Document(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     file = models.FileField(upload_to='pdf/%Y/%m/')
     text = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
-class Offer(models.Model):
 
+class Offer(models.Model):
     class State(models.TextChoices):
-        DRAFT = ('draft', 'Draft')
-        PENDING = ('pending', 'Awaiting email confirmation')
-        READY = ('ready', 'Validated')
-        SYNCED = ('synced', 'Sent to matching — demonstration')
+        DRAFT = 'draft', _('Draft')
+        PENDING = 'pending', _('Awaiting email confirmation')
+        READY = 'ready', _('Validated')
+        SYNCED = 'synced', _('Sent to matching — demonstration')
     employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='offers')
     adviser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='advised_offers')
     document = models.OneToOneField(Document, null=True, blank=True, on_delete=models.SET_NULL)
@@ -54,6 +63,7 @@ class Offer(models.Model):
     sent_at = models.DateTimeField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
+
 class Question(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='questions')
     text = models.CharField(max_length=500)
@@ -61,12 +71,11 @@ class Question(models.Model):
     options = models.CharField(max_length=500, blank=True)
     mandatory = models.BooleanField(default=False)
     position = models.PositiveIntegerField(default=0)
-
     class Meta:
         ordering = ['position', 'pk']
-
     def choices(self):
         return [x.strip() for x in self.options.split('|') if x.strip()]
+
 
 class Candidate(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='candidate')
@@ -83,16 +92,16 @@ class Candidate(models.Model):
     validated_at = models.DateTimeField(null=True, blank=True)
     sent_at = models.DateTimeField(null=True, blank=True)
 
-class Match(models.Model):
 
+class Match(models.Model):
     class State(models.TextChoices):
-        SUGGESTED = ('suggested', 'Suggested — adviser review')
-        INVITED = ('invited', 'Offer proposed')
-        DECLINED = ('declined', 'Not interested')
-        ANSWERING = ('answering', 'Prequalification in progress')
-        REVIEW = ('review', 'Awaiting adviser review')
-        INTRODUCED = ('introduced', 'Conversation opened')
-        CLARIFY = ('clarify', 'Clarification needed')
+        SUGGESTED = 'suggested', _('Suggested — adviser review')
+        INVITED = 'invited', _('Offer proposed')
+        DECLINED = 'declined', _('Not interested')
+        ANSWERING = 'answering', _('Prequalification in progress')
+        REVIEW = 'review', _('Awaiting adviser review')
+        INTRODUCED = 'introduced', _('Conversation opened')
+        CLARIFY = 'clarify', _('Clarification needed')
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='matches')
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='matches')
     state = models.CharField(max_length=16, choices=State.choices, default=State.SUGGESTED)
@@ -101,32 +110,33 @@ class Match(models.Model):
     employer_agreement = models.BooleanField(default=False)
     review_note = models.TextField(blank=True, max_length=2000)
     created = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         constraints = [models.UniqueConstraint(fields=['offer', 'candidate'], name='unique_candidate_offer')]
+
 
 class Answer(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='answers')
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
     choice = models.CharField(max_length=500, blank=True)
     text = models.TextField(max_length=4000, blank=True)
-
     class Meta:
         constraints = [models.UniqueConstraint(fields=['match', 'question'], name='unique_answer')]
+
 
 class Conversation(models.Model):
     match = models.OneToOneField(Match, on_delete=models.PROTECT, related_name='conversation')
     opened_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created = models.DateTimeField(auto_now_add=True)
 
+
 class Message(models.Model):
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     body = models.TextField(max_length=4000)
     created = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         ordering = ['created', 'pk']
+
 
 class Notification(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
@@ -135,9 +145,12 @@ class Notification(models.Model):
     read = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
+
 class Event(models.Model):
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     action = models.CharField(max_length=80)
     object_type = models.CharField(max_length=40)
     object_id = models.PositiveIntegerField()
     created = models.DateTimeField(auto_now_add=True)
+
+

@@ -22,15 +22,15 @@ CSRF_TRUSTED_ORIGINS = [x for x in os.environ.get('ME_CSRF_TRUSTED_ORIGINS', '')
 INSTALLED_APPS = ['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions',
                   'django.contrib.messages', 'django.contrib.staticfiles', 'journeys']
 MIDDLEWARE = ['django.middleware.security.SecurityMiddleware', 'django.contrib.sessions.middleware.SessionMiddleware',
-              'django.middleware.common.CommonMiddleware',
+              'django.middleware.locale.LocaleMiddleware', 'django.middleware.common.CommonMiddleware',
               'django.middleware.csrf.CsrfViewMiddleware', 'django.contrib.auth.middleware.AuthenticationMiddleware',
               'django.contrib.messages.middleware.MessageMiddleware', 'django.middleware.clickjacking.XFrameOptionsMiddleware']
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 TEMPLATES = [{'BACKEND': 'django.template.backends.django.DjangoTemplates', 'DIRS': [BASE_DIR / 'templates'],
               'APP_DIRS': True, 'OPTIONS': {'context_processors': ['django.template.context_processors.request',
-              'django.contrib.auth.context_processors.auth', 'django.contrib.messages.context_processors.messages', 'journeys.views.interface', 'journeys.views.interface',
-              ]}}]
+              'django.contrib.auth.context_processors.auth', 'django.contrib.messages.context_processors.messages',
+              'journeys.views.interface']}}]
 DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql', 'NAME': os.environ.get('PGDATABASE', 'me_local'),
                         'USER': os.environ.get('PGUSER', os.environ.get('USER', 'postgres')),
                         'PASSWORD': os.environ.get('PGPASSWORD', ''), 'HOST': os.environ.get('PGHOST', str(RUNTIME / 'pgsocket')),
@@ -38,7 +38,7 @@ DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql', 'NAME': os.e
 LANGUAGE_CODE = 'en'
 LANGUAGES = [('en', 'English')]
 LOCALE_PATHS = [BASE_DIR / 'locale']
-USE_I18N = False
+USE_I18N = True
 USE_TZ = True
 TIME_ZONE = 'Europe/Paris'
 STATIC_URL = '/static/'

@@ -26,3 +26,6 @@ class IncrementTests(TestCase):
             self.assertEqual(client.get('/').status_code,200)
         self.assertEqual(Client().get('/').status_code,302)
         self.assertEqual(Client().get('/access/').status_code,200)
+    def test_language_selector(self):
+        self.assertEqual(self.client.post('/i18n/setlang/', {'language':'en','next':'/access/'}).status_code,302)
+        self.assertIn('en',dict(settings.LANGUAGES))
