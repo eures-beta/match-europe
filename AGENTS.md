@@ -12,6 +12,14 @@
   de lui faire approuver un titre proposé par l'agent.
 - L'agent peut rédiger automatiquement la description : problème, changement
   apporté, vérifications et limites utiles à la relecture.
+- Avant de créer ou de modifier la description d'une PR, lire
+  `.github/pull_request_template.md` et en respecter les rubriques, y compris
+  avec la CLI ou l'API GitHub. Rédiger en français et remplacer les textes
+  d'aide par des informations propres à la PR : pourquoi, comment et comment
+  tester. Les rubriques indiquées comme optionnelles peuvent être omises si
+  elles ne s'appliquent pas.
+- Renseigner honnêtement les vérifications : distinguer les tests exécutés
+  de ceux restant à faire, et ne cocher que les vérifications réalisées.
 - Assigner la PR au compte GitHub de l'humain qui demande le travail. Vérifier
   son identifiant ; s'il est inconnu ou ambigu, le demander sans l'inventer.
   L'agent agit comme assistant de cet humain.
