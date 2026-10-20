@@ -7,6 +7,26 @@ Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstra
 - Aucun modèle, rôle, parcours, service externe ou habillage métier ajouté.
 - Aucune migration applicative : seules les migrations natives Django sont utilisées.
 
+## Organisation du code
+
+`config/` contient les réglages et les points d’entrée du projet Django.
+`match_europe/` est le paquet Python destiné aux futures applications métier ;
+il regroupe déjà les templates partagés, les statiques et les tests du socle.
+Son nom suit la convention Python des modules en minuscules avec underscores.
+Il ne constitue pas à lui seul une application Django à inscrire dans
+`INSTALLED_APPS`. Les futures applications pourront y vivre sous la forme
+`match_europe.nom_application`.
+
+```text
+config/
+match_europe/
+    __init__.py
+    templates/
+    static/
+    tests.py
+manage.py
+```
+
 ## Démarrage local
 
 Prérequis : Python 3.12 et PostgreSQL 17 démarré. Créer une base et un rôle locaux
@@ -64,5 +84,5 @@ Avant tout déploiement, prévoir serveur WSGI/ASGI, HTTPS, fichiers statiques,
 variables propres à l'environnement et vérification `check --deploy`.
 `DJANGO_DEBUG` est désactivé par défaut ; une clé secrète est obligatoire.
 
-Bootstrap est conservé sous `static/vendor/bootstrap/`, avec sa licence MIT
+Bootstrap est conservé sous `match_europe/static/vendor/bootstrap/`, avec sa licence MIT
 incluse dans ce dossier. Aucun JavaScript ni outil de compilation frontend.
