@@ -41,16 +41,21 @@ input.addEventListener('change', async () => {
   validFile = false;
   error.textContent = '';
   document.getElementById('selected-file').textContent = '';
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 10 * 1024 * 1024) { error.textContent = strings.large; return; }
-  if (!/\.pdf$/i.test(file.name)) { error.textContent = strings.invalid; return; }
+  const files = [...input.files];
+  if (!files.length) return;
+  if (files.length > 8 || files.reduce((sum, file) => sum + file.size, 0) > 10 * 1024 * 1024) { error.textContent = strings.large; return; }
+  if (files.some(file => !/\.(pdf|png|jpe?g)$/i.test(file.name)) || (files.length > 1 && files.some(file => /\.pdf$/i.test(file.name)))) { error.textContent = strings.invalid; return; }
   try {
-    const header = await file.slice(0, 1024).text();
+    for (const file of files) {
+      const header = new Uint8Array(await file.slice(0,8).arrayBuffer());
+      const pdf = /\.pdf$/i.test(file.name) && String.fromCharCode(...header).startsWith('%PDF-');
+      const png = /\.png$/i.test(file.name) && [137,80,78,71,13,10,26,10].every((value,index) => header[index] === value);
+      const jpeg = /\.jpe?g$/i.test(file.name) && header[0] === 255 && header[1] === 216 && header[2] === 255;
+      if (!pdf && !png && !jpeg) { error.textContent = strings.invalid; return; }
+    }
     if (version !== selectionVersion) return;
-    if (!header.includes('%PDF-')) { error.textContent = strings.invalid; return; }
     validFile = true;
-    document.getElementById('selected-file').textContent = strings.selected + file.name;
+    document.getElementById('selected-file').textContent = strings.selected + files.map(file => file.name).join(' → ');
   } catch {
     if (version === selectionVersion) error.textContent = strings.unreadable;
   }
@@ -64,7 +69,9 @@ fileForm.addEventListener('submit', async event => {
   try {
     if (liveAPI) {
       button.disabled = true; button.textContent = strings.readingPdf;
-      const data = new FormData(); data.set('kind','pdf'); data.set('document',input.files[0]); data.set('agreement','true');
+      const data = new FormData(); data.set('kind','pdf');
+      for (const file of input.files) data.append('document',file);
+      data.set('agreement','true');
       const result = await liveAPI.request('source/',{method:'POST',body:data});
       if (version !== selectionVersion) return;
       sourceToken = result.token;
@@ -168,6 +175,14 @@ document.getElementById('restart').addEventListener('click', () => {
 });
 // Never place these values in sessionStorage, localStorage, URLs or analytics.
 if (liveAPI) {
+  input.accept = 'application/pdf,image/png,image/jpeg,.pdf,.png,.jpg,.jpeg';
+  input.multiple = true;
+  document.querySelector("#file-step h1").textContent = strings.documentChoice;
+  document.querySelector("#file-step > p").textContent = strings.documentDescription;
+  document.querySelector('label[for="offer-file"]').textContent = strings.documentLabel;
+  document.getElementById('file-help').textContent = strings.documentHelp;
+  document.querySelector('#pdf-choice strong').textContent = strings.documentChoice;
+  document.querySelector('#pdf-choice .choice-description').textContent = strings.documentDescription;
   const requestedDraft = new URL(window.location.href).searchParams.get('offer');
   if (requestedDraft && /^[0-9a-f-]{36}$/i.test(requestedDraft)) {
     liveAPI.request(requestedDraft+'/').then(result=>{

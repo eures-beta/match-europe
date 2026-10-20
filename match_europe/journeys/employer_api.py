@@ -24,7 +24,7 @@ from django.views.decorators.cache import never_cache
 
 from .models import EmployerImport
 from .forms import EmployerContactForm
-from .offer_ingestion import ImportFailure, empty_data, fetch_public, parse_page, read_pdf, read_url
+from .offer_ingestion import ImportFailure, empty_data, fetch_public, parse_page, read_pdf, read_url, parse_pdf_text
 
 ROOT=Path(__file__).resolve().parents[2]
 lock=threading.Lock()
@@ -105,9 +105,19 @@ def read_source(request):
         url=request.POST.get('url','').strip()
         kind=request.POST.get('kind','url')
         if kind=='pdf':
-            upload=request.FILES.get('document')
-            if not upload: raise ImportFailure('missing')
-            data=read_pdf(upload);final=''
+            uploads=request.FILES.getlist('document')
+            if not uploads: raise ImportFailure('missing')
+            if len(uploads)>8 or sum(upload.size for upload in uploads)>10*1024*1024: raise ImportFailure('large')
+            if len(uploads)>1 and any(not upload.name.lower().endswith(('.png','.jpg','.jpeg')) for upload in uploads): raise ImportFailure('invalid')
+            documents=[read_pdf(upload, split_sections=False) for upload in uploads] if len(uploads)>1 else [read_pdf(uploads[0])]
+            data=documents[0]
+            if len(documents)>1:
+                combined='\n'.join(document['description'] for document in documents)
+                if len(combined)>16000: raise ImportFailure('large')
+                data=parse_pdf_text(combined)
+                data['extraction']='document_ocr'
+                data['extractionWarnings'].append({'field':'ocr','values':[]})
+            final=''
         elif kind=='url':
             data,final=read_url(url)
         else: raise ImportFailure('invalid_data')
@@ -175,10 +185,12 @@ def imports(request,id=None):
 def serialize(obj):
     return {'id':str(obj.id),'contact':{'email':obj.email,**obj.contact},'data':obj.data,'revision':obj.revision,'source':obj.source_url,'kind':obj.source_kind,
             'synced':bool(obj.synced_at),'sandbox':obj.sandbox_response,
-            'stage':'review' if obj.initial_sent_at else 'prepare'}
+            'stage':'review' if obj.initial_sent_at or os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1' else 'prepare'}
 
 
 def initial_send(obj,created=False):
+    if os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1':
+        return JsonResponse(serialize(obj),status=201 if created else 200)
     data=obj.data
     if not all(data.get(k) for k in ('title','companyName','city','description')):
         return JsonResponse(serialize(obj),status=201 if created else 200)
@@ -262,6 +274,8 @@ def aglae(method,path,payload=None):
     # Shared previews never read a personal key or write to an external service.
     if getattr(settings, 'SHARED_DEMO', False):
         raise ImportFailure('api_key_missing')
+
+    if os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1': raise ImportFailure('local_review_only')
     # Fixed sandbox origin; never accepted from the browser or a draft.
     keyfile=Path(os.environ.get('AGLAE_SANDBOX_KEY_FILE',str(Path.home()/'.config/match-europe/aglae-sandbox.key')))
     try: key=keyfile.read_text().strip()
@@ -277,6 +291,7 @@ def aglae(method,path,payload=None):
 
 
 def geocode(city):
+    if os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1': raise ImportFailure('local_review_only')
     global last_geocode
     # Public workplace text only. No employer email or offer description is forwarded.
     query=urlencode({'q':city,'format':'jsonv2','limit':1})
@@ -328,6 +343,7 @@ def update_locked(request,obj,payload):
         geo=obj.data.get('geo')
         if not geo or geo.get('query')!=clean['city']: geo=None
         clean['extraction']=obj.data.get('extraction','manual')
+        clean['extractionWarnings']=obj.data.get('extractionWarnings',[])
         if action=='locate': geo=geocode(clean['city'])
         if geo: clean['geo']=geo
         if action=='validate':

@@ -29,6 +29,16 @@ essai Gunicorn avec rôles fictifs, accès et pages employeur FR/EN/DE à 200,
 statiques à 200, santé PostgreSQL à 204, diagnostic Push refusé (404).
 Le déploiement de cette adaptation reste à vérifier après le label humain.
 
+## 20 octobre 2026 — lecteur employeur en cours de recette locale
+
+Branche `codex/employer-document-reader` : extraction des champs PDF étendue, exclusion des sections de candidature/offres similaires reconnues, avertissements de contradiction, import d’images et OCR local. Interface FR/EN/DE. Voir [fonctionnement et limites](docs/EMPLOYER_DOCUMENT_READER.md). Les documents de recette restent hors Git. Aucun commit, push, merge ou déploiement demandé : Eric teste d’abord en local. Les vérifications finales de cette modification sont consignées à l’issue du travail.
+
+Vérifications locales : 68 tests PostgreSQL passent ; contrôle Django sans problème ; syntaxe des deux scripts JS et diff vérifiés. Les quatre PDF fournis ont été relus hors Git. OCR Tesseract testé sur les cinq captures et sur une conversion scannée de test. Navigateur : import du PDF ADEM, reprise du brouillon et affichage de l’avertissement 40 h / 20 h vérifiés. Serveur relancé avec `ME_LOCAL_REVIEW_ONLY=1`, après constat qu’un premier essai avait suivi l’ancien circuit AGLAE sandbox. Aucun déploiement effectué.
+
+Suite locale du 20 octobre : séparation des missions/conditions et du profil par rubriques et phrases sources, conservation des nuances souhaitées/exigées, continuité des tâches après les métadonnées de page, exclusion de sections de candidature et d’entreprise reconnues. Vérification sur les quatre PDF et le texte OCR des captures ; 72 tests passent. Réimporter les documents pour obtenir le nouveau tri : les brouillons existants sont préservés.
+
+Publication autorisée par Eric le 20 octobre après recette locale : ajouter ces modifications à la PR de conservation nº 2, demander `dejafait` en reviewer ; ne pas fusionner ni déployer. Vérification finale : 73 tests PostgreSQL passent, y compris l’association de chaque niveau à sa langue (par exemple `French : A1`) et l’isolement des services externes pour la recette. Les documents sources et données locales restent hors Git.
+
 ## Partage initial — 16 octobre 2026
 
 Cette branche importe une photographie du prototype local, extraite du checkout historique au commit de base `d64f88cd5cbc260c8249cd9ba3842158bc876247` avec ses fichiers de prototype alors non suivis. Aucune réécriture de l’historique du dépôt historique ni copie de sa base locale.
