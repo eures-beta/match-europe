@@ -314,6 +314,31 @@ def match_detail(request, pk):
                     obj.state = Match.State.REVIEW
                     notify(obj.offer.adviser, 'Prequalification ready for review', reverse('match', args=[pk]))
                     notify(obj.offer.employer, 'Prequalification ready for review', reverse('match', args=[pk]))
+            elif action == 'employer_agree' and is_employer and obj.state == Match.State.REVIEW:
+                if not request.POST.get('agreement'):
+                    return HttpResponse(_('Agreement required.'), status=400)
+                obj.employer_agreement = True
+            elif action == 'clarify' and is_adviser and obj.state == Match.State.REVIEW:
+                note = request.POST.get('note', '').strip()[:2000]
+                if not note:
+                    return HttpResponse(_('Please explain what needs clarification.'), status=400)
+                obj.review_note = note
+                obj.state = Match.State.CLARIFY
+                obj.candidate_agreement = False
+                obj.employer_agreement = False
+                notify(obj.candidate.user, 'Clarification requested', reverse('match', args=[pk]))
+            elif action == 'introduce' and is_adviser and obj.state == Match.State.REVIEW:
+                if not obj.candidate_agreement or not obj.employer_agreement:
+                    messages.error(request, _('Both participants must agree before the conversation is opened.'))
+                    return redirect('match', pk=pk)
+                note = request.POST.get('note', '').strip()[:2000]
+                if not note:
+                    return HttpResponse(_('Write an introduction message.'), status=400)
+                conv = Conversation.objects.create(match=obj, opened_by=user)
+                Message.objects.create(conversation=conv, sender=user, body=note)
+                obj.state = Match.State.INTRODUCED
+                for recipient in [obj.candidate.user, obj.offer.employer]:
+                    notify(recipient, 'Your conversation is open', reverse('conversation', args=[conv.pk]))
             else:
                 forbid()
             obj.save()
@@ -323,6 +348,19 @@ def match_detail(request, pk):
     questions = [{'q': q, 'answer': answers.get(q.pk), 'choices': q.choices()} for q in obj.offer.questions.all()]
     return render(request, 'match.html', {'match': obj, 'questions': questions, 'is_candidate': is_candidate,
                   'is_employer': is_employer, 'is_adviser': is_adviser, 'review_form': ReviewForm()})
+
+
+def conversation_allowed(user, conv):
+    # Operators do not receive blanket access to private conversations.
+    return user.profile.verified and user.pk in [conv.match.candidate.user_id, conv.match.offer.employer_id, conv.match.offer.adviser_id]
+
+
+@require_identity
+def conversation(request, pk):
+    conv=get_object_or_404(Conversation, pk=pk)
+    if not conversation_allowed(request.me_user,conv): forbid()
+    return HttpResponse('Conversation opened. Messaging arrives in the next increment.')
+
 
 
 @require_identity
@@ -335,3 +373,5 @@ def document(request, pk):
     response['Cache-Control'] = 'no-store'
     response['X-Content-Type-Options'] = 'nosniff'
     return response
+
+

@@ -10,5 +10,6 @@ path('offers/<int:pk>/', views.offer, name='offer'),
 path('upload/', views.upload, name='upload'),
 path('documents/<int:pk>/', views.document, name='document'),
 path('profile/', views.candidate_edit, name='candidate_edit'),
-path('matches/<int:pk>/', views.match_detail, name='match')
+path('matches/<int:pk>/', views.match_detail, name='match'),
+path('conversations/<int:pk>/', views.conversation, name='conversation')
 ]
