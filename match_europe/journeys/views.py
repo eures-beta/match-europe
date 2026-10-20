@@ -40,7 +40,7 @@ from django.views.decorators.http import require_POST
 from .forms import ImportAssignmentForm, AccessForm, CandidateForm, MessageForm, OfferForm, QuestionForm, ReviewForm, UploadForm
 
 
-from .models import Answer, Candidate, Conversation, Document, Event, Match, Message, Notification, Offer, Profile, Question
+from .models import EmployerImport, Answer, Candidate, Conversation, Document, Event, Match, Message, Notification, Offer, Profile, Question
 
 
 from .services import adviser_from, audit, consume_token, dispatch_offer, extract_pdf, invite_for, issue_token, notify, suggest_candidates

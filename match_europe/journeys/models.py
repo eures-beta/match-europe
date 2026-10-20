@@ -1,13 +1,27 @@
 from django.conf import settings
-
-
 from django.db import models
-
-
 from django.utils.translation import gettext_lazy as _
-
-
 import uuid
+
+
+class EmployerImport(models.Model):
+    """Local sandbox drafts owned by an opaque server-side session, never shared demo identities."""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    session_key = models.CharField(max_length=64, db_index=True)
+    email = models.EmailField()
+    contact = models.JSONField(default=dict)
+    adviser = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name='advised_imports')
+    preparation_agreed_at = models.DateTimeField()
+    source_kind = models.CharField(max_length=10)
+    source_url = models.URLField(max_length=2048, blank=True)
+    data = models.JSONField(default=dict)
+    validated_at = models.DateTimeField(null=True)
+    initial_sent_at = models.DateTimeField(null=True)
+    synced_at = models.DateTimeField(null=True)
+    sandbox_response = models.JSONField(default=dict)
+    revision = models.PositiveIntegerField(default=1)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
 
 class Profile(models.Model):
@@ -152,5 +166,3 @@ class Event(models.Model):
     object_type = models.CharField(max_length=40)
     object_id = models.PositiveIntegerField()
     created = models.DateTimeField(auto_now_add=True)
-
-
