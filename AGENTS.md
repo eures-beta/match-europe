@@ -12,14 +12,6 @@
   de lui faire approuver un titre proposé par l'agent.
 - L'agent peut rédiger automatiquement la description : problème, changement
   apporté, vérifications et limites utiles à la relecture.
-- Avant de créer ou de modifier la description d'une PR, lire
-  `.github/pull_request_template.md` et en respecter les rubriques, y compris
-  avec la CLI ou l'API GitHub. Rédiger en français et remplacer les textes
-  d'aide par des informations propres à la PR : pourquoi, comment et comment
-  tester. Les rubriques indiquées comme optionnelles peuvent être omises si
-  elles ne s'appliquent pas.
-- Renseigner honnêtement les vérifications : distinguer les tests exécutés
-  de ceux restant à faire, et ne cocher que les vérifications réalisées.
 - Assigner la PR au compte GitHub de l'humain qui demande le travail. Vérifier
   son identifiant ; s'il est inconnu ou ambigu, le demander sans l'inventer.
   L'agent agit comme assistant de cet humain.
@@ -69,3 +61,20 @@ Ce dépôt public contient le code et les instructions de développement local.
 Les destinations, configurations et procédures propres aux environnements
 restent dans les dépôts privés de déploiement. Ne pas inscrire ici de secrets,
 d’accès serveur ou de consigne imposant une infrastructure particulière.
+
+## Descriptions des pull requests
+
+Avant de créer ou de modifier une description de PR, lire le modèle commun :
+https://github.com/eures-beta/.github/blob/main/pull_request_template.md
+
+Cette lecture est obligatoire, y compris avec la CLI ou l’API GitHub : le modèle
+hérité n’est pas présent dans le clone local. Rédiger en français, conserver les
+rubriques pertinentes et remplacer les textes d’aide par le pourquoi, le comment
+et les instructions de test propres à la PR. Les sections indiquées comme
+optionnelles peuvent être omises si elles ne s’appliquent pas.
+
+Distinguer les tests exécutés de ceux restant à faire ; ne cocher que les
+vérifications réalisées. Si le modèle est inaccessible, le signaler et utiliser
+les rubriques Pourquoi, Comment, À vérifier et Comment tester, sans inventer
+son contenu. Ne pas recopier le modèle dans ce dépôt : GitHub utilise le modèle
+commun en l’absence de modèle local.
