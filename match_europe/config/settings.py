@@ -36,7 +36,7 @@ DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql', 'NAME': os.e
                         'PASSWORD': os.environ.get('PGPASSWORD', ''), 'HOST': os.environ.get('PGHOST', str(RUNTIME / 'pgsocket')),
                         'PORT': os.environ.get('PGPORT', '55432')}}
 LANGUAGE_CODE = 'fr'
-LANGUAGES = [('en', 'English'), ('fr', 'Français')]
+LANGUAGES = [('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')]
 LOCALE_PATHS = [BASE_DIR / 'locale']
 USE_I18N = True
 USE_TZ = True
