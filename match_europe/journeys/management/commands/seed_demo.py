@@ -15,8 +15,8 @@ class Command(BaseCommand):
         if not settings.DEMO_MODE:
             raise CommandError('Demonstration mode required.')
         users = {}
-        for role, name in [('adviser', 'Camille demo'), ('employer', 'Horizon company demo'),
-                           ('candidate', 'Alex demo'), ('admin', 'Administration demo')]:
+        for role, name in [('adviser', 'Camille · démo'), ('employer', 'Entreprise Horizon · démo'),
+                           ('candidate', 'Alex · démo'), ('admin', 'Administration · démo')]:
             user, created = User.objects.get_or_create(username=f'{role}@example.invalid', defaults={'email': f'{role}@example.invalid'})
             if created:
                 user.set_unusable_password()
@@ -27,21 +27,21 @@ class Command(BaseCommand):
             profile = users[role].profile
             profile.adviser = users['adviser']
             profile.save()
-        offer, _ = Offer.objects.get_or_create(employer=users['employer'], title='Cleaner demonstration',
-            defaults={'adviser': users['adviser'], 'company': 'Horizon company (fictional)', 'location': 'Luxembourg',
-                      'description': 'Fictional company: office cleaning, Monday to Friday, starting at 6 am. Teamwork.',
-                      'contract': 'Permanent contract demonstration', 'salary': 'To clarify', 'hours': '35 hours per week',
-                      'languages': 'English: workplace communication', 'skills': 'Office cleaning',
+        offer, _ = Offer.objects.get_or_create(employer=users['employer'], title='Agent / Agente d’entretien — démonstration',
+            defaults={'adviser': users['adviser'], 'company': 'Entreprise Horizon (fictive)', 'location': 'Luxembourg',
+                      'description': 'Entreprise fictive : entretien de bureaux, du lundi au vendredi, prise de poste à 6 h. Travail en équipe.',
+                      'contract': 'CDI · démonstration', 'salary': 'À préciser', 'hours': '35 h / semaine',
+                      'languages': 'Français : communication de travail', 'skills': 'Entretien de locaux',
                       'cross_border': 'yes', 'relocation': 'discuss', 'validated_at': timezone.now(), 'state': 'ready'})
         for position, (text, expectation, choices) in enumerate([
-            ('When could you start?', 'Clarify availability with the adviser', 'Now|In two weeks|In one month'),
-            ('Can you reach the workplace at 6 am?', '6 am arrival required; clarify transport', 'Yes|No|To discuss'),
-            ('Describe your office cleaning experience.', 'Review relevant experience or training needs', '')]):
+            ('À partir de quand pourriez-vous commencer ?', 'Disponibilité à préciser avec le conseiller', 'Dès maintenant|Sous deux semaines|Sous un mois'),
+            ('Pouvez-vous rejoindre le lieu de travail à 6 h ?', 'Présence à 6 h indispensable, transport à clarifier', 'Oui|Non|À discuter'),
+            ('Décrivez votre expérience en entretien de locaux.', 'Expérience pertinente ou besoin de formation à examiner', '')]):
             Question.objects.get_or_create(offer=offer, position=position, defaults={'text': text, 'expectation': expectation, 'options': choices})
-        Candidate.objects.get_or_create(user=users['candidate'], defaults={'name': 'Alex fictional profile',
-            'experience': 'Two years cleaning offices: fictional data.', 'jobs': 'Office cleaning',
-            'skills': 'Office cleaning, teamwork', 'languages': 'English', 'location': 'Arlon',
-            'availability': 'In two weeks', 'cross_border': 'yes', 'relocation': 'discuss',
+        Candidate.objects.get_or_create(user=users['candidate'], defaults={'name': 'Alex · profil fictif',
+            'experience': 'Deux ans en entretien de bureaux — données fictives.', 'jobs': 'Entretien de locaux',
+            'skills': 'Nettoyage de bureaux, travail en équipe', 'languages': 'Français', 'location': 'Arlon',
+            'availability': 'Sous deux semaines', 'cross_border': 'yes', 'relocation': 'discuss',
             'validated_at': timezone.now(), 'sent_at': timezone.now()})
         dispatch_offer(offer, users['employer'])
         suggest_candidates(offer, users['adviser'])

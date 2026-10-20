@@ -13,7 +13,7 @@ socket = runtime / 'pgsocket'
 socket.mkdir(mode=0o700, exist_ok=True)
 socket.chmod(0o700)
 data = runtime / 'pgdata'
-for command in ['initdb', 'pg_ctl', 'createdb', 'psql']:
+for command in ['initdb', 'pg_ctl', 'createdb', 'psql', 'msgfmt']:
     if not shutil.which(command):
         raise SystemExit(f'Missing local prerequisite: {command}')
 env = {**os.environ, 'PGHOST': str(socket), 'PGPORT': '55432', 'PGDATABASE': 'me_local', 'ME_DEMO_MODE': '1'}
@@ -26,7 +26,7 @@ exists = subprocess.run(['psql', '-d', 'postgres', '-tAc', "SELECT 1 FROM pg_dat
                         env=env, capture_output=True, text=True, check=True).stdout.strip()
 if exists != '1':
     subprocess.run(['createdb', 'me_local'], env=env, check=True)
-for args in [['migrate', '--noinput'], ['seed_demo']]:
+for args in [['compilemessages', '--ignore=.venv/*', '--ignore=.runtime/*'], ['migrate', '--noinput'], ['seed_demo']]:
     subprocess.run([sys.executable, 'manage.py', *args], env=env, check=True)
 port = int(os.environ.get('ME_LOCAL_PORT', '8014'))
 if not 1024 <= port <= 65535:
