@@ -1,0 +1,47 @@
+{
+  "fr": {
+    "title": "Votre offre est enregistrée",
+    "intro": "Votre offre est conservée. Pour participer au test et recevoir les propositions, activez les notifications de votre espace Match Europe.",
+    "next": "Voici la suite",
+    "steps": [
+      "Nous recherchons des profils compatibles avec votre offre avec l’aide de l’intelligence artificielle.",
+      "Pour les candidats présélectionnés, nous vérifions leur disponibilité, leur intérêt et leur accord sur les conditions proposées.",
+      "Après examen par un conseiller et accord des deux parties, une discussion dédiée à cette offre est ouverte dans votre espace Match Europe. Vous y échangez avec le candidat et le conseiller."
+    ],
+    "notificationTitle": "Recevez les propositions et les messages",
+    "notificationText": "Les notifications sont nécessaires pour participer au test. Elles vous préviennent même lorsque la page est fermée, sous réserve des réglages de votre appareil. Sur certains appareils, vous devrez d’abord installer Match Europe sur l’écran d’accueil.",
+    "later": "Si vous refusez ou ne parvenez pas à les activer, votre offre reste enregistrée, mais votre participation au test n’est pas finalisée. Vous pourrez reprendre cette étape plus tard.",
+    "local": "Essai local : l’activation des notifications et l’inscription au test ne sont pas encore raccordées. Aucun matching, aucune préqualification ni mise en relation ne sont déclenchés.",
+    "button": "Activer les notifications — bientôt disponible"
+  },
+  "en": {
+    "title": "Your offer has been saved",
+    "intro": "Your offer is saved. To participate in the trial and receive proposals, enable notifications for your Match Europe space.",
+    "next": "What happens next",
+    "steps": [
+      "We search for profiles compatible with your offer with the help of artificial intelligence.",
+      "For shortlisted candidates, we check availability, interest and continued acceptance of the proposed conditions.",
+      "After review by an adviser and agreement from both parties, a discussion dedicated to this offer opens in your Match Europe space, with the candidate and adviser."
+    ],
+    "notificationTitle": "Receive proposals and messages",
+    "notificationText": "Notifications are required to participate in the trial. They can alert you when the page is closed, depending on your device settings. On some devices, you must first install Match Europe on your home screen.",
+    "later": "If you decline or cannot enable them, your offer stays saved, but trial participation is not finalised. You can return to this step later.",
+    "local": "Local trial: notification activation and trial enrolment are not connected yet. No matching, prequalification or introductions are started.",
+    "button": "Enable notifications — coming soon"
+  },
+  "de": {
+    "title": "Ihr Angebot wurde gespeichert",
+    "intro": "Ihr Angebot ist gespeichert. Aktivieren Sie Benachrichtigungen für Ihren Match-Europe-Bereich, um am Test teilzunehmen und Vorschläge zu erhalten.",
+    "next": "So geht es weiter",
+    "steps": [
+      "Wir suchen mithilfe künstlicher Intelligenz nach passenden Profilen für Ihr Angebot.",
+      "Bei vorausgewählten Personen prüfen wir Verfügbarkeit, Interesse und die weitere Zustimmung zu den angebotenen Bedingungen.",
+      "Nach Prüfung durch eine Beratung und Zustimmung beider Seiten wird ein Gespräch zu diesem Angebot in Ihrem Match-Europe-Bereich eröffnet, mit der bewerbenden Person und der Beratung."
+    ],
+    "notificationTitle": "Vorschläge und Nachrichten erhalten",
+    "notificationText": "Benachrichtigungen sind für die Teilnahme am Test erforderlich. Je nach Geräteeinstellungen können sie auch bei geschlossener Seite eintreffen. Auf manchen Geräten muss Match Europe zunächst auf dem Startbildschirm installiert werden.",
+    "later": "Falls Sie ablehnen oder die Aktivierung nicht gelingt, bleibt Ihr Angebot gespeichert. Die Testteilnahme ist jedoch noch nicht abgeschlossen. Sie können später fortfahren.",
+    "local": "Lokaler Test: Benachrichtigungsaktivierung und Testanmeldung sind noch nicht angebunden. Es werden weder Matching, Vorqualifizierung noch Kontaktvermittlung gestartet.",
+    "button": "Benachrichtigungen aktivieren — bald verfügbar"
+  }
+}
