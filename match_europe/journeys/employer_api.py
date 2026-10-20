@@ -230,14 +230,37 @@ class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self,*a,**k): return None
 
 
-def aglae(*args, **kwargs):
-    raise ImportFailure('sandbox_unavailable')
+def aglae(method,path,payload=None):
+    # Fixed sandbox origin; never accepted from the browser or a draft.
+    keyfile=Path(os.environ.get('AGLAE_SANDBOX_KEY_FILE',str(Path.home()/'.config/match-europe/aglae-sandbox.key')))
+    try: key=keyfile.read_text().strip()
+    except OSError: raise ImportFailure('api_key_missing') from None
+    if not key: raise ImportFailure('api_key_missing')
+    data=json.dumps(payload,ensure_ascii=False).encode() if payload is not None else None
+    req=Request('https://api-sandbox.saas.aglae.ai/v1-beta/'+path,method=method,data=data,headers={'X-Aglae-Api-Key':key,'Accept':'application/json','Content-Type':'application/json'})
+    try:
+        with build_opener(NoRedirect).open(req,timeout=30) as r:
+            content=r.read(1024*1024)
+            return json.loads(content) if content else {}
+    except (OSError,HTTPError,URLError,ValueError): raise ImportFailure('sandbox_error') from None
 
 
-
-def geocode(*args, **kwargs):
-    raise ImportFailure('sandbox_unavailable')
-
+def geocode(city):
+    global last_geocode
+    # Public workplace text only. No employer email or offer description is forwarded.
+    query=urlencode({'q':city,'format':'jsonv2','limit':1})
+    with lock:
+        pause=1.1-(time.monotonic()-last_geocode)
+        if pause>0: time.sleep(pause)
+        try:
+            text,_=fetch_geocode(query)
+            result=json.loads(text)
+        except Exception: raise ImportFailure('geocode_error') from None
+        finally: last_geocode=time.monotonic()
+    if not result: raise ImportFailure('geocode_error')
+    lat=float(result[0]['lat']);lon=float(result[0]['lon'])
+    if not math.isfinite(lat) or not math.isfinite(lon) or abs(lat)>90 or abs(lon)>180: raise ImportFailure('geocode_error')
+    return {'latitude':lat,'longitude':lon,'label':str(result[0].get('display_name',''))[:500],'query':city,'attribution':'© OpenStreetMap contributors / Nominatim'}
 
 
 def fetch_geocode(query):

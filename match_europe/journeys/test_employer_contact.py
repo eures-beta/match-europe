@@ -92,6 +92,20 @@ class EmployerContactTests(TestCase):
         other=Client()
         self.assertEqual(other.post(url,json.dumps(dict(payload,revision=self.obj.revision)),content_type='application/json').status_code,404)
 
+    @patch('journeys.employer_api.aglae')
+    def test_contact_not_sent_to_aglae_initial_or_final(self,api):
+        from .offer_ingestion import empty_data
+        from .employer_api import initial_send
+        data=empty_data();data.update(title='Fictional job',companyName='Fictional company',city='Testville',
+            description='Fictional description.',contractType='PERMANENT_CONTRACT',geo={'query':'Testville','latitude':48,'longitude':2})
+        self.obj.data=data;self.obj.save()
+        api.return_value={'id':str(self.obj.pk),'active':False}
+        initial_send(self.obj)
+        response=self.owner.post(f'/local-api/imports/{self.obj.pk}/',json.dumps({'action':'validate','revision':self.obj.revision,'data':data,'confirmed':True}),content_type='application/json')
+        self.assertEqual(response.status_code,200)
+        serialized=repr(api.call_args_list)
+        for value in self.contact.values(): self.assertNotIn(value,serialized)
+        self.assertNotIn('workspace@example.invalid',serialized)
 
     def test_csrf_and_html_escaping(self):
         self.obj.contact=dict(self.contact,name='<script>alert(1)</script>');self.obj.save()
