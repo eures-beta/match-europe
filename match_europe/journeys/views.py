@@ -171,6 +171,8 @@ def upload(request):
     role = user.profile.role
     if role not in ['employer', 'candidate'] or not user.profile.adviser_id:
         forbid()
+    if role == 'candidate' and Candidate.objects.filter(user=user).exists():
+        return redirect('candidate_edit')
     form = UploadForm(request.POST or None, request.FILES or None)
     if request.method == 'POST' and form.is_valid():
         try:
@@ -235,6 +237,34 @@ def offer(request, pk):
     visible_matches = obj.matches.select_related('candidate') if user.pk == obj.adviser_id or user.profile.role == 'admin' else []
     return render(request, 'offer.html', {'offer': obj, 'form': form, 'question_form': question_form, 'editable': editable,
                   'matches': visible_matches, 'email_link': request.session.get('demo_email_link')})
+
+
+@require_identity
+def candidate_edit(request):
+    user = request.me_user
+    if user.profile.role != 'candidate':
+        forbid()
+    obj = get_object_or_404(Candidate, user=user)
+    form = CandidateForm(request.POST or None, instance=obj, complete=request.POST.get('action') == 'validate')
+    if request.method == 'POST' and form.is_valid():
+        if request.POST.get('action') not in ['save', 'validate']:
+            forbid()
+        if obj.sent_at:
+            forbid()
+        obj = form.save()
+        if request.POST.get('action') == 'validate':
+            if not request.POST.get('agreement'):
+                form.add_error(None, _('Please agree to matching and confirm your profile.'))
+            else:
+                obj.validated_at = timezone.now()
+                obj.sent_at = timezone.now() if user.profile.verified else None
+                obj.save()
+                audit(user, 'candidate_validated', obj)
+                return redirect('dashboard')
+        else:
+            messages.success(request, _('Draft saved.'))
+            return redirect('candidate_edit')
+    return render(request, 'candidate.html', {'candidate': obj, 'form': form, 'email_link': request.session.get('demo_email_link')})
 
 
 @require_identity

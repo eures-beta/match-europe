@@ -104,6 +104,20 @@ class JourneysTests(TestCase):
         self.assertIsNotNone(obj.sent_at)
         self.assertEqual(Match.objects.filter(offer=obj).count(), 0)
 
+    def test_candidate_profile_incomplete_draft_then_validation(self):
+        person = self.users['candidate']
+        profile = person.candidate
+        profile.sent_at = None
+        profile.validated_at = None
+        profile.save()
+        self.as_role('candidate')
+        self.client.post(reverse('candidate_edit'), {'action': 'save', 'name': 'Prénom fictif'})
+        profile.refresh_from_db()
+        self.assertEqual(profile.name, 'Prénom fictif')
+        self.assertIsNone(profile.sent_at)
+        self.client.post(reverse('candidate_edit'), {'action': 'validate', 'agreement': 'yes', 'name': 'Prénom fictif'})
+        profile.refresh_from_db()
+        self.assertIsNone(profile.validated_at)
 
 
 
