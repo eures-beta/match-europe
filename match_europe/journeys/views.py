@@ -1,48 +1,20 @@
 from functools import wraps
 
-
 from django.conf import settings
-
-
 from django.contrib import messages
-
-
 from django.contrib.auth import login, logout
-
-
 from django.contrib.auth.models import User
-
-
 from django.db import transaction
-
-
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
-
-
 from django.shortcuts import get_object_or_404, redirect, render
-
-
 from django.urls import reverse
-
-
 from django.utils import timezone
-
-
 from django.utils.translation import gettext as _
-
-
 from django.views.decorators.cache import never_cache
-
-
 from django.views.decorators.http import require_POST
 
-
 from .forms import ImportAssignmentForm, AccessForm, CandidateForm, MessageForm, OfferForm, QuestionForm, ReviewForm, UploadForm
-
-
 from .models import EmployerImport, Answer, Candidate, Conversation, Document, Event, Match, Message, Notification, Offer, Profile, Question
-
-
 from .services import adviser_from, audit, consume_token, dispatch_offer, extract_pdf, invite_for, issue_token, notify, suggest_candidates
 
 
@@ -455,5 +427,3 @@ def imported_offer(request, pk):
     elif request.method!='GET':
         return HttpResponse(status=405)
     return render(request,'imported_offer.html',{'imported':obj,'assignment_form':form})
-
-
