@@ -29,3 +29,11 @@ class IncrementTests(TestCase):
     def test_language_selector(self):
         self.assertEqual(self.client.post('/i18n/setlang/', {'language':'en','next':'/access/'}).status_code,302)
         self.assertIn('en',dict(settings.LANGUAGES))
+    def test_employer_offer_access(self):
+        from django.contrib.auth.models import User
+        from journeys.models import Offer
+        call_command('seed_demo', verbosity=0)
+        user=User.objects.get(profile__role='employer');self.client.force_login(user)
+        offer=Offer.objects.get()
+        self.assertEqual(self.client.get('/offers/%s/' % offer.pk).status_code,200)
+        self.client.logout();self.assertEqual(self.client.get('/offers/%s/' % offer.pk).status_code,302)
