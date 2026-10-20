@@ -1,4 +1,4 @@
-# Django skeleton
+# Squelette Django
 
 Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstrap 5.3.8.
 
