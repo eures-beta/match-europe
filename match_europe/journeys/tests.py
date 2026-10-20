@@ -147,6 +147,15 @@ class JourneysTests(TestCase):
         form = UploadForm({'agreement': True}, {'document': SimpleUploadedFile('bad.pdf', b'not a PDF')})
         self.assertFalse(form.is_valid())
 
+    def test_three_languages_and_no_private_cache(self):
+        self.as_role('adviser')
+        for lang, expected in [('fr', 'Mon espace'), ('en', 'My workspace'), ('de', 'Mein Bereich')]:
+            self.client.cookies['django_language'] = lang
+            response = self.client.get('/')
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('no-store', response.headers['Cache-Control'])
+            self.assertContains(response, expected)
+            self.assertContains(response, f'<html lang="{lang}">')
 
     def test_demo_adapter_never_calls_network(self):
         with patch('socket.create_connection', side_effect=AssertionError('Network forbidden')):

@@ -413,3 +413,24 @@ def document(request, pk):
     return response
 
 
+@require_POST
+@require_identity
+def read_notifications(request):
+    request.me_user.notifications.filter(read=False).update(read=True)
+    return redirect('dashboard')
+
+
+def manifest(request):
+    return JsonResponse({'name': 'Match Europe', 'short_name': 'Match Europe', 'start_url': '/', 'scope': '/',
+                         'display': 'standalone', 'theme_color': '#003399', 'background_color': '#f5f7fb',
+                         'icons': [{'src': '/static/icon.svg', 'sizes': 'any', 'type': 'image/svg+xml', 'purpose': 'any'}]},
+                        content_type='application/manifest+json')
+
+
+def service_worker(request):
+    response = HttpResponse((settings.BASE_DIR / 'static' / 'sw.js').read_text(), content_type='application/javascript')
+    response['Service-Worker-Allowed'] = '/'
+    response['Cache-Control'] = 'no-cache'
+    return response
+
+
