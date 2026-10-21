@@ -33,6 +33,7 @@ Une personne ayant le droit d’écriture peut demander une recette avec le labe
 `recette 24h` ou `recette 7j`. Le dernier label ajouté remplace l’autre. Les nouveaux
 commits et rebases redéploient le code sans changer l’URL ni vider la base, et sans
 repousser l’échéance. Retirer puis remettre le label recrée une base vide.
+Les migrations proposées par une PR peuvent toutefois transformer les données de test.
 
 Un commentaire automatique donne l’URL, le commit déployé et l’expiration. La
 fermeture de la PR ou le retrait du label supprime la recette ; un contrôle toutes
