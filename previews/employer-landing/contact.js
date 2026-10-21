@@ -19,7 +19,7 @@
     return box;
   }
   const initial = fields('initial-contact');
-  document.getElementById('email-form').insertBefore(initial,document.querySelector('#email-form .import-consent'));
+  document.getElementById('email-form').insertBefore(initial,document.querySelector('#email-form .landing-actions'));
   let customEmail = false;
   document.getElementById('email-form').addEventListener('reset',()=>{customEmail=false;});
   document.getElementById('initial-contact-email').addEventListener('input',()=>{customEmail=true;});
@@ -40,7 +40,7 @@
     }
   };
   document.addEventListener('me-step-change',event=>{
-    const visible=['prepare-step','review-step','completion-step'].includes(event.detail);
+    const visible=Boolean(current?.id) && ['prepare-step','review-step','completion-step'].includes(event.detail);
     editor.hidden=!visible;
     if (visible) document.getElementById(event.detail).append(editor);
   });
