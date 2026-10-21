@@ -23,7 +23,7 @@ Seule la notice Protection des données existe localement (`forms/eures-beta/pri
 
 ## Logos de la landing
 
-Les quatre fichiers proviennent de `eures-beta-logos-pr/assets/partners` : EURES/ELA, bloc marque République française/France Travail, ADEM et Forem. Copies intégrales sans retouche ni recadrage. Ils sont servis localement, sans appel externe. Voir le README de ce dossier source pour leur provenance et les consignes de marque. La signature nominative du dossier LOGOS/FOREM reste inchangée et n'est pas publiée.
+Les quatre fichiers proviennent de `eures-beta-logos-pr/assets/partners` : EURES/ELA, bloc marque République française/France Travail, ADEM et Forem. Copies intégrales sans retouche ni recadrage. Ils sont servis localement, sans appel externe. Voir le README de ce dossier source pour leur provenance et les consignes de marque. La signature nominative du dossier LOGOS/FOREM reste inchangée et n'est pas publiée. Le 21 octobre 2026, `assets/forem.png` a été remplacé par une copie exacte de « Forem_LOGO new (4).png », officiellement transmis à Eric et fourni pour ce remplacement, sans retouche ni recadrage (795 × 229 pixels).
 
 Validation import : scénario navigateur PDF fictif → email fictif → limite de simulation, retour à zéro et absence de fichier vérifiés. JavaScript vérifié avec node --check. Contrôles des liens et génération FR/EN/DE effectués. Aucun changement au backend ou à PostgreSQL.
 
