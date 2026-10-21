@@ -40,3 +40,7 @@ identifiables dans des commits séparés des sept commits initiaux. Il posera
 lui-même le label de recette. Les règles initiales interdisant tout déploiement
 décrivent le partage du 16 octobre ; cette autorisation ultérieure concerne
 uniquement une recette fictive temporaire, pas une production ni une fusion.
+
+## 21 octobre 2026 — vérification de l’import avant enregistrement
+
+Décision employeurs validée par Eric dans la discussion : afficher le résultat de lecture et permettre sa correction avant de demander l’email ; porter la demande de lecture par le clic sur « Lire les documents » et sa notice, sans case d’accord supplémentaire. Mise en œuvre locale uniquement. Le texte de recette décrit le lecteur actuel (règles et OCR local) ; une future transmission à un prestataire ou utilisation d’IA générative devra avoir une information adaptée. Cette décision UX ne valide pas une base juridique de production et n’autorise aucune publication ni aucun déploiement.

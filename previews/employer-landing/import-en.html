@@ -37,7 +37,7 @@
     </header>
   
     <main id="main-content" class="section"><div class="shell import-shell">
-    <ol class="import-steps"><li aria-current="step">1. Your offer</li><li>2. Your email</li><li>3. Review</li></ol>
+    <ol class="import-steps"><li aria-current="step">1. Your offer</li><li>2. Review</li><li>3. Save</li></ol>
     <section id="choice-step" data-step class="surface-card import-card">
       <h1 tabindex="-1">How would you like to add your offer?</h1><p class="lede">Choose the format you already have. You can then check and complete the information.</p>
       <div class="import-choices">
@@ -65,8 +65,8 @@
       <form id="manual-form"><label for="offer-text">Your job offer text</label><textarea id="offer-text" rows="10" maxlength="30000" aria-describedby="manual-error"></textarea><p id="manual-error" role="alert" class="import-error"></p><div class="landing-actions"><button type="submit" class="primary-action">Continue</button><button type="button" id="manual-back" class="ghost-action">Back</button></div></form>
     </section>
     <section id="email-step" data-step class="surface-card import-card" hidden>
-      <h1 tabindex="-1">How can you find your offer again?</h1><p class="lede">Your email will help save your offer and return to your space to continue.</p>
-      <form id="email-form"><label for="work-email">Your work email</label><input id="work-email" type="email" autocomplete="off" required maxlength="254" placeholder="recrutement@example.invalid" aria-describedby="email-help"><p id="email-help" class="mini-note">Use a fictional address for this preview. No email is sent.</p><p><a href="privacy-en.html">Data protection</a></p><fieldset class="import-consent"><legend>Your agreement to prepare the offer</legend><label class="import-consent-label" for="prepare-consent"><input id="prepare-consent" type="checkbox" required aria-describedby="consent-help consent-preview"><span>I request AI-assisted preparation of my offer. Offer information is sent to a technical service provider to prepare a summary for my review. My email is not sent to that provider.</span></label><p id="consent-help">Artificial intelligence helps structure your offer and identify information to clarify. It can make mistakes: you will review and correct the summary before confirming it.</p><p id="consent-preview" class="mini-note">In this preview, agreement is simulated and is not recorded. The legal basis and final wording remain to be confirmed with France Travail.</p></fieldset><div class="landing-actions"><button type="submit" class="primary-action">Prepare my offer</button><button id="email-back" type="button" class="ghost-action">Back</button></div></form>
+      <h1 tabindex="-1">Save your offer</h1><p class="lede">Your offer is ready. Enter your email and company contact to save it and return to it later.</p>
+      <form id="email-form"><label for="work-email">Your work email</label><input id="work-email" type="email" autocomplete="off" required maxlength="254" placeholder="recrutement@example.invalid" aria-describedby="email-help"><p id="email-help" class="mini-note">Use a fictional address for this preview. No email is sent.</p><p><a href="privacy-en.html">Data protection</a></p><div class="landing-actions"><button type="submit" class="primary-action">Save and continue</button><button id="email-back" type="button" class="ghost-action">Back</button></div></form>
     </section>
     <section id="review-step" data-step class="surface-card import-card" hidden>
     <h1 tabindex="-1">Check and complete your offer</h1>

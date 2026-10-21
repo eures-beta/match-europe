@@ -37,7 +37,7 @@
     </header>
   
     <main id="main-content" class="section"><div class="shell import-shell">
-    <ol class="import-steps"><li aria-current="step">1. Ihr Angebot</li><li>2. Ihre E-Mail</li><li>3. Prüfung</li></ol>
+    <ol class="import-steps"><li aria-current="step">1. Ihr Angebot</li><li>2. Prüfung</li><li>3. Speichern</li></ol>
     <section id="choice-step" data-step class="surface-card import-card">
       <h1 tabindex="-1">Wie möchten Sie Ihr Angebot hinzufügen?</h1><p class="lede">Wählen Sie das vorhandene Format. Danach können Sie die Angaben prüfen und ergänzen.</p>
       <div class="import-choices">
@@ -65,8 +65,8 @@
       <form id="manual-form"><label for="offer-text">Text Ihres Stellenangebots</label><textarea id="offer-text" rows="10" maxlength="30000" aria-describedby="manual-error"></textarea><p id="manual-error" role="alert" class="import-error"></p><div class="landing-actions"><button type="submit" class="primary-action">Weiter</button><button type="button" id="manual-back" class="ghost-action">Zurück</button></div></form>
     </section>
     <section id="email-step" data-step class="surface-card import-card" hidden>
-      <h1 tabindex="-1">Wie finden Sie Ihr Angebot wieder?</h1><p class="lede">Mit Ihrer E-Mail können Sie Ihr Angebot speichern und später fortfahren.</p>
-      <form id="email-form"><label for="work-email">Ihre berufliche E-Mail-Adresse</label><input id="work-email" type="email" autocomplete="off" required maxlength="254" placeholder="recrutement@example.invalid" aria-describedby="email-help"><p id="email-help" class="mini-note">Verwenden Sie für diese Vorschau eine fiktive Adresse. Es wird keine E-Mail versendet.</p><p><a href="privacy-de.html">Datenschutz</a></p><fieldset class="import-consent"><legend>Ihre Zustimmung zur Vorbereitung</legend><label class="import-consent-label" for="prepare-consent"><input id="prepare-consent" type="checkbox" required aria-describedby="consent-help consent-preview"><span>Ich beauftrage die KI-gestützte Vorbereitung meines Angebots. Die Angebotsangaben werden zur Vorbereitung meiner zu prüfenden Übersicht an einen technischen Dienstleister übermittelt. Meine E-Mail-Adresse wird nicht übermittelt.</span></label><p id="consent-help">Künstliche Intelligenz hilft, Ihr Angebot zu strukturieren und offene Angaben zu erkennen. Sie kann Fehler machen: Sie prüfen und korrigieren die Übersicht vor der Bestätigung.</p><p id="consent-preview" class="mini-note">In dieser Vorschau wird die Zustimmung simuliert und nicht gespeichert. Rechtsgrundlage und endgültiger Wortlaut sind noch mit France Travail zu klären.</p></fieldset><div class="landing-actions"><button type="submit" class="primary-action">Mein Angebot vorbereiten</button><button id="email-back" type="button" class="ghost-action">Zurück</button></div></form>
+      <h1 tabindex="-1">Ihr Angebot speichern</h1><p class="lede">Ihr Angebot ist vorbereitet. Geben Sie Ihre E-Mail-Adresse und den Unternehmenskontakt ein, um es zu speichern und später wiederzufinden.</p>
+      <form id="email-form"><label for="work-email">Ihre berufliche E-Mail-Adresse</label><input id="work-email" type="email" autocomplete="off" required maxlength="254" placeholder="recrutement@example.invalid" aria-describedby="email-help"><p id="email-help" class="mini-note">Verwenden Sie für diese Vorschau eine fiktive Adresse. Es wird keine E-Mail versendet.</p><p><a href="privacy-de.html">Datenschutz</a></p><div class="landing-actions"><button type="submit" class="primary-action">Speichern und weiter</button><button id="email-back" type="button" class="ghost-action">Zurück</button></div></form>
     </section>
     <section id="review-step" data-step class="surface-card import-card" hidden>
     <h1 tabindex="-1">Prüfen und ergänzen Sie Ihr Angebot</h1>

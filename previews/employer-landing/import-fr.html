@@ -37,7 +37,7 @@
     </header>
   
     <main id="main-content" class="section"><div class="shell import-shell">
-    <ol class="import-steps"><li aria-current="step">1. Votre offre</li><li>2. Votre email</li><li>3. Vérification</li></ol>
+    <ol class="import-steps"><li aria-current="step">1. Votre offre</li><li>2. Vérification</li><li>3. Enregistrement</li></ol>
     <section id="choice-step" data-step class="surface-card import-card">
       <h1 tabindex="-1">Comment souhaitez-vous ajouter votre offre ?</h1><p class="lede">Choisissez le format que vous avez sous la main. Vous pourrez ensuite vérifier et compléter les informations.</p>
       <div class="import-choices">
@@ -65,8 +65,8 @@
       <form id="manual-form"><label for="offer-text">Texte de votre offre d’emploi</label><textarea id="offer-text" rows="10" maxlength="30000" aria-describedby="manual-error"></textarea><p id="manual-error" role="alert" class="import-error"></p><div class="landing-actions"><button type="submit" class="primary-action">Continuer</button><button type="button" id="manual-back" class="ghost-action">Retour</button></div></form>
     </section>
     <section id="email-step" data-step class="surface-card import-card" hidden>
-      <h1 tabindex="-1">Comment retrouver votre offre ?</h1><p class="lede">Votre email permettra de conserver votre offre et de retrouver votre espace pour poursuivre la démarche.</p>
-      <form id="email-form"><label for="work-email">Votre email professionnel</label><input id="work-email" type="email" autocomplete="off" required maxlength="254" placeholder="recrutement@example.invalid" aria-describedby="email-help"><p id="email-help" class="mini-note">Pour cette prévisualisation, utilisez une adresse fictive. Aucun email n’est envoyé.</p><p><a href="privacy-fr.html">Protection des données</a></p><fieldset class="import-consent"><legend>Votre accord pour préparer l’offre</legend><label class="import-consent-label" for="prepare-consent"><input id="prepare-consent" type="checkbox" required aria-describedby="consent-help consent-preview"><span>Je demande la préparation de mon offre avec une assistance par intelligence artificielle. Les informations de l’offre sont transmises à un prestataire technique pour préparer la fiche que je vérifierai. Mon email ne lui est pas transmis.</span></label><p id="consent-help">Une intelligence artificielle aide à structurer votre offre et à repérer les informations à préciser. Elle peut produire des erreurs : vous vérifierez et corrigerez la fiche avant de la valider.</p><p id="consent-preview" class="mini-note">Dans cette prévisualisation, cet accord est simulé et n’est pas enregistré. La base juridique et le texte définitif restent à confirmer avec France Travail.</p></fieldset><div class="landing-actions"><button type="submit" class="primary-action">Préparer mon offre</button><button id="email-back" type="button" class="ghost-action">Retour</button></div></form>
+      <h1 tabindex="-1">Enregistrer votre offre</h1><p class="lede">Votre fiche est prête. Renseignez votre email et le contact entreprise pour enregistrer votre offre et la retrouver ensuite.</p>
+      <form id="email-form"><label for="work-email">Votre email professionnel</label><input id="work-email" type="email" autocomplete="off" required maxlength="254" placeholder="recrutement@example.invalid" aria-describedby="email-help"><p id="email-help" class="mini-note">Pour cette prévisualisation, utilisez une adresse fictive. Aucun email n’est envoyé.</p><p><a href="privacy-fr.html">Protection des données</a></p><div class="landing-actions"><button type="submit" class="primary-action">Enregistrer et continuer</button><button id="email-back" type="button" class="ghost-action">Retour</button></div></form>
     </section>
     <section id="review-step" data-step class="surface-card import-card" hidden>
     <h1 tabindex="-1">Vérifiez et complétez votre offre</h1>
