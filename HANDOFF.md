@@ -28,6 +28,11 @@ autonome passent sur PostgreSQL. Migrations et collecte des statiques réussies 
 essai Gunicorn avec rôles fictifs, accès et pages employeur FR/EN/DE à 200,
 statiques à 200, santé PostgreSQL à 204, diagnostic Push refusé (404).
 Le déploiement de cette adaptation reste à vérifier après le label humain.
+## 21 octobre 2026 — parcours employeur avant email
+
+Branche `codex/employer-offer-creation`, basée sur la branche de la PR nº 2. Lecture PDF/URL/texte, vérification et correction avant collecte de l’email et du contact ; demande de lecture portée par le clic sans case supplémentaire. Corrections validées côté serveur lors de l’enregistrement. Textes FR/EN/DE ; mention technique retirée du contact. Les améliorations du lecteur PDF de la PR nº 14 et le changement de logo sont exclus. Mode de recette local sans services externes (`ME_LOCAL_REVIEW_ONLY=1`). Aucun merge ni déploiement autorisé.
+
+La recette précédente avec lecteur amélioré comptait 75 tests ; cette branche indépendante passe 61 tests PostgreSQL, dont les deux nouveaux tests de parcours. Syntaxe des trois scripts JS et diff vérifiés. Les documents et coordonnées de recette sont fictifs et restent hors Git.
 
 ## Partage initial — 16 octobre 2026
 

@@ -114,6 +114,35 @@ class ImportFlowTests(TestCase):
         self.assertEqual(self.client.get('/local-api/imports/'+obj['id']+'/').status_code,200)
         self.assertEqual(Client().get('/local-api/imports/'+obj['id']+'/').status_code,404)
 
+    @patch('journeys.employer_api.aglae')
+    @patch('journeys.employer_api.geocode')
+    @patch('journeys.employer_api.read_pdf',return_value={'title':'Original title','description':'Fictional PDF text','extractionWarnings':[]})
+    def test_review_before_contact_preserves_corrections(self,read,geo,aglae):
+        first=self.client.post('/local-api/imports/source/',{'kind':'pdf','agreement':'true','document':SimpleUploadedFile('offer.pdf',b'%PDF-test')})
+        self.assertEqual(first.status_code,200)
+        preview=first.json()
+        self.assertEqual(preview['stage'],'review')
+        self.assertEqual(preview['data']['title'],'Original title')
+        self.assertNotIn('id',preview)
+        self.assertEqual(EmployerImport.objects.count(),0)
+        payload={'kind':'pdf','agreement':'true','sourceToken':preview['token'],
+                 'email':'fiction@example.invalid','contact':json.dumps({'name':'Fictional contact','email':'contact@example.invalid'}),
+                 'data':json.dumps({**preview['data'],'title':'Corrected title'})}
+        with patch.dict('os.environ',{'ME_LOCAL_REVIEW_ONLY':'1'}):
+            created=self.client.post('/local-api/imports/',payload)
+        self.assertEqual(created.status_code,201)
+        self.assertEqual(created.json()['data']['title'],'Corrected title')
+        self.assertEqual(created.json()['data']['description'],'Fictional PDF text')
+        read.assert_called_once();geo.assert_not_called();aglae.assert_not_called()
+        self.assertEqual(self.client.post('/local-api/imports/',payload).status_code,400)
+
+    def test_manual_preview_does_not_require_contact_or_create_import(self):
+        result=self.client.post('/local-api/imports/source/',{'kind':'manual','agreement':'true','text':'Fictional manual offer.'})
+        self.assertEqual(result.status_code,200)
+        self.assertEqual(result.json()['data']['description'],'Fictional manual offer.')
+        self.assertEqual(EmployerImport.objects.count(),0)
+        self.assertEqual(self.client.post('/local-api/imports/source/',{'kind':'manual','text':'Fictional offer.'}).status_code,400)
+
     def test_requirements_survive_save_and_resume(self):
         created=self.create().json()
         req={'workConditions':['weekend','standing'],'permitRequired':'yes','permits':['B'],
