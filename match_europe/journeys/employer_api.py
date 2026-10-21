@@ -120,10 +120,14 @@ def read_source(request):
             final=''
         elif kind=='url':
             data,final=read_url(url)
+        elif kind=='manual':
+            text=request.POST.get('text','').strip()
+            if not text or len(text)>16000: raise ImportFailure('invalid_data')
+            data=empty_data();data['description']=text;data['extraction']='manual';final=''
         else: raise ImportFailure('invalid_data')
         token=secrets.token_urlsafe(24)
         request.session['pending_offer_source']={'kind':kind,'token':token,'url':url,'final':final,'data':data,'at':time.time()}
-        return JsonResponse({'token':token})
+        return JsonResponse({'token':token,'data':data,'kind':kind,'source':final,'stage':'review','contact':{},'localOnly':os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1'})
     except ImportFailure as exc: return failure(exc.code)
 
 
@@ -176,6 +180,13 @@ def imports(request,id=None):
             if not text or len(text)>16000: raise ImportFailure('invalid_data')
             data=empty_data();data['description']=text;data['extraction']='manual'
         else: raise ImportFailure('invalid_data')
+        if 'data' in request.POST:
+            try: corrected=json.loads(request.POST['data'])
+            except (ValueError,TypeError): raise ImportFailure('invalid_data') from None
+            cleaned=clean_data(corrected)
+            for key in ('extraction','extractionWarnings'):
+                if key in data: cleaned[key]=data[key]
+            data=cleaned
         obj=EmployerImport.objects.create(session_key=request.session.session_key,email=email,contact=contact,preparation_agreed_at=timezone.now(),source_kind=kind,source_url=source,data=data)
         if kind in ('url','pdf'): request.session.pop('pending_offer_source',None)
         return initial_send(obj,created=True)
@@ -184,7 +195,7 @@ def imports(request,id=None):
 
 def serialize(obj):
     return {'id':str(obj.id),'contact':{'email':obj.email,**obj.contact},'data':obj.data,'revision':obj.revision,'source':obj.source_url,'kind':obj.source_kind,
-            'synced':bool(obj.synced_at),'sandbox':obj.sandbox_response,
+            'synced':bool(obj.synced_at),'sandbox':obj.sandbox_response,'localOnly':os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1',
             'stage':'review' if obj.initial_sent_at or os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1' else 'prepare'}
 
 
