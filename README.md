@@ -27,6 +27,21 @@ match_europe/
 manage.py
 ```
 
+## Recettes jetables de pull requests
+
+Une personne ayant le droit d’écriture peut demander une recette avec le label
+`recette 24h` ou `recette 7j`. Le dernier label ajouté remplace l’autre. Les nouveaux
+commits et rebases redéploient le code sans changer l’URL ni vider la base, et sans
+repousser l’échéance. Retirer puis remettre le label recrée une base vide.
+
+Un commentaire automatique donne l’URL, le commit déployé et l’expiration. La
+fermeture de la PR ou le retrait du label supprime la recette ; un contrôle toutes
+les deux heures supprime les recettes expirées. Les données sont fictives et
+jetables. Les PR provenant de forks ne sont pas déployées automatiquement.
+
+L’activation et l’exploitation du contrôleur sont documentées dans le
+[dépôt privé de déploiement](https://github.com/eures-beta/match-europe-deploy-clever).
+
 ## Démarrage local
 
 Prérequis : Python 3.12 et PostgreSQL 17 démarré. Créer une base et un rôle locaux
