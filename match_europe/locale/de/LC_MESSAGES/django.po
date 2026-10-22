@@ -586,3 +586,108 @@ msgstr "Angebot zu ergänzen"
 
 msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
 msgstr "Geteilte Demonstration: nur fiktive Daten. Externes Speichern und Push-Diagnose sind deaktiviert."
+
+msgid "Access your employer space"
+msgstr "Zugang zu Ihrem Arbeitgeberbereich"
+
+msgid "Enter a fictional email address. No email will be sent."
+msgstr "Geben Sie eine fiktive E-Mail-Adresse ein. Es wird keine E-Mail versendet."
+
+msgid "Enter a valid email address."
+msgstr "Geben Sie eine gültige E-Mail-Adresse ein."
+
+msgid "Request a connection link"
+msgstr "Anmeldelink anfordern"
+
+msgid "Local test inbox"
+msgstr "Lokales Testpostfach"
+
+msgid "This tool simulates email delivery in this browser only. Use fictional data."
+msgstr "Dieses Werkzeug simuliert den Empfang nur in diesem Browser. Verwenden Sie fiktive Daten."
+
+msgid "The link expires after 15 minutes and can only be used once."
+msgstr "Der Link läuft nach 15 Minuten ab und kann nur einmal verwendet werden."
+
+msgid "Open my connection link"
+msgstr "Meinen Anmeldelink öffnen"
+
+msgid "No message available."
+msgstr "Keine Nachricht verfügbar."
+
+msgid "Confirm to verify your email and open a session. No access to company data is granted."
+msgstr "Bestätigen Sie Ihre E-Mail-Adresse und öffnen Sie eine Sitzung. Es wird kein Zugriff auf Unternehmensdaten gewährt."
+
+msgid "Connect"
+msgstr "Anmelden"
+
+msgid "You are connected"
+msgstr "Sie sind angemeldet"
+
+msgid "Your email is verified for this local session. Offers and company access will be added in a later step."
+msgstr "Ihre E-Mail-Adresse ist für diese lokale Sitzung bestätigt. Angebote und Unternehmenszugänge folgen in einem späteren Schritt."
+
+msgid "Please wait before requesting another link."
+msgstr "Bitte warten Sie, bevor Sie einen weiteren Link anfordern."
+
+msgid "This link is invalid, expired or already used."
+msgstr "Dieser Link ist ungültig, abgelaufen oder bereits verwendet."
+
+msgid "Request a new link"
+msgstr "Neuen Link anfordern"
+
+msgid "Check your email"
+msgstr "Prüfen Sie Ihre E-Mails"
+
+msgid "Open the connection link in the email to continue to your employer space."
+msgstr "Öffnen Sie den Anmeldelink in der E-Mail, um zu Ihrem Arbeitgeberbereich zu gelangen."
+
+msgid "Local test only"
+msgstr "Nur für diesen lokalen Test"
+
+msgid "No email is actually sent during this test. The button below lets you view the simulated message."
+msgstr "Während dieses Tests wird keine E-Mail versendet. Über die Schaltfläche unten können Sie die simulierte Nachricht ansehen."
+
+msgid "For testing: view the simulated email"
+msgstr "Zum Testen: simulierte E-Mail ansehen"
+
+msgid "Email preview"
+msgstr "E-Mail-Vorschau"
+
+msgid "Local simulation — this email has not been sent. The sender address will be configured with Brevo FT."
+msgstr "Lokale Simulation — diese E-Mail wurde nicht versendet. Die Absenderadresse wird mit Brevo FT eingerichtet."
+
+msgid "From"
+msgstr "Von"
+
+msgid "To"
+msgstr "An"
+
+msgid "Subject"
+msgstr "Betreff"
+
+msgid "Verify your email address — Match Europe"
+msgstr "Bestätigen Sie Ihre E-Mail-Adresse — Match Europe"
+
+msgid "Hello,"
+msgstr "Guten Tag,"
+
+msgid "You requested access to your Match Europe employer space. Verify your email address to continue."
+msgstr "Sie haben Zugang zu Ihrem Match Europe Arbeitgeberbereich angefordert. Bestätigen Sie Ihre E-Mail-Adresse, um fortzufahren."
+
+msgid "Verify my email address"
+msgstr "Meine E-Mail-Adresse bestätigen"
+
+msgid "If you did not request this access, ignore this email."
+msgstr "Wenn Sie diesen Zugang nicht angefordert haben, ignorieren Sie diese E-Mail."
+
+msgid "The Match Europe team"
+msgstr "Das Match Europe Team"
+
+msgid "My employer space"
+msgstr "Mein Arbeitgeberbereich"
+
+msgid "Your email address is verified. Welcome to your employer space."
+msgstr "Ihre E-Mail-Adresse ist bestätigt. Willkommen in Ihrem Arbeitgeberbereich."
+
+msgid "Your dashboard will be available here in a future step."
+msgstr "Ihr Dashboard wird hier in einem nächsten Schritt verfügbar sein."
