@@ -1,3 +1,13 @@
+## 22 octobre 2026 — première PR connexion employeur isolée
+
+Connexion email simulée extraite de la copie de recette sur une branche dédiée,
+basée sur la PR nº 16. Aucun changement PDF/logo, correctif de boucle ou transfert
+de brouillon inclus. [Périmètre et limites](docs/EMPLOYER_EMAIL_LOGIN.md).
+Migration additive et accueil minimal FR/EN/DE au design V2. Les lots rattachement,
+« Mes offres » et cycle de recrutement restent séparés. Aucun déploiement.
+Validation de cette branche : 70 tests PostgreSQL passent, dont neuf de connexion ;
+contrôle Django sans erreur, migrations cohérentes et diff vérifié.
+
 # Reprise du prototype Match Europe
 
 ## Entrée employeur — 23 octobre 2026
