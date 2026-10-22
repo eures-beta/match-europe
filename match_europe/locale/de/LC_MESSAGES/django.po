@@ -736,3 +736,12 @@ msgstr "Das Angebot wird mit berechtigten Kollegen dieser Betriebsstätte geteil
 
 msgid "Your offer is now attached to your establishment."
 msgstr "Ihr Angebot ist jetzt Ihrer Betriebsstätte zugeordnet."
+
+msgid "Your establishments"
+msgstr "Ihre Betriebsstätten"
+
+msgid "You do not yet belong to an establishment."
+msgstr "Sie gehören noch keiner Betriebsstätte an."
+
+msgid "Add an offer"
+msgstr "Angebot hinzufügen"

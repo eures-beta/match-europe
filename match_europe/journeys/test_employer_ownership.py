@@ -12,11 +12,13 @@ class OwnershipTests(TestCase):
             'email': 'contact@fiction.invalid', 'agreement': 'true',
             'contact': json.dumps({'name': 'Fictional contact', 'email': 'contact@fiction.invalid'})})
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json()['login_url'], '/employer/access/')
+        self.assertEqual(response.json()['login_url'], '/employer/connected/' if client.session.get('employer_identity_id') else '/employer/access/')
         return response.json()
 
     def login(self, client, email):
         session = client.session
+        if session.get('employer_verified_email') == email:
+            return EmployerIdentity.objects.get(email=email)
         session['employer_email_sent_at'] = 0
         session.save()
         client.post('/employer/access/', {'email': email})
