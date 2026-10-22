@@ -31,6 +31,9 @@ class EmployerImport(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.PROTECT, related_name='imports')
     created_by = models.ForeignKey(EmployerIdentity, null=True, blank=True, on_delete=models.PROTECT, related_name='created_imports')
+    search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
+    duplicated_from = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT,
+                                        related_name='duplicates', editable=False)
     session_key = models.CharField(max_length=64, db_index=True)
     email = models.EmailField()
     contact = models.JSONField(default=dict)

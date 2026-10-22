@@ -68,3 +68,15 @@ autorisés et ajout depuis la session valide. Le contact conseiller est distinct
 de l'identité connectée. Réutiliser les appartenances actives de la PR #19 ;
 aucun droit par nom, email de contact ou domaine. Liste des offres, modification,
 invitations, recrutement et identification officielle exclus de ce lot.
+
+## 22 octobre 2026 — lot 3 et verrouillage au démarrage de la recherche
+
+Eric précise que l’offre reste modifiable jusqu’au démarrage effectif de la
+recherche de candidats, plutôt que jusqu’à sa transmission. Après démarrage :
+consultation et duplication en nouveau brouillon, sans modifier l’original.
+Le futur bouton « Lancer ma recherche de candidats » appartient au lot suivant ;
+verrouillage seulement après confirmation serveur du démarrage. Clôture séparée.
+Le lot 3 couvre liste, consultation, modification avant recherche et duplication,
+avec les habilitations par établissement existantes. Aucun démarrage déduit d’un
+nom, d’un envoi de préparation ou d’une validation.
+Voir [lot 3](EMPLOYER_OFFER_WORKSPACE.md).

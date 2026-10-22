@@ -745,3 +745,213 @@ msgstr "Vous n’êtes encore rattaché à aucun établissement."
 
 msgid "Add an offer"
 msgstr "Ajouter une offre"
+
+msgid "A colleague changed this offer. Open the current version before duplicating it."
+msgstr "Un collègue a modifié cette offre. Ouvrez la version actuelle avant de la dupliquer."
+
+msgid "A colleague changed this offer. Your changes have not been saved. Open the current version before trying again."
+msgstr "Un collègue a modifié cette offre. Vos modifications n’ont pas été enregistrées. Ouvrez la version actuelle avant de réessayer."
+
+msgid "Access to the workplace"
+msgstr "Accès au lieu de travail"
+
+msgid "Administrative support"
+msgstr "Démarches administratives"
+
+msgid "All your establishments"
+msgstr "Tous vos établissements"
+
+msgid "Apprenticeship"
+msgstr "Apprentissage"
+
+msgid "Arrival support"
+msgstr "Aides à l’arrivée"
+
+msgid "Back to offers"
+msgstr "Retour aux offres"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Candidate search has started. To change your recruitment needs, duplicate this offer."
+msgstr "La recherche de candidats a commencé. Pour changer votre besoin, dupliquez cette offre."
+
+msgid "Candidate search started"
+msgstr "Recherche de candidats commencée"
+
+msgid "Changes saved."
+msgstr "Modifications enregistrées."
+
+msgid "Changing this text does not change the establishment or access rights."
+msgstr "Modifier ce texte ne change ni l’établissement ni les droits d’accès."
+
+msgid "Check the fields below. Your changes have not been saved."
+msgstr "Vérifiez les champs ci-dessous. Vos modifications n’ont pas été enregistrées."
+
+msgid "Choose an establishment"
+msgstr "Choisir un établissement"
+
+msgid "Choose either specific conditions or None / To discuss, not both."
+msgstr "Choisissez des conditions précises ou « Aucune / À discuter », sans les combiner."
+
+msgid "Contact for the adviser"
+msgstr "Contact pour le conseiller"
+
+msgid "Copied from offer"
+msgstr "Copiée depuis l’offre"
+
+msgid "Driving licences and authorisations"
+msgstr "Permis et autorisations"
+
+msgid "Duplicate offer"
+msgstr "Dupliquer l’offre"
+
+msgid "Duplicating creates a new editable draft in the same establishment. It does not start a candidate search."
+msgstr "La duplication crée un nouveau brouillon modifiable dans le même établissement. Elle ne lance aucune recherche de candidats."
+
+msgid "Early hours"
+msgstr "Tôt le matin"
+
+msgid "Edit offer"
+msgstr "Modifier l’offre"
+
+msgid "Editable before candidate search"
+msgstr "Modifiable avant la recherche de candidats"
+
+msgid "Establishment"
+msgstr "Établissement"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Fixed-term contract"
+msgstr "CDD"
+
+msgid "Freelance"
+msgstr "Indépendant"
+
+msgid "Frequent travel"
+msgstr "Déplacements fréquents"
+
+msgid "Housing"
+msgstr "Logement"
+
+msgid "Internship"
+msgstr "Stage"
+
+msgid "Is a licence or authorisation required?"
+msgstr "Un permis ou une autorisation est-il nécessaire ?"
+
+msgid "Languages and levels"
+msgstr "Langues et niveaux"
+
+msgid "Last updated"
+msgstr "Dernière modification"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "Night work"
+msgstr "Travail de nuit"
+
+msgid "No offers saved for this establishment yet."
+msgstr "Aucune offre enregistrée pour cet établissement."
+
+msgid "None"
+msgstr "Aucune"
+
+msgid "Offer pages"
+msgstr "Pages des offres"
+
+msgid "Offers are shared only with authorised colleagues of each establishment."
+msgstr "Les offres sont partagées uniquement avec les collègues habilités de chaque établissement."
+
+msgid "Offers awaiting attachment"
+msgstr "Offres à rattacher"
+
+msgid "Offers from your establishments"
+msgstr "Offres de vos établissements"
+
+msgid "Onboarding"
+msgstr "Accompagnement à la prise de poste"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Other arrival support"
+msgstr "Autre aide à l’arrivée"
+
+msgid "Other authorisation"
+msgstr "Autre autorisation"
+
+msgid "Outdoor work"
+msgstr "Travail en extérieur"
+
+msgid "Permanent contract"
+msgstr "CDI"
+
+msgid "Physical work"
+msgstr "Travail physique"
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Saving does not publish the offer or start a candidate search."
+msgstr "L’enregistrement ne publie pas l’offre et ne lance aucune recherche de candidats."
+
+msgid "Shift work"
+msgstr "Travail posté"
+
+msgid "Skills and experience sought"
+msgstr "Compétences et expérience recherchées"
+
+msgid "Standing work"
+msgstr "Station debout prolongée"
+
+msgid "Start date"
+msgstr "Date de prise de poste"
+
+msgid "Temporary work"
+msgstr "Intérim"
+
+msgid "These drafts are private to you until you attach them to an establishment."
+msgstr "Ces brouillons restent privés tant que vous ne les rattachez pas à un établissement."
+
+msgid "This contact may differ from the signed-in person."
+msgstr "Ce contact peut être différent de la personne connectée."
+
+msgid "This offer can be edited until candidate search starts."
+msgstr "Cette offre reste modifiable tant que la recherche de candidats n’a pas commencé."
+
+msgid "Training"
+msgstr "Formation"
+
+msgid "Transport"
+msgstr "Transport"
+
+msgid "Variable hours"
+msgstr "Horaires variables"
+
+msgid "View offer"
+msgstr "Consulter l’offre"
+
+msgid "Weekends"
+msgstr "Week-end"
+
+msgid "Working conditions"
+msgstr "Conditions de travail"
+
+msgid "Local demonstration · Fictional data · No emails or external calls"
+msgstr "Démonstration locale · Données fictives · Aucun email ni appel externe"
+
+msgid "Select Yes before choosing required licences or authorisations."
+msgstr "Choisissez « Oui » avant de sélectionner les permis ou autorisations nécessaires."
+
+msgid "You are editing a new draft copied from another offer. The original offer is unchanged."
+msgstr "Vous modifiez un nouveau brouillon copié depuis une autre offre. L’offre d’origine reste inchangée."
+
+msgid "View original offer"
+msgstr "Consulter l’offre d’origine"
