@@ -8,8 +8,14 @@ Aucune modification de la branche de cette PR ni de la recette intégrée.
 Code et ressources de développement dans le dépôt public ; aucune configuration
 privée, donnée réelle ou procédure d’exploitation.
 
-L’accueil connecté propose « Offres de vos établissements ». La liste, paginée
-par vingt offres, montre uniquement les établissements avec appartenance active.
+L’accueil connecté affiche directement les offres sous forme de tableau, avec
+« Ajouter une offre » en tête et une zone « Mon compte » pour l’email et la
+déconnexion. Les routes d’accueil et de liste utilisent le même écran.
+Le tableau présente intitulé et lieu, établissement, état, dernière modification
+et consultation. Paginé par vingt offres, il montre uniquement les établissements
+avec appartenance active. Sur écran étroit, le défilement horizontal est limité
+au tableau, accessible au clavier. Le rattachement sélectionné reste un encart
+sur cet accueil ; aucun écran intermédiaire permanent.
 Un filtre explicite est disponible si plusieurs établissements sont autorisés.
 Les brouillons non rattachés restent dans un encart privé à leur créateur ; une
 action POST permet de sélectionner le brouillon à rattacher sans en changer les droits.
@@ -88,3 +94,13 @@ modification de la copie réussies. Données de recette fictives hors Git.
 Serveur du lot 3 sur loopback 9020 avec base distincte ; les recettes 9018 et 9019
 restent conservées. Trois modes locaux activés, aucun email réel ni appel externe.
 Aucun push, changement de PR existante, merge ou déploiement dans cette étape.
+
+Ajustement de recette demandé par Eric : accueil et liste réunis, tableau à la
+place des cartes, établissement unique affiché sous le titre, compte repliable,
+confirmation de rattachement conservée. Contrôle navigateur : compte et
+déconnexion accessibles, aucun débordement horizontal du document sur écran
+étroit, tableau avec en-têtes sémantiques et zone de défilement focusable.
+
+Validation après cet ajustement : 100 tests PostgreSQL passent, dont un nouveau
+contrôle de l’accueil unifié, du tableau et de la zone de compte. Contrôle visuel
+sur écran large et étroit ; défilement horizontal limité au tableau.
