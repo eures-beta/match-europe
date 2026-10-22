@@ -47,3 +47,9 @@ verrouillage repose sur une date serveur distincte ; le lancement effectif de la
 recherche reste à raccorder dans un lot suivant. Aucun nouveau résultat candidat
 ni modification des espaces conseillers/admins.
 Voir [périmètre et recette](EMPLOYER_OFFER_WORKSPACE.md).
+
+## Lot 4A employeur — lancement simulé (22 octobre 2026)
+
+Confirmation de recherche incluant qualification/contact, gestion des échecs et
+états incertains, sans appel réel ni nouvelle candidature/conversation.
+Clôture et archivage restent à définir. Voir [lot 4A](EMPLOYER_SEARCH_LAUNCH.md).
