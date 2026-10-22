@@ -955,3 +955,18 @@ msgstr "Vous modifiez un nouveau brouillon copié depuis une autre offre. L’of
 
 msgid "View original offer"
 msgstr "Consulter l’offre d’origine"
+
+msgid "My account"
+msgstr "Mon compte"
+
+msgid "Status"
+msgstr "État"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Editable"
+msgstr "Modifiable"
+
+msgid "Add your first offer to find it here."
+msgstr "Ajoutez votre première offre pour la retrouver ici."

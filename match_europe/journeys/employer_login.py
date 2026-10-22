@@ -137,7 +137,8 @@ def connected(request):
 
 
 def connected_page(request, email, person, draft, establishment_form=None):
-    return page(request, 'connected', email=email,
+    from .employer_workspace import offer_home
+    return offer_home(request, email=email,
                 companies=EmployerCompany.objects.filter(memberships__in=memberships(request)),
                 pending_import=request.session.get('employer_claim_import'),
                 pending_title=(draft.data.get('title') or draft.data.get('description', '')[:125]) if draft else '',
