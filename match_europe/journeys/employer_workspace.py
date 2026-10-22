@@ -110,6 +110,10 @@ class OfferEditForm(forms.Form):
 @connected
 @require_GET
 def offers(request):
+    return employer_login.connected(request)
+
+
+def offer_home(request, **attachment):
     companies = [member.company for member in memberships(request).select_related('company').order_by('company__name','company_id')]
     selected = request.GET.get('company', '')
     rows = visible(request)
@@ -118,7 +122,10 @@ def offers(request):
             raise Http404
         rows = rows.filter(company_id=selected)
     private = EmployerImport.objects.filter(company__isnull=True, created_by=identity(request)).order_by('-updated')
-    return render(request, 'offers', companies=companies, selected=selected,
+    attachment.pop('companies', None)
+    if attachment.get('pending_import'):
+        private = private.exclude(pk=attachment['pending_import'])
+    return render(request, 'offers', companies=companies, selected=selected, **attachment,
         offers=Paginator(rows.order_by('-updated','pk'), 20).get_page(request.GET.get('page')),
         private_drafts=private, workspace=True)
 

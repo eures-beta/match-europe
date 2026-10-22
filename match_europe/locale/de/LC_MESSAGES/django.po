@@ -955,3 +955,18 @@ msgstr "Sie bearbeiten einen neuen Entwurf, der aus einem anderen Angebot kopier
 
 msgid "View original offer"
 msgstr "Ursprüngliches Angebot ansehen"
+
+msgid "My account"
+msgstr "Mein Konto"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "Editable"
+msgstr "Bearbeitbar"
+
+msgid "Add your first offer to find it here."
+msgstr "Fügen Sie Ihr erstes Angebot hinzu, um es hier wiederzufinden."
