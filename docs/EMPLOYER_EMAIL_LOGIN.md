@@ -52,3 +52,9 @@ Recette : utiliser une adresse `.invalid`, ouvrir le message simulé puis
 « Vérifier mon adresse email ». Vérifier le refus d’un lien réutilisé/expiré,
 la déconnexion, la reconnexion et les trois langues. Les tests utilisent une
 base PostgreSQL jetable et n’envoient aucun email.
+
+## Suite locale — lot 2
+
+La branche du lot 2 ajoute une identité durable et le rattachement explicite à un
+espace entreprise partagé. Les limites ci-dessus décrivent le point 1 isolé.
+Voir [périmètre du lot 2](EMPLOYER_COMPANY_OWNERSHIP.md).
