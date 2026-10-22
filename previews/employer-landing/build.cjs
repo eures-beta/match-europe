@@ -73,6 +73,7 @@ for (const lang of ['fr', 'en', 'de']) {
   fs.writeFileSync(path.join(__dirname, `privacy-${lang}.html`), `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${vm.runInContext('privacyCopy[lang].navLabel', context)}</title><link rel="stylesheet" href="../../forms/eures-beta/site.css"></head><body><p class="shell" role="note">${noticeWarning}</p>${privacyNotice}</body></html>`);
   // Keep all navigation local to the static preview server, with working language switches.
   html = html.replace(/href="\/forms\/eures-beta\/employer\?lang=(fr|en|de)"/g, 'href="$1.html"');
+  html = html.replace('<main', `<nav class="shell" aria-label="${({fr:'Espace employeur',en:'Employer space',de:'Arbeitgeberbereich'})[lang]}"><a class="ghost-action" href="/employer/access/?lang=${lang}">${({fr:'Me connecter',en:'Sign in',de:'Anmelden'})[lang]}</a></nav><main`);
   fs.writeFileSync(path.join(__dirname, `${lang}.html`), `<!doctype html>
 <html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Match Europe — ${drafts[lang].kicker}</title>
 <link rel="stylesheet" href="../../forms/eures-beta/site.css">
