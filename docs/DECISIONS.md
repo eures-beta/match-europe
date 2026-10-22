@@ -60,3 +60,11 @@ des lots séparés avant ouverture réelle. Les homonymes peuvent exister mais n
 partagent aucun droit. `EmployerCompany` reste le nom technique du modèle ; il
 représente ici l’établissement. Aucun identifiant officiel obligatoire ni changement
 du matching fictif dans cette PR. Voir [lot 2](EMPLOYER_COMPANY_OWNERSHIP.md).
+
+## 22 octobre 2026 — accès employeur indépendant du dépôt
+
+Périmètre demandé par Eric : connexion sans offre, accueil avec établissements
+autorisés et ajout depuis la session valide. Le contact conseiller est distinct
+de l'identité connectée. Réutiliser les appartenances actives de la PR #19 ;
+aucun droit par nom, email de contact ou domaine. Liste des offres, modification,
+invitations, recrutement et identification officielle exclus de ce lot.

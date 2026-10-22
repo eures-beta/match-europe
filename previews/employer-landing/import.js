@@ -15,6 +15,8 @@ let validFile = false;
 let selectionVersion = 0;
 let previousStep = 'file-step';
 let sourceToken = null;
+const connectedSubmission = document.body.dataset.employerConnected === 'true';
+strings.errors.session_expired = {fr:'Votre session a expiré. Reconnectez-vous, puis relisez le document ou le lien. Vos corrections restent visibles dans cette page.', en:'Your session expired. Sign in, then read the document or link again. Your edits remain visible on this page.', de:'Ihre Sitzung ist abgelaufen. Melden Sie sich an und lesen Sie das Dokument oder den Link erneut ein. Ihre Änderungen bleiben auf dieser Seite sichtbar.'}[document.documentElement.lang];
 
 // A changed source needs a new preparation agreement.
 for (const id of ['offer-url', 'offer-text', 'offer-file']) {
@@ -156,6 +158,7 @@ emailForm.addEventListener('submit', async event => {
     const form = new FormData();
     form.set('contact', JSON.stringify(window.meContact.initial()));
     form.set('email', document.getElementById('work-email').value.trim());
+    if (connectedSubmission) form.set('connectedSubmission', 'true');
     form.set('agreement', 'true');
     form.set('data',JSON.stringify(window.meReview.collect()));
     const kind = previousStep === 'url-step' ? 'url' : previousStep === 'manual-step' ? 'manual' : 'pdf';
@@ -204,6 +207,15 @@ if (liveAPI) {
 
   document.getElementById('preview-note').textContent = strings.livePreview;
   document.getElementById('email-help').textContent = strings.liveEmailHelp;
+  if (connectedSubmission) {
+    const field = document.getElementById('work-email');
+    field.required = false; field.hidden = true;
+    document.querySelector('label[for=work-email]').hidden = true;
+    document.getElementById('email-help').hidden = true;
+    const t = {fr:['Contact pour le conseiller','Ce contact peut être différent de la personne connectée.'], en:['Contact for the adviser','This contact may differ from the signed-in person.'], de:['Kontakt für die Beratung','Dieser Kontakt kann von der angemeldeten Person abweichen.']}[document.documentElement.lang] || [];
+    document.querySelector('#email-step h1').textContent = t[0];
+    document.querySelector('#email-step .lede').textContent = t[1];
+  }
   document.getElementById('url-preview').textContent = strings.liveUrl;
   const pdfNote = document.createElement('p'); pdfNote.className = 'mini-note'; pdfNote.id = 'pdf-read-agreement-note'; pdfNote.textContent = strings.readPdfAgreement;
   fileForm.querySelector('.landing-actions').before(pdfNote);
