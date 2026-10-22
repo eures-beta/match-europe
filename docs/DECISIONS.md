@@ -43,3 +43,14 @@ uniquement une recette fictive temporaire, pas une production ni une fusion.
 ## 21 octobre 2026 — vérification de l’import avant enregistrement
 
 Décision employeurs validée par Eric dans la discussion : afficher le résultat de lecture et permettre sa correction avant de demander l’email ; porter la demande de lecture par le clic sur « Lire les documents » et sa notice, sans case d’accord supplémentaire. Mise en œuvre locale uniquement. Le texte de recette décrit le lecteur actuel (règles et OCR local) ; une future transmission à un prestataire ou utilisation d’IA générative devra avoir une information adaptée. Cette décision UX ne valide pas une base juridique de production et n’autorise aucune publication ni aucun déploiement.
+
+## 22 octobre 2026 — collaboration RH sur les imports employeurs
+
+Eric valide la séparation personne / entreprise / offre : plusieurs membres
+habilités travaillent sur les offres du même espace entreprise. Le créateur est
+conservé ; les droits découlent de l’appartenance active, sans rattachement automatique
+par email, domaine ou nom d’entreprise. Hypothèse de périmètre acceptée : accès à
+toutes les offres de cet espace pour ses membres habilités. Les invitations sont
+un lot séparé ; aucune identité juridique d’entreprise n’est vérifiée par la création
+d’un espace local. Implémentation bornée aux `EmployerImport`, sans migration
+implicite du matching fictif. Voir [lot 2](EMPLOYER_COMPANY_OWNERSHIP.md).

@@ -3,6 +3,7 @@ from . import views, employer_login
 from . import employer_api, push_test
 
 urlpatterns = [
+    path('employer/attach/', employer_login.attach, name='employer_attach'),
     path('employer/email-sent/', employer_login.sent, name='employer_email_sent'),
     path('employer/access/', employer_login.access, name='employer_access'),
     path('employer/test-inbox/', employer_login.inbox, name='employer_test_inbox'),
