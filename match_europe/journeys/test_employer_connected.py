@@ -90,6 +90,8 @@ class ConnectedEmployerTests(TestCase):
             self.assertContains(self.client.get(path), label)
         self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get(path), 'data-employer-connected="true"')
+        self.assertContains(self.client.get(path), 'Mein Arbeitgeberbereich')
+        self.assertContains(self.client.get('/employer/connected/?lang=fr'), 'Mon espace employeur')
         self.client.post('/employer/logout/')
         self.assertContains(self.client.get(path), 'data-employer-connected="false"')
 

@@ -1,5 +1,6 @@
 """Loopback-only sandbox workflow. PostgreSQL drafts are session-owned; CSRF remains enabled."""
 import json
+import re
 import math
 import os
 import time
@@ -80,6 +81,11 @@ def preview(request,path):
             body = body.replace('<body data-live-local="true" data-employer-connected="' + ('true' if authenticated else 'false') + '">',
                 '<body data-live-local="true" data-employer-connected="' + ('true' if authenticated else 'false') + '"><aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
                 + escape(notice) + '</aside>', 1)
+        if authenticated:
+            lang = next((code for code in ('fr', 'en', 'de') if candidate.stem.endswith(code)), 'fr')
+            label = {'fr': 'Mon espace employeur', 'en': 'My employer space', 'de': 'Mein Arbeitgeberbereich'}[lang]
+            body = re.sub(r'(<a class="nav-pill employer-account-link" data-employer-account href=")[^"]*(">)[^<]*(</a>)',
+                          lambda match: match[1] + '/employer/connected/?lang=' + lang + match[2] + label + match[3], body)
         return HttpResponse(body)
     return FileResponse(candidate.open('rb'))
 
