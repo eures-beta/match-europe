@@ -1,3 +1,14 @@
+## 22 octobre 2026 — accueil employeur unifié en tableau
+
+À la demande d’Eric, l’accueil et les offres utilisent désormais le même écran.
+Bouton d’ajout en tête, établissement unique affiché sous le titre, compte
+repliable avec email et déconnexion ; message de vérification email retiré.
+Tableau : intitulé/lieu, établissement, état, dernière modification, consultation.
+Validation finale : 100 tests PostgreSQL réussis ; contrôles visuels écran large
+et étroit, défilement limité au tableau, compte/déconnexion accessibles.
+Rattachement et brouillons privés conservés dans des encarts distincts.
+Recette 9020 actualisée, aucune modification des recettes 9018/9019 ni des PR.
+
 ## 22 octobre 2026 — lot 3 employeur en recette locale
 
 Branche isolée `codex/employer-offer-workspace`, basée sur la tête distante

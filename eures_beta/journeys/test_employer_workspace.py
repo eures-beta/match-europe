@@ -166,3 +166,15 @@ class WorkspaceTests(TestCase):
         for index in range(22):self.make_offer(self.company,'Fictional '+str(index))
         self.assertEqual(len(self.client.get('/employer/offers/').context['offers']),20)
         self.assertEqual(len(self.client.get('/employer/offers/?page=2').context['offers']),3)
+
+    def test_connected_home_contains_offer_table_and_account(self):
+        response=self.client.get('/employer/connected/')
+        self.assertContains(response,'<table class="offer-table">',html=False)
+        self.assertContains(response,self.offer.data['title'])
+        self.assertNotContains(response,self.foreign.data['title'])
+        self.assertContains(response,self.person.email)
+        self.assertContains(response,'Mon compte')
+        self.assertContains(response,'/employer/logout/')
+        self.assertNotContains(response,'Votre adresse email est vérifiée')
+        self.assertContains(response,'scope="col"')
+        self.assertContains(response,'tabindex="0"')
