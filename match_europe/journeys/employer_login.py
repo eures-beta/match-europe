@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST, require_http_methods, req
 
 from .models import EmployerEmailLink, EmployerIdentity, EmployerCompany, EmployerMembership, EmployerImport
 from .employer_ownership import identity, memberships
+from .establishments import EstablishmentForm
 
 
 def enabled(view):
@@ -130,11 +131,17 @@ def connected(request):
         request.session['employer_claim_import'] = str(draft.pk)
     else:
         request.session.pop('employer_claim_import', None)
+    return connected_page(request, email, person, draft)
+
+
+def connected_page(request, email, person, draft, establishment_form=None):
     return page(request, 'connected', email=email,
                 companies=EmployerCompany.objects.filter(memberships__in=memberships(request)),
                 pending_import=request.session.get('employer_claim_import'),
                 pending_title=(draft.data.get('title') or draft.data.get('description', '')[:125]) if draft else '',
-                attached=request.session.pop('employer_attached', False))
+                attached=request.session.pop('employer_attached', False),
+                establishment_form=establishment_form if establishment_form is not None else EstablishmentForm(
+                    initial={'name': draft.data.get('companyName', '')} if draft else None))
 
 
 @enabled
@@ -165,10 +172,14 @@ def attach(request):
                 raise Http404
             company = member.company
         else:
-            name = request.POST.get('name', '').strip()
-            if not name or len(name) > 100:
-                return redirect('employer_connected')
-            company = EmployerCompany.objects.create(name=name)
+            # Serialise first registration for this person, including across browsers.
+            EmployerIdentity.objects.select_for_update().get(pk=person.pk)
+            if memberships(request).exists():
+                raise Http404
+            form = EstablishmentForm(request.POST)
+            if not form.is_valid():
+                return connected_page(request, person.email, person, draft, form)
+            company = EmployerCompany.objects.create(name=form.cleaned_data['name'])
             EmployerMembership.objects.create(person=person, company=company)
         draft.company = company
         draft.created_by = person
