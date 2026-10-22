@@ -1,3 +1,18 @@
+## 22 octobre 2026 — lot 4A : lancement simulé
+
+Branche dédiée `codex/employer-search-launch`, base distante du lot 3 `8ca94ce`.
+Confirmation explicite recherche/qualification/contact, opérations et événements
+durables (migration additive 0008), verrouillage au démarrage confirmé et suspension
+des écritures pendant l’incertitude. Vérification simulée sans relancement ;
+répétitions et concurrence contrôlées côté serveur. Aucun adaptateur réel ajouté.
+108 tests PostgreSQL réussis, dont courses entre collègues et édition/lancement.
+Parcours navigateur connexion → confirmation → incertitude → vérification →
+verrouillage → duplication vérifié. Recette séparée sur 9021, bases et serveurs
+9018/9019/9020 préservés. FR/EN/DE, V2, tableau et CSRF conservés.
+Clôture/archivage/réouverture restent à définir. Aucun push, PR nouvelle, fusion
+ou déploiement à cette étape. Titre exact à demander avant création d’une PR.
+Voir [périmètre et limites](docs/EMPLOYER_SEARCH_LAUNCH.md).
+
 ## 22 octobre 2026 — accueil employeur unifié en tableau
 
 À la demande d’Eric, l’accueil et les offres utilisent désormais le même écran.
