@@ -970,3 +970,51 @@ msgstr "Bearbeitbar"
 
 msgid "Add your first offer to find it here."
 msgstr "Fügen Sie Ihr erstes Angebot hinzu, um es hier wiederzufinden."
+
+msgid "Start my candidate search"
+msgstr "Meine Kandidatensuche starten"
+
+msgid "I confirm the start of candidate search, including qualification and contact."
+msgstr "Ich bestätige den Start der Kandidatensuche einschließlich Qualifizierung und Kontaktaufnahme."
+
+msgid "Local simulation scenario"
+msgstr "Szenario der lokalen Simulation"
+
+msgid "Confirmed start"
+msgstr "Bestätigter Start"
+
+msgid "Failure before start"
+msgstr "Fehler vor dem Start"
+
+msgid "Timeout: request accepted"
+msgstr "Zeitüberschreitung: Anfrage angenommen"
+
+msgid "Timeout: request not accepted"
+msgstr "Zeitüberschreitung: Anfrage nicht angenommen"
+
+msgid "Start to be checked"
+msgstr "Start muss geprüft werden"
+
+msgid "Start to be checked. Changes are temporarily suspended. No new start request will be sent."
+msgstr "Start muss geprüft werden. Änderungen sind vorübergehend gesperrt. Es wird keine neue Startanfrage gesendet."
+
+msgid "Local simulation: no candidate has been contacted and no external search has been started."
+msgstr "Lokale Simulation: Es wurden keine Kandidaten kontaktiert und keine externe Suche gestartet."
+
+msgid "The search did not start. You can edit the offer or confirm a new attempt."
+msgstr "Die Suche wurde nicht gestartet. Sie können das Angebot bearbeiten oder einen neuen Versuch bestätigen."
+
+msgid "Check simulated start status"
+msgstr "Simulierten Startstatus prüfen"
+
+msgid "Starting includes candidate search, qualification and contact. Once the server confirms the start, this offer cannot be edited. If your needs change, duplicate it to create a new draft."
+msgstr "Der Start umfasst Kandidatensuche, Qualifizierung und Kontaktaufnahme. Sobald der Server den Start bestätigt, kann dieses Angebot nicht mehr bearbeitet werden. Bei geändertem Bedarf erstellen Sie durch Duplizieren einen neuen Entwurf."
+
+msgid "While the request is pending or its outcome is uncertain, changes are temporarily suspended. Checking its status does not send a new start request."
+msgstr "Während die Anfrage bearbeitet wird oder ihr Ergebnis unklar ist, sind Änderungen vorübergehend gesperrt. Die Statusprüfung sendet keine neue Startanfrage."
+
+msgid "Confirm simulated start"
+msgstr "Simulierten Start bestätigen"
+
+msgid "This offer changed or a start is already pending. Review its current version before confirming."
+msgstr "Dieses Angebot wurde geändert oder ein Start steht bereits aus. Prüfen Sie vor der Bestätigung die aktuelle Version."

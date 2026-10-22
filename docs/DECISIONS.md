@@ -79,3 +79,12 @@ Le lot 3 couvre liste, consultation, modification avant recherche et duplication
 avec les habilitations par établissement existantes. Aucun démarrage déduit d’un
 nom, d’un envoi de préparation ou d’une validation.
 Voir [lot 3](EMPLOYER_OFFER_WORKSPACE.md).
+
+## 22 octobre 2026 — lot 4A employeur
+
+Eric valide un premier sous-lot de lancement simulé comprenant recherche,
+qualification et contact. Les modifications sont temporairement suspendues tant
+que le démarrage est en cours ou incertain ; seul un démarrage confirmé renseigne
+la date de verrouillage définitif. Aucun contact réel autorisé. Clôture, archivage,
+effets sur les dossiers en cours et réouverture restent des décisions à prendre.
+Voir [périmètre du lot 4A](EMPLOYER_SEARCH_LAUNCH.md).
