@@ -1,3 +1,11 @@
+## Ajustement de l’en-tête employeur — 22 octobre 2026
+
+À la demande d’Eric, connexion intégrée à l’en-tête près des langues, avec
+« Mon espace employeur » pour une session valide. Pages employeur et V2,
+coques de connexion FR/EN/DE ; disposition adaptable et focus clavier visible.
+27 tests ciblés passent ; contrôle navigateur du parcours V2 et de l’en-tête
+sur écran étroit effectué. Recette 9019 actualisée ; recette intégrée 9018 intacte.
+
 
 ## 22 octobre 2026 — connexion sans offre et ajout connecté
 

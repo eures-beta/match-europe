@@ -40,7 +40,7 @@ def page(request, stage, **context):
     lang = lang if lang in ('fr', 'en', 'de') else 'fr'
     request.session['employer_auth_language'] = lang
     with translation.override(lang):
-        return render(request, 'employer_login.html', {'stage': stage, 'auth_shell': f'employer_auth_shell_{lang}.html', **context})
+        return render(request, 'employer_login.html', {'stage': stage, 'signed_in': bool(identity(request) and request.session.get('employer_verified_email')), 'auth_shell': f'employer_auth_shell_{lang}.html', **context})
 
 
 @enabled
