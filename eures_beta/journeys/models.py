@@ -34,6 +34,10 @@ class EmployerImport(models.Model):
     search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
     duplicated_from = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT,
                                         related_name='duplicates', editable=False)
+    @property
+    def search_write_blocked(self):
+        return bool(self.search_started_at or self.search_operations.filter(state__in=['pending', 'uncertain']).exists())
+
     session_key = models.CharField(max_length=64, db_index=True)
     email = models.EmailField()
     contact = models.JSONField(default=dict)
@@ -203,3 +207,26 @@ class EmployerEmailLink(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     expires = models.DateTimeField()
     used = models.BooleanField(default=False)
+
+
+class EmployerSearchOperation(models.Model):
+    """Local simulation only. One durable operation per confirmed offer revision."""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    offer = models.ForeignKey(EmployerImport, on_delete=models.PROTECT, related_name='search_operations')
+    requested_by = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT)
+    revision = models.PositiveIntegerField()
+    state = models.CharField(max_length=12, choices=[('pending', 'Pending'), ('uncertain', 'Uncertain'),
+                                                    ('failed', 'Failed'), ('started', 'Started')])
+    scenario = models.CharField(max_length=24, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    resolved_at = models.DateTimeField(null=True, editable=False)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['offer', 'revision'], name='unique_search_offer_revision')]
+
+
+class EmployerSearchEvent(models.Model):
+    operation = models.ForeignKey(EmployerSearchOperation, on_delete=models.PROTECT, related_name='events')
+    actor = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT)
+    state = models.CharField(max_length=12)
+    created = models.DateTimeField(auto_now_add=True)
