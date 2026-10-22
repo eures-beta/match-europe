@@ -105,7 +105,7 @@ class OwnershipTests(TestCase):
     def test_translations_and_csrf(self):
         self.create()
         self.login(self.client, 'first@fiction.invalid')
-        for lang, text in [('fr', 'Rattacher votre offre'), ('en', 'Attach your offer'), ('de', 'Ihr Angebot einem Unternehmensbereich')]:
+        for lang, text in [('fr', 'Rattacher votre offre'), ('en', 'Attach your offer'), ('de', 'Ihr Angebot einer Betriebsstätte')]:
             self.assertContains(self.client.get('/employer/connected/?lang=' + lang), text)
         self.assertEqual(self.client.get('/employer/attach/').status_code, 405)
         self.assertEqual(Client(enforce_csrf_checks=True).post('/employer/attach/', {'name': 'Fictional'}).status_code, 403)
@@ -119,3 +119,52 @@ class OwnershipTests(TestCase):
         self.assertContains(other.get('/employer/connected/'), 'Rattacher votre offre')
         self.assertRedirects(other.post('/employer/attach/', {'name': 'Fictional workspace'}), '/employer/connected/')
         self.assertEqual(other.get('/local-api/imports/' + draft['id'] + '/').status_code, 200)
+
+    def test_first_establishment_requires_only_a_name(self):
+        draft = self.create()
+        self.login(self.client, 'first@fiction.invalid')
+        screen = self.client.get('/employer/connected/')
+        self.assertContains(screen, 'Nom de l’établissement')
+        self.assertNotContains(screen, 'name="country"')
+        self.assertNotContains(screen, 'name="registration_id"')
+        self.assertContains(self.client.post('/employer/attach/', {'name':'  '}), 'Renseignez le nom')
+        self.assertIsNone(EmployerImport.objects.get(pk=draft['id']).company)
+        self.assertRedirects(self.client.post('/employer/attach/', {'name':'Fictional establishment'}), '/employer/connected/')
+        self.assertEqual(EmployerCompany.objects.get().name, 'Fictional establishment')
+
+    def test_existing_member_cannot_create_another_establishment(self):
+        _, _, company = self.attach()
+        draft = self.create()
+        self.login(self.client, 'first@fiction.invalid')
+        screen = self.client.get('/employer/connected/')
+        self.assertContains(screen, 'Enregistrer l’offre pour cet établissement')
+        self.assertNotContains(screen, 'name="name"')
+        self.assertNotContains(screen, 'Enregistrer un autre établissement')
+        self.assertEqual(self.client.post('/employer/attach/', {'name':'Another'}).status_code, 404)
+        self.assertEqual(EmployerCompany.objects.count(), 1)
+        self.assertIsNone(EmployerImport.objects.get(pk=draft['id']).company)
+        self.client.post('/employer/attach/', {'company':company.pk})
+        self.assertEqual(EmployerImport.objects.get(pk=draft['id']).company, company)
+
+    def test_multiple_memberships_require_explicit_choice(self):
+        _, person, first = self.attach()
+        second = EmployerCompany.objects.create(name='Second establishment')
+        EmployerMembership.objects.create(person=person, company=second)
+        draft = self.create()
+        self.login(self.client, 'first@fiction.invalid')
+        screen = self.client.get('/employer/connected/')
+        self.assertContains(screen, 'id="establishment-choice"')
+        self.assertEqual(self.client.post('/employer/attach/', {}).status_code, 404)
+        self.assertIsNone(EmployerImport.objects.get(pk=draft['id']).company)
+        self.client.post('/employer/attach/', {'company':second.pk})
+        self.assertEqual(EmployerImport.objects.get(pk=draft['id']).company, second)
+
+    def test_name_match_does_not_grant_access(self):
+        draft, _, existing = self.attach()
+        other = Client()
+        self.create(other)
+        outsider = self.login(other, 'outsider@fiction.invalid')
+        other.post('/employer/attach/', {'name':existing.name})
+        self.assertEqual(EmployerCompany.objects.count(), 2)
+        self.assertFalse(EmployerMembership.objects.filter(company=existing, person=outsider).exists())
+        self.assertEqual(other.get('/local-api/imports/'+draft['id']+'/').status_code, 404)
