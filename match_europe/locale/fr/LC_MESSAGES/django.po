@@ -586,3 +586,108 @@ msgstr "Offre à compléter"
 
 msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
 msgstr "Démonstration partagée : données fictives uniquement. L’enregistrement externe et le diagnostic Push sont désactivés."
+
+msgid "Access your employer space"
+msgstr "Accéder à votre espace employeur"
+
+msgid "Enter a fictional email address. No email will be sent."
+msgstr "Saisissez une adresse email fictive. Aucun email ne sera envoyé."
+
+msgid "Enter a valid email address."
+msgstr "Saisissez une adresse email valide."
+
+msgid "Request a connection link"
+msgstr "Recevoir un lien de connexion"
+
+msgid "Local test inbox"
+msgstr "Boîte de réception de recette locale"
+
+msgid "This tool simulates email delivery in this browser only. Use fictional data."
+msgstr "Cet outil simule la réception dans ce navigateur uniquement. Utilisez des données fictives."
+
+msgid "The link expires after 15 minutes and can only be used once."
+msgstr "Le lien expire après 15 minutes et ne fonctionne qu’une fois."
+
+msgid "Open my connection link"
+msgstr "Ouvrir mon lien de connexion"
+
+msgid "No message available."
+msgstr "Aucun message disponible."
+
+msgid "Confirm to verify your email and open a session. No access to company data is granted."
+msgstr "Confirmez pour vérifier votre email et ouvrir une session. Aucun accès aux données d’entreprise n’est accordé."
+
+msgid "Connect"
+msgstr "Se connecter"
+
+msgid "You are connected"
+msgstr "Vous êtes connecté"
+
+msgid "Your email is verified for this local session. Offers and company access will be added in a later step."
+msgstr "Votre email est vérifié pour cette session locale. Les offres et les accès à l’entreprise seront ajoutés dans une prochaine étape."
+
+msgid "Please wait before requesting another link."
+msgstr "Veuillez patienter avant de demander un autre lien."
+
+msgid "This link is invalid, expired or already used."
+msgstr "Ce lien est invalide, expiré ou déjà utilisé."
+
+msgid "Request a new link"
+msgstr "Demander un nouveau lien"
+
+msgid "Check your email"
+msgstr "Consultez votre email"
+
+msgid "Open the connection link in the email to continue to your employer space."
+msgstr "Ouvrez le lien de connexion reçu par email pour poursuivre vers votre espace employeur."
+
+msgid "Local test only"
+msgstr "Uniquement pour cet essai local"
+
+msgid "No email is actually sent during this test. The button below lets you view the simulated message."
+msgstr "Aucun email n’est réellement envoyé pendant cet essai. Le bouton ci-dessous permet de consulter le message simulé."
+
+msgid "For testing: view the simulated email"
+msgstr "Pour le test : voir l’email simulé"
+
+msgid "Email preview"
+msgstr "Aperçu de l’email"
+
+msgid "Local simulation — this email has not been sent. The sender address will be configured with Brevo FT."
+msgstr "Simulation locale — cet email n’a pas été envoyé. L’adresse d’expédition sera configurée avec Brevo FT."
+
+msgid "From"
+msgstr "De"
+
+msgid "To"
+msgstr "À"
+
+msgid "Subject"
+msgstr "Objet"
+
+msgid "Verify your email address — Match Europe"
+msgstr "Vérifiez votre adresse email — Match Europe"
+
+msgid "Hello,"
+msgstr "Bonjour,"
+
+msgid "You requested access to your Match Europe employer space. Verify your email address to continue."
+msgstr "Vous avez demandé à accéder à votre espace employeur Match Europe. Vérifiez votre adresse email pour poursuivre."
+
+msgid "Verify my email address"
+msgstr "Vérifier mon adresse email"
+
+msgid "If you did not request this access, ignore this email."
+msgstr "Si vous n’êtes pas à l’origine de cette demande, ignorez cet email."
+
+msgid "The Match Europe team"
+msgstr "L’équipe Match Europe"
+
+msgid "My employer space"
+msgstr "Mon espace employeur"
+
+msgid "Your email address is verified. Welcome to your employer space."
+msgstr "Votre adresse email est vérifiée. Bienvenue dans votre espace employeur."
+
+msgid "Your dashboard will be available here in a future step."
+msgstr "Votre tableau de bord sera disponible ici dans une prochaine étape."
