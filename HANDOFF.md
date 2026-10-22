@@ -1,3 +1,16 @@
+## 22 octobre 2026 — rattachement à un espace entreprise (local)
+
+Lot 2 sur `codex/employer-company-ownership`, issu de la branche du point 1.
+Identité individuelle durable, espace entreprise et appartenance explicite active ;
+import partagé entre membres, créateur conservé. Réservation du brouillon à la
+vérification email, puis choix explicite de l’espace. Aucune recherche par email
+contact/domaine. Reconnexion autre navigateur et retrait d’accès testés.
+[Parcours, limites et référence Les Emplois](docs/EMPLOYER_COMPANY_OWNERSHIP.md).
+Validation : 77 tests PostgreSQL passent ; contrôles Django, migrations et syntaxe
+JavaScript réussis. Parcours manuel dans le navigateur et écran de rattachement
+vérifiés avec des données fictives. Invitations et « Mes offres » restent séparés ;
+aucun merge ni déploiement.
+
 ## 22 octobre 2026 — première PR connexion employeur isolée
 
 Connexion email simulée extraite de la copie de recette sur une branche dédiée,
