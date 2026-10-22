@@ -228,6 +228,7 @@
     if(event.target === field('city')) showGeo();
     t.questions.forEach((_,i) => syncQuestion(i));
   });
+  t.errors.search_started = {fr:'La recherche de candidats a commencé. Pour changer votre besoin, dupliquez cette offre depuis votre espace employeur.',en:'Candidate search has started. To change your needs, duplicate this offer from your employer space.',de:'Die Kandidatensuche hat begonnen. Duplizieren Sie dieses Angebot in Ihrem Arbeitgeberbereich, um Ihren Bedarf zu ändern.'}[document.documentElement.lang];
   async function liveAction(action) {
     if (busy || !current) return;
     if (!current.id) { document.dispatchEvent(new Event('me-request-email'));return; }

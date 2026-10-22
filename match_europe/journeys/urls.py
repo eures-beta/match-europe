@@ -1,8 +1,13 @@
 from django.urls import path
-from . import views, employer_login
+from . import views, employer_login, employer_workspace
 from . import employer_api, push_test
 
 urlpatterns = [
+    path('employer/drafts/<uuid:id>/attach/', employer_workspace.resume_attachment, name='employer_resume_attachment'),
+    path('employer/offers/', employer_workspace.offers, name='employer_offers'),
+    path('employer/offers/<uuid:id>/', employer_workspace.detail, name='employer_offer'),
+    path('employer/offers/<uuid:id>/edit/', employer_workspace.edit, name='employer_offer_edit'),
+    path('employer/offers/<uuid:id>/duplicate/', employer_workspace.duplicate, name='employer_offer_duplicate'),
     path('employer/attach/', employer_login.attach, name='employer_attach'),
     path('employer/email-sent/', employer_login.sent, name='employer_email_sent'),
     path('employer/access/', employer_login.access, name='employer_access'),

@@ -374,6 +374,7 @@ def update_locked(request,obj,payload):
         with transaction.atomic():
             obj=accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
             if obj is None: return failure('not_found',404)
+            if obj.search_started_at: return failure('search_started',409)
             if payload.get('revision')!=obj.revision: return failure('conflict',409)
             obj.contact=contact;obj.revision+=1;obj.save(update_fields=['contact','revision','updated'])
         return JsonResponse(serialize(obj))
@@ -381,6 +382,7 @@ def update_locked(request,obj,payload):
     with transaction.atomic():
         obj=accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
         if obj is None: return failure('not_found',404)
+        if obj.search_started_at: return failure('search_started',409)
         if payload.get('revision')!=obj.revision: return failure('conflict',409)
         geo=obj.data.get('geo')
         if not geo or geo.get('query')!=clean['city']: geo=None
