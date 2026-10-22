@@ -31,6 +31,22 @@
 <form method="post">{% csrf_token %}<button class="primary-action">{% trans "Connect" %}</button></form>
 {% elif stage == 'connected' %}
 <h1>{% trans "My employer space" %}</h1><p>{{ email }}</p><p>{% trans "Your email address is verified. Welcome to your employer space." %}</p><p>{% trans "Your dashboard will be available here in a future step." %}</p>
+{% if attached %}<p role="status">{% trans "Your offer is now attached to your company workspace." %} {{ attached }}</p>{% endif %}
+{% if pending_import %}
+<h2>{% trans "Attach your offer to a company workspace" %}</h2>
+<p><strong>{{ pending_title }}</strong></p>
+<p>{% trans "Only authorised members of this workspace will have access. Creating a workspace does not verify the legal company." %}</p>
+{% for company in companies %}
+<form method="post" action="{% url 'employer_attach' %}">{% csrf_token %}
+<input type="hidden" name="company" value="{{ company.pk }}"><button class="primary-action" type="submit">{% trans "Attach to" %} {{ company.name }}</button>
+</form>
+{% endfor %}
+<form method="post" action="{% url 'employer_attach' %}">{% csrf_token %}
+<label for="company-name">{% trans "New company workspace name" %}</label>
+<input id="company-name" name="name" maxlength="100" required autocomplete="organization">
+<button class="primary-action" type="submit">{% trans "Create workspace and attach offer" %}</button>
+</form>
+{% endif %}
 <form method="post" action="{% url 'employer_logout' %}">{% csrf_token %}<button class="ghost-action">{% trans "Sign out" %}</button></form>
 {% elif stage == 'limited' %}<h1>{% trans "Please wait before requesting another link." %}</h1>
 {% else %}<h1>{% trans "This link is invalid, expired or already used." %}</h1>{% endif %}

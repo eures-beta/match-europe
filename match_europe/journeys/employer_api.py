@@ -23,6 +23,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
 from .models import EmployerImport
+from .employer_ownership import accessible_imports
 from .forms import EmployerContactForm
 from .offer_ingestion import ImportFailure, empty_data, fetch_public, parse_page, read_pdf, read_url
 
@@ -132,7 +133,7 @@ def clean_contact(value):
 def imports(request,id=None):
     if request.method=='GET':
         if not request.session.session_key: return failure('not_found',404) if id else JsonResponse({'drafts':[]})
-        qs=EmployerImport.objects.filter(session_key=request.session.session_key)
+        qs=accessible_imports(request)
         if id:
             obj=qs.filter(pk=id).first()
             if not obj: return failure('not_found',404)
@@ -142,7 +143,7 @@ def imports(request,id=None):
     try:
         if not request.session.session_key: request.session.create()
         if id:
-            obj=EmployerImport.objects.filter(pk=id,session_key=request.session.session_key).first()
+            obj=accessible_imports(request).filter(pk=id).first()
             if not obj: return failure('not_found',404)
             payload=body(request)
             return update(request,obj,payload)
@@ -178,7 +179,11 @@ def imports(request,id=None):
                 if key in data: cleaned[key]=data[key]
             data=cleaned
         obj=EmployerImport.objects.create(session_key=request.session.session_key,email=email,contact=contact,preparation_agreed_at=timezone.now(),source_kind=kind,source_url=source,data=data)
+        request.session['employer_pending_import'] = str(obj.pk)
         if kind in ('url','pdf'): request.session.pop('pending_offer_source',None)
+        if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1':
+            # This ownership rehearsal must never trigger an external submission.
+            return JsonResponse({**serialize(obj), 'login_url': '/employer/access/'}, status=201)
         return initial_send(obj,created=True)
     except ImportFailure as exc: return failure(exc.code)
 
@@ -330,13 +335,15 @@ def update_locked(request,obj,payload):
     if action=='contact':
         contact=clean_contact(payload.get('contact'))
         with transaction.atomic():
-            obj=EmployerImport.objects.select_for_update().get(pk=obj.pk,session_key=request.session.session_key)
+            obj=accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
+            if obj is None: return failure('not_found',404)
             if payload.get('revision')!=obj.revision: return failure('conflict',409)
             obj.contact=contact;obj.revision+=1;obj.save(update_fields=['contact','revision','updated'])
         return JsonResponse(serialize(obj))
     clean=clean_data(payload.get('data'))
     with transaction.atomic():
-        obj=EmployerImport.objects.select_for_update().get(pk=obj.pk,session_key=request.session.session_key)
+        obj=accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
+        if obj is None: return failure('not_found',404)
         if payload.get('revision')!=obj.revision: return failure('conflict',409)
         geo=obj.data.get('geo')
         if not geo or geo.get('query')!=clean['city']: geo=None

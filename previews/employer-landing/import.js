@@ -158,6 +158,7 @@ emailForm.addEventListener('submit', async event => {
     if (kind === 'pdf') form.set('sourceToken', sourceToken || '');
     try {
       const result = await liveAPI.request('', {method:'POST',body:form});
+      if (result.login_url) { window.location.assign(result.login_url); return; }
       window.meReview.loadLive(result); window.meReview.saved(); message.textContent = ''; showStep(window.meReview.stage || 'review-step');
     } catch (exc) { if (exc.data?.id) { window.meReview.loadLive(exc.data); showStep(window.meReview.stage || 'review-step'); } else message.textContent = strings.errorPrefix + (strings.errors[exc.code] || strings.errors.network); }
     finally { button.disabled = false; }
