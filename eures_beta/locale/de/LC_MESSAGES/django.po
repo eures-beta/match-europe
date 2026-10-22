@@ -709,3 +709,30 @@ msgstr "Name des neuen Unternehmensbereichs"
 
 msgid "Create workspace and attach offer"
 msgstr "Bereich erstellen und Angebot zuordnen"
+
+msgid "Attach your offer to an establishment"
+msgstr "Ihr Angebot einer Betriebsstätte zuordnen"
+
+msgid "Choose the establishment for this offer"
+msgstr "Wählen Sie die Betriebsstätte für dieses Angebot"
+
+msgid "Enter your establishment name once to save your offer."
+msgstr "Geben Sie einmalig den Namen Ihrer Betriebsstätte ein, um Ihr Angebot zu speichern."
+
+msgid "Enter your establishment name."
+msgstr "Geben Sie den Namen Ihrer Betriebsstätte ein."
+
+msgid "Establishment name"
+msgstr "Name der Betriebsstätte"
+
+msgid "Save my offer"
+msgstr "Mein Angebot speichern"
+
+msgid "Save the offer for this establishment"
+msgstr "Angebot für diese Betriebsstätte speichern"
+
+msgid "The offer is shared with authorised colleagues of this establishment."
+msgstr "Das Angebot wird mit berechtigten Kollegen dieser Betriebsstätte geteilt."
+
+msgid "Your offer is now attached to your establishment."
+msgstr "Ihr Angebot ist jetzt Ihrer Betriebsstätte zugeordnet."
