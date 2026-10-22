@@ -30,7 +30,10 @@
 <h1>{% trans "Confirm your connection" %}</h1><p>{% trans "Confirm to verify your email and open a session. No access to company data is granted." %}</p>
 <form method="post">{% csrf_token %}<button class="primary-action">{% trans "Connect" %}</button></form>
 {% elif stage == 'connected' %}
-<h1>{% trans "My employer space" %}</h1><p>{{ email }}</p><p>{% trans "Your email address is verified. Welcome to your employer space." %}</p><p>{% trans "Your dashboard will be available here in a future step." %}</p>
+<h1>{% trans "My employer space" %}</h1><p>{{ email }}</p><p>{% trans "Your email address is verified. Welcome to your employer space." %}</p>
+<h2>{% trans "Your establishments" %}</h2>
+<ul>{% for company in companies %}<li>{{ company.name }}</li>{% empty %}<li>{% trans "You do not yet belong to an establishment." %}</li>{% endfor %}</ul>
+<a class="primary-action" href="{{ import_url }}">{% trans "Add an offer" %}</a>
 {% if attached %}<p role="status">{% trans "Your offer is now attached to your establishment." %} {{ attached }}</p>{% endif %}
 {% if pending_import %}
 <h2>{% trans "Attach your offer to an establishment" %}</h2>

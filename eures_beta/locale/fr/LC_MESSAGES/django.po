@@ -736,3 +736,12 @@ msgstr "L’offre est partagée avec les collègues habilités de cet établisse
 
 msgid "Your offer is now attached to your establishment."
 msgstr "Votre offre est maintenant rattachée à votre établissement."
+
+msgid "Your establishments"
+msgstr "Vos établissements"
+
+msgid "You do not yet belong to an establishment."
+msgstr "Vous n’êtes encore rattaché à aucun établissement."
+
+msgid "Add an offer"
+msgstr "Ajouter une offre"
