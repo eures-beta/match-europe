@@ -17,28 +17,64 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AccessToken',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('digest', models.CharField(max_length=64, unique=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('expires', models.DateTimeField()),
                 ('used', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'user',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Document',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('file', models.FileField(upload_to='pdf/%Y/%m/')),
                 ('text', models.TextField(blank=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'owner',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Candidate',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('name', models.CharField(max_length=150)),
                 ('experience', models.TextField(max_length=12000)),
                 ('jobs', models.CharField(max_length=500)),
@@ -50,51 +86,153 @@ class Migration(migrations.Migration):
                 ('relocation', models.CharField(max_length=12)),
                 ('validated_at', models.DateTimeField(blank=True, null=True)),
                 ('sent_at', models.DateTimeField(blank=True, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='candidate', to=settings.AUTH_USER_MODEL)),
-                ('document', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='journeys.document')),
+                (
+                    'user',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='candidate',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'document',
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='journeys.document',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('action', models.CharField(max_length=80)),
                 ('object_type', models.CharField(max_length=40)),
                 ('object_id', models.PositiveIntegerField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('actor', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+                (
+                    'actor',
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Match',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('state', models.CharField(choices=[('suggested', 'Suggested — adviser review'), ('invited', 'Offer proposed'), ('declined', 'Not interested'), ('answering', 'Prequalification in progress'), ('review', 'Awaiting adviser review'), ('introduced', 'Conversation opened'), ('clarify', 'Clarification needed')], default='suggested', max_length=16)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'state',
+                    models.CharField(
+                        choices=[
+                            ('suggested', 'Suggested — adviser review'),
+                            ('invited', 'Offer proposed'),
+                            ('declined', 'Not interested'),
+                            ('answering', 'Prequalification in progress'),
+                            ('review', 'Awaiting adviser review'),
+                            ('introduced', 'Conversation opened'),
+                            ('clarify', 'Clarification needed'),
+                        ],
+                        default='suggested',
+                        max_length=16,
+                    ),
+                ),
                 ('explanation', models.TextField()),
                 ('candidate_agreement', models.BooleanField(default=False)),
                 ('employer_agreement', models.BooleanField(default=False)),
                 ('review_note', models.TextField(blank=True, max_length=2000)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('candidate', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matches', to='journeys.candidate')),
+                (
+                    'candidate',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='matches',
+                        to='journeys.candidate',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Conversation',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('opened_by', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
-                ('match', models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, related_name='conversation', to='journeys.match')),
+                (
+                    'opened_by',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'match',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='conversation',
+                        to='journeys.match',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Message',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('body', models.TextField(max_length=4000)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('conversation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='journeys.conversation')),
-                ('sender', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
+                (
+                    'conversation',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='messages',
+                        to='journeys.conversation',
+                    ),
+                ),
+                (
+                    'sender',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
                 'ordering': ['created', 'pk'],
@@ -103,18 +241,41 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Notification',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('label', models.CharField(max_length=200)),
                 ('url', models.CharField(max_length=200)),
                 ('read', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notifications', to=settings.AUTH_USER_MODEL)),
+                (
+                    'user',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='notifications',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Offer',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('title', models.CharField(max_length=125)),
                 ('company', models.CharField(max_length=100)),
                 ('location', models.CharField(max_length=150)),
@@ -126,41 +287,129 @@ class Migration(migrations.Migration):
                 ('skills', models.CharField(blank=True, max_length=500)),
                 ('cross_border', models.CharField(blank=True, max_length=12)),
                 ('relocation', models.CharField(blank=True, max_length=12)),
-                ('state', models.CharField(choices=[('draft', 'Draft'), ('pending', 'Awaiting email confirmation'), ('ready', 'Validated'), ('synced', 'Sent to matching — demonstration')], default='draft', max_length=16)),
+                (
+                    'state',
+                    models.CharField(
+                        choices=[
+                            ('draft', 'Draft'),
+                            ('pending', 'Awaiting email confirmation'),
+                            ('ready', 'Validated'),
+                            ('synced', 'Sent to matching — demonstration'),
+                        ],
+                        default='draft',
+                        max_length=16,
+                    ),
+                ),
                 ('validated_at', models.DateTimeField(blank=True, null=True)),
                 ('sent_at', models.DateTimeField(blank=True, null=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('adviser', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='advised_offers', to=settings.AUTH_USER_MODEL)),
-                ('document', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='journeys.document')),
-                ('employer', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='offers', to=settings.AUTH_USER_MODEL)),
+                (
+                    'adviser',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='advised_offers',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'document',
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='journeys.document',
+                    ),
+                ),
+                (
+                    'employer',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='offers',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
             model_name='match',
             name='offer',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matches', to='journeys.offer'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='matches',
+                to='journeys.offer',
+            ),
         ),
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.CharField(choices=[('employer', 'Employer'), ('candidate', 'Candidate'), ('adviser', 'Adviser'), ('admin', 'Administrator')], max_length=16)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'role',
+                    models.CharField(
+                        choices=[
+                            ('employer', 'Employer'),
+                            ('candidate', 'Candidate'),
+                            ('adviser', 'Adviser'),
+                            ('admin', 'Administrator'),
+                        ],
+                        max_length=16,
+                    ),
+                ),
                 ('verified', models.BooleanField(default=False)),
                 ('name', models.CharField(blank=True, max_length=150)),
-                ('adviser', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='supported_profiles', to=settings.AUTH_USER_MODEL)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),
+                (
+                    'adviser',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='supported_profiles',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    'user',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='profile',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Question',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('text', models.CharField(max_length=500)),
                 ('expectation', models.CharField(blank=True, max_length=500)),
                 ('options', models.CharField(blank=True, max_length=500)),
                 ('mandatory', models.BooleanField(default=False)),
                 ('position', models.PositiveIntegerField(default=0)),
-                ('offer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='questions', to='journeys.offer')),
+                (
+                    'offer',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='questions',
+                        to='journeys.offer',
+                    ),
+                ),
             ],
             options={
                 'ordering': ['position', 'pk'],
@@ -169,19 +418,44 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Answer',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('choice', models.CharField(blank=True, max_length=500)),
                 ('text', models.TextField(blank=True, max_length=4000)),
-                ('match', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='answers', to='journeys.match')),
-                ('question', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='journeys.question')),
+                (
+                    'match',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='answers',
+                        to='journeys.match',
+                    ),
+                ),
+                (
+                    'question',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='journeys.question',
+                    ),
+                ),
             ],
         ),
         migrations.AddConstraint(
             model_name='match',
-            constraint=models.UniqueConstraint(fields=('offer', 'candidate'), name='unique_candidate_offer'),
+            constraint=models.UniqueConstraint(
+                fields=('offer', 'candidate'), name='unique_candidate_offer'
+            ),
         ),
         migrations.AddConstraint(
             model_name='answer',
-            constraint=models.UniqueConstraint(fields=('match', 'question'), name='unique_answer'),
+            constraint=models.UniqueConstraint(
+                fields=('match', 'question'), name='unique_answer'
+            ),
         ),
     ]

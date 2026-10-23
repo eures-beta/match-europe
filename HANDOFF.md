@@ -113,6 +113,16 @@ contrôle Django sans erreur, migrations cohérentes et diff vérifié.
 
 # Reprise du prototype Match Europe
 
+## 23 octobre 2026 — recette employeur consolidée
+
+Intégration isolée des PR #14–#22 sur la PR #2 à `57670e2`, avec adaptations
+Make/Black des PR #23–#24. Connexion et recherche simulées utilisables en
+HTTPS, services externes de préparation et géocodage bloqués. 142 tests
+PostgreSQL passent ; migrations neuves, ressources statiques, traductions,
+PDF/OCR fictif et contrôles de qualité vérifiés localement.
+Voir [sources, limites et parcours](docs/CONSOLIDATED_EMPLOYER_REVIEW.md).
+Aucune fusion des PR sources ni modification des recettes existantes.
+
 ## Entrée employeur — 23 octobre 2026
 
 À la demande d’Eric, `/` redirige temporairement (302) vers

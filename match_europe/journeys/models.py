@@ -6,42 +6,83 @@ import uuid
 
 class EmployerIdentity(models.Model):
     """Individual identity established by the local email verification flow."""
+
     email = models.EmailField(unique=True)
     created = models.DateTimeField(auto_now_add=True)
 
 
 class EmployerCompany(models.Model):
     """A workspace, not a verified legal company registration."""
+
     name = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
 
 
 class EmployerMembership(models.Model):
-    company = models.ForeignKey(EmployerCompany, on_delete=models.PROTECT, related_name='memberships')
-    person = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT, related_name='memberships')
+    company = models.ForeignKey(
+        EmployerCompany, on_delete=models.PROTECT, related_name='memberships'
+    )
+    person = models.ForeignKey(
+        EmployerIdentity, on_delete=models.PROTECT, related_name='memberships'
+    )
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['company', 'person'], name='unique_employer_membership')]
+        constraints = [
+            models.UniqueConstraint(
+                fields=['company', 'person'], name='unique_employer_membership'
+            )
+        ]
 
 
 class EmployerImport(models.Model):
     """Local drafts: private before verification, then attached to an explicit company workspace."""
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.PROTECT, related_name='imports')
-    created_by = models.ForeignKey(EmployerIdentity, null=True, blank=True, on_delete=models.PROTECT, related_name='created_imports')
+    company = models.ForeignKey(
+        EmployerCompany,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='imports',
+    )
+    created_by = models.ForeignKey(
+        EmployerIdentity,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='created_imports',
+    )
     search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
-    duplicated_from = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT,
-                                        related_name='duplicates', editable=False)
+    duplicated_from = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='duplicates',
+        editable=False,
+    )
+
     @property
     def search_write_blocked(self):
-        return bool(self.search_started_at or self.search_operations.filter(state__in=['pending', 'uncertain']).exists())
+        return bool(
+            self.search_started_at
+            or self.search_operations.filter(
+                state__in=['pending', 'uncertain']
+            ).exists()
+        )
 
     session_key = models.CharField(max_length=64, db_index=True)
     email = models.EmailField()
     contact = models.JSONField(default=dict)
-    adviser = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name='advised_imports')
+    adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='advised_imports',
+    )
     preparation_agreed_at = models.DateTimeField()
     source_kind = models.CharField(max_length=10)
     source_url = models.URLField(max_length=2048, blank=True)
@@ -61,10 +102,19 @@ class Profile(models.Model):
         CANDIDATE = 'candidate', _('Candidate')
         ADVISER = 'adviser', _('Adviser')
         ADMIN = 'admin', _('Administrator')
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile'
+    )
     role = models.CharField(max_length=16, choices=Role.choices)
     verified = models.BooleanField(default=False)
-    adviser = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT, related_name='supported_profiles')
+    adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='supported_profiles',
+    )
     name = models.CharField(max_length=150, blank=True)
 
 
@@ -89,9 +139,18 @@ class Offer(models.Model):
         PENDING = 'pending', _('Awaiting email confirmation')
         READY = 'ready', _('Validated')
         SYNCED = 'synced', _('Sent to matching — demonstration')
-    employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='offers')
-    adviser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='advised_offers')
-    document = models.OneToOneField(Document, null=True, blank=True, on_delete=models.SET_NULL)
+
+    employer = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='offers'
+    )
+    adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='advised_offers',
+    )
+    document = models.OneToOneField(
+        Document, null=True, blank=True, on_delete=models.SET_NULL
+    )
     title = models.CharField(max_length=125)
     company = models.CharField(max_length=100)
     location = models.CharField(max_length=150)
@@ -116,15 +175,21 @@ class Question(models.Model):
     options = models.CharField(max_length=500, blank=True)
     mandatory = models.BooleanField(default=False)
     position = models.PositiveIntegerField(default=0)
+
     class Meta:
         ordering = ['position', 'pk']
+
     def choices(self):
         return [x.strip() for x in self.options.split('|') if x.strip()]
 
 
 class Candidate(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='candidate')
-    document = models.OneToOneField(Document, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='candidate'
+    )
+    document = models.OneToOneField(
+        Document, null=True, blank=True, on_delete=models.SET_NULL
+    )
     name = models.CharField(max_length=150)
     experience = models.TextField(max_length=12000)
     jobs = models.CharField(max_length=500)
@@ -147,16 +212,26 @@ class Match(models.Model):
         REVIEW = 'review', _('Awaiting adviser review')
         INTRODUCED = 'introduced', _('Conversation opened')
         CLARIFY = 'clarify', _('Clarification needed')
+
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='matches')
-    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='matches')
-    state = models.CharField(max_length=16, choices=State.choices, default=State.SUGGESTED)
+    candidate = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, related_name='matches'
+    )
+    state = models.CharField(
+        max_length=16, choices=State.choices, default=State.SUGGESTED
+    )
     explanation = models.TextField()
     candidate_agreement = models.BooleanField(default=False)
     employer_agreement = models.BooleanField(default=False)
     review_note = models.TextField(blank=True, max_length=2000)
     created = models.DateTimeField(auto_now_add=True)
+
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['offer', 'candidate'], name='unique_candidate_offer')]
+        constraints = [
+            models.UniqueConstraint(
+                fields=['offer', 'candidate'], name='unique_candidate_offer'
+            )
+        ]
 
 
 class Answer(models.Model):
@@ -164,27 +239,37 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
     choice = models.CharField(max_length=500, blank=True)
     text = models.TextField(max_length=4000, blank=True)
+
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['match', 'question'], name='unique_answer')]
+        constraints = [
+            models.UniqueConstraint(fields=['match', 'question'], name='unique_answer')
+        ]
 
 
 class Conversation(models.Model):
-    match = models.OneToOneField(Match, on_delete=models.PROTECT, related_name='conversation')
+    match = models.OneToOneField(
+        Match, on_delete=models.PROTECT, related_name='conversation'
+    )
     opened_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created = models.DateTimeField(auto_now_add=True)
 
 
 class Message(models.Model):
-    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
+    conversation = models.ForeignKey(
+        Conversation, on_delete=models.CASCADE, related_name='messages'
+    )
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     body = models.TextField(max_length=4000)
     created = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         ordering = ['created', 'pk']
 
 
 class Notification(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications'
+    )
     label = models.CharField(max_length=200)
     url = models.CharField(max_length=200)
     read = models.BooleanField(default=False)
@@ -192,7 +277,9 @@ class Notification(models.Model):
 
 
 class Event(models.Model):
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL
+    )
     action = models.CharField(max_length=80)
     object_type = models.CharField(max_length=40)
     object_id = models.PositiveIntegerField()
@@ -201,7 +288,10 @@ class Event(models.Model):
 
 class EmployerEmailLink(models.Model):
     """Single-use local email verification, optionally carrying one explicitly submitted draft."""
-    pending_import = models.ForeignKey(EmployerImport, null=True, blank=True, on_delete=models.PROTECT)
+
+    pending_import = models.ForeignKey(
+        EmployerImport, null=True, blank=True, on_delete=models.PROTECT
+    )
     email = models.EmailField()
     digest = models.CharField(max_length=64, unique=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -211,22 +301,38 @@ class EmployerEmailLink(models.Model):
 
 class EmployerSearchOperation(models.Model):
     """Local simulation only. One durable operation per confirmed offer revision."""
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    offer = models.ForeignKey(EmployerImport, on_delete=models.PROTECT, related_name='search_operations')
+    offer = models.ForeignKey(
+        EmployerImport, on_delete=models.PROTECT, related_name='search_operations'
+    )
     requested_by = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT)
     revision = models.PositiveIntegerField()
-    state = models.CharField(max_length=12, choices=[('pending', 'Pending'), ('uncertain', 'Uncertain'),
-                                                    ('failed', 'Failed'), ('started', 'Started')])
+    state = models.CharField(
+        max_length=12,
+        choices=[
+            ('pending', 'Pending'),
+            ('uncertain', 'Uncertain'),
+            ('failed', 'Failed'),
+            ('started', 'Started'),
+        ],
+    )
     scenario = models.CharField(max_length=24, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     resolved_at = models.DateTimeField(null=True, editable=False)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['offer', 'revision'], name='unique_search_offer_revision')]
+        constraints = [
+            models.UniqueConstraint(
+                fields=['offer', 'revision'], name='unique_search_offer_revision'
+            )
+        ]
 
 
 class EmployerSearchEvent(models.Model):
-    operation = models.ForeignKey(EmployerSearchOperation, on_delete=models.PROTECT, related_name='events')
+    operation = models.ForeignKey(
+        EmployerSearchOperation, on_delete=models.PROTECT, related_name='events'
+    )
     actor = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT)
     state = models.CharField(max_length=12)
     created = models.DateTimeField(auto_now_add=True)

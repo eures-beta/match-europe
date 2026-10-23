@@ -21,7 +21,9 @@ APPS_DIR = BASE_DIR / "match_europe"
 sys.path.insert(0, str(APPS_DIR))
 DEMO_MODE = True
 # The root entry point is a demonstration, never a live-service deployment.
-SHARED_DEMO = os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
+SHARED_DEMO = (
+    os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
+)
 LOGIN_URL = "/access/"
 RUNTIME = APPS_DIR / ".runtime"
 MEDIA_ROOT = RUNTIME / "private"
@@ -175,10 +177,22 @@ STORAGES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {'redact_links': {'()': 'match_europe.config.logging.RedactAccessLinks'}},
-    'handlers': {'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}},
+    'filters': {
+        'redact_links': {'()': 'match_europe.config.logging.RedactAccessLinks'}
+    },
+    'handlers': {
+        'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}
+    },
     'loggers': {
-        'django.server': {'handlers': ['safe_console'], 'level': 'INFO', 'propagate': False},
-        'django.request': {'handlers': ['safe_console'], 'level': 'WARNING', 'propagate': False},
+        'django.server': {
+            'handlers': ['safe_console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['safe_console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
     },
 }

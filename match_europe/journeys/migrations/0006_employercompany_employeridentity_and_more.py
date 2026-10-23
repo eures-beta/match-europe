@@ -14,7 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EmployerCompany',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('name', models.CharField(max_length=100)),
                 ('created', models.DateTimeField(auto_now_add=True)),
             ],
@@ -22,7 +30,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EmployerIdentity',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('email', models.EmailField(max_length=254, unique=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
             ],
@@ -30,29 +46,72 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='employeremaillink',
             name='pending_import',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='journeys.employerimport'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='journeys.employerimport',
+            ),
         ),
         migrations.AddField(
             model_name='employerimport',
             name='company',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='imports', to='journeys.employercompany'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='imports',
+                to='journeys.employercompany',
+            ),
         ),
         migrations.AddField(
             model_name='employerimport',
             name='created_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='created_imports', to='journeys.employeridentity'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name='created_imports',
+                to='journeys.employeridentity',
+            ),
         ),
         migrations.CreateModel(
             name='EmployerMembership',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('active', models.BooleanField(default=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='memberships', to='journeys.employercompany')),
-                ('person', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='memberships', to='journeys.employeridentity')),
+                (
+                    'company',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='memberships',
+                        to='journeys.employercompany',
+                    ),
+                ),
+                (
+                    'person',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='memberships',
+                        to='journeys.employeridentity',
+                    ),
+                ),
             ],
             options={
-                'constraints': [models.UniqueConstraint(fields=('company', 'person'), name='unique_employer_membership')],
+                'constraints': [
+                    models.UniqueConstraint(
+                        fields=('company', 'person'), name='unique_employer_membership'
+                    )
+                ],
             },
         ),
     ]
