@@ -582,3 +582,7 @@ msgstr "Zuweisung speichern"
 
 msgid "Untitled offer"
 msgstr "Angebot zu ergänzen"
+
+
+msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
+msgstr "Geteilte Demonstration: nur fiktive Daten. Externes Speichern und Push-Diagnose sind deaktiviert."

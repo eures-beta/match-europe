@@ -582,3 +582,7 @@ msgstr "Enregistrer l’affectation"
 
 msgid "Untitled offer"
 msgstr "Offre à compléter"
+
+
+msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
+msgstr "Démonstration partagée : données fictives uniquement. L’enregistrement externe et le diagnostic Push sont désactivés."
