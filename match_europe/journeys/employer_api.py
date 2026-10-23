@@ -1,5 +1,6 @@
 """Loopback-only sandbox workflow. PostgreSQL drafts are session-owned; CSRF remains enabled."""
 import json
+import re
 import math
 import os
 import time
@@ -23,7 +24,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
 from .models import EmployerImport
-from .employer_ownership import accessible_imports
+from .employer_ownership import accessible_imports, identity
 from .forms import EmployerContactForm
 from .offer_ingestion import ImportFailure, empty_data, fetch_public, parse_page, read_pdf, read_url
 
@@ -69,15 +70,23 @@ def preview(request,path):
         raise Http404()
     if candidate.suffix=='.html':
         # Static build templates remain usable; served HTML activates the real same-origin API.
-        body=candidate.read_text().replace('<body>','<body data-live-local="true">')
+        person = identity(request)
+        authenticated = bool(person and request.session.get('employer_verified_email'))
+        body_tag = '<body data-live-local="true" data-employer-connected="' + ('true' if authenticated else 'false') + '">'
+        body = candidate.read_text().replace('<body>', body_tag)
         from .demo import shared_notice
         language = Path(path).stem.rsplit('-', 1)[-1]
         with translation.override(language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE):
             notice = shared_notice()
         if notice:
-            body = body.replace('<body data-live-local="true">',
-                '<body data-live-local="true"><aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
+            body = body.replace(body_tag,
+                body_tag + '<aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
                 + escape(notice) + '</aside>', 1)
+        if authenticated:
+            lang = next((code for code in ('fr', 'en', 'de') if candidate.stem.endswith(code)), 'fr')
+            label = {'fr': 'Mon espace employeur', 'en': 'My employer space', 'de': 'Mein Arbeitgeberbereich'}[lang]
+            body = re.sub(r'(<a class="nav-pill employer-account-link" data-employer-account href=")[^"]*(">)[^<]*(</a>)',
+                          lambda match: match[1] + '/employer/connected/?lang=' + lang + match[2] + label + match[3], body)
         return HttpResponse(body)
     return FileResponse(candidate.open('rb'))
 
@@ -147,7 +156,20 @@ def imports(request,id=None):
             if not obj: return failure('not_found',404)
             payload=body(request)
             return update(request,obj,payload)
-        email=request.POST.get('email','').strip()
+        person = identity(request) if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1' else None
+        if not request.session.get('employer_verified_email'):
+            person = None
+        if not request.session.session_key:
+            request.session.create()
+        if not person and request.POST.get('connectedSubmission') == 'true' and request.POST.get('kind') in ('pdf', 'url') and not request.session.get('pending_offer_source'):
+            return failure('session_expired', 401)
+        email = person.email if person else request.POST.get('email','').strip()
+        # An expired connected form can still preserve its explicit contact and draft.
+        if not person and request.POST.get('connectedSubmission') == 'true':
+            try:
+                email = json.loads(request.POST.get('contact', '{}')).get('email', '')
+            except (ValueError, AttributeError):
+                raise ImportFailure('invalid_contact') from None
         try: validate_email(email)
         except ValidationError: raise ImportFailure('invalid_email') from None
         if len(email)>254 or request.POST.get('agreement')!='true': raise ImportFailure('agreement_required')
@@ -178,12 +200,15 @@ def imports(request,id=None):
             for key in ('extraction','extractionWarnings'):
                 if key in data: cleaned[key]=data[key]
             data=cleaned
-        obj=EmployerImport.objects.create(session_key=request.session.session_key,email=email,contact=contact,preparation_agreed_at=timezone.now(),source_kind=kind,source_url=source,data=data)
-        request.session['employer_pending_import'] = str(obj.pk)
+        obj=EmployerImport.objects.create(created_by=person,session_key='' if person else request.session.session_key,email=email,contact=contact,preparation_agreed_at=timezone.now(),source_kind=kind,source_url=source,data=data)
+        if person:
+            request.session['employer_claim_import'] = str(obj.pk)
+        else:
+            request.session['employer_pending_import'] = str(obj.pk)
         if kind in ('url','pdf'): request.session.pop('pending_offer_source',None)
         if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1':
             # This ownership rehearsal must never trigger an external submission.
-            return JsonResponse({**serialize(obj), 'login_url': '/employer/access/'}, status=201)
+            return JsonResponse({**serialize(obj), 'login_url': '/employer/connected/' if person else '/employer/access/'}, status=201)
         return initial_send(obj,created=True)
     except ImportFailure as exc: return failure(exc.code)
 

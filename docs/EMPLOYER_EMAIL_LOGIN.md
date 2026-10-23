@@ -58,3 +58,31 @@ base PostgreSQL jetable et n’envoient aucun email.
 La branche du lot 2 ajoute une identité durable et le rattachement explicite à un
 espace entreprise partagé. Les limites ci-dessus décrivent le point 1 isolé.
 Voir [périmètre du lot 2](EMPLOYER_COMPANY_OWNERSHIP.md).
+
+## 22 octobre 2026 — connexion sans offre et ajout connecté
+
+Branche dédiée `codex/employer-connected-add-offer`, basée sur la tête distante
+de la PR #19 vérifiée à `c56d5d0`. Le checkout de recette intégrée et son serveur
+9018 sont conservés séparément ; aucun de leurs ajustements supplémentaires
+n'est repris dans ce diff. Prévisualisation de cette branche : port local 9019,
+base PostgreSQL de recette distincte, trois modes locaux activés.
+
+Bouton de connexion FR/EN/DE sur la page employeur et la V2 ; accueil affichant
+uniquement les appartenances actives et une action d'ajout, même sans offre.
+Le dépôt connecté réserve le brouillon à l'identité courante et conduit directement
+au rattachement existant de la PR #19. Le contact conseiller demeure indépendant.
+Pour un document ou lien dont la source en session a expiré, un message explicite
+demande reconnexion et nouvelle lecture ; les corrections restent dans la page.
+Pour la saisie manuelle, une session expirée impose une nouvelle vérification email avant attribution de
+l'identité ; le brouillon et son contact sont conservés par session. Aucune
+appartenance n'est déduite du contact, d'un nom ou d'un domaine. Plusieurs
+appartenances imposent toujours un choix explicite ; une appartenance retirée
+ne donne aucun droit. Aucune nouvelle migration.
+
+Validation de cette branche : 88 tests PostgreSQL réussis, dont sept nouveaux
+scénarios (sans offre, session valide/contact distinct, choix multiple/refus,
+expiration réelle, appartenance absente/révoquée, V2 FR/EN/DE). Parcours navigateur
+connexion seule → offre manuelle → contact distinct → établissement réussi sans
+nouveau lien. Aucun appel externe. Contrôle visuel limité, sans certification
+WCAG. Pas de liste Mes offres ajoutée, invitation ou identification officielle.
+Aucune fusion ni aucun déploiement ; PR à créer uniquement après titre fourni par Eric.

@@ -40,12 +40,14 @@ def page(request, stage, **context):
     lang = lang if lang in ('fr', 'en', 'de') else 'fr'
     request.session['employer_auth_language'] = lang
     with translation.override(lang):
-        return render(request, 'employer_login.html', {'stage': stage, 'auth_shell': f'employer_auth_shell_{lang}.html', **context})
+        return render(request, 'employer_login.html', {'stage': stage, 'signed_in': bool(identity(request) and request.session.get('employer_verified_email')), 'auth_shell': f'employer_auth_shell_{lang}.html', **context})
 
 
 @enabled
 @require_http_methods(["GET", "POST"])
 def access(request):
+    if identity(request) and request.session.get('employer_verified_email'):
+        return redirect('employer_connected')
     pending_id = request.session.get('employer_pending_import')
     pending = EmployerImport.objects.filter(pk=pending_id, company__isnull=True,
                 session_key=request.session.session_key).first() if pending_id else None
@@ -139,6 +141,7 @@ def connected_page(request, email, person, draft, establishment_form=None):
                 companies=EmployerCompany.objects.filter(memberships__in=memberships(request)),
                 pending_import=request.session.get('employer_claim_import'),
                 pending_title=(draft.data.get('title') or draft.data.get('description', '')[:125]) if draft else '',
+                import_url='/previews/employer-landing/import-v2-' + request.session.get('employer_auth_language', 'fr') + '.html',
                 attached=request.session.pop('employer_attached', False),
                 establishment_form=establishment_form if establishment_form is not None else EstablishmentForm(
                     initial={'name': draft.data.get('companyName', '')} if draft else None))
