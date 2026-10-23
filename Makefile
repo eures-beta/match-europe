@@ -71,4 +71,3 @@ serve: ## Tester le serveur WSGI sur loopback, avec un worker
 
 db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
 	@$(LOAD_ENV) createdb --maintenance-db=postgres "$${PGDATABASE:?Renseigner PGDATABASE dans .env}"
-
