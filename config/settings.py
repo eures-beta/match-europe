@@ -25,11 +25,12 @@ APPS_DIR = BASE_DIR / "match_europe"
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
 ALLOWED_HOSTS = [
-    host.strip() for host in os.environ.get(
+    host.strip()
+    for host in os.environ.get(
         "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]"
-    ).split(",") if host.strip()
+    ).split(",")
+    if host.strip()
 ]
-
 
 
 # Application definition
@@ -101,10 +102,10 @@ SECURE_REDIRECT_EXEMPT = [r"^health/$"]
 SESSION_COOKIE_SECURE = SECURE_SSL_REDIRECT
 CSRF_COOKIE_SECURE = SECURE_SSL_REDIRECT
 CSRF_TRUSTED_ORIGINS = [
-    origin.strip() for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
+    origin.strip()
+    for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
     if origin.strip()
 ]
-
 
 
 # Password validation
