@@ -1,5 +1,24 @@
 # Reprise du prototype Match Europe
 
+## Adaptation de recette — 23 octobre 2026
+
+Autorisation utilisateur distincte : rebaser la PR #2 sur `main`, résoudre les
+conflits et ajouter les adaptations dans des commits propres à l’agent, puis
+pousser la branche. L’utilisateur ajoutera lui-même le label d’une semaine.
+Aucune fusion ni activation du label par l’agent n’est prévue.
+
+Le point d’entrée racine sélectionne désormais les parcours conservés, avec la
+sonde PostgreSQL et les statiques du socle. Le mode partagé HTTPS conserve les
+protections CSRF/session et initialise seulement une base de démonstration neuve.
+Les enregistrements AGLAE et le diagnostic Push sont désactivés. Le lanceur
+autonome reste disponible. Voir le README racine pour les commandes et limites.
+
+Vérifications locales : 74 tests du point d’entrée racine et 59 tests du prototype
+autonome passent sur PostgreSQL. Migrations et collecte des statiques réussies ;
+essai Gunicorn avec rôles fictifs, accès et pages employeur FR/EN/DE à 200,
+statiques à 200, santé PostgreSQL à 204, diagnostic Push refusé (404).
+Le déploiement de cette adaptation reste à vérifier après le label humain.
+
 ## Partage initial — 16 octobre 2026
 
 Cette branche importe une photographie du prototype local, extraite du checkout historique au commit de base `d64f88cd5cbc260c8249cd9ba3842158bc876247` avec ses fichiers de prototype alors non suivis. Aucune réécriture de l’historique du dépôt historique ni copie de sa base locale.

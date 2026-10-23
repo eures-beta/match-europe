@@ -1,11 +1,46 @@
-# Squelette Django
+# Prototype Django — branche de conservation
 
-Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstrap 5.3.8.
+Le point d’entrée à la racine sert désormais le prototype conservé dans
+`match_europe/`, avec Python 3.12, Django 5.2 LTS, PostgreSQL et Bootstrap.
 
-- `/` : page neutre rendue par un template Django, avec Bootstrap servi localement.
+- `/` : redirection vers l’accès aux quatre parcours fictifs (`/access/`).
 - `/admin/` : administration native Django (utilisateurs et groupes).
-- Aucun modèle, rôle, parcours, service externe ou habillage métier ajouté.
-- Aucune migration applicative : seules les migrations natives Django sont utilisées.
+- Les modèles et migrations `journeys` sont ceux du prototype d’origine.
+- Aucun email réel ni enregistrement AGLAE n’est activé en démonstration partagée.
+
+## Démonstration partagée — adaptation du 23 octobre 2026
+
+Les points d’entrée racine `manage.py` et `config.wsgi:application` utilisent le
+prototype et les variables `DJANGO_*` / `PG*` du socle. Le lanceur autonome
+`match_europe/run_local.py` et sa configuration `ME_*` sont conservés.
+
+`make help` décrit l’installation, le serveur local, SQL et les tests.
+Après configuration de `.env` et création de sa base locale :
+`make install-test`, `make migrate`, `make seed-demo`, `make run`.
+`make test` vérifie le point d’entrée racine ; `make test-local` vérifie aussi
+la configuration autonome. `make serve` permet un essai Gunicorn sur loopback.
+
+Le point d’entrée racine est exclusivement une démonstration. En HTTPS
+(`DJANGO_HTTPS=1`), le mode partagé est activé par défaut ; `ME_SHARED_DEMO=0`
+permet de le désactiver. Ce mode exige HTTPS pour les pages/API employeur,
+conserve CSRF et les brouillons par session, et affiche un avertissement FR/EN/DE.
+Il ne lit aucune clé AGLAE et refuse les enregistrements externes ; le diagnostic
+Push reste inaccessible. La lecture de sources publiques et le géocodage peuvent
+faire des requêtes réseau, comme dans le prototype local, après les actions prévues
+dans l’interface. Utiliser exclusivement des données fictives.
+
+Exécuter les migrations et collecter les statiques avant le serveur WSGI. Celui-ci
+crée les quatre rôles fictifs au premier démarrage si l’identité admin fictive
+n’existe pas. Il ne réinitialise pas les comptes ni les modifications aux
+redémarrages suivants. PostgreSQL conserve ces données ; les fichiers déposés
+dans le système de fichiers de l’instance n’ont pas de garantie de persistance.
+Les journaux d’accès Gunicorn omettent les chemins et paramètres des liens privés.
+
+Le déploiement de cette branche et sa sonde `/health/` sont préparés pour la revue ;
+les procédures propres à un hébergeur et ses secrets restent dans le dépôt privé.
+L’enregistrement final d’un import AGLAE reste indisponible dans ce mode :
+l’interface doit afficher l’erreur et conserver le brouillon, sans annoncer un
+envoi réussi. Cette adaptation n’autorise aucune utilisation en production.
 
 ## Organisation du code
 
