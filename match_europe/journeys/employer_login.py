@@ -1,4 +1,4 @@
-"""Explicitly opt-in loopback email authentication rehearsal; grants no business rights."""
+"""Explicitly opt-in loopback email authentication rehearsal; with explicit company ownership."""
 import hashlib
 import os
 import secrets
@@ -15,7 +15,9 @@ from django.utils import timezone, translation
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST, require_http_methods, require_GET
 
-from .models import EmployerEmailLink
+from .models import EmployerEmailLink, EmployerIdentity, EmployerCompany, EmployerMembership, EmployerImport
+from .employer_ownership import identity, memberships
+from .establishments import EstablishmentForm
 
 
 def enabled(view):
@@ -44,7 +46,11 @@ def page(request, stage, **context):
 @enabled
 @require_http_methods(["GET", "POST"])
 def access(request):
-    form = EmailForm(request.POST if request.method == 'POST' else None)
+    pending_id = request.session.get('employer_pending_import')
+    pending = EmployerImport.objects.filter(pk=pending_id, company__isnull=True,
+                session_key=request.session.session_key).first() if pending_id else None
+    form = EmailForm(request.POST if request.method == 'POST' else None,
+                     initial={'email': pending.email} if pending else None)
     if request.method == 'POST' and form.is_valid():
         now = timezone.now()
         email = form.cleaned_data['email'].lower()
@@ -55,7 +61,7 @@ def access(request):
         raw = secrets.token_urlsafe(32)
         with transaction.atomic():
             EmployerEmailLink.objects.filter(email=email, used=False).update(used=True)
-            EmployerEmailLink.objects.create(email=email, digest=hashlib.sha256(raw.encode()).hexdigest(),
+            EmployerEmailLink.objects.create(email=email, pending_import=pending, digest=hashlib.sha256(raw.encode()).hexdigest(),
                                              expires=now+timedelta(minutes=15))
         request.session['employer_email_sent_at'] = now.timestamp()
         # Rehearsal delivery: message is isolated to the requesting browser's server-side session.
@@ -90,7 +96,19 @@ def confirm(request, token):
             return page(request, 'invalid')
         link.used = True
         link.save(update_fields=['used'])
+        person, _ = EmployerIdentity.objects.get_or_create(email=link.email)
         request.session.cycle_key()
+        request.session['employer_identity_id'] = person.pk
+        # Only the draft explicitly carried by this single-use link can be attached.
+        request.session.pop('employer_pending_import', None)
+        if link.pending_import_id:
+            draft = EmployerImport.objects.select_for_update().filter(pk=link.pending_import_id,
+                                                                      company__isnull=True).first()
+            if draft and draft.created_by_id in (None, person.pk):
+                draft.created_by = person
+                draft.session_key = ''
+                draft.save(update_fields=['created_by', 'session_key', 'updated'])
+                request.session['employer_claim_import'] = str(draft.pk)
         request.session['employer_verified_email'] = link.email
         request.session.set_expiry(3600)
         request.session.pop('employer_test_message', None)
@@ -103,7 +121,27 @@ def connected(request):
     email = request.session.get('employer_verified_email')
     if not email:
         return redirect('employer_access')
-    return page(request, 'connected', email=email)
+    person = identity(request)
+    if not person:
+        return redirect('employer_access')
+    pending = EmployerImport.objects.filter(company__isnull=True, created_by=person).order_by('-created')
+    requested = request.session.get('employer_claim_import')
+    draft = (pending.filter(pk=requested).first() if requested else None) or pending.first()
+    if draft:
+        request.session['employer_claim_import'] = str(draft.pk)
+    else:
+        request.session.pop('employer_claim_import', None)
+    return connected_page(request, email, person, draft)
+
+
+def connected_page(request, email, person, draft, establishment_form=None):
+    return page(request, 'connected', email=email,
+                companies=EmployerCompany.objects.filter(memberships__in=memberships(request)),
+                pending_import=request.session.get('employer_claim_import'),
+                pending_title=(draft.data.get('title') or draft.data.get('description', '')[:125]) if draft else '',
+                attached=request.session.pop('employer_attached', False),
+                establishment_form=establishment_form if establishment_form is not None else EstablishmentForm(
+                    initial={'name': draft.data.get('companyName', '')} if draft else None))
 
 
 @enabled
@@ -111,3 +149,43 @@ def connected(request):
 def sign_out(request):
     request.session.flush()
     return redirect('employer_access')
+
+
+@enabled
+@require_POST
+def attach(request):
+    """Attach only the draft proven by the consumed login link, with explicit workspace choice."""
+    person = identity(request)
+    pending_id = request.session.get('employer_claim_import')
+    if not person or not pending_id:
+        raise Http404
+    with transaction.atomic():
+        draft = EmployerImport.objects.select_for_update().filter(pk=pending_id, company__isnull=True, created_by=person).first()
+        if draft is None:
+            raise Http404
+        company_id = request.POST.get('company', '')
+        if company_id:
+            if not company_id.isdecimal():
+                raise Http404
+            member = memberships(request).select_for_update().filter(company_id=company_id).first()
+            if not member:
+                raise Http404
+            company = member.company
+        else:
+            # Serialise first registration for this person, including across browsers.
+            EmployerIdentity.objects.select_for_update().get(pk=person.pk)
+            if memberships(request).exists():
+                raise Http404
+            form = EstablishmentForm(request.POST)
+            if not form.is_valid():
+                return connected_page(request, person.email, person, draft, form)
+            company = EmployerCompany.objects.create(name=form.cleaned_data['name'])
+            EmployerMembership.objects.create(person=person, company=company)
+        draft.company = company
+        draft.created_by = person
+        # Session ownership must no longer provide an alternative access path.
+        draft.session_key = ''
+        draft.save(update_fields=['company', 'created_by', 'session_key', 'updated'])
+    request.session.pop('employer_claim_import', None)
+    request.session['employer_attached'] = company.name
+    return redirect('employer_connected')

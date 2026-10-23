@@ -43,3 +43,19 @@ uniquement une recette fictive temporaire, pas une production ni une fusion.
 ## 21 octobre 2026 — vérification de l’import avant enregistrement
 
 Décision employeurs validée par Eric dans la discussion : afficher le résultat de lecture et permettre sa correction avant de demander l’email ; porter la demande de lecture par le clic sur « Lire les documents » et sa notice, sans case d’accord supplémentaire. Mise en œuvre locale uniquement. Le texte de recette décrit le lecteur actuel (règles et OCR local) ; une future transmission à un prestataire ou utilisation d’IA générative devra avoir une information adaptée. Cette décision UX ne valide pas une base juridique de production et n’autorise aucune publication ni aucun déploiement.
+
+## 22 octobre 2026 — collaboration RH par établissement
+
+Eric valide un établissement partagé par plusieurs personnes habilitées. L’import
+appartient à l’établissement et conserve son créateur. Les droits viennent de
+l’appartenance active, sans correspondance automatique de nom, email ou domaine.
+La simplification validée demande le nom uniquement au premier enregistrement,
+utilise l’appartenance existante lorsqu’elle est unique et impose un choix explicite
+s’il y en a plusieurs. La création d’un autre établissement n’est pas proposée
+sur cet écran aux membres déjà rattachés et est refusée côté serveur.
+
+Les invitations, l’identification officielle et le traitement des doublons restent
+des lots séparés avant ouverture réelle. Les homonymes peuvent exister mais ne
+partagent aucun droit. `EmployerCompany` reste le nom technique du modèle ; il
+représente ici l’établissement. Aucun identifiant officiel obligatoire ni changement
+du matching fictif dans cette PR. Voir [lot 2](EMPLOYER_COMPANY_OWNERSHIP.md).

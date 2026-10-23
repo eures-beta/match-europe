@@ -691,3 +691,48 @@ msgstr "Votre adresse email est vérifiée. Bienvenue dans votre espace employeu
 
 msgid "Your dashboard will be available here in a future step."
 msgstr "Votre tableau de bord sera disponible ici dans une prochaine étape."
+
+msgid "Your offer is now attached to your company workspace."
+msgstr "Votre offre est maintenant rattachée à votre espace entreprise."
+
+msgid "Attach your offer to a company workspace"
+msgstr "Rattacher votre offre à un espace entreprise"
+
+msgid "Only authorised members of this workspace will have access. Creating a workspace does not verify the legal company."
+msgstr "Seuls les membres habilités de cet espace y auront accès. La création de cet espace ne vérifie pas l’identité juridique de l’entreprise."
+
+msgid "Attach to"
+msgstr "Rattacher à"
+
+msgid "New company workspace name"
+msgstr "Nom du nouvel espace entreprise"
+
+msgid "Create workspace and attach offer"
+msgstr "Créer l’espace et rattacher l’offre"
+
+msgid "Attach your offer to an establishment"
+msgstr "Rattacher votre offre à un établissement"
+
+msgid "Choose the establishment for this offer"
+msgstr "Choisissez l’établissement concerné par cette offre"
+
+msgid "Enter your establishment name once to save your offer."
+msgstr "Renseignez une première fois le nom de votre établissement pour enregistrer votre offre."
+
+msgid "Enter your establishment name."
+msgstr "Renseignez le nom de votre établissement."
+
+msgid "Establishment name"
+msgstr "Nom de l’établissement"
+
+msgid "Save my offer"
+msgstr "Enregistrer mon offre"
+
+msgid "Save the offer for this establishment"
+msgstr "Enregistrer l’offre pour cet établissement"
+
+msgid "The offer is shared with authorised colleagues of this establishment."
+msgstr "L’offre est partagée avec les collègues habilités de cet établissement."
+
+msgid "Your offer is now attached to your establishment."
+msgstr "Votre offre est maintenant rattachée à votre établissement."

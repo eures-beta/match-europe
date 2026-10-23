@@ -691,3 +691,48 @@ msgstr "Ihre E-Mail-Adresse ist bestätigt. Willkommen in Ihrem Arbeitgeberberei
 
 msgid "Your dashboard will be available here in a future step."
 msgstr "Ihr Dashboard wird hier in einem nächsten Schritt verfügbar sein."
+
+msgid "Your offer is now attached to your company workspace."
+msgstr "Ihr Angebot ist jetzt Ihrem Unternehmensbereich zugeordnet."
+
+msgid "Attach your offer to a company workspace"
+msgstr "Ihr Angebot einem Unternehmensbereich zuordnen"
+
+msgid "Only authorised members of this workspace will have access. Creating a workspace does not verify the legal company."
+msgstr "Nur berechtigte Mitglieder dieses Bereichs erhalten Zugriff. Die Erstellung bestätigt nicht die rechtliche Identität des Unternehmens."
+
+msgid "Attach to"
+msgstr "Zuordnen zu"
+
+msgid "New company workspace name"
+msgstr "Name des neuen Unternehmensbereichs"
+
+msgid "Create workspace and attach offer"
+msgstr "Bereich erstellen und Angebot zuordnen"
+
+msgid "Attach your offer to an establishment"
+msgstr "Ihr Angebot einer Betriebsstätte zuordnen"
+
+msgid "Choose the establishment for this offer"
+msgstr "Wählen Sie die Betriebsstätte für dieses Angebot"
+
+msgid "Enter your establishment name once to save your offer."
+msgstr "Geben Sie einmalig den Namen Ihrer Betriebsstätte ein, um Ihr Angebot zu speichern."
+
+msgid "Enter your establishment name."
+msgstr "Geben Sie den Namen Ihrer Betriebsstätte ein."
+
+msgid "Establishment name"
+msgstr "Name der Betriebsstätte"
+
+msgid "Save my offer"
+msgstr "Mein Angebot speichern"
+
+msgid "Save the offer for this establishment"
+msgstr "Angebot für diese Betriebsstätte speichern"
+
+msgid "The offer is shared with authorised colleagues of this establishment."
+msgstr "Das Angebot wird mit berechtigten Kollegen dieser Betriebsstätte geteilt."
+
+msgid "Your offer is now attached to your establishment."
+msgstr "Ihr Angebot ist jetzt Ihrer Betriebsstätte zugeordnet."

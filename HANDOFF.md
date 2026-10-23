@@ -1,3 +1,31 @@
+## 22 octobre 2026 — rattachement simplifié à un établissement
+
+PR nº 19, basée sur la PR nº 18 : l’offre appartient à un établissement partagé
+entre membres habilités, avec créateur conservé. Un seul établissement : nom et
+bouton d’enregistrement ; plusieurs : choix explicite ; aucun : nom demandé une
+première fois. Aucun autre établissement ne peut être créé depuis cet écran si
+une appartenance active existe, y compris par appel direct. Les noms identiques
+ne donnent aucun droit sur un établissement existant.
+
+[Parcours et limites](docs/EMPLOYER_COMPANY_OWNERSHIP.md). Invitations et « Mes offres »
+restent séparés. Pas d’identification officielle, de modification PDF/logo, ni de
+migration de matching dans ce lot. Validation de la version isolée : 81 tests
+PostgreSQL passent, dont onze de rattachement ; contrôles Django, migrations,
+traductions et diff vérifiés. Aucun merge ni déploiement.
+
+## 22 octobre 2026 — rattachement à un espace entreprise (local)
+
+Lot 2 sur `codex/employer-company-ownership`, issu de la branche du point 1.
+Identité individuelle durable, espace entreprise et appartenance explicite active ;
+import partagé entre membres, créateur conservé. Réservation du brouillon à la
+vérification email, puis choix explicite de l’espace. Aucune recherche par email
+contact/domaine. Reconnexion autre navigateur et retrait d’accès testés.
+[Parcours, limites et référence Les Emplois](docs/EMPLOYER_COMPANY_OWNERSHIP.md).
+Validation : 77 tests PostgreSQL passent ; contrôles Django, migrations et syntaxe
+JavaScript réussis. Parcours manuel dans le navigateur et écran de rattachement
+vérifiés avec des données fictives. Invitations et « Mes offres » restent séparés ;
+aucun merge ni déploiement.
+
 ## 22 octobre 2026 — première PR connexion employeur isolée
 
 Connexion email simulée extraite de la copie de recette sur une branche dédiée,
