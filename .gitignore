@@ -7,3 +7,6 @@ __pycache__/
 staticfiles/
 *.sqlite3
 .DS_Store
+
+# Environnement local de formatage, sans dépendances applicatives.
+/.venv-quality/

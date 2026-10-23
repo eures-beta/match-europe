@@ -1,0 +1,2 @@
+# Même version localement et dans GitHub Actions ; hors dépendances applicatives.
+black==26.10.1
