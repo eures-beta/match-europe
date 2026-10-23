@@ -45,6 +45,13 @@ L’activation et l’exploitation du contrôleur sont documentées dans le
 
 ## Démarrage local
 
+`make help` présente les raccourcis du Makefile : `make install`, `make run`,
+`make test`, `make check`, `make migrate` et `make dbshell` (SQL interactif via
+`psql`). Les commandes Django chargent le fichier shell `.env` local s’il existe.
+Créer le rôle et la base puis renseigner `.env` comme indiqué ci-dessous.
+`PYTHON`, `HOST`, `PORT` et `TEST_ARGS` sont personnalisables. Pour tester plusieurs
+worktrees en parallèle, choisir des `PGDATABASE` distincts dans leurs `.env`.
+
 Prérequis : Python 3.12 et PostgreSQL 17 démarré. Créer une base et un rôle locaux
 (le mot de passe est demandé interactivement) :
 
