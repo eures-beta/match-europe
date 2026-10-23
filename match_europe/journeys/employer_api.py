@@ -5,6 +5,7 @@ import os
 import time
 import threading
 import secrets
+from html import escape
 from functools import wraps
 from pathlib import Path
 from urllib.parse import urlencode
@@ -17,6 +18,7 @@ from django.core.validators import validate_email
 from django.db import transaction, connection
 from django.http import JsonResponse, HttpResponse, FileResponse, Http404
 from django.utils import timezone
+from django.utils import translation
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
@@ -33,15 +35,33 @@ def local_only(view):
     @wraps(view)
     @never_cache
     def wrapped(request,*args,**kwargs):
-        if not settings.DEMO_MODE or request.META.get('REMOTE_ADDR') not in ('127.0.0.1','::1') or os.environ.get('ME_EMPLOYER_LOCAL_API')!='1':
+        if getattr(settings, 'SHARED_DEMO', False) or not settings.DEMO_MODE or request.META.get('REMOTE_ADDR') not in ('127.0.0.1','::1') or os.environ.get('ME_EMPLOYER_LOCAL_API')!='1':
             raise Http404()
         return view(request,*args,**kwargs)
     return wrapped
 
 
-@local_only
+def demo_api(view):
+    """Shared HTTPS demos retain CSRF and session ownership; Push stays local-only."""
+    @wraps(view)
+    @never_cache
+    def wrapped(request, *args, **kwargs):
+        shared = getattr(settings, 'SHARED_DEMO', False)
+        allowed = request.is_secure() if shared else (
+            request.META.get('REMOTE_ADDR') in ('127.0.0.1', '::1')
+            and os.environ.get('ME_EMPLOYER_LOCAL_API') == '1'
+        )
+        if not settings.DEMO_MODE or not allowed:
+            raise Http404()
+        return view(request, *args, **kwargs)
+    return wrapped
+
+
+@demo_api
 @ensure_csrf_cookie
 def preview(request,path):
+    if getattr(settings, 'SHARED_DEMO', False) and path == 'push-test.html':
+        raise Http404()
     base=ROOT/'previews'/'employer-landing'
     candidate=(base/path).resolve()
     if not candidate.is_relative_to(base.resolve()) or not candidate.is_file() or candidate.suffix not in ('.html','.js','.png','.svg','.jpg'):
@@ -49,11 +69,19 @@ def preview(request,path):
     if candidate.suffix=='.html':
         # Static build templates remain usable; served HTML activates the real same-origin API.
         body=candidate.read_text().replace('<body>','<body data-live-local="true">')
+        from .demo import shared_notice
+        language = Path(path).stem.rsplit('-', 1)[-1]
+        with translation.override(language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE):
+            notice = shared_notice()
+        if notice:
+            body = body.replace('<body data-live-local="true">',
+                '<body data-live-local="true"><aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
+                + escape(notice) + '</aside>', 1)
         return HttpResponse(body)
     return FileResponse(candidate.open('rb'))
 
 
-@local_only
+@demo_api
 def historical_css(request):
     return FileResponse((ROOT/'forms/eures-beta/site.css').open('rb'),content_type='text/css')
 
@@ -69,7 +97,7 @@ def body(request):
     return value
 
 
-@local_only
+@demo_api
 def read_source(request):
     if request.method!='POST': return failure('method',405)
     if request.POST.get('agreement')!='true': return failure('agreement_required')
@@ -96,7 +124,7 @@ def clean_contact(value):
     return form.cleaned_data
 
 
-@local_only
+@demo_api
 def imports(request,id=None):
     if request.method=='GET':
         if not request.session.session_key: return failure('not_found',404) if id else JsonResponse({'drafts':[]})
@@ -231,6 +259,9 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 def aglae(method,path,payload=None):
+    # Shared previews never read a personal key or write to an external service.
+    if getattr(settings, 'SHARED_DEMO', False):
+        raise ImportFailure('api_key_missing')
     # Fixed sandbox origin; never accepted from the browser or a draft.
     keyfile=Path(os.environ.get('AGLAE_SANDBOX_KEY_FILE',str(Path.home()/'.config/match-europe/aglae-sandbox.key')))
     try: key=keyfile.read_text().strip()
