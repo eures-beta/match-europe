@@ -19,7 +19,6 @@ let sourceToken = null;
 // A changed source needs a new preparation agreement.
 for (const id of ['offer-url', 'offer-text', 'offer-file']) {
   document.getElementById(id).addEventListener(id === 'offer-file' ? 'change' : 'input', () => {
-    document.getElementById('prepare-consent').checked = false;
     sourceToken = null;
   });
 }
@@ -27,7 +26,7 @@ for (const id of ['offer-url', 'offer-text', 'offer-file']) {
 function showStep(id) {
   document.querySelector('.import-steps').hidden = id === 'completion-step';
   for (const el of document.querySelectorAll('[data-step]')) el.hidden = el.id !== id;
-  const step = id === 'email-step' ? 1 : ['ready-step','review-step'].includes(id) ? 2 : 0;
+  const step = id === 'email-step' ? 2 : ['ready-step','review-step','prepare-step'].includes(id) ? 1 : 0;
   document.querySelectorAll('.import-steps li').forEach((el, index) => {
     if (index === step) el.setAttribute('aria-current', 'step');
     else el.removeAttribute('aria-current');
@@ -68,10 +67,12 @@ fileForm.addEventListener('submit', async event => {
       const result = await liveAPI.request('source/',{method:'POST',body:data});
       if (version !== selectionVersion) return;
       sourceToken = result.token;
+      window.meReview.loadLive(result);
     }
     error.textContent = '';
     previousStep = 'file-step';
-    showStep('email-step');
+    if (liveAPI) showStep('review-step');
+    else { window.meReview.prepare(previousStep); showStep('review-step'); }
   } catch (exc) {
     error.textContent = strings.errorPrefix + (strings.errors[exc.code] || strings.errors.network);
   } finally { button.disabled = false; button.textContent = liveAPI ? strings.readPdf : strings.continue; }
@@ -99,10 +100,11 @@ urlForm.addEventListener('submit', async event => {
       if (!urlForm.reportValidity()) return;
       button.disabled = true; button.textContent = strings.readingUrl;
       const data = new FormData();data.set('url',field.value.trim());data.set('agreement','true');
-      const result = await liveAPI.request('source/',{method:'POST',body:data});sourceToken = result.token;
+      const result = await liveAPI.request('source/',{method:'POST',body:data});sourceToken = result.token;window.meReview.loadLive(result);
     }
     previousStep = 'url-step';
-    showStep('email-step');
+    if (liveAPI) showStep('review-step');
+    else { window.meReview.prepare(previousStep); showStep('review-step'); }
   } catch (exc) {
     errorBox.hidden = false;errorBox.tabIndex = -1;
     const title = document.createElement('strong'); title.textContent = strings.urlErrorTitle;
@@ -117,7 +119,7 @@ urlForm.addEventListener('submit', async event => {
   } finally { button.disabled=false;button.textContent=liveAPI ? strings.readUrl : strings.continue; }
 });
 document.getElementById('manual-back').addEventListener('click', () => showStep('choice-step'));
-manualForm.addEventListener('submit', event => {
+manualForm.addEventListener('submit', async event => {
   event.preventDefault();
   const field = document.getElementById('offer-text');
   if (!field.value.trim()) {
@@ -126,9 +128,17 @@ manualForm.addEventListener('submit', event => {
   }
   document.getElementById('manual-error').textContent = '';
   previousStep = 'manual-step';
-  showStep('email-step');
+  if (liveAPI) {
+    const button=manualForm.querySelector('[type=submit]');button.disabled=true;
+    try {
+      const data=new FormData();data.set('kind','manual');data.set('text',field.value);data.set('agreement','true');
+      const result=await liveAPI.request('source/',{method:'POST',body:data});sourceToken=result.token;window.meReview.loadLive(result);showStep('review-step');
+    } catch(exc) { document.getElementById('manual-error').textContent=strings.errors[exc.code] || strings.errors.network; }
+    finally {button.disabled=false;}
+  } else { window.meReview.prepare(previousStep);showStep('review-step'); }
 });
-document.getElementById('email-back').addEventListener('click', () => showStep(previousStep));
+document.addEventListener('me-request-email',()=>showStep('email-step'));
+document.getElementById('email-back').addEventListener('click', () => showStep('review-step'));
 emailForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (!emailForm.reportValidity()) return;
@@ -139,7 +149,8 @@ emailForm.addEventListener('submit', async event => {
     const form = new FormData();
     form.set('contact', JSON.stringify(window.meContact.initial()));
     form.set('email', document.getElementById('work-email').value.trim());
-    form.set('agreement', String(document.getElementById('prepare-consent').checked));
+    form.set('agreement', 'true');
+    form.set('data',JSON.stringify(window.meReview.collect()));
     const kind = previousStep === 'url-step' ? 'url' : previousStep === 'manual-step' ? 'manual' : 'pdf';
     form.set('kind', kind);
     if (kind === 'url') { form.set('url', document.getElementById('offer-url').value.trim());form.set('sourceToken', sourceToken || ''); }
@@ -147,7 +158,7 @@ emailForm.addEventListener('submit', async event => {
     if (kind === 'pdf') form.set('sourceToken', sourceToken || '');
     try {
       const result = await liveAPI.request('', {method:'POST',body:form});
-      window.meReview.loadLive(result); message.textContent = ''; showStep(window.meReview.stage || 'review-step');
+      window.meReview.loadLive(result); window.meReview.saved(); message.textContent = ''; showStep(window.meReview.stage || 'review-step');
     } catch (exc) { if (exc.data?.id) { window.meReview.loadLive(exc.data); showStep(window.meReview.stage || 'review-step'); } else message.textContent = strings.errorPrefix + (strings.errors[exc.code] || strings.errors.network); }
     finally { button.disabled = false; }
     return;
@@ -156,7 +167,7 @@ emailForm.addEventListener('submit', async event => {
   showStep(window.meReview.stage || 'review-step');
 });
 document.addEventListener('me-review-open', () => showStep(window.meReview.stage || 'review-step'));
-document.getElementById('review-back').addEventListener('click', () => showStep(liveAPI ? 'choice-step' : 'email-step'));
+document.getElementById('review-back').addEventListener('click', () => showStep(previousStep));
 document.getElementById('restart').addEventListener('click', () => {
   ++selectionVersion;
   window.meReview.reset();
@@ -177,10 +188,9 @@ if (liveAPI) {
 
   document.getElementById('preview-note').textContent = strings.livePreview;
   document.getElementById('email-help').textContent = strings.liveEmailHelp;
-  document.getElementById('consent-preview').textContent = strings.liveConsentHelp;
   document.getElementById('url-preview').textContent = strings.liveUrl;
   const pdfNote = document.createElement('p'); pdfNote.className = 'mini-note'; pdfNote.id = 'pdf-read-agreement-note'; pdfNote.textContent = strings.readPdfAgreement;
-  fileForm.append(pdfNote);
+  fileForm.querySelector('.landing-actions').before(pdfNote);
   fileForm.querySelector('[type=submit]').textContent = strings.readPdf;
   fileForm.querySelector('[type=submit]').setAttribute('aria-describedby',pdfNote.id);
   document.getElementById('url-read-agreement-note').hidden = false;
