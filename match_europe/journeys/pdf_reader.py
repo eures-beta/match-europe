@@ -13,12 +13,49 @@ from pypdf import PdfReader
 
 
 def ocr(data, suffix, page=0):
-    if suffix != '.pdf':
-        from portable_ocr import image_bytes
+    # Render and recognize sequentially, without retaining PDFium beside Tesseract.
+    if suffix == '.pdf':
+        renderer = shutil.which('pdftoppm')
+        if renderer:
+            with tempfile.TemporaryDirectory(prefix='me-render-') as directory:
+                source = Path(directory) / 'document.pdf'
+                target = Path(directory) / 'page'
+                source.write_bytes(data)
+                subprocess.run(
+                    [
+                        renderer,
+                        '-f',
+                        str(page + 1),
+                        '-l',
+                        str(page + 1),
+                        '-singlefile',
+                        '-scale-to',
+                        '1200',
+                        '-png',
+                        str(source),
+                        str(target),
+                    ],
+                    capture_output=True,
+                    check=True,
+                    timeout=20,
+                )
+                data = target.with_suffix('.png').read_bytes()
+        else:
+            rendered = subprocess.run(
+                [
+                    sys.executable,
+                    str(Path(__file__).with_name('portable_ocr.py')),
+                    str(page),
+                ],
+                input=data,
+                capture_output=True,
+                check=True,
+                timeout=25,
+            )
+            data = rendered.stdout
+    from portable_ocr import image_bytes
 
-        data = image_bytes(data)
-        suffix = '.png'
-    # Prefer the pinned engine/models in the consolidated runtime over host tools.
+    data = image_bytes(data)
     try:
         import tesserocr
     except ImportError:
@@ -26,37 +63,13 @@ def ocr(data, suffix, page=0):
     else:
         from portable_ocr import read
 
-        return read(data, suffix, page)
+        return read(data, '.png')
     executable = shutil.which('tesseract')
-    renderer = shutil.which('pdftoppm')
-    if not executable or (suffix == '.pdf' and not renderer):
-        from portable_ocr import read
-
-        return read(data, suffix, page)
+    if not executable:
+        raise ValueError('ocr_unavailable')
     with tempfile.TemporaryDirectory(prefix='me-ocr-') as directory:
-        source = Path(directory) / ('document' + suffix)
+        source = Path(directory) / 'document.png'
         source.write_bytes(data)
-        if suffix == '.pdf':
-            target = Path(directory) / 'page'
-            subprocess.run(
-                [
-                    renderer,
-                    '-f',
-                    str(page + 1),
-                    '-l',
-                    str(page + 1),
-                    '-singlefile',
-                    '-scale-to',
-                    '1200',
-                    '-png',
-                    str(source),
-                    str(target),
-                ],
-                capture_output=True,
-                check=True,
-                timeout=20,
-            )
-            source = target.with_suffix('.png')
         languages = (
             subprocess.run(
                 [executable, '--list-langs'], capture_output=True, check=True, timeout=5
@@ -68,9 +81,7 @@ def ocr(data, suffix, page=0):
             language for language in ('fra', 'eng', 'deu') if language in languages
         )
         if not selected:
-            from portable_ocr import read
-
-            return read(data, suffix, page)
+            raise ValueError('ocr_unavailable')
         result = subprocess.run(
             [executable, str(source), 'stdout', '-l', selected, '--psm', '3'],
             capture_output=True,
