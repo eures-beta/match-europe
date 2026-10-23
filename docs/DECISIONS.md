@@ -89,3 +89,12 @@ que le démarrage est en cours ou incertain ; seul un démarrage confirmé rense
 la date de verrouillage définitif. Aucun contact réel autorisé. Clôture, archivage,
 effets sur les dossiers en cours et réouverture restent des décisions à prendre.
 Voir [périmètre du lot 4A](EMPLOYER_SEARCH_LAUNCH.md).
+
+
+## 23 octobre 2026 — consolidation pour recette temporaire
+
+Eric autorise une branche et une PR dédiées regroupant les évolutions employeur
+pour une recette fictive jetable, sans fusion ni modification des branches
+sources. Titre choisi par Eric : « Version consolidée du parcours employeur ».
+La connexion email et la recherche restent simulées ; les protections du mode
+partagé sont conservées. Les détails d’exploitation restent dans le dépôt privé.

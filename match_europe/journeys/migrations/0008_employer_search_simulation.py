@@ -15,28 +15,83 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EmployerSearchOperation',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                (
+                    'id',
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
                 ('revision', models.PositiveIntegerField()),
-                ('state', models.CharField(choices=[('pending', 'Pending'), ('uncertain', 'Uncertain'), ('failed', 'Failed'), ('started', 'Started')], max_length=12)),
+                (
+                    'state',
+                    models.CharField(
+                        choices=[
+                            ('pending', 'Pending'),
+                            ('uncertain', 'Uncertain'),
+                            ('failed', 'Failed'),
+                            ('started', 'Started'),
+                        ],
+                        max_length=12,
+                    ),
+                ),
                 ('scenario', models.CharField(editable=False, max_length=24)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('resolved_at', models.DateTimeField(editable=False, null=True)),
-                ('offer', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='search_operations', to='journeys.employerimport')),
-                ('requested_by', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='journeys.employeridentity')),
+                (
+                    'offer',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='search_operations',
+                        to='journeys.employerimport',
+                    ),
+                ),
+                (
+                    'requested_by',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='journeys.employeridentity',
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='EmployerSearchEvent',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('state', models.CharField(max_length=12)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('actor', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='journeys.employeridentity')),
-                ('operation', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='events', to='journeys.employersearchoperation')),
+                (
+                    'actor',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='journeys.employeridentity',
+                    ),
+                ),
+                (
+                    'operation',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='events',
+                        to='journeys.employersearchoperation',
+                    ),
+                ),
             ],
         ),
         migrations.AddConstraint(
             model_name='employersearchoperation',
-            constraint=models.UniqueConstraint(fields=('offer', 'revision'), name='unique_search_offer_revision'),
+            constraint=models.UniqueConstraint(
+                fields=('offer', 'revision'), name='unique_search_offer_revision'
+            ),
         ),
     ]

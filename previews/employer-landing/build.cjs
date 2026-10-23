@@ -40,7 +40,7 @@ for (const lang of ['fr', 'en', 'de']) {
   html = html.replace('aria-label="Partners"', `aria-label="${drafts[lang].partners}"`)
     .replace('aria-label="Primary"', `aria-label="${drafts[lang].navigation}"`)
     .replace('<main class=', '<main id="main-content" class=')
-    .replace(/<a class="primary-action"[^>]*>([^<]*)<\/a>/, `<a class="primary-action" href="import-${lang}.html">$1</a>`);
+    .replace(/<a class="primary-action"[^>]*>([^<]*)<\/a>/, `<a class="primary-action" href="import-v2-${lang}.html">$1</a>`);
   const footerText = {
     fr: ['Match Europe · Une expérimentation France Travail / EURES / ADEM / Le Forem / ELA', 'Liens utiles'],
     en: ['Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment', 'Useful links'],

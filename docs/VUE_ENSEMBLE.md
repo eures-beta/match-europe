@@ -31,6 +31,9 @@ Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas q
 
 ## Références et organisation des discussions
 
+- [Recette employeur consolidée](CONSOLIDATED_EMPLOYER_REVIEW.md) : sources
+  intégrées, validations locales et limites de la démonstration.
+
 - [Décisions communes](DECISIONS.md) : choix validés et contraintes.
 - [État du projet](../HANDOFF.md) : travaux documentés, validations datées, limites et suites.
 - [AGENTS.md](../AGENTS.md) : règles de travail obligatoires.

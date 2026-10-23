@@ -1,4 +1,5 @@
 """Bounded PDF text extraction in a separate process. Never execute PDF actions."""
+
 import io
 import json
 import resource
@@ -21,13 +22,43 @@ def ocr(data, suffix, page=0):
         source.write_bytes(data)
         if suffix == '.pdf':
             target = Path(directory) / 'page'
-            subprocess.run([renderer, '-f',str(page+1),'-l',str(page+1),'-singlefile','-scale-to','3200','-png',str(source),str(target)], capture_output=True,check=True,timeout=20)
+            subprocess.run(
+                [
+                    renderer,
+                    '-f',
+                    str(page + 1),
+                    '-l',
+                    str(page + 1),
+                    '-singlefile',
+                    '-scale-to',
+                    '3200',
+                    '-png',
+                    str(source),
+                    str(target),
+                ],
+                capture_output=True,
+                check=True,
+                timeout=20,
+            )
             source = target.with_suffix('.png')
-        languages = subprocess.run([executable,'--list-langs'],capture_output=True,check=True,timeout=5).stdout.decode().splitlines()
-        selected = '+'.join(language for language in ('fra','eng','deu') if language in languages)
+        languages = (
+            subprocess.run(
+                [executable, '--list-langs'], capture_output=True, check=True, timeout=5
+            )
+            .stdout.decode()
+            .splitlines()
+        )
+        selected = '+'.join(
+            language for language in ('fra', 'eng', 'deu') if language in languages
+        )
         if not selected:
             raise ValueError('ocr_unavailable')
-        result = subprocess.run([executable,str(source),'stdout','-l',selected,'--psm','3'],capture_output=True,check=True,timeout=30)
+        result = subprocess.run(
+            [executable, str(source), 'stdout', '-l', selected, '--psm', '3'],
+            capture_output=True,
+            check=True,
+            timeout=30,
+        )
         return result.stdout.decode('utf-8')
 
 
@@ -41,11 +72,15 @@ def main():
     if len(data) > 10 * 1024 * 1024:
         raise ValueError('Oversized PDF')
     if not data.startswith(b'%PDF-'):
-        suffix = '.png' if data.startswith(b'\x89PNG\r\n\x1a\n') else '.jpg' if data.startswith(b'\xff\xd8\xff') else ''
+        suffix = (
+            '.png'
+            if data.startswith(b'\x89PNG\r\n\x1a\n')
+            else '.jpg' if data.startswith(b'\xff\xd8\xff') else ''
+        )
         if not suffix:
             raise ValueError('Invalid image')
         text = ocr(data, suffix)
-        if len(text)>16000:
+        if len(text) > 16000:
             raise ValueError('Excessive text')
         print(json.dumps({'text': text, 'ocr': True}))
         return
@@ -62,7 +97,7 @@ def main():
         if sum(c.isalnum() for c in chunk) < 30 and page.get('/Contents'):
             chunk = ocr(data, '.pdf', index)
             used_ocr = True
-        if len(chunk)>remaining:
+        if len(chunk) > remaining:
             raise ValueError('Excessive text')
         chunks.append(chunk)
         remaining -= len(chunk) + 1

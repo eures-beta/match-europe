@@ -93,7 +93,8 @@
       "conflict": "Le brouillon a changé dans un autre onglet. Rechargez-le avant de continuer.",
       "invalid_data": "Vérifiez les champs, les questions et leurs longueurs.",
       "network": "Le serveur local est indisponible. Votre saisie reste à l’écran.",
-      "initial_required": "le service de préparation exige le poste, l’entreprise, le lieu et une description. Complétez les informations manquantes pour envoyer une première version inactive. Vous vérifierez ensuite le retour et les questions."
+      "initial_required": "le service de préparation exige le poste, l’entreprise, le lieu et une description. Complétez les informations manquantes pour envoyer une première version inactive. Vous vérifierez ensuite le retour et les questions.",
+      "local_review_only": "Essai local : les services externes sont désactivés. Vous pouvez enregistrer le brouillon."
     },
     "prepareTitle": "Complétez les informations nécessaires",
     "prepareIntro": "Le poste, l’entreprise, le lieu et une description sont nécessaires pour préparer votre fiche avec une assistance par IA. Vous pourrez ensuite vérifier et corriger le résultat.",
@@ -182,7 +183,15 @@
     "localReaderNote": "Lecture locale par extraction de texte, sans IA générative ni transmission à un prestataire. Le résultat peut contenir des erreurs.",
     "localSave": "Enregistrer et continuer",
     "localPrivacy": "Pendant cet essai, le brouillon est enregistré uniquement dans la base locale. Aucune publication, recherche de candidats ou transmission aux partenaires EURES.",
-    "localSaved": "Votre offre a été enregistrée localement."
+    "localSaved": "Votre offre a été enregistrée localement.",
+    "documentWarnings": {
+      "title": "Informations à vérifier dans le document",
+      "hours": "Horaires contradictoires — à confirmer",
+      "contractType": "Plusieurs types de contrat — à confirmer",
+      "city": "Lieu ou conditions de télétravail à préciser",
+      "ocr": "Texte reconnu dans une image : vérifiez les erreurs éventuelles",
+      "other": "Information à confirmer"
+    }
   },
   "en": {
     "title": "Check and complete your offer",
@@ -278,7 +287,8 @@
       "conflict": "Draft changed in another tab. Reload it first.",
       "invalid_data": "Check fields, questions and lengths.",
       "network": "Local server unavailable. Entries remain on screen.",
-      "initial_required": "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions."
+      "initial_required": "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions.",
+      "local_review_only": "Local test: external services are disabled. You can save the draft."
     },
     "prepareTitle": "Some information before sending to the preparation service",
     "prepareIntro": "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions.",
@@ -367,7 +377,15 @@
     "localReaderNote": "Local reading using text extraction, without generative AI or transfer to a provider. The result may contain errors.",
     "localSave": "Save and continue",
     "localPrivacy": "During this trial, the draft is saved only in the local database. No publication, candidate search or transfer to EURES partners.",
-    "localSaved": "Your offer has been saved locally."
+    "localSaved": "Your offer has been saved locally.",
+    "documentWarnings": {
+      "title": "Document information to check",
+      "hours": "Conflicting hours — please confirm",
+      "contractType": "Multiple contract types — please confirm",
+      "city": "Clarify location or remote work conditions",
+      "ocr": "Text recognized from an image: check for recognition errors",
+      "other": "Please confirm this information"
+    }
   },
   "de": {
     "title": "Prüfen und ergänzen Sie Ihr Angebot",
@@ -463,7 +481,8 @@
       "conflict": "Entwurf in anderem Tab geändert. Zuerst neu laden.",
       "invalid_data": "Felder, Fragen und Längen prüfen.",
       "network": "Lokaler Server nicht erreichbar. Eingaben bleiben sichtbar.",
-      "initial_required": "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen."
+      "initial_required": "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen.",
+      "local_review_only": "Lokaler Test: externe Dienste sind deaktiviert. Sie können den Entwurf speichern."
     },
     "prepareTitle": "Angaben vor der Übermittlung an den Aufbereitungsdienst",
     "prepareIntro": "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen.",
@@ -552,6 +571,14 @@
     "localReaderNote": "Lokales Lesen mit Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Das Ergebnis kann Fehler enthalten.",
     "localSave": "Speichern und weiter",
     "localPrivacy": "In diesem Test wird der Entwurf nur in der lokalen Datenbank gespeichert. Keine Veröffentlichung, Kandidatensuche oder Übertragung an EURES-Partner.",
-    "localSaved": "Ihr Angebot wurde lokal gespeichert."
+    "localSaved": "Ihr Angebot wurde lokal gespeichert.",
+    "documentWarnings": {
+      "title": "Angaben aus dem Dokument prüfen",
+      "hours": "Widersprüchliche Arbeitszeiten — bitte bestätigen",
+      "contractType": "Mehrere Vertragsarten — bitte bestätigen",
+      "city": "Arbeitsort oder Homeoffice-Bedingungen klären",
+      "ocr": "Text aus einem Bild erkannt: bitte auf Erkennungsfehler prüfen",
+      "other": "Angabe bitte bestätigen"
+    }
   }
 }
