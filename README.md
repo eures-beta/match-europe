@@ -1,11 +1,46 @@
-# Squelette Django
+# Prototype Django — branche de conservation
 
-Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstrap 5.3.8.
+Le point d’entrée à la racine sert désormais le prototype conservé dans
+`match_europe/`, avec Python 3.12, Django 5.2 LTS, PostgreSQL et Bootstrap.
 
-- `/` : page neutre rendue par un template Django, avec Bootstrap servi localement.
+- `/` : redirection vers l’accès aux quatre parcours fictifs (`/access/`).
 - `/admin/` : administration native Django (utilisateurs et groupes).
-- Aucun modèle, rôle, parcours, service externe ou habillage métier ajouté.
-- Aucune migration applicative : seules les migrations natives Django sont utilisées.
+- Les modèles et migrations `journeys` sont ceux du prototype d’origine.
+- Aucun email réel ni enregistrement AGLAE n’est activé en démonstration partagée.
+
+## Démonstration partagée — adaptation du 23 octobre 2026
+
+Les points d’entrée racine `manage.py` et `config.wsgi:application` utilisent le
+prototype et les variables `DJANGO_*` / `PG*` du socle. Le lanceur autonome
+`match_europe/run_local.py` et sa configuration `ME_*` sont conservés.
+
+`make help` décrit l’installation, le serveur local, SQL et les tests.
+Après configuration de `.env` et création de sa base locale :
+`make install-test`, `make migrate`, `make seed-demo`, `make run`.
+`make test` vérifie le point d’entrée racine ; `make test-local` vérifie aussi
+la configuration autonome. `make serve` permet un essai Gunicorn sur loopback.
+
+Le point d’entrée racine est exclusivement une démonstration. En HTTPS
+(`DJANGO_HTTPS=1`), le mode partagé est activé par défaut ; `ME_SHARED_DEMO=0`
+permet de le désactiver. Ce mode exige HTTPS pour les pages/API employeur,
+conserve CSRF et les brouillons par session, et affiche un avertissement FR/EN/DE.
+Il ne lit aucune clé AGLAE et refuse les enregistrements externes ; le diagnostic
+Push reste inaccessible. La lecture de sources publiques et le géocodage peuvent
+faire des requêtes réseau, comme dans le prototype local, après les actions prévues
+dans l’interface. Utiliser exclusivement des données fictives.
+
+Exécuter les migrations et collecter les statiques avant le serveur WSGI. Celui-ci
+crée les quatre rôles fictifs au premier démarrage si l’identité admin fictive
+n’existe pas. Il ne réinitialise pas les comptes ni les modifications aux
+redémarrages suivants. PostgreSQL conserve ces données ; les fichiers déposés
+dans le système de fichiers de l’instance n’ont pas de garantie de persistance.
+Les journaux d’accès Gunicorn omettent les chemins et paramètres des liens privés.
+
+Le déploiement de cette branche et sa sonde `/health/` sont préparés pour la revue ;
+les procédures propres à un hébergeur et ses secrets restent dans le dépôt privé.
+L’enregistrement final d’un import AGLAE reste indisponible dans ce mode :
+l’interface doit afficher l’erreur et conserver le brouillon, sans annoncer un
+envoi réussi. Cette adaptation n’autorise aucune utilisation en production.
 
 ## Organisation du code
 
@@ -157,3 +192,83 @@ et appliquer la règle aux administrateurs sans contournement. Ce réglage GitHu
 n’est pas modifié par cette PR. Les protections des dépôts privés d’organisation
 nécessitent un abonnement GitHub compatible. Black contrôle le format Python,
 pas les erreurs métier, la sécurité, les templates ou le JavaScript.
+---
+
+# Match Europe — premier prototype Django
+
+Archive de travail partagée pour conserver et discuter le premier prototype local Match Europe. **Cette branche et sa PR ne sont pas une proposition de mise en production ou de fusion en l’état.**
+
+La pile est Django / PostgreSQL / Bootstrap. Le code historique Flask/Grist reste dans [eures-beta/eures-beta](https://github.com/eures-beta/eures-beta) ; il n’est pas importé comme application dans ce dépôt.
+
+## Ce qui est conservé
+
+- Parcours candidat, employeur, conseiller et administrateur avec données de démonstration fictives.
+- Accès par lien de confirmation simulé, contrôle des droits par objet et conversation candidat–employeur–conseiller.
+- Import employeur depuis PDF, URL publique ou texte, brouillons par session, vérification et contact entreprise.
+- Affectation d’un conseiller aux imports par l’administration, séparée du matching de démonstration.
+- Pages employeur FR/EN/DE ; **la V2 est la référence UX retenue**.
+- Diagnostic Web Push local isolé, sans inscription automatique au pilote.
+
+## Lancer en local
+
+Prérequis : Python 3.12+, PostgreSQL et ses outils (`initdb`, `pg_ctl`, `createdb`), gettext (`msgfmt`). Le lanceur trouve aussi les binaires PostgreSQL installés avec Homebrew. Ne pas utiliser une base contenant des données réelles.
+
+```sh
+cd match_europe
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python run_local.py
+```
+
+Ouvrir <http://127.0.0.1:8014/access/> pour les quatre rôles fictifs.
+
+Pour le parcours employeur V2, arrêter le serveur HTTP précédent puis lancer :
+
+```sh
+ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
+```
+
+Ouvrir <http://127.0.0.1:8015/previews/employer-landing/import-v2-fr.html> (EN/DE disponibles). La page d’accueil employeur est `/previews/employer-landing/fr.html`.
+
+**Attention :** ce second mode peut consulter la source publique fournie et interroger Nominatim pour un lieu. Si une clé sandbox est explicitement configurée, il peut enregistrer puis relire une offre inactive chez le prestataire. Il ne lance pas de matching, de qualification, de contact candidat ou de SMS. Sans clé, l’échec est explicite et le brouillon reste local. Les champs contact ne sont pas envoyés au prestataire ; le texte libre de l’annonce n’est pas expurgé automatiquement.
+
+Le mode non-démo reste volontairement bloqué. Ne pas exposer ce serveur sur Internet. Les comptes démo partagés ne conviennent pas à des données personnelles réelles.
+
+## Structure
+
+| Chemin | Contenu |
+| --- | --- |
+| `match_europe/config/` | Réglages Django et journalisation |
+| `match_europe/journeys/` | Modèles, migrations, droits, services, vues et tests |
+| `match_europe/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
+| `previews/employer-landing/` | Parcours employeur de référence V2, V1 conservée et diagnostic Push |
+| `forms/eures-beta/` | Deux ressources de présentation héritées, pas un serveur Flask |
+| `docs/` | Périmètre, décisions, ordre de lecture et limites |
+
+## Vérifier
+
+Depuis `match_europe/`, après initialisation de la base locale :
+
+```sh
+.venv/bin/python manage.py check
+.venv/bin/python manage.py makemigrations --check --dry-run
+.venv/bin/python manage.py test journeys --noinput
+```
+
+Les tests PostgreSQL créent une base distincte et simulent les services externes. Aucun secret, base, session, document utilisateur ou abonnement de notification n’est versionné. Le lanceur compile les catalogues gettext ; les `.mo` sont aussi inclus comme ressources du prototype.
+
+## Limites et lecture de la PR
+
+Voir [le guide de revue](docs/PROTOTYPE_REVIEW.md), [l’état de reprise](HANDOFF.md), [les décisions](docs/DECISIONS.md) et [les consignes](AGENTS.md).
+
+Ce partage conserve des étapes successives et du code exploratoire : styles en ligne, HTML généré dupliqué, prévisualisations non entièrement intégrées à Django templates, diagnostic Push surtout francophone et documentation historique. Il ne certifie ni conformité juridique, ni accessibilité complète, ni aptitude à la production. Aucun email réel n’est envoyé ; le diagnostic Push n’est pas raccordé au parcours métier.
+
+## Web Push facultatif pour le diagnostic local
+
+```sh
+cd match_europe
+.venv/bin/python -m pip install -r requirements-push-test.txt
+ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
+```
+
+Ouvrir `/previews/employer-landing/push-test.html`. L’activation nécessite une action explicite et l’autorisation du navigateur. Le test envoie uniquement un message générique ; les clés VAPID générées sont ignorées dans `.runtime/`. L’abonnement est propre à la session locale. Ne pas considérer HTTP 201 ou la permission comme preuve de réception : l’utilisateur doit confirmer la bannière ou le Centre de notifications.

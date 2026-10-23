@@ -1,0 +1,588 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Please choose"
+msgstr "Choisir une réponse"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "No"
+msgstr "Non"
+
+msgid "To discuss"
+msgstr "À discuter"
+
+msgid "Email"
+msgstr "Adresse e-mail"
+
+msgid "PDF document"
+msgstr "Document PDF"
+
+msgid "I agree to the processing of this document to prepare my recruitment journey."
+msgstr "J’accepte le traitement de ce document pour préparer mon parcours de recrutement."
+
+msgid "The PDF must be smaller than 10 MB."
+msgstr "Le PDF doit faire moins de 10 Mo."
+
+msgid "Please provide a valid PDF."
+msgstr "Veuillez fournir un PDF valide."
+
+msgid "Do you accept candidates who keep living in a neighbouring country?"
+msgstr "Acceptez-vous les candidats qui continuent à résider dans un pays voisin ?"
+
+msgid "Do you accept candidates who move from another country for this job?"
+msgstr "Acceptez-vous les candidats qui déménagent depuis un autre pays pour ce poste ?"
+
+msgid "Job title"
+msgstr "Intitulé du poste"
+
+msgid "Company"
+msgstr "Entreprise"
+
+msgid "Workplace"
+msgstr "Lieu de travail"
+
+msgid "Job description"
+msgstr "Description du poste"
+
+msgid "Contract"
+msgstr "Contrat"
+
+msgid "Salary"
+msgstr "Salaire"
+
+msgid "Working hours"
+msgstr "Temps et horaires de travail"
+
+msgid "Languages"
+msgstr "Langues"
+
+msgid "Skills"
+msgstr "Compétences"
+
+msgid "Would you work in another country while keeping your current residence?"
+msgstr "Travailleriez-vous dans un autre pays en conservant votre résidence actuelle ?"
+
+msgid "Would you move to another country for a job?"
+msgstr "Déménageriez-vous dans un autre pays pour travailler ?"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Experience"
+msgstr "Expérience"
+
+msgid "Jobs sought"
+msgstr "Métiers recherchés"
+
+msgid "Residence"
+msgstr "Lieu de résidence"
+
+msgid "Availability"
+msgstr "Disponibilité"
+
+msgid "Question for the candidate"
+msgstr "Question à poser au candidat"
+
+msgid "Expected answer or evaluation guideline"
+msgstr "Réponse attendue ou consigne d’évaluation"
+
+msgid "Quick answers separated by | (optional)"
+msgstr "Réponses rapides séparées par | (facultatif)"
+
+msgid "Essential requirement — human review required"
+msgstr "Condition indispensable — examen humain requis"
+
+msgid "Your message"
+msgstr "Votre message"
+
+msgid "Review note"
+msgstr "Note d’examen ou message de présentation"
+
+msgid "Employer"
+msgstr "Employeur"
+
+msgid "Candidate"
+msgstr "Candidat"
+
+msgid "Adviser"
+msgstr "Conseiller"
+
+msgid "Administrator"
+msgstr "Administrateur"
+
+msgid "Draft"
+msgstr "Brouillon"
+
+msgid "Awaiting email confirmation"
+msgstr "En attente de confirmation de l’e-mail"
+
+msgid "Validated"
+msgstr "Validée"
+
+msgid "Sent to matching — demonstration"
+msgstr "Transmise au matching — démonstration"
+
+msgid "Suggested — adviser review"
+msgstr "Suggestion — à examiner par le conseiller"
+
+msgid "Offer proposed"
+msgstr "Offre proposée"
+
+msgid "Not interested"
+msgstr "Pas intéressé"
+
+msgid "Prequalification in progress"
+msgstr "Préqualification en cours"
+
+msgid "Awaiting adviser review"
+msgstr "En attente d’examen par le conseiller"
+
+msgid "Conversation opened"
+msgstr "Conversation ouverte"
+
+msgid "Clarification needed"
+msgstr "Précision nécessaire"
+
+msgid "This PDF cannot be read. Use an unencrypted document with at most 30 pages."
+msgstr "Ce PDF est illisible. Utilisez un document non chiffré de 30 pages maximum."
+
+msgid "Validate the offer and confirm your email first."
+msgstr "Validez l’offre et confirmez d’abord votre e-mail."
+
+msgid "If this address is eligible, a connection link has been prepared. No email is sent in demonstration mode."
+msgstr "Si cette adresse est éligible, un lien de connexion a été préparé. Aucun e-mail n’est envoyé en démonstration."
+
+msgid "This link has expired or has already been used. Request a new link."
+msgstr "Ce lien a expiré ou a déjà été utilisé. Demandez un nouveau lien."
+
+msgid "Email confirmed."
+msgstr "Adresse e-mail confirmée."
+
+msgid "Please confirm that the offer and questions are ready for matching."
+msgstr "Confirmez que l’offre et les questions sont prêtes pour le matching."
+
+msgid "Draft saved."
+msgstr "Brouillon enregistré."
+
+msgid "Please agree to matching and confirm your profile."
+msgstr "Acceptez le matching et confirmez votre profil."
+
+msgid "Invalid answer."
+msgstr "Réponse invalide."
+
+msgid "Answer each question or explain what needs clarification, and confirm your agreement to introduction."
+msgstr "Répondez à chaque question ou expliquez ce qui reste à préciser, puis confirmez votre accord pour une mise en relation."
+
+msgid "Agreement required."
+msgstr "Votre accord est nécessaire."
+
+msgid "Please explain what needs clarification."
+msgstr "Précisez ce qui nécessite une clarification."
+
+msgid "Both participants must agree before the conversation is opened."
+msgstr "Les deux participants doivent donner leur accord avant l’ouverture de la conversation."
+
+msgid "Write an introduction message."
+msgstr "Rédigez un message de présentation."
+
+msgid "Recruit across Europe. Keep the human connection."
+msgstr "Recruter en Europe. Garder le lien humain."
+
+msgid "Start with an offer or a CV. Verify what matters, then meet with your adviser."
+msgstr "Partez d’une offre ou d’un CV. Vérifiez les points utiles, puis échangez avec votre conseiller."
+
+msgid "Access without a password"
+msgstr "Accéder sans mot de passe"
+
+msgid "Your adviser"
+msgstr "Votre conseiller"
+
+msgid "Use an existing email, or ask your adviser for an invitation."
+msgstr "Utilisez votre e-mail habituel ou demandez une invitation à votre conseiller."
+
+msgid "Continue with my email"
+msgstr "Continuer avec mon e-mail"
+
+msgid "Try the four journeys"
+msgstr "Tester les quatre parcours"
+
+msgid "These fictional identities are shared demonstration accounts. They must not contain real data."
+msgstr "Ces identités fictives sont des comptes de démonstration partagés. Elles ne doivent contenir aucune donnée réelle."
+
+msgid "Demonstration data has not been loaded."
+msgstr "Les données de démonstration ne sont pas chargées."
+
+msgid "Skip to content"
+msgstr "Aller au contenu"
+
+msgid "European recruitment, supported by people"
+msgstr "Le recrutement européen, avec un accompagnement humain"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Local demonstration · Fictional data · No emails or AGLAE calls"
+msgstr "Démonstration locale · Données fictives · Aucun e-mail ni appel AGLAE"
+
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+msgid "My workspace"
+msgstr "Mon espace"
+
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+msgid "Simulated email — visible only in this browser"
+msgstr "E-mail simulé — visible uniquement dans ce navigateur"
+
+msgid "Use this link to confirm the address. It expires after 15 minutes and works once."
+msgstr "Utilisez ce lien pour confirmer l’adresse. Il expire après 15 minutes et ne fonctionne qu’une fois."
+
+msgid "Open the connection link"
+msgstr "Ouvrir le lien de connexion"
+
+msgid "You can prepare your draft. Confirm your email before matching or accessing private exchanges."
+msgstr "Vous pouvez préparer votre brouillon. Confirmez votre e-mail avant le matching ou l’accès aux échanges privés."
+
+msgid "Match Europe · EURES · Local test environment"
+msgstr "Match Europe · EURES · Environnement de test local"
+
+msgid "Do not upload real personal data. Installation is optional. Internet is required for private workspaces."
+msgstr "N’utilisez pas de données personnelles réelles. L’installation est facultative. Les espaces privés nécessitent une connexion."
+
+msgid "My profile and mobility"
+msgstr "Mon profil et ma mobilité"
+
+msgid "Check your experience and tell us what you want next. A CV alone does not describe your current wishes."
+msgstr "Vérifiez votre expérience et précisez votre projet. Le CV seul ne décrit pas vos souhaits actuels."
+
+msgid "Profile validated — matching simulated"
+msgstr "Profil validé — matching simulé"
+
+msgid "I confirm my profile and agree to its use for matching. My contact details are not shared automatically."
+msgstr "Je confirme mon profil et accepte son utilisation pour le matching. Mes coordonnées ne sont pas partagées automatiquement."
+
+msgid "Save draft"
+msgstr "Enregistrer le brouillon"
+
+msgid "Validate my profile"
+msgstr "Valider mon profil"
+
+msgid "Confirm your connection"
+msgstr "Confirmer votre connexion"
+
+msgid "This action verifies access to your email address. It does not verify your company identity."
+msgstr "Cette action vérifie l’accès à votre adresse e-mail. Elle ne vérifie pas l’identité de votre entreprise."
+
+msgid "Confirm and enter my workspace"
+msgstr "Confirmer et accéder à mon espace"
+
+msgid "A conversation with three people"
+msgstr "Une conversation à trois"
+
+msgid "All three participants can read every message. Contact details are shared only if you choose to write them."
+msgstr "Les trois participants peuvent lire chaque message. Vous partagez vos coordonnées uniquement si vous choisissez de les écrire."
+
+msgid "New messages are available."
+msgstr "De nouveaux messages sont disponibles."
+
+msgid "Refresh the conversation"
+msgstr "Actualiser la conversation"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Send message"
+msgstr "Envoyer le message"
+
+msgid "Upload a new offer"
+msgstr "Déposer une nouvelle offre"
+
+msgid "View my profile"
+msgstr "Consulter mon profil"
+
+msgid "Your CV describes your past. Tell us what you want next."
+msgstr "Votre CV décrit votre parcours. Précisez votre projet actuel."
+
+msgid "Upload my CV"
+msgstr "Déposer mon CV"
+
+msgid "Invite from your usual mailbox"
+msgstr "Inviter depuis votre messagerie habituelle"
+
+msgid "Copy a link into your email. It identifies you as the adviser and grants no private access."
+msgstr "Copiez un lien dans votre e-mail. Il vous identifie comme conseiller et ne donne aucun accès privé."
+
+msgid "Employer invitation"
+msgstr "Invitation employeur"
+
+msgid "Candidate invitation"
+msgstr "Invitation candidat"
+
+msgid "Recruitments"
+msgstr "Recrutements"
+
+msgid "No offers yet."
+msgstr "Aucune offre pour le moment."
+
+msgid "Opportunities and introductions"
+msgstr "Opportunités et mises en relation"
+
+msgid "Open conversation"
+msgstr "Ouvrir la conversation"
+
+msgid "No action required yet. New opportunities will appear here."
+msgstr "Aucune action attendue pour le moment. Les nouvelles opportunités apparaîtront ici."
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "New"
+msgstr "Nouveau"
+
+msgid "Mark as read"
+msgstr "Marquer comme lu"
+
+msgid "Roles and access"
+msgstr "Rôles et accès"
+
+msgid "Operators supervise the service. Private conversations remain limited to their three participants."
+msgstr "Les administrateurs supervisent le service. Les conversations privées restent limitées à leurs trois participants."
+
+msgid "Verified email"
+msgstr "E-mail vérifié"
+
+msgid "Unverified email"
+msgstr "E-mail non vérifié"
+
+msgid "Action log"
+msgstr "Journal des actions"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Actor"
+msgstr "Auteur"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Reference"
+msgstr "Référence"
+
+msgid "The opportunity"
+msgstr "L’opportunité"
+
+msgid "Propose this offer to the candidate"
+msgstr "Proposer cette offre au candidat"
+
+msgid "Are you interested in this opportunity?"
+msgstr "Cette opportunité vous intéresse-t-elle ?"
+
+msgid "Interested — continue"
+msgstr "Intéressé — continuer"
+
+msgid "Clarification requested"
+msgstr "Précision demandée"
+
+msgid "Before meeting the employer"
+msgstr "Avant de rencontrer l’employeur"
+
+msgid "Choose a quick answer, write freely, or combine both. Explain any uncertainty in your own words."
+msgstr "Choisissez une réponse rapide, écrivez librement ou combinez les deux. Expliquez les incertitudes avec vos mots."
+
+msgid "Your answer or additional details"
+msgstr "Votre réponse ou vos précisions"
+
+msgid "I agree to share these answers with the employer and adviser, and to a three-person introduction if both parties agree."
+msgstr "J’accepte de partager ces réponses avec l’employeur et le conseiller, et une mise en relation à trois si les deux parties sont d’accord."
+
+msgid "Save and resume later"
+msgstr "Enregistrer et reprendre plus tard"
+
+msgid "Send my answers"
+msgstr "Envoyer mes réponses"
+
+msgid "Prequalification answers"
+msgstr "Réponses de préqualification"
+
+msgid "No automatic rejection. Missing or ambiguous answers require human review."
+msgstr "Aucun refus automatique. Les réponses manquantes ou ambiguës nécessitent un examen humain."
+
+msgid "Prepare the introduction"
+msgstr "Préparer la mise en relation"
+
+msgid "Candidate agreement"
+msgstr "Accord du candidat"
+
+msgid "Pending"
+msgstr "En attente"
+
+msgid "Employer agreement"
+msgstr "Accord de l’employeur"
+
+msgid "I agree to meet this candidate in a conversation with the adviser."
+msgstr "J’accepte de rencontrer ce candidat dans une conversation avec le conseiller."
+
+msgid "Agree to introduction"
+msgstr "Accepter la mise en relation"
+
+msgid "Request clarification"
+msgstr "Demander une précision"
+
+msgid "Open the three-person conversation"
+msgstr "Ouvrir la conversation à trois"
+
+msgid "Review every extracted item. Missing information stays unspecified and must never become a negative criterion."
+msgstr "Relisez chaque information extraite. Une information absente reste non précisée et ne devient jamais un critère négatif."
+
+msgid "Verify and complete the offer"
+msgstr "Vérifier et compléter l’offre"
+
+msgid "I confirm the offer and prequalification questions, and agree to matching. No candidate is contacted automatically."
+msgstr "Je confirme l’offre et les questions de préqualification, et accepte le matching. Aucun candidat n’est contacté automatiquement."
+
+msgid "Validate the offer"
+msgstr "Valider l’offre"
+
+msgid "What should we check before introduction?"
+msgstr "Que faut-il vérifier avant la mise en relation ?"
+
+msgid "Define useful job-related questions. A mandatory requirement still needs human review. Avoid questions about private or sensitive matters."
+msgstr "Définissez des questions utiles au poste. Une condition indispensable nécessite toujours un examen humain. Évitez les questions privées ou sensibles."
+
+msgid "Add question"
+msgstr "Ajouter la question"
+
+msgid "Prequalification questions"
+msgstr "Questions de préqualification"
+
+msgid "Remove question"
+msgstr "Retirer la question"
+
+msgid "No additional question. You can validate without a questionnaire."
+msgstr "Aucune question complémentaire. Vous pouvez valider sans questionnaire."
+
+msgid "Cross-border recruitment"
+msgstr "Recrutement de frontaliers"
+
+msgid "Relocation recruitment"
+msgstr "Recrutement avec déménagement"
+
+msgid "Transmission is simulated. No AGLAE call or candidate contact has occurred."
+msgstr "La transmission est simulée. Aucun appel AGLAE ni contact candidat n’a eu lieu."
+
+msgid "Find compatible profiles"
+msgstr "Rechercher des profils compatibles"
+
+msgid "The local adapter lists fictional profiles without calculating a score. Review each suggestion before proposing the offer."
+msgstr "Le simulateur local présente des profils fictifs sans calculer de score. Examinez chaque suggestion avant de proposer l’offre."
+
+msgid "Simulate matching"
+msgstr "Simuler le matching"
+
+msgid "Start with your existing offer"
+msgstr "Partez de votre offre existante"
+
+msgid "Start with your CV"
+msgstr "Partez de votre CV"
+
+msgid "Upload a text PDF, up to 10 MB and 30 pages. You will verify the extracted text before validation."
+msgstr "Déposez un PDF texte, de 10 Mo et 30 pages maximum. Vous vérifierez le texte extrait avant validation."
+
+msgid "This version reads the text locally. It does not yet interpret the fields with AI. Scanned PDFs require manual completion."
+msgstr "Cette version lit le texte localement. Elle ne répartit pas encore les informations par IA. Les PDF scannés nécessitent une saisie manuelle."
+
+msgid "Read my PDF"
+msgstr "Lire mon PDF"
+
+msgid "New validated offer"
+msgstr "Nouvelle offre validée"
+
+msgid "An offer is waiting for you"
+msgstr "Une offre vous attend"
+
+msgid "Candidate response received"
+msgstr "Réponse du candidat reçue"
+
+msgid "Prequalification ready for review"
+msgstr "Préqualification à examiner"
+
+msgid "Your conversation is open"
+msgstr "Votre conversation est ouverte"
+
+msgid "New message"
+msgstr "Nouveau message"
+
+msgid "yes"
+msgstr "Oui"
+
+msgid "no"
+msgstr "Non"
+
+msgid "discuss"
+msgstr "À discuter"
+
+msgid "Demonstration suggestion: no AGLAE score. Review skills, languages, mobility and availability."
+msgstr "Suggestion de démonstration : aucun score AGLAE. Examinez compétences, langues, mobilité et disponibilité."
+
+msgid "Contact name"
+msgstr "Nom et prénom du contact"
+
+msgid "Contact email"
+msgstr "Email du contact"
+
+msgid "Phone (optional)"
+msgstr "Téléphone (facultatif)"
+
+msgid "Role in the company (optional)"
+msgstr "Fonction dans l’entreprise (facultative)"
+
+msgid "Adviser responsible for this offer"
+msgstr "Conseiller chargé de cette offre"
+
+msgid "Unassigned"
+msgstr "Sans conseiller attribué"
+
+msgid "Adviser assignment saved."
+msgstr "Affectation du conseiller enregistrée."
+
+msgid "Imported employer offers"
+msgstr "Offres employeur importées"
+
+msgid "Company contacts are visible only to the assigned adviser and administrators."
+msgstr "Les contacts entreprise sont consultables uniquement par le conseiller chargé de l’offre et les administrateurs."
+
+msgid "No imported offers to display."
+msgstr "Aucune offre importée à afficher."
+
+msgid "Offer details"
+msgstr "Informations de l’offre"
+
+msgid "Company contact"
+msgstr "Contact entreprise"
+
+msgid "Contact not yet provided by the employer."
+msgstr "Contact pas encore renseigné par l’employeur."
+
+msgid "Assign an adviser"
+msgstr "Attribuer un conseiller"
+
+msgid "Save assignment"
+msgstr "Enregistrer l’affectation"
+
+msgid "Untitled offer"
+msgstr "Offre à compléter"
+
+
+msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
+msgstr "Démonstration partagée : données fictives uniquement. L’enregistrement externe et le diagnostic Push sont désactivés."

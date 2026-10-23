@@ -1,0 +1,50 @@
+{
+  "fr": {
+    "title": "Préqualification des candidatures",
+    "items": [
+      "L’employeur définit des questions liées aux exigences du poste, par exemple la disponibilité, les compétences, les langues ou les horaires. Les candidats intéressés y répondent avant une éventuelle mise en relation, au moyen de réponses proposées et/ou de texte libre.",
+      "Ces réponses servent à vérifier les critères essentiels du poste et à aider l’employeur et le conseiller à déterminer les candidatures à poursuivre ou à écarter. Aucun candidat n’est écarté automatiquement sur la seule base de ses réponses.",
+      "Les réponses en cours de rédaction restent privées au candidat. Une fois envoyées, elles sont accessibles à l’employeur concerné et au conseiller habilité qui accompagne la candidature.",
+      "Les questions doivent porter sur les exigences professionnelles du poste. Ne communiquez pas de données de santé, de document d’identité ou d’autres informations sensibles dans les réponses libres.",
+      "L’envoi des réponses ne vaut pas accord pour ouvrir une conversation. La mise en relation nécessite l’accord distinct du candidat et de l’employeur, puis l’intervention du conseiller."
+    ],
+    "aiTitle": "Préparation de l’offre avec une intelligence artificielle",
+    "aiItems": [
+      "Une intelligence artificielle aide à structurer les informations de votre offre et à préparer une fiche à vérifier. Les résultats peuvent contenir des erreurs ou des omissions ; vous pouvez les corriger avant validation.",
+      "Les informations de l’offre sont transmises à un prestataire technique de préparation assistée par IA. Votre email de suivi ne lui est pas transmis par ce parcours. Évitez d’inclure des coordonnées personnelles ou des données sensibles dans l’annonce.",
+      "Cette étape ne décide pas de l’acceptation ou du rejet d’une candidature. Les décisions de recrutement et de mise en relation restent humaines."
+    ]
+  },
+  "en": {
+    "title": "Candidate prequalification",
+    "items": [
+      "The employer defines questions related to job requirements, such as availability, skills, languages or working hours. Interested candidates answer before a possible introduction, using suggested answers and/or free text.",
+      "Answers help check essential job requirements and help the employer and adviser decide which applications to pursue or reject. No candidate is rejected automatically solely on the basis of their answers.",
+      "Draft answers remain private to the candidate. Once submitted, answers are available to the employer concerned and the authorised adviser supporting the application.",
+      "Questions must relate to professional job requirements. Do not include health data, identity documents or other sensitive information in free-text answers.",
+      "Submitting answers does not constitute agreement to open a conversation. An introduction requires separate agreement from both the candidate and employer, followed by the adviser’s intervention."
+    ],
+    "aiTitle": "AI-assisted offer preparation",
+    "aiItems": [
+      "Artificial intelligence helps structure your offer into a summary for review. Results may contain errors or omissions; you can correct them before confirming.",
+      "Offer information is sent to a technical AI preparation provider. This journey does not send your contact email to that provider. Avoid including personal contact details or sensitive data in the offer.",
+      "This step does not decide whether to accept or reject an application. Recruitment and introduction decisions remain human."
+    ]
+  },
+  "de": {
+    "title": "Vorqualifizierung von Bewerbungen",
+    "items": [
+      "Der Arbeitgeber legt Fragen zu den Anforderungen der Stelle fest, zum Beispiel zu Verfügbarkeit, Kompetenzen, Sprachen oder Arbeitszeiten. Interessierte Personen beantworten diese vor einer möglichen Kontaktaufnahme mit vorgegebenen Antworten und/oder Freitext.",
+      "Die Antworten dienen zur Prüfung wesentlicher Stellenanforderungen und unterstützen Arbeitgeber und Beratung bei der Entscheidung, welche Bewerbungen weiterverfolgt oder ausgeschlossen werden. Niemand wird allein aufgrund der Antworten automatisch ausgeschlossen.",
+      "Antwortentwürfe bleiben für die betreffende Person privat. Nach dem Absenden sind die Antworten für den jeweiligen Arbeitgeber und die berechtigte Beratung zugänglich, die die Bewerbung begleitet.",
+      "Die Fragen müssen sich auf berufliche Stellenanforderungen beziehen. Geben Sie in Freitextantworten keine Gesundheitsdaten, Ausweisdokumente oder sonstigen sensiblen Informationen an.",
+      "Das Absenden der Antworten ist keine Zustimmung zur Eröffnung eines Gesprächs. Die Kontaktaufnahme erfordert die gesonderte Zustimmung beider Seiten und anschließend die Mitwirkung der Beratung."
+    ],
+    "aiTitle": "KI-gestützte Vorbereitung des Angebots",
+    "aiItems": [
+      "Künstliche Intelligenz hilft, Ihre Angebotsangaben in einer Übersicht aufzubereiten. Ergebnisse können Fehler oder Lücken enthalten; Sie können sie vor der Bestätigung korrigieren.",
+      "Die Angebotsangaben werden an einen technischen Dienstleister zur KI-gestützten Aufbereitung übermittelt. Ihre Kontakt-E-Mail wird dabei nicht übermittelt. Vermeiden Sie persönliche Kontaktdaten oder sensible Daten im Angebot.",
+      "Dieser Schritt entscheidet nicht über die Annahme oder Ablehnung einer Bewerbung. Entscheidungen über Einstellungen und Kontaktaufnahmen bleiben bei Menschen."
+    ]
+  }
+}
