@@ -212,7 +212,7 @@ Introducing another ORM, database, major frontend framework or structural infras
 
 # 3. MUST — HOSTING AND CONFIGURATION
 
-The target hosting environment is a server provided by France Travail.
+Hosting destinations and operational procedures belong in the private deployment repositories.
 
 The application core must not depend directly on a particular hosting provider.
 
