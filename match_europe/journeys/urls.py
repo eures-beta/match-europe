@@ -1,8 +1,15 @@
 from django.urls import path
-from . import views
+from . import views, employer_login
 from . import employer_api, push_test
 
 urlpatterns = [
+    path('employer/email-sent/', employer_login.sent, name='employer_email_sent'),
+    path('employer/access/', employer_login.access, name='employer_access'),
+    path('employer/test-inbox/', employer_login.inbox, name='employer_test_inbox'),
+    path('employer/confirm/<str:token>/', employer_login.confirm, name='employer_confirm'),
+    path('employer/connected/', employer_login.connected, name='employer_connected'),
+    path('employer/logout/', employer_login.sign_out, name='employer_logout'),
+
     path('local-api/push-test/<str:action>/', push_test.api),
     path('previews/employer-landing/push-test-sw.js', push_test.worker),
     path('previews/employer-landing/<path:path>', employer_api.preview),
