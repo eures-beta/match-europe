@@ -1,5 +1,15 @@
 # Reprise du prototype Match Europe
 
+## Entrée employeur — 23 octobre 2026
+
+À la demande d’Eric, `/` redirige temporairement (302) vers
+`/previews/employer-landing/fr.html`. Les pages EN/DE restent accessibles par
+le sélecteur existant. `/access/` conserve les comptes de démonstration et
+`/dashboard/` conserve la navigation des quatre rôles après connexion.
+Aucun changement graphique, de données ou de service externe.
+Validation : 76 tests PostgreSQL passent, dont redirection HTTPS, accueil
+FR/EN/DE, accès aux rôles et navigation privée ; `git diff --check` réussi.
+
 ## Adaptation de recette — 23 octobre 2026
 
 Autorisation utilisateur distincte : rebaser la PR #2 sur `main`, résoudre les

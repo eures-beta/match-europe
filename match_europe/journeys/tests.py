@@ -120,7 +120,7 @@ class JourneysTests(TestCase):
         self.client.get(url)
         self.client.post(url, {'email': self.users['employer'].email})
         self.assertNotIn('draft_user', self.client.session)
-        self.assertEqual(self.client.get('/').status_code, 302)
+        self.assertEqual(self.client.get(reverse('dashboard')).status_code, 302)
 
     def test_answers_preserve_choice_and_free_text_without_rejection(self):
         self.match.state = 'answering'
@@ -151,7 +151,7 @@ class JourneysTests(TestCase):
         self.as_role('adviser')
         for lang, expected in [('fr', 'Mon espace'), ('en', 'My workspace'), ('de', 'Mein Bereich')]:
             self.client.cookies['django_language'] = lang
-            response = self.client.get('/')
+            response = self.client.get(reverse('dashboard'))
             self.assertEqual(response.status_code, 200)
             self.assertIn('no-store', response.headers['Cache-Control'])
             self.assertContains(response, expected)
@@ -161,7 +161,7 @@ class JourneysTests(TestCase):
         with patch('socket.create_connection', side_effect=AssertionError('Network forbidden')):
             call_command('seed_demo', verbosity=0)
             self.as_role('adviser')
-            self.assertEqual(self.client.get('/').status_code, 200)
+            self.assertEqual(self.client.get(reverse('dashboard')).status_code, 200)
 
     def test_employer_pdf_draft_questions_and_validation(self):
         from pypdf import PdfWriter
