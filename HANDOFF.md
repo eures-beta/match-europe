@@ -117,9 +117,12 @@ contrôle Django sans erreur, migrations cohérentes et diff vérifié.
 
 Intégration isolée des PR #14–#22 sur la PR #2 à `57670e2`, avec adaptations
 Make/Black des PR #23–#24. Connexion et recherche simulées utilisables en
-HTTPS, services externes de préparation et géocodage bloqués. 142 tests
+HTTPS, services externes de préparation et géocodage bloqués. 144 tests
 PostgreSQL passent ; migrations neuves, ressources statiques, traductions,
 PDF/OCR fictif et contrôles de qualité vérifiés localement.
+Premier essai distant : accueil FR/EN/DE et PDF textuel réussis, image refusée.
+Secours Tesserocr/PDFium/Pillow et modèles officiels FR/EN/DE ajoutés ; image
+et PDF scanné testés sans exécutables système. Redéploiement à vérifier.
 Voir [sources, limites et parcours](docs/CONSOLIDATED_EMPLOYER_REVIEW.md).
 Aucune fusion des PR sources ni modification des recettes existantes.
 
