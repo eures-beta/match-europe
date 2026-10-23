@@ -33,8 +33,7 @@ install: ## Installer les dépendances dans .venv (Python 3.12 requis)
 run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
-test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
-	@$(MANAGE) test $(TEST_ARGS)
+test: test-root test-local ## Exécuter le socle et le prototype autonome
 
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
@@ -54,3 +53,14 @@ dbshell: ## Ouvrir psql sur la base locale configurée (SQL interactif)
 
 collectstatic: ## Collecter les statiques dans staticfiles/
 	@$(MANAGE) collectstatic --noinput
+
+.PHONY: install-test test-root test-local
+install-test: ## Installer les dépendances des deux suites dans .venv (Python 3.12)
+	python3.12 -m venv .venv
+	.venv/bin/python -m pip install -r requirements-test.txt
+
+test-root: ## Vérifier le socle Django conservé à la racine
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test config match_europe.tests --noinput
+
+test-local: ## Vérifier les parcours du prototype autonome
+	@$(LOAD_ENV) "$(PYTHON)" match_europe/manage.py test journeys --noinput

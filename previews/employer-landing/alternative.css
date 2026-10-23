@@ -1,0 +1,53 @@
+
+/* Alternative isolated from the reference page. Existing branding and workflow retained. */
+.employer-alternative{background:#f3f6fa}
+.employer-alternative .import-shell{max-width:960px;font-family:Arial,Helvetica,sans-serif;color:#17324d}
+.employer-alternative .import-card{padding:40px;border-radius:20px;border:1px solid #dce3ed;box-shadow:0 8px 32px #17324d08}
+.employer-alternative .import-card h1{font-family:Arial,Helvetica,sans-serif;font-size:32px;font-weight:650;line-height:1.25;letter-spacing:-.5px;margin:0 0 18px}
+.employer-alternative .import-card h2{font-size:21px;font-weight:600;line-height:1.4;margin:0 0 20px}
+.employer-alternative .import-card h3{font-size:17px;font-weight:600;line-height:1.5;margin:24px 0 16px}
+.employer-alternative .import-card p{line-height:1.65}
+.employer-alternative .import-card label,.employer-alternative .mobility-field legend{font-weight:500;line-height:1.5}
+.employer-alternative .import-steps{font-family:Arial,Helvetica,sans-serif;font-size:14px;gap:12px;margin-bottom:24px;counter-reset:steps}
+.employer-alternative .import-steps li{padding:10px 16px;border:1px solid #dce3ed;border-radius:24px;background:white}
+.employer-alternative .import-steps li[aria-current]{background:#e8effa;border-color:#004494}
+.employer-alternative #review-step{background:transparent;box-shadow:none;border:0;padding:0}
+.employer-alternative #review-step>h1{margin-bottom:20px}
+.employer-alternative #review-provenance{background:transparent;border:0;padding:0;margin:0 0 8px;font-size:15px}
+.employer-alternative #review-step>.mini-note{margin:0 0 28px;font-size:14px;color:#52657c}
+.employer-alternative .alt-panel{background:white;border:1px solid #dce3ed;border-radius:16px;padding:28px;margin-bottom:22px}
+.employer-alternative .alt-panel>p{font-size:15px;color:#52657c;margin:0 0 24px}
+.employer-alternative .alt-panel .mini-note{font-size:14px;color:#52657c}
+.employer-alternative .review-fields{column-gap:24px}
+.employer-alternative .review-field{margin-bottom:22px}
+.employer-alternative .import-card input:not([type=radio]):not([type=checkbox]):not([type=file]),.employer-alternative .import-card select,.employer-alternative .import-card textarea{width:100%;min-height:48px;padding:12px 14px;font:400 16px/1.6 Arial,sans-serif;border:1px solid #aebdce;border-radius:8px;background:#fff}
+.employer-alternative .import-card textarea{min-height:160px;resize:vertical}
+.employer-alternative #review-description{min-height:240px}
+.employer-alternative .mobility-field{margin-bottom:22px}
+.employer-alternative .mobility-options{gap:10px}
+.employer-alternative .mobility-options label{font-size:14px;border-radius:9px;padding:11px 14px;min-height:44px;background:white}
+.employer-alternative .mobility-options label:has(input:checked){font-weight:500;background:#e8effa;border-color:#004494}
+.employer-alternative .review-field>.review-provenance{padding:12px 16px;margin-top:14px;font-size:14px;line-height:1.5;background:#fff3c7}
+.employer-alternative .review-field>.review-provenance p{margin:0 0 8px}
+.employer-alternative .alt-privacy{padding:18px 22px!important;margin:28px 0 18px!important;font-size:14px!important;border-radius:10px}
+.employer-alternative .alt-privacy h2{font-size:17px!important;margin:0 0 10px!important}
+.employer-alternative .review-confirm{background:white;border:1px solid #dce3ed;padding:20px;font-size:15px}
+.employer-alternative .landing-actions{gap:14px;margin-top:26px}
+.employer-alternative .primary-action,.employer-alternative .ghost-action{font-family:Arial,sans-serif;font-size:15px;border-radius:9px;min-height:46px;box-sizing:border-box}
+.employer-alternative #url-form #url-preview,.employer-alternative #email-help{margin:16px 0;line-height:1.6;font-size:14px}
+.employer-alternative #url-form>label,.employer-alternative #email-form>label{margin-top:26px;margin-bottom:10px}
+.employer-alternative #url-read-agreement-note{font-size:13px;margin-top:22px;padding-top:18px;border-top:1px solid #dce3ed}
+.employer-alternative .import-consent{margin:28px 0;background:#f7f9fc;border:1px solid #dce3ed;border-radius:12px;padding:22px}
+.employer-alternative .import-consent p{font-size:14px}
+.employer-alternative .import-consent-label{font-size:15px}
+.employer-alternative .import-choice{border-radius:12px;padding:22px;gap:18px}
+.employer-alternative .import-choice strong{font-size:18px;font-weight:600}
+.employer-alternative .choice-description{font-size:15px}
+.employer-alternative #prepare-step form{display:grid;gap:12px}
+.employer-alternative #prepare-step form label{margin:12px 0 0}
+.employer-alternative #prepare-step form button{justify-self:start}
+@media(max-width:600px){.employer-alternative .import-card{padding:24px}.employer-alternative .import-card h1{font-size:27px}.employer-alternative .alt-panel{padding:20px}.employer-alternative .import-steps{gap:6px;font-size:12px}.employer-alternative .import-steps li{padding:8px 10px}.employer-alternative .landing-actions{flex-direction:column;align-items:stretch}}
+
+body #review-description,body #review-desiredProfile{font-family:Arial,Helvetica,sans-serif!important;font-size:16px;font-weight:400;line-height:1.65;letter-spacing:normal;color:var(--text)}
+
+body #review-title,body #review-companyName,body #review-city{font-family:Arial,Helvetica,sans-serif!important;font-size:16px;font-weight:400;line-height:1.65;letter-spacing:normal;color:var(--text)}
