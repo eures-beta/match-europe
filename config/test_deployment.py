@@ -15,7 +15,9 @@ class CollectedStaticTests(SimpleTestCase):
                 client = Client()
                 home = client.get("/")
                 self.assertEqual(home.status_code, 200)
-                css_path = re.search(r'href="([^"]+bootstrap.min.css)"', home.content.decode())[1]
+                css_path = re.search(
+                    r'href="([^"]+bootstrap.min.css)"', home.content.decode()
+                )[1]
                 for path in (css_path, "/static/admin/css/base.css"):
                     response = client.get(path)
                     self.assertEqual(response.status_code, 200, path)
@@ -29,8 +31,15 @@ class CollectedStaticTests(SimpleTestCase):
     )
     def test_https_ingress_does_not_create_a_redirect_loop(self):
         client = Client()
-        self.assertEqual(client.get("/", HTTP_X_FORWARDED_PROTO="https").status_code, 200)
-        self.assertRedirects(client.get("/"), "https://testserver/", status_code=301, fetch_redirect_response=False)
+        self.assertEqual(
+            client.get("/", HTTP_X_FORWARDED_PROTO="https").status_code, 200
+        )
+        self.assertRedirects(
+            client.get("/"),
+            "https://testserver/",
+            status_code=301,
+            fetch_redirect_response=False,
+        )
 
 
 class HealthTests(TestCase):
@@ -41,10 +50,16 @@ class HealthTests(TestCase):
         self.assertEqual(response.content, b"")
         self.assertNotIn("Location", response)
         self.assertIn("no-store", response["Cache-Control"])
-        self.assertEqual(self.client.head("/health/", HTTP_HOST="192.0.2.17:8080").status_code, 204)
-        self.assertEqual(self.client.post("/health/", HTTP_HOST="192.0.2.17:8080").status_code, 405)
+        self.assertEqual(
+            self.client.head("/health/", HTTP_HOST="192.0.2.17:8080").status_code, 204
+        )
+        self.assertEqual(
+            self.client.post("/health/", HTTP_HOST="192.0.2.17:8080").status_code, 405
+        )
         for path in ("/", "/admin/", "/health/anything"):
-            self.assertEqual(self.client.get(path, HTTP_HOST="192.0.2.17:8080").status_code, 400)
+            self.assertEqual(
+                self.client.get(path, HTTP_HOST="192.0.2.17:8080").status_code, 400
+            )
 
     @override_settings(SECURE_SSL_REDIRECT=True)
     def test_health_checks_postgresql_without_https_redirect_or_cache(self):
@@ -55,7 +70,10 @@ class HealthTests(TestCase):
         self.assertEqual(self.client.post("/health/").status_code, 405)
 
     def test_failed_database_returns_no_internal_details(self):
-        with patch("config.health.connection.cursor", side_effect=OperationalError("fictional-secret")):
+        with patch(
+            "config.health.connection.cursor",
+            side_effect=OperationalError("fictional-secret"),
+        ):
             response = self.client.get("/health/", HTTP_HOST="probe.example.invalid")
         self.assertEqual(response.status_code, 503)
         self.assertEqual(response.content, b"")
