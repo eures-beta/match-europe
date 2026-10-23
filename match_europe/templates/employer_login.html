@@ -1,6 +1,7 @@
 {% extends auth_shell %}{% load i18n %}{% block content %}
 <section class="surface-card import-card">
-{% if stage == 'access' %}
+{% if workspace %}{% include 'employer_workspace.html' %}
+{% elif stage == 'access' %}
 <h1>{% trans "Access your employer space" %}</h1>
 <p>{% trans "Enter a fictional email address. No email will be sent." %}</p>
 <form method="post">{% csrf_token %}<label for="id_email">Email</label>{{ form.email }}{% if form.errors %}<p role="alert">{% trans "Enter a valid email address." %}</p>{% endif %}<button type="submit" class="primary-action">{% trans "Request a connection link" %}</button></form>
@@ -29,43 +30,7 @@
 {% elif stage == 'confirm' %}
 <h1>{% trans "Confirm your connection" %}</h1><p>{% trans "Confirm to verify your email and open a session. No access to company data is granted." %}</p>
 <form method="post">{% csrf_token %}<button class="primary-action">{% trans "Connect" %}</button></form>
-{% elif stage == 'connected' %}
-<h1>{% trans "My employer space" %}</h1><p>{{ email }}</p><p>{% trans "Your email address is verified. Welcome to your employer space." %}</p>
-<h2>{% trans "Your establishments" %}</h2>
-<ul>{% for company in companies %}<li>{{ company.name }}</li>{% empty %}<li>{% trans "You do not yet belong to an establishment." %}</li>{% endfor %}</ul>
-<a class="primary-action" href="{{ import_url }}">{% trans "Add an offer" %}</a>
-{% if attached %}<p role="status">{% trans "Your offer is now attached to your establishment." %} {{ attached }}</p>{% endif %}
-{% if pending_import %}
-<h2>{% trans "Attach your offer to an establishment" %}</h2>
-<p><strong>{{ pending_title }}</strong></p>
-<p>{% trans "The offer is shared with authorised colleagues of this establishment." %}</p>
-{% if companies %}
-<form method="post" action="{% url 'employer_attach' %}">{% csrf_token %}
-{% if companies|length == 1 %}
-{% for company in companies %}
-<p><strong>{{ company.name }}</strong></p>
-<input type="hidden" name="company" value="{{ company.pk }}">
-{% endfor %}
-{% else %}
-<label for="establishment-choice">{% trans "Choose the establishment for this offer" %}</label>
-<select id="establishment-choice" name="company" required>
-<option value="">—</option>
-{% for company in companies %}<option value="{{ company.pk }}">{{ company.name }}</option>{% endfor %}
-</select>
-{% endif %}
-<button class="primary-action" type="submit">{% trans "Save the offer for this establishment" %}</button>
-</form>
-{% else %}
-<p>{% trans "Enter your establishment name once to save your offer." %}</p>
-<form method="post" action="{% url 'employer_attach' %}">{% csrf_token %}
-{% if establishment_form.errors %}<div role="alert">{% trans "Enter your establishment name." %}</div>{% endif %}
-{{ establishment_form.as_p }}
-<button class="primary-action" type="submit">{% trans "Save my offer" %}</button>
-</form>
-{% endif %}
-{% endif %}
-<form method="post" action="{% url 'employer_logout' %}">{% csrf_token %}<button class="ghost-action">{% trans "Sign out" %}</button></form>
 {% elif stage == 'limited' %}<h1>{% trans "Please wait before requesting another link." %}</h1>
 {% else %}<h1>{% trans "This link is invalid, expired or already used." %}</h1>{% endif %}
-{% if stage != 'connected' and stage != 'access' %}<p class="mt-3"><a href="{% url 'employer_access' %}">{% trans "Request a new link" %}</a></p>{% endif %}
+{% if not workspace and stage != 'connected' and stage != 'access' %}<p class="mt-3"><a href="{% url 'employer_access' %}">{% trans "Request a new link" %}</a></p>{% endif %}
 </section>{% endblock %}

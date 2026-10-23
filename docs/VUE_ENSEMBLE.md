@@ -38,3 +38,12 @@ Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas q
 Noms de discussions : `EMPLOYEURS — Sujet`, `CANDIDATS — Sujet`, `CONSEILLERS — Sujet`, `ADMIN — Sujet`, ou `TRANSVERSE — Sujet`.
 
 Les discussions ne constituent pas une mémoire automatiquement partagée. Conserver dans ces références les informations nécessaires à une reprise ; consulter les fichiers concernés avant toute modification.
+
+## Recette locale employeurs — lot 3 (22 octobre 2026)
+
+L’espace des imports employeurs permet de retrouver les offres des établissements
+habilités, les consulter, les modifier avant recherche et les dupliquer. Le
+verrouillage repose sur une date serveur distincte ; le lancement effectif de la
+recherche reste à raccorder dans un lot suivant. Aucun nouveau résultat candidat
+ni modification des espaces conseillers/admins.
+Voir [périmètre et recette](EMPLOYER_OFFER_WORKSPACE.md).

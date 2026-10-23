@@ -1,3 +1,26 @@
+## 22 octobre 2026 — accueil employeur unifié en tableau
+
+À la demande d’Eric, l’accueil et les offres utilisent désormais le même écran.
+Bouton d’ajout en tête, établissement unique affiché sous le titre, compte
+repliable avec email et déconnexion ; message de vérification email retiré.
+Tableau : intitulé/lieu, établissement, état, dernière modification, consultation.
+Validation finale : 100 tests PostgreSQL réussis ; contrôles visuels écran large
+et étroit, défilement limité au tableau, compte/déconnexion accessibles.
+Rattachement et brouillons privés conservés dans des encarts distincts.
+Recette 9020 actualisée, aucune modification des recettes 9018/9019 ni des PR.
+
+## 22 octobre 2026 — lot 3 employeur en recette locale
+
+Branche isolée `codex/employer-offer-workspace`, basée sur la tête distante
+`ded96d9` de la PR #20 vérifiée en lecture seule. Liste par établissement,
+consultation, édition avant recherche et duplication avec lien vers l’original.
+Migration additive 0007 : date de recherche et origine de copie. Aucun lancement
+de recherche implémenté ; l’état verrouillé de recette est fictif et explicite.
+99 tests PostgreSQL passent ; parcours navigateur édition/enregistrement et
+duplication d’une offre verrouillée vérifiés. FR/EN/DE, CSRF, droits objet et
+révisions conservés. Base et serveur séparés sur 9020, recettes 9018/9019 préservées.
+Aucun push, merge ou déploiement. Voir [périmètre et limites](docs/EMPLOYER_OFFER_WORKSPACE.md).
+
 ## Ajustement de l’en-tête employeur — 22 octobre 2026
 
 À la demande d’Eric, connexion intégrée à l’en-tête près des langues, avec

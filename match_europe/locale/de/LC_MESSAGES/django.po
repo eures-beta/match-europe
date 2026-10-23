@@ -745,3 +745,228 @@ msgstr "Sie gehören noch keiner Betriebsstätte an."
 
 msgid "Add an offer"
 msgstr "Angebot hinzufügen"
+
+msgid "A colleague changed this offer. Open the current version before duplicating it."
+msgstr "Ein Kollege hat dieses Angebot geändert. Öffnen Sie die aktuelle Version, bevor Sie es duplizieren."
+
+msgid "A colleague changed this offer. Your changes have not been saved. Open the current version before trying again."
+msgstr "Ein Kollege hat dieses Angebot geändert. Ihre Änderungen wurden nicht gespeichert. Öffnen Sie zuerst die aktuelle Version."
+
+msgid "Access to the workplace"
+msgstr "Erreichbarkeit des Arbeitsortes"
+
+msgid "Administrative support"
+msgstr "Unterstützung bei Verwaltungsverfahren"
+
+msgid "All your establishments"
+msgstr "Alle Ihre Betriebsstätten"
+
+msgid "Apprenticeship"
+msgstr "Ausbildung"
+
+msgid "Arrival support"
+msgstr "Unterstützung bei der Ankunft"
+
+msgid "Back to offers"
+msgstr "Zurück zu den Angeboten"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Candidate search has started. To change your recruitment needs, duplicate this offer."
+msgstr "Die Kandidatensuche hat begonnen. Um Ihren Bedarf zu ändern, duplizieren Sie dieses Angebot."
+
+msgid "Candidate search started"
+msgstr "Kandidatensuche begonnen"
+
+msgid "Changes saved."
+msgstr "Änderungen gespeichert."
+
+msgid "Changing this text does not change the establishment or access rights."
+msgstr "Eine Änderung dieses Textes ändert weder die Betriebsstätte noch die Zugriffsrechte."
+
+msgid "Check the fields below. Your changes have not been saved."
+msgstr "Prüfen Sie die folgenden Felder. Ihre Änderungen wurden nicht gespeichert."
+
+msgid "Choose an establishment"
+msgstr "Betriebsstätte auswählen"
+
+msgid "Choose either specific conditions or None / To discuss, not both."
+msgstr "Wählen Sie konkrete Bedingungen oder „Keine / Zu besprechen“, nicht beides."
+
+msgid "Contact for the adviser"
+msgstr "Kontakt für die Beratung"
+
+msgid "Copied from offer"
+msgstr "Kopie des Angebots"
+
+msgid "Driving licences and authorisations"
+msgstr "Führerscheine und Berechtigungen"
+
+msgid "Duplicate offer"
+msgstr "Angebot duplizieren"
+
+msgid "Duplicating creates a new editable draft in the same establishment. It does not start a candidate search."
+msgstr "Beim Duplizieren entsteht ein neuer bearbeitbarer Entwurf in derselben Betriebsstätte. Es wird keine Kandidatensuche gestartet."
+
+msgid "Early hours"
+msgstr "Frühe Arbeitszeiten"
+
+msgid "Edit offer"
+msgstr "Angebot bearbeiten"
+
+msgid "Editable before candidate search"
+msgstr "Vor der Kandidatensuche bearbeitbar"
+
+msgid "Establishment"
+msgstr "Betriebsstätte"
+
+msgid "Filter"
+msgstr "Filtern"
+
+msgid "Fixed-term contract"
+msgstr "Befristeter Vertrag"
+
+msgid "Freelance"
+msgstr "Selbstständig"
+
+msgid "Frequent travel"
+msgstr "Häufige Dienstreisen"
+
+msgid "Housing"
+msgstr "Unterkunft"
+
+msgid "Internship"
+msgstr "Praktikum"
+
+msgid "Is a licence or authorisation required?"
+msgstr "Ist ein Führerschein oder eine Berechtigung erforderlich?"
+
+msgid "Languages and levels"
+msgstr "Sprachen und Niveaus"
+
+msgid "Last updated"
+msgstr "Zuletzt geändert"
+
+msgid "Next"
+msgstr "Weiter"
+
+msgid "Night work"
+msgstr "Nachtarbeit"
+
+msgid "No offers saved for this establishment yet."
+msgstr "Für diese Betriebsstätte sind noch keine Angebote gespeichert."
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Offer pages"
+msgstr "Angebotsseiten"
+
+msgid "Offers are shared only with authorised colleagues of each establishment."
+msgstr "Angebote werden nur mit berechtigten Kollegen der jeweiligen Betriebsstätte geteilt."
+
+msgid "Offers awaiting attachment"
+msgstr "Noch zuzuordnende Angebote"
+
+msgid "Offers from your establishments"
+msgstr "Angebote Ihrer Betriebsstätten"
+
+msgid "Onboarding"
+msgstr "Unterstützung beim Arbeitsbeginn"
+
+msgid "Other"
+msgstr "Andere"
+
+msgid "Other arrival support"
+msgstr "Weitere Unterstützung bei der Ankunft"
+
+msgid "Other authorisation"
+msgstr "Weitere Berechtigung"
+
+msgid "Outdoor work"
+msgstr "Arbeit im Freien"
+
+msgid "Permanent contract"
+msgstr "Unbefristeter Vertrag"
+
+msgid "Physical work"
+msgstr "Körperliche Arbeit"
+
+msgid "Previous"
+msgstr "Zurück"
+
+msgid "Save changes"
+msgstr "Änderungen speichern"
+
+msgid "Saving does not publish the offer or start a candidate search."
+msgstr "Das Speichern veröffentlicht das Angebot nicht und startet keine Kandidatensuche."
+
+msgid "Shift work"
+msgstr "Schichtarbeit"
+
+msgid "Skills and experience sought"
+msgstr "Gesuchte Fähigkeiten und Erfahrung"
+
+msgid "Standing work"
+msgstr "Längeres Stehen"
+
+msgid "Start date"
+msgstr "Arbeitsbeginn"
+
+msgid "Temporary work"
+msgstr "Zeitarbeit"
+
+msgid "These drafts are private to you until you attach them to an establishment."
+msgstr "Diese Entwürfe bleiben privat, bis Sie sie einer Betriebsstätte zuordnen."
+
+msgid "This contact may differ from the signed-in person."
+msgstr "Dieser Kontakt kann von der angemeldeten Person abweichen."
+
+msgid "This offer can be edited until candidate search starts."
+msgstr "Dieses Angebot bleibt bearbeitbar, solange die Kandidatensuche nicht begonnen hat."
+
+msgid "Training"
+msgstr "Weiterbildung"
+
+msgid "Transport"
+msgstr "Transport"
+
+msgid "Variable hours"
+msgstr "Variable Arbeitszeiten"
+
+msgid "View offer"
+msgstr "Angebot ansehen"
+
+msgid "Weekends"
+msgstr "Wochenenden"
+
+msgid "Working conditions"
+msgstr "Arbeitsbedingungen"
+
+msgid "Local demonstration · Fictional data · No emails or external calls"
+msgstr "Lokale Demonstration · Fiktive Daten · Keine E-Mails oder externen Aufrufe"
+
+msgid "Select Yes before choosing required licences or authorisations."
+msgstr "Wählen Sie „Ja“, bevor Sie erforderliche Führerscheine oder Berechtigungen auswählen."
+
+msgid "You are editing a new draft copied from another offer. The original offer is unchanged."
+msgstr "Sie bearbeiten einen neuen Entwurf, der aus einem anderen Angebot kopiert wurde. Das ursprüngliche Angebot bleibt unverändert."
+
+msgid "View original offer"
+msgstr "Ursprüngliches Angebot ansehen"
+
+msgid "My account"
+msgstr "Mein Konto"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "Editable"
+msgstr "Bearbeitbar"
+
+msgid "Add your first offer to find it here."
+msgstr "Fügen Sie Ihr erstes Angebot hinzu, um es hier wiederzufinden."
