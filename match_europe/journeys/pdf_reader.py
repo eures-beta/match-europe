@@ -13,6 +13,15 @@ from pypdf import PdfReader
 
 
 def ocr(data, suffix, page=0):
+    # Prefer the pinned engine/models in the consolidated runtime over host tools.
+    try:
+        import tesserocr
+    except ImportError:
+        pass
+    else:
+        from portable_ocr import read
+
+        return read(data, suffix, page)
     executable = shutil.which('tesseract')
     renderer = shutil.which('pdftoppm')
     if not executable or (suffix == '.pdf' and not renderer):
