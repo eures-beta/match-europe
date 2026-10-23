@@ -422,6 +422,27 @@ def read_pdf(upload, split_sections=True):
         )
         extracted = json.loads(result.stdout)
         text = extracted['text']
+    except subprocess.CalledProcessError as exc:
+        error = ImportFailure('unreadable')
+        stderr = exc.stderr.decode('utf-8', errors='replace') if exc.stderr else ''
+        # Fixed categories only: never return traceback, paths or document text.
+        if (
+            exc.returncode == -9
+            or 'MemoryError' in stderr
+            or 'Cannot allocate memory' in stderr
+        ):
+            error.reader_status = 'memory_limit'
+        elif 'Failed to init API' in stderr:
+            error.reader_status = 'models_unavailable'
+        elif 'ModuleNotFoundError' in stderr or 'ImportError' in stderr:
+            error.reader_status = 'dependency_unavailable'
+        else:
+            error.reader_status = 'reader_failed'
+        raise error from None
+    except subprocess.TimeoutExpired:
+        error = ImportFailure('unreadable')
+        error.reader_status = 'timeout'
+        raise error from None
     except Exception:
         raise ImportFailure('unreadable') from None
     if not text.strip():
