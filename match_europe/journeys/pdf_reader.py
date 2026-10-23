@@ -16,7 +16,9 @@ def ocr(data, suffix, page=0):
     executable = shutil.which('tesseract')
     renderer = shutil.which('pdftoppm')
     if not executable or (suffix == '.pdf' and not renderer):
-        raise ValueError('ocr_unavailable')
+        from portable_ocr import read
+
+        return read(data, suffix, page)
     with tempfile.TemporaryDirectory(prefix='me-ocr-') as directory:
         source = Path(directory) / ('document' + suffix)
         source.write_bytes(data)
@@ -52,7 +54,9 @@ def ocr(data, suffix, page=0):
             language for language in ('fra', 'eng', 'deu') if language in languages
         )
         if not selected:
-            raise ValueError('ocr_unavailable')
+            from portable_ocr import read
+
+            return read(data, suffix, page)
         result = subprocess.run(
             [executable, str(source), 'stdout', '-l', selected, '--psm', '3'],
             capture_output=True,

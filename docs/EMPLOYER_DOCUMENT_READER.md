@@ -31,3 +31,14 @@ Attention : le parcours préexistant sans cet indicateur envoie une offre inacti
 Les sections de site inconnues, tableaux complexes, documents avec une mauvaise couche OCR et caractères mal reconnus restent à contrôler. La limite de texte est de 16 000 caractères. Les documents sources fournis pour la recette restent hors Git ; les tests versionnés utilisent des exemples fictifs.
 
 Le parcours d’import reste distinct du modèle de matching `Offer`. Aucune migration de base, modification des permissions ou activation d’une intégration externe n’est incluse.
+
+
+## Recette consolidée — portabilité OCR (23 octobre 2026)
+
+L’image serveur de la recette ne permettait pas la reconnaissance des images
+avec les outils système. Un secours local utilise Tesserocr (même moteur
+Tesseract), PDFium pour rendre les PDF scannés et Pillow pour les images.
+Les modèles officiels FR/EN/DE sont livrés avec leur licence et leurs sommes
+de contrôle ; aucun téléchargement ni service distant pendant la lecture.
+Le processus séparé, les limites de taille et les délais du lecteur sont conservés.
+Les exécutables système restent utilisés lorsqu’ils sont disponibles.

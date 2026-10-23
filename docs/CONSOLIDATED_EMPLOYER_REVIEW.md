@@ -44,7 +44,7 @@ réutilisée pour cette consolidation.
 
 ## Vérifications locales effectuées
 
-- 142 tests PostgreSQL passent, dont trois tests d’intégration HTTPS : import,
+- 144 tests PostgreSQL passent, dont trois tests d’intégration HTTPS : import,
   connexion, rattachement, recherche simulée, verrouillage, duplication,
   isolation entre testeurs et CSRF.
 - Migrations sur base vide, contrôle Django, absence de migration manquante,
@@ -54,9 +54,13 @@ réutilisée pour cette consolidation.
   avertissement de contradiction 40 h / 20 h retrouvés.
 - Navigateur local : accueil, connexion simulée et tableau employeur vérifiés.
 
-Ces résultats locaux ne prouvent pas la présence d’OCR sur le serveur hébergé.
-Tesseract et, pour les PDF scannés, Poppler doivent être disponibles. Leur
-présence et le parcours complet restent à vérifier sur la recette déployée.
+Le premier essai distant a confirmé l’accueil FR/EN/DE et la lecture PDF
+textuelle, mais a échoué pour une image. Un secours OCR portable a donc été
+ajouté : même moteur Tesseract via Tesserocr, rendu PDFium, images Pillow et
+modèles officiels FR/EN/DE livrés dans le dépôt (environ 6,8 Mo, licence Apache
+2.0). Les exécutables système restent prioritaires. Aucun service OCR distant
+ni téléchargement au traitement d’un document. Cette adaptation reste à
+revérifier après redéploiement.
 Aucune certification de conformité ou d’accessibilité complète n’est revendiquée.
 
 ## Parcours à essayer
