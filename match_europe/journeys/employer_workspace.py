@@ -147,8 +147,9 @@ def detail(request, id):
             value = choices.get(value, value)
         if value:
             rows.append((field.label, value))
-    return render(request, 'offer_detail', offer=offer, saved=request.GET.get('saved')=='1',
-        fields=rows, contact=EmployerContactForm(initial=offer.contact), workspace=True)
+    from .employer_search import simulation_enabled
+    return render(request, 'offer_detail', search_simulation=simulation_enabled(), offer=offer, saved=request.GET.get('saved')=='1',
+        search_operation=offer.search_operations.order_by('-created').first(), fields=rows, contact=EmployerContactForm(initial=offer.contact), workspace=True)
 
 
 @connected
@@ -156,7 +157,7 @@ def detail(request, id):
 def edit(request, id):
     with transaction.atomic():
         offer = get_object_or_404(visible(request).select_for_update(of=('self',)), pk=id)
-        if offer.search_started_at:
+        if offer.search_write_blocked:
             return render(request, 'offer_locked', status=409 if request.method=='POST' else 200, offer=offer, workspace=True)
         form = OfferEditForm(request.POST if request.method=='POST' else None, offer=offer)
         contact = EmployerContactForm(request.POST if request.method=='POST' else None, initial=offer.contact, prefix='contact')

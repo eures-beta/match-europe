@@ -104,3 +104,9 @@ déconnexion accessibles, aucun débordement horizontal du document sur écran
 Validation après cet ajustement : 100 tests PostgreSQL passent, dont un nouveau
 contrôle de l’accueil unifié, du tableau et de la zone de compte. Contrôle visuel
 sur écran large et étroit ; défilement horizontal limité au tableau.
+
+## Suite : lot 4A
+
+Le lancement simulé, les répétitions et les états incertains sont décrits dans
+[le lot 4A](EMPLOYER_SEARCH_LAUNCH.md). Cette extension reste sur une branche
+dédiée ; la recette du lot 3 sur 9020 est conservée.
