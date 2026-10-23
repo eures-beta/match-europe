@@ -32,3 +32,11 @@ Pour chaque nouveau choix important : indiquer la date, la décision, sa justifi
 ## 16 octobre 2026 — conservation du prototype dans un dépôt distinct
 
 À la demande explicite de l’utilisateur : partager le premier prototype Django dans `eures-beta/match-europe`, sur une branche dédiée et une PR de conservation en brouillon. Commits regroupés par thème pour la lecture humaine. `main` ne doit recevoir aucun commit direct ; aucun merge ou déploiement. Le checkout historique et son travail non commité restent conservés.
+
+## 23 octobre 2026 — préparation d’une démonstration partagée
+
+L’utilisateur autorise le rebase et le push de la PR #2, ainsi que des adaptations
+identifiables dans des commits séparés des sept commits initiaux. Il posera
+lui-même le label de recette. Les règles initiales interdisant tout déploiement
+décrivent le partage du 16 octobre ; cette autorisation ultérieure concerne
+uniquement une recette fictive temporaire, pas une production ni une fusion.
