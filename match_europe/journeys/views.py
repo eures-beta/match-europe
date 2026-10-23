@@ -19,8 +19,10 @@ from .services import adviser_from, audit, consume_token, dispatch_offer, extrac
 
 
 def interface(request):
+    from .demo import shared_notice
     user = identity(request)
     return {'me_user': user, 'demo_mode': settings.DEMO_MODE,
+            'shared_preview_notice': shared_notice(),
             'notifications': user.notifications.order_by('-created')[:8] if user else []}
 
 
