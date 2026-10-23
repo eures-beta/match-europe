@@ -14,3 +14,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = get_wsgi_application()
+
+# The deployment runs migrations before starting WSGI. Seed only a fresh demo DB.
+from .demo import ensure_demo
+ensure_demo()
