@@ -7,13 +7,13 @@ from django.db import OperationalError
 from django.test import Client, SimpleTestCase, TestCase, override_settings
 
 
-class CollectedStaticTests(SimpleTestCase):
+class CollectedStaticTests(TestCase):
     def test_wsgi_serves_home_and_collected_css_without_debug(self):
         with tempfile.TemporaryDirectory() as directory:
             with override_settings(STATIC_ROOT=directory, DEBUG=False):
                 call_command("collectstatic", interactive=False, verbosity=0)
                 client = Client()
-                home = client.get("/")
+                home = client.get("/access/")
                 self.assertEqual(home.status_code, 200)
                 css_path = re.search(
                     r'href="([^"]+bootstrap.min.css)"', home.content.decode()
@@ -32,11 +32,11 @@ class CollectedStaticTests(SimpleTestCase):
     def test_https_ingress_does_not_create_a_redirect_loop(self):
         client = Client()
         self.assertEqual(
-            client.get("/", HTTP_X_FORWARDED_PROTO="https").status_code, 200
+            client.get("/access/", HTTP_X_FORWARDED_PROTO="https").status_code, 200
         )
         self.assertRedirects(
-            client.get("/"),
-            "https://testserver/",
+            client.get("/access/"),
+            "https://testserver/access/",
             status_code=301,
             fetch_redirect_response=False,
         )
