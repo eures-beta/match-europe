@@ -13,6 +13,11 @@ from pypdf import PdfReader
 
 
 def ocr(data, suffix, page=0):
+    if suffix != '.pdf':
+        from portable_ocr import image_bytes
+
+        data = image_bytes(data)
+        suffix = '.png'
     # Prefer the pinned engine/models in the consolidated runtime over host tools.
     try:
         import tesserocr
@@ -42,7 +47,7 @@ def ocr(data, suffix, page=0):
                     str(page + 1),
                     '-singlefile',
                     '-scale-to',
-                    '3200',
+                    '1200',
                     '-png',
                     str(source),
                     str(target),

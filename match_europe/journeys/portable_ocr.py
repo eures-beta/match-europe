@@ -5,6 +5,20 @@ from io import BytesIO
 from pathlib import Path
 
 
+def image_bytes(data):
+    """Bound raster input before either the native or command-line OCR engine."""
+    from PIL import Image
+
+    Image.MAX_IMAGE_PIXELS = 20_000_000
+    with Image.open(BytesIO(data)) as source:
+        if source.width * source.height > Image.MAX_IMAGE_PIXELS:
+            raise ValueError("Oversized image")
+        source.thumbnail((900, 1200))
+        result = BytesIO()
+        source.convert("RGB").save(result, format="PNG")
+        return result.getvalue()
+
+
 def read(data, suffix, page=0):
     os.environ.setdefault("OMP_THREAD_LIMIT", "1")
     from PIL import Image
