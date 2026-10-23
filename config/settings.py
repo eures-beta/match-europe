@@ -11,11 +11,22 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "eures_beta"
+# Preserve the standalone prototype while making its app importable from the root.
+sys.path.insert(0, str(APPS_DIR))
+DEMO_MODE = True
+# The root entry point is a demonstration, never a live-service deployment.
+SHARED_DEMO = os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
+LOGIN_URL = "/access/"
+RUNTIME = APPS_DIR / ".runtime"
+MEDIA_ROOT = RUNTIME / "private"
+DATA_UPLOAD_MAX_MEMORY_SIZE = 12 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1024 * 1024
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'journeys',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +61,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -68,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'journeys.views.interface',
             ],
         },
     },
@@ -130,7 +144,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
+LANGUAGES = [('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')]
+LOCALE_PATHS = [APPS_DIR / 'locale']
 
 TIME_ZONE = 'UTC'
 
@@ -154,4 +170,15 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {'redact_links': {'()': 'match_europe.config.logging.RedactAccessLinks'}},
+    'handlers': {'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}},
+    'loggers': {
+        'django.server': {'handlers': ['safe_console'], 'level': 'INFO', 'propagate': False},
+        'django.request': {'handlers': ['safe_console'], 'level': 'WARNING', 'propagate': False},
+    },
 }
