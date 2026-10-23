@@ -437,7 +437,17 @@ def read_pdf(upload, split_sections=True):
         elif 'ModuleNotFoundError' in stderr or 'ImportError' in stderr:
             error.reader_status = 'dependency_unavailable'
         else:
-            error.reader_status = 'reader_failed'
+            categories = (
+                'RuntimeError',
+                'ValueError',
+                'OSError',
+                'SystemError',
+                'AttributeError',
+            )
+            kind = next(
+                (name.lower() for name in categories if name in stderr), 'reader'
+            )
+            error.reader_status = f'{kind}_exit_{exc.returncode}'
         raise error from None
     except subprocess.TimeoutExpired:
         error = ImportFailure('unreadable')
