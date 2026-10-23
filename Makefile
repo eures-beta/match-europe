@@ -34,7 +34,7 @@ run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
 test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
-	@$(MANAGE) test $(TEST_ARGS)
+	@$(MANAGE) test journeys config match_europe.tests --noinput $(TEST_ARGS)
 
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
@@ -54,3 +54,20 @@ dbshell: ## Ouvrir psql sur la base locale configurée (SQL interactif)
 
 collectstatic: ## Collecter les statiques dans staticfiles/
 	@$(MANAGE) collectstatic --noinput
+
+.PHONY: install-test test-local seed-demo serve db-create
+install-test: ## Installer aussi les dépendances du diagnostic Push pour les tests
+	python3.12 -m venv .venv
+	.venv/bin/python -m pip install -r requirements-test.txt
+
+test-local: ## Vérifier aussi la configuration historique autonome du prototype
+	@$(LOAD_ENV) "$(PYTHON)" match_europe/manage.py test journeys --noinput
+
+seed-demo: ## Initialiser les rôles fictifs manuellement (développement local)
+	@$(MANAGE) seed_demo
+
+serve: ## Tester le serveur WSGI sur loopback, avec un worker
+	@$(LOAD_ENV) "$(PYTHON)" -m gunicorn config.wsgi:application --bind "127.0.0.1:$(PORT)" --workers 1
+
+db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
+	@$(LOAD_ENV) createdb --maintenance-db=postgres "$${PGDATABASE:?Renseigner PGDATABASE dans .env}"

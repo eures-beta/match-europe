@@ -1,15 +1,35 @@
 from django.contrib.auth import get_user_model
 from django.db import connection
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 
 class SkeletonTests(TestCase):
-    def test_home_uses_bootstrap_and_links_to_admin(self):
-        response = self.client.get(reverse("home"))
-        self.assertTemplateUsed(response, "home.html")
-        self.assertContains(response, "vendor/bootstrap/bootstrap.min.css")
-        self.assertContains(response, reverse("admin:index"))
+    @override_settings(SHARED_DEMO=True)
+    def test_home_opens_the_employer_landing_page(self):
+        response = self.client.get("/", secure=True)
+        self.assertRedirects(
+            response,
+            "/previews/employer-landing/fr.html",
+            fetch_redirect_response=False,
+        )
+        self.assertContains(
+            self.client.get(response["Location"], secure=True), '<html lang="fr"'
+        )
+
+    @override_settings(SHARED_DEMO=True)
+    def test_employer_landing_languages_remain_available(self):
+        for language in ("fr", "en", "de"):
+            with self.subTest(language=language):
+                response = self.client.get(
+                    f"/previews/employer-landing/{language}.html", secure=True
+                )
+                self.assertContains(response, f'<html lang="{language}"')
+
+    def test_role_access_remains_available(self):
+        response = self.client.get("/access/")
+        self.assertTemplateUsed(response, "access.html")
+        self.assertContains(response, "bootstrap.min.css")
 
     def test_admin_requires_authentication(self):
         response = self.client.get(reverse("admin:index"))

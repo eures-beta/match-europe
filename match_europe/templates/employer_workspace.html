@@ -1,0 +1,77 @@
+{% load i18n %}
+<style>
+.offer-workspace{font-family:Arial,Helvetica,sans-serif;line-height:1.6}.offer-workspace h1{font-size:clamp(26px,4vw,36px)}.offer-workspace .offer-list{padding:0;list-style:none}.offer-workspace .offer-list>li{border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}.offer-workspace .offer-list h2{margin:0 0 10px;font-size:22px}.offer-workspace .offer-actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.offer-workspace .offer-actions form{margin:0}.offer-workspace .offer-field{margin:20px 0}.offer-workspace label,.offer-workspace legend{font-weight:700}.offer-workspace input:not([type=checkbox]),.offer-workspace textarea,.offer-workspace select{display:block;width:100%;box-sizing:border-box;font:inherit;padding:10px;border:1px solid var(--muted);border-radius:8px;margin:8px 0}.offer-workspace input[type=checkbox]{width:20px;height:20px;vertical-align:middle;margin:8px}.offer-workspace fieldset{border:1px solid var(--line);border-radius:10px;padding:16px;margin:24px 0;min-width:0}.offer-workspace dt{font-weight:700;margin-top:18px}.offer-workspace dd{margin:4px 0;white-space:pre-wrap;overflow-wrap:anywhere}.offer-workspace .errorlist{color:#8b1a1a}.offer-workspace :focus-visible{outline:3px solid var(--accent);outline-offset:3px}.offer-workspace .offer-status{padding:12px;background:#eaf2fc;border-left:4px solid var(--accent)}
+
+.offer-workspace .workspace-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px}.offer-workspace .workspace-heading h1{margin:0 0 8px}.workspace-heading>.primary-action{flex-shrink:0}.workspace-establishment{margin:0;color:var(--muted)}.workspace-account{border-bottom:1px solid var(--line);padding:0 0 20px;margin-bottom:28px}.workspace-account summary{cursor:pointer;color:var(--accent);min-height:32px;display:list-item;font-size:15px}.workspace-account>div{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-top:8px}.workspace-account p{margin:0;overflow-wrap:anywhere}.workspace-account form{margin:0}.offer-workspace #offers-heading{font-size:24px;margin:24px 0 8px}.offer-table-scroll{position:relative;max-width:100%;overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:12px}.offer-table{border-collapse:collapse;width:100%;font-size:15px;text-align:left}.offer-table th,.offer-table td{padding:16px;vertical-align:top;border-bottom:1px solid var(--line)}.offer-table thead{background:#eef4fc}.offer-table thead th{font-weight:700;white-space:nowrap}.offer-table tbody tr:last-child>*{border-bottom:0}.offer-table tbody tr:hover{background:#f7faff}.offer-table tbody th{min-width:200px;max-width:340px}.offer-table a{color:var(--accent);text-underline-offset:3px}.offer-location{display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:5px}.offer-state{display:inline-block;border-radius:6px;padding:4px 8px;background:#eef4fc;color:#17324d;font-size:13px;line-height:1.5}.offer-state-started{background:#fff0bd}.offer-table time{display:block;min-width:115px;color:var(--muted)}.offer-view{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}.offer-empty,.offer-attachment{padding:20px;border:1px solid var(--line);border-radius:12px;background:#f7faff;margin:20px 0}.offer-workspace .offer-attachment h2{margin-top:0}.offer-workspace .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}@media(max-width:600px){.offer-workspace .workspace-heading{align-items:flex-start}.offer-table th,.offer-table td{padding:12px}.offer-workspace .workspace-heading>.primary-action{width:auto}}
+</style>
+<div class="offer-workspace">
+{% if stage == 'offers' %}
+<div class="workspace-heading">
+<div><h1>{% trans "My employer space" %}</h1>
+{% if companies|length == 1 %}{% for company in companies %}<p class="workspace-establishment">{{ company.name }}</p>{% endfor %}{% endif %}</div>
+<a class="primary-action" href="/previews/employer-landing/import-v2-{{ request.session.employer_auth_language }}.html">{% trans "Add an offer" %}</a>
+</div>
+<details class="workspace-account"><summary>{% trans "My account" %}</summary><div><p>{{ email }}</p><form method="post" action="{% url 'employer_logout' %}">{% csrf_token %}<button class="ghost-action" type="submit">{% trans "Sign out" %}</button></form></div></details>
+{% if attached %}<p role="status" class="offer-status">{% trans "Your offer is now attached to your establishment." %} {{ attached }}</p>{% endif %}
+{% if pending_import %}{% include 'employer_attachment.html' %}{% endif %}
+<h2 id="offers-heading">{% trans "Offers from your establishments" %}</h2>
+<p class="mini-note">{% trans "Offers are shared only with authorised colleagues of each establishment." %}</p>
+{% if not companies %}<p>{% trans "You do not yet belong to an establishment." %}</p>{% endif %}
+{% if companies|length > 1 %}
+<form method="get"><label for="offer-company">{% trans "Establishment" %}</label>
+<select name="company" id="offer-company"><option value="">{% trans "All your establishments" %}</option>{% for company in companies %}<option value="{{ company.pk }}" {% if selected == company.pk|stringformat:'s' %}selected{% endif %}>{{ company.name }}</option>{% endfor %}</select>
+<button class="ghost-action" type="submit">{% trans "Filter" %}</button></form>{% endif %}
+{% if offers %}
+<div class="offer-table-scroll" role="region" aria-labelledby="offers-heading" tabindex="0">
+<table class="offer-table"><caption class="visually-hidden">{% trans "Offers from your establishments" %}</caption>
+<thead><tr><th scope="col">{% trans "Job title" %}</th><th scope="col">{% trans "Establishment" %}</th><th scope="col">{% trans "Status" %}</th><th scope="col">{% trans "Last updated" %}</th><th scope="col"><span class="visually-hidden">{% trans "Actions" %}</span></th></tr></thead>
+<tbody>{% for offer in offers %}<tr>
+<th scope="row"><a href="{% url 'employer_offer' offer.pk %}">{{ offer.data.title|default:_('Untitled offer') }}</a>{% if offer.data.city %}<span class="offer-location">{{ offer.data.city }}</span>{% endif %}</th>
+<td>{{ offer.company.name }}</td>
+<td><span class="offer-state {% if offer.search_started_at %}offer-state-started{% endif %}">{% if offer.search_started_at %}{% trans "Candidate search started" %}{% elif offer.search_write_blocked %}{% trans "Start to be checked" %}{% else %}{% trans "Editable" %}{% endif %}</span></td>
+<td><time datetime="{{ offer.updated|date:'c' }}">{{ offer.updated|date:'SHORT_DATETIME_FORMAT' }}</time></td>
+<td><a class="offer-view" href="{% url 'employer_offer' offer.pk %}">{% trans "View offer" %}<span class="visually-hidden"> — {{ offer.data.title|default:_('Untitled offer') }}</span></a></td>
+</tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="offer-empty"><p>{% trans "No offers saved for this establishment yet." %}</p><p>{% trans "Add your first offer to find it here." %}</p></div>{% endif %}
+{% if offers.has_other_pages %}<nav aria-label="{% trans 'Offer pages' %}">{% if offers.has_previous %}<a href="?company={{ selected }}&amp;page={{ offers.previous_page_number }}">{% trans "Previous" %}</a>{% endif %} <span>{{ offers.number }} / {{ offers.paginator.num_pages }}</span> {% if offers.has_next %}<a href="?company={{ selected }}&amp;page={{ offers.next_page_number }}">{% trans "Next" %}</a>{% endif %}</nav>{% endif %}
+{% if private_drafts %}<section><h2>{% trans "Offers awaiting attachment" %}</h2><p>{% trans "These drafts are private to you until you attach them to an establishment." %}</p>
+<ul class="offer-list">{% for offer in private_drafts %}<li><p>{{ offer.data.title|default:_('Untitled offer') }}</p><form method="post" action="{% url 'employer_resume_attachment' offer.pk %}">{% csrf_token %}<button class="ghost-action" type="submit">{% trans "Choose an establishment" %}</button></form></li>{% endfor %}</ul></section>{% endif %}
+{% else %}
+<p><a href="{% url 'employer_offers' %}">{% trans "Back to offers" %}</a></p>
+<h1>{{ offer.data.title|default:_('Untitled offer') }}</h1><p><strong>{{ offer.company.name }}</strong></p>
+{% if stage == 'offer_detail' %}
+{% if saved %}<p role="status" class="offer-status">{% trans "Changes saved." %}</p>{% endif %}
+{% if offer.search_started_at %}<p class="offer-status">{% trans "Candidate search has started. To change your recruitment needs, duplicate this offer." %}</p>
+{% elif offer.search_write_blocked %}<p role="status" class="offer-status">{% trans "Start to be checked. Changes are temporarily suspended. No new start request will be sent." %}</p>
+{% else %}<p>{% trans "This offer can be edited until candidate search starts." %}</p>{% endif %}
+{% if search_operation %}<p class="offer-status">{% trans "Local simulation: no candidate has been contacted and no external search has been started." %}</p>
+{% if search_operation.state == 'failed' %}<p role="status">{% trans "The search did not start. You can edit the offer or confirm a new attempt." %}</p>{% endif %}{% endif %}
+{% if search_simulation and offer.search_write_blocked and not offer.search_started_at %}<form method="post" action="{% url 'employer_search_check' offer.pk %}">{% csrf_token %}<button class="primary-action" type="submit">{% trans "Check simulated start status" %}</button></form>{% endif %}
+{% if offer.duplicated_from_id %}<p>{% trans "Copied from offer" %} : <a href="{% url 'employer_offer' offer.duplicated_from_id %}">{{ offer.duplicated_from.data.title|default:_('Untitled offer') }}</a></p>{% endif %}
+<div class="offer-actions">{% if not offer.search_write_blocked %}<a class="primary-action" href="{% url 'employer_offer_edit' offer.pk %}">{% trans "Edit offer" %}</a>{% endif %}
+{% if search_simulation and not offer.search_write_blocked %}<a class="primary-action" href="{% url 'employer_search_launch' offer.pk %}">{% trans "Start my candidate search" %}</a>{% endif %}
+<form method="post" action="{% url 'employer_offer_duplicate' offer.pk %}">{% csrf_token %}<input type="hidden" name="revision" value="{{ offer.revision }}"><button class="ghost-action" type="submit">{% trans "Duplicate offer" %}</button></form></div>
+<p>{% trans "Duplicating creates a new editable draft in the same establishment. It does not start a candidate search." %}</p>
+<dl>{% for label,value in fields %}<dt>{{ label }}</dt><dd>{{ value|default:'—' }}</dd>{% endfor %}</dl>
+<h2>{% trans "Contact for the adviser" %}</h2><dl>{% for field in contact %}<dt>{{ field.label }}</dt><dd>{{ field.value|default:'—' }}</dd>{% endfor %}</dl>
+{% elif stage == 'offer_edit' %}
+{% if offer.duplicated_from_id %}<p class="offer-status" role="status">{% trans "You are editing a new draft copied from another offer. The original offer is unchanged." %}</p><p><a href="{% url 'employer_offer' offer.duplicated_from_id %}">{% trans "View original offer" %}</a></p>{% endif %}
+<h2>{% trans "Edit offer" %}</h2><p>{% trans "Saving does not publish the offer or start a candidate search." %}</p>
+<form method="post">{% csrf_token %}
+{% if form.errors or contact.errors %}<div role="alert"><p>{% trans "Check the fields below. Your changes have not been saved." %}</p>{{ form.non_field_errors }}{{ contact.non_field_errors }}</div>{% endif %}
+{% for field in form %}{% if field.is_hidden %}{{ field }}{% else %}<div class="offer-field">{% if field.name == 'workConditions' or field.name == 'permits' or field.name == 'arrivalAids' %}<fieldset><legend>{{ field.label }}</legend>{{ field }}{{ field.errors }}</fieldset>{% else %}{{ field.label_tag }}{{ field }}{% if field.help_text %}<p class="mini-note">{{ field.help_text }}</p>{% endif %}{{ field.errors }}{% endif %}</div>{% endif %}{% endfor %}
+<fieldset><legend>{% trans "Contact for the adviser" %}</legend><p>{% trans "This contact may differ from the signed-in person." %}</p>{{ contact.as_p }}</fieldset>
+<div class="offer-actions"><button class="primary-action" type="submit">{% trans "Save changes" %}</button><a class="ghost-action" href="{% url 'employer_offer' offer.pk %}">{% trans "Cancel" %}</a></div>
+</form>
+{% elif stage == 'search_confirm' %}
+<h2>{% trans "Start my candidate search" %}</h2>
+<p class="offer-status">{% trans "Local simulation: no candidate has been contacted and no external search has been started." %}</p>
+<p>{% trans "Starting includes candidate search, qualification and contact. Once the server confirms the start, this offer cannot be edited. If your needs change, duplicate it to create a new draft." %}</p>
+<p>{% trans "While the request is pending or its outcome is uncertain, changes are temporarily suspended. Checking its status does not send a new start request." %}</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<div class="offer-actions"><button class="primary-action" type="submit">{% trans "Confirm simulated start" %}</button><a href="{% url 'employer_offer' offer.pk %}">{% trans "Cancel" %}</a></div></form>
+{% elif stage == 'search_conflict' %}<p role="alert">{% trans "This offer changed or a start is already pending. Review its current version before confirming." %}</p><a href="{% url 'employer_offer' offer.pk %}">{% trans "View offer" %}</a>
+{% elif stage == 'offer_locked' %}<p role="alert" class="offer-status">{% if offer.search_started_at %}{% trans "Candidate search has started. To change your recruitment needs, duplicate this offer." %}{% else %}{% trans "Start to be checked. Changes are temporarily suspended. No new start request will be sent." %}{% endif %}</p><a href="{% url 'employer_offer' offer.pk %}">{% trans "View offer" %}</a>
+{% elif stage == 'offer_conflict' %}<p role="alert">{% trans "A colleague changed this offer. Open the current version before duplicating it." %}</p><a href="{% url 'employer_offer' offer.pk %}">{% trans "View offer" %}</a>
+{% endif %}
+{% endif %}
+</div>

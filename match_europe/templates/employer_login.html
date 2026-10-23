@@ -1,0 +1,36 @@
+{% extends auth_shell %}{% load i18n %}{% block content %}
+<section class="surface-card import-card">
+{% if workspace %}{% include 'employer_workspace.html' %}
+{% elif stage == 'access' %}
+<h1>{% trans "Access your employer space" %}</h1>
+<p>{% trans "Enter a fictional email address. No email will be sent." %}</p>
+<form method="post">{% csrf_token %}<label for="id_email">Email</label>{{ form.email }}{% if form.errors %}<p role="alert">{% trans "Enter a valid email address." %}</p>{% endif %}<button type="submit" class="primary-action">{% trans "Request a connection link" %}</button></form>
+{% elif stage == 'sent' %}
+<h1>{% trans "Check your email" %}</h1>
+<p class="lede">{% trans "Open the connection link in the email to continue to your employer space." %}</p>
+<aside class="review-provenance" aria-labelledby="test-email-title">
+<h2 id="test-email-title">{% trans "Local test only" %}</h2>
+<p>{% trans "No email is actually sent during this test. The button below lets you view the simulated message." %}</p>
+<a class="ghost-action" href="{% url 'employer_test_inbox' %}">{% trans "For testing: view the simulated email" %}</a>
+</aside>
+{% elif stage == 'inbox' %}
+<h1>{% trans "Email preview" %}</h1>
+<p class="mini-note">{% trans "Local simulation — this email has not been sent. The sender address will be configured with Brevo FT." %}</p>
+{% if message %}
+<dl><dt>{% trans "From" %}</dt><dd>Match Europe</dd><dt>{% trans "To" %}</dt><dd>{{ message.email }}</dd><dt>{% trans "Subject" %}</dt><dd>{% trans "Verify your email address — Match Europe" %}</dd></dl>
+<hr><article aria-label="Email">
+<p>{% trans "Hello," %}</p>
+<p>{% trans "You requested access to your Match Europe employer space. Verify your email address to continue." %}</p>
+<form method="post" action="{{ message.link }}">{% csrf_token %}<button class="primary-action">{% trans "Verify my email address" %}</button></form>
+<p>{% trans "The link expires after 15 minutes and can only be used once." %}</p>
+<p>{% trans "If you did not request this access, ignore this email." %}</p>
+<p>{% trans "The Match Europe team" %}</p>
+</article>
+{% else %}<p>{% trans "No message available." %}</p>{% endif %}
+{% elif stage == 'confirm' %}
+<h1>{% trans "Confirm your connection" %}</h1><p>{% trans "Confirm to verify your email and open a session. No access to company data is granted." %}</p>
+<form method="post">{% csrf_token %}<button class="primary-action">{% trans "Connect" %}</button></form>
+{% elif stage == 'limited' %}<h1>{% trans "Please wait before requesting another link." %}</h1>
+{% else %}<h1>{% trans "This link is invalid, expired or already used." %}</h1>{% endif %}
+{% if not workspace and stage != 'connected' and stage != 'access' %}<p class="mt-3"><a href="{% url 'employer_access' %}">{% trans "Request a new link" %}</a></p>{% endif %}
+</section>{% endblock %}
