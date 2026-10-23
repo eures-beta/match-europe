@@ -1,5 +1,11 @@
 # Squelette Django
 
+`make install-test` prépare les dépendances du socle et du prototype autonome.
+`make test` exécute leurs deux suites PostgreSQL ; `make test-root` et
+`make test-local` les lancent séparément. Les commandes chargent le `.env` local
+s’il existe. Choisir un `PGDATABASE` distinct par worktree permet les tests en
+parallèle. Aucun fichier Make temporaire n’est nécessaire.
+
 Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstrap 5.3.8.
 
 - `/` : page neutre rendue par un template Django, avec Bootstrap servi localement.
