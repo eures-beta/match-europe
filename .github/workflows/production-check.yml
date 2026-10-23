@@ -1,0 +1,48 @@
+name: Vérification de main avant déploiement
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: tests
+          POSTGRES_PASSWORD: tests
+          POSTGRES_DB: tests
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DJANGO_SECRET_KEY: ci-only-not-a-production-secret
+      DJANGO_DEBUG: '0'
+      DJANGO_HTTPS: '0'
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGDATABASE: tests
+      PGUSER: tests
+      PGPASSWORD: tests
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Installer les dépendances
+        run: make install
+      - name: Vérifier Django et les migrations
+        run: make check
+      - name: Exécuter les tests PostgreSQL
+        run: make test

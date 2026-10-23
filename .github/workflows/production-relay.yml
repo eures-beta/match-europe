@@ -1,0 +1,46 @@
+name: Relais de main validé
+
+on:
+  workflow_run:
+    workflows: [Vérification de main avant déploiement]
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  relay:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      # Aucun checkout ni code applicatif dans le job qui détient le jeton.
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          DISPATCH_TOKEN: ${{ secrets.PREVIEW_DISPATCH_TOKEN }}
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            if (run.path !== '.github/workflows/production-check.yml' || !Number.isSafeInteger(run.id)) {
+              core.setFailed('Origine du signal inattendue.');
+              return;
+            }
+            const token = process.env.DISPATCH_TOKEN;
+            if (!token) { core.setFailed('Jeton de relais absent.'); return; }
+            const response = await fetch(
+              'https://api.github.com/repos/eures-beta/match-europe-deploy-clever/actions/workflows/production.yml/dispatches',
+              {
+                method: 'POST',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  Accept: 'application/vnd.github+json',
+                  'Content-Type': 'application/json',
+                  'X-GitHub-Api-Version': '2022-11-28'
+                },
+                body: JSON.stringify({ref: 'main', inputs: {source_run: String(run.id)}})
+              }
+            );
+            if (!response.ok) core.setFailed(`Relais refusé (${response.status}).`);
