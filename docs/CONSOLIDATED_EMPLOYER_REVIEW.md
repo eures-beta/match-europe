@@ -58,7 +58,7 @@ Le premier essai distant a confirmé l’accueil FR/EN/DE et la lecture PDF
 textuelle, mais a échoué pour une image. Un secours OCR portable a donc été
 ajouté : même moteur Tesseract via Tesserocr, rendu PDFium, images Pillow et
 modèles officiels FR/EN/DE livrés dans le dépôt (environ 6,8 Mo, licence Apache
-2.0). Les exécutables système restent prioritaires. Aucun service OCR distant
+2.0). Le moteur épinglé et ses modèles sont prioritaires ; les outils système restent un secours. Aucun service OCR distant
 ni téléchargement au traitement d’un document. Cette adaptation reste à
 revérifier après redéploiement.
 Aucune certification de conformité ou d’accessibilité complète n’est revendiquée.
@@ -75,3 +75,11 @@ Aucune certification de conformité ou d’accessibilité complète n’est reve
 8. Avec une autre identité fictive dans un autre navigateur, vérifier l’absence d’accès à cet établissement.
 
 La disponibilité distante et le commit déployé sont à consigner après publication.
+
+
+Le traitement OCR portable borne le côté le plus long à 1 600 pixels et utilise
+les niveaux de gris pour réduire la mémoire. Une image fictive réduite à 1 200
+pixels a réussi sur la recette alors que l’original provoquait une erreur de
+passerelle ; cette observation motive la borne. Les petits caractères et les
+scans dégradés restent à contrôler humainement ; aucune précision universelle
+n’est promise.

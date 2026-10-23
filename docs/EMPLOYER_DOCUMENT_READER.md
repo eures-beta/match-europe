@@ -41,4 +41,4 @@ Tesseract), PDFium pour rendre les PDF scannés et Pillow pour les images.
 Les modèles officiels FR/EN/DE sont livrés avec leur licence et leurs sommes
 de contrôle ; aucun téléchargement ni service distant pendant la lecture.
 Le processus séparé, les limites de taille et les délais du lecteur sont conservés.
-Les exécutables système restent utilisés lorsqu’ils sont disponibles.
+Le moteur épinglé est prioritaire lorsqu’il est installé ; les outils système restent un secours.
