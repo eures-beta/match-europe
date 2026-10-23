@@ -22,10 +22,10 @@ def read(data, suffix, page=0):
                 if min(width, height) <= 0:
                     raise ValueError("Invalid page dimensions")
                 # Match the system renderer limit; never allocate a full-size large page.
-                scale = min(1600 / max(width, height), 4)
+                scale = min(1200 / max(width, height), 4)
                 bitmap = source.render(scale=scale)
                 try:
-                    image = bitmap.to_pil().convert("L")
+                    image = bitmap.to_pil().convert("RGB")
                 finally:
                     bitmap.close()
             finally:
@@ -34,8 +34,8 @@ def read(data, suffix, page=0):
         with Image.open(BytesIO(data)) as source:
             if source.width * source.height > Image.MAX_IMAGE_PIXELS:
                 raise ValueError("Oversized image")
-            source.thumbnail((1600, 1600))
-            image = source.convert("L")
+            source.thumbnail((900, 1200))
+            image = source.convert("RGB")
     try:
         with tesserocr.PyTessBaseAPI(
             path=str(models), lang="fra+eng+deu", psm=tesserocr.PSM.AUTO

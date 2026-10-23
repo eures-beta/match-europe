@@ -77,8 +77,7 @@ Aucune certification de conformité ou d’accessibilité complète n’est reve
 La disponibilité distante et le commit déployé sont à consigner après publication.
 
 
-Le traitement OCR portable borne le côté le plus long à 1 600 pixels et utilise
-les niveaux de gris pour réduire la mémoire. Une image fictive réduite à 1 200
+Le traitement OCR portable borne le côté le plus long à 1 200 pixels (900 pixels de largeur pour les images) afin de réduire la mémoire. Une image fictive réduite à 1 200
 pixels a réussi sur la recette alors que l’original provoquait une erreur de
 passerelle ; cette observation motive la borne. Les petits caractères et les
 scans dégradés restent à contrôler humainement ; aucune précision universelle
