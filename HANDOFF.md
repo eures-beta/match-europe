@@ -122,7 +122,10 @@ PostgreSQL passent ; migrations neuves, ressources statiques, traductions,
 PDF/OCR fictif et contrôles de qualité vérifiés localement.
 Premier essai distant : accueil FR/EN/DE et PDF textuel réussis, image refusée.
 Secours Tesserocr/PDFium/Pillow et modèles officiels FR/EN/DE ajoutés ; image
-et PDF scanné testés sans exécutables système. Redéploiement à vérifier.
+et PDF scanné testés sans exécutables système. Après borne commune des images
+et séparation du rendu des scans/OCR, validation distante au commit `27d66cf` :
+PDF, image, scan et parcours complet jusqu’à la duplication réussis. La PR #25
+est assignée à Eric54800, relecture dejafait demandée, recette temporaire active.
 Voir [sources, limites et parcours](docs/CONSOLIDATED_EMPLOYER_REVIEW.md).
 Aucune fusion des PR sources ni modification des recettes existantes.
 

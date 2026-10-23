@@ -59,8 +59,7 @@ textuelle, mais a échoué pour une image. Un secours OCR portable a donc été
 ajouté : même moteur Tesseract via Tesserocr, rendu PDFium, images Pillow et
 modèles officiels FR/EN/DE livrés dans le dépôt (environ 6,8 Mo, licence Apache
 2.0). Le moteur épinglé et ses modèles sont prioritaires ; les outils système restent un secours. Aucun service OCR distant
-ni téléchargement au traitement d’un document. Cette adaptation reste à
-revérifier après redéploiement.
+ni téléchargement au traitement d’un document. Cette adaptation a été vérifiée sur la recette au commit `27d66cf`.
 Aucune certification de conformité ou d’accessibilité complète n’est revendiquée.
 
 ## Parcours à essayer
@@ -74,7 +73,18 @@ Aucune certification de conformité ou d’accessibilité complète n’est reve
 7. Dupliquer l’offre et vérifier que la copie reste modifiable.
 8. Avec une autre identité fictive dans un autre navigateur, vérifier l’absence d’accès à cet établissement.
 
-La disponibilité distante et le commit déployé sont à consigner après publication.
+## Validation distante effectuée
+
+Recette de la PR #25 au commit `27d66cf5855302e7616de5d61a6c1e2452cd8b19` :
+accueil et import V2 FR/EN/DE, PDF textuel, image et PDF scanné fictifs reconnus.
+Le parcours distant complet réussit à partir du scan : enregistrement avant
+connexion, email simulé, rattachement explicite, tableau, recherche simulée
+avec incertitude, vérification, verrouillage et duplication.
+
+Le rendu des scans et l’OCR s’exécutent dans deux processus successifs afin de
+ne pas conserver simultanément les bibliothèques de rendu et de reconnaissance.
+Les formats fictifs testés ne garantissent pas la lecture de tous les documents.
+La recette est temporaire ; son commentaire de PR indique son expiration.
 
 
 Le traitement OCR portable borne le côté le plus long à 1 200 pixels (900 pixels de largeur pour les images) afin de réduire la mémoire. Une image fictive réduite à 1 200
