@@ -240,6 +240,11 @@ def read_source(request):
             }
         )
     except ImportFailure as exc:
+        diagnostic = getattr(exc, 'reader_status', None)
+        if diagnostic:
+            return JsonResponse(
+                {'error': exc.code, 'readerStatus': diagnostic}, status=400
+            )
         return failure(exc.code)
 
 
