@@ -5,11 +5,11 @@ from django.urls import reverse
 
 
 class SkeletonTests(TestCase):
-    def test_home_uses_bootstrap_and_links_to_admin(self):
-        response = self.client.get(reverse("home"))
-        self.assertTemplateUsed(response, "home.html")
-        self.assertContains(response, "vendor/bootstrap/bootstrap.min.css")
-        self.assertContains(response, reverse("admin:index"))
+    def test_home_opens_the_prototype_access_page(self):
+        self.assertRedirects(self.client.get("/"), "/access/")
+        response = self.client.get("/access/")
+        self.assertTemplateUsed(response, "access.html")
+        self.assertContains(response, "bootstrap.min.css")
 
     def test_admin_requires_authentication(self):
         response = self.client.get(reverse("admin:index"))
