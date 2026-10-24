@@ -11,11 +11,11 @@
     "manualTitle": "Décrivez votre offre",
     "manualLabel": "Texte de votre offre d’emploi",
     "manualHelp": "Indiquez le poste, les missions et les conditions proposées. Vous pourrez compléter ces informations ensuite.",
-    "emailTitle": "Comment retrouver votre offre ?",
-    "emailIntro": "Votre email permettra de conserver votre offre et de retrouver votre espace pour poursuivre la démarche.",
+    "emailTitle": "Enregistrer votre offre",
+    "emailIntro": "Votre fiche est prête. Renseignez votre email et le contact entreprise pour enregistrer votre offre et la retrouver ensuite.",
     "emailLabel": "Votre email professionnel",
     "emailHelp": "Pour cette prévisualisation, utilisez une adresse fictive. Aucun email n’est envoyé.",
-    "next": "Préparer mon offre",
+    "next": "Enregistrer et continuer",
     "readyTitle": "La prochaine étape : vérifier votre offre",
     "ready": "Le choix du PDF, du lien ou de la saisie manuelle et l’étape email sont testables. La lecture des documents et des pages web n’est pas encore raccordée. Aucune offre ni aucun email n’a été transmis ou enregistré ; aucun site d’offre n’a été contacté.",
     "restart": "Recommencer",
@@ -27,8 +27,8 @@
     "emptyManual": "Renseignez le texte de votre offre pour continuer.",
     "steps": [
       "Votre offre",
-      "Votre email",
-      "Vérification"
+      "Vérification",
+      "Enregistrement"
     ],
     "selected": "Fichier sélectionné : ",
     "replace": "Vous pouvez choisir un autre fichier pour le remplacer.",
@@ -51,7 +51,7 @@
     "textChoice": "Saisir ou coller le texte",
     "textDescription": "Vous préférez copier votre annonce ou la rédiger ici.",
     "pdfIntro": "Importez votre offre au format PDF. Vous pourrez vérifier les informations avant toute recherche de candidats.",
-    "livePreview": "Essai local : préparation assistée par IA. Aucune publication ni recherche de candidats.",
+    "livePreview": "Essai local : lecture des documents sans service externe. Aucune publication ni recherche de candidats.",
     "liveEmailHelp": "Votre email est conservé dans votre brouillon local. Aucun email de connexion n’est envoyé pendant cet essai.",
     "liveConsentHelp": "Aucune candidature n’est évaluée ou écartée à cette étape.",
     "liveUrl": "La page sera vérifiée avant de vous demander votre email.",
@@ -76,7 +76,8 @@
     "readAgreement": "En cliquant sur « Lire cette offre », vous autorisez la lecture de cette page publique pour préparer votre offre.",
     "readingUrl": "Lecture du lien en cours…",
     "urlErrorTitle": "Nous ne pouvons pas lire cette offre",
-    "urlFallback": "Choisissez une autre méthode : importer un PDF ou copier-coller le texte de l’annonce."
+    "urlFallback": "Choisissez une autre méthode : importer un PDF ou copier-coller le texte de l’annonce.",
+    "readPdfAgreement": "En cliquant sur « Lire les documents », vous demandez la préparation de votre offre. Le résultat peut contenir des erreurs : vérifiez et corrigez les informations avant validation. Pendant cet essai, la lecture utilise une extraction locale, sans IA générative ni transmission à un prestataire. Aucune publication ni recherche de candidats ne sera lancée."
   },
   "en": {
     "title": "Add your job offer",
@@ -90,11 +91,11 @@
     "manualTitle": "Describe your offer",
     "manualLabel": "Your job offer text",
     "manualHelp": "Include the role, duties and working conditions. You can complete this information later.",
-    "emailTitle": "How can you find your offer again?",
-    "emailIntro": "Your email will help save your offer and return to your space to continue.",
+    "emailTitle": "Save your offer",
+    "emailIntro": "Your offer is ready. Enter your email and company contact to save it and return to it later.",
     "emailLabel": "Your work email",
     "emailHelp": "Use a fictional address for this preview. No email is sent.",
-    "next": "Prepare my offer",
+    "next": "Save and continue",
     "readyTitle": "Next step: review your offer",
     "ready": "PDF, link or manual entry and the email step can be tested. Reading documents and web pages is not connected yet. No offer or email has been sent or saved, and no job website has been contacted.",
     "restart": "Start again",
@@ -106,8 +107,8 @@
     "emptyManual": "Enter your offer text to continue.",
     "steps": [
       "Your offer",
-      "Your email",
-      "Review"
+      "Review",
+      "Save"
     ],
     "selected": "Selected file: ",
     "replace": "You can choose another file to replace it.",
@@ -130,7 +131,7 @@
     "textChoice": "Enter or paste text",
     "textDescription": "You prefer to paste your advert or write it here.",
     "pdfIntro": "Import your offer as a PDF. You can check the information before any candidate search.",
-    "livePreview": "Local test: AI-assisted preparation. No publication or candidate search.",
+    "livePreview": "Local trial: documents read without an external service. No publication or candidate search.",
     "liveEmailHelp": "Your email is saved in your local draft. No sign-in email is sent during this trial.",
     "liveConsentHelp": "No application is assessed or rejected at this step.",
     "liveUrl": "The page will be checked before we ask for your email.",
@@ -155,7 +156,8 @@
     "readAgreement": "By clicking “Read this offer”, you authorise reading this public page to prepare your offer.",
     "readingUrl": "Reading the link…",
     "urlErrorTitle": "We cannot read this offer",
-    "urlFallback": "Choose another method: import a PDF or paste the offer text."
+    "urlFallback": "Choose another method: import a PDF or paste the offer text.",
+    "readPdfAgreement": "By clicking “Read documents”, you request preparation of your offer. The result may contain errors: check and correct it before validation. This trial uses local text extraction, without generative AI or transfer to a provider. No publication or candidate search will be started."
   },
   "de": {
     "title": "Fügen Sie Ihr Stellenangebot hinzu",
@@ -169,11 +171,11 @@
     "manualTitle": "Beschreiben Sie Ihr Angebot",
     "manualLabel": "Text Ihres Stellenangebots",
     "manualHelp": "Nennen Sie die Stelle, Aufgaben und Arbeitsbedingungen. Sie können die Angaben später ergänzen.",
-    "emailTitle": "Wie finden Sie Ihr Angebot wieder?",
-    "emailIntro": "Mit Ihrer E-Mail können Sie Ihr Angebot speichern und später fortfahren.",
+    "emailTitle": "Ihr Angebot speichern",
+    "emailIntro": "Ihr Angebot ist vorbereitet. Geben Sie Ihre E-Mail-Adresse und den Unternehmenskontakt ein, um es zu speichern und später wiederzufinden.",
     "emailLabel": "Ihre berufliche E-Mail-Adresse",
     "emailHelp": "Verwenden Sie für diese Vorschau eine fiktive Adresse. Es wird keine E-Mail versendet.",
-    "next": "Mein Angebot vorbereiten",
+    "next": "Speichern und weiter",
     "readyTitle": "Nächster Schritt: Ihr Angebot prüfen",
     "ready": "PDF-Auswahl, Link, manuelle Eingabe und E-Mail-Schritt können getestet werden. Dokumente und Webseiten werden noch nicht gelesen. Kein Angebot und keine E-Mail-Adresse wurde übermittelt oder gespeichert; keine Angebotsseite wurde aufgerufen.",
     "restart": "Neu beginnen",
@@ -185,8 +187,8 @@
     "emptyManual": "Geben Sie den Text Ihres Angebots ein, um fortzufahren.",
     "steps": [
       "Ihr Angebot",
-      "Ihre E-Mail",
-      "Prüfung"
+      "Prüfung",
+      "Speichern"
     ],
     "selected": "Ausgewählte Datei: ",
     "replace": "Sie können eine andere Datei auswählen, um sie zu ersetzen.",
@@ -209,7 +211,7 @@
     "textChoice": "Text eingeben oder einfügen",
     "textDescription": "Sie möchten Ihre Anzeige einfügen oder hier verfassen.",
     "pdfIntro": "Importieren Sie Ihr Angebot als PDF. Sie können die Angaben vor jeder Suche prüfen.",
-    "livePreview": "Lokaler Test: KI-gestützte Vorbereitung. Keine Veröffentlichung oder Bewerbersuche.",
+    "livePreview": "Lokaler Test: Dokumente werden ohne externen Dienst gelesen. Keine Veröffentlichung oder Kandidatensuche.",
     "liveEmailHelp": "Ihre E-Mail-Adresse wird im lokalen Entwurf gespeichert. Im Test wird keine Anmelde-E-Mail gesendet.",
     "liveConsentHelp": "In diesem Schritt wird keine Bewerbung bewertet oder abgelehnt.",
     "liveUrl": "Die Seite wird vor der Abfrage Ihrer E-Mail geprüft.",
@@ -234,6 +236,7 @@
     "readAgreement": "Mit „Angebot lesen“ erlauben Sie das Lesen dieser öffentlichen Seite zur Vorbereitung Ihres Angebots.",
     "readingUrl": "Link wird gelesen…",
     "urlErrorTitle": "Dieses Angebot kann nicht gelesen werden",
-    "urlFallback": "Andere Methode wählen: PDF importieren oder Anzeigentext einfügen."
+    "urlFallback": "Andere Methode wählen: PDF importieren oder Anzeigentext einfügen.",
+    "readPdfAgreement": "Mit einem Klick auf „Dokumente lesen“ beauftragen Sie die Vorbereitung Ihres Angebots. Das Ergebnis kann Fehler enthalten: Prüfen und korrigieren Sie es vor der Bestätigung. Dieser Test verwendet lokale Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Es wird keine Veröffentlichung oder Kandidatensuche gestartet."
   }
 }

@@ -129,12 +129,43 @@
   // Keep edits on back/forward navigation when the source has not changed.
   window.meReview = {
     stage: 'review-step',
+    collect: () => collect('draft'),
+    saved() { status.textContent=t.localSaved; },
+    isPending: () => Boolean(current && !current.id),
     setContact(result) { current.contact = result.contact; current.revision = result.revision; },
     loadLive(result) {
       window.meContact?.load(result);
-      current = result; form.reset(); status.textContent = ''; error.textContent = ''; downloadValidated.hidden = true;
+      current = result;
+      const pending=!result.id;
+      const draft=document.getElementById('review-draft');
+      draft.textContent=pending ? t.localSave : t.liveDraft;
+      draft.className=pending ? 'primary-action' : 'ghost-action';
+      form.querySelector('[type=submit]').hidden=pending;
+      confirm.closest('label').hidden=pending;
+      document.querySelector('#review-step > .mini-note').textContent=result.localOnly ? t.localReaderNote : t.liveNote;
+      if(result.localOnly) {
+        const privacy=document.querySelector('.review-privacy-compact');
+        if(privacy) {
+          const paragraphs=privacy.querySelectorAll('p');
+          paragraphs[paragraphs.length-1].textContent=t.localPrivacy;
+        }
+      }
+      form.reset(); status.textContent = ''; error.textContent = ''; downloadValidated.hidden = true;
       if(result.synced) { showCompletion(result); return; }
       this.stage = result.stage === 'prepare' ? 'prepare-step' : 'review-step';
+      document.querySelectorAll('.document-warnings').forEach(node => node.remove());
+      if (result.data.extractionWarnings?.length) {
+        const box = document.createElement('section'); box.className = 'document-warnings'; box.setAttribute('role','status');
+        const heading = document.createElement('h2'); heading.textContent = t.documentWarnings.title; box.append(heading);
+        const list = document.createElement('ul');
+        for (const warning of result.data.extractionWarnings) {
+          const item = document.createElement('li');
+          item.textContent = (t.documentWarnings[warning.field] || t.documentWarnings.other) + (warning.values.length ? ' : ' + warning.values.join(' / ') : '');
+          list.append(item);
+        }
+        box.append(list);
+        document.getElementById(this.stage).querySelector('h1').after(box);
+      }
       if (this.stage === 'prepare-step') {
         for (const name of ['title','companyName','city','description']) document.getElementById('prepare-'+name).value=result.data[name] || '';
         document.getElementById('prepare-error').textContent=result.error ? (t.errors[result.error] || t.errors.sandbox_error) : '';
@@ -153,7 +184,7 @@
         q.text.value = saved?.question || t.liveQuestions[i]; q.enabled.checked = Boolean(saved); q.mandatory.checked = Boolean(saved?.mandatory);syncQuestion(i);
       });
       document.getElementById('question-custom').value = values.questions?.[5]?.question || '';
-      document.getElementById('review-provenance').textContent = t.liveOrigin + (result.source ? ' '+result.source : '');
+      document.getElementById('review-provenance').textContent = (result.localOnly ? t.localReaderOrigin : t.liveOrigin) + (result.source ? ' '+result.source : '');
       document.getElementById('review-provenance').style.overflowWrap = 'anywhere';
       if (result.synced) status.textContent = t.liveSynced;
       showGeo(); showResponse();
@@ -178,7 +209,7 @@
         const q = questionInputs(i); q.text.value = usesSnapshot ? question : ''; q.enabled.checked = false; q.mandatory.checked = false; syncQuestion(i);
       });
     },
-    reset() { preparedSignature = null; form.reset(); validated = false; downloadValidated.hidden = true; }
+    reset() { current = null; preparedSignature = null; form.reset(); validated = false; downloadValidated.hidden = true; }
   };
   form.addEventListener('input', event => {
     const item = event.target.closest('.clarification-item');
@@ -197,8 +228,10 @@
     if(event.target === field('city')) showGeo();
     t.questions.forEach((_,i) => syncQuestion(i));
   });
+  t.errors.search_started = {fr:'La recherche de candidats a commencé. Pour changer votre besoin, dupliquez cette offre depuis votre espace employeur.',en:'Candidate search has started. To change your needs, duplicate this offer from your employer space.',de:'Die Kandidatensuche hat begonnen. Duplizieren Sie dieses Angebot in Ihrem Arbeitgeberbereich, um Ihren Bedarf zu ändern.'}[document.documentElement.lang];
   async function liveAction(action) {
     if (busy || !current) return;
+    if (!current.id) { document.dispatchEvent(new Event('me-request-email'));return; }
     busy = true;
     const controls = [...form.querySelectorAll('button')]; controls.forEach(b => b.disabled = true);
     status.textContent = action === 'validate' ? t.syncBusy : t.saveBusy; error.textContent = '';

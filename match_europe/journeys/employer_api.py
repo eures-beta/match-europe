@@ -1,5 +1,6 @@
 """Loopback-only sandbox workflow. PostgreSQL drafts are session-owned; CSRF remains enabled."""
 import json
+import re
 import math
 import os
 import time
@@ -23,8 +24,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
 from .models import EmployerImport
+from .employer_ownership import accessible_imports, identity
 from .forms import EmployerContactForm
-from .offer_ingestion import ImportFailure, empty_data, fetch_public, parse_page, read_pdf, read_url
+from .offer_ingestion import ImportFailure, empty_data, fetch_public, parse_page, read_pdf, read_url, parse_pdf_text
 
 ROOT=Path(__file__).resolve().parents[2]
 lock=threading.Lock()
@@ -68,15 +70,23 @@ def preview(request,path):
         raise Http404()
     if candidate.suffix=='.html':
         # Static build templates remain usable; served HTML activates the real same-origin API.
-        body=candidate.read_text().replace('<body>','<body data-live-local="true">')
+        person = identity(request)
+        authenticated = bool(person and request.session.get('employer_verified_email'))
+        body_tag = '<body data-live-local="true" data-employer-connected="' + ('true' if authenticated else 'false') + '">'
+        body = candidate.read_text().replace('<body>', body_tag)
         from .demo import shared_notice
         language = Path(path).stem.rsplit('-', 1)[-1]
         with translation.override(language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE):
             notice = shared_notice()
         if notice:
-            body = body.replace('<body data-live-local="true">',
-                '<body data-live-local="true"><aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
+            body = body.replace(body_tag,
+                body_tag + '<aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
                 + escape(notice) + '</aside>', 1)
+        if authenticated:
+            lang = next((code for code in ('fr', 'en', 'de') if candidate.stem.endswith(code)), 'fr')
+            label = {'fr': 'Mon espace employeur', 'en': 'My employer space', 'de': 'Mein Arbeitgeberbereich'}[lang]
+            body = re.sub(r'(<a class="nav-pill employer-account-link" data-employer-account href=")[^"]*(">)[^<]*(</a>)',
+                          lambda match: match[1] + '/employer/connected/?lang=' + lang + match[2] + label + match[3], body)
         return HttpResponse(body)
     return FileResponse(candidate.open('rb'))
 
@@ -105,15 +115,29 @@ def read_source(request):
         url=request.POST.get('url','').strip()
         kind=request.POST.get('kind','url')
         if kind=='pdf':
-            upload=request.FILES.get('document')
-            if not upload: raise ImportFailure('missing')
-            data=read_pdf(upload);final=''
+            uploads=request.FILES.getlist('document')
+            if not uploads: raise ImportFailure('missing')
+            if len(uploads)>8 or sum(upload.size for upload in uploads)>10*1024*1024: raise ImportFailure('large')
+            if len(uploads)>1 and any(not upload.name.lower().endswith(('.png','.jpg','.jpeg')) for upload in uploads): raise ImportFailure('invalid')
+            documents=[read_pdf(upload, split_sections=False) for upload in uploads] if len(uploads)>1 else [read_pdf(uploads[0])]
+            data=documents[0]
+            if len(documents)>1:
+                combined='\n'.join(document['description'] for document in documents)
+                if len(combined)>16000: raise ImportFailure('large')
+                data=parse_pdf_text(combined)
+                data['extraction']='document_ocr'
+                data['extractionWarnings'].append({'field':'ocr','values':[]})
+            final=''
         elif kind=='url':
             data,final=read_url(url)
+        elif kind=='manual':
+            text=request.POST.get('text','').strip()
+            if not text or len(text)>16000: raise ImportFailure('invalid_data')
+            data=empty_data();data['description']=text;data['extraction']='manual';final=''
         else: raise ImportFailure('invalid_data')
         token=secrets.token_urlsafe(24)
         request.session['pending_offer_source']={'kind':kind,'token':token,'url':url,'final':final,'data':data,'at':time.time()}
-        return JsonResponse({'token':token})
+        return JsonResponse({'token':token,'data':data,'kind':kind,'source':final,'stage':'review','contact':{},'localOnly':os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1'})
     except ImportFailure as exc: return failure(exc.code)
 
 
@@ -128,7 +152,7 @@ def clean_contact(value):
 def imports(request,id=None):
     if request.method=='GET':
         if not request.session.session_key: return failure('not_found',404) if id else JsonResponse({'drafts':[]})
-        qs=EmployerImport.objects.filter(session_key=request.session.session_key)
+        qs=accessible_imports(request)
         if id:
             obj=qs.filter(pk=id).first()
             if not obj: return failure('not_found',404)
@@ -138,11 +162,24 @@ def imports(request,id=None):
     try:
         if not request.session.session_key: request.session.create()
         if id:
-            obj=EmployerImport.objects.filter(pk=id,session_key=request.session.session_key).first()
+            obj=accessible_imports(request).filter(pk=id).first()
             if not obj: return failure('not_found',404)
             payload=body(request)
             return update(request,obj,payload)
-        email=request.POST.get('email','').strip()
+        person = identity(request) if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1' else None
+        if not request.session.get('employer_verified_email'):
+            person = None
+        if not request.session.session_key:
+            request.session.create()
+        if not person and request.POST.get('connectedSubmission') == 'true' and request.POST.get('kind') in ('pdf', 'url') and not request.session.get('pending_offer_source'):
+            return failure('session_expired', 401)
+        email = person.email if person else request.POST.get('email','').strip()
+        # An expired connected form can still preserve its explicit contact and draft.
+        if not person and request.POST.get('connectedSubmission') == 'true':
+            try:
+                email = json.loads(request.POST.get('contact', '{}')).get('email', '')
+            except (ValueError, AttributeError):
+                raise ImportFailure('invalid_contact') from None
         try: validate_email(email)
         except ValidationError: raise ImportFailure('invalid_email') from None
         if len(email)>254 or request.POST.get('agreement')!='true': raise ImportFailure('agreement_required')
@@ -166,19 +203,35 @@ def imports(request,id=None):
             if not text or len(text)>16000: raise ImportFailure('invalid_data')
             data=empty_data();data['description']=text;data['extraction']='manual'
         else: raise ImportFailure('invalid_data')
-        obj=EmployerImport.objects.create(session_key=request.session.session_key,email=email,contact=contact,preparation_agreed_at=timezone.now(),source_kind=kind,source_url=source,data=data)
+        if 'data' in request.POST:
+            try: corrected=json.loads(request.POST['data'])
+            except (ValueError,TypeError): raise ImportFailure('invalid_data') from None
+            cleaned=clean_data(corrected)
+            for key in ('extraction','extractionWarnings'):
+                if key in data: cleaned[key]=data[key]
+            data=cleaned
+        obj=EmployerImport.objects.create(created_by=person,session_key='' if person else request.session.session_key,email=email,contact=contact,preparation_agreed_at=timezone.now(),source_kind=kind,source_url=source,data=data)
+        if person:
+            request.session['employer_claim_import'] = str(obj.pk)
+        else:
+            request.session['employer_pending_import'] = str(obj.pk)
         if kind in ('url','pdf'): request.session.pop('pending_offer_source',None)
+        if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1':
+            # This ownership rehearsal must never trigger an external submission.
+            return JsonResponse({**serialize(obj), 'login_url': '/employer/connected/' if person else '/employer/access/'}, status=201)
         return initial_send(obj,created=True)
     except ImportFailure as exc: return failure(exc.code)
 
 
 def serialize(obj):
     return {'id':str(obj.id),'contact':{'email':obj.email,**obj.contact},'data':obj.data,'revision':obj.revision,'source':obj.source_url,'kind':obj.source_kind,
-            'synced':bool(obj.synced_at),'sandbox':obj.sandbox_response,
-            'stage':'review' if obj.initial_sent_at else 'prepare'}
+            'synced':bool(obj.synced_at),'sandbox':obj.sandbox_response,'localOnly':os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1',
+            'stage':'review' if obj.initial_sent_at or os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1' else 'prepare'}
 
 
 def initial_send(obj,created=False):
+    if os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1':
+        return JsonResponse(serialize(obj),status=201 if created else 200)
     data=obj.data
     if not all(data.get(k) for k in ('title','companyName','city','description')):
         return JsonResponse(serialize(obj),status=201 if created else 200)
@@ -262,6 +315,7 @@ def aglae(method,path,payload=None):
     # Shared previews never read a personal key or write to an external service.
     if getattr(settings, 'SHARED_DEMO', False):
         raise ImportFailure('api_key_missing')
+    if os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1': raise ImportFailure('local_review_only')
     # Fixed sandbox origin; never accepted from the browser or a draft.
     keyfile=Path(os.environ.get('AGLAE_SANDBOX_KEY_FILE',str(Path.home()/'.config/match-europe/aglae-sandbox.key')))
     try: key=keyfile.read_text().strip()
@@ -277,6 +331,7 @@ def aglae(method,path,payload=None):
 
 
 def geocode(city):
+    if os.environ.get('ME_LOCAL_REVIEW_ONLY')=='1': raise ImportFailure('local_review_only')
     global last_geocode
     # Public workplace text only. No employer email or offer description is forwarded.
     query=urlencode({'q':city,'format':'jsonv2','limit':1})
@@ -317,17 +372,22 @@ def update_locked(request,obj,payload):
     if action=='contact':
         contact=clean_contact(payload.get('contact'))
         with transaction.atomic():
-            obj=EmployerImport.objects.select_for_update().get(pk=obj.pk,session_key=request.session.session_key)
+            obj=accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
+            if obj is None: return failure('not_found',404)
+            if obj.search_write_blocked: return failure('search_started',409)
             if payload.get('revision')!=obj.revision: return failure('conflict',409)
             obj.contact=contact;obj.revision+=1;obj.save(update_fields=['contact','revision','updated'])
         return JsonResponse(serialize(obj))
     clean=clean_data(payload.get('data'))
     with transaction.atomic():
-        obj=EmployerImport.objects.select_for_update().get(pk=obj.pk,session_key=request.session.session_key)
+        obj=accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
+        if obj is None: return failure('not_found',404)
+        if obj.search_write_blocked: return failure('search_started',409)
         if payload.get('revision')!=obj.revision: return failure('conflict',409)
         geo=obj.data.get('geo')
         if not geo or geo.get('query')!=clean['city']: geo=None
         clean['extraction']=obj.data.get('extraction','manual')
+        clean['extractionWarnings']=obj.data.get('extractionWarnings',[])
         if action=='locate': geo=geocode(clean['city'])
         if geo: clean['geo']=geo
         if action=='validate':

@@ -177,7 +177,12 @@
       "view": "Voir mon offre",
       "another": "Ajouter une autre offre",
       "home": "Revenir à l’accueil employeur"
-    }
+    },
+    "localReaderOrigin": "Fiche extraite de votre document. Vérifiez et complétez les informations.",
+    "localReaderNote": "Lecture locale par extraction de texte, sans IA générative ni transmission à un prestataire. Le résultat peut contenir des erreurs.",
+    "localSave": "Enregistrer et continuer",
+    "localPrivacy": "Pendant cet essai, le brouillon est enregistré uniquement dans la base locale. Aucune publication, recherche de candidats ou transmission aux partenaires EURES.",
+    "localSaved": "Votre offre a été enregistrée localement."
   },
   "en": {
     "title": "Check and complete your offer",
@@ -357,7 +362,12 @@
       "view": "View my offer",
       "another": "Add another offer",
       "home": "Back to the employer home"
-    }
+    },
+    "localReaderOrigin": "Offer extracted from your document. Check and complete the information.",
+    "localReaderNote": "Local reading using text extraction, without generative AI or transfer to a provider. The result may contain errors.",
+    "localSave": "Save and continue",
+    "localPrivacy": "During this trial, the draft is saved only in the local database. No publication, candidate search or transfer to EURES partners.",
+    "localSaved": "Your offer has been saved locally."
   },
   "de": {
     "title": "Prüfen und ergänzen Sie Ihr Angebot",
@@ -537,6 +547,11 @@
       "view": "Mein Angebot ansehen",
       "another": "Weiteres Angebot hinzufügen",
       "home": "Zur Arbeitgeber-Startseite"
-    }
+    },
+    "localReaderOrigin": "Angebot aus Ihrem Dokument übernommen. Prüfen und ergänzen Sie die Angaben.",
+    "localReaderNote": "Lokales Lesen mit Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Das Ergebnis kann Fehler enthalten.",
+    "localSave": "Speichern und weiter",
+    "localPrivacy": "In diesem Test wird der Entwurf nur in der lokalen Datenbank gespeichert. Keine Veröffentlichung, Kandidatensuche oder Übertragung an EURES-Partner.",
+    "localSaved": "Ihr Angebot wurde lokal gespeichert."
   }
 }

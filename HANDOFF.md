@@ -1,3 +1,116 @@
+## 22 octobre 2026 — lot 4A : lancement simulé
+
+Branche dédiée `codex/employer-search-launch`, base distante du lot 3 `8ca94ce`.
+Confirmation explicite recherche/qualification/contact, opérations et événements
+durables (migration additive 0008), verrouillage au démarrage confirmé et suspension
+des écritures pendant l’incertitude. Vérification simulée sans relancement ;
+répétitions et concurrence contrôlées côté serveur. Aucun adaptateur réel ajouté.
+108 tests PostgreSQL réussis, dont courses entre collègues et édition/lancement.
+Parcours navigateur connexion → confirmation → incertitude → vérification →
+verrouillage → duplication vérifié. Recette séparée sur 9021, bases et serveurs
+9018/9019/9020 préservés. FR/EN/DE, V2, tableau et CSRF conservés.
+Clôture/archivage/réouverture restent à définir. Aucun push, PR nouvelle, fusion
+ou déploiement à cette étape. Titre exact à demander avant création d’une PR.
+Voir [périmètre et limites](docs/EMPLOYER_SEARCH_LAUNCH.md).
+
+## 22 octobre 2026 — accueil employeur unifié en tableau
+
+À la demande d’Eric, l’accueil et les offres utilisent désormais le même écran.
+Bouton d’ajout en tête, établissement unique affiché sous le titre, compte
+repliable avec email et déconnexion ; message de vérification email retiré.
+Tableau : intitulé/lieu, établissement, état, dernière modification, consultation.
+Validation finale : 100 tests PostgreSQL réussis ; contrôles visuels écran large
+et étroit, défilement limité au tableau, compte/déconnexion accessibles.
+Rattachement et brouillons privés conservés dans des encarts distincts.
+Recette 9020 actualisée, aucune modification des recettes 9018/9019 ni des PR.
+
+## 22 octobre 2026 — lot 3 employeur en recette locale
+
+Branche isolée `codex/employer-offer-workspace`, basée sur la tête distante
+`ded96d9` de la PR #20 vérifiée en lecture seule. Liste par établissement,
+consultation, édition avant recherche et duplication avec lien vers l’original.
+Migration additive 0007 : date de recherche et origine de copie. Aucun lancement
+de recherche implémenté ; l’état verrouillé de recette est fictif et explicite.
+99 tests PostgreSQL passent ; parcours navigateur édition/enregistrement et
+duplication d’une offre verrouillée vérifiés. FR/EN/DE, CSRF, droits objet et
+révisions conservés. Base et serveur séparés sur 9020, recettes 9018/9019 préservées.
+Aucun push, merge ou déploiement. Voir [périmètre et limites](docs/EMPLOYER_OFFER_WORKSPACE.md).
+
+## Ajustement de l’en-tête employeur — 22 octobre 2026
+
+À la demande d’Eric, connexion intégrée à l’en-tête près des langues, avec
+« Mon espace employeur » pour une session valide. Pages employeur et V2,
+coques de connexion FR/EN/DE ; disposition adaptable et focus clavier visible.
+27 tests ciblés passent ; contrôle navigateur du parcours V2 et de l’en-tête
+sur écran étroit effectué. Recette 9019 actualisée ; recette intégrée 9018 intacte.
+
+
+## 22 octobre 2026 — connexion sans offre et ajout connecté
+
+Branche dédiée `codex/employer-connected-add-offer`, basée sur la tête distante
+de la PR #19 vérifiée à `c56d5d0`. Le checkout de recette intégrée et son serveur
+9018 sont conservés séparément ; aucun de leurs ajustements supplémentaires
+n'est repris dans ce diff. Prévisualisation de cette branche : port local 9019,
+base PostgreSQL de recette distincte, trois modes locaux activés.
+
+Bouton de connexion FR/EN/DE sur la page employeur et la V2 ; accueil affichant
+uniquement les appartenances actives et une action d'ajout, même sans offre.
+Le dépôt connecté réserve le brouillon à l'identité courante et conduit directement
+au rattachement existant de la PR #19. Le contact conseiller demeure indépendant.
+Pour un document ou lien dont la source en session a expiré, un message explicite
+demande reconnexion et nouvelle lecture ; les corrections restent dans la page.
+Pour la saisie manuelle, une session expirée impose une nouvelle vérification email avant attribution de
+l'identité ; le brouillon et son contact sont conservés par session. Aucune
+appartenance n'est déduite du contact, d'un nom ou d'un domaine. Plusieurs
+appartenances imposent toujours un choix explicite ; une appartenance retirée
+ne donne aucun droit. Aucune nouvelle migration.
+
+Validation de cette branche : 88 tests PostgreSQL réussis, dont sept nouveaux
+scénarios (sans offre, session valide/contact distinct, choix multiple/refus,
+expiration réelle, appartenance absente/révoquée, V2 FR/EN/DE). Parcours navigateur
+connexion seule → offre manuelle → contact distinct → établissement réussi sans
+nouveau lien. Aucun appel externe. Contrôle visuel limité, sans certification
+WCAG. Pas de liste Mes offres ajoutée, invitation ou identification officielle.
+Aucune fusion ni aucun déploiement ; PR à créer uniquement après titre fourni par Eric.
+
+## 22 octobre 2026 — rattachement simplifié à un établissement
+
+PR nº 19, basée sur la PR nº 18 : l’offre appartient à un établissement partagé
+entre membres habilités, avec créateur conservé. Un seul établissement : nom et
+bouton d’enregistrement ; plusieurs : choix explicite ; aucun : nom demandé une
+première fois. Aucun autre établissement ne peut être créé depuis cet écran si
+une appartenance active existe, y compris par appel direct. Les noms identiques
+ne donnent aucun droit sur un établissement existant.
+
+[Parcours et limites](docs/EMPLOYER_COMPANY_OWNERSHIP.md). Invitations et « Mes offres »
+restent séparés. Pas d’identification officielle, de modification PDF/logo, ni de
+migration de matching dans ce lot. Validation de la version isolée : 81 tests
+PostgreSQL passent, dont onze de rattachement ; contrôles Django, migrations,
+traductions et diff vérifiés. Aucun merge ni déploiement.
+
+## 22 octobre 2026 — rattachement à un espace entreprise (local)
+
+Lot 2 sur `codex/employer-company-ownership`, issu de la branche du point 1.
+Identité individuelle durable, espace entreprise et appartenance explicite active ;
+import partagé entre membres, créateur conservé. Réservation du brouillon à la
+vérification email, puis choix explicite de l’espace. Aucune recherche par email
+contact/domaine. Reconnexion autre navigateur et retrait d’accès testés.
+[Parcours, limites et référence Les Emplois](docs/EMPLOYER_COMPANY_OWNERSHIP.md).
+Validation : 77 tests PostgreSQL passent ; contrôles Django, migrations et syntaxe
+JavaScript réussis. Parcours manuel dans le navigateur et écran de rattachement
+vérifiés avec des données fictives. Invitations et « Mes offres » restent séparés ;
+aucun merge ni déploiement.
+
+## 22 octobre 2026 — première PR connexion employeur isolée
+
+Connexion email simulée extraite de la copie de recette sur une branche dédiée,
+basée sur la PR nº 16. Aucun changement PDF/logo, correctif de boucle ou transfert
+de brouillon inclus. [Périmètre et limites](docs/EMPLOYER_EMAIL_LOGIN.md).
+Migration additive et accueil minimal FR/EN/DE au design V2. Les lots rattachement,
+« Mes offres » et cycle de recrutement restent séparés. Aucun déploiement.
+Validation de cette branche : 70 tests PostgreSQL passent, dont neuf de connexion ;
+contrôle Django sans erreur, migrations cohérentes et diff vérifié.
+
 # Reprise du prototype Match Europe
 
 ## Entrée employeur — 23 octobre 2026
@@ -28,6 +141,23 @@ autonome passent sur PostgreSQL. Migrations et collecte des statiques réussies 
 essai Gunicorn avec rôles fictifs, accès et pages employeur FR/EN/DE à 200,
 statiques à 200, santé PostgreSQL à 204, diagnostic Push refusé (404).
 Le déploiement de cette adaptation reste à vérifier après le label humain.
+## 21 octobre 2026 — parcours employeur avant email
+
+Branche `codex/employer-offer-creation`, basée sur la branche de la PR nº 2. Lecture PDF/URL/texte, vérification et correction avant collecte de l’email et du contact ; demande de lecture portée par le clic sans case supplémentaire. Corrections validées côté serveur lors de l’enregistrement. Textes FR/EN/DE ; mention technique retirée du contact. Les améliorations du lecteur PDF de la PR nº 14 et le changement de logo sont exclus. Mode de recette local sans services externes (`ME_LOCAL_REVIEW_ONLY=1`). Aucun merge ni déploiement autorisé.
+
+La recette précédente avec lecteur amélioré comptait 75 tests ; cette branche indépendante passe 61 tests PostgreSQL, dont les deux nouveaux tests de parcours. Syntaxe des trois scripts JS et diff vérifiés. Les documents et coordonnées de recette sont fictifs et restent hors Git.
+
+## 20 octobre 2026 — lecteur employeur en cours de recette locale
+
+Branche `codex/employer-document-reader` : extraction des champs PDF étendue, exclusion des sections de candidature/offres similaires reconnues, avertissements de contradiction, import d’images et OCR local. Interface FR/EN/DE. Voir [fonctionnement et limites](docs/EMPLOYER_DOCUMENT_READER.md). Les documents de recette restent hors Git. Aucun commit, push, merge ou déploiement demandé : Eric teste d’abord en local. Les vérifications finales de cette modification sont consignées à l’issue du travail.
+
+Vérifications locales : 68 tests PostgreSQL passent ; contrôle Django sans problème ; syntaxe des deux scripts JS et diff vérifiés. Les quatre PDF fournis ont été relus hors Git. OCR Tesseract testé sur les cinq captures et sur une conversion scannée de test. Navigateur : import du PDF ADEM, reprise du brouillon et affichage de l’avertissement 40 h / 20 h vérifiés. Serveur relancé avec `ME_LOCAL_REVIEW_ONLY=1`, après constat qu’un premier essai avait suivi l’ancien circuit AGLAE sandbox. Aucun déploiement effectué.
+
+Suite locale du 20 octobre : séparation des missions/conditions et du profil par rubriques et phrases sources, conservation des nuances souhaitées/exigées, continuité des tâches après les métadonnées de page, exclusion de sections de candidature et d’entreprise reconnues. Vérification sur les quatre PDF et le texte OCR des captures ; 72 tests passent. Réimporter les documents pour obtenir le nouveau tri : les brouillons existants sont préservés.
+
+Publication autorisée par Eric le 20 octobre après recette locale : ajouter ces modifications à la PR de conservation nº 2, demander `dejafait` en reviewer ; ne pas fusionner ni déployer. Vérification finale : 73 tests PostgreSQL passent, y compris l’association de chaque niveau à sa langue (par exemple `French : A1`) et l’isolement des services externes pour la recette. Les documents sources et données locales restent hors Git.
+
+Correction de cette interprétation le même jour : Eric demande une nouvelle PR intitulée « amélioration de l'import des PDF », basée sur `codex/initial-django-prototype` (branche de la PR nº 2), avec `dejafait` en reviewer. La PR nº 2 est restaurée à `51537d0` ; les améliorations sont conservées sur `codex/employer-document-reader-pr2`. Aucun changement direct de `main`, fusion ou déploiement.
 
 ## Partage initial — 16 octobre 2026
 

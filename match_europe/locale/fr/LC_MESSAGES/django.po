@@ -586,3 +586,435 @@ msgstr "Offre à compléter"
 
 msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
 msgstr "Démonstration partagée : données fictives uniquement. L’enregistrement externe et le diagnostic Push sont désactivés."
+
+msgid "Access your employer space"
+msgstr "Accéder à votre espace employeur"
+
+msgid "Enter a fictional email address. No email will be sent."
+msgstr "Saisissez une adresse email fictive. Aucun email ne sera envoyé."
+
+msgid "Enter a valid email address."
+msgstr "Saisissez une adresse email valide."
+
+msgid "Request a connection link"
+msgstr "Recevoir un lien de connexion"
+
+msgid "Local test inbox"
+msgstr "Boîte de réception de recette locale"
+
+msgid "This tool simulates email delivery in this browser only. Use fictional data."
+msgstr "Cet outil simule la réception dans ce navigateur uniquement. Utilisez des données fictives."
+
+msgid "The link expires after 15 minutes and can only be used once."
+msgstr "Le lien expire après 15 minutes et ne fonctionne qu’une fois."
+
+msgid "Open my connection link"
+msgstr "Ouvrir mon lien de connexion"
+
+msgid "No message available."
+msgstr "Aucun message disponible."
+
+msgid "Confirm to verify your email and open a session. No access to company data is granted."
+msgstr "Confirmez pour vérifier votre email et ouvrir une session. Aucun accès aux données d’entreprise n’est accordé."
+
+msgid "Connect"
+msgstr "Se connecter"
+
+msgid "You are connected"
+msgstr "Vous êtes connecté"
+
+msgid "Your email is verified for this local session. Offers and company access will be added in a later step."
+msgstr "Votre email est vérifié pour cette session locale. Les offres et les accès à l’entreprise seront ajoutés dans une prochaine étape."
+
+msgid "Please wait before requesting another link."
+msgstr "Veuillez patienter avant de demander un autre lien."
+
+msgid "This link is invalid, expired or already used."
+msgstr "Ce lien est invalide, expiré ou déjà utilisé."
+
+msgid "Request a new link"
+msgstr "Demander un nouveau lien"
+
+msgid "Check your email"
+msgstr "Consultez votre email"
+
+msgid "Open the connection link in the email to continue to your employer space."
+msgstr "Ouvrez le lien de connexion reçu par email pour poursuivre vers votre espace employeur."
+
+msgid "Local test only"
+msgstr "Uniquement pour cet essai local"
+
+msgid "No email is actually sent during this test. The button below lets you view the simulated message."
+msgstr "Aucun email n’est réellement envoyé pendant cet essai. Le bouton ci-dessous permet de consulter le message simulé."
+
+msgid "For testing: view the simulated email"
+msgstr "Pour le test : voir l’email simulé"
+
+msgid "Email preview"
+msgstr "Aperçu de l’email"
+
+msgid "Local simulation — this email has not been sent. The sender address will be configured with Brevo FT."
+msgstr "Simulation locale — cet email n’a pas été envoyé. L’adresse d’expédition sera configurée avec Brevo FT."
+
+msgid "From"
+msgstr "De"
+
+msgid "To"
+msgstr "À"
+
+msgid "Subject"
+msgstr "Objet"
+
+msgid "Verify your email address — Match Europe"
+msgstr "Vérifiez votre adresse email — Match Europe"
+
+msgid "Hello,"
+msgstr "Bonjour,"
+
+msgid "You requested access to your Match Europe employer space. Verify your email address to continue."
+msgstr "Vous avez demandé à accéder à votre espace employeur Match Europe. Vérifiez votre adresse email pour poursuivre."
+
+msgid "Verify my email address"
+msgstr "Vérifier mon adresse email"
+
+msgid "If you did not request this access, ignore this email."
+msgstr "Si vous n’êtes pas à l’origine de cette demande, ignorez cet email."
+
+msgid "The Match Europe team"
+msgstr "L’équipe Match Europe"
+
+msgid "My employer space"
+msgstr "Mon espace employeur"
+
+msgid "Your email address is verified. Welcome to your employer space."
+msgstr "Votre adresse email est vérifiée. Bienvenue dans votre espace employeur."
+
+msgid "Your dashboard will be available here in a future step."
+msgstr "Votre tableau de bord sera disponible ici dans une prochaine étape."
+
+msgid "Your offer is now attached to your company workspace."
+msgstr "Votre offre est maintenant rattachée à votre espace entreprise."
+
+msgid "Attach your offer to a company workspace"
+msgstr "Rattacher votre offre à un espace entreprise"
+
+msgid "Only authorised members of this workspace will have access. Creating a workspace does not verify the legal company."
+msgstr "Seuls les membres habilités de cet espace y auront accès. La création de cet espace ne vérifie pas l’identité juridique de l’entreprise."
+
+msgid "Attach to"
+msgstr "Rattacher à"
+
+msgid "New company workspace name"
+msgstr "Nom du nouvel espace entreprise"
+
+msgid "Create workspace and attach offer"
+msgstr "Créer l’espace et rattacher l’offre"
+
+msgid "Attach your offer to an establishment"
+msgstr "Rattacher votre offre à un établissement"
+
+msgid "Choose the establishment for this offer"
+msgstr "Choisissez l’établissement concerné par cette offre"
+
+msgid "Enter your establishment name once to save your offer."
+msgstr "Renseignez une première fois le nom de votre établissement pour enregistrer votre offre."
+
+msgid "Enter your establishment name."
+msgstr "Renseignez le nom de votre établissement."
+
+msgid "Establishment name"
+msgstr "Nom de l’établissement"
+
+msgid "Save my offer"
+msgstr "Enregistrer mon offre"
+
+msgid "Save the offer for this establishment"
+msgstr "Enregistrer l’offre pour cet établissement"
+
+msgid "The offer is shared with authorised colleagues of this establishment."
+msgstr "L’offre est partagée avec les collègues habilités de cet établissement."
+
+msgid "Your offer is now attached to your establishment."
+msgstr "Votre offre est maintenant rattachée à votre établissement."
+
+msgid "Your establishments"
+msgstr "Vos établissements"
+
+msgid "You do not yet belong to an establishment."
+msgstr "Vous n’êtes encore rattaché à aucun établissement."
+
+msgid "Add an offer"
+msgstr "Ajouter une offre"
+
+msgid "A colleague changed this offer. Open the current version before duplicating it."
+msgstr "Un collègue a modifié cette offre. Ouvrez la version actuelle avant de la dupliquer."
+
+msgid "A colleague changed this offer. Your changes have not been saved. Open the current version before trying again."
+msgstr "Un collègue a modifié cette offre. Vos modifications n’ont pas été enregistrées. Ouvrez la version actuelle avant de réessayer."
+
+msgid "Access to the workplace"
+msgstr "Accès au lieu de travail"
+
+msgid "Administrative support"
+msgstr "Démarches administratives"
+
+msgid "All your establishments"
+msgstr "Tous vos établissements"
+
+msgid "Apprenticeship"
+msgstr "Apprentissage"
+
+msgid "Arrival support"
+msgstr "Aides à l’arrivée"
+
+msgid "Back to offers"
+msgstr "Retour aux offres"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Candidate search has started. To change your recruitment needs, duplicate this offer."
+msgstr "La recherche de candidats a commencé. Pour changer votre besoin, dupliquez cette offre."
+
+msgid "Candidate search started"
+msgstr "Recherche de candidats commencée"
+
+msgid "Changes saved."
+msgstr "Modifications enregistrées."
+
+msgid "Changing this text does not change the establishment or access rights."
+msgstr "Modifier ce texte ne change ni l’établissement ni les droits d’accès."
+
+msgid "Check the fields below. Your changes have not been saved."
+msgstr "Vérifiez les champs ci-dessous. Vos modifications n’ont pas été enregistrées."
+
+msgid "Choose an establishment"
+msgstr "Choisir un établissement"
+
+msgid "Choose either specific conditions or None / To discuss, not both."
+msgstr "Choisissez des conditions précises ou « Aucune / À discuter », sans les combiner."
+
+msgid "Contact for the adviser"
+msgstr "Contact pour le conseiller"
+
+msgid "Copied from offer"
+msgstr "Copiée depuis l’offre"
+
+msgid "Driving licences and authorisations"
+msgstr "Permis et autorisations"
+
+msgid "Duplicate offer"
+msgstr "Dupliquer l’offre"
+
+msgid "Duplicating creates a new editable draft in the same establishment. It does not start a candidate search."
+msgstr "La duplication crée un nouveau brouillon modifiable dans le même établissement. Elle ne lance aucune recherche de candidats."
+
+msgid "Early hours"
+msgstr "Tôt le matin"
+
+msgid "Edit offer"
+msgstr "Modifier l’offre"
+
+msgid "Editable before candidate search"
+msgstr "Modifiable avant la recherche de candidats"
+
+msgid "Establishment"
+msgstr "Établissement"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Fixed-term contract"
+msgstr "CDD"
+
+msgid "Freelance"
+msgstr "Indépendant"
+
+msgid "Frequent travel"
+msgstr "Déplacements fréquents"
+
+msgid "Housing"
+msgstr "Logement"
+
+msgid "Internship"
+msgstr "Stage"
+
+msgid "Is a licence or authorisation required?"
+msgstr "Un permis ou une autorisation est-il nécessaire ?"
+
+msgid "Languages and levels"
+msgstr "Langues et niveaux"
+
+msgid "Last updated"
+msgstr "Dernière modification"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "Night work"
+msgstr "Travail de nuit"
+
+msgid "No offers saved for this establishment yet."
+msgstr "Aucune offre enregistrée pour cet établissement."
+
+msgid "None"
+msgstr "Aucune"
+
+msgid "Offer pages"
+msgstr "Pages des offres"
+
+msgid "Offers are shared only with authorised colleagues of each establishment."
+msgstr "Les offres sont partagées uniquement avec les collègues habilités de chaque établissement."
+
+msgid "Offers awaiting attachment"
+msgstr "Offres à rattacher"
+
+msgid "Offers from your establishments"
+msgstr "Offres de vos établissements"
+
+msgid "Onboarding"
+msgstr "Accompagnement à la prise de poste"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Other arrival support"
+msgstr "Autre aide à l’arrivée"
+
+msgid "Other authorisation"
+msgstr "Autre autorisation"
+
+msgid "Outdoor work"
+msgstr "Travail en extérieur"
+
+msgid "Permanent contract"
+msgstr "CDI"
+
+msgid "Physical work"
+msgstr "Travail physique"
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Saving does not publish the offer or start a candidate search."
+msgstr "L’enregistrement ne publie pas l’offre et ne lance aucune recherche de candidats."
+
+msgid "Shift work"
+msgstr "Travail posté"
+
+msgid "Skills and experience sought"
+msgstr "Compétences et expérience recherchées"
+
+msgid "Standing work"
+msgstr "Station debout prolongée"
+
+msgid "Start date"
+msgstr "Date de prise de poste"
+
+msgid "Temporary work"
+msgstr "Intérim"
+
+msgid "These drafts are private to you until you attach them to an establishment."
+msgstr "Ces brouillons restent privés tant que vous ne les rattachez pas à un établissement."
+
+msgid "This contact may differ from the signed-in person."
+msgstr "Ce contact peut être différent de la personne connectée."
+
+msgid "This offer can be edited until candidate search starts."
+msgstr "Cette offre reste modifiable tant que la recherche de candidats n’a pas commencé."
+
+msgid "Training"
+msgstr "Formation"
+
+msgid "Transport"
+msgstr "Transport"
+
+msgid "Variable hours"
+msgstr "Horaires variables"
+
+msgid "View offer"
+msgstr "Consulter l’offre"
+
+msgid "Weekends"
+msgstr "Week-end"
+
+msgid "Working conditions"
+msgstr "Conditions de travail"
+
+msgid "Local demonstration · Fictional data · No emails or external calls"
+msgstr "Démonstration locale · Données fictives · Aucun email ni appel externe"
+
+msgid "Select Yes before choosing required licences or authorisations."
+msgstr "Choisissez « Oui » avant de sélectionner les permis ou autorisations nécessaires."
+
+msgid "You are editing a new draft copied from another offer. The original offer is unchanged."
+msgstr "Vous modifiez un nouveau brouillon copié depuis une autre offre. L’offre d’origine reste inchangée."
+
+msgid "View original offer"
+msgstr "Consulter l’offre d’origine"
+
+msgid "My account"
+msgstr "Mon compte"
+
+msgid "Status"
+msgstr "État"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Editable"
+msgstr "Modifiable"
+
+msgid "Add your first offer to find it here."
+msgstr "Ajoutez votre première offre pour la retrouver ici."
+
+msgid "Start my candidate search"
+msgstr "Lancer ma recherche de candidats"
+
+msgid "I confirm the start of candidate search, including qualification and contact."
+msgstr "Je confirme le lancement de la recherche de candidats, avec qualification et prise de contact."
+
+msgid "Local simulation scenario"
+msgstr "Scénario de simulation locale"
+
+msgid "Confirmed start"
+msgstr "Démarrage confirmé"
+
+msgid "Failure before start"
+msgstr "Échec avant démarrage"
+
+msgid "Timeout: request accepted"
+msgstr "Délai dépassé : demande acceptée"
+
+msgid "Timeout: request not accepted"
+msgstr "Délai dépassé : demande non acceptée"
+
+msgid "Start to be checked"
+msgstr "Démarrage à vérifier"
+
+msgid "Start to be checked. Changes are temporarily suspended. No new start request will be sent."
+msgstr "Démarrage à vérifier. Les modifications sont temporairement suspendues. Aucune nouvelle demande de lancement ne sera envoyée."
+
+msgid "Local simulation: no candidate has been contacted and no external search has been started."
+msgstr "Simulation locale : aucun candidat contacté et aucune recherche externe lancée."
+
+msgid "The search did not start. You can edit the offer or confirm a new attempt."
+msgstr "La recherche n’a pas commencé. Vous pouvez modifier l’offre ou confirmer une nouvelle tentative."
+
+msgid "Check simulated start status"
+msgstr "Vérifier le démarrage simulé"
+
+msgid "Starting includes candidate search, qualification and contact. Once the server confirms the start, this offer cannot be edited. If your needs change, duplicate it to create a new draft."
+msgstr "Le lancement comprend la recherche de candidats, leur qualification et la prise de contact. Dès confirmation du démarrage par le serveur, cette offre ne sera plus modifiable. Si votre besoin change, dupliquez-la pour créer un nouveau brouillon."
+
+msgid "While the request is pending or its outcome is uncertain, changes are temporarily suspended. Checking its status does not send a new start request."
+msgstr "Pendant le traitement de la demande ou si son résultat est incertain, les modifications sont temporairement suspendues. Vérifier son état n’envoie aucune nouvelle demande de lancement."
+
+msgid "Confirm simulated start"
+msgstr "Confirmer le lancement simulé"
+
+msgid "This offer changed or a start is already pending. Review its current version before confirming."
+msgstr "Cette offre a changé ou un lancement est déjà en attente. Consultez sa version actuelle avant de confirmer."
