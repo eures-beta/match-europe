@@ -231,7 +231,8 @@ Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 | `eures_beta/journeys/` | Modèles, migrations, droits, services, vues et tests |
 | `eures_beta/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
 | `previews/employer-landing/` | Parcours employeur de référence V2, V1 conservée et diagnostic Push |
-| `forms/eures-beta/` | Deux ressources de présentation héritées, pas un serveur Flask |
+| `scripts/employer-ui/` | Sources de génération des pages employeur, exécutées avec Node |
+| `eures_beta/static/employer/` | Ressources de présentation employeur servies par Django/WhiteNoise |
 | `docs/` | Périmètre, décisions, ordre de lecture et limites |
 
 ## Vérifier
