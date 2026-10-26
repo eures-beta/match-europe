@@ -20,14 +20,23 @@ Après configuration de `.env` et création de sa base locale :
 `make install-test`, `make migrate`, `make seed-demo`, `make run`.
 `make test` vérifie tous les parcours ; `make test-local` est un alias de cette même suite. `make serve` permet un essai Gunicorn sur loopback.
 
-Le point d’entrée racine est exclusivement une démonstration. En HTTPS
-(`DJANGO_HTTPS=1`), le mode partagé est activé par défaut ; `ME_SHARED_DEMO=0`
-permet de le désactiver. Ce mode exige HTTPS pour les pages/API employeur,
+La démonstration est désactivée par défaut. Pour les parcours fictifs locaux,
+activer `ME_DEMO_MODE=1` dans `.env` (comme dans `.env.example`).
+`ME_SHARED_DEMO=1` active la démonstration partagée ; HTTPS seul ne l’active pas.
+Une valeur explicite `ME_DEMO_MODE=0` désactive les deux modes. Sans démonstration,
+l’accueil sert le socle `home.html` ; les connexions fictives et les API de démo
+restent fermées, tandis que l’administration utilise son authentification Django.
+Ce correctif ne rend pas les parcours du prototype utilisables par de vrais usagers.
+Le mode partagé exige HTTPS pour les pages/API employeur,
 conserve CSRF et les brouillons par session, et affiche un avertissement FR/EN/DE.
 Il ne lit aucune clé AGLAE et refuse les enregistrements externes ; le diagnostic
 Push reste inaccessible. La lecture de sources publiques et le géocodage peuvent
 faire des requêtes réseau, comme dans le prototype local, après les actions prévues
 dans l’interface. Utiliser exclusivement des données fictives.
+
+`make test` active explicitement la démonstration pour ses scénarios fictifs.
+Les tests hors démo surchargent ce réglage ; `make test-demo-modes` vérifie aussi
+les réglages réels dans des processus Python isolés, sans hériter du drapeau local.
 
 Exécuter les migrations et collecter les statiques avant le serveur WSGI. Celui-ci
 crée les quatre rôles fictifs au premier démarrage si l’identité admin fictive

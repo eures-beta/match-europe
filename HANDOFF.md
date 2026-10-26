@@ -2,6 +2,17 @@ Note de reprise : une seule configuration Django existe désormais à la racine.
 Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
 mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
+## 26 octobre 2026 — séparation explicite du mode démonstration
+
+Correctif proposé : démonstration désactivée par défaut, activation locale par
+`ME_DEMO_MODE=1`, recettes existantes conservées par `ME_SHARED_DEMO=1`.
+Hors démo, l’accueil conserve le socle et les connexions fictives sont fermées ;
+le contrôle de démarrage privé qui interdit la démo reste nécessaire.
+Ce changement ne fournit pas encore une authentification métier de production.
+TDD vérifié localement : six tests de modes exécutés avant correction, huit
+assertions en échec, puis tous passent ; 154 tests PostgreSQL réussis après correction.
+Aucune migration ni modification de données existantes, aucun déploiement effectué.
+
 ## 22 octobre 2026 — lot 4A : lancement simulé
 
 Branche dédiée `codex/employer-search-launch`, base distante du lot 3 `8ca94ce`.
