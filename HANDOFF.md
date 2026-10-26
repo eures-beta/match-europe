@@ -22,6 +22,13 @@ Ce changement ne fournit pas encore une authentification métier de production.
 TDD vérifié localement : six tests de modes exécutés avant correction, huit
 assertions en échec, puis tous passent ; 154 tests PostgreSQL réussis après correction.
 Aucune migration ni modification de données existantes, aucun déploiement effectué.
+## 26 octobre 2026 — un seul accueil employeur traduit
+
+Une PR indépendante remplace les trois accueils par `employer/landing.html`, avec
+gettext et catalogues FR/DE. Les 42 textes affichés sont conservés dans les trois
+langues ; 146 tests PostgreSQL passent. Les autres pages et les générateurs
+restent à migrer : leur suppression complète ne fait pas partie de cette étape.
+Voir [le fonctionnement et la suite](docs/EMPLOYER_LANDING_TRANSLATION.md).
 
 ## 22 octobre 2026 — lot 4A : lancement simulé
 

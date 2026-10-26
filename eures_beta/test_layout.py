@@ -27,7 +27,9 @@ class UnifiedLayoutTests(SimpleTestCase):
                 page = prefix + language + ".html"
                 response = self.client.get("/employer/pages/" + page, secure=True)
                 self.assertEqual(response.status_code, 200, page)
-                self.assertTemplateUsed(response, "employer/" + page)
+                self.assertTemplateUsed(
+                    response, "employer/" + (page if prefix else "landing.html")
+                )
         for source in ("build.cjs", "copy.json", "../base.html", "offer-import-api.js"):
             self.assertEqual(
                 self.client.get("/employer/pages/" + source, secure=True).status_code,
