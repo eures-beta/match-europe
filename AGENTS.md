@@ -6,10 +6,8 @@
 
 - Créer une branche dédiée au travail demandé, avec le préfixe `codex/` sauf
   instruction contraire. La destination habituelle est `main`.
-- Le titre de chaque pull request doit être entièrement choisi par l'humain.
-  Demander explicitement à Eric de fournir le titre avant de créer la PR, sauf
-  s'il l'a déjà donné. Ne pas générer de titre, même provisoire, ni se contenter
-  de lui faire approuver un titre proposé par l'agent.
+- L'agent peut choisir un titre court et descriptif sans demander de confirmation.
+  Respecter un titre fourni par l'humain ; celui-ci peut aussi le modifier ensuite.
 - L'agent peut rédiger automatiquement la description : problème, changement
   apporté, vérifications et limites utiles à la relecture.
 - Assigner la PR au compte GitHub de l'humain qui demande le travail. Vérifier
