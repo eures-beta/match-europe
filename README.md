@@ -259,3 +259,12 @@ Ce partage conserve des étapes successives et du code exploratoire : styles en 
 `/previews/employer-landing/push-test.html` sur loopback. Ce diagnostic reste
 inaccessible en démonstration partagée. Il ne prouve pas la réception effective
 d’une notification : celle-ci doit être confirmée dans le navigateur.
+
+## Dépendances Python
+
+Les dépendances sont regroupées dans `requirements/` : `base.txt` pour
+l’application, `test.txt` pour les tests (incluant `base.txt` et `push.txt`),
+`push.txt` pour le diagnostic Web Push et `quality.txt` pour Black.
+Le fichier racine `requirements.txt` inclut seulement `requirements/base.txt`
+pour les outils qui attendent ce nom standard. Les versions ne changent pas.
+Utiliser `make install`, `make install-test` et `make install-quality`.
