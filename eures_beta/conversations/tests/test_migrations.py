@@ -52,12 +52,36 @@ class ConversationMigrationTests(TransactionTestCase):
             )
             user.user_permissions.add(permission)
             tables = set(connection.introspection.table_names())
+            conversation_snapshot = list(
+                old.get_model('journeys', 'Conversation')
+                .objects.order_by('pk')
+                .values()
+            )
+            message_snapshot = list(
+                old.get_model('journeys', 'Message').objects.order_by('pk').values()
+            )
 
             new = self.migrate(self.new_targets)
             saved = new.get_model('conversations', 'Message').objects.get(pk=message.pk)
             self.assertEqual(saved.body, message.body)
             self.assertEqual(saved.conversation_id, conversation.pk)
             self.assertEqual(saved.sender_id, user.pk)
+            self.assertEqual(
+                list(
+                    new.get_model('conversations', 'Conversation')
+                    .objects.order_by('pk')
+                    .values()
+                ),
+                conversation_snapshot,
+            )
+            self.assertEqual(
+                list(
+                    new.get_model('conversations', 'Message')
+                    .objects.order_by('pk')
+                    .values()
+                ),
+                message_snapshot,
+            )
             self.assertEqual(set(connection.introspection.table_names()), tables)
             self.assertEqual(
                 new.get_model('contenttypes', 'ContentType')
@@ -72,6 +96,22 @@ class ConversationMigrationTests(TransactionTestCase):
             )
 
             restored = self.migrate(self.old_targets)
+            self.assertEqual(
+                list(
+                    restored.get_model('journeys', 'Conversation')
+                    .objects.order_by('pk')
+                    .values()
+                ),
+                conversation_snapshot,
+            )
+            self.assertEqual(
+                list(
+                    restored.get_model('journeys', 'Message')
+                    .objects.order_by('pk')
+                    .values()
+                ),
+                message_snapshot,
+            )
             self.assertEqual(
                 restored.get_model('journeys', 'Message')
                 .objects.get(pk=message.pk)
