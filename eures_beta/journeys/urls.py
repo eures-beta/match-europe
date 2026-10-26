@@ -57,12 +57,6 @@ urlpatterns = [
     path('offers/<int:pk>/', views.offer, name='offer'),
     path('profile/', views.candidate_edit, name='candidate_edit'),
     path('matches/<int:pk>/', views.match_detail, name='match'),
-    path('conversations/<int:pk>/', views.conversation, name='conversation'),
-    path(
-        'conversations/<int:pk>/feed/',
-        views.conversation_feed,
-        name='conversation_feed',
-    ),
     path('documents/<int:pk>/', views.document, name='document'),
     path('notifications/read/', views.read_notifications, name='read_notifications'),
     path('manifest.webmanifest', views.manifest),

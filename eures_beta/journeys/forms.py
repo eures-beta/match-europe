@@ -134,14 +134,6 @@ class QuestionForm(forms.ModelForm):
         }
 
 
-class MessageForm(forms.Form):
-    body = forms.CharField(
-        label=_('Your message'),
-        max_length=4000,
-        widget=forms.Textarea(attrs={'rows': 3}),
-    )
-
-
 class ReviewForm(forms.Form):
     note = forms.CharField(
         label=_('Review note'),

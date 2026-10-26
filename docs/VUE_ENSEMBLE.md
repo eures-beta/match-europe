@@ -22,6 +22,12 @@ Deux implémentations coexistent :
 
 Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas quatre projets indépendants ni une nouvelle organisation imposée au code.
 
+## Organisation du code — extraction des conversations
+
+`eures_beta.conversations` porte les discussions et messages ; `journeys` conserve
+les offres, candidats, rapprochements et l’ouverture après accords. Les URL et
+les données existantes sont conservées. Voir [la migration et ses limites](CONVERSATIONS_APP.md).
+
 ## Parcours et limites à distinguer
 
 La lecture d’offres par URL possède des adaptateurs publics ciblés pour France

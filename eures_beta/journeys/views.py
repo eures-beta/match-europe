@@ -1,11 +1,9 @@
-from functools import wraps
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.http import FileResponse, Http404, HttpResponse, JsonResponse
+from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -13,11 +11,13 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from eures_beta.conversations.models import Conversation, Message
+from .access_control import identity, require_identity, forbid
+
 from .forms import (
     ImportAssignmentForm,
     AccessForm,
     CandidateForm,
-    MessageForm,
     OfferForm,
     QuestionForm,
     ReviewForm,
@@ -27,11 +27,9 @@ from .models import (
     EmployerImport,
     Answer,
     Candidate,
-    Conversation,
     Document,
     Event,
     Match,
-    Message,
     Notification,
     Offer,
     Profile,
@@ -60,38 +58,6 @@ def interface(request):
         'shared_demo_notice': shared_notice(),
         'notifications': user.notifications.order_by('-created')[:8] if user else [],
     }
-
-
-def identity(request):
-    if request.user.is_authenticated:
-        return request.user
-    draft_id = request.session.get('draft_user')
-    if draft_id:
-        return User.objects.filter(
-            pk=draft_id,
-            profile__verified=False,
-            profile__role__in=['candidate', 'employer'],
-        ).first()
-    return None
-
-
-def require_identity(view):
-    @wraps(view)
-    @never_cache
-    def wrapped(request, *args, **kwargs):
-        if not settings.DEMO_MODE:
-            forbid()
-        user = identity(request)
-        if not user:
-            return redirect('access')
-        request.me_user = user
-        return view(request, *args, **kwargs)
-
-    return wrapped
-
-
-def forbid():
-    raise Http404()
 
 
 def allowed_offer(user, offer):
@@ -606,64 +572,6 @@ def match_detail(request, pk):
             'is_adviser': is_adviser,
             'review_form': ReviewForm(),
         },
-    )
-
-
-def conversation_allowed(user, conv):
-    # Operators do not receive blanket access to private conversations.
-    return user.profile.verified and user.pk in [
-        conv.match.candidate.user_id,
-        conv.match.offer.employer_id,
-        conv.match.offer.adviser_id,
-    ]
-
-
-@require_identity
-def conversation(request, pk):
-    obj = get_object_or_404(
-        Conversation.objects.select_related(
-            'match__candidate__user', 'match__offer__employer', 'match__offer__adviser'
-        ),
-        pk=pk,
-    )
-    user = request.me_user
-    if not conversation_allowed(user, obj):
-        forbid()
-    form = MessageForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        msg = Message.objects.create(
-            conversation=obj, sender=user, body=form.cleaned_data['body']
-        )
-        audit(user, 'message_sent', msg)
-        for recipient in [
-            obj.match.candidate.user,
-            obj.match.offer.employer,
-            obj.match.offer.adviser,
-        ]:
-            if recipient.pk != user.pk:
-                notify(recipient, 'New message', reverse('conversation', args=[pk]))
-        return redirect('conversation', pk=pk)
-    return render(
-        request,
-        'conversation.html',
-        {
-            'conversation': obj,
-            'form': form,
-            'chat_messages': obj.messages.select_related('sender__profile'),
-        },
-    )
-
-
-@require_identity
-def conversation_feed(request, pk):
-    obj = get_object_or_404(Conversation, pk=pk)
-    if not conversation_allowed(request.me_user, obj):
-        forbid()
-    return JsonResponse(
-        {
-            'count': obj.messages.count(),
-            'latest': obj.messages.order_by('-pk').values_list('pk', flat=True).first(),
-        }
     )
 
 
