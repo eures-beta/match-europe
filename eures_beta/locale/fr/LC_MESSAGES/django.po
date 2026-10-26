@@ -1018,3 +1018,203 @@ msgstr "Confirmer le lancement simulé"
 
 msgid "This offer changed or a start is already pending. Review its current version before confirming."
 msgstr "Cette offre a changé ou un lancement est déjà en attente. Consultez sa version actuelle avant de confirmer."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Match Europe — Employer journey"
+msgstr "Match Europe — Parcours employeur"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Skip to content"
+msgstr "Aller au contenu"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Local demonstration — proposed journey. Import, offer analysis and follow-up questions are not yet connected."
+msgstr "Démonstration locale — parcours proposé. L’import, l’analyse de l’offre et les questions complémentaires restent à raccorder."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "EURES beta - cross-border mobility, matching and follow-up"
+msgstr "EURES beta - mobilité, matching et accompagnement transfrontalier"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Home"
+msgstr "Accueil"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Candidate"
+msgstr "Candidat"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Employer"
+msgstr "Employeur"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Stats"
+msgstr "Statistiques"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Project"
+msgstr "Le projet"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Project journal"
+msgstr "Journal du projet"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Sign in"
+msgstr "Me connecter"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Employer journey"
+msgstr "Parcours employeur"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Make recruitment easier through European mobility"
+msgstr "Recrutez plus facilement grâce à la mobilité européenne"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Already written your job offer? Import a PDF or add the link to your advert. Match Europe helps you search for candidates in Europe."
+msgstr "Vous avez déjà rédigé votre offre ? Importez un PDF ou ajoutez le lien de votre annonce. Match Europe vous accompagne pour rechercher des candidats en Europe."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Import my job offer"
+msgstr "Importer mon offre d’emploi"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Your offer is read, then checked with you"
+msgstr "Votre offre est lue, puis vérifiée avec vous"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Match Europe reads and analyses your document to turn its information into a structured summary: role, skills, languages and working conditions."
+msgstr "Match Europe lit et analyse votre document pour en reprendre les informations dans une fiche structurée : poste, compétences, langues et conditions proposées."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Check this summary, correct any information if needed and complete what is missing."
+msgstr "Vous vérifiez cette fiche, corrigez les informations si nécessaire et complétez ce qui manque."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "If information is missing or unclear, you will be asked additional questions. In particular, specify whether you can welcome cross-border workers or people relocating from another European country."
+msgstr "Si certaines informations sont manquantes ou ambiguës, des questions complémentaires vous sont posées. Vous précisez notamment si vous pouvez accueillir des travailleurs frontaliers ou des personnes venant s’installer depuis un autre pays européen."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers."
+msgstr "Choisissez les questions qui permettront de préqualifier les candidatures selon les exigences du poste : disponibilité, expérience, langues ou horaires, par exemple. Les candidats intéressés y répondront avant la mise en relation. Leurs réponses vous aideront à identifier les candidatures à poursuivre et à écarter celles qui ne répondent pas aux exigences du poste. Aucun candidat n’est écarté automatiquement sur la seule base de ses réponses."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "The search for candidates starts only after you validate your offer."
+msgstr "La recherche de candidats commence uniquement après votre validation."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "How the service can help"
+msgstr "Ce que le service peut vous apporter"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Broaden your search beyond your local market, prepare candidate prequalification and talk to interested candidates, with support from your EURES adviser."
+msgstr "Élargir votre recherche au-delà de votre marché local, préparer la qualification des candidatures et échanger avec les candidats intéressés, avec l’appui de votre conseiller EURES."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "What happens next"
+msgstr "Ce qui se passe ensuite"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "1. Add your offer as a PDF, a link or manual text."
+msgstr "1. Ajoutez votre offre au format PDF, par lien ou par saisie manuelle."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "2. Check the information and answer any additional questions."
+msgstr "2. Vérifiez les informations reprises et répondez aux éventuelles questions complémentaires."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "3. Choose your questions for candidates, then validate your offer."
+msgstr "3. Choisissez les questions à poser aux candidats, puis validez votre offre."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "4. Review applications and answers before deciding on an introduction."
+msgstr "4. Consultez les candidatures et leurs réponses avant de décider d’une mise en relation."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "You stay in control"
+msgstr "Vous gardez la main"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "A match between an offer and a profile remains a suggestion. An introduction requires both your agreement and the candidate’s. Your adviser then starts a three-way conversation."
+msgstr "Une correspondance entre une offre et un profil reste une proposition. La mise en relation nécessite votre accord et celui du candidat. Votre conseiller initie ensuite une conversation à trois."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Accessible support"
+msgstr "Un accompagnement accessible"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "On desktop and mobile."
+msgstr "Sur ordinateur comme sur mobile."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Targeted questions with quick replies and free text."
+msgstr "Des questions ciblées, avec réponses rapides et texte libre."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "An EURES adviser to support the conversation."
+msgstr "Un conseiller EURES pour accompagner les échanges."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
+msgstr "Match Europe · Une expérimentation France Travail / EURES / ADEM / Le Forem / ELA"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Data protection"
+msgstr "Protection des données"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Language"
+msgstr "Langue"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Partners"
+msgstr "Partenaires"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Useful links"
+msgstr "Liens utiles"

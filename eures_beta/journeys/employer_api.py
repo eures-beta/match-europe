@@ -87,7 +87,10 @@ def employer_page(request, path):
     if getattr(settings, 'SHARED_DEMO', False) and path == 'push-test.html':
         raise Http404()
     base = settings.APPS_DIR / 'templates' / 'employer'
-    candidate = (base / path).resolve()
+    template_name = (
+        'landing.html' if path in ('fr.html', 'en.html', 'de.html') else path
+    )
+    candidate = (base / template_name).resolve()
     if (
         not candidate.is_relative_to(base.resolve())
         or not candidate.is_file()
@@ -103,11 +106,14 @@ def employer_page(request, path):
             + ('true' if authenticated else 'false')
             + '">'
         )
-        body = (
-            get_template('employer/' + path)
-            .render(request=request)
-            .replace('<body>', body_tag)
-        )
+        language = Path(path).stem.rsplit('-', 1)[-1]
+        language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
+        with translation.override(language):
+            body = (
+                get_template('employer/' + template_name)
+                .render(request=request)
+                .replace('<body>', body_tag)
+            )
         from .demo import shared_notice
 
         language = Path(path).stem.rsplit('-', 1)[-1]
@@ -126,7 +132,7 @@ def employer_page(request, path):
             )
         if authenticated:
             lang = next(
-                (code for code in ('fr', 'en', 'de') if candidate.stem.endswith(code)),
+                (code for code in ('fr', 'en', 'de') if path.endswith(code + '.html')),
                 'fr',
             )
             label = {

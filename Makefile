@@ -97,3 +97,6 @@ clever-pre-run: ## Appliquer les migrations via le hook Clever sur la base du .e
 
 clever-run: ## Tester le lancement Clever localement sur HOST:PORT (loopback par défaut)
 	@$(LOAD_ENV) PYTHON="$(PYTHON)" GUNICORN_BIND="$(HOST):$(PORT)" ./clevercloud/run.sh
+.PHONY: translations-compile
+translations-compile: ## Compiler les catalogues gettext après modification des fichiers .po
+	@$(MANAGE) compilemessages
