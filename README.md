@@ -237,12 +237,13 @@ Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 
 ## Vérifier
 
+Voir [l’organisation des tests](docs/TESTS.md) pour retrouver les scénarios par thème.
+
 Depuis la racine, après configuration de la base locale :
 
 ```sh
-.venv/bin/python manage.py check
-.venv/bin/python manage.py makemigrations --check --dry-run
-.venv/bin/python manage.py test eures_beta.journeys --noinput
+make check
+make test
 ```
 
 Les tests PostgreSQL créent une base distincte et simulent les services externes. Aucun secret, base, session, document utilisateur ou abonnement de notification n’est versionné. Le lanceur compile les catalogues gettext ; les `.mo` sont aussi inclus comme ressources du prototype.
