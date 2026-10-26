@@ -2,6 +2,7 @@
 [tool.black]
 required-version = "26.10.1"
 line-length = 88
+# Garder une syntaxe compatible avec les runtimes précédents pendant la transition.
 target-version = ["py312"]
 # Conserver les guillemets existants limite le diff et préserve les adaptations FT.
 skip-string-normalization = true

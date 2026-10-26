@@ -3,12 +3,23 @@
 # Prototype Django — branche de conservation
 
 Le point d’entrée à la racine sert désormais le prototype conservé dans
-`eures_beta/`, avec Python 3.12, Django 5.2 LTS, PostgreSQL et Bootstrap.
+`eures_beta/`, avec Python 3.14, Django 6.1, PostgreSQL et Bootstrap.
 
 - `/` : page d’accueil employeur ; `/access/` : accès aux quatre parcours fictifs.
 - `/admin/` : administration native Django (utilisateurs et groupes).
 - Les modèles et migrations `journeys` sont ceux du prototype d’origine.
 - Aucun email réel ni enregistrement AGLAE n’est activé en démonstration partagée.
+
+## Entretien des versions
+
+Python 3.14 est utilisé en développement et en CI ; Django est épinglé dans
+`requirements/base.txt`. Recréer les environnements Python locaux lors d’un
+changement de version mineure, puis lancer `make install-test` et `make install-quality`.
+Les mainteneurs suivent les correctifs de sécurité ; une revue trimestrielle est
+recommandée. Toute montée de version passe par une PR, les tests PostgreSQL,
+les contrôles de migrations et une recette, en coordonnant les runtimes hébergés
+dans les dépôts privés. Django 6.1 n’est pas une LTS : son support étendu se termine
+en décembre 2027, contre avril 2028 pour 5.2 LTS ([calendrier Django](https://www.djangoproject.com/download/)).
 
 ## Démonstration partagée — adaptation du 23 octobre 2026
 
@@ -105,13 +116,13 @@ Créer le rôle et la base puis renseigner `.env` comme indiqué ci-dessous.
 `PYTHON`, `HOST`, `PORT` et `TEST_ARGS` sont personnalisables. Pour tester plusieurs
 worktrees en parallèle, choisir des `PGDATABASE` distincts dans leurs `.env`.
 
-Prérequis : Python 3.12 et PostgreSQL 17 démarré. Créer une base et un rôle locaux
+Prérequis : Python 3.14 et PostgreSQL 17 démarré. Créer une base et un rôle locaux
 (le mot de passe est demandé interactivement) :
 
 ```sh
 createuser --pwprompt skeleton
 createdb --owner=skeleton skeleton
-python3.12 -m venv .venv
+python3.14 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 cp .env.example .env
@@ -200,7 +211,7 @@ habituels.
 
 `make install-quality` installe la version de Black épinglée dans un environnement
 isolé. `make format` applique le formatage ; `make format-check` le vérifie sans
-modifier les fichiers. Python 3.12 est requis pour cet outillage. Les guillemets
+modifier les fichiers. Python 3.14 est requis pour cet outillage. Les guillemets
 existants sont conservés pour réduire le bruit et préserver les adaptations FT.
 
 Le workflow **Qualité Python**, contrôle **Black**, exécute cette vérification à

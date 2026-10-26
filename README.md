@@ -11,7 +11,7 @@ Le service est en cours de développement.
 
 ## Développement local
 
-Prérequis : Python 3.12 et PostgreSQL démarré, avec un rôle autorisé à créer des bases.
+Prérequis : Python 3.14 et PostgreSQL démarré, avec un rôle autorisé à créer des bases.
 Copier `.env.example` en `.env`, puis renseigner `DJANGO_SECRET_KEY` et les
 paramètres PostgreSQL (`PGUSER`, `PGPASSWORD`, `PGDATABASE`, `PGHOST`, `PGPORT`).
 Pour essayer le prototype localement sans écrire dans AGLAE, ajouter :
