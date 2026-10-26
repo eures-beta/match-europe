@@ -68,3 +68,25 @@ class LanguageNavigationTests(SimpleTestCase):
                 self.assert_language_page(
                     urljoin(page.wsgi_request.path, href), language
                 )
+
+    def test_compatibility_redirect_preserves_query_and_never_exposes_sources(self):
+        response = self.client.get(
+            '/previews/employer-landing/import-v2-en.html?example=one%20two',
+            secure=True,
+        )
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(
+            response['Location'], '/employer/pages/import-v2-en.html?example=one%20two'
+        )
+        self.assertEqual(
+            self.client.get(
+                '/previews/employer-landing/build.cjs', secure=True
+            ).status_code,
+            404,
+        )
+        self.assertEqual(
+            self.client.post(
+                '/previews/employer-landing/en.html', secure=True
+            ).status_code,
+            405,
+        )
