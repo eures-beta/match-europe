@@ -155,3 +155,28 @@ STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
+
+# Keep confirmation links out of Django's development and request logs.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {'redact_links': {'()': 'eures_beta.logging.RedactAccessLinks'}},
+    'handlers': {
+        'safe_console': {
+            'class': 'logging.StreamHandler',
+            'filters': ['redact_links'],
+        },
+    },
+    'loggers': {
+        'django.server': {
+            'handlers': ['safe_console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['safe_console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}

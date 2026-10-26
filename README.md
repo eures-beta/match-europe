@@ -17,6 +17,15 @@ Il ne constitue pas à lui seul une application Django à inscrire dans
 `INSTALLED_APPS`. Les futures applications pourront y vivre sous la forme
 `eures_beta.nom_application`.
 
+Ce dépôt utilise une seule configuration Django, dans `config/`, et un seul
+`manage.py`, à la racine. Les dépendances et les commandes locales sont également
+centralisées à la racine (`requirements.txt` et `Makefile`). Ne pas créer de second
+projet dans `eures_beta/` : les futurs parcours s’ajoutent comme applications dans
+ce paquet, puis sont déclarés dans `config/settings.py` et `config/urls.py`.
+Les réglages du socle pour PostgreSQL, HTTPS, les statiques et la sonde restent
+communs aux environnements. Aucun mode démonstration ni compte fictif n’est
+activé par cette étape.
+
 ```text
 config/
 eures_beta/
