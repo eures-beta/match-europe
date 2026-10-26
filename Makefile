@@ -33,8 +33,8 @@ install: ## Installer les dépendances dans .venv (Python 3.12 requis)
 run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
-test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
-	@$(MANAGE) test eures_beta config --noinput $(TEST_ARGS)
+test: ## Tests PostgreSQL : scénarios fictifs explicites et contrôles hors démo
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta config --noinput $(TEST_ARGS)
 
 .PHONY: test-collection
 test-collection: ## Vérifier les imports de tous les tests, sans créer de base

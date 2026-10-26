@@ -17,6 +17,7 @@ paramètres PostgreSQL (`PGUSER`, `PGPASSWORD`, `PGDATABASE`, `PGHOST`, `PGPORT`
 Pour essayer le prototype localement sans écrire dans AGLAE, ajouter :
 
 ```dotenv
+ME_DEMO_MODE=1
 ME_EMPLOYER_LOCAL_API=1
 ME_EMPLOYER_EMAIL_LOCAL=1
 ME_LOCAL_REVIEW_ONLY=1

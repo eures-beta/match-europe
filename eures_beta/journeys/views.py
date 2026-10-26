@@ -115,7 +115,17 @@ def allowed_match(user, match):
 
 
 @never_cache
+def home(request):
+    if settings.DEMO_MODE:
+        return redirect('/employer/pages/fr.html')
+    return render(request, 'home.html')
+
+
+@never_cache
 def access(request):
+    # This flow displays authentication links in-browser instead of emailing them.
+    if not settings.DEMO_MODE:
+        raise Http404()
     if request.user.is_authenticated:
         return redirect('dashboard')
     invitation = request.GET.get('invite', '') or request.session.get('invitation', '')
@@ -186,6 +196,8 @@ def demo_login(request, pk):
 
 @never_cache
 def confirm(request, token):
+    if not settings.DEMO_MODE:
+        raise Http404()
     if request.method == 'POST':
         user = consume_token(token)
         if not user:

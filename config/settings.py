@@ -16,11 +16,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "eures_beta"
-DEMO_MODE = True
-# The root entry point is a demonstration, never a live-service deployment.
-SHARED_DEMO = (
-    os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
-)
+# Demo access is opt-in. Existing preview environments explicitly set ME_SHARED_DEMO.
+DEMO_MODE = os.environ.get("ME_DEMO_MODE", os.environ.get("ME_SHARED_DEMO", "0")) == "1"
+SHARED_DEMO = DEMO_MODE and os.environ.get("ME_SHARED_DEMO", "0") == "1"
 LOGIN_URL = "/access/"
 RUNTIME = APPS_DIR / ".runtime"
 MEDIA_ROOT = RUNTIME / "private"
