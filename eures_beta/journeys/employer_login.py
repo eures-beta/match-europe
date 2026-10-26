@@ -209,7 +209,7 @@ def connected_page(request, email, person, draft, establishment_form=None):
             if draft
             else ''
         ),
-        import_url='/previews/employer-landing/import-v2-'
+        import_url='/employer/pages/import-v2-'
         + request.session.get('employer_auth_language', 'fr')
         + '.html',
         attached=request.session.pop('employer_attached', False),

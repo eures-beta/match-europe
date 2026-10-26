@@ -81,3 +81,29 @@ class HealthTests(TestCase):
             response = self.client.get("/health/", HTTP_HOST="probe.example.invalid")
         self.assertEqual(response.status_code, 503)
         self.assertEqual(response.content, b"")
+
+
+class EmployerStaticTests(SimpleTestCase):
+    def test_employer_scripts_and_logos_are_collected_without_modification(self):
+        from pathlib import Path
+        from django.conf import settings
+
+        with tempfile.TemporaryDirectory() as directory:
+            with override_settings(STATIC_ROOT=directory):
+                call_command("collectstatic", interactive=False, verbosity=0)
+                for relative in (
+                    "live-api.js",
+                    "review.js",
+                    "import.js",
+                    "contact.js",
+                    "push-test.js",
+                    "assets/eures-ela.jpg",
+                    "assets/france-travail.svg",
+                    "assets/adem.png",
+                    "assets/forem.png",
+                ):
+                    source = settings.APPS_DIR / "static" / "employer" / relative
+                    self.assertEqual(
+                        source.read_bytes(),
+                        (Path(directory) / "employer" / relative).read_bytes(),
+                    )

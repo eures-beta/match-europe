@@ -9,7 +9,7 @@
 <div class="workspace-heading">
 <div><h1>{% trans "My employer space" %}</h1>
 {% if companies|length == 1 %}{% for company in companies %}<p class="workspace-establishment">{{ company.name }}</p>{% endfor %}{% endif %}</div>
-<a class="primary-action" href="/previews/employer-landing/import-v2-{{ request.session.employer_auth_language }}.html">{% trans "Add an offer" %}</a>
+<a class="primary-action" href="/employer/pages/import-v2-{{ request.session.employer_auth_language }}.html">{% trans "Add an offer" %}</a>
 </div>
 <details class="workspace-account"><summary>{% trans "My account" %}</summary><div><p>{{ email }}</p><form method="post" action="{% url 'employer_logout' %}">{% csrf_token %}<button class="ghost-action" type="submit">{% trans "Sign out" %}</button></form></div></details>
 {% if attached %}<p role="status" class="offer-status">{% trans "Your offer is now attached to your establishment." %} {{ attached }}</p>{% endif %}

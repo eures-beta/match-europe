@@ -19,6 +19,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import transaction, connection
 from django.http import JsonResponse, HttpResponse, FileResponse, Http404
+from django.template.loader import get_template
 from django.utils import timezone
 from django.utils import translation
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -82,15 +83,15 @@ def demo_api(view):
 
 @demo_api
 @ensure_csrf_cookie
-def preview(request, path):
+def employer_page(request, path):
     if getattr(settings, 'SHARED_DEMO', False) and path == 'push-test.html':
         raise Http404()
-    base = ROOT / 'previews' / 'employer-landing'
+    base = settings.APPS_DIR / 'templates' / 'employer'
     candidate = (base / path).resolve()
     if (
         not candidate.is_relative_to(base.resolve())
         or not candidate.is_file()
-        or candidate.suffix not in ('.html', '.js', '.png', '.svg', '.jpg')
+        or candidate.suffix != '.html'
     ):
         raise Http404()
     if candidate.suffix == '.html':
@@ -102,7 +103,11 @@ def preview(request, path):
             + ('true' if authenticated else 'false')
             + '">'
         )
-        body = candidate.read_text().replace('<body>', body_tag)
+        body = (
+            get_template('employer/' + path)
+            .render(request=request)
+            .replace('<body>', body_tag)
+        )
         from .demo import shared_notice
 
         language = Path(path).stem.rsplit('-', 1)[-1]

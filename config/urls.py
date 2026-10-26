@@ -10,7 +10,7 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path(
         "",
-        RedirectView.as_view(url="/previews/employer-landing/fr.html", permanent=False),
+        RedirectView.as_view(url="/employer/pages/fr.html", permanent=False),
     ),
     path("", include("eures_beta.journeys.urls")),
     # Keep role navigation separate from the public employer entry point.

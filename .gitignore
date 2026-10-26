@@ -19,3 +19,6 @@ staticfiles/
 coverage/
 htmlcov/
 previews/employer-landing/versions/
+
+# Sorties temporaires de génération des pages employeur
+build/employer-ui/
