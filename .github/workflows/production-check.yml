@@ -3,6 +3,8 @@ name: Vérification de main avant déploiement
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
@@ -40,8 +42,8 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
-      - name: Installer les dépendances
-        run: make install
+      - name: Installer les dépendances applicatives et de test
+        run: make install-test
       - name: Vérifier les imports des tests dans cet environnement
         run: make test-collection
       - name: Vérifier Django et les migrations
