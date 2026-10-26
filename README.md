@@ -10,16 +10,16 @@ Socle technique minimal : Python 3.12, Django 5.2 LTS, PostgreSQL 17 et Bootstra
 ## Organisation du code
 
 `config/` contient les réglages et les points d’entrée du projet Django.
-`match_europe/` est le paquet Python destiné aux futures applications métier ;
+`eures_beta/` est le paquet Python destiné aux futures applications métier ;
 il regroupe déjà les templates partagés, les statiques et les tests du socle.
 Son nom suit la convention Python des modules en minuscules avec underscores.
 Il ne constitue pas à lui seul une application Django à inscrire dans
 `INSTALLED_APPS`. Les futures applications pourront y vivre sous la forme
-`match_europe.nom_application`.
+`eures_beta.nom_application`.
 
 ```text
 config/
-match_europe/
+eures_beta/
     __init__.py
     templates/
     static/
@@ -107,7 +107,7 @@ décrits ci-dessous ; chaque déploiement doit encore configurer HTTPS, ses vari
 propres à l'environnement et examiner les résultats de `check --deploy`.
 `DJANGO_DEBUG` est désactivé par défaut ; une clé secrète est obligatoire.
 
-Bootstrap est conservé sous `match_europe/static/vendor/bootstrap/`, avec sa licence MIT
+Bootstrap est conservé sous `eures_beta/static/vendor/bootstrap/`, avec sa licence MIT
 incluse dans ce dossier. Aucun JavaScript ni outil de compilation frontend.
 
 ## Exécution avec un serveur applicatif
