@@ -8,14 +8,22 @@ class SkeletonTests(TestCase):
     @override_settings(SHARED_DEMO=True)
     def test_home_opens_the_employer_landing_page(self):
         response = self.client.get("/", secure=True)
-        self.assertRedirects(response, "/previews/employer-landing/fr.html", fetch_redirect_response=False)
-        self.assertContains(self.client.get(response["Location"], secure=True), '<html lang="fr"')
+        self.assertRedirects(
+            response,
+            "/previews/employer-landing/fr.html",
+            fetch_redirect_response=False,
+        )
+        self.assertContains(
+            self.client.get(response["Location"], secure=True), '<html lang="fr"'
+        )
 
     @override_settings(SHARED_DEMO=True)
     def test_employer_landing_languages_remain_available(self):
         for language in ("fr", "en", "de"):
             with self.subTest(language=language):
-                response = self.client.get(f"/previews/employer-landing/{language}.html", secure=True)
+                response = self.client.get(
+                    f"/previews/employer-landing/{language}.html", secure=True
+                )
                 self.assertContains(response, f'<html lang="{language}"')
 
     def test_role_access_remains_available(self):
