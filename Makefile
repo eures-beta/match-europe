@@ -40,6 +40,10 @@ test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
 test-collection: ## Vérifier les imports de tous les tests, sans créer de base
 	@$(MANAGE) test config.test_test_collection --noinput
 
+.PHONY: test-demo-modes
+test-demo-modes: ## Vérifier les réglages réels et les protections hors démo
+	@$(MANAGE) test config.test_demo_modes --noinput
+
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
 	@$(MANAGE) makemigrations --check --dry-run
