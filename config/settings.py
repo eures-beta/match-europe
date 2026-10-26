@@ -178,7 +178,7 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'filters': {
-        'redact_links': {'()': 'match_europe.config.logging.RedactAccessLinks'}
+        'redact_links': {'()': 'eures_beta.config.logging.RedactAccessLinks'}
     },
     'handlers': {
         'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}
