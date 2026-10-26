@@ -1,7 +1,9 @@
 name: Demande de recette
 
 on:
-  pull_request:
+  # Unlike pull_request, this metadata-only signal also runs with merge conflicts.
+  # Never add checkout, credentials or execution of PR-controlled content here.
+  pull_request_target:
     types: [labeled, unlabeled, synchronize, reopened, closed]
 
 permissions: {}
