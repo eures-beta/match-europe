@@ -246,26 +246,6 @@ class Answer(models.Model):
         ]
 
 
-class Conversation(models.Model):
-    match = models.OneToOneField(
-        Match, on_delete=models.PROTECT, related_name='conversation'
-    )
-    opened_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    created = models.DateTimeField(auto_now_add=True)
-
-
-class Message(models.Model):
-    conversation = models.ForeignKey(
-        Conversation, on_delete=models.CASCADE, related_name='messages'
-    )
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    body = models.TextField(max_length=4000)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['created', 'pk']
-
-
 class Notification(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications'

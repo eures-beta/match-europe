@@ -1,5 +1,6 @@
 from django.urls import reverse
-from eures_beta.journeys.models import Answer, Conversation, Message
+from eures_beta.journeys.models import Answer
+from eures_beta.conversations.models import Conversation, Message
 
 
 from .base import JourneyScenario

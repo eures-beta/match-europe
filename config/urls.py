@@ -7,6 +7,7 @@ from .health import health
 urlpatterns = [
     # Old tabs/bookmarks still contain these relative language links after deployment.
     path('previews/employer-landing/<path:path>', legacy_employer_page),
+    path("conversations/", include("eures_beta.conversations.urls")),
     path("health/", health, name="health"),
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
