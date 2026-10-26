@@ -10,7 +10,7 @@ class SkeletonTests(TestCase):
         response = self.client.get("/", secure=True)
         self.assertRedirects(
             response,
-            "/previews/employer-landing/fr.html",
+            "/employer/pages/fr.html",
             fetch_redirect_response=False,
         )
         self.assertContains(
@@ -22,7 +22,7 @@ class SkeletonTests(TestCase):
         for language in ("fr", "en", "de"):
             with self.subTest(language=language):
                 response = self.client.get(
-                    f"/previews/employer-landing/{language}.html", secure=True
+                    f"/employer/pages/{language}.html", secure=True
                 )
                 self.assertContains(response, f'<html lang="{language}"')
 

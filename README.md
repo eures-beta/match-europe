@@ -230,9 +230,9 @@ Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 | `config/` | Réglages et points d’entrée Django uniques |
 | `eures_beta/journeys/` | Modèles, migrations, droits, services, vues et tests |
 | `eures_beta/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
-| `previews/employer-landing/` | Parcours employeur de référence V2, V1 conservée et diagnostic Push |
-| `scripts/employer-ui/` | Sources de génération des pages employeur, exécutées avec Node |
-| `eures_beta/static/employer/` | Ressources de présentation employeur servies par Django/WhiteNoise |
+| `eures_beta/templates/employer/` | Pages employeur V2, V1 conservée et diagnostic Push |
+| `eures_beta/static/employer/` | JavaScript, styles et logos de ces pages |
+| `scripts/employer-ui/` | Générateurs historiques et leurs textes/données de référence |
 | `docs/` | Périmètre, décisions, ordre de lecture et limites |
 
 ## Vérifier
@@ -257,7 +257,7 @@ Ce partage conserve des étapes successives et du code exploratoire : styles en 
 
 `make install-test` installe aussi les dépendances Push. Définir
 `ME_EMPLOYER_LOCAL_API=1`, utiliser `make run`, puis ouvrir
-`/previews/employer-landing/push-test.html` sur loopback. Ce diagnostic reste
+`/employer/pages/push-test.html` sur loopback. Ce diagnostic reste
 inaccessible en démonstration partagée. Il ne prouve pas la réception effective
 d’une notification : celle-ci doit être confirmée dans le navigateur.
 

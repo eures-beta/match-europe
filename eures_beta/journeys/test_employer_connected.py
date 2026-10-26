@@ -132,7 +132,7 @@ class ConnectedEmployerTests(TestCase):
             ('en', 'Sign in'),
             ('de', 'Anmelden'),
         ]:
-            path = '/previews/employer-landing/import-v2-' + lang + '.html'
+            path = '/employer/pages/import-v2-' + lang + '.html'
             self.assertContains(self.client.get(path), label)
         self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get(path), 'data-employer-connected="true"')

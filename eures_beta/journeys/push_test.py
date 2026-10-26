@@ -161,6 +161,6 @@ def worker(request):
     js = """self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 async function report(data){const cache=await caches.open('me-push-test-diagnostics');await cache.put('push-report',new Response(JSON.stringify({...data,at:Date.now()}),{headers:{'Content-Type':'application/json'}}));}
-self.addEventListener('push',event=>event.waitUntil((async()=>{await report({stage:'received'});let data={};try{data=event.data.json()}catch{}try{await self.registration.showNotification(data.title||'Match Europe',{body:data.body||'Notification de test',tag:'me-local-test-'+Date.now(),renotify:true,data:{url:'/previews/employer-landing/push-test.html'}});await report({stage:'displayed'});}catch(error){await report({stage:'error',message:error.name+': '+error.message});}})()));
-self.addEventListener('notificationclick',event=>{event.notification.close();event.waitUntil(clients.openWindow('/previews/employer-landing/push-test.html'))});"""
+self.addEventListener('push',event=>event.waitUntil((async()=>{await report({stage:'received'});let data={};try{data=event.data.json()}catch{}try{await self.registration.showNotification(data.title||'Match Europe',{body:data.body||'Notification de test',tag:'me-local-test-'+Date.now(),renotify:true,data:{url:'/employer/pages/push-test.html'}});await report({stage:'displayed'});}catch(error){await report({stage:'error',message:error.name+': '+error.message});}})()));
+self.addEventListener('notificationclick',event=>{event.notification.close();event.waitUntil(clients.openWindow('/employer/pages/push-test.html'))});"""
     return HttpResponse(js, content_type='application/javascript')

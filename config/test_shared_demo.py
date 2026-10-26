@@ -25,7 +25,7 @@ class SharedDemoTests(TestCase):
 
     def test_remote_https_can_open_preview_but_http_is_not_enabled(self):
         response = self.client.get(
-            "/previews/employer-landing/import-v2-fr.html",
+            "/employer/pages/import-v2-fr.html",
             secure=True,
             REMOTE_ADDR="192.0.2.42",
         )
@@ -91,6 +91,6 @@ class SharedDemoTests(TestCase):
             with translation.override(language):
                 self.assertIn(expected, shared_notice())
             response = self.client.get(
-                f"/previews/employer-landing/import-v2-{language}.html", secure=True
+                f"/employer/pages/import-v2-{language}.html", secure=True
             )
             self.assertContains(response, expected)
