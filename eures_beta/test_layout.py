@@ -28,7 +28,7 @@ class UnifiedLayoutTests(SimpleTestCase):
                 response = self.client.get("/employer/pages/" + page, secure=True)
                 self.assertEqual(response.status_code, 200, page)
                 self.assertTemplateUsed(response, "employer/" + page)
-        for source in ("build.cjs", "copy.json", "../base.html", "live-api.js"):
+        for source in ("build.cjs", "copy.json", "../base.html", "employer-api.js"):
             self.assertEqual(
                 self.client.get("/employer/pages/" + source, secure=True).status_code,
                 404,

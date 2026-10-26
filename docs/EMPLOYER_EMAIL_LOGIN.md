@@ -13,7 +13,7 @@ Activer explicitement `ME_EMPLOYER_EMAIL_LOCAL=1` dans un serveur lié à
 `127.0.0.1`. Les vues exigent aussi le mode démonstration et une adresse cliente
 loopback. Entrée : `/employer/access/`. Mode désactivé : routes introuvables.
 La feuille de style utilise la route locale déjà existante de prévisualisation,
-qui nécessite `ME_EMPLOYER_LOCAL_API=1`.
+qui nécessite `ME_EMPLOYER_DEV_ACCESS=1`.
 
 ## Sécurité et simulation
 

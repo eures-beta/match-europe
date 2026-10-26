@@ -17,7 +17,7 @@ from .test_employer_ownership import OwnershipTests
     'os.environ',
     {
         'ME_EMPLOYER_EMAIL_LOCAL': '1',
-        'ME_EMPLOYER_LOCAL_API': '1',
+        'ME_EMPLOYER_DEV_ACCESS': '1',
         'ME_LOCAL_REVIEW_ONLY': '1',
     },
 )
@@ -26,7 +26,7 @@ class ConnectedEmployerTests(TestCase):
 
     def submit(self, client=None):
         return (client or self.client).post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'manual',
                 'text': 'Fictional role',
@@ -149,7 +149,7 @@ class ConnectedEmployerTests(TestCase):
             expire_date=timezone.now() - timedelta(seconds=1)
         )
         response = self.client.post(
-            '/local-api/imports/', {'kind': 'pdf', 'connectedSubmission': 'true'}
+            '/api/imports/', {'kind': 'pdf', 'connectedSubmission': 'true'}
         )
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()['error'], 'session_expired')

@@ -10,7 +10,7 @@
   let source = null;
   let validated = false;
   let preparedSignature = null;
-  const api = window.localEmployerAPI;
+  const api = window.employerAPI;
   let current = null;
   let busy = false;
   const canonical = value => {

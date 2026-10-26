@@ -204,11 +204,11 @@ class ReadingTests(SimpleTestCase):
         self.assertNotIn('secret_script', d['description'])
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_LOCAL_API': '1'})
+@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class ImportFlowTests(TestCase):
     def create(self):
         return self.client.post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'manual',
                 'text': 'A useful fictional job description.',
@@ -232,7 +232,7 @@ class ImportFlowTests(TestCase):
 
     def update(self, result, action='save', **kwargs):
         return self.client.post(
-            '/local-api/imports/' + result['id'] + '/',
+            '/api/imports/' + result['id'] + '/',
             json.dumps(
                 {
                     'action': action,
@@ -250,10 +250,10 @@ class ImportFlowTests(TestCase):
         obj = response.json()
         self.assertTrue(EmployerImport.objects.filter(pk=obj['id']).exists())
         self.assertEqual(
-            self.client.get('/local-api/imports/' + obj['id'] + '/').status_code, 200
+            self.client.get('/api/imports/' + obj['id'] + '/').status_code, 200
         )
         self.assertEqual(
-            Client().get('/local-api/imports/' + obj['id'] + '/').status_code, 404
+            Client().get('/api/imports/' + obj['id'] + '/').status_code, 404
         )
 
     @patch('eures_beta.journeys.employer_api.aglae')
@@ -268,7 +268,7 @@ class ImportFlowTests(TestCase):
     )
     def test_review_before_contact_preserves_corrections(self, read, geo, aglae):
         first = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -292,20 +292,18 @@ class ImportFlowTests(TestCase):
             'data': json.dumps({**summary['data'], 'title': 'Corrected title'}),
         }
         with patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'}):
-            created = self.client.post('/local-api/imports/', payload)
+            created = self.client.post('/api/imports/', payload)
         self.assertEqual(created.status_code, 201)
         self.assertEqual(created.json()['data']['title'], 'Corrected title')
         self.assertEqual(created.json()['data']['description'], 'Fictional PDF text')
         read.assert_called_once()
         geo.assert_not_called()
         aglae.assert_not_called()
-        self.assertEqual(
-            self.client.post('/local-api/imports/', payload).status_code, 400
-        )
+        self.assertEqual(self.client.post('/api/imports/', payload).status_code, 400)
 
     def test_manual_summary_does_not_require_contact_or_create_import(self):
         result = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {'kind': 'manual', 'agreement': 'true', 'text': 'Fictional manual offer.'},
         )
         self.assertEqual(result.status_code, 200)
@@ -315,7 +313,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(EmployerImport.objects.count(), 0)
         self.assertEqual(
             self.client.post(
-                '/local-api/imports/source/',
+                '/api/imports/source/',
                 {'kind': 'manual', 'text': 'Fictional offer.'},
             ).status_code,
             400,
@@ -334,7 +332,7 @@ class ImportFlowTests(TestCase):
         created['data']['requirements'] = req
         response = self.update(created)
         self.assertEqual(response.status_code, 200)
-        resumed = self.client.get('/local-api/imports/' + created['id'] + '/').json()
+        resumed = self.client.get('/api/imports/' + created['id'] + '/').json()
         self.assertEqual(resumed['data']['requirements'], req)
         self.assertEqual(
             EmployerImport.objects.get(pk=created['id']).data['requirements'], req
@@ -343,7 +341,7 @@ class ImportFlowTests(TestCase):
     def test_consent_required_before_reading(self):
         with patch('eures_beta.journeys.offer_ingestion.fetch_public') as fetch:
             r = self.client.post(
-                '/local-api/imports/',
+                '/api/imports/',
                 {
                     'kind': 'url',
                     'url': 'https://example.org/job',
@@ -377,12 +375,12 @@ class ImportFlowTests(TestCase):
             return_value=(html, 'https://example.org/different'),
         ):
             first = self.client.post(
-                '/local-api/imports/source/',
+                '/api/imports/source/',
                 {'url': 'https://example.org/different', 'agreement': 'true'},
             )
             self.assertEqual(first.status_code, 200)
             r = self.client.post(
-                '/local-api/imports/',
+                '/api/imports/',
                 {
                     'kind': 'url',
                     'url': 'https://example.org/different',
@@ -406,7 +404,7 @@ class ImportFlowTests(TestCase):
     )
     def test_blocked_source_fails_before_email(self, fetch):
         r = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {'url': 'https://example.org/blocked', 'agreement': 'true'},
         )
         self.assertEqual(r.status_code, 400)
@@ -422,7 +420,7 @@ class ImportFlowTests(TestCase):
         }
         session.save()
         r = self.client.post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'url',
                 'url': 'https://example.org/two',
@@ -442,7 +440,7 @@ class ImportFlowTests(TestCase):
     )
     def test_pdf_read_before_email_and_reused_once(self, read):
         first = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -460,13 +458,11 @@ class ImportFlowTests(TestCase):
             'email': 'fiction@example.invalid',
             'sourceToken': first.json()['token'],
         }
-        self.assertEqual(Client().post('/local-api/imports/', payload).status_code, 400)
-        created = self.client.post('/local-api/imports/', payload)
+        self.assertEqual(Client().post('/api/imports/', payload).status_code, 400)
+        created = self.client.post('/api/imports/', payload)
         self.assertEqual(created.status_code, 201)
         self.assertEqual(created.json()['data']['description'], 'Fictional PDF text')
-        self.assertEqual(
-            self.client.post('/local-api/imports/', payload).status_code, 400
-        )
+        self.assertEqual(self.client.post('/api/imports/', payload).status_code, 400)
         read.assert_called_once()
 
     @patch(
@@ -479,13 +475,13 @@ class ImportFlowTests(TestCase):
             'document': SimpleUploadedFile('offer.pdf', b'%PDF-test'),
         }
         self.assertEqual(
-            self.client.post('/local-api/imports/source/', payload).status_code, 400
+            self.client.post('/api/imports/source/', payload).status_code, 400
         )
         read.assert_not_called()
         payload.update(
             agreement='true', document=SimpleUploadedFile('offer.pdf', b'%PDF-test')
         )
-        response = self.client.post('/local-api/imports/source/', payload)
+        response = self.client.post('/api/imports/source/', payload)
         self.assertEqual(response.json()['error'], 'unreadable')
         self.assertEqual(EmployerImport.objects.count(), 0)
 
@@ -495,7 +491,7 @@ class ImportFlowTests(TestCase):
     )
     def test_expired_pdf_preflight_is_rejected(self, read):
         first = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -509,7 +505,7 @@ class ImportFlowTests(TestCase):
         session.save()
         self.assertEqual(
             self.client.post(
-                '/local-api/imports/',
+                '/api/imports/',
                 {
                     'kind': 'pdf',
                     'agreement': 'true',
@@ -531,9 +527,7 @@ class ImportFlowTests(TestCase):
         r = self.update(obj)
         self.assertEqual(r.status_code, 200)
         self.assertEqual(
-            self.client.get('/local-api/imports/' + obj['id'] + '/').json()['data'][
-                'title'
-            ],
+            self.client.get('/api/imports/' + obj['id'] + '/').json()['data']['title'],
             'Example role',
         )
         self.assertEqual(self.update(obj).status_code, 409)
@@ -542,7 +536,7 @@ class ImportFlowTests(TestCase):
     def test_no_api_call_without_validation_or_location(self, api):
         obj = self.create().json()
         self.assertEqual(self.update(obj).status_code, 200)
-        obj = self.client.get('/local-api/imports/' + obj['id'] + '/').json()
+        obj = self.client.get('/api/imports/' + obj['id'] + '/').json()
         self.assertEqual(self.update(obj, 'validate', confirmed=True).status_code, 400)
         api.assert_not_called()
 
@@ -638,13 +632,11 @@ class ImportFlowTests(TestCase):
 
     def test_remote_client_and_missing_csrf_rejected(self):
         self.assertEqual(
-            self.client.get('/local-api/imports/', REMOTE_ADDR='192.0.2.1').status_code,
+            self.client.get('/api/imports/', REMOTE_ADDR='192.0.2.1').status_code,
             404,
         )
         self.assertEqual(
-            Client(enforce_csrf_checks=True)
-            .post('/local-api/imports/', {})
-            .status_code,
+            Client(enforce_csrf_checks=True).post('/api/imports/', {}).status_code,
             403,
         )
 
@@ -656,7 +648,7 @@ class ImportFlowTests(TestCase):
                 }
             ).encode()
             first = self.client.post(
-                '/local-api/imports/source/',
+                '/api/imports/source/',
                 {
                     'kind': 'pdf',
                     'document': SimpleUploadedFile('test.pdf', b'%PDF-1.4\nfiction'),
@@ -665,7 +657,7 @@ class ImportFlowTests(TestCase):
             )
             self.assertEqual(first.status_code, 200)
             r = self.client.post(
-                '/local-api/imports/',
+                '/api/imports/',
                 {
                     'kind': 'pdf',
                     'sourceToken': first.json()['token'],

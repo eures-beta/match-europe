@@ -231,7 +231,7 @@ La pile est Django / PostgreSQL / Bootstrap. Le code historique Flask/Grist rest
 
 Utiliser les commandes à la racine : `make install-test`, configurer `.env`,
 puis `make migrate`, `make seed-demo` et `make run`.
-Pour les prévisualisations sur loopback, ajouter `ME_EMPLOYER_LOCAL_API=1` dans `.env`.
+Pour les prévisualisations sur loopback, ajouter `ME_EMPLOYER_DEV_ACCESS=1` dans `.env`.
 Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 
 ## Structure
@@ -268,7 +268,7 @@ Ce partage conserve des étapes successives et du code exploratoire : styles en 
 ## Web Push facultatif pour le diagnostic local
 
 `make install-test` installe aussi les dépendances Push. Définir
-`ME_EMPLOYER_LOCAL_API=1`, utiliser `make run`, puis ouvrir
+`ME_EMPLOYER_DEV_ACCESS=1`, utiliser `make run`, puis ouvrir
 `/employer/pages/push-test.html` sur loopback. Ce diagnostic reste
 inaccessible en démonstration partagée. Il ne prouve pas la réception effective
 d’une notification : celle-ci doit être confirmée dans le navigateur.

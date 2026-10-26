@@ -1,5 +1,5 @@
 'use strict';
-// Document reading uses the local API only when explicitly enabled.
+// Document reading uses the employer API only when explicitly enabled.
 const strings = JSON.parse(document.getElementById('import-strings').textContent);
 const input = document.getElementById('offer-file');
 const fileForm = document.getElementById('file-form');
@@ -7,9 +7,9 @@ const manualForm = document.getElementById('manual-form');
 const urlForm = document.getElementById('url-form');
 const emailForm = document.getElementById('email-form');
 const error = document.getElementById('file-error');
-const liveAPI = window.localEmployerAPI;
-if (document.body.dataset.liveLocal === 'true' && !liveAPI) {
-  throw new Error('Local API client unavailable; refusing simulated fallback.');
+const liveAPI = window.employerAPI;
+if (document.body.dataset.employerApi === 'true' && !liveAPI) {
+  throw new Error('Employer API client unavailable; refusing simulated fallback.');
 }
 let validFile = false;
 let selectionVersion = 0;

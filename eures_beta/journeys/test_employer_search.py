@@ -15,7 +15,7 @@ from .models import (
 from . import test_employer_workspace as workspace_tests
 
 MODES = {
-    'ME_EMPLOYER_LOCAL_API': '1',
+    'ME_EMPLOYER_DEV_ACCESS': '1',
     'ME_EMPLOYER_EMAIL_LOCAL': '1',
     'ME_LOCAL_REVIEW_ONLY': '1',
     'ME_EMPLOYER_SEARCH_SIMULATION': '1',
@@ -105,7 +105,7 @@ class SearchTests(SearchSetup, TestCase):
                 )
                 for action in ('save', 'contact', 'prepare', 'validate', 'locate'):
                     response = self.client.post(
-                        '/local-api/imports/' + str(self.offer.pk) + '/',
+                        '/api/imports/' + str(self.offer.pk) + '/',
                         json.dumps(
                             {
                                 'action': action,

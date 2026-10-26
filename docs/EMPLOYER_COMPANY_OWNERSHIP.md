@@ -11,7 +11,7 @@ et ses conversations ne sont pas modifiés.
 
 ## Parcours simplifié
 
-Activer `ME_EMPLOYER_LOCAL_API=1`, `ME_EMPLOYER_EMAIL_LOCAL=1` et
+Activer `ME_EMPLOYER_DEV_ACCESS=1`, `ME_EMPLOYER_EMAIL_LOCAL=1` et
 `ME_LOCAL_REVIEW_ONLY=1`, en démonstration et sur loopback uniquement.
 
 1. Importer une offre fictive, la relire puis renseigner le contact.

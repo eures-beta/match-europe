@@ -30,20 +30,16 @@ class SharedDemoTests(TestCase):
             REMOTE_ADDR="192.0.2.42",
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'data-live-local="true"')
+        self.assertContains(response, 'data-employer-api="true"')
         self.assertEqual(
-            self.client.get(
-                "/local-api/imports/", REMOTE_ADDR="192.0.2.42"
-            ).status_code,
+            self.client.get("/api/imports/", REMOTE_ADDR="192.0.2.42").status_code,
             404,
         )
 
     def test_shared_push_diagnostic_stays_disabled_even_on_loopback(self):
-        with patch.dict("os.environ", {"ME_EMPLOYER_LOCAL_API": "1"}):
+        with patch.dict("os.environ", {"ME_EMPLOYER_DEV_ACCESS": "1"}):
             self.assertEqual(
-                self.client.get(
-                    "/local-api/push-test/config/", secure=True
-                ).status_code,
+                self.client.get("/api/push-test/config/", secure=True).status_code,
                 404,
             )
 
@@ -51,7 +47,7 @@ class SharedDemoTests(TestCase):
         client = Client(enforce_csrf_checks=True)
         self.assertEqual(
             client.post(
-                "/local-api/imports/", secure=True, REMOTE_ADDR="192.0.2.42"
+                "/api/imports/", secure=True, REMOTE_ADDR="192.0.2.42"
             ).status_code,
             403,
         )
@@ -66,7 +62,7 @@ class SharedDemoTests(TestCase):
             data={"title": "Fictional draft"},
             preparation_agreed_at=timezone.now(),
         )
-        path = f"/local-api/imports/{draft.pk}/"
+        path = f"/api/imports/{draft.pk}/"
         self.assertEqual(self.client.get(path, secure=True).status_code, 200)
         self.assertEqual(Client().get(path, secure=True).status_code, 404)
 
