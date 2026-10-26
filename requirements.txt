@@ -1,5 +1,2 @@
-Django==5.2.18
-psycopg[binary]==3.3.6
-gunicorn==26.2.0
-whitenoise==6.12.0
-pypdf==6.20.1
+# Point d’entrée standard pour les outils de déploiement Python.
+-r requirements/base.txt

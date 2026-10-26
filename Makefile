@@ -6,7 +6,7 @@ QUALITY_PYTHON ?= .venv-quality/bin/python
 .PHONY: install-quality format format-check
 install-quality: ## Installer Black dans un environnement dédié (Python 3.12)
 	python3.12 -m venv .venv-quality
-	.venv-quality/bin/python -m pip install -r requirements-quality.txt
+	.venv-quality/bin/python -m pip install -r requirements/quality.txt
 
 format: ## Formater les fichiers Python avec Black (modifie les fichiers)
 	$(QUALITY_PYTHON) -m black --no-cache .
@@ -58,7 +58,7 @@ collectstatic: ## Collecter les statiques dans staticfiles/
 .PHONY: install-test test-local seed-demo serve db-create
 install-test: ## Installer aussi les dépendances du diagnostic Push pour les tests
 	python3.12 -m venv .venv
-	.venv/bin/python -m pip install -r requirements-test.txt
+	.venv/bin/python -m pip install -r requirements/test.txt
 
 test-local: test ## Alias historique : tests via la configuration racine unique
 
