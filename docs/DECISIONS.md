@@ -1,5 +1,15 @@
 # EURES beta / Match Europe — décisions communes
 
+## 26 octobre 2026 — premier écran candidat
+
+Eric valide l’entrée directe par CV, lien LinkedIn ou saisie manuelle, le titre
+« Trouvez votre prochain emploi en Europe » et l’identité de l’accueil employeur.
+Les blocs reprennent ceux de l’import employeur après correction de la maquette.
+Publication demandée dans une PR « page d'accueil candidat » empilée au-dessus
+de la PR #15, sans fusion ni déploiement. Le périmètre reste le seul écran 1 ;
+lecture du CV/LinkedIn, saisie, authentification et enregistrement restent à
+raccorder. Voir [écran et limites](../previews/employer-landing/CANDIDATE.md).
+
 Initialisation : 16 octobre 2026. Sources : échange d’organisation avec Eric, AGENTS.md et documentation existante. Ce registre ne transforme pas une hypothèse en décision et n’atteste pas l’état des déploiements.
 
 ## Choix validés et règles existantes

@@ -83,3 +83,5 @@ for (const lang of ['fr', 'en', 'de']) {
 </head><body><a class="skip-preview" href="#main-content">${drafts[lang].skip}</a><p class="preview-note" id="preview-note">${drafts[lang].preview}</p>${html}</body></html>\n`);
 }
 require('./build-import.cjs');
+
+require('./build-candidate.cjs');

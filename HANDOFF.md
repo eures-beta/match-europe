@@ -198,3 +198,13 @@ Dans ce nouveau clone, avec son propre environnement virtuel et une nouvelle ins
 - Contrôle des formats de secrets et recherche des secrets locaux connus : aucun dans le jeu de publication.
 
 Les alertes 400/404/409/502 dans la sortie des tests correspondent aux scénarios négatifs attendus. Aucun appel réel au prestataire, géocodeur ou service Push n’a été réalisé pendant cette validation de publication. Une première exécution de tests pendant l’assemblage des commits intermédiaires n’avait pas les routes Push ; la validation ci-dessus porte sur l’état final avec ces routes présentes.
+## 26 octobre 2026 — accueil candidat, écran 1
+
+Branche `codex/candidate-landing` issue de `codex/forem-official-logo` (PR #15),
+tête de base vérifiée à `6e223fc`. Entrée directe FR/EN/DE, titre validé et trois
+blocs conformes à la maquette corrigée. Coque et logos employeur réutilisés ;
+connexion et choix limités à une notice de démonstration, aucun traitement de
+données ni service externe. Quatre tests Django ciblés réussis sans base ;
+syntaxe JavaScript, formatage des fichiers Python touchés et contrôles visuels
+locaux effectués. Voir [périmètre candidat](previews/employer-landing/CANDIDATE.md).
+La publication GitHub est autorisée ; aucune fusion ni aucun déploiement.
