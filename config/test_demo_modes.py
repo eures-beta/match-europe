@@ -90,7 +90,7 @@ class NonDemoTests(TestCase):
         self.assertFalse(get_user_model().objects.exists())
 
     def test_demo_login_links_and_import_endpoints_are_unavailable(self):
-        for path in ("/access/", "/confirm/fictional/", "/local-api/imports/"):
+        for path in ("/access/", "/confirm/fictional/", "/api/imports/"):
             for method in (self.client.get, self.client.post):
                 with self.subTest(path=path, method=method.__name__):
                     self.assertEqual(method(path).status_code, 404)

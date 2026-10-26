@@ -22,7 +22,7 @@ def sample():
 
 
 @override_settings(DEMO_MODE=True)
-@patch.dict(os.environ, {'ME_EMPLOYER_LOCAL_API': '1'})
+@patch.dict(os.environ, {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class PushDiagnosticTests(TestCase):
     def test_endpoint_allowlist(self):
         data = sample()
@@ -41,13 +41,13 @@ class PushDiagnosticTests(TestCase):
         c = Client()
         self.assertEqual(
             c.post(
-                '/local-api/push-test/send/', data='{}', content_type='application/json'
+                '/api/push-test/send/', data='{}', content_type='application/json'
             ).status_code,
             400,
         )
         self.assertEqual(
             c.post(
-                '/local-api/push-test/subscribe/',
+                '/api/push-test/subscribe/',
                 data=json.dumps(sample()),
                 content_type='application/json',
             ).status_code,
@@ -55,28 +55,22 @@ class PushDiagnosticTests(TestCase):
         )
         self.assertEqual(
             c.post(
-                '/local-api/push-test/send/', data='{}', content_type='application/json'
+                '/api/push-test/send/', data='{}', content_type='application/json'
             ).status_code,
             200,
         )
         self.assertEqual(timer.call_args.args[0], 10)
-        c.post('/local-api/push-test/stop/', data='{}', content_type='application/json')
-        self.assertEqual(
-            c.get('/local-api/push-test/status/').json()['state'], 'cancelled'
-        )
+        c.post('/api/push-test/stop/', data='{}', content_type='application/json')
+        self.assertEqual(c.get('/api/push-test/status/').json()['state'], 'cancelled')
 
     def test_csrf_and_loopback(self):
         self.assertEqual(
             Client(enforce_csrf_checks=True)
-            .post(
-                '/local-api/push-test/send/', data='{}', content_type='application/json'
-            )
+            .post('/api/push-test/send/', data='{}', content_type='application/json')
             .status_code,
             403,
         )
         self.assertEqual(
-            Client()
-            .get('/local-api/push-test/status/', REMOTE_ADDR='192.0.2.1')
-            .status_code,
+            Client().get('/api/push-test/status/', REMOTE_ADDR='192.0.2.1').status_code,
             404,
         )

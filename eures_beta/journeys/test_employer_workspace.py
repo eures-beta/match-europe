@@ -18,7 +18,7 @@ from .offer_ingestion import empty_data
 @patch.dict(
     'os.environ',
     {
-        'ME_EMPLOYER_LOCAL_API': '1',
+        'ME_EMPLOYER_DEV_ACCESS': '1',
         'ME_EMPLOYER_EMAIL_LOCAL': '1',
         'ME_LOCAL_REVIEW_ONLY': '1',
     },
@@ -190,7 +190,7 @@ class WorkspaceTests(TestCase):
                 'contact': self.offer.contact,
             }
             response = self.client.post(
-                '/local-api/imports/' + str(self.offer.pk) + '/',
+                '/api/imports/' + str(self.offer.pk) + '/',
                 json.dumps(payload),
                 content_type='application/json',
             )

@@ -13,7 +13,7 @@ from .models import (
     'os.environ',
     {
         'ME_EMPLOYER_EMAIL_LOCAL': '1',
-        'ME_EMPLOYER_LOCAL_API': '1',
+        'ME_EMPLOYER_DEV_ACCESS': '1',
         'ME_LOCAL_REVIEW_ONLY': '1',
     },
 )
@@ -21,7 +21,7 @@ class OwnershipTests(TestCase):
     def create(self, client=None):
         client = client or self.client
         response = client.post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'manual',
                 'text': 'Fictional role.',
@@ -68,7 +68,7 @@ class OwnershipTests(TestCase):
 
     def test_shared_offer_revocation_and_outsider(self):
         draft, person, company = self.attach()
-        url = '/local-api/imports/' + draft['id'] + '/'
+        url = '/api/imports/' + draft['id'] + '/'
         other = Client()
         colleague = self.login(other, 'second@fiction.invalid')
         self.assertEqual(other.get(url).status_code, 404)
@@ -105,7 +105,7 @@ class OwnershipTests(TestCase):
 
     def test_reconnect_other_browser_logout_and_no_email_claim(self):
         draft, person, company = self.attach()
-        url = '/local-api/imports/' + draft['id'] + '/'
+        url = '/api/imports/' + draft['id'] + '/'
         self.client.post('/employer/logout/')
         self.assertEqual(self.client.get(url).status_code, 404)
         other = Client()
@@ -126,7 +126,7 @@ class OwnershipTests(TestCase):
         other.post(link)
         self.assertContains(other.get('/employer/connected/'), 'Rattacher votre offre')
         other.post('/employer/attach/', {'name': 'Fictional company'})
-        url = '/local-api/imports/' + draft['id'] + '/'
+        url = '/api/imports/' + draft['id'] + '/'
         self.assertEqual(other.get(url).status_code, 200)
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertEqual(
@@ -196,7 +196,7 @@ class OwnershipTests(TestCase):
             '/employer/connected/',
         )
         self.assertEqual(
-            other.get('/local-api/imports/' + draft['id'] + '/').status_code, 200
+            other.get('/api/imports/' + draft['id'] + '/').status_code, 200
         )
 
     def test_first_establishment_requires_only_a_name(self):
@@ -258,5 +258,5 @@ class OwnershipTests(TestCase):
             ).exists()
         )
         self.assertEqual(
-            other.get('/local-api/imports/' + draft['id'] + '/').status_code, 404
+            other.get('/api/imports/' + draft['id'] + '/').status_code, 404
         )

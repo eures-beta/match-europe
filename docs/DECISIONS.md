@@ -15,10 +15,13 @@ Initialisation : 16 octobre 2026. Sources : échange d’organisation avec Eric,
 | D07 | Une modification locale ou une PR n’autorise ni fusion, ni déploiement, ni écriture sur les données Grist réelles. | AGENTS.md. |
 | D08 | Les essais du prototype utilisent des données fictives ; le prototype ne doit pas être déployé tel quel. | Documentation Match Europe et HANDOFF.md. |
 
-## 26 octobre 2026 — vocabulaire des pages
+## 26 octobre 2026 — vocabulaire des pages et API
 
 À la demande de l’utilisateur, réserver « preview » aux recettes jetables.
 Employer « page », « résumé » et « démonstration » pour l’interface et ses essais.
+L’API commune utilise `/api/` ; l’option d’accès sur loopback est nommée
+`ME_EMPLOYER_DEV_ACCESS`. Les contrôles d’accès ne changent pas.
+Voir [les changements d’URL et de configuration](API_NAMING.md).
 
 ## Points restant à confirmer ou à concevoir
 

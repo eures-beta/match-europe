@@ -1,6 +1,6 @@
  'use strict';
 (() => {
-  const api = window.localEmployerAPI;
+  const api = window.employerAPI;
   if (!api) return;
   const t = JSON.parse(document.getElementById('contact-strings').textContent);
   let current = null;

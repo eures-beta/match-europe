@@ -110,14 +110,14 @@ class DocumentFieldTests(SimpleTestCase):
             read_pdf(SimpleUploadedFile('test.png', b'%PDF-fiction'))
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_LOCAL_API': '1'})
+@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class MultipleImageTests(TestCase):
     @patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'})
     @patch('eures_beta.journeys.employer_api.geocode')
     @patch('eures_beta.journeys.employer_api.aglae')
     def test_local_review_never_calls_external_services(self, api, geo):
         response = self.client.post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'manual',
                 'agreement': 'true',
@@ -142,7 +142,7 @@ class MultipleImageTests(TestCase):
             {'description': 'CDI\nTemps plein\nQualifications\nPermis B souhaité.'},
         ]
         response = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -162,7 +162,7 @@ class MultipleImageTests(TestCase):
     @patch('eures_beta.journeys.employer_api.read_pdf')
     def test_multiple_pdfs_rejected_without_reading(self, read):
         response = self.client.post(
-            '/local-api/imports/source/',
+            '/api/imports/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',

@@ -7,10 +7,10 @@ from django.utils import timezone
 from .models import EmployerImport, Profile
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_LOCAL_API': '1'})
+@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class EmployerContactTests(TestCase):
     def setUp(self):
-        env = patch.dict('os.environ', {'ME_EMPLOYER_LOCAL_API': '1'})
+        env = patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
         env.start()
         self.addCleanup(env.stop)
         self.staff = {}
@@ -38,7 +38,7 @@ class EmployerContactTests(TestCase):
         }
         self.owner = Client()
         response = self.owner.post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'manual',
                 'text': 'Fictional offer description.',
@@ -63,7 +63,7 @@ class EmployerContactTests(TestCase):
         self.assertEqual(self.obj.contact, self.contact)
         self.assertNotIn('contact', self.obj.data)
         self.assertEqual(
-            self.owner.get(f'/local-api/imports/{self.obj.pk}/').json()['contact'],
+            self.owner.get(f'/api/imports/{self.obj.pk}/').json()['contact'],
             self.contact,
         )
 
@@ -78,7 +78,7 @@ class EmployerContactTests(TestCase):
         ):
             with self.subTest(contact=contact):
                 response = Client().post(
-                    '/local-api/imports/',
+                    '/api/imports/',
                     {
                         'kind': 'manual',
                         'text': 'Fictional offer.',
@@ -109,7 +109,7 @@ class EmployerContactTests(TestCase):
                 dashboard = client.get(reverse('dashboard'))
                 self.assertEqual(self.url in dashboard.content.decode(), allowed)
                 self.assertEqual(
-                    client.get(f'/local-api/imports/{self.obj.pk}/').status_code, 404
+                    client.get(f'/api/imports/{self.obj.pk}/').status_code, 404
                 )
         self.assertEqual(Client().get(self.url).status_code, 302)
 
@@ -155,7 +155,7 @@ class EmployerContactTests(TestCase):
             'revision': self.obj.revision,
             'contact': dict(self.contact, name='Changed fictional contact'),
         }
-        url = f'/local-api/imports/{self.obj.pk}/'
+        url = f'/api/imports/{self.obj.pk}/'
         with patch('eures_beta.journeys.employer_api.aglae') as api:
             response = self.owner.post(
                 url, json.dumps(payload), content_type='application/json'
@@ -200,7 +200,7 @@ class EmployerContactTests(TestCase):
         api.return_value = {'id': str(self.obj.pk), 'active': False}
         initial_send(self.obj)
         response = self.owner.post(
-            f'/local-api/imports/{self.obj.pk}/',
+            f'/api/imports/{self.obj.pk}/',
             json.dumps(
                 {
                     'action': 'validate',
@@ -234,7 +234,7 @@ class EmployerContactTests(TestCase):
     def test_legacy_draft_can_add_contact_without_reimport(self):
         self.obj.contact = {}
         self.obj.save()
-        url = f'/local-api/imports/{self.obj.pk}/'
+        url = f'/api/imports/{self.obj.pk}/'
         self.assertEqual(
             self.owner.get(url).json()['contact'], {'email': self.obj.email}
         )
@@ -255,7 +255,7 @@ class EmployerContactTests(TestCase):
 
     def test_import_cannot_assign_itself_to_an_adviser(self):
         response = self.owner.post(
-            '/local-api/imports/',
+            '/api/imports/',
             {
                 'kind': 'manual',
                 'text': 'Another fictional draft.',

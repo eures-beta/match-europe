@@ -1,9 +1,9 @@
 'use strict';
-window.localEmployerAPI = document.body.dataset.liveLocal === 'true' ? {
+window.employerAPI = document.body.dataset.employerApi === 'true' ? {
   async request(path, options = {}) {
     const csrf = document.cookie.split('; ').find(x => x.startsWith('csrftoken='))?.split('=')[1] || '';
     let response;
-    try { response = await fetch('/local-api/imports/' + path, {...options, credentials:'same-origin', headers:{...options.headers,'X-CSRFToken':csrf}}); }
+    try { response = await fetch('/api/imports/' + path, {...options, credentials:'same-origin', headers:{...options.headers,'X-CSRFToken':csrf}}); }
     catch { throw Object.assign(new Error('network'), {code:'network'}); }
     let data;
     try { data = await response.json(); } catch { throw Object.assign(new Error('network'), {code:'network'}); }

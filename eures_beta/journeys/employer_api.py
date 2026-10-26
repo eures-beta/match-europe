@@ -51,7 +51,7 @@ def local_only(view):
             getattr(settings, 'SHARED_DEMO', False)
             or not settings.DEMO_MODE
             or request.META.get('REMOTE_ADDR') not in ('127.0.0.1', '::1')
-            or os.environ.get('ME_EMPLOYER_LOCAL_API') != '1'
+            or os.environ.get('ME_EMPLOYER_DEV_ACCESS') != '1'
         ):
             raise Http404()
         return view(request, *args, **kwargs)
@@ -71,7 +71,7 @@ def demo_api(view):
             if shared
             else (
                 request.META.get('REMOTE_ADDR') in ('127.0.0.1', '::1')
-                and os.environ.get('ME_EMPLOYER_LOCAL_API') == '1'
+                and os.environ.get('ME_EMPLOYER_DEV_ACCESS') == '1'
             )
         )
         if not settings.DEMO_MODE or not allowed:
@@ -99,7 +99,7 @@ def employer_page(request, path):
         person = identity(request)
         authenticated = bool(person and request.session.get('employer_verified_email'))
         body_tag = (
-            '<body data-live-local="true" data-employer-connected="'
+            '<body data-employer-api="true" data-employer-connected="'
             + ('true' if authenticated else 'false')
             + '">'
         )
