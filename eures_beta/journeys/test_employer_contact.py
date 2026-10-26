@@ -82,7 +82,7 @@ class EmployerContactTests(TestCase):
         self.obj.initial_sent_at=self.obj.validated_at=self.obj.synced_at=timezone.now();self.obj.save()
         payload={'action':'contact','revision':self.obj.revision,'contact':dict(self.contact,name='Changed fictional contact')}
         url=f'/local-api/imports/{self.obj.pk}/'
-        with patch('journeys.employer_api.aglae') as api:
+        with patch('eures_beta.journeys.employer_api.aglae') as api:
             response=self.owner.post(url,json.dumps(payload),content_type='application/json')
             self.assertEqual(response.status_code,200);api.assert_not_called()
         self.obj.refresh_from_db()
@@ -92,7 +92,7 @@ class EmployerContactTests(TestCase):
         other=Client()
         self.assertEqual(other.post(url,json.dumps(dict(payload,revision=self.obj.revision)),content_type='application/json').status_code,404)
 
-    @patch('journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.aglae')
     def test_contact_not_sent_to_aglae_initial_or_final(self,api):
         from .offer_ingestion import empty_data
         from .employer_api import initial_send

@@ -3,7 +3,7 @@
 Le point d’entrée à la racine sert désormais le prototype conservé dans
 `eures_beta/`, avec Python 3.12, Django 5.2 LTS, PostgreSQL et Bootstrap.
 
-- `/` : redirection vers l’accès aux quatre parcours fictifs (`/access/`).
+- `/` : page d’accueil employeur ; `/access/` : accès aux quatre parcours fictifs.
 - `/admin/` : administration native Django (utilisateurs et groupes).
 - Les modèles et migrations `journeys` sont ceux du prototype d’origine.
 - Aucun email réel ni enregistrement AGLAE n’est activé en démonstration partagée.
@@ -11,14 +11,12 @@ Le point d’entrée à la racine sert désormais le prototype conservé dans
 ## Démonstration partagée — adaptation du 23 octobre 2026
 
 Les points d’entrée racine `manage.py` et `config.wsgi:application` utilisent le
-prototype et les variables `DJANGO_*` / `PG*` du socle. Le lanceur autonome
-`eures_beta/run_local.py` et sa configuration `ME_*` sont conservés.
+prototype et les variables `DJANGO_*` / `PG*` du socle. La configuration autonome et son lanceur ont été remplacés par l’unique configuration racine.
 
 `make help` décrit l’installation, le serveur local, SQL et les tests.
 Après configuration de `.env` et création de sa base locale :
 `make install-test`, `make migrate`, `make seed-demo`, `make run`.
-`make test` vérifie le point d’entrée racine ; `make test-local` vérifie aussi
-la configuration autonome. `make serve` permet un essai Gunicorn sur loopback.
+`make test` vérifie tous les parcours ; `make test-local` est un alias de cette même suite. `make serve` permet un essai Gunicorn sur loopback.
 
 Le point d’entrée racine est exclusivement une démonstration. En HTTPS
 (`DJANGO_HTTPS=1`), le mode partagé est activé par défaut ; `ME_SHARED_DEMO=0`
@@ -51,6 +49,15 @@ Son nom suit la convention Python des modules en minuscules avec underscores.
 Il ne constitue pas à lui seul une application Django à inscrire dans
 `INSTALLED_APPS`. Les futures applications pourront y vivre sous la forme
 `eures_beta.nom_application`.
+
+Ce dépôt utilise une seule configuration Django, dans `config/`, et un seul
+`manage.py`, à la racine. Les dépendances et les commandes locales sont également
+centralisées à la racine (`requirements.txt` et `Makefile`). Ne pas créer de second
+projet dans `eures_beta/` : les futurs parcours s’ajoutent comme applications dans
+ce paquet, puis sont déclarés dans `config/settings.py` et `config/urls.py`.
+Les réglages du socle pour PostgreSQL, HTTPS, les statiques et la sonde restent
+communs aux environnements. Cette branche reprend le mode démonstration de #2 ;
+elle reste incompatible avec une exploitation en production.
 
 ```text
 config/
@@ -211,34 +218,16 @@ La pile est Django / PostgreSQL / Bootstrap. Le code historique Flask/Grist rest
 
 ## Lancer en local
 
-Prérequis : Python 3.12+, PostgreSQL et ses outils (`initdb`, `pg_ctl`, `createdb`), gettext (`msgfmt`). Le lanceur trouve aussi les binaires PostgreSQL installés avec Homebrew. Ne pas utiliser une base contenant des données réelles.
-
-```sh
-cd eures_beta
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python run_local.py
-```
-
-Ouvrir <http://127.0.0.1:8014/access/> pour les quatre rôles fictifs.
-
-Pour le parcours employeur V2, arrêter le serveur HTTP précédent puis lancer :
-
-```sh
-ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
-```
-
-Ouvrir <http://127.0.0.1:8015/previews/employer-landing/import-v2-fr.html> (EN/DE disponibles). La page d’accueil employeur est `/previews/employer-landing/fr.html`.
-
-**Attention :** ce second mode peut consulter la source publique fournie et interroger Nominatim pour un lieu. Si une clé sandbox est explicitement configurée, il peut enregistrer puis relire une offre inactive chez le prestataire. Il ne lance pas de matching, de qualification, de contact candidat ou de SMS. Sans clé, l’échec est explicite et le brouillon reste local. Les champs contact ne sont pas envoyés au prestataire ; le texte libre de l’annonce n’est pas expurgé automatiquement.
-
-Le mode non-démo reste volontairement bloqué. Ne pas exposer ce serveur sur Internet. Les comptes démo partagés ne conviennent pas à des données personnelles réelles.
+Utiliser les commandes à la racine : `make install-test`, configurer `.env`,
+puis `make migrate`, `make seed-demo` et `make run`.
+Pour les prévisualisations sur loopback, ajouter `ME_EMPLOYER_LOCAL_API=1` dans `.env`.
+Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 
 ## Structure
 
 | Chemin | Contenu |
 | --- | --- |
-| `eures_beta/config/` | Réglages Django et journalisation |
+| `config/` | Réglages et points d’entrée Django uniques |
 | `eures_beta/journeys/` | Modèles, migrations, droits, services, vues et tests |
 | `eures_beta/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
 | `previews/employer-landing/` | Parcours employeur de référence V2, V1 conservée et diagnostic Push |
@@ -247,12 +236,12 @@ Le mode non-démo reste volontairement bloqué. Ne pas exposer ce serveur sur In
 
 ## Vérifier
 
-Depuis `eures_beta/`, après initialisation de la base locale :
+Depuis la racine, après configuration de la base locale :
 
 ```sh
 .venv/bin/python manage.py check
 .venv/bin/python manage.py makemigrations --check --dry-run
-.venv/bin/python manage.py test journeys --noinput
+.venv/bin/python manage.py test eures_beta.journeys --noinput
 ```
 
 Les tests PostgreSQL créent une base distincte et simulent les services externes. Aucun secret, base, session, document utilisateur ou abonnement de notification n’est versionné. Le lanceur compile les catalogues gettext ; les `.mo` sont aussi inclus comme ressources du prototype.
@@ -265,10 +254,8 @@ Ce partage conserve des étapes successives et du code exploratoire : styles en 
 
 ## Web Push facultatif pour le diagnostic local
 
-```sh
-cd eures_beta
-.venv/bin/python -m pip install -r requirements-push-test.txt
-ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
-```
-
-Ouvrir `/previews/employer-landing/push-test.html`. L’activation nécessite une action explicite et l’autorisation du navigateur. Le test envoie uniquement un message générique ; les clés VAPID générées sont ignorées dans `.runtime/`. L’abonnement est propre à la session locale. Ne pas considérer HTTP 201 ou la permission comme preuve de réception : l’utilisateur doit confirmer la bannière ou le Centre de notifications.
+`make install-test` installe aussi les dépendances Push. Définir
+`ME_EMPLOYER_LOCAL_API=1`, utiliser `make run`, puis ouvrir
+`/previews/employer-landing/push-test.html` sur loopback. Ce diagnostic reste
+inaccessible en démonstration partagée. Il ne prouve pas la réception effective
+d’une notification : celle-ci doit être confirmée dans le navigateur.

@@ -1,2 +1,2 @@
 -r requirements.txt
--r eures_beta/requirements-push-test.txt
+-r requirements-push-test.txt

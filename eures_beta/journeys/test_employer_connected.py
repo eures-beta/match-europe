@@ -30,8 +30,8 @@ class ConnectedEmployerTests(TestCase):
         self.assertEqual(EmployerImport.objects.count(), 0)
         self.assertRedirects(self.client.get('/employer/access/'), '/employer/connected/')
 
-    @patch('journeys.employer_api.aglae')
-    @patch('journeys.employer_api.geocode')
+    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode')
     def test_valid_session_and_distinct_contact(self, geo, api):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         company = EmployerCompany.objects.create(name='Allowed establishment')

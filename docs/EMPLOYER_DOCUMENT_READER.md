@@ -24,7 +24,7 @@ Ce lecteur emploie des règles explicites, sans modèle génératif. Il ne garan
 
 ## Recette sans services externes
 
-Lancer le prototype avec `ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_REVIEW_ONLY=1 .venv/bin/python run_local.py` depuis `match_europe/`. Le second indicateur permet la lecture, la revue et l’enregistrement local des brouillons ; il bloque les appels AGLAE et le géocodage. La validation externe reste indisponible pendant cette recette. Les URL publiques demeurent une méthode d’import distincte qui lit le site demandé.
+Lancer le prototype avec `ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_REVIEW_ONLY=1 .venv/bin/python run_local.py` depuis `eures_beta/`. Le second indicateur permet la lecture, la revue et l’enregistrement local des brouillons ; il bloque les appels AGLAE et le géocodage. La validation externe reste indisponible pendant cette recette. Les URL publiques demeurent une méthode d’import distincte qui lit le site demandé.
 
 Attention : le parcours préexistant sans cet indicateur envoie une offre inactive à AGLAE sandbox dès la préparation lorsque les champs principaux sont renseignés. Un essai navigateur du 20 octobre a suivi ce parcours avant l’activation de l’isolement ; les essais suivants sont isolés.
 

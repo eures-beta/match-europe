@@ -9,9 +9,9 @@ from django.test import Client, TestCase
 from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
-from journeys.forms import UploadForm
-from journeys.models import AccessToken, Answer, Conversation, Match, Message, Offer, Profile
-from journeys.services import consume_token, dispatch_offer, invite_for, issue_token
+from eures_beta.journeys.forms import UploadForm
+from eures_beta.journeys.models import AccessToken, Answer, Conversation, Match, Message, Offer, Profile
+from eures_beta.journeys.services import consume_token, dispatch_offer, invite_for, issue_token
 
 
 class JourneysTests(TestCase):
