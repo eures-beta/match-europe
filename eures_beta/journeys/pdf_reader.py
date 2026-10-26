@@ -1,4 +1,5 @@
 """Bounded PDF text extraction in a separate process. Never execute PDF actions."""
+
 import io
 import json
 import resource
