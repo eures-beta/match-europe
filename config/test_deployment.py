@@ -18,7 +18,11 @@ class CollectedStaticTests(TestCase):
                 css_path = re.search(
                     r'href="([^"]+bootstrap.min.css)"', home.content.decode()
                 )[1]
-                for path in (css_path, "/static/admin/css/base.css"):
+                for path in (
+                    css_path,
+                    "/static/admin/css/base.css",
+                    "/static/employer/site.css",
+                ):
                     response = client.get(path)
                     self.assertEqual(response.status_code, 200, path)
                     self.assertTrue(response["Content-Type"].startswith("text/css"))

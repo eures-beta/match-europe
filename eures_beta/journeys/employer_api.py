@@ -143,13 +143,6 @@ def preview(request, path):
     return FileResponse(candidate.open('rb'))
 
 
-@demo_api
-def historical_css(request):
-    return FileResponse(
-        (ROOT / 'forms/eures-beta/site.css').open('rb'), content_type='text/css'
-    )
-
-
 def failure(code, status=400):
     return JsonResponse({'error': code}, status=status)
 
