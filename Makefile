@@ -34,7 +34,7 @@ run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
 test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
-	@$(MANAGE) test journeys config match_europe.tests --noinput $(TEST_ARGS)
+	@$(MANAGE) test journeys config eures_beta.tests --noinput $(TEST_ARGS)
 
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
@@ -61,7 +61,7 @@ install-test: ## Installer aussi les dépendances du diagnostic Push pour les te
 	.venv/bin/python -m pip install -r requirements-test.txt
 
 test-local: ## Vérifier aussi la configuration historique autonome du prototype
-	@$(LOAD_ENV) "$(PYTHON)" match_europe/manage.py test journeys --noinput
+	@$(LOAD_ENV) "$(PYTHON)" eures_beta/manage.py test journeys --noinput
 
 seed-demo: ## Initialiser les rôles fictifs manuellement (développement local)
 	@$(MANAGE) seed_demo

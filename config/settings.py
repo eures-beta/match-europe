@@ -175,7 +175,7 @@ STORAGES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {'redact_links': {'()': 'match_europe.config.logging.RedactAccessLinks'}},
+    'filters': {'redact_links': {'()': 'eures_beta.config.logging.RedactAccessLinks'}},
     'handlers': {'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}},
     'loggers': {
         'django.server': {'handlers': ['safe_console'], 'level': 'INFO', 'propagate': False},

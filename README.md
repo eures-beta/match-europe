@@ -1,7 +1,7 @@
 # Prototype Django — branche de conservation
 
 Le point d’entrée à la racine sert désormais le prototype conservé dans
-`match_europe/`, avec Python 3.12, Django 5.2 LTS, PostgreSQL et Bootstrap.
+`eures_beta/`, avec Python 3.12, Django 5.2 LTS, PostgreSQL et Bootstrap.
 
 - `/` : redirection vers l’accès aux quatre parcours fictifs (`/access/`).
 - `/admin/` : administration native Django (utilisateurs et groupes).
@@ -12,7 +12,7 @@ Le point d’entrée à la racine sert désormais le prototype conservé dans
 
 Les points d’entrée racine `manage.py` et `config.wsgi:application` utilisent le
 prototype et les variables `DJANGO_*` / `PG*` du socle. Le lanceur autonome
-`match_europe/run_local.py` et sa configuration `ME_*` sont conservés.
+`eures_beta/run_local.py` et sa configuration `ME_*` sont conservés.
 
 `make help` décrit l’installation, le serveur local, SQL et les tests.
 Après configuration de `.env` et création de sa base locale :
@@ -214,7 +214,7 @@ La pile est Django / PostgreSQL / Bootstrap. Le code historique Flask/Grist rest
 Prérequis : Python 3.12+, PostgreSQL et ses outils (`initdb`, `pg_ctl`, `createdb`), gettext (`msgfmt`). Le lanceur trouve aussi les binaires PostgreSQL installés avec Homebrew. Ne pas utiliser une base contenant des données réelles.
 
 ```sh
-cd match_europe
+cd eures_beta
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python run_local.py
@@ -238,16 +238,16 @@ Le mode non-démo reste volontairement bloqué. Ne pas exposer ce serveur sur In
 
 | Chemin | Contenu |
 | --- | --- |
-| `match_europe/config/` | Réglages Django et journalisation |
-| `match_europe/journeys/` | Modèles, migrations, droits, services, vues et tests |
-| `match_europe/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
+| `eures_beta/config/` | Réglages Django et journalisation |
+| `eures_beta/journeys/` | Modèles, migrations, droits, services, vues et tests |
+| `eures_beta/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
 | `previews/employer-landing/` | Parcours employeur de référence V2, V1 conservée et diagnostic Push |
 | `forms/eures-beta/` | Deux ressources de présentation héritées, pas un serveur Flask |
 | `docs/` | Périmètre, décisions, ordre de lecture et limites |
 
 ## Vérifier
 
-Depuis `match_europe/`, après initialisation de la base locale :
+Depuis `eures_beta/`, après initialisation de la base locale :
 
 ```sh
 .venv/bin/python manage.py check
@@ -266,7 +266,7 @@ Ce partage conserve des étapes successives et du code exploratoire : styles en 
 ## Web Push facultatif pour le diagnostic local
 
 ```sh
-cd match_europe
+cd eures_beta
 .venv/bin/python -m pip install -r requirements-push-test.txt
 ME_EMPLOYER_LOCAL_API=1 ME_LOCAL_PORT=8015 .venv/bin/python run_local.py
 ```
