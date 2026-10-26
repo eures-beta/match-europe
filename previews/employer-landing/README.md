@@ -39,7 +39,7 @@ Validation écran de vérification : scénario Moovijob → email/accord → fic
 
 ## IMPORTANT — Raccordement réel
 
-Les sections précédentes décrivent les étapes historiques de maquette. Sur le serveur Django local 8015 avec `ME_EMPLOYER_LOCAL_API=1`, la lecture de chaque source, les brouillons PostgreSQL et l’envoi/relecture AGLAE après validation sont désormais réels. Voir `../../match_europe/README.md` pour lancement, routes, limites et tests. Le serveur Python statique ne fournit pas ce fonctionnement.
+Les sections précédentes décrivent les étapes historiques de maquette. Sur le serveur Django local 8015 avec `ME_EMPLOYER_LOCAL_API=1`, la lecture de chaque source, les brouillons PostgreSQL et l’envoi/relecture AGLAE après validation sont désormais réels. Voir `../../eures_beta/README.md` pour lancement, routes, limites et tests. Le serveur Python statique ne fournit pas ce fonctionnement.
 
 ### Conditions du poste et préqualification
 

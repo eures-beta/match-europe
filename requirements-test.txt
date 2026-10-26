@@ -1,2 +1,2 @@
 -r requirements.txt
--r match_europe/requirements-push-test.txt
+-r requirements-push-test.txt

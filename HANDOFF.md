@@ -60,7 +60,7 @@ Dans ce nouveau clone, avec son propre environnement virtuel et une nouvelle ins
 
 - Initialisation et migrations `0001` à `0004` : réussies.
 - Chargement idempotent des quatre rôles fictifs : réussi.
-- `manage.py test journeys --noinput` : **59 tests passent** ; services externes mockés.
+- `manage.py test eures_beta.journeys --noinput` : **59 tests passent** ; services externes mockés.
 - `manage.py check` : aucun problème signalé.
 - `makemigrations --check --dry-run` : aucun changement détecté.
 - Syntaxe Node des huit fichiers JS/CJS de prévisualisation et JSON : validés.

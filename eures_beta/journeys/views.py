@@ -405,7 +405,7 @@ def manifest(request):
 
 
 def service_worker(request):
-    response = HttpResponse((settings.BASE_DIR / 'static' / 'sw.js').read_text(), content_type='application/javascript')
+    response = HttpResponse((settings.APPS_DIR / 'static' / 'sw.js').read_text(), content_type='application/javascript')
     response['Service-Worker-Allowed'] = '/'
     response['Cache-Control'] = 'no-cache'
     return response

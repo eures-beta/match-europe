@@ -9,7 +9,7 @@ Organiser les parcours employeur, candidat, conseiller et administrateur pour pr
 Deux implémentations coexistent :
 
 - **EURES beta historique** : Flask/Grist, formulaires, statistiques et administration/suivi. Voir le dépôt historique [eures-beta/eures-beta](https://github.com/eures-beta/eures-beta).
-- **Match Europe local** : Django/PostgreSQL/Bootstrap dans `match_europe/`, pour essayer les nouveaux parcours. Voir [documentation locale](../match_europe/README.md). Ce prototype n’est pas prêt pour la production.
+- **Match Europe local** : Django/PostgreSQL/Bootstrap dans `eures_beta/`, pour essayer les nouveaux parcours. Voir [documentation locale](../eures_beta/README.md). Ce prototype n’est pas prêt pour la production.
 
 ## Les quatre volets
 
