@@ -5,9 +5,9 @@ from django.test import Client, TestCase, override_settings
 from django.utils import timezone, translation
 
 from config.demo import ensure_demo
-from journeys.employer_api import aglae
-from journeys.models import EmployerImport
-from journeys.offer_ingestion import ImportFailure
+from eures_beta.journeys.employer_api import aglae
+from eures_beta.journeys.models import EmployerImport
+from eures_beta.journeys.offer_ingestion import ImportFailure
 
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
@@ -59,8 +59,8 @@ class SharedDemoTests(TestCase):
         self.assertEqual(Client().get(path, secure=True).status_code, 404)
 
     def test_shared_demo_never_reads_sandbox_key_or_calls_aglae(self):
-        with patch("journeys.employer_api.Path.read_text") as key, patch(
-            "journeys.employer_api.build_opener"
+        with patch("eures_beta.journeys.employer_api.Path.read_text") as key, patch(
+            "eures_beta.journeys.employer_api.build_opener"
         ) as network:
             with self.assertRaises(ImportFailure):
                 aglae("POST", "job-posting", {})
@@ -68,7 +68,7 @@ class SharedDemoTests(TestCase):
             network.assert_not_called()
 
     def test_notice_is_available_in_each_interface_language(self):
-        from journeys.demo import shared_notice
+        from eures_beta.journeys.demo import shared_notice
         for language, expected in [('fr', 'Démonstration partagée'),
                                    ('en', 'Shared demonstration'),
                                    ('de', 'Geteilte Demonstration')]:

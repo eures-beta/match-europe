@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils import timezone
-from journeys.models import Candidate, Offer, Profile, Question
-from journeys.services import dispatch_offer, suggest_candidates
+from eures_beta.journeys.models import Candidate, Offer, Profile, Question
+from eures_beta.journeys.services import dispatch_offer, suggest_candidates
 
 
 class Command(BaseCommand):

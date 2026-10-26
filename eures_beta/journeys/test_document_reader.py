@@ -71,7 +71,7 @@ class DocumentFieldTests(SimpleTestCase):
         self.assertEqual(result['clarifications']['frenchLevel'], '')
         self.assertEqual(result['clarifications']['experience'], '')
 
-    @patch('journeys.offer_ingestion.subprocess.run')
+    @patch('eures_beta.journeys.offer_ingestion.subprocess.run')
     def test_image_reading_and_ocr_warning(self, run):
         run.return_value.stdout=json.dumps({'text':'Test role\nExample body','ocr':True}).encode()
         result=read_pdf(SimpleUploadedFile('test.png', b'\x89PNG\r\n\x1a\nfiction'))
@@ -86,8 +86,8 @@ class DocumentFieldTests(SimpleTestCase):
 @patch.dict('os.environ', {'ME_EMPLOYER_LOCAL_API':'1'})
 class MultipleImageTests(TestCase):
     @patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY':'1'})
-    @patch('journeys.employer_api.geocode')
-    @patch('journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode')
+    @patch('eures_beta.journeys.employer_api.aglae')
     def test_local_review_never_calls_external_services(self, api, geo):
         response=self.client.post('/local-api/imports/',{'kind':'manual','agreement':'true','email':'test@example.invalid','contact':json.dumps({'name':'Contact fictif','email':'contact@example.invalid'}),'text':'Description fictive de test.'})
         self.assertEqual(response.status_code,201)
@@ -95,7 +95,7 @@ class MultipleImageTests(TestCase):
         api.assert_not_called()
         geo.assert_not_called()
 
-    @patch('journeys.employer_api.read_pdf')
+    @patch('eures_beta.journeys.employer_api.read_pdf')
     def test_ordered_images_read_before_creating_draft(self, read):
         read.side_effect=[{'description':'Agent test (h/f)\nPubliée le 01/01/2026\nEntreprise fictive\nVille fictive'}, {'description':'CDI\nTemps plein\nQualifications\nPermis B souhaité.'}]
         response=self.client.post('/local-api/imports/source/',{'kind':'pdf','agreement':'true','document':[SimpleUploadedFile('1.png',b'one'), SimpleUploadedFile('2.png',b'two')]})
@@ -106,7 +106,7 @@ class MultipleImageTests(TestCase):
         self.assertEqual(data['extraction'],'document_ocr')
         self.assertIn('Permis B souhaité',data['desiredProfile'])
 
-    @patch('journeys.employer_api.read_pdf')
+    @patch('eures_beta.journeys.employer_api.read_pdf')
     def test_multiple_pdfs_rejected_without_reading(self, read):
         response=self.client.post('/local-api/imports/source/',{'kind':'pdf','agreement':'true','document':[SimpleUploadedFile('1.pdf',b'one'),SimpleUploadedFile('2.pdf',b'two')]})
         self.assertEqual(response.status_code,400)

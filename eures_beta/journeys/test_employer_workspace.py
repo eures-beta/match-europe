@@ -118,8 +118,8 @@ class WorkspaceTests(TestCase):
         self.assertEqual(self.client.post(self.url('employer_offer_edit'),self.payload()).status_code,302)
         self.offer.refresh_from_db();self.assertIsNone(self.offer.search_started_at)
 
-    @patch('journeys.employer_api.aglae')
-    @patch('journeys.employer_api.geocode')
+    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode')
     def test_duplicate_resets_state_and_shares_only_authorised(self, geo, external):
         self.offer.search_started_at=self.offer.initial_sent_at=self.offer.synced_at=self.offer.validated_at=timezone.now()
         self.offer.sandbox_response={'external':'must-not-copy'};self.offer.data['geo']={'query':'Metz'};self.offer.save()

@@ -27,7 +27,7 @@ class SearchSetup:
 @patch.dict('os.environ', MODES)
 class SearchTests(SearchSetup, TestCase):
     def test_confirmation_and_start_replay_no_external_calls(self):
-        with patch('journeys.employer_api.aglae') as external, patch('journeys.employer_api.geocode') as geo:
+        with patch('eures_beta.journeys.employer_api.aglae') as external, patch('eures_beta.journeys.employer_api.geocode') as geo:
             self.assertContains(self.client.get(self.url('employer_search_launch')), 'qualification')
             self.assertFalse(EmployerSearchOperation.objects.exists())
             self.launch();self.launch()

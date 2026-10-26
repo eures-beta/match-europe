@@ -18,7 +18,7 @@ class PushDiagnosticTests(TestCase):
         for url in ['https://127.0.0.1/private','http://fcm.googleapis.com/test','https://evil.example/test']:
             data['endpoint']=url
             with self.assertRaises(ValueError):subscription(data)
-    @patch('journeys.push_test.threading.Timer')
+    @patch('eures_beta.journeys.push_test.threading.Timer')
     def test_subscribe_send_and_stop(self,timer):
         c=Client();self.assertEqual(c.post('/local-api/push-test/send/',data='{}',content_type='application/json').status_code,400)
         self.assertEqual(c.post('/local-api/push-test/subscribe/',data=json.dumps(sample()),content_type='application/json').status_code,200)

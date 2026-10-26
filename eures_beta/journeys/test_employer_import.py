@@ -8,8 +8,8 @@ from .offer_ingestion import parse_page, public_target, ImportFailure, read_url
 
 
 class ReadingTests(SimpleTestCase):
-    @patch('journeys.offer_ingestion.public_target')
-    @patch('journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
     def test_ft_dynamic_offer_uses_workplace_not_agency_address(self,fetch,target):
         sample={'numeroOffre':'Offre n° TEST123','intituleOffre':'Boucher test','lieuTravail':'Ville de travail (33)',
                 'descriptif':'Description de la seule offre testée.','syntheseContrat':'CDI - Contrat travail','salaire':'12 EUR/h',
@@ -20,8 +20,8 @@ class ReadingTests(SimpleTestCase):
         self.assertNotIn('Autre ville',data['city']);self.assertEqual(data['clarifications']['salary'],'12 EUR/h')
         self.assertEqual(data['contractType'],'PERMANENT_CONTRACT')
 
-    @patch('journeys.offer_ingestion.public_target')
-    @patch('journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
     def test_ft_hours_use_workplace_conditions_when_summary_unavailable(self,fetch,target):
         sample={'numeroOffre':'TEST123','intituleOffre':'Poste fictif','lieuTravail':'Ville test',
                 'descriptif':'Description fictive.','syntheseHoraire':'Non disponible',
@@ -49,7 +49,7 @@ class ReadingTests(SimpleTestCase):
         self.assertEqual(cleared['requirements']['permits'],[])
         self.assertEqual(cleared['requirements']['permitOther'],'')
 
-    @patch('journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
     def test_ft_search_page_is_rejected_before_fetch(self,fetch):
         with self.assertRaises(ImportFailure) as caught:
             read_url('https://candidat.francetravail.fr/offres/emploi/boucher/s11m12')
@@ -65,7 +65,7 @@ class ReadingTests(SimpleTestCase):
         self.assertEqual(data['clarifications']['salary'],'')
         self.assertEqual(data['questions'],[])
 
-    @patch('journeys.offer_ingestion.socket.getaddrinfo')
+    @patch('eures_beta.journeys.offer_ingestion.socket.getaddrinfo')
     def test_mixed_or_private_dns_answers_rejected(self,resolve):
         resolve.return_value=[(2,1,6,'',('93.184.216.34',443)),(2,1,6,'',('127.0.0.1',443))]
         with self.assertRaises(ImportFailure): public_target('https://public.example.org/job')
@@ -114,9 +114,9 @@ class ImportFlowTests(TestCase):
         self.assertEqual(self.client.get('/local-api/imports/'+obj['id']+'/').status_code,200)
         self.assertEqual(Client().get('/local-api/imports/'+obj['id']+'/').status_code,404)
 
-    @patch('journeys.employer_api.aglae')
-    @patch('journeys.employer_api.geocode')
-    @patch('journeys.employer_api.read_pdf',return_value={'title':'Original title','description':'Fictional PDF text','extractionWarnings':[]})
+    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode')
+    @patch('eures_beta.journeys.employer_api.read_pdf',return_value={'title':'Original title','description':'Fictional PDF text','extractionWarnings':[]})
     def test_review_before_contact_preserves_corrections(self,read,geo,aglae):
         first=self.client.post('/local-api/imports/source/',{'kind':'pdf','agreement':'true','document':SimpleUploadedFile('offer.pdf',b'%PDF-test')})
         self.assertEqual(first.status_code,200)
@@ -155,19 +155,19 @@ class ImportFlowTests(TestCase):
         self.assertEqual(EmployerImport.objects.get(pk=created['id']).data['requirements'],req)
 
     def test_consent_required_before_reading(self):
-        with patch('journeys.offer_ingestion.fetch_public') as fetch:
+        with patch('eures_beta.journeys.offer_ingestion.fetch_public') as fetch:
             r=self.client.post('/local-api/imports/',{'kind':'url','url':'https://example.org/job','contact':json.dumps({'name':'Fictional contact','email':'contact@example.invalid'}),'email':'fiction@example.invalid'})
             self.assertEqual(r.status_code,400);fetch.assert_not_called()
 
     def test_real_parser_not_saved_example(self):
         html='<script type="application/ld+json">'+json.dumps({'@type':'JobPosting','title':'Different job','description':'Different fictional job description','hiringOrganization':{'name':'Different company'}})+'</script>'
-        with patch('journeys.offer_ingestion.fetch_public',return_value=(html,'https://example.org/different')):
+        with patch('eures_beta.journeys.offer_ingestion.fetch_public',return_value=(html,'https://example.org/different')):
             first=self.client.post('/local-api/imports/source/',{'url':'https://example.org/different','agreement':'true'})
             self.assertEqual(first.status_code,200)
             r=self.client.post('/local-api/imports/',{'kind':'url','url':'https://example.org/different','contact':json.dumps({'name':'Fictional contact','email':'contact@example.invalid'}),'email':'fiction@example.invalid','agreement':'true','sourceToken':first.json()['token']})
         self.assertEqual(r.status_code,201);self.assertEqual(r.json()['data']['title'],'Different job')
 
-    @patch('journeys.offer_ingestion.fetch_public',side_effect=ImportFailure('unreadable_url'))
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public',side_effect=ImportFailure('unreadable_url'))
     def test_blocked_source_fails_before_email(self,fetch):
         r=self.client.post('/local-api/imports/source/',{'url':'https://example.org/blocked','agreement':'true'})
         self.assertEqual(r.status_code,400)
@@ -180,7 +180,7 @@ class ImportFlowTests(TestCase):
         r=self.client.post('/local-api/imports/',{'kind':'url','url':'https://example.org/two','contact':json.dumps({'name':'Fictional contact','email':'contact@example.invalid'}),'email':'fiction@example.invalid','agreement':'true','sourceToken':'test'})
         self.assertEqual(r.status_code,400)
 
-    @patch('journeys.employer_api.read_pdf',return_value={'description':'Fictional PDF text'})
+    @patch('eures_beta.journeys.employer_api.read_pdf',return_value={'description':'Fictional PDF text'})
     def test_pdf_read_before_email_and_reused_once(self,read):
         first=self.client.post('/local-api/imports/source/',{'kind':'pdf','agreement':'true','document':SimpleUploadedFile('offer.pdf',b'%PDF-test')})
         self.assertEqual(first.status_code,200)
@@ -193,7 +193,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(self.client.post('/local-api/imports/',payload).status_code,400)
         read.assert_called_once()
 
-    @patch('journeys.employer_api.read_pdf',side_effect=ImportFailure('unreadable'))
+    @patch('eures_beta.journeys.employer_api.read_pdf',side_effect=ImportFailure('unreadable'))
     def test_unreadable_pdf_fails_before_email(self,read):
         payload={'kind':'pdf','document':SimpleUploadedFile('offer.pdf',b'%PDF-test')}
         self.assertEqual(self.client.post('/local-api/imports/source/',payload).status_code,400)
@@ -203,7 +203,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(response.json()['error'],'unreadable')
         self.assertEqual(EmployerImport.objects.count(),0)
 
-    @patch('journeys.employer_api.read_pdf',return_value={'description':'Fictional PDF text'})
+    @patch('eures_beta.journeys.employer_api.read_pdf',return_value={'description':'Fictional PDF text'})
     def test_expired_pdf_preflight_is_rejected(self,read):
         first=self.client.post('/local-api/imports/source/',{'kind':'pdf','agreement':'true','document':SimpleUploadedFile('offer.pdf',b'%PDF-test')})
         session=self.client.session
@@ -217,15 +217,15 @@ class ImportFlowTests(TestCase):
         self.assertEqual(self.client.get('/local-api/imports/'+obj['id']+'/').json()['data']['title'],'Example role')
         self.assertEqual(self.update(obj).status_code,409)
 
-    @patch('journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.aglae')
     def test_no_api_call_without_validation_or_location(self,api):
         obj=self.create().json();self.assertEqual(self.update(obj).status_code,200)
         obj=self.client.get('/local-api/imports/'+obj['id']+'/').json()
         self.assertEqual(self.update(obj,'validate',confirmed=True).status_code,400)
         api.assert_not_called()
 
-    @patch('journeys.employer_api.aglae')
-    @patch('journeys.employer_api.geocode',return_value={'latitude':48.0,'longitude':2.0,'query':'Testville','label':'Testville'})
+    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode',return_value={'latitude':48.0,'longitude':2.0,'query':'Testville','label':'Testville'})
     def test_validation_sends_only_inactive_offer_and_questions(self,geo,api):
         obj=self.create().json()
         EmployerImport.objects.filter(pk=obj['id']).update(initial_sent_at=timezone.now())
@@ -240,8 +240,8 @@ class ImportFlowTests(TestCase):
         self.assertNotIn('fiction@example.invalid',json.dumps(payload))
         self.assertFalse(api.call_args_list[1].args[2]['specificPrerequisites'][0]['isMandatory'])
 
-    @patch('journeys.employer_api.aglae',side_effect=ImportFailure('sandbox_error'))
-    @patch('journeys.employer_api.geocode',return_value={'latitude':48.0,'longitude':2.0,'query':'Testville','label':'Testville'})
+    @patch('eures_beta.journeys.employer_api.aglae',side_effect=ImportFailure('sandbox_error'))
+    @patch('eures_beta.journeys.employer_api.geocode',return_value={'latitude':48.0,'longitude':2.0,'query':'Testville','label':'Testville'})
     def test_failed_sync_keeps_corrections_without_success(self,geo,api):
         obj=self.create().json();obj=self.update(obj,'locate').json()
         EmployerImport.objects.filter(pk=obj['id']).update(initial_sent_at=timezone.now())
@@ -249,8 +249,8 @@ class ImportFlowTests(TestCase):
         self.assertEqual(r.status_code,502)
         row=EmployerImport.objects.get(pk=obj['id']);self.assertEqual(row.data['title'],'Example role');self.assertIsNone(row.synced_at)
 
-    @patch('journeys.employer_api.geocode',return_value={'latitude':48.0,'longitude':2.0,'query':'Testville','label':'Testville'})
-    @patch('journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode',return_value={'latitude':48.0,'longitude':2.0,'query':'Testville','label':'Testville'})
+    @patch('eures_beta.journeys.employer_api.aglae')
     def test_initial_send_and_readback_precede_review(self,api,geo):
         obj=self.create().json()
         self.assertEqual(obj['stage'],'prepare')
@@ -269,7 +269,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(Client(enforce_csrf_checks=True).post('/local-api/imports/',{}).status_code,403)
 
     def test_pdf_reader_receives_actual_document(self):
-        with patch('journeys.offer_ingestion.subprocess.run') as run:
+        with patch('eures_beta.journeys.offer_ingestion.subprocess.run') as run:
             run.return_value.stdout=json.dumps({'text':'Example extracted title\nAn actual extracted fictional document.'}).encode()
             first=self.client.post('/local-api/imports/source/',{'kind':'pdf','document':SimpleUploadedFile('test.pdf',b'%PDF-1.4\nfiction'),'agreement':'true'})
             self.assertEqual(first.status_code,200)

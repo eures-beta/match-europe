@@ -1,3 +1,7 @@
+Note de reprise : une seule configuration Django existe désormais à la racine.
+Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
+mentionnés dans les notes historiques ci-dessous ont été supprimés.
+
 ## 22 octobre 2026 — lot 4A : lancement simulé
 
 Branche dédiée `codex/employer-search-launch`, base distante du lot 3 `8ca94ce`.

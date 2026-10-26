@@ -34,7 +34,7 @@ run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
 test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
-	@$(MANAGE) test journeys config eures_beta.tests --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.journeys config eures_beta.tests eures_beta.test_layout eures_beta.test_logging --noinput $(TEST_ARGS)
 
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
@@ -60,8 +60,7 @@ install-test: ## Installer aussi les dépendances du diagnostic Push pour les te
 	python3.12 -m venv .venv
 	.venv/bin/python -m pip install -r requirements-test.txt
 
-test-local: ## Vérifier aussi la configuration historique autonome du prototype
-	@$(LOAD_ENV) "$(PYTHON)" eures_beta/manage.py test journeys --noinput
+test-local: test ## Alias historique : tests via la configuration racine unique
 
 seed-demo: ## Initialiser les rôles fictifs manuellement (développement local)
 	@$(MANAGE) seed_demo

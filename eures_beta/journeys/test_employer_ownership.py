@@ -95,8 +95,8 @@ class OwnershipTests(TestCase):
         row.refresh_from_db()
         self.assertEqual(row.company, company)
 
-    @patch('journeys.employer_api.aglae')
-    @patch('journeys.employer_api.geocode')
+    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.journeys.employer_api.geocode')
     def test_no_external_submission_and_no_automatic_membership(self, geo, api):
         self.create()
         self.login(self.client, 'first@fiction.invalid')

@@ -11,14 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
-import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "eures_beta"
-# Preserve the standalone prototype while making its app importable from the root.
-sys.path.insert(0, str(APPS_DIR))
 DEMO_MODE = True
 # The root entry point is a demonstration, never a live-service deployment.
 SHARED_DEMO = os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
@@ -53,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'journeys',
+    'eures_beta.journeys.apps.JourneysConfig',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'journeys.views.interface',
+                'eures_beta.journeys.views.interface',
             ],
         },
     },
@@ -175,7 +172,7 @@ STORAGES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {'redact_links': {'()': 'eures_beta.config.logging.RedactAccessLinks'}},
+    'filters': {'redact_links': {'()': 'eures_beta.logging.RedactAccessLinks'}},
     'handlers': {'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}},
     'loggers': {
         'django.server': {'handlers': ['safe_console'], 'level': 'INFO', 'propagate': False},
