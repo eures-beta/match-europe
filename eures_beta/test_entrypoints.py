@@ -4,7 +4,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 
-class SkeletonTests(TestCase):
+class EntryPointTests(TestCase):
     @override_settings(SHARED_DEMO=True)
     def test_home_opens_the_employer_landing_page(self):
         response = self.client.get("/", secure=True)
