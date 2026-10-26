@@ -18,7 +18,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 APPS_DIR = BASE_DIR / "eures_beta"
 DEMO_MODE = True
 # The root entry point is a demonstration, never a live-service deployment.
-SHARED_DEMO = os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
+SHARED_DEMO = (
+    os.environ.get("ME_SHARED_DEMO", os.environ.get("DJANGO_HTTPS", "0")) == "1"
+)
 LOGIN_URL = "/access/"
 RUNTIME = APPS_DIR / ".runtime"
 MEDIA_ROOT = RUNTIME / "private"
@@ -173,9 +175,19 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'filters': {'redact_links': {'()': 'eures_beta.logging.RedactAccessLinks'}},
-    'handlers': {'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}},
+    'handlers': {
+        'safe_console': {'class': 'logging.StreamHandler', 'filters': ['redact_links']}
+    },
     'loggers': {
-        'django.server': {'handlers': ['safe_console'], 'level': 'INFO', 'propagate': False},
-        'django.request': {'handlers': ['safe_console'], 'level': 'WARNING', 'propagate': False},
+        'django.server': {
+            'handlers': ['safe_console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['safe_console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
     },
 }
