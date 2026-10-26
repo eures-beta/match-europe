@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from .models import EmployerImport, Profile
+from ..models import EmployerImport, Profile
 
 
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
@@ -183,8 +183,8 @@ class EmployerContactTests(TestCase):
 
     @patch('eures_beta.journeys.employer_api.aglae')
     def test_contact_not_sent_to_aglae_initial_or_final(self, api):
-        from .offer_ingestion import empty_data
-        from .employer_api import initial_send
+        from ..offer_ingestion import empty_data
+        from ..employer_api import initial_send
 
         data = empty_data()
         data.update(

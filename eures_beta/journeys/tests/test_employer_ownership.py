@@ -1,7 +1,7 @@
 import json
 from unittest.mock import patch
 from django.test import Client, TestCase
-from .models import (
+from ..models import (
     EmployerCompany,
     EmployerIdentity,
     EmployerImport,
