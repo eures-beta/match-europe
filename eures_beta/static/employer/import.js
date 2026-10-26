@@ -99,7 +99,7 @@ urlForm.addEventListener('submit', async event => {
   try {
     const url = new URL(field.value.trim());
     const host = url.hostname.toLowerCase().replace(/\.$/, '');
-    // Preview validation only. Real fetching must also check DNS, redirects and size server-side.
+    // Browser validation only. Real fetching must also check DNS, redirects and size server-side.
     if (url.protocol !== 'https:' || url.username || url.password ||
         (url.port && url.port !== '443') || !host.includes('.') ||
         /^[\d.]+$/.test(host) || host.includes(':') ||
@@ -205,7 +205,7 @@ if (liveAPI) {
     }).catch(()=>{ /* Session ownership remains enforced by the server. */ });
   }
 
-  document.getElementById('preview-note').textContent = strings.livePreview;
+  document.getElementById('demo-notice').textContent = strings.demoNotice;
   document.getElementById('email-help').textContent = strings.liveEmailHelp;
   if (connectedSubmission) {
     const field = document.getElementById('work-email');
@@ -216,7 +216,7 @@ if (liveAPI) {
     document.querySelector('#email-step h1').textContent = t[0];
     document.querySelector('#email-step .lede').textContent = t[1];
   }
-  document.getElementById('url-preview').textContent = strings.liveUrl;
+  document.getElementById('url-help').textContent = strings.liveUrl;
   const pdfNote = document.createElement('p'); pdfNote.className = 'mini-note'; pdfNote.id = 'pdf-read-agreement-note'; pdfNote.textContent = strings.readPdfAgreement;
   fileForm.querySelector('.landing-actions').before(pdfNote);
   fileForm.querySelector('[type=submit]').textContent = strings.readPdf;

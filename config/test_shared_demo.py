@@ -23,7 +23,7 @@ class SharedDemoTests(TestCase):
         self.assertEqual(profile.name, "Fictional review in progress")
         self.assertEqual(get_user_model().objects.count(), 4)
 
-    def test_remote_https_can_open_preview_but_http_is_not_enabled(self):
+    def test_remote_https_can_open_page_but_http_is_not_enabled(self):
         response = self.client.get(
             "/employer/pages/import-v2-fr.html",
             secure=True,

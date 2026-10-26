@@ -276,20 +276,20 @@ class ImportFlowTests(TestCase):
             },
         )
         self.assertEqual(first.status_code, 200)
-        preview = first.json()
-        self.assertEqual(preview['stage'], 'review')
-        self.assertEqual(preview['data']['title'], 'Original title')
-        self.assertNotIn('id', preview)
+        summary = first.json()
+        self.assertEqual(summary['stage'], 'review')
+        self.assertEqual(summary['data']['title'], 'Original title')
+        self.assertNotIn('id', summary)
         self.assertEqual(EmployerImport.objects.count(), 0)
         payload = {
             'kind': 'pdf',
             'agreement': 'true',
-            'sourceToken': preview['token'],
+            'sourceToken': summary['token'],
             'email': 'fiction@example.invalid',
             'contact': json.dumps(
                 {'name': 'Fictional contact', 'email': 'contact@example.invalid'}
             ),
-            'data': json.dumps({**preview['data'], 'title': 'Corrected title'}),
+            'data': json.dumps({**summary['data'], 'title': 'Corrected title'}),
         }
         with patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'}):
             created = self.client.post('/local-api/imports/', payload)
@@ -303,7 +303,7 @@ class ImportFlowTests(TestCase):
             self.client.post('/local-api/imports/', payload).status_code, 400
         )
 
-    def test_manual_preview_does_not_require_contact_or_create_import(self):
+    def test_manual_summary_does_not_require_contact_or_create_import(self):
         result = self.client.post(
             '/local-api/imports/source/',
             {'kind': 'manual', 'agreement': 'true', 'text': 'Fictional manual offer.'},

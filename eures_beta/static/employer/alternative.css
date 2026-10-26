@@ -34,7 +34,7 @@
 .employer-alternative .review-confirm{background:white;border:1px solid #dce3ed;padding:20px;font-size:15px}
 .employer-alternative .landing-actions{gap:14px;margin-top:26px}
 .employer-alternative .primary-action,.employer-alternative .ghost-action{font-family:Arial,sans-serif;font-size:15px;border-radius:9px;min-height:46px;box-sizing:border-box}
-.employer-alternative #url-form #url-preview,.employer-alternative #email-help{margin:16px 0;line-height:1.6;font-size:14px}
+.employer-alternative #url-form #url-help,.employer-alternative #email-help{margin:16px 0;line-height:1.6;font-size:14px}
 .employer-alternative #url-form>label,.employer-alternative #email-form>label{margin-top:26px;margin-bottom:10px}
 .employer-alternative #url-read-agreement-note{font-size:13px;margin-top:22px;padding-top:18px;border-top:1px solid #dce3ed}
 .employer-alternative .import-consent{margin:28px 0;background:#f7f9fc;border:1px solid #dce3ed;border-radius:12px;padding:22px}
