@@ -36,6 +36,10 @@ run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 test: ## Exécuter tous les tests avec PostgreSQL ; rôle local CREATEDB requis
 	@$(MANAGE) test eures_beta config --noinput $(TEST_ARGS)
 
+.PHONY: test-collection
+test-collection: ## Vérifier les imports de tous les tests, sans créer de base
+	@$(MANAGE) test config.test_test_collection --noinput
+
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
 	@$(MANAGE) makemigrations --check --dry-run
