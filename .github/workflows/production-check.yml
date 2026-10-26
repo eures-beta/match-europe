@@ -42,6 +42,8 @@ jobs:
           python-version: '3.12'
       - name: Installer les dépendances
         run: make install
+      - name: Vérifier les imports des tests dans cet environnement
+        run: make test-collection
       - name: Vérifier Django et les migrations
         run: make check
       - name: Exécuter les tests PostgreSQL
