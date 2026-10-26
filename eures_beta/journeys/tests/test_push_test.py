@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase, Client, override_settings
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import serialization
-from .push_test import subscription
+from ..push_test import subscription
 
 
 def sample():

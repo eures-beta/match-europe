@@ -2,7 +2,7 @@ import json
 from unittest.mock import patch
 from django.test import SimpleTestCase, TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from .offer_ingestion import parse_pdf_text, read_pdf, ImportFailure
+from ..offer_ingestion import parse_pdf_text, read_pdf, ImportFailure
 
 
 class DocumentFieldTests(SimpleTestCase):

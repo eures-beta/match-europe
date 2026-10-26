@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 from django.test import TestCase, Client
 from django.utils import timezone
-from .models import EmployerEmailLink
+from ..models import EmployerEmailLink
 
 
 @patch.dict('os.environ', {'ME_EMPLOYER_EMAIL_LOCAL': '1'})

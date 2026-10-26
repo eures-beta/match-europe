@@ -5,7 +5,7 @@ from unittest.mock import patch
 from django.db import close_old_connections
 from django.test import Client, TestCase, TransactionTestCase
 from django.urls import reverse
-from .models import (
+from ..models import (
     EmployerImport,
     EmployerIdentity,
     EmployerMembership,

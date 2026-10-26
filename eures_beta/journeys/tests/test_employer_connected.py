@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from datetime import timedelta
-from .models import (
+from ..models import (
     EmployerCompany,
     EmployerIdentity,
     EmployerImport,
