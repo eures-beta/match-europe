@@ -1,5 +1,5 @@
 'use strict';
-window.employerAPI = document.body.dataset.employerApi === 'true' ? {
+window.offerImportAPI = document.body.dataset.employerApi === 'true' ? {
   async request(path, options = {}) {
     const csrf = document.cookie.split('; ').find(x => x.startsWith('csrftoken='))?.split('=')[1] || '';
     let response;

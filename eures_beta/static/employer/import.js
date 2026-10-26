@@ -7,7 +7,7 @@ const manualForm = document.getElementById('manual-form');
 const urlForm = document.getElementById('url-form');
 const emailForm = document.getElementById('email-form');
 const error = document.getElementById('file-error');
-const liveAPI = window.employerAPI;
+const liveAPI = window.offerImportAPI;
 if (document.body.dataset.employerApi === 'true' && !liveAPI) {
   throw new Error('Employer API client unavailable; refusing simulated fallback.');
 }

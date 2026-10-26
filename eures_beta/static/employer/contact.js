@@ -1,6 +1,6 @@
  'use strict';
 (() => {
-  const api = window.employerAPI;
+  const api = window.offerImportAPI;
   if (!api) return;
   const t = JSON.parse(document.getElementById('contact-strings').textContent);
   let current = null;

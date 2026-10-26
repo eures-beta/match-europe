@@ -92,7 +92,7 @@ class EmployerStaticTests(SimpleTestCase):
             with override_settings(STATIC_ROOT=directory):
                 call_command("collectstatic", interactive=False, verbosity=0)
                 for relative in (
-                    "employer-api.js",
+                    "offer-import-api.js",
                     "review.js",
                     "import.js",
                     "contact.js",
