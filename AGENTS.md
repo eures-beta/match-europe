@@ -112,7 +112,7 @@ These files are shared written context, not automatic access to every chat trans
 
 This repository contains the local Match Europe Django/PostgreSQL/Bootstrap prototype.
 The historical Flask/Grist application stays in `eures-beta/eures-beta` and is not migrated here.
-Only two presentation source files are copied under `forms/eures-beta/` to support preview generation.
+Employer page generation sources live in `scripts/employer-ui/`; browser styles live in `eures_beta/static/employer/`.
 This prototype is shared for discussion and preservation; it must not be deployed as is.
 Do not merge or deploy without separate explicit authorisation. Preserve `main` and work on branches.
 Use fictional data for tests. Keep databases, sessions, keys, uploads and private FT procedures outside Git.
