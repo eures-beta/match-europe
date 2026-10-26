@@ -34,7 +34,7 @@
       "Un conseiller EURES pour accompagner les échanges."
     ],
     "cta": "Importer mon offre d’emploi",
-    "preview": "Prévisualisation locale — parcours proposé. L’import, l’analyse de l’offre et les questions complémentaires restent à raccorder.",
+    "notice": "Démonstration locale — parcours proposé. L’import, l’analyse de l’offre et les questions complémentaires restent à raccorder.",
     "partners": "Partenaires",
     "navigation": "Navigation principale",
     "skip": "Aller au contenu"
@@ -74,7 +74,7 @@
       "An EURES adviser to support the conversation."
     ],
     "cta": "Import my job offer",
-    "preview": "Local preview — proposed journey. Import, offer analysis and follow-up questions are not yet connected.",
+    "notice": "Local demonstration — proposed journey. Import, offer analysis and follow-up questions are not yet connected.",
     "partners": "Partners",
     "navigation": "Main navigation",
     "skip": "Skip to content"
@@ -114,7 +114,7 @@
       "Eine EURES-Beratung begleitet den Austausch."
     ],
     "cta": "Mein Stellenangebot importieren",
-    "preview": "Lokale Vorschau – vorgeschlagener Ablauf. Import, Angebotsanalyse und Rückfragen sind noch nicht angebunden.",
+    "notice": "Lokale Demonstration – vorgeschlagener Ablauf. Import, Angebotsanalyse und Rückfragen sind noch nicht angebunden.",
     "partners": "Partner",
     "navigation": "Hauptnavigation",
     "skip": "Zum Inhalt"

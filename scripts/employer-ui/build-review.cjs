@@ -21,7 +21,7 @@ module.exports = function buildReview(lang) {
   return `<section id="review-step" data-step class="surface-card import-card" hidden>
     <h1 tabindex="-1">${esc(t.title)}</h1>
     <p id="review-provenance" class="review-provenance"></p>
-    <p class="mini-note">${esc(t.preview)}</p>
+    <p class="mini-note">${esc(t.notice)}</p>
     <form id="review-form" novalidate>
       <h2>${esc(t.dataTitle)}</h2><div class="review-fields">${fields}</div>
       <h2>${esc(t.clarifyTitle)}</h2><p>${esc(t.clarifyIntro)}</p><section id="clarifications-known" hidden><h3>${esc(t.knownTitle)}</h3><div class="review-fields"></div></section><section id="clarifications-missing"><h3>${esc(t.missingTitle)}</h3><p class="mini-note">${esc(t.missingHint)}</p><div class="review-fields">${clarifications}</div></section>

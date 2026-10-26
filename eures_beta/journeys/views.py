@@ -57,7 +57,7 @@ def interface(request):
     return {
         'me_user': user,
         'demo_mode': settings.DEMO_MODE,
-        'shared_preview_notice': shared_notice(),
+        'shared_demo_notice': shared_notice(),
         'notifications': user.notifications.order_by('-created')[:8] if user else [],
     }
 

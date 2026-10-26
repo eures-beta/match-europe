@@ -650,8 +650,8 @@ msgstr "Während dieses Tests wird keine E-Mail versendet. Über die Schaltfläc
 msgid "For testing: view the simulated email"
 msgstr "Zum Testen: simulierte E-Mail ansehen"
 
-msgid "Email preview"
-msgstr "E-Mail-Vorschau"
+msgid "Test inbox"
+msgstr "Test-Posteingang"
 
 msgid "Local simulation — this email has not been sent. The sender address will be configured with Brevo FT."
 msgstr "Lokale Simulation — diese E-Mail wurde nicht versendet. Die Absenderadresse wird mit Brevo FT eingerichtet."

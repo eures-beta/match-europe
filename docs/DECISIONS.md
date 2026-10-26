@@ -15,7 +15,12 @@ Initialisation : 16 octobre 2026. Sources : échange d’organisation avec Eric,
 | D07 | Une modification locale ou une PR n’autorise ni fusion, ni déploiement, ni écriture sur les données Grist réelles. | AGENTS.md. |
 | D08 | Les essais du prototype utilisent des données fictives ; le prototype ne doit pas être déployé tel quel. | Documentation Match Europe et HANDOFF.md. |
 
-## Points à confirmer ou à concevoir
+## 26 octobre 2026 — vocabulaire des pages
+
+À la demande de l’utilisateur, réserver « preview » aux recettes jetables.
+Employer « page », « résumé » et « démonstration » pour l’interface et ses essais.
+
+## Points restant à confirmer ou à concevoir
 
 - Authentification, gestion et révocation des accès en production.
 - Conservation, suppression et archivage des données ; validation des notices.
