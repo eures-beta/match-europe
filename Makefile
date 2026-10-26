@@ -70,3 +70,8 @@ serve: ## Tester le serveur WSGI sur loopback, avec un worker
 
 db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
 	@$(LOAD_ENV) createdb --maintenance-db=postgres "$${PGDATABASE:?Renseigner PGDATABASE dans .env}"
+
+.PHONY: employer-pages-build
+employer-pages-build: ## Générer les pages historiques dans build/employer-ui (jamais les templates actifs)
+	node scripts/employer-ui/build.cjs
+	node scripts/employer-ui/build-import.cjs
