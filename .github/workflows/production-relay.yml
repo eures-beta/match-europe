@@ -24,7 +24,7 @@ jobs:
         with:
           script: |
             const run = context.payload.workflow_run;
-            if (run.path !== '.github/workflows/production-check.yml' || !Number.isSafeInteger(run.id)) {
+            if (run.path !== '.github/workflows/ready-for-production-check.yml' || !Number.isSafeInteger(run.id)) {
               core.setFailed('Origine du signal inattendue.');
               return;
             }
