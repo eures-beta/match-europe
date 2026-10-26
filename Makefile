@@ -87,3 +87,13 @@ employer-pages-build: ## Générer les pages historiques dans build/employer-ui 
 .PHONY: test-navigation
 test-navigation: ## Vérifier la bascule de langue et les liens ouverts avant un déploiement
 	@$(MANAGE) test eures_beta.test_language_navigation --noinput $(TEST_ARGS)
+
+.PHONY: clever-post-build clever-pre-run clever-run
+clever-post-build: ## Reproduire la collecte des statiques du hook Clever
+	@$(LOAD_ENV) PYTHON="$(PYTHON)" ./clevercloud/post_build.sh
+
+clever-pre-run: ## Appliquer les migrations via le hook Clever sur la base du .env
+	@$(LOAD_ENV) PYTHON="$(PYTHON)" ./clevercloud/pre_run.sh
+
+clever-run: ## Tester le lancement Clever localement sur HOST:PORT (loopback par défaut)
+	@$(LOAD_ENV) PYTHON="$(PYTHON)" GUNICORN_BIND="$(HOST):$(PORT)" ./clevercloud/run.sh
