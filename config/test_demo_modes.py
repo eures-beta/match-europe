@@ -12,6 +12,7 @@ from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase, override_settings
 
 from config.demo import ensure_demo
+from eures_beta.journeys.models import Candidate, Profile
 
 
 class DemoSettingsTests(SimpleTestCase):
@@ -53,6 +54,36 @@ class DemoSettingsTests(SimpleTestCase):
 
 @override_settings(DEMO_MODE=False, SHARED_DEMO=False)
 class NonDemoTests(TestCase):
+    def test_previous_authenticated_demo_session_cannot_open_dashboard(self):
+        user = get_user_model().objects.create_user(
+            username="candidate@example.invalid"
+        )
+        Profile.objects.create(user=user, role="candidate", verified=True)
+        Candidate.objects.create(user=user)
+        self.client.force_login(user)
+        self.assertEqual(self.client.get("/dashboard/").status_code, 404)
+
+    def test_previous_draft_session_cannot_open_profile(self):
+        user = get_user_model().objects.create_user(username="draft@example.invalid")
+        Profile.objects.create(user=user, role="candidate", verified=False)
+        Candidate.objects.create(user=user)
+        session = self.client.session
+        session["draft_user"] = user.pk
+        session.save()
+        self.assertEqual(self.client.get("/profile/").status_code, 404)
+
+    def test_django_admin_authentication_remains_available(self):
+        self.assertRedirects(
+            self.client.get("/admin/"),
+            "/admin/login/?next=/admin/",
+            fetch_redirect_response=False,
+        )
+        user = get_user_model().objects.create_superuser(
+            username="operator@example.invalid", password="fictional-test-password"
+        )
+        self.client.force_login(user)
+        self.assertEqual(self.client.get("/admin/").status_code, 200)
+
     def test_root_remains_available_without_demo_or_fictional_accounts(self):
         self.assertEqual(self.client.get("/").status_code, 200)
         self.assertTemplateUsed(self.client.get("/"), "home.html")

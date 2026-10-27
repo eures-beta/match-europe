@@ -79,6 +79,8 @@ def require_identity(view):
     @wraps(view)
     @never_cache
     def wrapped(request, *args, **kwargs):
+        if not settings.DEMO_MODE:
+            forbid()
         user = identity(request)
         if not user:
             return redirect('access')
