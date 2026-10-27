@@ -2,6 +2,16 @@ Note de reprise : une seule configuration Django existe désormais à la racine.
 Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
 mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
+## 27 octobre 2026 — fermeture des anciennes sessions hors démo
+
+Suivi de la revue d’Oly sur #50 : `require_identity` refuse désormais les parcours
+fictifs hors démo, même avec une session authentifiée ou un ancien `draft_user`.
+Les deux régressions ont été reproduites (200 au lieu de 404), puis corrigées.
+Neuf tests ciblés et 157 tests PostgreSQL passent ; l’authentification de
+`/admin/` reste fonctionnelle. Aucun changement de données ou de protection privée.
+Ce correctif permet le démarrage du socle hors démo ; il n’active pas les parcours
+de démonstration sur l’environnement permanent. Aucun déploiement vérifié ici.
+
 ## 26 octobre 2026 — séparation explicite du mode démonstration
 
 Correctif proposé : démonstration désactivée par défaut, activation locale par
