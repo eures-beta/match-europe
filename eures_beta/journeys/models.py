@@ -1,3 +1,4 @@
+from eures_beta.candidates.models import Candidate
 from eures_beta.documents.models import Document
 from django.conf import settings
 from django.db import models
@@ -175,26 +176,6 @@ class Question(models.Model):
 
     def choices(self):
         return [x.strip() for x in self.options.split('|') if x.strip()]
-
-
-class Candidate(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='candidate'
-    )
-    document = models.OneToOneField(
-        Document, null=True, blank=True, on_delete=models.SET_NULL
-    )
-    name = models.CharField(max_length=150)
-    experience = models.TextField(max_length=12000)
-    jobs = models.CharField(max_length=500)
-    skills = models.CharField(max_length=500, blank=True)
-    languages = models.CharField(max_length=250, blank=True)
-    location = models.CharField(max_length=150)
-    availability = models.CharField(max_length=150)
-    cross_border = models.CharField(max_length=12)
-    relocation = models.CharField(max_length=12)
-    validated_at = models.DateTimeField(null=True, blank=True)
-    sent_at = models.DateTimeField(null=True, blank=True)
 
 
 class Match(models.Model):

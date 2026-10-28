@@ -26,16 +26,8 @@ from .forms import (
 )
 from eures_beta.notifications.models import Notification
 from eures_beta.documents.models import Document
-from .models import (
-    EmployerImport,
-    Answer,
-    Candidate,
-    Event,
-    Match,
-    Offer,
-    Profile,
-    Question,
-)
+from eures_beta.candidates.models import Candidate
+from .models import EmployerImport, Answer, Event, Match, Offer, Profile, Question
 from .services import (
     adviser_from,
     audit,
@@ -369,48 +361,6 @@ def offer(request, pk):
             'question_form': question_form,
             'editable': editable,
             'matches': visible_matches,
-            'email_link': request.session.get('demo_email_link'),
-        },
-    )
-
-
-@require_identity
-def candidate_edit(request):
-    user = request.me_user
-    if user.profile.role != 'candidate':
-        forbid()
-    obj = get_object_or_404(Candidate, user=user)
-    form = CandidateForm(
-        request.POST or None,
-        instance=obj,
-        complete=request.POST.get('action') == 'validate',
-    )
-    if request.method == 'POST' and form.is_valid():
-        if request.POST.get('action') not in ['save', 'validate']:
-            forbid()
-        if obj.sent_at:
-            forbid()
-        obj = form.save()
-        if request.POST.get('action') == 'validate':
-            if not request.POST.get('agreement'):
-                form.add_error(
-                    None, _('Please agree to matching and confirm your profile.')
-                )
-            else:
-                obj.validated_at = timezone.now()
-                obj.sent_at = timezone.now() if user.profile.verified else None
-                obj.save()
-                audit(user, 'candidate_validated', obj)
-                return redirect('dashboard')
-        else:
-            messages.success(request, _('Draft saved.'))
-            return redirect('candidate_edit')
-    return render(
-        request,
-        'candidate.html',
-        {
-            'candidate': obj,
-            'form': form,
             'email_link': request.session.get('demo_email_link'),
         },
     )
