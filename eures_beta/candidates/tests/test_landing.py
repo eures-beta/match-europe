@@ -23,6 +23,7 @@ class CandidateLandingTests(SimpleTestCase):
                 response = self.client.get(
                     '/candidate/', {'lang': language}, secure=True
                 )
+                self.assertTemplateUsed(response, 'candidates/landing.html')
                 self.assertContains(response, title)
                 body = response.content.decode()
                 self.assertEqual(body.count('data-candidate-choice='), 3)
@@ -40,6 +41,44 @@ class CandidateLandingTests(SimpleTestCase):
                     self.assertIn(static(f'candidate/{asset}'), body)
                     self.assertTrue(finders.find(f'candidate/{asset}'))
                 self.assertNotIn('src="assets/', body)
+
+    def test_shell_and_browser_notices_use_the_selected_language(self):
+        for language, skip, navigation, notice in (
+            (
+                'fr',
+                'Aller au contenu',
+                'Navigation principale',
+                'La connexion candidat sera préparée dans une prochaine étape.',
+            ),
+            (
+                'en',
+                'Skip to content',
+                'Main navigation',
+                'Candidate sign-in will be prepared in a later step.',
+            ),
+            (
+                'de',
+                'Zum Inhalt',
+                'Hauptnavigation',
+                'Die Anmeldung für Bewerbende folgt in einem späteren Schritt.',
+            ),
+        ):
+            with self.subTest(language=language):
+                self.client.cookies['django_language'] = (
+                    'fr' if language == 'en' else 'en'
+                )
+                response = self.client.get(
+                    '/candidate/', {'lang': language}, secure=True
+                )
+                self.assertContains(response, f'<html lang="{language}">')
+                self.assertContains(response, skip)
+                self.assertContains(response, f'aria-label="{navigation}"')
+                self.assertContains(response, notice)
+                self.assertContains(response, f'href="/employer/pages/{language}.html"')
+                self.assertContains(
+                    response,
+                    f'class="lang-link is-active" href="/candidate/?lang={language}"',
+                )
 
     def test_legacy_entry_and_unsupported_language(self):
         for path in ('/candidate/', '/forms/eures-beta/candidate'):

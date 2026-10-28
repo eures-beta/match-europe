@@ -83,7 +83,6 @@ db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
 employer-pages-build: ## Générer les pages historiques dans build/employer-ui (jamais les templates actifs)
 	node scripts/employer-ui/build.cjs
 	node scripts/employer-ui/build-import.cjs
-	node scripts/employer-ui/build-candidate.cjs
 
 .PHONY: test-navigation
 test-navigation: ## Vérifier la bascule de langue et les liens ouverts avant un déploiement

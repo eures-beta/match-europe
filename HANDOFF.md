@@ -241,3 +241,14 @@ FR/EN/DE, protections hors démo conservées. Choix et connexion simulés unique
 repassés après raccordement gettext. Navigation FR/EN/DE et activation clavier
 vérifiées dans le navigateur local. Aucun changement de modèle ou de service
 externe, aucune publication. Voir [périmètre et limites](docs/CANDIDATE_LANDING.md).
+
+### Consolidation dans la PR #63
+
+Après déplacement au-dessus de la pile métier/traductions : un seul template
+gettext pour l’accueil candidat et son en-tête, ses statiques et tests dans
+`candidates`, contrôle d’accès transverse conservant les mêmes restrictions.
+Retrait du générateur candidat et de son dictionnaire JSON désormais redondants.
+187 tests PostgreSQL réussis, compilation gettext, Black, contrôles Django et
+collecte statique réussis. Textes, liens et attributs rendus FR/EN/DE comparés à
+la version précédente sans différence. Les parcours restent simulés ; aucune
+fusion ni mise en production effectuée pour cette consolidation.

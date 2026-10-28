@@ -29,7 +29,7 @@ Le découpage progressif distingue désormais :
 - `conversations` : discussions et messages ;
 - `notifications` : notifications et lecture ;
 - `documents` : pièces jointes, téléversement, téléchargement et extraction PDF ;
-- `candidates` : profils candidats et modification ;
+- `candidates` : accueil candidat, profils candidats et modification ;
 - `offers` : offres et questions ;
 - `journeys` : identités, parcours employeur, rapprochements, accords et orchestration restante.
 
@@ -88,3 +88,8 @@ Clôture et archivage restent à définir. Voir [lot 4A](EMPLOYER_SEARCH_LAUNCH.
 Premier écran repris dans la structure Django actuelle, trois entrées simulées
 CV/LinkedIn/saisie manuelle en FR/EN/DE. Aucun raccordement au matching, aux
 conseillers ou aux données candidat. Voir [périmètre](CANDIDATE_LANDING.md).
+
+La PR #63 conserve un seul template gettext, ses statiques et tests dans
+`candidates`. Le contrôle d’accès de démonstration est partagé dans
+`eures_beta/demo_access.py`, sans dépendance à une API employeur ni modification
+des restrictions. Le générateur candidat et son dictionnaire trilingue sont retirés.
