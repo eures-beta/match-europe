@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from eures_beta.offers import views
 
 urlpatterns = [
     path('offers/<int:pk>/', views.offer, name='offer'),

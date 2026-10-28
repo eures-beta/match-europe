@@ -8,9 +8,9 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_POST, require_http_methods
-from .employer_ownership import identity, memberships
-from .employer_workspace import connected, visible, render
-from .models import EmployerSearchOperation, EmployerSearchEvent
+from eures_beta.journeys.employer_ownership import identity, memberships
+from eures_beta.journeys.employer_workspace import connected, visible, render
+from eures_beta.journeys.models import EmployerSearchOperation, EmployerSearchEvent
 
 
 class LaunchForm(forms.Form):

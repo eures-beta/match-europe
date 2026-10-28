@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils import timezone
-from eures_beta.journeys.forms import UploadForm
+from eures_beta.documents.forms import UploadForm
 from eures_beta.offers.models import Offer
-from eures_beta.journeys.models import Match, Profile
+from eures_beta.accounts.models import Profile
+from eures_beta.journeys.models import Match
 from eures_beta.journeys.services import dispatch_offer
 
 
-from .base import JourneyScenario
+from eures_beta.journeys.tests.base import JourneyScenario
 
 
 class OffersTests(JourneyScenario):

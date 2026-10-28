@@ -58,6 +58,10 @@ check: ## Vérifier Django et l'absence de migrations oubliées
 migrate: ## Appliquer les migrations à la base sélectionnée par .env
 	@$(MANAGE) migrate
 
+.PHONY: migrations-create
+migrations-create: ## Générer les migrations locales à relire avant de les appliquer
+	@$(MANAGE) makemigrations --noinput
+
 migrations: ## Afficher l'état des migrations sans les appliquer
 	@$(MANAGE) showmigrations
 

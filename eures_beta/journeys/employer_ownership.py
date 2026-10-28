@@ -1,7 +1,11 @@
 """Shared employer workspace permissions. Never infer membership from contact data."""
 
 from django.db.models import Q
-from .models import EmployerIdentity, EmployerImport, EmployerMembership
+from eures_beta.journeys.models import (
+    EmployerIdentity,
+    EmployerImport,
+    EmployerMembership,
+)
 
 
 def identity(request):

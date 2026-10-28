@@ -1,16 +1,15 @@
 import json
 from unittest.mock import patch
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from datetime import timedelta
-from ..models import (
+from eures_beta.journeys.models import (
     EmployerCompany,
-    EmployerIdentity,
     EmployerImport,
     EmployerMembership,
 )
-from .test_employer_ownership import OwnershipTests
+from eures_beta.journeys.tests.test_employer_ownership import OwnershipTests
 
 
 @patch.dict(

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
-from eures_beta.journeys.access_control import require_identity
+from eures_beta.accounts.access_control import require_identity
 
 
 @require_POST

@@ -7,7 +7,9 @@ class UnifiedLayoutTests(SimpleTestCase):
     def test_packaged_application_preserves_its_database_label(self):
         app = apps.get_app_config('journeys')
         self.assertEqual(app.name, 'eures_beta.journeys')
-        self.assertEqual(app.get_model('Profile')._meta.db_table, 'journeys_profile')
+        self.assertEqual(
+            apps.get_model('accounts', 'Profile')._meta.db_table, 'journeys_profile'
+        )
         self.assertEqual(settings.ROOT_URLCONF, 'config.urls')
         self.assertFalse((settings.APPS_DIR / 'manage.py').exists())
         self.assertFalse((settings.APPS_DIR / 'config').exists())

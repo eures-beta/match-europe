@@ -3,12 +3,13 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from eures_beta.journeys.access_control import forbid, require_identity
-from eures_beta.journeys.services import audit, notify
+from eures_beta.accounts.access_control import forbid, require_identity
+from eures_beta.accounts.services import audit
+from eures_beta.notifications.services import notify
 
-from .forms import MessageForm
-from .models import Conversation, Message
-from .permissions import conversation_allowed
+from eures_beta.conversations.forms import MessageForm
+from eures_beta.conversations.models import Conversation, Message
+from eures_beta.conversations.permissions import conversation_allowed
 
 
 @require_identity

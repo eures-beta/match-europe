@@ -4,15 +4,14 @@ from threading import Barrier
 from unittest.mock import patch
 from django.db import close_old_connections
 from django.test import Client, TestCase, TransactionTestCase
-from django.urls import reverse
-from ..models import (
+from eures_beta.journeys.models import (
     EmployerImport,
     EmployerIdentity,
     EmployerMembership,
     EmployerSearchOperation,
     EmployerSearchEvent,
 )
-from . import test_employer_workspace as workspace_tests
+from eures_beta.journeys.tests import test_employer_workspace as workspace_tests
 
 MODES = {
     'ME_EMPLOYER_DEV_ACCESS': '1',

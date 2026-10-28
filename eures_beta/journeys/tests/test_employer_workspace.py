@@ -6,13 +6,13 @@ from django.contrib.sessions.models import Session
 from django.test import Client, TestCase
 from django.utils import timezone
 from django.urls import reverse
-from ..models import (
+from eures_beta.journeys.models import (
     EmployerImport,
     EmployerIdentity,
     EmployerMembership,
     EmployerCompany,
 )
-from ..offer_ingestion import empty_data
+from eures_beta.journeys.offer_ingestion import empty_data
 
 
 @patch.dict(
@@ -62,7 +62,7 @@ class WorkspaceTests(TestCase):
         return reverse(action, args=[(offer or self.offer).pk])
 
     def payload(self, offer=None):
-        from ..employer_workspace import OfferEditForm
+        from eures_beta.journeys.employer_workspace import OfferEditForm
 
         offer = offer or self.offer
         form = OfferEditForm(offer=offer)

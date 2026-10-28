@@ -3,8 +3,13 @@ from unittest.mock import patch
 from django.test import TestCase, SimpleTestCase, Client
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
-from ..models import EmployerImport
-from ..offer_ingestion import parse_page, public_target, ImportFailure, read_url
+from eures_beta.journeys.models import EmployerImport
+from eures_beta.journeys.offer_ingestion import (
+    parse_page,
+    public_target,
+    ImportFailure,
+    read_url,
+)
 
 
 class ReadingTests(SimpleTestCase):
@@ -84,7 +89,7 @@ class ReadingTests(SimpleTestCase):
         )
 
     def test_requirements_validation_and_backward_compatible_defaults(self):
-        from ..employer_api import clean_data
+        from eures_beta.journeys.employer_api import clean_data
 
         data = clean_data(
             {
@@ -174,7 +179,7 @@ class ReadingTests(SimpleTestCase):
                 public_target(url)
 
     def test_pdf_offer_header_ignores_bullets_and_font_mapping(self):
-        from ..offer_ingestion import parse_pdf_text
+        from eures_beta.journeys.offer_ingestion import parse_pdf_text
 
         data = parse_pdf_text(
             '●\n●\nVendeur H/F\nEntreprise Exɑmple\n•\n12345 Ville-Test\nContinuer pour postuler\nCDI, Temps plein\nDescription du poste\nMissions fictives.'
@@ -186,7 +191,7 @@ class ReadingTests(SimpleTestCase):
         self.assertIn('Missions fictives.', data['description'])
 
     def test_pdf_does_not_invent_employer_or_use_body_address(self):
-        from ..offer_ingestion import parse_pdf_text
+        from eures_beta.journeys.offer_ingestion import parse_pdf_text
 
         data = parse_pdf_text(
             'Poste fictif\nDescription du poste\nContact agence\n12345 Autre-Ville\nCDI ou CDD'

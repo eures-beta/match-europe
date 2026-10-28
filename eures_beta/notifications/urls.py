@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from eures_beta.notifications import views
 
 urlpatterns = [
     path('notifications/read/', views.read_notifications, name='read_notifications'),

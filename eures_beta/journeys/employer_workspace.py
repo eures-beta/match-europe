@@ -10,12 +10,16 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from . import employer_login
-from .employer_api import clean_data
-from .employer_ownership import identity, memberships, accessible_imports
-from .forms import EmployerContactForm, MOBILITY
-from .models import EmployerImport
-from .offer_ingestion import ImportFailure
+from eures_beta.journeys import employer_login
+from eures_beta.journeys.employer_api import clean_data
+from eures_beta.journeys.employer_ownership import (
+    identity,
+    memberships,
+    accessible_imports,
+)
+from eures_beta.journeys.forms import EmployerContactForm, MOBILITY
+from eures_beta.journeys.models import EmployerImport
+from eures_beta.journeys.offer_ingestion import ImportFailure
 
 
 def connected(view):
@@ -297,7 +301,7 @@ def detail(request, id):
             value = choices.get(value, value)
         if value:
             rows.append((field.label, value))
-    from .employer_search import simulation_enabled
+    from eures_beta.journeys.employer_search import simulation_enabled
 
     return render(
         request,
