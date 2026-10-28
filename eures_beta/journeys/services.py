@@ -14,7 +14,8 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from eures_beta.notifications.models import Notification
-from .models import AccessToken, Candidate, Document, Event, Match, Offer
+from eures_beta.documents.models import Document
+from .models import AccessToken, Candidate, Event, Match, Offer
 
 
 def audit(actor, action, obj):
@@ -84,33 +85,6 @@ def consume_token(raw):
         candidate.save(update_fields=['sent_at'])
         audit(token.user, 'demo_profile_dispatched', candidate)
     return token.user
-
-
-def extract_pdf(upload, user):
-    contents = upload.read()
-    if len(contents) > 10 * 1024 * 1024:
-        raise ValueError(_('The PDF must be smaller than 10 MB.'))
-    try:
-        result = subprocess.run(
-            [sys.executable, str(Path(__file__).with_name('pdf_reader.py'))],
-            input=contents,
-            capture_output=True,
-            timeout=15,
-            check=True,
-        )
-        text = json.loads(result.stdout)['text']
-    except Exception as exc:
-        raise ValueError(
-            _(
-                'This PDF cannot be read. Use an unencrypted document with at most 30 pages.'
-            )
-        ) from exc
-    upload.seek(0)
-    # Never serve the original filename or execute embedded PDF content.
-    upload.name = secrets.token_hex(16) + '.pdf'
-    document = Document.objects.create(owner=user, file=upload, text=text)
-    audit(user, 'pdf_uploaded', document)
-    return document
 
 
 def dispatch_offer(offer, actor):

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'eures_beta.notifications.apps.NotificationsConfig',
+    'eures_beta.documents.apps.DocumentsConfig',
     'eures_beta.journeys.apps.JourneysConfig',
     'eures_beta.conversations.apps.ConversationsConfig',
 ]
