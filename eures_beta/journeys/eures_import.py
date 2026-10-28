@@ -15,10 +15,12 @@ def read_eures(url, fetch):
 
     parsed = urlsplit(url)
     match = re.fullmatch(
-        r'/eures/portal/jv-se/jv-details/([A-Za-z0-9_-]{20,200})/?', parsed.path
+        r'/eures/portal/jv-se/jv-details/([A-Za-z0-9_-]+={0,2})/?', parsed.path
     )
     if not match:
-        raise ImportFailure('individual_offer_required')
+        # Handle lengths vary by provider. Only path delimiters are restricted;
+        # the public API and returned id establish whether the vacancy exists.
+        raise ImportFailure('unreadable_url')
     handle = match.group(1)
     query = parse_qs(parsed.query)
     requested = query.get('jvDisplayLanguage', [''])[0]
