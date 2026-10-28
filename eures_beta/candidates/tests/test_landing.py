@@ -1,3 +1,4 @@
+from eures_beta.testing import assert_active_link
 from django.test import SimpleTestCase, override_settings
 from django.templatetags.static import static
 from django.contrib.staticfiles import finders
@@ -75,10 +76,7 @@ class CandidateLandingTests(SimpleTestCase):
                 self.assertContains(response, f'aria-label="{navigation}"')
                 self.assertContains(response, notice)
                 self.assertContains(response, f'href="/employer/pages/{language}.html"')
-                self.assertContains(
-                    response,
-                    f'class="lang-link is-active" href="/candidate/?lang={language}"',
-                )
+                assert_active_link(self, response, f'/candidate/?lang={language}')
 
     def test_legacy_entry_and_unsupported_language(self):
         for path in ('/candidate/', '/forms/eures-beta/candidate'):

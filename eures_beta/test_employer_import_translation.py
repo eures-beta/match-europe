@@ -1,5 +1,5 @@
+from eures_beta.testing import assert_active_link, json_scripts
 import json
-import re
 
 from django.test import SimpleTestCase, override_settings
 
@@ -24,18 +24,9 @@ class EmployerImportTranslationTests(SimpleTestCase):
                 self.assertTemplateUsed(response, f'employer/{self.page}.html')
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, f'href="privacy-{language}.html"')
-                self.assertContains(
-                    response,
-                    f'class="lang-link is-active" href="{self.page}-{language}.html"',
-                )
+                assert_active_link(self, response, f'{self.page}-{language}.html')
                 html = response.content.decode()
-                scripts = dict(
-                    re.findall(
-                        r'<script id="([^"]+)" type="application/json">(.*?)</script>',
-                        html,
-                        re.S,
-                    )
-                )
+                scripts = json_scripts(response)
                 strings = json.loads(scripts['import-strings'])
                 self.assertEqual(strings['continue'], label)
                 self.assertTrue(strings['errors'])

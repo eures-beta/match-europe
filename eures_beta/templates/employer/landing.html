@@ -1,10 +1,202 @@
-{% load i18n %}{% get_current_language as page_language %}
-<!doctype html>
-<html lang="{{ page_language }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{% translate "Match Europe — Employer journey" context "employer landing" %}</title>
-<link rel="stylesheet" href="/static/employer/site.css">
-<style>.employer-partner-logos{display:grid;grid-template-columns:1.5fr 1.4fr 1fr 1fr;align-items:center;gap:24px;padding:20px;margin-bottom:24px;background:#fff;border:1px solid var(--line);border-radius:16px}.employer-partner-logo{display:flex;align-items:center;justify-content:center;min-width:0;padding:8px}.employer-partner-logo img{display:block;width:100%;height:auto;object-fit:contain}.employer-partner-forem img{max-width:110px}@media(max-width:700px){.employer-partner-logos{grid-template-columns:1fr 1fr;gap:12px 24px;padding:16px}.employer-partner-eures img{max-width:210px}.employer-partner-ft img{max-width:190px}.employer-partner-adem img{max-width:112px}.employer-partner-forem img{max-width:110px}}.employer-page-footer{margin-top:32px;border-top:1px solid var(--line);padding:24px 0 32px;color:var(--muted);font-size:14px}.employer-page-footer-inner{display:flex;flex-direction:column;align-items:flex-start;gap:14px}.employer-page-footer-inner>p{max-width:100%;text-wrap:balance}.employer-page-legal{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.employer-page-footer p{margin:0;line-height:1.6}.employer-page-footer nav{display:flex;flex-wrap:wrap;gap:12px 24px}.employer-page-footer a{color:inherit;text-decoration:underline;text-underline-offset:4px}.employer-page-footer a:hover{color:var(--text)}.employer-page-footer a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:640px){.employer-page-footer-inner{align-items:flex-start;flex-direction:column}}.demo-notice{margin:0;padding:12px 24px;background:#fff0bd;color:#17324d;text-align:center}.primary-action:disabled{cursor:default;opacity:1}.skip-content{position:absolute;left:-10000px}.skip-content:focus{left:12px;top:12px;background:white;padding:12px;z-index:100}</style>
-<style>.site-header .employer-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:.75rem;flex-wrap:wrap;margin-left:auto}.site-header .employer-header-actions .lang-switch{width:auto}.site-header .employer-account-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;box-sizing:border-box;white-space:nowrap;background:#d6e9ff;color:#003566;border-color:#8cb8e8;font-weight:700}.site-header .employer-account-link:hover{background:#c4dfff;border-color:#527faf}.employer-account-link:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:700px){.site-header .employer-header-actions{width:100%;gap:.5rem;justify-content:space-between}}</style></head><body><a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a><p class="demo-notice" id="demo-notice">{% translate "Local demonstration — proposed journey. Import, offer analysis and follow-up questions are not yet connected." context "employer landing" %}</p>
-    
+{% load i18n %}
+{% get_current_language as page_language %}
+<!DOCTYPE html>
+<html lang="{{ page_language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% translate "Match Europe — Employer journey" context "employer landing" %}</title>
+    <link rel="stylesheet" href="/static/employer/site.css">
+    <style>
+        .employer-partner-logos {
+            display: grid;
+            grid-template-columns: 1.5fr 1.4fr 1fr 1fr;
+            align-items: center;
+            gap: 24px;
+            padding: 20px;
+            margin-bottom: 24px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 16px
+        }
+
+        .employer-partner-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            padding: 8px
+        }
+
+        .employer-partner-logo img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain
+        }
+
+        .employer-partner-forem img {
+            max-width: 110px
+        }
+
+        @media(max-width:700px) {
+            .employer-partner-logos {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px 24px;
+                padding: 16px
+            }
+
+            .employer-partner-eures img {
+                max-width: 210px
+            }
+
+            .employer-partner-ft img {
+                max-width: 190px
+            }
+
+            .employer-partner-adem img {
+                max-width: 112px
+            }
+
+            .employer-partner-forem img {
+                max-width: 110px
+            }
+        }
+
+        .employer-page-footer {
+            margin-top: 32px;
+            border-top: 1px solid var(--line);
+            padding: 24px 0 32px;
+            color: var(--muted);
+            font-size: 14px
+        }
+
+        .employer-page-footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px
+        }
+
+        .employer-page-footer-inner>p {
+            max-width: 100%;
+            text-wrap: balance
+        }
+
+        .employer-page-legal {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line)
+        }
+
+        .employer-page-footer p {
+            margin: 0;
+            line-height: 1.6
+        }
+
+        .employer-page-footer nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px
+        }
+
+        .employer-page-footer a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 4px
+        }
+
+        .employer-page-footer a:hover {
+            color: var(--text)
+        }
+
+        .employer-page-footer a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px
+        }
+
+        @media(max-width:640px) {
+            .employer-page-footer-inner {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+
+        .demo-notice {
+            margin: 0;
+            padding: 12px 24px;
+            background: #fff0bd;
+            color: #17324d;
+            text-align: center
+        }
+
+        .primary-action:disabled {
+            cursor: default;
+            opacity: 1
+        }
+
+        .skip-content {
+            position: absolute;
+            left: -10000px
+        }
+
+        .skip-content:focus {
+            left: 12px;
+            top: 12px;
+            background: white;
+            padding: 12px;
+            z-index: 100
+        }
+    </style>
+    <style>
+        .site-header .employer-header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-left: auto
+        }
+
+        .site-header .employer-header-actions .lang-switch {
+            width: auto
+        }
+
+        .site-header .employer-account-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            background: #d6e9ff;
+            color: #003566;
+            border-color: #8cb8e8;
+            font-weight: 700
+        }
+
+        .site-header .employer-account-link:hover {
+            background: #c4dfff;
+            border-color: #527faf
+        }
+
+        .employer-account-link:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px
+        }
+
+        @media(max-width:700px) {
+            .site-header .employer-header-actions {
+                width: 100%;
+                gap: .5rem;
+                justify-content: space-between
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
+    <p class="demo-notice" id="demo-notice">{% translate "Local demonstration — proposed journey. Import, offer analysis and follow-up questions are not yet connected." context "employer landing" %}</p>
     <header class="site-header">
       <div class="shell">
         <a class="brand" href="/forms/eures-beta/?lang={{ page_language }}">
@@ -13,82 +205,125 @@
             <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer landing" %}</span>
           </span>
         </a>
-        <nav class="nav" aria-label='{% translate "Main navigation" context "employer landing" %}'>
+        <nav class="nav"
+             aria-label='{% translate "Main navigation" context "employer landing" %}'>
           <div class="nav-links">
-            <a class="nav-pill" href="/forms/eures-beta/?lang={{ page_language }}">{% translate "Home" context "employer landing" %}</a>
-            <a class="nav-pill" href="/forms/eures-beta/candidate?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
-            <a class="nav-pill is-active" href="{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
-            <a class="nav-pill" href="/forms/eures-beta/stat?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>
+            <a class="nav-pill"
+               href="/forms/eures-beta/?lang={{ page_language }}">{% translate "Home" context "employer landing" %}</a>
+            <a class="nav-pill"
+               href="/forms/eures-beta/candidate?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
+            <a class="nav-pill is-active"
+               href="{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
+            <a class="nav-pill"
+               href="/forms/eures-beta/stat?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>
           </div>
           <div class="nav-links nav-links-secondary">
-            <a class="nav-pill" href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
-            <a class="nav-pill" href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
+            <a class="nav-pill"
+               href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
+            <a class="nav-pill"
+               href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
           </div>
-          <div class="employer-header-actions"><div class="lang-switch" aria-label='{% translate "Language" context "employer landing" %}'>
-            <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}" href="fr.html" lang="fr" hreflang="fr">FR</a>
-            <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}" href="en.html" lang="en" hreflang="en">EN</a>
-            <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}" href="de.html" lang="de" hreflang="de">DE</a>
-          </div><a class="nav-pill employer-account-link" data-employer-account href="/employer/access/?lang={{ page_language }}">{% translate "Sign in" context "employer landing" %}</a></div>
+          <div class="employer-header-actions">
+            <div class="lang-switch"
+                 aria-label='{% translate "Language" context "employer landing" %}'>
+              <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
+                 href="fr.html"
+                 lang="fr"
+                 hreflang="fr">FR</a>
+              <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
+                 href="en.html"
+                 lang="en"
+                 hreflang="en">EN</a>
+              <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
+                 href="de.html"
+                 lang="de"
+                 hreflang="de">DE</a>
+            </div>
+            <a class="nav-pill employer-account-link"
+               data-employer-account
+               href="/employer/access/?lang={{ page_language }}">{% translate "Sign in" context "employer landing" %}</a>
+          </div>
         </nav>
       </div>
     </header>
-  
     <main id="main-content" class="section candidate-landing-page">
       <div class="shell candidate-landing-layout">
         <article class="candidate-letter">
-          
-    <div class="employer-partner-logos" role="group" aria-label='{% translate "Partners" context "employer landing" %}'>
-      <div class="employer-partner-logo employer-partner-eures"><img src="/static/employer/assets/eures-ela.jpg" alt="EURES / European Labour Authority" width="5956" height="2372"></div>
-      <div class="employer-partner-logo employer-partner-ft"><img src="/static/employer/assets/france-travail.svg" alt="République française — France Travail" width="893" height="296"></div>
-      <div class="employer-partner-logo employer-partner-adem"><img src="/static/employer/assets/adem.png" alt="ADEM — Agence pour le développement de l’emploi" width="591" height="591"></div>
-      <div class="employer-partner-logo employer-partner-forem"><img src="/static/employer/assets/forem.png" alt="Le Forem" width="795" height="229"></div>
-    </div>
-    <div class="candidate-letter-head">
+          <div class="employer-partner-logos"
+               role="group"
+               aria-label='{% translate "Partners" context "employer landing" %}'>
+            <div class="employer-partner-logo employer-partner-eures">
+              <img src="/static/employer/assets/eures-ela.jpg"
+                   alt="EURES / European Labour Authority"
+                   width="5956"
+                   height="2372">
+            </div>
+            <div class="employer-partner-logo employer-partner-ft">
+              <img src="/static/employer/assets/france-travail.svg"
+                   alt="République française — France Travail"
+                   width="893"
+                   height="296">
+            </div>
+            <div class="employer-partner-logo employer-partner-adem">
+              <img src="/static/employer/assets/adem.png"
+                   alt="ADEM — Agence pour le développement de l’emploi"
+                   width="591"
+                   height="591">
+            </div>
+            <div class="employer-partner-logo employer-partner-forem">
+              <img src="/static/employer/assets/forem.png"
+                   alt="Le Forem"
+                   width="795"
+                   height="229">
+            </div>
+          </div>
+          <div class="candidate-letter-head">
             <div class="kicker">{% translate "Employer journey" context "employer landing" %}</div>
             <h1>{% translate "Make recruitment easier through European mobility" context "employer landing" %}</h1>
             <p class="lede">{% translate "Already written your job offer? Import a PDF or add the link to your advert. Match Europe helps you search for candidates in Europe." context "employer landing" %}</p>
-<div class="landing-actions">
-              <a class="primary-action" href="import-v2-{{ page_language }}.html">{% translate "Import my job offer" context "employer landing" %}</a>
+            <div class="landing-actions">
+              <a class="primary-action"
+                 href="import-v2-{{ page_language }}.html">{% translate "Import my job offer" context "employer landing" %}</a>
             </div>
           </div>
-
           <section class="candidate-message">
             <h2>{% translate "Your offer is read, then checked with you" context "employer landing" %}</h2>
             <p><strong>{% translate "Match Europe reads and analyses your document to turn its information into a structured summary: role, skills, languages and working conditions." context "employer landing" %}</strong></p>
-            <p>{% translate "Check this summary, correct any information if needed and complete what is missing." context "employer landing" %}</p><p>{% translate "If information is missing or unclear, you will be asked additional questions. In particular, specify whether you can welcome cross-border workers or people relocating from another European country." context "employer landing" %}</p><p>{% translate "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers." context "employer landing" %}</p>
+            <p>{% translate "Check this summary, correct any information if needed and complete what is missing." context "employer landing" %}</p>
+            <p>{% translate "If information is missing or unclear, you will be asked additional questions. In particular, specify whether you can welcome cross-border workers or people relocating from another European country." context "employer landing" %}</p>
+            <p>{% translate "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers." context "employer landing" %}</p>
             <div class="candidate-highlight">{% translate "The search for candidates starts only after you validate your offer." context "employer landing" %}</div>
-            
-            
-            
           </section>
-
           <section class="candidate-about">
             <h2>{% translate "How the service can help" context "employer landing" %}</h2>
             <p>{% translate "Broaden your search beyond your local market, prepare candidate prequalification and talk to interested candidates, with support from your EURES adviser." context "employer landing" %}</p>
           </section>
         </article>
-
         <aside class="candidate-sidebar">
           <article class="surface-card candidate-info-card">
             <h2>{% translate "What happens next" context "employer landing" %}</h2>
-            <ul><li>{% translate "1. Add your offer as a PDF, a link or manual text." context "employer landing" %}</li><li>{% translate "2. Check the information and answer any additional questions." context "employer landing" %}</li><li>{% translate "3. Choose your questions for candidates, then validate your offer." context "employer landing" %}</li><li>{% translate "4. Review applications and answers before deciding on an introduction." context "employer landing" %}</li></ul>
-            
+            <ul>
+              <li>{% translate "1. Add your offer as a PDF, a link or manual text." context "employer landing" %}</li>
+              <li>{% translate "2. Check the information and answer any additional questions." context "employer landing" %}</li>
+              <li>{% translate "3. Choose your questions for candidates, then validate your offer." context "employer landing" %}</li>
+              <li>{% translate "4. Review applications and answers before deciding on an introduction." context "employer landing" %}</li>
+            </ul>
           </article>
-
           <article class="surface-card candidate-info-card">
             <h2>{% translate "You stay in control" context "employer landing" %}</h2>
             <p>{% translate "A match between an offer and a profile remains a suggestion. An introduction requires both your agreement and the candidate’s. Your adviser then starts a three-way conversation." context "employer landing" %}</p>
           </article>
-
           <article class="panel candidate-info-card">
             <h2>{% translate "Accessible support" context "employer landing" %}</h2>
-            <ul><li>{% translate "On desktop and mobile." context "employer landing" %}</li><li>{% translate "Targeted questions with quick replies and free text." context "employer landing" %}</li><li>{% translate "An EURES adviser to support the conversation." context "employer landing" %}</li></ul>
+            <ul>
+              <li>{% translate "On desktop and mobile." context "employer landing" %}</li>
+              <li>{% translate "Targeted questions with quick replies and free text." context "employer landing" %}</li>
+              <li>{% translate "An EURES adviser to support the conversation." context "employer landing" %}</li>
+            </ul>
           </article>
         </aside>
       </div>
     </main>
-    
-    
     <footer class="employer-page-footer">
       <div class="shell employer-page-footer-inner">
         <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer landing" %}</p>
@@ -99,5 +334,5 @@
         </nav>
       </div>
     </footer>
-  
-  </body></html>
+  </body>
+</html>
