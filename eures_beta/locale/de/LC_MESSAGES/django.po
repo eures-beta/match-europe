@@ -1218,3 +1218,247 @@ msgstr "Partner"
 msgctxt "employer landing"
 msgid "Useful links"
 msgstr "Weitere Links"
+
+msgctxt "employer privacy"
+msgid "Data protection"
+msgstr "Datenschutz"
+
+msgctxt "employer privacy"
+msgid "Existing notice dated 3 August 2026 — needs updating for the offer import journey. Local copy, not validated for this new journey."
+msgstr "Bestehender Hinweis vom 3. August 2026 — für den Angebotsimport zu aktualisieren. Lokale Kopie, für diesen neuen Ablauf nicht bestätigt."
+
+msgctxt "employer privacy"
+msgid "EURES beta - cross-border mobility, matching and follow-up"
+msgstr "EURES beta - grenzüberschreitende Mobilität, Matching und Begleitung"
+
+msgctxt "employer privacy"
+msgid "Home"
+msgstr "Start"
+
+msgctxt "employer privacy"
+msgid "Candidate"
+msgstr "Kandidaten"
+
+msgctxt "employer privacy"
+msgid "Employer"
+msgstr "Arbeitgeber"
+
+msgctxt "employer privacy"
+msgid "Stats"
+msgstr "Statistik"
+
+msgctxt "employer privacy"
+msgid "Project"
+msgstr "Projekt"
+
+msgctxt "employer privacy"
+msgid "Project journal"
+msgstr "Projektjournal"
+
+msgctxt "employer privacy"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "employer privacy"
+msgid "Information about your personal data"
+msgstr "Informationen zu Ihren personenbezogenen Daten"
+
+msgctxt "employer privacy"
+msgid "How Match Europe uses your information"
+msgstr "Wie Match Europe Ihre Angaben verwendet"
+
+msgctxt "employer privacy"
+msgid "Match Europe is an EURES network experiment conducted with France Travail. This notice describes the processing currently planned for questionnaires, matching and the limited WhatsApp Business test."
+msgstr "Match Europe ist eine Erprobung des EURES-Netzwerks mit France Travail. Dieser Hinweis beschreibt die derzeit für Fragebögen, Matching und den begrenzten WhatsApp-Business-Test vorgesehenen Verarbeitungen."
+
+msgctxt "employer privacy"
+msgid "Version dated 3 August 2026. France Travail is responsible for the processing carried out as part of the Match Europe experiment. Eric Barthélémy is the sole contact point during this phase."
+msgstr "Version vom 3. August 2026. France Travail ist für die Verarbeitung im Rahmen der Erprobung Match Europe verantwortlich. Eric Barthélémy ist in dieser Phase die einzige Kontaktperson."
+
+msgctxt "employer privacy"
+msgid "Company contact in the local trial"
+msgstr "Unternehmenskontakt im lokalen Test"
+
+msgctxt "employer privacy"
+msgid "The contact name and email, plus the optional phone and role, are stored with the local draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates, added to offer data sent to AGLAE or included in the offer export. Retention and the production notice remain to be defined; this historical copy does not validate the new journey."
+msgstr "Name und E-Mail sowie optional Telefon und Funktion werden mit dem lokalen Entwurf gespeichert, damit die Beratungsperson Sie kontaktieren kann. Der Arbeitgeber kann sie in diesem Browser einsehen und ändern. Die zuständige Beratungsperson und Administratoren können sie in ihren Bereichen einsehen. Diese Felder werden Bewerbenden nicht angezeigt, nicht zu den an AGLAE übermittelten Stellendaten hinzugefügt und nicht in den Angebotsexport aufgenommen. Aufbewahrung und Datenschutzhinweise für den Produktivbetrieb sind noch festzulegen; diese historische Kopie bestätigt den neuen Ablauf nicht."
+
+msgctxt "employer privacy"
+msgid "Why do we use your data?"
+msgstr "Warum verwenden wir Ihre Daten?"
+
+msgctxt "employer privacy"
+msgid "Understand a professional mobility project or recruitment need."
+msgstr "Ihr berufliches Mobilitätsvorhaben oder Ihren Personalbedarf verstehen."
+
+msgctxt "employer privacy"
+msgid "Identify possible matches between candidates and employers."
+msgstr "Mögliche Übereinstimmungen zwischen Kandidaten und Arbeitgebern erkennen."
+
+msgctxt "employer privacy"
+msgid "Offer and monitor a human-supervised introduction."
+msgstr "Eine menschlich begleitete Kontaktaufnahme vorschlagen und nachverfolgen."
+
+msgctxt "employer privacy"
+msgid "Assess the experiment using aggregated indicators."
+msgstr "Den Nutzen der Erprobung anhand aggregierter Kennzahlen bewerten."
+
+msgctxt "employer privacy"
+msgid "What information is involved?"
+msgstr "Welche Angaben sind betroffen?"
+
+msgctxt "employer privacy"
+msgid "Answers to the candidate or employer questionnaire."
+msgstr "Antworten aus dem Kandidaten- oder Arbeitgeberfragebogen."
+
+msgctxt "employer privacy"
+msgid "Contact details needed to contact you again."
+msgstr "Kontaktdaten für eine erneute Kontaktaufnahme."
+
+msgctxt "employer privacy"
+msgid "Professional information relevant to matching."
+msgstr "Berufliche Angaben, die für das Matching relevant sind."
+
+msgctxt "employer privacy"
+msgid "Evidence of your choices, contact dates and the outcome of an introduction."
+msgstr "Nachweise Ihrer Entscheidungen, Kontaktdaten und das Ergebnis der Kontaktaufnahme."
+
+msgctxt "employer privacy"
+msgid "Who can access it?"
+msgstr "Wer kann darauf zugreifen?"
+
+msgctxt "employer privacy"
+msgid "Authorised members of the Match Europe team and, where needed for an introduction, the relevant EURES partners."
+msgstr "Berechtigte Mitglieder des Match-Europe-Teams und, soweit erforderlich, die beteiligten EURES-Partner."
+
+msgctxt "employer privacy"
+msgid "An employer or candidate receives only the information needed for the proposed introduction."
+msgstr "Arbeitgeber oder Kandidaten erhalten nur die für die vorgeschlagene Kontaktaufnahme notwendigen Informationen."
+
+msgctxt "employer privacy"
+msgid "Personal data is not published; public statistics are aggregated."
+msgstr "Personenbezogene Daten werden nicht veröffentlicht; öffentliche Statistiken sind aggregiert."
+
+msgctxt "employer privacy"
+msgid "AI-assisted offer preparation"
+msgstr "KI-gestützte Vorbereitung des Angebots"
+
+msgctxt "employer privacy"
+msgid "Artificial intelligence helps structure your offer into a summary for review. Results may contain errors or omissions; you can correct them before confirming."
+msgstr "Künstliche Intelligenz hilft, Ihre Angebotsangaben in einer Übersicht aufzubereiten. Ergebnisse können Fehler oder Lücken enthalten; Sie können sie vor der Bestätigung korrigieren."
+
+msgctxt "employer privacy"
+msgid "Offer information is sent to a technical AI preparation provider. This journey does not send your contact email to that provider. Avoid including personal contact details or sensitive data in the offer."
+msgstr "Die Angebotsangaben werden an einen technischen Dienstleister zur KI-gestützten Aufbereitung übermittelt. Ihre Kontakt-E-Mail wird dabei nicht übermittelt. Vermeiden Sie persönliche Kontaktdaten oder sensible Daten im Angebot."
+
+msgctxt "employer privacy"
+msgid "This step does not decide whether to accept or reject an application. Recruitment and introduction decisions remain human."
+msgstr "Dieser Schritt entscheidet nicht über die Annahme oder Ablehnung einer Bewerbung. Entscheidungen über Einstellungen und Kontaktaufnahmen bleiben bei Menschen."
+
+msgctxt "employer privacy"
+msgid "Candidate prequalification"
+msgstr "Vorqualifizierung von Bewerbungen"
+
+msgctxt "employer privacy"
+msgid "The employer defines questions related to job requirements, such as availability, skills, languages or working hours. Interested candidates answer before a possible introduction, using suggested answers and/or free text."
+msgstr "Der Arbeitgeber legt Fragen zu den Anforderungen der Stelle fest, zum Beispiel zu Verfügbarkeit, Kompetenzen, Sprachen oder Arbeitszeiten. Interessierte Personen beantworten diese vor einer möglichen Kontaktaufnahme mit vorgegebenen Antworten und/oder Freitext."
+
+msgctxt "employer privacy"
+msgid "Answers help check essential job requirements and help the employer and adviser decide which applications to pursue or reject. No candidate is rejected automatically solely on the basis of their answers."
+msgstr "Die Antworten dienen zur Prüfung wesentlicher Stellenanforderungen und unterstützen Arbeitgeber und Beratung bei der Entscheidung, welche Bewerbungen weiterverfolgt oder ausgeschlossen werden. Niemand wird allein aufgrund der Antworten automatisch ausgeschlossen."
+
+msgctxt "employer privacy"
+msgid "Draft answers remain private to the candidate. Once submitted, answers are available to the employer concerned and the authorised adviser supporting the application."
+msgstr "Antwortentwürfe bleiben für die betreffende Person privat. Nach dem Absenden sind die Antworten für den jeweiligen Arbeitgeber und die berechtigte Beratung zugänglich, die die Bewerbung begleitet."
+
+msgctxt "employer privacy"
+msgid "Questions must relate to professional job requirements. Do not include health data, identity documents or other sensitive information in free-text answers."
+msgstr "Die Fragen müssen sich auf berufliche Stellenanforderungen beziehen. Geben Sie in Freitextantworten keine Gesundheitsdaten, Ausweisdokumente oder sonstigen sensiblen Informationen an."
+
+msgctxt "employer privacy"
+msgid "Submitting answers does not constitute agreement to open a conversation. An introduction requires separate agreement from both the candidate and employer, followed by the adviser’s intervention."
+msgstr "Das Absenden der Antworten ist keine Zustimmung zur Eröffnung eines Gesprächs. Die Kontaktaufnahme erfordert die gesonderte Zustimmung beider Seiten und anschließend die Mitwirkung der Beratung."
+
+msgctxt "employer privacy"
+msgid "Voluntary participation"
+msgstr "Freiwillige Teilnahme"
+
+msgctxt "employer privacy"
+msgid "You may refuse to participate or ask for contact to stop."
+msgstr "Sie können die Teilnahme ablehnen oder die Beendigung der Kontaktaufnahme verlangen."
+
+msgctxt "employer privacy"
+msgid "Refusing WhatsApp does not prevent the use of another channel such as email or telephone."
+msgstr "Die Ablehnung von WhatsApp schließt andere Kanäle wie E-Mail oder Telefon nicht aus."
+
+msgctxt "employer privacy"
+msgid "Match Europe does not make automated recruitment decisions."
+msgstr "Match Europe trifft keine automatisierten Einstellungsentscheidungen."
+
+msgctxt "employer privacy"
+msgid "Limited WhatsApp Business test"
+msgstr "Begrenzter WhatsApp-Business-Test"
+
+msgctxt "employer privacy"
+msgid "WhatsApp is offered only after a match has been identified and after separate agreement from the candidate and employer."
+msgstr "WhatsApp wird erst nach Feststellung eines Matchings und nach getrennter Zustimmung von Kandidat und Arbeitgeber angeboten."
+
+msgctxt "employer privacy"
+msgid "In a group, other participants can see your number, name or username, profile picture depending on your settings, and the messages you post."
+msgstr "In einer Gruppe sehen die anderen Teilnehmer Ihre Nummer, Ihren Namen oder Benutzernamen, je nach Einstellungen Ihr Profilbild und Ihre Nachrichten."
+
+msgctxt "employer privacy"
+msgid "Do not share identity documents, health data, passwords or other sensitive information in the group."
+msgstr "Teilen Sie dort keine Ausweisdokumente, Gesundheitsdaten, Passwörter oder andere sensible Informationen."
+
+msgctxt "employer privacy"
+msgid "Match Europe records evidence of agreement and the matching outcome in EURES beta but does not copy the WhatsApp conversation."
+msgstr "Match Europe speichert in EURES beta den Nachweis der Zustimmung und das Ergebnis, kopiert jedoch nicht den WhatsApp-Chat."
+
+msgctxt "employer privacy"
+msgid "WhatsApp is a Meta service governed by its own terms and data processing. Messages may remain on participants’ devices until deleted."
+msgstr "WhatsApp ist ein Dienst von Meta mit eigenen Bedingungen und Datenverarbeitungen. Nachrichten können bis zur Löschung auf den Geräten verbleiben."
+
+msgctxt "employer privacy"
+msgid "Retention and security"
+msgstr "Speicherdauer und Sicherheit"
+
+msgctxt "employer privacy"
+msgid "Operational data is retained for 12 months after the last contact, then deleted or anonymised when no longer needed."
+msgstr "Betriebsdaten werden 12 Monate nach dem letzten Kontakt aufbewahrt und anschließend gelöscht oder anonymisiert, wenn sie nicht mehr benötigt werden."
+
+msgctxt "employer privacy"
+msgid "Access is limited to authorised staff and professional accounts use strengthened authentication."
+msgstr "Der Zugriff ist auf berechtigte Personen beschränkt; berufliche Konten werden durch verstärkte Authentifizierung geschützt."
+
+msgctxt "employer privacy"
+msgid "A data incident or misuse will suspend the relevant test."
+msgstr "Ein Datenschutzvorfall oder Missbrauch führt zur Aussetzung des betroffenen Tests."
+
+msgctxt "employer privacy"
+msgid "Your rights and contact"
+msgstr "Ihre Rechte und Kontakt"
+
+msgctxt "employer privacy"
+msgid "You may request access, rectification or deletion, withdraw your agreement or object to certain uses where the law allows."
+msgstr "Sie können Auskunft, Berichtigung oder Löschung verlangen, Ihre Zustimmung widerrufen oder bestimmten Nutzungen widersprechen, soweit dies rechtlich vorgesehen ist."
+
+msgctxt "employer privacy"
+msgid "Eric Barthélémy is the sole contact point during this phase. To exercise your rights or ask a question: matcheurope.00040@francetravail.fr."
+msgstr "Eric Barthélémy ist in dieser Phase die einzige Kontaktperson. Kontakt für Ihre Rechte oder Fragen: matcheurope.00040@francetravail.fr."
+
+msgctxt "employer privacy"
+msgid "You may also lodge a complaint with the competent data protection authority."
+msgstr "Sie können sich außerdem bei der zuständigen Datenschutzaufsichtsbehörde beschweren."
+
+msgctxt "employer privacy"
+msgid "Back to home"
+msgstr "Zurück zur Startseite"
+
+msgctxt "employer privacy"
+msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
+msgstr "Match Europe · Eine Erprobung von France Travail / EURES / ADEM / Le Forem / ELA"
+
+msgctxt "employer privacy"
+msgid "Useful links"
+msgstr "Weitere Links"
