@@ -55,7 +55,6 @@ urlpatterns = [
     path('logout/', views.sign_out, name='logout'),
     path('upload/', views.upload, name='upload'),
     path('offers/<int:pk>/', views.offer, name='offer'),
-    path('profile/', views.candidate_edit, name='candidate_edit'),
     path('matches/<int:pk>/', views.match_detail, name='match'),
     path('manifest.webmanifest', views.manifest),
     path('sw.js', views.service_worker),
