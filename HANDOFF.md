@@ -230,3 +230,14 @@ Dans ce nouveau clone, avec son propre environnement virtuel et une nouvelle ins
 - Contrôle des formats de secrets et recherche des secrets locaux connus : aucun dans le jeu de publication.
 
 Les alertes 400/404/409/502 dans la sortie des tests correspondent aux scénarios négatifs attendus. Aucun appel réel au prestataire, géocodeur ou service Push n’a été réalisé pendant cette validation de publication. Une première exécution de tests pendant l’assemblage des commits intermédiaires n’avait pas les routes Push ; la validation ci-dessus porte sur l’état final avec ces routes présentes.
+
+## 28 octobre 2026 — accueil candidat repris sur le main actuel
+
+Branche locale `codex/candidate-landing-main` depuis `3889110`, reprise ciblée
+de l’écran validé le 26 octobre. Route `/candidate/?lang=fr`, ancien lien de
+navigation conservé ; templates et statiques Django, textes candidat gettext
+FR/EN/DE, protections hors démo conservées. Choix et connexion simulés uniquement.
+165 tests PostgreSQL et contrôles de qualité réussis ; quatre tests candidat
+repassés après raccordement gettext. Navigation FR/EN/DE et activation clavier
+vérifiées dans le navigateur local. Aucun changement de modèle ou de service
+externe, aucune publication. Voir [périmètre et limites](docs/CANDIDATE_LANDING.md).
