@@ -18,5 +18,27 @@ libellés d’accessibilité et les liens dans la bonne langue.
 Les générateurs historiques de `scripts/employer-ui/` ne sont plus la source
 des templates consolidés : ne pas recopier leur sortie sur ces fichiers. Ils
 restent présents pour l’outillage historique et ne sont pas supprimés dans cette
-série. La page technique locale de diagnostic Push et son JavaScript français
-restent un chantier distinct ; elle n’est pas exposée dans la démonstration partagée.
+série. Le diagnostic Push utilise désormais gettext pour sa page, ses messages
+JavaScript et sa notification différée ; il reste strictement local et n’est pas
+exposé dans la démonstration partagée. Les messages JavaScript du parcours
+employeur ne contiennent plus de dictionnaires de traduction parallèles.
+
+`make translations-extract` actualise les catalogues depuis le code et les
+templates ; `make translations-check` refuse toute entrée vide ou encore fuzzy.
+Ces contrôles, suivis de la compilation, sont exécutés dans la CI avant déploiement.
+Les notifications à libellés stockés utilisent `gettext_noop` pour conserver la
+clé en base et traduire à l’affichage, dans la langue de la personne qui lit.
+
+## Lisibilité HTML
+
+Black formate le Python. djLint, avec le profil Django, formate les templates :
+`make format-html` et `make format-html-check`. La cible est 120 colonnes et une
+indentation de deux espaces. Les messages gettext atomiques longs peuvent
+dépasser cette cible ; les listes et blocs HTML ne restent plus minifiés.
+Les dictionnaires JSON des scripts sont également indentés. Le contrôle de
+format HTML est visible dans GitHub Actions, sans modification des protections
+de branche. `make install-quality` installe les deux outils.
+
+Les annonces, noms et contenus saisis ne sont pas traduits automatiquement.
+Les tests de page vérifient les liens comme éléments HTML, indépendamment
+des sauts de ligne du code source.

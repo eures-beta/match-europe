@@ -1,9 +1,11 @@
+{% load i18n %}
+{% get_current_language as page_language %}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ page_language }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Match Europe — test des notifications</title><style>
+    <title>Match Europe — {% translate "Notification test" context "push diagnostic" %}</title><style>
     body {
         font: 16px/1.6 Arial, sans-serif;
         background: #f1f5fa;
@@ -58,22 +60,32 @@
   </head>
   <body>
     <main>
-      <h1>Test des notifications sur votre Mac</h1>
-      <p>Utilisez Chrome dans une fenêtre normale. Ce test ne modifie aucune offre et n’inscrit pas votre entreprise au pilote.</p>
+      <nav aria-label="{% translate "Language" %}">
+        <a href="?lang=fr">FR</a>
+        <a href="?lang=en">EN</a>
+        <a href="?lang=de">DE</a>
+      </nav>
+      <h1>{% translate "Test notifications on your Mac" context "push diagnostic" %}</h1>
+      <p>
+        {% translate "Use Chrome in a normal window. This test does not change any offer or enrol your company in the pilot." context "push diagnostic" %}
+      </p>
       <ol>
-        <li>Activez les notifications et choisissez <strong>Autoriser</strong> dans Chrome.</li>
-        <li>Programmez une notification puis fermez cet onglet. Gardez Chrome ouvert pour ce premier test.</li>
-        <li>Attendez dix secondes. Cliquez sur la notification pour revenir ici.</li>
+        <li>{% translate "Enable notifications and choose Allow in Chrome." context "push diagnostic" %}</li>
+        <li>{% translate "Schedule a notification, then close this tab. Keep Chrome open for this first test." context "push diagnostic" %}</li>
+        <li>{% translate "Wait ten seconds. Click the notification to return here." context "push diagnostic" %}</li>
       </ol>
-      <button id="enable">Activer les notifications</button>
-      <button id="send" disabled>Envoyer dans 10 secondes</button>
-      <button id="local" disabled>Tester l’affichage sur ce Mac</button>
+      <button id="enable">{% translate "Enable notifications" context "push diagnostic" %}</button>
+      <button id="send" disabled>{% translate "Send in 10 seconds" context "push diagnostic" %}</button>
+      <button id="local" disabled>{% translate "Test display on this Mac" context "push diagnostic" %}</button>
       <p id="diagnostic" role="status"></p>
-      <p id="status" role="status">Vérification du navigateur…</p>
-      <button id="stop" disabled>Arrêter le test</button>
-      <small>L’abonnement de ce navigateur est conservé dans votre session locale. Le message de test passe par le service de notification du navigateur (Google pour Chrome). Aucun contenu d’offre ni email n’est envoyé.</small>
-      <p><a href="import-v2-fr.html">Retour au parcours employeur</a></p>
+      <p id="status" role="status">{% translate "Checking the browser…" context "push diagnostic" %}</p>
+      <button id="stop" disabled>{% translate "Stop the test" context "push diagnostic" %}</button>
+      <small>{% translate "This browser's subscription is kept in your local session. The test message goes through the browser's notification service (Google for Chrome). No offer content or email is sent." context "push diagnostic" %}</small>
+      <p>
+        <a href="import-v2-{{ page_language }}.html">{% translate "Back to the employer journey" context "push diagnostic" %}
+        </a>
+      </p>
     </main>
-    <script src="/static/employer/push-test.js" defer></script>
+    {{ push_strings|json_script:"push-test-strings" }}<script src="/static/employer/push-test.js" defer></script>
   </body>
 </html>

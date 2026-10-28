@@ -7,6 +7,8 @@ from urllib.parse import urlsplit
 from pathlib import Path
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils import translation
+from django.utils.translation import pgettext
 from .employer_api import local_only
 
 _lock = threading.Lock()
@@ -79,7 +81,7 @@ def subscription(value):
     return {'endpoint': endpoint, 'keys': {n: keys[n] for n in ('p256dh', 'auth')}}
 
 
-def send(session, sub):
+def send(session, sub, language='en'):
     with _lock:
         if _states.get(session) != 'pending':
             return
@@ -92,14 +94,19 @@ def send(session, sub):
                 kwargs['allow_redirects'] = False
                 return super().request(*args, **kwargs)
 
+        with translation.override(language):
+            payload = {
+                'title': pgettext(
+                    'push diagnostic', 'Match Europe — test notification'
+                ),
+                'body': pgettext(
+                    'push diagnostic',
+                    'The test works. Click to return to Match Europe.',
+                ),
+            }
         result = webpush(
             subscription_info=sub,
-            data=json.dumps(
-                {
-                    'title': 'Match Europe — notification de test',
-                    'body': 'Le test fonctionne. Cliquez pour revenir dans Match Europe.',
-                }
-            ),
+            data=json.dumps(payload),
             vapid_private_key=str(key()[0]),
             vapid_claims={'sub': 'https://matcheurope.beta.francetravail.fr'},
             ttl=60,
@@ -147,7 +154,9 @@ def api(request, action):
                 if _states.get(sid) == 'pending':
                     return JsonResponse({'error': 'pending'}, status=409)
                 _states[sid] = 'pending'
-            timer = threading.Timer(10, send, args=(sid, sub))
+            language = data.get('language', request.LANGUAGE_CODE)
+            language = language if language in ('fr', 'en', 'de') else 'en'
+            timer = threading.Timer(10, send, args=(sid, sub, language))
             timer.daemon = True
             timer.start()
             return JsonResponse({'scheduled': True, 'delay': 10})
@@ -161,6 +170,6 @@ def worker(request):
     js = """self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 async function report(data){const cache=await caches.open('me-push-test-diagnostics');await cache.put('push-report',new Response(JSON.stringify({...data,at:Date.now()}),{headers:{'Content-Type':'application/json'}}));}
-self.addEventListener('push',event=>event.waitUntil((async()=>{await report({stage:'received'});let data={};try{data=event.data.json()}catch{}try{await self.registration.showNotification(data.title||'Match Europe',{body:data.body||'Notification de test',tag:'me-local-test-'+Date.now(),renotify:true,data:{url:'/employer/pages/push-test.html'}});await report({stage:'displayed'});}catch(error){await report({stage:'error',message:error.name+': '+error.message});}})()));
+self.addEventListener('push',event=>event.waitUntil((async()=>{await report({stage:'received'});let data={};try{data=event.data.json()}catch{}try{await self.registration.showNotification(data.title||'Match Europe',{body:data.body||'',tag:'me-local-test-'+Date.now(),renotify:true,data:{url:'/employer/pages/push-test.html'}});await report({stage:'displayed'});}catch(error){await report({stage:'error',message:error.name+': '+error.message});}})()));
 self.addEventListener('notificationclick',event=>{event.notification.close();event.waitUntil(clients.openWindow('/employer/pages/push-test.html'))});"""
     return HttpResponse(js, content_type='application/javascript')

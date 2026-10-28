@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_noop
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -33,7 +34,11 @@ def conversation(request, pk):
             obj.match.offer.adviser,
         ]:
             if recipient.pk != user.pk:
-                notify(recipient, 'New message', reverse('conversation', args=[pk]))
+                notify(
+                    recipient,
+                    gettext_noop('New message'),
+                    reverse('conversation', args=[pk]),
+                )
         return redirect('conversation', pk=pk)
     return render(
         request,

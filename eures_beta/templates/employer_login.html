@@ -7,7 +7,9 @@
     {% elif stage == "access" %}
       <h1>{% trans "Access your employer space" %}</h1>
       <p>{% trans "Enter a fictional email address. No email will be sent." %}</p>
-      <form method="post">{% csrf_token %}<label for="id_email">Email</label>{{ form.email }}{% if form.errors %}
+      <form method="post">
+        {% csrf_token %}
+        <label for="id_email">{% trans "Email" %}</label>{{ form.email }}{% if form.errors %}
         <p role="alert">{% trans "Enter a valid email address." %}</p>
     {% endif %}
     <button type="submit" class="primary-action">{% trans "Request a connection link" %}</button>
@@ -40,7 +42,7 @@
       </dd>
     </dl>
     <hr>
-    <article aria-label="Email">
+    <article aria-label="{% trans 'Email' %}">
       <p>{% trans "Hello," %}</p>
       <p>{% trans "You requested access to your Match Europe employer space. Verify your email address to continue." %}</p>
       <form method="post" action="{{ message.link }}">

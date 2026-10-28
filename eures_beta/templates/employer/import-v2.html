@@ -1443,7 +1443,8 @@
                         <span>{% translate "Licence DE" context "employer import-v2" %}</span>
                       </label>
                       <label>
-                        <input type="checkbox" name="permits" value="CACES"><span>CACES</span>
+                        <input type="checkbox" name="permits" value="CACES">
+                        <span>CACES</span>
                       </label>
                       <label>
                         <input type="checkbox" name="permits" value="other">
@@ -1452,9 +1453,7 @@
                     </div>
                   </fieldset>
                   <div id="permit-other-field" hidden>
-                    <label for="permit-other">
-                      {% translate "Other licence or authorisation: specify" context "employer import-v2" %}
-                    </label>
+                    <label for="permit-other">{% translate "Other licence or authorisation: specify" context "employer import-v2" %}</label>
                     <input id="permit-other" maxlength="500">
                   </div>
                 </div>
@@ -1484,9 +1483,7 @@
                   </div>
                 </fieldset>
                 <fieldset class="mobility-field">
-                  <legend>
-                    {% translate "Do you accept people relocating from another European country?" context "employer import-v2" %}
-                  </legend>
+                  <legend>{% translate "Do you accept people relocating from another European country?" context "employer import-v2" %}</legend>
                   <div class="mobility-options">
                     <label for="review-relocation-0">
                       <input id="review-relocation-0" type="radio" name="relocation" value="yes">
@@ -1518,7 +1515,8 @@
                     <span>{% translate "Administrative procedures" context "employer import-v2" %}</span>
                   </label>
                   <label>
-                    <input type="checkbox" name="arrivalAids" value="transport"><span>Transport</span>
+                    <input type="checkbox" name="arrivalAids" value="transport">
+                    <span>Transport</span>
                   </label>
                   <label>
                     <input type="checkbox" name="arrivalAids" value="onboarding">
@@ -1753,7 +1751,8 @@
     "invalid_data": "{% translate "Check fields, questions and lengths." context "employer import-v2" as translated_value_80 %}{{ translated_value_80|escapejs }}",
     "network": "{% translate "Local server unavailable. Entries remain on screen." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}",
     "initial_required": "{% translate "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions." context "employer import-v2" as translated_value_82 %}{{ translated_value_82|escapejs }}",
-    "local_review_only": "{% translate "Local test: external services are disabled. You can save the draft." context "employer import-v2" as translated_value_83 %}{{ translated_value_83|escapejs }}"
+    "local_review_only": "{% translate "Local test: external services are disabled. You can save the draft." context "employer import-v2" as translated_value_83 %}{{ translated_value_83|escapejs }}",
+    "search_started": "{% translate "Candidate search has started. To change your needs, duplicate this offer from your employer space." context "employer shared browser" as finish_search_started %}{{ finish_search_started|escapejs }}"
   },
   "prepareTitle": "{% translate "Some information before sending to the preparation service" context "employer import-v2" as translated_value_84 %}{{ translated_value_84|escapejs }}",
   "prepareIntro": "{% translate "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions." context "employer import-v2 variant" as translated_value_85 %}{{ translated_value_85|escapejs }}",
@@ -2007,7 +2006,8 @@
     "network": "{% translate "The local server is unavailable. Your entries remain on screen." context "employer import-v2" as translated_value_66 %}{{ translated_value_66|escapejs }}",
     "individual_offer_required": "{% translate "This link opens a list of offers. Open the individual advert on France Travail and copy its specific link." context "employer import-v2" as translated_value_67 %}{{ translated_value_67|escapejs }}",
     "invalid_contact": "{% translate "Check the company contact name and email." context "employer import-v2" as translated_value_68 %}{{ translated_value_68|escapejs }}",
-    "local_review_only": "{% translate "Local test: external services are disabled. You can save the draft." context "employer import-v2" as translated_value_69 %}{{ translated_value_69|escapejs }}"
+    "local_review_only": "{% translate "Local test: external services are disabled. You can save the draft." context "employer import-v2" as translated_value_69 %}{{ translated_value_69|escapejs }}",
+    "session_expired": "{% translate "Your session expired. Sign in, then read the document or link again. Your edits remain visible on this page." context "employer shared browser" as finish_session_expired %}{{ finish_session_expired|escapejs }}"
   },
   "readUrl": "{% translate "Read this offer" context "employer import-v2" as translated_value_70 %}{{ translated_value_70|escapejs }}",
   "readAgreement": "{% translate "By clicking “Read this offer”, you authorise reading this public page to prepare your offer." context "employer import-v2" as translated_value_71 %}{{ translated_value_71|escapejs }}",
@@ -2020,7 +2020,9 @@
   "documentLabel": "{% translate "Choose a PDF or images" context "employer import-v2" as translated_value_78 %}{{ translated_value_78|escapejs }}",
   "documentHelp": "{% translate "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total. Local reading of images and scanned pages." context "employer import-v2" as translated_value_79 %}{{ translated_value_79|escapejs }}",
   "documentChoice": "{% translate "Import a PDF or images" context "employer import-v2" as translated_value_80 %}{{ translated_value_80|escapejs }}",
-  "documentDescription": "{% translate "Your job is in a document or screenshots." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}"
+  "documentDescription": "{% translate "Your job is in a document or screenshots." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}",
+  "connectedContactTitle": "{% translate "Contact for the adviser" context "employer shared browser" as finish_connectedContactTitle %}{{ finish_connectedContactTitle|escapejs }}",
+  "connectedContactHelp": "{% translate "This contact may differ from the signed-in person." context "employer shared browser" as finish_connectedContactHelp %}{{ finish_connectedContactHelp|escapejs }}"
 }
     </script>
     <script id="contact-strings" type="application/json">

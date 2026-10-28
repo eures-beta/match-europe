@@ -24,6 +24,38 @@ def sample():
 @override_settings(DEMO_MODE=True)
 @patch.dict(os.environ, {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class PushDiagnosticTests(TestCase):
+    def test_page_and_browser_messages_use_gettext_in_all_languages(self):
+        for language, heading in (
+            ('fr', 'Test des notifications sur votre Mac'),
+            ('en', 'Test notifications on your Mac'),
+            ('de', 'Benachrichtigungen auf Ihrem Mac testen'),
+        ):
+            with self.subTest(language=language):
+                response = self.client.get(
+                    '/employer/pages/push-test.html', {'lang': language}
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, heading)
+                self.assertContains(response, f'lang="{language}"')
+                import re
+
+                payload = re.search(
+                    r'<script[^>]*id="push-test-strings"[^>]*>(.*?)</script>',
+                    response.content.decode(),
+                    re.S,
+                )
+                strings = json.loads(payload[1])
+                self.assertTrue(strings['serverError'])
+                self.assertIn('{count}', strings['displayCount'])
+                self.assertNotIn('{%', response.content.decode())
+        with override_settings(SHARED_DEMO=True):
+            self.assertEqual(
+                self.client.get(
+                    '/employer/pages/push-test.html', secure=True
+                ).status_code,
+                404,
+            )
+
     def test_endpoint_allowlist(self):
         data = sample()
         self.assertEqual(subscription(data), data)

@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_noop
 from eures_beta.documents.services import extract_pdf
 from django.conf import settings
 from django.contrib import messages
@@ -297,7 +298,7 @@ def match_detail(request, pk):
                 obj.state = Match.State.INVITED
                 notify(
                     obj.candidate.user,
-                    'An offer is waiting for you',
+                    gettext_noop('An offer is waiting for you'),
                     reverse('match', args=[pk]),
                 )
             elif (
@@ -315,7 +316,7 @@ def match_detail(request, pk):
                 obj.state = Match.State.DECLINED
                 notify(
                     obj.offer.adviser,
-                    'Candidate response received',
+                    gettext_noop('Candidate response received'),
                     reverse('match', args=[pk]),
                 )
             elif (
@@ -354,12 +355,12 @@ def match_detail(request, pk):
                     obj.state = Match.State.REVIEW
                     notify(
                         obj.offer.adviser,
-                        'Prequalification ready for review',
+                        gettext_noop('Prequalification ready for review'),
                         reverse('match', args=[pk]),
                     )
                     notify(
                         obj.offer.employer,
-                        'Prequalification ready for review',
+                        gettext_noop('Prequalification ready for review'),
                         reverse('match', args=[pk]),
                     )
             elif (
@@ -382,7 +383,7 @@ def match_detail(request, pk):
                 obj.employer_agreement = False
                 notify(
                     obj.candidate.user,
-                    'Clarification requested',
+                    gettext_noop('Clarification requested'),
                     reverse('match', args=[pk]),
                 )
             elif (
@@ -405,7 +406,7 @@ def match_detail(request, pk):
                 for recipient in [obj.candidate.user, obj.offer.employer]:
                     notify(
                         recipient,
-                        'Your conversation is open',
+                        gettext_noop('Your conversation is open'),
                         reverse('conversation', args=[conv.pk]),
                     )
             else:
