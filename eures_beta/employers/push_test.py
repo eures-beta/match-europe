@@ -9,7 +9,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils import translation
 from django.utils.translation import pgettext
-from eures_beta.journeys.employer_api import local_only
+from eures_beta.employers.employer_api import local_only
 
 _lock = threading.Lock()
 _states = {}

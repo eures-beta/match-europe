@@ -2,7 +2,7 @@ import json
 from unittest.mock import patch
 from django.test import SimpleTestCase, TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from eures_beta.journeys.offer_ingestion import parse_pdf_text, read_pdf, ImportFailure
+from eures_beta.employers.offer_ingestion import parse_pdf_text, read_pdf, ImportFailure
 
 
 class DocumentFieldTests(SimpleTestCase):
@@ -96,7 +96,7 @@ class DocumentFieldTests(SimpleTestCase):
         self.assertEqual(result['clarifications']['frenchLevel'], '')
         self.assertEqual(result['clarifications']['experience'], '')
 
-    @patch('eures_beta.journeys.offer_ingestion.subprocess.run')
+    @patch('eures_beta.employers.offer_ingestion.subprocess.run')
     def test_image_reading_and_ocr_warning(self, run):
         run.return_value.stdout = json.dumps(
             {'text': 'Test role\nExample body', 'ocr': True}
@@ -113,8 +113,8 @@ class DocumentFieldTests(SimpleTestCase):
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class MultipleImageTests(TestCase):
     @patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'})
-    @patch('eures_beta.journeys.employer_api.geocode')
-    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.geocode')
+    @patch('eures_beta.employers.employer_api.aglae')
     def test_local_review_never_calls_external_services(self, api, geo):
         response = self.client.post(
             '/api/imports/',
@@ -133,7 +133,7 @@ class MultipleImageTests(TestCase):
         api.assert_not_called()
         geo.assert_not_called()
 
-    @patch('eures_beta.journeys.employer_api.read_pdf')
+    @patch('eures_beta.employers.employer_api.read_pdf')
     def test_ordered_images_read_before_creating_draft(self, read):
         read.side_effect = [
             {
@@ -159,7 +159,7 @@ class MultipleImageTests(TestCase):
         self.assertEqual(data['extraction'], 'document_ocr')
         self.assertIn('Permis B souhaité', data['desiredProfile'])
 
-    @patch('eures_beta.journeys.employer_api.read_pdf')
+    @patch('eures_beta.employers.employer_api.read_pdf')
     def test_multiple_pdfs_rejected_without_reading(self, read):
         response = self.client.post(
             '/api/imports/source/',

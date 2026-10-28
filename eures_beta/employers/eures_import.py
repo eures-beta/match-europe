@@ -11,7 +11,7 @@ from urllib.parse import parse_qs, urlsplit
 
 def read_eures(url, fetch):
     # Imported here to avoid a cycle with the generic reader's small dispatcher.
-    from eures_beta.journeys.offer_ingestion import ImportFailure, empty_data, plain
+    from eures_beta.employers.offer_ingestion import ImportFailure, empty_data, plain
 
     parsed = urlsplit(url)
     match = re.fullmatch(

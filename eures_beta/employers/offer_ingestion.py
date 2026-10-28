@@ -120,7 +120,7 @@ def fetch_public(
 def read_url(url):
     p = urlsplit(url)
     if p.hostname == 'europa.eu' and p.path.startswith('/eures/'):
-        from eures_beta.journeys.eures_import import read_eures
+        from eures_beta.employers.eures_import import read_eures
 
         public_target(url)
         return read_eures(url, fetch_public), url
@@ -423,7 +423,10 @@ def read_pdf(upload, split_sections=True):
     upload.seek(0)
     try:
         result = subprocess.run(
-            [sys.executable, str(Path(__file__).with_name('pdf_reader.py'))],
+            [
+                sys.executable,
+                str(Path(__file__).resolve().parents[1] / 'journeys' / 'pdf_reader.py'),
+            ],
             input=upload.read(),
             capture_output=True,
             timeout=90,

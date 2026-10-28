@@ -4,14 +4,14 @@ from threading import Barrier
 from unittest.mock import patch
 from django.db import close_old_connections
 from django.test import Client, TestCase, TransactionTestCase
-from eures_beta.journeys.models import (
+from eures_beta.employers.models import (
     EmployerImport,
     EmployerIdentity,
     EmployerMembership,
     EmployerSearchOperation,
     EmployerSearchEvent,
 )
-from eures_beta.journeys.tests import test_employer_workspace as workspace_tests
+from eures_beta.employers.tests import test_employer_workspace as workspace_tests
 
 MODES = {
     'ME_EMPLOYER_DEV_ACCESS': '1',
@@ -39,8 +39,8 @@ class SearchSetup:
 class SearchTests(SearchSetup, TestCase):
     def test_confirmation_and_start_replay_no_external_calls(self):
         with (
-            patch('eures_beta.journeys.employer_api.aglae') as external,
-            patch('eures_beta.journeys.employer_api.geocode') as geo,
+            patch('eures_beta.employers.employer_api.aglae') as external,
+            patch('eures_beta.employers.employer_api.geocode') as geo,
         ):
             self.assertContains(
                 self.client.get(self.url('employer_search_launch')), 'qualification'

@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase, TestCase, override_settings
 
-from eures_beta.journeys.offer_ingestion import (
+from eures_beta.employers.offer_ingestion import (
     ImportFailure,
     fetch_public,
     parse_page,
@@ -87,8 +87,8 @@ class EuresImportTests(SimpleTestCase):
         with self.assertRaises(ImportFailure):
             parse_page('<html><body><app-root>Loading...</app-root></body></html>')
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_dynamic_offer_reads_public_json_without_browser_or_credentials(
         self, fetch, target
     ):
@@ -108,8 +108,8 @@ class EuresImportTests(SimpleTestCase):
         fetch.assert_called_once_with(API, ('application/json',), allow_redirects=False)
         target.assert_called_once()
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_requested_profile_or_original_language_without_machine_translation(
         self, fetch, target
     ):
@@ -121,8 +121,8 @@ class EuresImportTests(SimpleTestCase):
             read_url(URL + '?jvDisplayLanguage=de')[0]['title'], 'Fictieve ontwikkelaar'
         )
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_invalid_payloads_fail_instead_of_importing_the_site_shell(
         self, fetch, target
     ):
@@ -144,8 +144,8 @@ class EuresImportTests(SimpleTestCase):
                     read_url(URL)
                 self.assertEqual(fetch.call_count, 1)
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_search_and_encoded_path_injections_are_not_vacancy_identifiers(
         self, fetch, target
     ):
@@ -158,8 +158,8 @@ class EuresImportTests(SimpleTestCase):
                 read_url(url)
         fetch.assert_not_called()
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_url_security_validation_precedes_the_api_request(self, fetch, target):
         target.side_effect = ImportFailure('unsafe_url')
         for url in (
@@ -171,8 +171,8 @@ class EuresImportTests(SimpleTestCase):
                 read_url(url)
         fetch.assert_not_called()
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_lookalike_host_never_uses_the_eures_api(self, fetch, target):
         lookalike = URL.replace('europa.eu', 'europa.eu.example.org')
         fetch.return_value = (
@@ -182,8 +182,8 @@ class EuresImportTests(SimpleTestCase):
         read_url(lookalike)
         fetch.assert_called_once_with(lookalike)
 
-    @patch('eures_beta.journeys.offer_ingestion.PinnedHTTPS')
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.PinnedHTTPS')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
     def test_api_redirect_is_rejected_without_fetching_its_destination(
         self, target, connection
     ):
@@ -198,8 +198,8 @@ class EuresImportTests(SimpleTestCase):
         self.assertEqual(target.call_count, 1)
         connection.return_value.close.assert_called_once()
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_api_failure_does_not_fall_back_to_an_unrelated_html_page(
         self, fetch, target
     ):
@@ -211,12 +211,12 @@ class EuresImportTests(SimpleTestCase):
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class EuresSourceReviewTests(TestCase):
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_public_import_prepares_a_review_without_saving_an_offer(
         self, fetch, target
     ):
-        from eures_beta.journeys.models import EmployerImport
+        from eures_beta.employers.models import EmployerImport
 
         fetch.return_value = (json.dumps(vacancy()), API)
         refused = self.client.post('/api/imports/source/', {'url': URL}, secure=True)

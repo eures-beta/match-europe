@@ -4,12 +4,12 @@ from django.test import TestCase
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 from datetime import timedelta
-from eures_beta.journeys.models import (
+from eures_beta.employers.models import (
     EmployerCompany,
     EmployerImport,
     EmployerMembership,
 )
-from eures_beta.journeys.tests.test_employer_ownership import OwnershipTests
+from eures_beta.employers.tests.test_employer_ownership import OwnershipTests
 
 
 @patch.dict(
@@ -56,8 +56,8 @@ class ConnectedEmployerTests(TestCase):
             self.client.get('/employer/access/'), '/employer/connected/'
         )
 
-    @patch('eures_beta.journeys.employer_api.aglae')
-    @patch('eures_beta.journeys.employer_api.geocode')
+    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.geocode')
     def test_valid_session_and_distinct_contact(self, geo, api):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         company = EmployerCompany.objects.create(name='Allowed establishment')

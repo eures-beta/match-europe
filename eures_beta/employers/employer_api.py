@@ -27,10 +27,10 @@ from django.views.decorators.cache import never_cache
 
 from eures_beta.demo_access import require_demo_access as demo_api
 
-from eures_beta.journeys.models import EmployerImport
-from eures_beta.journeys.employer_ownership import accessible_imports, identity
-from eures_beta.journeys.forms import EmployerContactForm
-from eures_beta.journeys.offer_ingestion import (
+from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.employer_ownership import accessible_imports, identity
+from eures_beta.employers.forms import EmployerContactForm
+from eures_beta.employers.offer_ingestion import (
     ImportFailure,
     empty_data,
     read_pdf,
@@ -97,7 +97,7 @@ def employer_page(request, path):
         with translation.override(language):
             context = {}
             if path == 'push-test.html':
-                from eures_beta.journeys.push_strings import browser_strings
+                from eures_beta.employers.push_strings import browser_strings
 
                 context['push_strings'] = browser_strings()
             body = (

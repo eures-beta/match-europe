@@ -12,12 +12,13 @@ from django.views.decorators.cache import never_cache
 from eures_beta.conversations.models import Conversation, Message
 from eures_beta.accounts.access_control import identity, require_identity, forbid
 
-from eures_beta.journeys.forms import ImportAssignmentForm, ReviewForm
+from eures_beta.journeys.forms import ReviewForm
 from eures_beta.documents.forms import UploadForm
 from eures_beta.candidates.models import Candidate
 from eures_beta.offers.models import Offer
 from eures_beta.accounts.models import Event, Profile
-from eures_beta.journeys.models import EmployerImport, Answer, Match
+from eures_beta.employers.models import EmployerImport
+from eures_beta.journeys.models import Answer, Match
 from eures_beta.accounts.services import audit, invite_for
 from eures_beta.notifications.services import notify
 
@@ -343,42 +344,3 @@ def service_worker(request):
     response['Service-Worker-Allowed'] = '/'
     response['Cache-Control'] = 'no-cache'
     return response
-
-
-@require_identity
-def imported_offer(request, pk):
-    """Reuse authenticated staff workspaces; never expose session drafts to candidates."""
-    user = request.me_user
-    if (
-        not user.is_active
-        or not user.profile.verified
-        or user.profile.role not in ('adviser', 'admin')
-    ):
-        forbid()
-    qs = (
-        EmployerImport.objects.all()
-        if user.profile.role == 'admin'
-        else EmployerImport.objects.filter(adviser=user)
-    )
-    obj = get_object_or_404(qs.select_related('adviser__profile'), pk=pk)
-    form = (
-        ImportAssignmentForm(
-            request.POST if request.method == 'POST' else None,
-            initial={'adviser': obj.adviser_id},
-        )
-        if user.profile.role == 'admin'
-        else None
-    )
-    if request.method == 'POST':
-        if form is None:
-            forbid()
-        if form.is_valid():
-            obj.adviser = form.cleaned_data['adviser']
-            obj.save(update_fields=['adviser', 'updated'])
-            messages.success(request, _('Adviser assignment saved.'))
-            return redirect('imported_offer', pk=obj.pk)
-    elif request.method != 'GET':
-        return HttpResponse(status=405)
-    return render(
-        request, 'imported_offer.html', {'imported': obj, 'assignment_form': form}
-    )
