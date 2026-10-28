@@ -49,6 +49,35 @@ def vacancy():
 
 
 class EuresImportTests(SimpleTestCase):
+    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    def test_handle_length_is_not_a_vacancy_validity_rule(self, fetch, target):
+        for handle in ('QQ', 'ODM1MDEzOSA5', HANDLE, HANDLE + '=', 'A' * 220):
+            with self.subTest(handle=handle):
+                item = vacancy()
+                item['id'] = handle
+                endpoint = f'https://europa.eu/eures/api/jv-searchengine/public/jv/id/{handle}?requestLang=fr'
+                fetch.reset_mock()
+                fetch.return_value = (json.dumps(item), endpoint)
+                url = f'https://europa.eu/eures/portal/jv-se/jv-details/{handle}?jvDisplayLanguage=nl&lang=fr'
+                data, source = read_url(url)
+                self.assertEqual(data['title'], 'Fictieve ontwikkelaar')
+                self.assertEqual(source, url)
+                fetch.assert_called_once_with(
+                    endpoint, ('application/json',), allow_redirects=False
+                )
+
+    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    def test_unrecognized_eures_url_does_not_report_a_france_travail_listing(
+        self, fetch, target
+    ):
+        for suffix in ('', '../private', HANDLE + '%2f..%2fprivate'):
+            with self.subTest(suffix=suffix), self.assertRaises(ImportFailure) as error:
+                read_url('https://europa.eu/eures/portal/jv-se/jv-details/' + suffix)
+            self.assertEqual(error.exception.code, 'unreadable_url')
+        fetch.assert_not_called()
+
     def test_initial_html_contains_only_the_loading_placeholder(self):
         with self.assertRaises(ImportFailure):
             parse_page('<html><body><app-root>Loading...</app-root></body></html>')
