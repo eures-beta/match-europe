@@ -4,7 +4,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.utils import timezone
 from eures_beta.journeys.forms import UploadForm
-from eures_beta.journeys.models import Match, Offer, Profile
+from eures_beta.offers.models import Offer
+from eures_beta.journeys.models import Match, Profile
 from eures_beta.journeys.services import dispatch_offer
 
 

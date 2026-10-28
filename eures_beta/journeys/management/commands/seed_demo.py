@@ -4,7 +4,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils import timezone
 from eures_beta.candidates.models import Candidate
-from eures_beta.journeys.models import Offer, Profile, Question
+from eures_beta.offers.models import Offer, Question
+from eures_beta.journeys.models import Profile
 from eures_beta.journeys.services import dispatch_offer, suggest_candidates
 
 
