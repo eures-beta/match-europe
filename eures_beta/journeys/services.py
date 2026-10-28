@@ -1,3 +1,4 @@
+from eures_beta.notifications.services import notify
 import hashlib
 import secrets
 import json
@@ -12,7 +13,8 @@ from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from .models import AccessToken, Candidate, Document, Event, Match, Notification, Offer
+from eures_beta.notifications.models import Notification
+from .models import AccessToken, Candidate, Document, Event, Match, Offer
 
 
 def audit(actor, action, obj):
@@ -142,7 +144,3 @@ def suggest_candidates(offer, actor):
         )
         if created:
             audit(actor, 'demo_match_suggested', match)
-
-
-def notify(user, label, url):
-    Notification.objects.create(user=user, label=label, url=url)

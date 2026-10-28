@@ -58,7 +58,6 @@ urlpatterns = [
     path('profile/', views.candidate_edit, name='candidate_edit'),
     path('matches/<int:pk>/', views.match_detail, name='match'),
     path('documents/<int:pk>/', views.document, name='document'),
-    path('notifications/read/', views.read_notifications, name='read_notifications'),
     path('manifest.webmanifest', views.manifest),
     path('sw.js', views.service_worker),
 ]

@@ -131,4 +131,4 @@ class ConversationMigrationTests(TransactionTestCase):
                 .exists()
             )
         finally:
-            self.migrate(self.new_targets)
+            self.migrate(MigrationExecutor(connection).loader.graph.leaf_nodes())

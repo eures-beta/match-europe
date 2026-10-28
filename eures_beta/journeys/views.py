@@ -23,6 +23,7 @@ from .forms import (
     ReviewForm,
     UploadForm,
 )
+from eures_beta.notifications.models import Notification
 from .models import (
     EmployerImport,
     Answer,
@@ -30,7 +31,6 @@ from .models import (
     Document,
     Event,
     Match,
-    Notification,
     Offer,
     Profile,
     Question,
@@ -590,13 +590,6 @@ def document(request, pk):
     response['Cache-Control'] = 'no-store'
     response['X-Content-Type-Options'] = 'nosniff'
     return response
-
-
-@require_POST
-@require_identity
-def read_notifications(request):
-    request.me_user.notifications.filter(read=False).update(read=True)
-    return redirect('dashboard')
 
 
 def manifest(request):
