@@ -1,3 +1,4 @@
+from eures_beta.testing import assert_active_link
 from django.test import SimpleTestCase, override_settings
 
 
@@ -26,6 +27,4 @@ class EmployerLandingTranslationTests(SimpleTestCase):
                 self.assertContains(
                     response, f'href="/employer/access/?lang={language}"'
                 )
-                self.assertContains(
-                    response, f'class="lang-link is-active" href="{language}.html"'
-                )
+                assert_active_link(self, response, f'{language}.html')

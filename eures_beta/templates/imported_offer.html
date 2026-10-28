@@ -1,8 +1,17 @@
-{% extends 'base.html' %}{% load i18n %}{% block content %}{% trans 'Untitled offer' as untitled_offer %}
-<a href="{% url 'dashboard' %}">{% trans 'My workspace' %}</a>
-<h1>{{ imported.data.title|default:untitled_offer }}</h1>
-<section class="panel"><h2>{% trans 'Offer details' %}</h2><p>{{ imported.data.companyName }} · {{ imported.data.city }}</p><p>{{ imported.data.description|linebreaksbr }}</p></section>
-<section class="panel"><h2>{% trans 'Company contact' %}</h2><p>{% trans 'Company contacts are visible only to the assigned adviser and administrators.' %}</p>
-{% if imported.contact %}<dl><dt>{% trans 'Contact name' %}</dt><dd>{{ imported.contact.name }}</dd><dt>{% trans 'Contact email' %}</dt><dd>{{ imported.contact.email }}</dd><dt>{% trans 'Phone (optional)' %}</dt><dd>{{ imported.contact.phone|default:'—' }}</dd><dt>{% trans 'Role in the company (optional)' %}</dt><dd>{{ imported.contact.function|default:'—' }}</dd></dl>{% else %}<p>{% trans 'Contact not yet provided by the employer.' %}</p>{% endif %}</section>
-{% if assignment_form %}<section class="panel"><h2>{% trans 'Assign an adviser' %}</h2><form method="post">{% csrf_token %}{{ assignment_form.as_p }}<button class="btn btn-primary" type="submit">{% trans 'Save assignment' %}</button></form></section>{% endif %}
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+  {% trans "Untitled offer" as untitled_offer %}
+  <a href="{% url 'dashboard' %}">{% trans "My workspace" %}</a>
+  <h1>{{ imported.data.title|default:untitled_offer }}</h1>
+  <section class="panel"><h2>{% trans "Offer details" %}</h2><p>{{ imported.data.companyName }} · {{ imported.data.city }}</p><p>{{ imported.data.description|linebreaksbr }}</p></section>
+  <section class="panel">
+    <h2>{% trans "Company contact" %}</h2>
+    <p>{% trans "Company contacts are visible only to the assigned adviser and administrators." %}</p>
+    {% if imported.contact %}<dl><dt>{% trans "Contact name" %}</dt><dd>{{ imported.contact.name }}</dd><dt>{% trans "Contact email" %}</dt><dd>{{ imported.contact.email }}</dd><dt>{% trans "Phone (optional)" %}</dt><dd>{{ imported.contact.phone|default:'—' }}</dd><dt>{% trans "Role in the company (optional)" %}</dt><dd>{{ imported.contact.function|default:'—' }}</dd></dl>{% else %}
+      <p>{% trans "Contact not yet provided by the employer." %}</p>
+    {% endif %}
+  </section>
+  {% if assignment_form %}
+    <section class="panel"><h2>{% trans "Assign an adviser" %}</h2><form method="post">{% csrf_token %}{{ assignment_form.as_p }}<button class="btn btn-primary" type="submit">{% trans "Save assignment" %}</button></form></section>{% endif %}
 {% endblock %}

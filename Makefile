@@ -105,3 +105,9 @@ clever-run: ## Tester le lancement Clever localement sur HOST:PORT (loopback par
 .PHONY: translations-compile
 translations-compile: ## Compiler les catalogues gettext après modification des fichiers .po
 	@$(MANAGE) compilemessages
+
+.PHONY: format-html format-html-check
+format-html: ## Indenter les templates Django avec djLint (cible 120 colonnes)
+	$(QUALITY_PYTHON) -m djlint eures_beta --reformat --quiet || test $$? -eq 1
+format-html-check: ## Vérifier le formatage des templates sans les modifier
+	$(QUALITY_PYTHON) -m djlint eures_beta --check

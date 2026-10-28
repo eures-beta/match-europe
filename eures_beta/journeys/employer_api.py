@@ -127,7 +127,7 @@ def employer_page(request, path):
                 'de': 'Mein Arbeitgeberbereich',
             }[lang]
             body = re.sub(
-                r'(<a class="nav-pill employer-account-link" data-employer-account href=")[^"]*(">)[^<]*(</a>)',
+                r'(<a\s+class="nav-pill employer-account-link"\s+data-employer-account\s+href=")[^"]*(">)[^<]*(</a>)',
                 lambda match: match[1]
                 + '/employer/connected/?lang='
                 + lang

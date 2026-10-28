@@ -1,3 +1,4 @@
+from eures_beta.testing import assert_active_link
 import os
 from unittest.mock import patch
 
@@ -25,7 +26,4 @@ class EmployerAuthTranslationTests(TestCase):
                 self.assertContains(
                     response, f'href="/employer/pages/privacy-{language}.html"'
                 )
-                self.assertContains(
-                    response,
-                    f'class="lang-link is-active" href="/employer/access/?lang={language}"',
-                )
+                assert_active_link(self, response, f'/employer/access/?lang={language}')

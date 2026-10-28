@@ -1,3 +1,4 @@
+from eures_beta.testing import assert_active_link
 from django.test import SimpleTestCase, override_settings
 
 
@@ -20,7 +21,4 @@ class EmployerPrivacyTranslationTests(SimpleTestCase):
                 self.assertContains(response, title)
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, f'href="{language}.html"')
-                self.assertContains(
-                    response,
-                    f'class="lang-link is-active" href="privacy-{language}.html"',
-                )
+                assert_active_link(self, response, f'privacy-{language}.html')
