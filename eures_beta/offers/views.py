@@ -4,10 +4,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from eures_beta.accounts.access_control import require_identity, forbid
-from eures_beta.journeys.views import allowed_offer
+from eures_beta.offers.permissions import allowed_offer
 from eures_beta.journeys.forms import OfferForm, QuestionForm
 from eures_beta.accounts.services import audit
-from eures_beta.journeys.services import dispatch_offer, suggest_candidates
+from eures_beta.matching.services import suggest_candidates
+from eures_beta.journeys.services import dispatch_offer
 from eures_beta.offers.models import Offer, Question
 
 

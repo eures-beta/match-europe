@@ -6,7 +6,7 @@ from django.utils import timezone
 from eures_beta.documents.forms import UploadForm
 from eures_beta.offers.models import Offer
 from eures_beta.accounts.models import Profile
-from eures_beta.journeys.models import Match
+from eures_beta.matching.models import Match
 from eures_beta.journeys.services import dispatch_offer
 
 
