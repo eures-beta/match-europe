@@ -16,7 +16,8 @@
           <label for="establishment-choice">{% trans "Choose the establishment for this offer" %}</label>
           <select id="establishment-choice" name="company" required>
             <option value="">—</option>
-            {% for company in companies %}<option value="{{ company.pk }}">{{ company.name }}</option>{% endfor %}
+            {% for company in companies %}
+              <option value="{{ company.pk }}">{{ company.name }}</option>{% endfor %}
           </select>
         {% endif %}
         <button class="primary-action" type="submit">{% trans "Save the offer for this establishment" %}</button>
