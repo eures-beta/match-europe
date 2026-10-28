@@ -30,15 +30,7 @@ class UnifiedLayoutTests(SimpleTestCase):
                 self.assertTemplateUsed(
                     response,
                     "employer/"
-                    + (
-                        "privacy.html"
-                        if prefix == "privacy-"
-                        else (
-                            "import.html"
-                            if prefix == "import-"
-                            else page if prefix else "landing.html"
-                        )
-                    ),
+                    + (prefix.rstrip("-") + ".html" if prefix else "landing.html"),
                 )
         for source in ("build.cjs", "copy.json", "../base.html", "offer-import-api.js"):
             self.assertEqual(

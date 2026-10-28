@@ -2514,3 +2514,1099 @@ msgstr "Der Entwurf wurde geändert. Laden Sie ihn neu, bevor Sie den Kontakt be
 msgctxt "employer import"
 msgid "The contact may be different from the person accessing this workspace."
 msgstr "Die Kontaktperson kann von der Person abweichen, die diesen Bereich verwendet."
+
+msgctxt "employer import-v2"
+msgid "Match Europe — Add your job offer"
+msgstr "Match Europe — Fügen Sie Ihr Stellenangebot hinzu"
+
+msgctxt "employer import-v2"
+msgid "Skip to content"
+msgstr "Zum Inhalt"
+
+msgctxt "employer import-v2"
+msgid "Local demonstration: no the preparation service request. You may voluntarily download the test summary to your computer. Email is not saved."
+msgstr "Lokale Demonstration: keine den Aufbereitungsdienst-Anfrage. Sie können die Testübersicht freiwillig herunterladen. Die E-Mail-Adresse wird nicht gespeichert."
+
+msgctxt "employer import-v2"
+msgid "EURES beta - cross-border mobility, matching and follow-up"
+msgstr "EURES beta - grenzüberschreitende Mobilität, Matching und Begleitung"
+
+msgctxt "employer import-v2"
+msgid "Main navigation"
+msgstr "Hauptnavigation"
+
+msgctxt "employer import-v2"
+msgid "Home"
+msgstr "Start"
+
+msgctxt "employer import-v2"
+msgid "Candidate"
+msgstr "Kandidaten"
+
+msgctxt "employer import-v2"
+msgid "Employer"
+msgstr "Arbeitgeber"
+
+msgctxt "employer import-v2"
+msgid "Stats"
+msgstr "Statistik"
+
+msgctxt "employer import-v2"
+msgid "Project"
+msgstr "Projekt"
+
+msgctxt "employer import-v2"
+msgid "Project journal"
+msgstr "Projektjournal"
+
+msgctxt "employer import-v2"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "employer import-v2"
+msgid "Sign in"
+msgstr "Anmelden"
+
+msgctxt "employer import-v2"
+msgid "1. Your offer"
+msgstr "1. Ihr Angebot"
+
+msgctxt "employer import-v2"
+msgid "2. Review"
+msgstr "2. Prüfung"
+
+msgctxt "employer import-v2"
+msgid "3. Save"
+msgstr "3. Speichern"
+
+msgctxt "employer import-v2"
+msgid "How would you like to add your offer?"
+msgstr "Wie möchten Sie Ihr Angebot hinzufügen?"
+
+msgctxt "employer import-v2"
+msgid "Choose the format you already have. You can then check and complete the information."
+msgstr "Wählen Sie das vorhandene Format. Danach können Sie die Angaben prüfen und ergänzen."
+
+msgctxt "employer import-v2"
+msgid "Import a PDF"
+msgstr "PDF importieren"
+
+msgctxt "employer import-v2"
+msgid "You already have a document containing your job offer."
+msgstr "Sie haben bereits ein Dokument mit Ihrem Stellenangebot."
+
+msgctxt "employer import-v2"
+msgid "Add a link"
+msgstr "Link hinzufügen"
+
+msgctxt "employer import-v2"
+msgid "Your offer is published on a page accessible without signing in."
+msgstr "Ihr Angebot steht auf einer Seite, die ohne Anmeldung zugänglich ist."
+
+msgctxt "employer import-v2"
+msgid "Enter or paste text"
+msgstr "Text eingeben oder einfügen"
+
+msgctxt "employer import-v2"
+msgid "You prefer to paste your advert or write it here."
+msgstr "Sie möchten Ihre Anzeige einfügen oder hier verfassen."
+
+msgctxt "employer import-v2"
+msgid "Your offer will not be published. The candidate search starts only after your validation."
+msgstr "Ihr Angebot wird nicht veröffentlicht. Die Suche beginnt erst nach Ihrer Bestätigung."
+
+msgctxt "employer import-v2"
+msgid "Back"
+msgstr "Zurück"
+
+msgctxt "employer import-v2"
+msgid "Import your offer as a PDF. You can check the information before any candidate search."
+msgstr "Importieren Sie Ihr Angebot als PDF. Sie können die Angaben vor jeder Suche prüfen."
+
+msgctxt "employer import-v2"
+msgid "Choose a PDF file"
+msgstr "PDF-Datei auswählen"
+
+msgctxt "employer import-v2"
+msgid "PDF · Maximum 10 MB"
+msgstr "PDF · Maximal 10 MB"
+
+msgctxt "employer import-v2"
+msgid "You can choose another file to replace it."
+msgstr "Sie können eine andere Datei auswählen, um sie zu ersetzen."
+
+msgctxt "employer import-v2"
+msgid "Continue"
+msgstr "Weiter"
+
+msgctxt "employer import-v2"
+msgid "Add your job offer link"
+msgstr "Fügen Sie den Link zu Ihrem Angebot hinzu"
+
+msgctxt "employer import-v2"
+msgid "Copy the address of the page describing your offer, accessible without signing in. If it cannot be read, you can upload a PDF or paste the text."
+msgstr "Kopieren Sie die Adresse der Angebotsseite, die ohne Anmeldung erreichbar ist. Falls sie nicht gelesen werden kann, können Sie ein PDF hochladen oder den Text einfügen."
+
+msgctxt "employer import-v2"
+msgid "Link to a publicly accessible job offer"
+msgstr "Link zu einem öffentlich zugänglichen Stellenangebot"
+
+msgctxt "employer import-v2"
+msgid "This demonstration does not visit the link yet. Reading the page will be connected in the next step."
+msgstr "In dieser Demonstration wird der Link noch nicht aufgerufen. Das Lesen der Seite wird im nächsten Schritt angebunden."
+
+msgctxt "employer import-v2"
+msgid "By clicking “Read this offer”, you authorise reading this public page to prepare your offer."
+msgstr "Mit „Angebot lesen“ erlauben Sie das Lesen dieser öffentlichen Seite zur Vorbereitung Ihres Angebots."
+
+msgctxt "employer import-v2"
+msgid "Describe your offer"
+msgstr "Beschreiben Sie Ihr Angebot"
+
+msgctxt "employer import-v2"
+msgid "Include the role, duties and working conditions. You can complete this information later."
+msgstr "Nennen Sie die Stelle, Aufgaben und Arbeitsbedingungen. Sie können die Angaben später ergänzen."
+
+msgctxt "employer import-v2"
+msgid "Your job offer text"
+msgstr "Text Ihres Stellenangebots"
+
+msgctxt "employer import-v2"
+msgid "Save your offer"
+msgstr "Ihr Angebot speichern"
+
+msgctxt "employer import-v2"
+msgid "Your offer is ready. Enter your email and company contact to save it and return to it later."
+msgstr "Ihr Angebot ist vorbereitet. Geben Sie Ihre E-Mail-Adresse und den Unternehmenskontakt ein, um es zu speichern und später wiederzufinden."
+
+msgctxt "employer import-v2"
+msgid "Your work email"
+msgstr "Ihre berufliche E-Mail-Adresse"
+
+msgctxt "employer import-v2"
+msgid "Use a fictional address for this demonstration. No email is sent."
+msgstr "Verwenden Sie für diese Vorschau eine fiktive Adresse. Es wird keine E-Mail versendet."
+
+msgctxt "employer import-v2"
+msgid "Data protection"
+msgstr "Datenschutz"
+
+msgctxt "employer import-v2"
+msgid "Save and continue"
+msgstr "Speichern und weiter"
+
+msgctxt "employer import-v2"
+msgid "Check and complete your offer"
+msgstr "Prüfen und ergänzen Sie Ihr Angebot"
+
+msgctxt "employer import-v2"
+msgid "Drafts are saved only through voluntary download. Email and preparation agreement are excluded. Validation does not send anything to the preparation service."
+msgstr "Entwürfe werden nur durch freiwilligen Download gespeichert. E-Mail und Zustimmung sind nicht enthalten. Es erfolgt keine Übermittlung an den Aufbereitungsdienst."
+
+msgctxt "employer import-v2"
+msgid "1. Your offer information"
+msgstr "1. Angaben zum Angebot"
+
+msgctxt "employer import-v2"
+msgid "Job title"
+msgstr "Stellenbezeichnung"
+
+msgctxt "employer import-v2"
+msgid "Company"
+msgstr "Unternehmen"
+
+msgctxt "employer import-v2"
+msgid "Exact workplace location"
+msgstr "Genauer Arbeitsort"
+
+msgctxt "employer import-v2"
+msgid "Contract type"
+msgstr "Vertragsart"
+
+msgctxt "employer import-v2"
+msgid "To clarify"
+msgstr "Zu klären"
+
+msgctxt "employer import-v2"
+msgid "Permanent"
+msgstr "Unbefristet"
+
+msgctxt "employer import-v2"
+msgid "Fixed-term"
+msgstr "Befristet"
+
+msgctxt "employer import-v2"
+msgid "Temporary agency work"
+msgstr "Zeitarbeit"
+
+msgctxt "employer import-v2"
+msgid "Internship"
+msgstr "Praktikum"
+
+msgctxt "employer import-v2"
+msgid "Apprenticeship"
+msgstr "Ausbildung"
+
+msgctxt "employer import-v2"
+msgid "Freelance"
+msgstr "Selbstständig"
+
+msgctxt "employer import-v2"
+msgid "Training"
+msgstr "Schulung"
+
+msgctxt "employer import-v2"
+msgid "Duties and working conditions"
+msgstr "Aufgaben und Arbeitsbedingungen"
+
+msgctxt "employer import-v2"
+msgid "Required skills and experience"
+msgstr "Gesuchte Kompetenzen und Erfahrung"
+
+msgctxt "employer import-v2"
+msgid "2. Clarify the job conditions"
+msgstr "2. Arbeitsbedingungen präzisieren"
+
+msgctxt "employer import-v2"
+msgid "Review information already included in your offer and complete only what is missing. Specify languages, working conditions and mobility options."
+msgstr "Prüfen Sie die vorhandenen Angaben und ergänzen Sie nur Fehlendes. Präzisieren Sie Sprachen, Arbeitsbedingungen und Mobilitätsmöglichkeiten."
+
+msgctxt "employer import-v2"
+msgid "Information already provided"
+msgstr "Bereits vorhandene Angaben"
+
+msgctxt "employer import-v2"
+msgid "Complete if needed"
+msgstr "Bei Bedarf ergänzen"
+
+msgctxt "employer import-v2"
+msgid "Not provided — you can clarify this later"
+msgstr "Nicht angegeben — kann später ergänzt werden"
+
+msgctxt "employer import-v2"
+msgid "Pay"
+msgstr "Vergütung"
+
+msgctxt "employer import-v2"
+msgid "If needed: gross or net, amount or range, currency and period."
+msgstr "Bei Bedarf: brutto oder netto, Betrag oder Spanne, Währung und Zeitraum."
+
+msgctxt "employer import-v2"
+msgid "Working hours"
+msgstr "Arbeitszeiten und Arbeitsumfang"
+
+msgctxt "employer import-v2"
+msgid "Weekly hours, working days, night work or split shifts."
+msgstr "Wochenstunden, Arbeitstage, Nachtarbeit oder geteilte Dienste."
+
+msgctxt "employer import-v2"
+msgid "Start date"
+msgstr "Arbeitsbeginn"
+
+msgctxt "employer import-v2"
+msgid "Preferred date or possible time before arrival."
+msgstr "Gewünschter Termin oder möglicher Zeitraum bis zur Ankunft."
+
+msgctxt "employer import-v2"
+msgid "Languages and expected levels"
+msgstr "Sprachen und erwartete Niveaus"
+
+msgctxt "employer import-v2"
+msgid "State essential languages and the level needed for the role."
+msgstr "Erforderliche Sprachen und das benötigte Niveau angeben."
+
+msgctxt "employer import-v2"
+msgid "Expected experience"
+msgstr "Erwartete Erfahrung"
+
+msgctxt "employer import-v2"
+msgid "Distinguish essential experience from skills that can be learned on the job."
+msgstr "Unverzichtbare Erfahrung von erlernbaren Fähigkeiten unterscheiden."
+
+msgctxt "employer import-v2"
+msgid "Access to the workplace"
+msgstr "Erreichbarkeit des Arbeitsorts"
+
+msgctxt "employer import-v2"
+msgid "State transport constraints related to the location and working hours."
+msgstr "Verkehrsbedingungen im Zusammenhang mit Arbeitsort und Arbeitszeiten angeben."
+
+msgctxt "employer import-v2"
+msgid "Working conditions to know"
+msgstr "Relevante Arbeitsbedingungen"
+
+msgctxt "employer import-v2"
+msgid "Select constraints genuinely related to the role. Check information extracted from the offer."
+msgstr "Wählen Sie nur tatsächlich stellenbezogene Anforderungen. Prüfen Sie die aus dem Angebot übernommenen Angaben."
+
+msgctxt "employer import-v2"
+msgid "Early starts or unusual hours"
+msgstr "Früher Beginn oder versetzte Arbeitszeiten"
+
+msgctxt "employer import-v2"
+msgid "Evening or night work"
+msgstr "Abend- oder Nachtarbeit"
+
+msgctxt "employer import-v2"
+msgid "Weekends or public holidays"
+msgstr "Wochenenden oder Feiertage"
+
+msgctxt "employer import-v2"
+msgid "Variable hours"
+msgstr "Variable Arbeitszeiten"
+
+msgctxt "employer import-v2"
+msgid "Shift work"
+msgstr "Schichtarbeit"
+
+msgctxt "employer import-v2"
+msgid "Physical work"
+msgstr "Körperliche Arbeit"
+
+msgctxt "employer import-v2"
+msgid "Prolonged standing"
+msgstr "Langes Stehen"
+
+msgctxt "employer import-v2"
+msgid "Outdoor work"
+msgstr "Arbeit im Freien"
+
+msgctxt "employer import-v2"
+msgid "Frequent travel"
+msgstr "Häufige Dienstreisen"
+
+msgctxt "employer import-v2"
+msgid "No particular conditions"
+msgstr "Keine besonderen Bedingungen"
+
+msgctxt "employer import-v2"
+msgid "Does this role require a licence or specific authorisation?"
+msgstr "Erfordert die Stelle einen Führerschein oder eine besondere Berechtigung?"
+
+msgctxt "employer import-v2"
+msgid "Yes"
+msgstr "Ja"
+
+msgctxt "employer import-v2"
+msgid "No"
+msgstr "Nein"
+
+msgctxt "employer import-v2"
+msgid "Which licences or authorisations are required?"
+msgstr "Welche Führerscheine oder Berechtigungen sind erforderlich?"
+
+msgctxt "employer import-v2"
+msgid "Licence B"
+msgstr "Führerschein B"
+
+msgctxt "employer import-v2"
+msgid "Licence C"
+msgstr "Führerschein C"
+
+msgctxt "employer import-v2"
+msgid "Licence CE"
+msgstr "Führerschein CE"
+
+msgctxt "employer import-v2"
+msgid "Licence D"
+msgstr "Führerschein D"
+
+msgctxt "employer import-v2"
+msgid "Licence DE"
+msgstr "Führerschein DE"
+
+msgctxt "employer import-v2"
+msgid "Other"
+msgstr "Andere"
+
+msgctxt "employer import-v2"
+msgid "Other licence or authorisation: specify"
+msgstr "Andere Berechtigung: bitte angeben"
+
+msgctxt "employer import-v2"
+msgid "Welcoming mobile candidates"
+msgstr "Bewerber mit Mobilitätsvorhaben"
+
+msgctxt "employer import-v2"
+msgid "Do you accept cross-border workers?"
+msgstr "Akzeptieren Sie Grenzgänger?"
+
+msgctxt "employer import-v2"
+msgid "Discuss with the candidate"
+msgstr "Mit der Person zu besprechen"
+
+msgctxt "employer import-v2"
+msgid "Do you accept people relocating from another European country?"
+msgstr "Akzeptieren Sie Personen, die aus einem anderen europäischen Land zuziehen?"
+
+msgctxt "employer import-v2"
+msgid "What support can you provide on arrival?"
+msgstr "Welche Unterstützung können Sie bei der Ankunft anbieten?"
+
+msgctxt "employer import-v2"
+msgid "Housing or housing search"
+msgstr "Wohnung oder Wohnungssuche"
+
+msgctxt "employer import-v2"
+msgid "Administrative procedures"
+msgstr "Verwaltungsformalitäten"
+
+msgctxt "employer import-v2"
+msgid "Onboarding support"
+msgstr "Unterstützung bei der Einarbeitung"
+
+msgctxt "employer import-v2"
+msgid "No support planned"
+msgstr "Keine Unterstützung vorgesehen"
+
+msgctxt "employer import-v2"
+msgid "To discuss"
+msgstr "Zu besprechen"
+
+msgctxt "employer import-v2"
+msgid "Other support: specify"
+msgstr "Andere Unterstützung: bitte angeben"
+
+msgctxt "employer import-v2"
+msgid "3. Prequalify candidates before talking"
+msgstr "3. Bewerbungen vor dem Gespräch vorqualifizieren"
+
+msgctxt "employer import-v2"
+msgid "Suggest questions from my answers"
+msgstr "Fragen aus meinen Antworten vorschlagen"
+
+msgctxt "employer import-v2"
+msgid "Suggested questions are not automatically enabled. Review, adapt and select those to ask. Previously edited questions are kept."
+msgstr "Vorschläge werden nicht automatisch aktiviert. Prüfen, bearbeiten und wählen Sie die Fragen aus. Bereits bearbeitete Fragen bleiben erhalten."
+
+msgctxt "employer import-v2"
+msgid "Choose and adapt questions to help pursue or reject applications against job requirements. Interested candidates answer before an introduction. No automatic exclusion: a human reviews the answers."
+msgstr "Wählen und bearbeiten Sie Fragen, um Bewerbungen anhand der Stellenanforderungen weiterzuverfolgen oder auszuschließen. Interessierte Personen antworten vor der Kontaktaufnahme. Kein automatischer Ausschluss: Menschen prüfen die Antworten."
+
+msgctxt "employer import-v2"
+msgid "Question 1"
+msgstr "Frage 1"
+
+msgctxt "employer import-v2"
+msgid "Ask this question"
+msgstr "Diese Frage stellen"
+
+msgctxt "employer import-v2"
+msgid "Essential requirement, subject to human review"
+msgstr "Unverzichtbare Anforderung, durch Menschen zu prüfen"
+
+msgctxt "employer import-v2"
+msgid "Question 2"
+msgstr "Frage 2"
+
+msgctxt "employer import-v2"
+msgid "Question 3"
+msgstr "Frage 3"
+
+msgctxt "employer import-v2"
+msgid "Question 4"
+msgstr "Frage 4"
+
+msgctxt "employer import-v2"
+msgid "Question 5"
+msgstr "Frage 5"
+
+msgctxt "employer import-v2"
+msgid "Another question for candidates (optional)"
+msgstr "Weitere Frage an Bewerberinnen und Bewerber (optional)"
+
+msgctxt "employer import-v2"
+msgid "Use of your information"
+msgstr "Verwendung Ihrer Angaben"
+
+msgctxt "employer import-v2"
+msgid "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human."
+msgstr "Diese Angaben dienen dazu, Ihren Personalbedarf zu verstehen und die Vorqualifizierung vorzubereiten. Berechtigte Match-Europe-Teams und beteiligte EURES-Partner können bei einer Kontaktvermittlung auf erforderliche Angaben zugreifen. Antworten werden von Menschen geprüft."
+
+msgctxt "employer import-v2"
+msgid "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners."
+msgstr "Im lokalen Test wird ein inaktives Angebot beim Aufbereitungsdienst gespeichert. Es erfolgt keine Bewerbersuche oder Übermittlung an EURES-Partner."
+
+msgctxt "employer import-v2"
+msgid "Read the data protection notice"
+msgstr "Datenschutzhinweise lesen"
+
+msgctxt "employer import-v2"
+msgid "I confirm the corrected offer information and request that it be saved. No candidate search or contact will start."
+msgstr "Ich bestätige die korrigierten Angebotsangaben und beauftrage deren Speicherung. Es wird keine Bewerbersuche oder Kontaktaufnahme gestartet."
+
+msgctxt "employer import-v2"
+msgid "Download my draft"
+msgstr "Entwurf herunterladen"
+
+msgctxt "employer import-v2"
+msgid "Validate my offer"
+msgstr "Angebot bestätigen"
+
+msgctxt "employer import-v2"
+msgid "Download validated summary"
+msgstr "Bestätigte Übersicht herunterladen"
+
+msgctxt "employer import-v2"
+msgid "Back to my email"
+msgstr "Zurück zur E-Mail"
+
+msgctxt "employer import-v2"
+msgid "Review the extracted information and clarify the job conditions."
+msgstr "Prüfen Sie die übernommenen Angaben und präzisieren Sie die Arbeitsbedingungen."
+
+msgctxt "employer import-v2"
+msgid "Actual the preparation service response dated 15 October 2026 for the tested Moovijob offer. Location is approximate and must be confirmed. the preparation service did not generate the questions below."
+msgstr "Tatsächliche Antwort der den Aufbereitungsdienst vom 15. Oktober 2026 zum getesteten Moovijob-Angebot. Der Standort ist ungefähr und muss bestätigt werden. Die folgenden Fragen wurden nicht von den Aufbereitungsdienst erstellt."
+
+msgctxt "employer import-v2"
+msgid "Automatic reading of this source is not connected. Complete the form below; no information has been invented from your file or link."
+msgstr "Das automatische Lesen dieser Quelle ist noch nicht angebunden. Ergänzen Sie die Angaben; aus Datei oder Link wurden keine Informationen erfunden."
+
+msgctxt "employer import-v2"
+msgid "Question"
+msgstr "Frage"
+
+msgctxt "employer import-v2"
+msgid "What experience do you have in brasserie cooking?"
+msgstr "Welche Erfahrung haben Sie in der Brasserie-Küche?"
+
+msgctxt "employer import-v2"
+msgid "Which preparations can you handle: starters, hot dishes, meat cooking and sauces?"
+msgstr "Welche Zubereitungen beherrschen Sie: Vorspeisen, warme Gerichte, Fleisch und Saucen?"
+
+msgctxt "employer import-v2"
+msgid "Can you work split shifts? Describe any constraints."
+msgstr "Können Sie geteilte Dienste übernehmen? Nennen Sie mögliche Einschränkungen."
+
+msgctxt "employer import-v2"
+msgid "When could you start?"
+msgstr "Ab wann wären Sie verfügbar?"
+
+msgctxt "employer import-v2"
+msgid "How could you reach the workplace at the required times?"
+msgstr "Wie könnten Sie den Arbeitsort zu den vorgesehenen Zeiten erreichen?"
+
+msgctxt "employer import-v2"
+msgid "Draft downloaded as JSON. Keep the file on your computer: nothing is saved on the server."
+msgstr "Entwurf als JSON heruntergeladen. Bewahren Sie die Datei auf; auf dem Server wird nichts gespeichert."
+
+msgctxt "employer import-v2"
+msgid "Offer validated in this demonstration. You can download the validated summary. No the preparation service update, search or candidate contact has occurred."
+msgstr "Angebot in dieser Demonstration bestätigt. Sie können die bestätigte Übersicht herunterladen. Keine den Aufbereitungsdienst-Aktualisierung, Suche oder Kontaktaufnahme wurde ausgelöst."
+
+msgctxt "employer import-v2"
+msgid "The offer has changed: review and confirm again before validating."
+msgstr "Das Angebot wurde geändert: Prüfen und bestätigen Sie es erneut."
+
+msgctxt "employer import-v2"
+msgid "Complete job title, company, location, description and contract type, then confirm. Every selected question must contain text."
+msgstr "Ergänzen Sie Stelle, Unternehmen, Ort, Beschreibung und Vertragsart und bestätigen Sie. Jede ausgewählte Frage benötigt einen Text."
+
+msgctxt "employer import-v2"
+msgid "Save my draft"
+msgstr "Entwurf speichern"
+
+msgctxt "employer import-v2"
+msgid "Draft saved in PostgreSQL on this computer. Resume it from this browser."
+msgstr "Entwurf in PostgreSQL auf diesem Computer gespeichert. In diesem Browser fortsetzbar."
+
+msgctxt "employer import-v2"
+msgid "Confirm my offer"
+msgstr "Mein Angebot bestätigen"
+
+msgctxt "employer import-v2"
+msgid "Your offer has been saved."
+msgstr "Ihr Angebot wurde gespeichert."
+
+msgctxt "employer import-v2"
+msgid "AI-assisted offer summary. Review all information and clarify missing details."
+msgstr "KI-gestützt vorbereitete Übersicht. Prüfen und ergänzen Sie alle Angaben."
+
+msgctxt "employer import-v2"
+msgid "An initial inactive offer has been sent to the preparation service. Corrections stay local until you validate the update. Your email is not sent to the preparation service."
+msgstr "Eine erste inaktive Version wurde an den Aufbereitungsdienst gesendet. Korrekturen bleiben bis zur bestätigten Aktualisierung lokal. Ihre E-Mail wird nicht übermittelt."
+
+msgctxt "employer import-v2"
+msgid "Check on OpenStreetMap"
+msgstr "Auf OpenStreetMap prüfen"
+
+msgctxt "employer import-v2"
+msgid "I checked the proposed point and confirm it matches the workplace."
+msgstr "Ich habe den Punkt geprüft und bestätige den Arbeitsort."
+
+msgctxt "employer import-v2"
+msgid "View the location on OpenStreetMap"
+msgstr "Arbeitsort auf OpenStreetMap ansehen"
+
+msgctxt "employer import-v2"
+msgid "Unsure about the location? Check it on the map. This is optional."
+msgstr "Unsicher beim Arbeitsort? Prüfen Sie ihn auf der Karte. Dies ist freiwillig."
+
+msgctxt "employer import-v2"
+msgid "Saving and reading back from the preparation service…"
+msgstr "Speichern und Rücklesen bei den Aufbereitungsdienst…"
+
+msgctxt "employer import-v2"
+msgid "Saving draft…"
+msgstr "Entwurf wird gespeichert…"
+
+msgctxt "employer import-v2"
+msgid "What experience do you have for this job?"
+msgstr "Welche Erfahrung haben Sie für diese Stelle?"
+
+msgctxt "employer import-v2"
+msgid "Which required skills do you have?"
+msgstr "Welche geforderten Kompetenzen beherrschen Sie?"
+
+msgctxt "employer import-v2"
+msgid "What are your availability and working-hour constraints?"
+msgstr "Welche Verfügbarkeit und zeitlichen Einschränkungen haben Sie?"
+
+msgctxt "employer import-v2 variant"
+msgid "When could you start?"
+msgstr "Ab wann könnten Sie beginnen?"
+
+msgctxt "employer import-v2"
+msgid "Can you reach the workplace at the required times?"
+msgstr "Können Sie den Arbeitsort zu den vorgesehenen Zeiten erreichen?"
+
+msgctxt "employer import-v2"
+msgid "Complete and save the company contact before validating the offer."
+msgstr "Ergänzen und speichern Sie den Unternehmenskontakt, bevor Sie das Angebot bestätigen."
+
+msgctxt "employer import-v2"
+msgid "Sandbox did not confirm complete storage. Corrections are saved; retry."
+msgstr "Sandbox hat Speicherung nicht vollständig bestätigt. Korrekturen gespeichert; erneut versuchen."
+
+msgctxt "employer import-v2"
+msgid "Sandbox key is missing from the local server."
+msgstr "Sandbox-Schlüssel auf lokalem Server fehlt."
+
+msgctxt "employer import-v2"
+msgid "Location not found. Specify city, country and street if possible."
+msgstr "Ort nicht gefunden. Stadt, Land und möglichst Adresse ergänzen."
+
+msgctxt "employer import-v2"
+msgid "Check the map point and confirm the workplace."
+msgstr "Kartenpunkt prüfen und Ort bestätigen."
+
+msgctxt "employer import-v2"
+msgid "Complete essential fields and confirm."
+msgstr "Pflichtfelder ergänzen und bestätigen."
+
+msgctxt "employer import-v2"
+msgid "Draft changed in another tab. Reload it first."
+msgstr "Entwurf in anderem Tab geändert. Zuerst neu laden."
+
+msgctxt "employer import-v2"
+msgid "Check fields, questions and lengths."
+msgstr "Felder, Fragen und Längen prüfen."
+
+msgctxt "employer import-v2"
+msgid "Local server unavailable. Entries remain on screen."
+msgstr "Lokaler Server nicht erreichbar. Eingaben bleiben sichtbar."
+
+msgctxt "employer import-v2"
+msgid "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions."
+msgstr "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen."
+
+msgctxt "employer import-v2"
+msgid "Local test: external services are disabled. You can save the draft."
+msgstr "Lokaler Test: externe Dienste sind deaktiviert. Sie können den Entwurf speichern."
+
+msgctxt "employer import-v2"
+msgid "Some information before sending to the preparation service"
+msgstr "Angaben vor der Übermittlung an den Aufbereitungsdienst"
+
+msgctxt "employer import-v2 variant"
+msgid "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions."
+msgstr "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen."
+
+msgctxt "employer import-v2"
+msgid "Send to the preparation service and retrieve the offer"
+msgstr "An den Aufbereitungsdienst senden und Angebot abrufen"
+
+msgctxt "employer import-v2"
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgctxt "employer import-v2"
+msgid "The role involves: {items}. Can you work under these conditions?"
+msgstr "Die Stelle beinhaltet: {items}. Können Sie unter diesen Bedingungen arbeiten?"
+
+msgctxt "employer import-v2"
+msgid "Do you hold these licences or authorisations: {items}?"
+msgstr "Verfügen Sie über folgende Führerscheine oder Berechtigungen: {items}?"
+
+msgctxt "employer import-v2"
+msgid "When could you start and, if needed, relocate near the workplace?"
+msgstr "Ab wann könnten Sie beginnen und gegebenenfalls in die Nähe des Arbeitsorts ziehen?"
+
+msgctxt "employer import-v2"
+msgid "Your offer has been saved"
+msgstr "Ihr Angebot wurde gespeichert"
+
+msgctxt "employer import-v2"
+msgid "You have completed this step. You can review the saved information below."
+msgstr "Dieser Schritt ist abgeschlossen. Unten können Sie die gespeicherten Angaben ansehen."
+
+msgctxt "employer import-v2"
+msgid "What happens next?"
+msgstr "Wie geht es weiter?"
+
+msgctxt "employer import-v2"
+msgid "Your offer is saved with the job conditions and arrival support you specified."
+msgstr "Ihr Angebot wird mit den angegebenen Arbeitsbedingungen und Ankunftshilfen gespeichert."
+
+msgctxt "employer import-v2"
+msgid "The next step in the journey will be candidate prequalification: availability, skills and job requirements."
+msgstr "Der nächste Schritt ist die Vorqualifizierung: Verfügbarkeit, Kompetenzen und Stellenanforderungen."
+
+msgctxt "employer import-v2"
+msgid "An introduction will then require agreement from you and the candidate, with support from an adviser."
+msgstr "Eine Kontaktvermittlung erfordert anschließend Ihre Zustimmung und die der bewerbenden Person sowie die Begleitung durch eine Beratung."
+
+msgctxt "employer import-v2"
+msgid "This local trial stops here: no candidate search, prequalification or contact is started. No confirmation email is sent."
+msgstr "Der lokale Test endet hier: Es werden weder Bewerbersuche, Vorqualifizierung noch Kontaktaufnahme gestartet. Es wird keine Bestätigungs-E-Mail versendet."
+
+msgctxt "employer import-v2"
+msgid "View my offer"
+msgstr "Mein Angebot ansehen"
+
+msgctxt "employer import-v2"
+msgid "Add another offer"
+msgstr "Weiteres Angebot hinzufügen"
+
+msgctxt "employer import-v2"
+msgid "Back to the employer home"
+msgstr "Zur Arbeitgeber-Startseite"
+
+msgctxt "employer import-v2"
+msgid "Offer extracted from your document. Check and complete the information."
+msgstr "Angebot aus Ihrem Dokument übernommen. Prüfen und ergänzen Sie die Angaben."
+
+msgctxt "employer import-v2"
+msgid "Local reading using text extraction, without generative AI or transfer to a provider. The result may contain errors."
+msgstr "Lokales Lesen mit Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Das Ergebnis kann Fehler enthalten."
+
+msgctxt "employer import-v2"
+msgid "During this trial, the draft is saved only in the local database. No publication, candidate search or transfer to EURES partners."
+msgstr "In diesem Test wird der Entwurf nur in der lokalen Datenbank gespeichert. Keine Veröffentlichung, Kandidatensuche oder Übertragung an EURES-Partner."
+
+msgctxt "employer import-v2"
+msgid "Your offer has been saved locally."
+msgstr "Ihr Angebot wurde lokal gespeichert."
+
+msgctxt "employer import-v2"
+msgid "Document information to check"
+msgstr "Angaben aus dem Dokument prüfen"
+
+msgctxt "employer import-v2"
+msgid "Conflicting hours — please confirm"
+msgstr "Widersprüchliche Arbeitszeiten — bitte bestätigen"
+
+msgctxt "employer import-v2"
+msgid "Multiple contract types — please confirm"
+msgstr "Mehrere Vertragsarten — bitte bestätigen"
+
+msgctxt "employer import-v2"
+msgid "Clarify location or remote work conditions"
+msgstr "Arbeitsort oder Homeoffice-Bedingungen klären"
+
+msgctxt "employer import-v2"
+msgid "Text recognized from an image: check for recognition errors"
+msgstr "Text aus einem Bild erkannt: bitte auf Erkennungsfehler prüfen"
+
+msgctxt "employer import-v2"
+msgid "Please confirm this information"
+msgstr "Angabe bitte bestätigen"
+
+msgctxt "employer import-v2"
+msgid "Your offer is saved. To participate in the trial and receive proposals, enable notifications for your Match Europe space."
+msgstr "Ihr Angebot ist gespeichert. Aktivieren Sie Benachrichtigungen für Ihren Match-Europe-Bereich, um am Test teilzunehmen und Vorschläge zu erhalten."
+
+msgctxt "employer import-v2"
+msgid "Receive proposals and messages"
+msgstr "Vorschläge und Nachrichten erhalten"
+
+msgctxt "employer import-v2"
+msgid "Notifications are required to participate in the trial. They can alert you when the page is closed, depending on your device settings. On some devices, you must first install Match Europe on your home screen."
+msgstr "Benachrichtigungen sind für die Teilnahme am Test erforderlich. Je nach Geräteeinstellungen können sie auch bei geschlossener Seite eintreffen. Auf manchen Geräten muss Match Europe zunächst auf dem Startbildschirm installiert werden."
+
+msgctxt "employer import-v2"
+msgid "Enable notifications — coming soon"
+msgstr "Benachrichtigungen aktivieren — bald verfügbar"
+
+msgctxt "employer import-v2"
+msgid "If you decline or cannot enable them, your offer stays saved, but trial participation is not finalised. You can return to this step later."
+msgstr "Falls Sie ablehnen oder die Aktivierung nicht gelingt, bleibt Ihr Angebot gespeichert. Die Testteilnahme ist jedoch noch nicht abgeschlossen. Sie können später fortfahren."
+
+msgctxt "employer import-v2"
+msgid "What happens next"
+msgstr "So geht es weiter"
+
+msgctxt "employer import-v2"
+msgid "We search for profiles compatible with your offer with the help of artificial intelligence."
+msgstr "Wir suchen mithilfe künstlicher Intelligenz nach passenden Profilen für Ihr Angebot."
+
+msgctxt "employer import-v2"
+msgid "For shortlisted candidates, we check availability, interest and continued acceptance of the proposed conditions."
+msgstr "Bei vorausgewählten Personen prüfen wir Verfügbarkeit, Interesse und die weitere Zustimmung zu den angebotenen Bedingungen."
+
+msgctxt "employer import-v2"
+msgid "After review by an adviser and agreement from both parties, a discussion dedicated to this offer opens in your Match Europe space, with the candidate and adviser."
+msgstr "Nach Prüfung durch eine Beratung und Zustimmung beider Seiten wird ein Gespräch zu diesem Angebot in Ihrem Match-Europe-Bereich eröffnet, mit der bewerbenden Person und der Beratung."
+
+msgctxt "employer import-v2"
+msgid "Local trial: notification activation and trial enrolment are not connected yet. No matching, prequalification or introductions are started."
+msgstr "Lokaler Test: Benachrichtigungsaktivierung und Testanmeldung sind noch nicht angebunden. Es werden weder Matching, Vorqualifizierung noch Kontaktvermittlung gestartet."
+
+msgctxt "employer import-v2"
+msgid "Next step: review your offer"
+msgstr "Nächster Schritt: Ihr Angebot prüfen"
+
+msgctxt "employer import-v2"
+msgid "PDF, link or manual entry and the email step can be tested. Reading documents and web pages is not connected yet. No offer or email has been sent or saved, and no job website has been contacted."
+msgstr "PDF-Auswahl, Link, manuelle Eingabe und E-Mail-Schritt können getestet werden. Dokumente und Webseiten werden noch nicht gelesen. Kein Angebot und keine E-Mail-Adresse wurde übermittelt oder gespeichert; keine Angebotsseite wurde aufgerufen."
+
+msgctxt "employer import-v2"
+msgid "Start again"
+msgstr "Neu beginnen"
+
+msgctxt "employer import-v2"
+msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
+msgstr "Match Europe · Eine Erprobung von France Travail / EURES / ADEM / Le Forem / ELA"
+
+msgctxt "employer import-v2"
+msgid "Useful links"
+msgstr "Weitere Links"
+
+msgctxt "employer import-v2"
+msgid "Add your job offer"
+msgstr "Fügen Sie Ihr Stellenangebot hinzu"
+
+msgctxt "employer import-v2"
+msgid "Import a PDF, paste a link to a public job offer or enter your offer manually. We will prepare a summary for you to check and complete."
+msgstr "Importieren Sie ein PDF, fügen Sie den Link zu einem öffentlichen Stellenangebot ein oder geben Sie Ihr Angebot manuell ein. Wir bereiten eine Übersicht vor, die Sie prüfen und ergänzen können."
+
+msgctxt "employer import-v2"
+msgid "I prefer to enter my offer manually"
+msgstr "Ich möchte mein Angebot manuell eingeben"
+
+msgctxt "employer import-v2"
+msgid "Choose one PDF or PNG/JPEG images of the same job."
+msgstr "Wählen Sie eine einzelne PDF oder PNG/JPEG-Bilder derselben Stelle."
+
+msgctxt "employer import-v2"
+msgid "Limit: 8 images and 10 MB total, or one 10 MB PDF."
+msgstr "Grenze: 8 Bilder und insgesamt 10 MB oder eine PDF mit 10 MB."
+
+msgctxt "employer import-v2"
+msgid "Choose a PDF or images to continue."
+msgstr "Wählen Sie eine PDF oder Bilder aus."
+
+msgctxt "employer import-v2"
+msgid "Unreadable, protected or excessive document, or local OCR unavailable. Try another file or paste the text."
+msgstr "Dokument unlesbar, geschützt oder zu lang oder lokale OCR nicht verfügbar. Andere Datei versuchen oder Text einfügen."
+
+msgctxt "employer import-v2"
+msgid "Enter your offer text to continue."
+msgstr "Geben Sie den Text Ihres Angebots ein, um fortzufahren."
+
+msgctxt "employer import-v2"
+msgid "Your offer"
+msgstr "Ihr Angebot"
+
+msgctxt "employer import-v2"
+msgid "Review"
+msgstr "Prüfung"
+
+msgctxt "employer import-v2"
+msgid "Save"
+msgstr "Speichern"
+
+msgctxt "employer import-v2"
+msgid "Selected file: "
+msgstr "Ausgewählte Datei: "
+
+msgctxt "employer import-v2"
+msgid "Your agreement to prepare the offer"
+msgstr "Ihre Zustimmung zur Vorbereitung"
+
+msgctxt "employer import-v2"
+msgid "I request AI-assisted preparation of my offer. Offer information is sent to a technical service provider to prepare a summary for my review. My email is not sent to that provider."
+msgstr "Ich beauftrage die KI-gestützte Vorbereitung meines Angebots. Die Angebotsangaben werden zur Vorbereitung meiner zu prüfenden Übersicht an einen technischen Dienstleister übermittelt. Meine E-Mail-Adresse wird nicht übermittelt."
+
+msgctxt "employer import-v2"
+msgid "Artificial intelligence helps structure your offer and identify information to clarify. It can make mistakes: you will review and correct the summary before confirming it."
+msgstr "Künstliche Intelligenz hilft, Ihr Angebot zu strukturieren und offene Angaben zu erkennen. Sie kann Fehler machen: Sie prüfen und korrigieren die Übersicht vor der Bestätigung."
+
+msgctxt "employer import-v2"
+msgid "In this demonstration, agreement is simulated and is not recorded. The legal basis and final wording remain to be confirmed with France Travail."
+msgstr "In dieser Demonstration wird die Zustimmung simuliert und nicht gespeichert. Rechtsgrundlage und endgültiger Wortlaut sind noch mit France Travail zu klären."
+
+msgctxt "employer import-v2"
+msgid "Use a job offer link"
+msgstr "Link zu einem Stellenangebot verwenden"
+
+msgctxt "employer import-v2"
+msgid "Enter an HTTPS link to a public website, without credentials or a local address."
+msgstr "Geben Sie einen HTTPS-Link zu einer öffentlichen Website ohne Zugangsdaten oder lokale Adresse ein."
+
+msgctxt "employer import-v2"
+msgid "Local trial: documents read without an external service. No publication or candidate search."
+msgstr "Lokaler Test: Dokumente werden ohne externen Dienst gelesen. Keine Veröffentlichung oder Kandidatensuche."
+
+msgctxt "employer import-v2"
+msgid "Your email is saved in your local draft. No sign-in email is sent during this trial."
+msgstr "Ihre E-Mail-Adresse wird im lokalen Entwurf gespeichert. Im Test wird keine Anmelde-E-Mail gesendet."
+
+msgctxt "employer import-v2"
+msgid "No application is assessed or rejected at this step."
+msgstr "In diesem Schritt wird keine Bewerbung bewertet oder abgelehnt."
+
+msgctxt "employer import-v2"
+msgid "The page will be checked before we ask for your email."
+msgstr "Die Seite wird vor der Abfrage Ihrer E-Mail geprüft."
+
+msgctxt "employer import-v2"
+msgid "Reading and preparing your offer…"
+msgstr "Ihr Angebot wird gelesen und vorbereitet…"
+
+msgctxt "employer import-v2"
+msgid "Resume a draft in this browser"
+msgstr "Entwurf in diesem Browser fortsetzen"
+
+msgctxt "employer import-v2"
+msgid "Unable to continue: "
+msgstr "Fortfahren nicht möglich: "
+
+msgctxt "employer import-v2"
+msgid "Use a public HTTPS page without credentials or internal addresses."
+msgstr "Öffentliche HTTPS-Seite ohne Zugangsdaten oder interne Adresse erforderlich."
+
+msgctxt "employer import-v2"
+msgid "The site is unavailable or does not allow this page to be read automatically."
+msgstr "Die Website ist nicht erreichbar oder erlaubt kein automatisches Lesen dieser Seite."
+
+msgctxt "employer import-v2"
+msgid "Confirm agreement to prepare the offer."
+msgstr "Bitte Zustimmung bestätigen."
+
+msgctxt "employer import-v2"
+msgid "Check your email."
+msgstr "E-Mail-Adresse prüfen."
+
+msgctxt "employer import-v2"
+msgid "Check the fields and text length."
+msgstr "Felder und Textlänge prüfen."
+
+msgctxt "employer import-v2"
+msgid "This session has reached 30 drafts."
+msgstr "30 Entwürfe in dieser Sitzung erreicht."
+
+msgctxt "employer import-v2"
+msgid "This draft is unavailable in this session."
+msgstr "Entwurf in dieser Sitzung nicht verfügbar."
+
+msgctxt "employer import-v2"
+msgid "The local server is unavailable. Your entries remain on screen."
+msgstr "Lokaler Server nicht erreichbar. Eingaben bleiben sichtbar."
+
+msgctxt "employer import-v2"
+msgid "This link opens a list of offers. Open the individual advert on France Travail and copy its specific link."
+msgstr "Dieser Link führt zu einer Ergebnisliste. Öffnen Sie die einzelne Anzeige auf France Travail und kopieren Sie deren Link."
+
+msgctxt "employer import-v2"
+msgid "Check the company contact name and email."
+msgstr "Prüfen Sie Name und E-Mail des Unternehmenskontakts."
+
+msgctxt "employer import-v2"
+msgid "Read this offer"
+msgstr "Angebot lesen"
+
+msgctxt "employer import-v2"
+msgid "Reading the link…"
+msgstr "Link wird gelesen…"
+
+msgctxt "employer import-v2"
+msgid "We cannot read this offer"
+msgstr "Dieses Angebot kann nicht gelesen werden"
+
+msgctxt "employer import-v2"
+msgid "Choose another method: import a PDF or paste the offer text."
+msgstr "Andere Methode wählen: PDF importieren oder Anzeigentext einfügen."
+
+msgctxt "employer import-v2"
+msgid "Read documents"
+msgstr "Dokumente lesen"
+
+msgctxt "employer import-v2"
+msgid "Reading documents…"
+msgstr "Dokumente werden gelesen…"
+
+msgctxt "employer import-v2"
+msgid "By clicking “Read documents”, you request preparation of your offer. The result may contain errors: check and correct it before validation. This trial uses local text extraction, without generative AI or transfer to a provider. No publication or candidate search will be started."
+msgstr "Mit einem Klick auf „Dokumente lesen“ beauftragen Sie die Vorbereitung Ihres Angebots. Das Ergebnis kann Fehler enthalten: Prüfen und korrigieren Sie es vor der Bestätigung. Dieser Test verwendet lokale Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Es wird keine Veröffentlichung oder Kandidatensuche gestartet."
+
+msgctxt "employer import-v2"
+msgid "Choose a PDF or images"
+msgstr "PDF oder Bilder auswählen"
+
+msgctxt "employer import-v2"
+msgid "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total. Local reading of images and scanned pages."
+msgstr "Eine PDF oder bis zu 8 PNG/JPEG-Bilder derselben Stelle in Lesereihenfolge · insgesamt 10 MB. Lokales Lesen von Bildern und gescannten Seiten."
+
+msgctxt "employer import-v2"
+msgid "Import a PDF or images"
+msgstr "PDF oder Bilder importieren"
+
+msgctxt "employer import-v2"
+msgid "Your job is in a document or screenshots."
+msgstr "Ihre Stelle liegt als Dokument oder Screenshots vor."
+
+msgctxt "employer import-v2"
+msgid "Your contact for the adviser"
+msgstr "Ihr Kontakt für die Beratung"
+
+msgctxt "employer import-v2"
+msgid "Full name"
+msgstr "Vor- und Nachname"
+
+msgctxt "employer import-v2"
+msgid "Contact email"
+msgstr "E-Mail des Kontakts"
+
+msgctxt "employer import-v2"
+msgid "Phone (optional)"
+msgstr "Telefon (optional)"
+
+msgctxt "employer import-v2"
+msgid "Role in the company (optional)"
+msgstr "Funktion im Unternehmen (optional)"
+
+msgctxt "employer import-v2"
+msgid "These contact details can be viewed by the adviser responsible for your offer and administrators. They are not shown to candidates."
+msgstr "Diese Kontaktdaten sind für die für Ihr Angebot zuständige Beratungsperson und die Administratoren einsehbar. Sie werden Bewerbenden nicht angezeigt."
+
+msgctxt "employer import-v2"
+msgid "Save contact"
+msgstr "Kontakt speichern"
+
+msgctxt "employer import-v2"
+msgid "Contact saved."
+msgstr "Kontakt gespeichert."
+
+msgctxt "employer import-v2"
+msgid "Unable to save the contact. Check the fields."
+msgstr "Der Kontakt konnte nicht gespeichert werden. Prüfen Sie die Felder."
+
+msgctxt "employer import-v2"
+msgid "The draft has changed. Reload it before editing the contact."
+msgstr "Der Entwurf wurde geändert. Laden Sie ihn neu, bevor Sie den Kontakt bearbeiten."
+
+msgctxt "employer import-v2"
+msgid "The contact may be different from the person accessing this workspace."
+msgstr "Die Kontaktperson kann von der Person abweichen, die diesen Bereich verwendet."
