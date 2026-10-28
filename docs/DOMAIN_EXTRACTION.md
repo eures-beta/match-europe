@@ -38,5 +38,21 @@ conversation est mise à jour dans l’état Django uniquement : sa clé étrang
 physique pointe déjà sur la même table. Les tests conservent réponses, accords,
 conversations et permissions dans les deux sens.
 
-Quelques utilitaires et formulaires restent dans `journeys` avant le nettoyage
-final. Ses migrations historiques restent requises.
+## Retrait du module métier historique
+
+Le dossier `journeys` est supprimé. Les formulaires candidat/offre vivent dans
+leurs applications, l’extraction PDF dans `documents`, les vues communes et
+ressources PWA au niveau du projet. La commande `seed_demo` appartient à
+`accounts`. Les tests sont rangés par application ; les scénarios transverses
+et leur préparation commune restent dans le paquet du projet.
+
+Les 18 migrations historiques sont déplacées sans changement dans
+`eures_beta/migration_history/migrations`. Cette application **technique** garde
+le label Django `journeys` et ne fournit aucun modèle métier. Ce label doit
+rester présent pour lire `django_migrations` et les dépendances existantes.
+Il n’y a aucun reset de base ni besoin de `--fake`.
+
+Les tables physiques conservent leurs noms `journeys_*`. Supprimer ces traces
+historiques demanderait une transition de schéma distincte, avec inventaire des
+environnements. Ce n’est pas nécessaire pour la séparation métier et ce n’est
+pas fait ici.

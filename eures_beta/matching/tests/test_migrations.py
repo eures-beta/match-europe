@@ -1,7 +1,6 @@
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
-from django.utils import timezone
 
 
 class DomainMigrationTests(TransactionTestCase):

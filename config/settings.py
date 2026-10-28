@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'eures_beta.accounts.apps.AccountsConfig',
     'eures_beta.employers.apps.EmployersConfig',
     'eures_beta.matching.apps.MatchingConfig',
-    'eures_beta.journeys.apps.JourneysConfig',
+    'eures_beta.migration_history.apps.MigrationHistoryConfig',
     'eures_beta.conversations.apps.ConversationsConfig',
 ]
 
@@ -86,7 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'eures_beta.journeys.views.interface',
+                'eures_beta.views.interface',
             ],
         },
     },

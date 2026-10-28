@@ -16,7 +16,9 @@ def extract_pdf(upload, user):
         result = subprocess.run(
             [
                 sys.executable,
-                str(Path(__file__).resolve().parents[1] / 'journeys' / 'pdf_reader.py'),
+                str(
+                    Path(__file__).resolve().parents[1] / 'documents' / 'pdf_reader.py'
+                ),
             ],
             input=contents,
             capture_output=True,

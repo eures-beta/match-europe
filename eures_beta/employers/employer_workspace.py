@@ -18,7 +18,7 @@ from eures_beta.employers.employer_ownership import (
     accessible_imports,
 )
 from eures_beta.employers.forms import EmployerContactForm
-from eures_beta.journeys.forms import MOBILITY
+from eures_beta.choices import MOBILITY
 from eures_beta.employers.models import EmployerImport
 from eures_beta.employers.offer_ingestion import ImportFailure
 

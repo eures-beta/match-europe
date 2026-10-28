@@ -34,18 +34,17 @@ Le découpage progressif distingue désormais :
 - `accounts` : profils, rôles, accès et audit des acteurs ;
 - `employers` : établissements, imports, accès et parcours employeur ;
 - `matching` : rapprochements, réponses, accords, revue et tableau de suivi ;
-- `journeys` : derniers utilitaires et formulaires en cours de rangement.
+- `migration_history` : compatibilité technique des migrations, sans modèle métier.
 
 Les URL et tables physiques existantes sont conservées. Les migrations déplacent
 l’état des modèles et leurs ContentType sans recréer les tables. Les formulaires
-candidat/offre et plusieurs services restent partagés avec `journeys` : cette
-étape clarifie les responsabilités sans terminer le découplage. Les tests
+et services sont rangés par domaine. Les tests
 PostgreSQL couvrent les allers-retours de migration et la conservation des données.
 Voir aussi [la migration des conversations et ses limites](CONVERSATIONS_APP.md).
 
-`journeys` reste donc utile à ce stade. Des extractions ultérieures des comptes,
-imports employeurs et rapprochements permettront de réexaminer ce qui y reste ;
-ses migrations historiques ne doivent pas être supprimées pour un simple renommage.
+Le dossier métier `journeys` est retiré. Son label technique et ses migrations
+restent conservés dans `migration_history` pour les bases existantes. Voir
+[le découpage et la compatibilité des données](DOMAIN_EXTRACTION.md).
 
 ## Parcours et limites à distinguer
 

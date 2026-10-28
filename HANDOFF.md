@@ -252,3 +252,17 @@ Retrait du générateur candidat et de son dictionnaire JSON désormais redondan
 collecte statique réussis. Textes, liens et attributs rendus FR/EN/DE comparés à
 la version précédente sans différence. Les parcours restent simulés ; aucune
 fusion ni mise en production effectuée pour cette consolidation.
+
+## 28 octobre 2026 — finalisation de la pile métier et gettext
+
+Suite de la PR #63 : format HTML djLint dans une PR indépendante, gettext pour
+les derniers messages navigateur et le diagnostic Push, retrait des générateurs.
+Applications comptes, employeurs/imports et matching extraites ; les derniers
+formulaires et utilitaires sont rangés dans leur domaine. `journeys` n’est plus
+un dossier métier : `migration_history` conserve ses 18 migrations et son label
+technique, sans modèle actif. Tables physiques et données conservées.
+
+Vérifications locales de cette série : tests PostgreSQL des parcours et des
+migrations aller-retour, contrôles Django, Black, djLint et catalogues FR/DE.
+Aucune fusion ni mise en production n’est effectuée par cette série. L’accueil
+candidat garde ses trois choix simulés, sans collecte ni parcours suivant.

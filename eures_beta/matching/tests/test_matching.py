@@ -2,10 +2,10 @@ from django.urls import reverse
 from eures_beta.matching.models import Answer
 
 
-from eures_beta.journeys.tests.base import JourneyScenario
+from eures_beta.testing_support import DomainScenario
 
 
-class MatchingTests(JourneyScenario):
+class MatchingTests(DomainScenario):
     def test_answers_preserve_choice_and_free_text_without_rejection(self):
         self.match.state = 'answering'
         self.match.save()

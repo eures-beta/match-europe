@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from eures_beta.matching import views
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),

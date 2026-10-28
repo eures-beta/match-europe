@@ -8,7 +8,7 @@ from eures_beta.matching.models import Match
 from django.test import TestCase
 
 
-class JourneyScenario(TestCase):
+class DomainScenario(TestCase):
     @classmethod
     def setUpTestData(cls):
         call_command('seed_demo', verbosity=0)
