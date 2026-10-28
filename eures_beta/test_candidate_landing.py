@@ -5,6 +5,14 @@ from django.contrib.staticfiles import finders
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateLandingTests(SimpleTestCase):
+    def test_candidate_routes_belong_to_the_candidate_application(self):
+        from django.urls import resolve
+
+        for path in ('/candidate/', '/forms/eures-beta/candidate'):
+            self.assertEqual(
+                resolve(path).func.__module__, 'eures_beta.candidates.landing'
+            )
+
     def test_languages_choices_and_separation_from_employer(self):
         for language, title in (
             ('fr', 'Trouvez votre prochain emploi en Europe'),

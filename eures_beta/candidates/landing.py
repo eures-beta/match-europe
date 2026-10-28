@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.utils import translation
 from django.views.decorators.http import require_safe
 
-from .employer_api import demo_api
+from eures_beta.journeys.employer_api import demo_api
 
 
 @demo_api
