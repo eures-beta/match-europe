@@ -4,7 +4,7 @@ import copy
 import json
 from unittest.mock import Mock, patch
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from ..offer_ingestion import ImportFailure, fetch_public, parse_page, read_url
 
@@ -163,3 +163,42 @@ class EuresImportTests(SimpleTestCase):
             fetch_public(API, ('application/json',), allow_redirects=False)
         self.assertEqual(target.call_count, 1)
         connection.return_value.close.assert_called_once()
+
+    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    def test_api_failure_does_not_fall_back_to_an_unrelated_html_page(
+        self, fetch, target
+    ):
+        fetch.side_effect = ImportFailure('unreadable_url')
+        with self.assertRaises(ImportFailure):
+            read_url(URL)
+        self.assertEqual(fetch.call_count, 1)
+
+
+@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
+class EuresSourceReviewTests(TestCase):
+    @patch('eures_beta.journeys.offer_ingestion.public_target')
+    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    def test_public_import_prepares_a_review_without_saving_an_offer(
+        self, fetch, target
+    ):
+        from ..models import EmployerImport
+
+        fetch.return_value = (json.dumps(vacancy()), API)
+        refused = self.client.post('/api/imports/source/', {'url': URL}, secure=True)
+        self.assertEqual(refused.status_code, 400)
+        fetch.assert_not_called()
+        response = self.client.post(
+            '/api/imports/source/',
+            {'url': URL + '?jvDisplayLanguage=nl', 'agreement': 'true'},
+            secure=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
+        self.assertEqual(result['stage'], 'review')
+        self.assertEqual(result['data']['title'], 'Fictieve ontwikkelaar')
+        self.assertEqual(result['data']['extraction'], 'eures_public')
+        self.assertEqual(
+            self.client.session['pending_offer_source']['data'], result['data']
+        )
+        self.assertFalse(EmployerImport.objects.exists())

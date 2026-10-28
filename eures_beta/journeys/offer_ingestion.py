@@ -64,7 +64,9 @@ class PinnedHTTPS(http.client.HTTPSConnection):
             raise
 
 
-def fetch_public(url, allowed_types=('text/html', 'application/xhtml+xml')):
+def fetch_public(
+    url, allowed_types=('text/html', 'application/xhtml+xml'), *, allow_redirects=True
+):
     """Pin each validated DNS answer to the TLS socket, including on redirects."""
     deadline = time.monotonic() + 25
     for _ in range(4):
@@ -82,6 +84,8 @@ def fetch_public(url, allowed_types=('text/html', 'application/xhtml+xml')):
             )
             r = conn.getresponse()
             if r.status in (301, 302, 303, 307, 308):
+                if not allow_redirects:
+                    raise ImportFailure('unreadable_url')
                 location = r.getheader('Location')
                 if not location:
                     raise ImportFailure('unreadable_url')
@@ -115,6 +119,11 @@ def fetch_public(url, allowed_types=('text/html', 'application/xhtml+xml')):
 
 def read_url(url):
     p = urlsplit(url)
+    if p.hostname == 'europa.eu' and p.path.startswith('/eures/'):
+        from .eures_import import read_eures
+
+        public_target(url)
+        return read_eures(url, fetch_public), url
     match = re.fullmatch(r'/offres/recherche/detail/([A-Za-z0-9]{7,20})/?', p.path)
     if p.hostname == 'candidat.francetravail.fr' and not match:
         raise ImportFailure('individual_offer_required')
