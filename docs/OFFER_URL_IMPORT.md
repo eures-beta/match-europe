@@ -11,6 +11,9 @@ l’offre et ne déclenche pas de recherche de candidats.
   par ce site, sous `/eures/api/jv-searchengine/public/jv/id/`, et vérifie l’identifiant
   retourné. Il refuse les redirections de cette ressource et les réponses invalides,
   sans se rabattre sur le texte de la page d’accueil.
+  L’identifiant est opaque : sa longueur varie selon le fournisseur. Aucune
+  longueur minimale fondée sur une offre particulière n’est imposée ; les
+  délimiteurs de chemin sont refusés et l’identifiant reçu doit rester identique.
 - **France Travail** (traitement existant, inchangé) : une URL individuelle
   `/offres/recherche/detail/<identifiant>` est convertie en lecture de la ressource
   publique `/api-descriptifoffre/offre/<identifiant>`. Le numéro d’offre reçu est
