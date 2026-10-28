@@ -1,10 +1,8 @@
 from django.urls import path
-from . import views, employer_login, employer_workspace, candidate_landing
+from . import views, employer_login, employer_workspace
 from . import employer_api, push_test, employer_search
 
 urlpatterns = [
-    path('candidate/', candidate_landing.landing, name='candidate_landing'),
-    path('forms/eures-beta/candidate', candidate_landing.landing),
     path(
         'employer/offers/<uuid:id>/search/',
         employer_search.launch,
