@@ -1,3 +1,4 @@
+from eures_beta.documents.services import extract_pdf
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, logout
@@ -24,11 +25,11 @@ from .forms import (
     UploadForm,
 )
 from eures_beta.notifications.models import Notification
+from eures_beta.documents.models import Document
 from .models import (
     EmployerImport,
     Answer,
     Candidate,
-    Document,
     Event,
     Match,
     Offer,
@@ -40,7 +41,6 @@ from .services import (
     audit,
     consume_token,
     dispatch_offer,
-    extract_pdf,
     invite_for,
     issue_token,
     notify,
@@ -573,23 +573,6 @@ def match_detail(request, pk):
             'review_form': ReviewForm(),
         },
     )
-
-
-@require_identity
-def document(request, pk):
-    obj = get_object_or_404(Document, pk=pk)
-    # Original PDFs are accessible only to their uploader in this first version.
-    if obj.owner_id != request.me_user.pk:
-        forbid()
-    response = FileResponse(
-        obj.file.open('rb'),
-        as_attachment=True,
-        filename='document.pdf',
-        content_type='application/pdf',
-    )
-    response['Cache-Control'] = 'no-store'
-    response['X-Content-Type-Options'] = 'nosniff'
-    return response
 
 
 def manifest(request):
