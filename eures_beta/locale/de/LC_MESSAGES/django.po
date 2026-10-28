@@ -3610,3 +3610,63 @@ msgstr "Der Entwurf wurde geändert. Laden Sie ihn neu, bevor Sie den Kontakt be
 msgctxt "employer import-v2"
 msgid "The contact may be different from the person accessing this workspace."
 msgstr "Die Kontaktperson kann von der Person abweichen, die diesen Bereich verwendet."
+
+msgctxt "employer auth-shell"
+msgid "Match Europe — Add your job offer"
+msgstr "Match Europe — Fügen Sie Ihr Stellenangebot hinzu"
+
+msgctxt "employer auth-shell"
+msgid "EURES beta - cross-border mobility, matching and follow-up"
+msgstr "EURES beta - grenzüberschreitende Mobilität, Matching und Begleitung"
+
+msgctxt "employer auth-shell"
+msgid "Main navigation"
+msgstr "Hauptnavigation"
+
+msgctxt "employer auth-shell"
+msgid "Home"
+msgstr "Start"
+
+msgctxt "employer auth-shell"
+msgid "Candidate"
+msgstr "Kandidaten"
+
+msgctxt "employer auth-shell"
+msgid "Employer"
+msgstr "Arbeitgeber"
+
+msgctxt "employer auth-shell"
+msgid "Stats"
+msgstr "Statistik"
+
+msgctxt "employer auth-shell"
+msgid "Project"
+msgstr "Projekt"
+
+msgctxt "employer auth-shell"
+msgid "Project journal"
+msgstr "Projektjournal"
+
+msgctxt "employer auth-shell"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "employer auth-shell"
+msgid "My employer space"
+msgstr "Mein Arbeitgeberbereich"
+
+msgctxt "employer auth-shell"
+msgid "Sign in"
+msgstr "Anmelden"
+
+msgctxt "employer auth-shell"
+msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
+msgstr "Match Europe · Eine Erprobung von France Travail / EURES / ADEM / Le Forem / ELA"
+
+msgctxt "employer auth-shell"
+msgid "Useful links"
+msgstr "Weitere Links"
+
+msgctxt "employer auth-shell"
+msgid "Data protection"
+msgstr "Datenschutz"

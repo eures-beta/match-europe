@@ -66,7 +66,7 @@ def page(request, stage, **context):
                 'signed_in': bool(
                     identity(request) and request.session.get('employer_verified_email')
                 ),
-                'auth_shell': f'employer_auth_shell_{lang}.html',
+                'auth_shell': 'employer_auth_shell.html',
                 **context,
             },
         )
