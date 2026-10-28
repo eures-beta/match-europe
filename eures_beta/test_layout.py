@@ -33,7 +33,11 @@ class UnifiedLayoutTests(SimpleTestCase):
                     + (
                         "privacy.html"
                         if prefix == "privacy-"
-                        else page if prefix else "landing.html"
+                        else (
+                            "import.html"
+                            if prefix == "import-"
+                            else page if prefix else "landing.html"
+                        )
                     ),
                 )
         for source in ("build.cjs", "copy.json", "../base.html", "offer-import-api.js"):
