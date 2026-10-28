@@ -24,9 +24,25 @@ Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas q
 
 ## Organisation du code — extraction des conversations
 
-`eures_beta.conversations` porte les discussions et messages ; `journeys` conserve
-les offres, candidats, rapprochements et l’ouverture après accords. Les URL et
-les données existantes sont conservées. Voir [la migration et ses limites](CONVERSATIONS_APP.md).
+Le découpage progressif distingue désormais :
+
+- `conversations` : discussions et messages ;
+- `notifications` : notifications et lecture ;
+- `documents` : pièces jointes, téléversement, téléchargement et extraction PDF ;
+- `candidates` : profils candidats et modification ;
+- `offers` : offres et questions ;
+- `journeys` : identités, parcours employeur, rapprochements, accords et orchestration restante.
+
+Les URL et tables physiques existantes sont conservées. Les migrations déplacent
+l’état des modèles et leurs ContentType sans recréer les tables. Les formulaires
+candidat/offre et plusieurs services restent partagés avec `journeys` : cette
+étape clarifie les responsabilités sans terminer le découplage. Les tests
+PostgreSQL couvrent les allers-retours de migration et la conservation des données.
+Voir aussi [la migration des conversations et ses limites](CONVERSATIONS_APP.md).
+
+`journeys` reste donc utile à ce stade. Des extractions ultérieures des comptes,
+imports employeurs et rapprochements permettront de réexaminer ce qui y reste ;
+ses migrations historiques ne doivent pas être supprimées pour un simple renommage.
 
 ## Parcours et limites à distinguer
 
