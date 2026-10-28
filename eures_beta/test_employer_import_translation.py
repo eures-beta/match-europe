@@ -6,6 +6,8 @@ from django.test import SimpleTestCase, override_settings
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
 class EmployerImportTranslationTests(SimpleTestCase):
+    page = "import"
+
     def test_import_form_and_browser_dictionaries_follow_the_url_language(self):
         for language, label in (
             ('en', 'Continue'),
@@ -17,14 +19,14 @@ class EmployerImportTranslationTests(SimpleTestCase):
                     'fr' if language == 'en' else 'en'
                 )
                 response = self.client.get(
-                    f'/employer/pages/import-{language}.html', secure=True
+                    f'/employer/pages/{self.page}-{language}.html', secure=True
                 )
-                self.assertTemplateUsed(response, 'employer/import.html')
+                self.assertTemplateUsed(response, f'employer/{self.page}.html')
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, f'href="privacy-{language}.html"')
                 self.assertContains(
                     response,
-                    f'class="lang-link is-active" href="import-{language}.html"',
+                    f'class="lang-link is-active" href="{self.page}-{language}.html"',
                 )
                 html = response.content.decode()
                 scripts = dict(
@@ -39,3 +41,7 @@ class EmployerImportTranslationTests(SimpleTestCase):
                 self.assertTrue(strings['errors'])
                 self.assertTrue(json.loads(scripts['contact-strings'])['privacy'])
                 self.assertNotIn('{%', html)
+
+
+class EmployerImportV2TranslationTests(EmployerImportTranslationTests):
+    page = "import-v2"
