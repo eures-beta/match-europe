@@ -92,6 +92,8 @@ def employer_page(request, path):
     )
     if path in ('privacy-en.html', 'privacy-fr.html', 'privacy-de.html'):
         template_name = 'privacy.html'
+    if path in ('import-en.html', 'import-fr.html', 'import-de.html'):
+        template_name = 'import.html'
     candidate = (base / template_name).resolve()
     if (
         not candidate.is_relative_to(base.resolve())
