@@ -24,6 +24,10 @@ Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas q
 
 ## Parcours et limites à distinguer
 
+La lecture d’offres par URL possède des adaptateurs publics ciblés pour France
+Travail et EURES, sans navigateur ni authentification externe. Voir
+[leur fonctionnement, protections et limites](OFFER_URL_IMPORT.md).
+
 - Le scénario de démonstration relie offre, candidat, préqualification, double accord et conversation à trois avec des données fictives.
 - Le parcours employeur d’import possède ses propres brouillons et objets `EmployerImport`. Leur affichage aux conseillers/admins ne les convertit pas en `Offer` et ne lance pas le matching.
 - Le scénario initial simule les services externes. Le nouveau parcours employeur peut lire des sources publiques, géocoder et envoyer/relire une offre inactive dans AGLAE sandbox lorsque configuré. Ne pas résumer tous les parcours comme entièrement simulés.
