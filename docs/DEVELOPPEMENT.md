@@ -254,7 +254,7 @@ Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 | `eures_beta/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
 | `eures_beta/templates/employer/` | Pages employeur V2, V1 conservée et diagnostic Push |
 | `eures_beta/static/employer/` | JavaScript, styles et logos de ces pages |
-| `scripts/employer-ui/` | Générateurs historiques et leurs textes/données de référence |
+| `eures_beta/locale/` | Catalogues gettext français et allemand, source des traductions |
 | `docs/` | Périmètre, décisions, ordre de lecture et limites |
 
 ## Vérifier

@@ -15,10 +15,9 @@ Pour ajouter un texte, utiliser les balises Django `translate` / `blocktranslate
 ou les fonctions gettext Python, avec un contexte si nécessaire. Conserver les
 libellés d’accessibilité et les liens dans la bonne langue.
 
-Les générateurs historiques de `scripts/employer-ui/` ne sont plus la source
-des templates consolidés : ne pas recopier leur sortie sur ces fichiers. Ils
-restent présents pour l’outillage historique et ne sont pas supprimés dans cette
-série. Le diagnostic Push utilise désormais gettext pour sa page, ses messages
+Les anciens générateurs et leurs dictionnaires parallèles ont été supprimés.
+Modifier directement les templates Django et les catalogues gettext.
+Le diagnostic Push utilise désormais gettext pour sa page, ses messages
 JavaScript et sa notification différée ; il reste strictement local et n’est pas
 exposé dans la démonstration partagée. Les messages JavaScript du parcours
 employeur ne contiennent plus de dictionnaires de traduction parallèles.

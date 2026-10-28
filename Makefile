@@ -86,10 +86,6 @@ serve: ## Tester le serveur WSGI sur loopback, avec un worker
 db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
 	@$(LOAD_ENV) createdb --maintenance-db=postgres "$${PGDATABASE:?Renseigner PGDATABASE dans .env}"
 
-.PHONY: employer-pages-build
-employer-pages-build: ## Générer les pages historiques dans build/employer-ui (jamais les templates actifs)
-	node scripts/employer-ui/build.cjs
-	node scripts/employer-ui/build-import.cjs
 
 .PHONY: test-navigation
 test-navigation: ## Vérifier la bascule de langue et les liens ouverts avant un déploiement
@@ -115,7 +111,7 @@ format-html-check: ## Vérifier le formatage des templates sans les modifier
 	$(QUALITY_PYTHON) -m djlint eures_beta --check
 	$(QUALITY_PYTHON) -m eures_beta.template_layout
 translations-extract: ## Actualiser les catalogues FR/DE depuis le code et les templates
-	@$(MANAGE) makemessages --locale fr --locale de --no-wrap --no-obsolete --ignore scripts --ignore build --ignore staticfiles --ignore '.venv*'
+	@$(MANAGE) makemessages --locale fr --locale de --no-wrap --no-obsolete --ignore build --ignore staticfiles --ignore '.venv*'
 
 translations-check: ## Refuser les messages gettext non traduits ou encore marqués fuzzy
 	$(PYTHON) -m eures_beta.translation_check
