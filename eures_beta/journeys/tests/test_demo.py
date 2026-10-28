@@ -3,7 +3,7 @@ from django.core.management import call_command
 from django.urls import reverse
 
 
-from .base import JourneyScenario
+from eures_beta.journeys.tests.base import JourneyScenario
 
 
 class DemoTests(JourneyScenario):

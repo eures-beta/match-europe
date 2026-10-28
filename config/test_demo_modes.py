@@ -12,7 +12,8 @@ from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase, override_settings
 
 from config.demo import ensure_demo
-from eures_beta.journeys.models import Candidate, Profile
+from eures_beta.candidates.models import Candidate
+from eures_beta.accounts.models import Profile
 
 
 class DemoSettingsTests(SimpleTestCase):

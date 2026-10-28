@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 from django.test import Client
 from django.urls import reverse
 from django.utils import timezone
-from eures_beta.journeys.models import AccessToken
-from eures_beta.journeys.services import consume_token, invite_for, issue_token
+from eures_beta.accounts.models import AccessToken
+from eures_beta.accounts.services import consume_token, invite_for, issue_token
 
 
-from .base import JourneyScenario
+from eures_beta.journeys.tests.base import JourneyScenario
 
 
 class AccessTests(JourneyScenario):

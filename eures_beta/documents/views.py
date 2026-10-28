@@ -1,7 +1,7 @@
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
-from eures_beta.journeys.access_control import require_identity, forbid
-from .models import Document
+from eures_beta.accounts.access_control import require_identity, forbid
+from eures_beta.documents.models import Document
 
 
 @require_identity

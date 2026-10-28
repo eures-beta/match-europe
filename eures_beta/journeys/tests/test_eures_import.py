@@ -6,7 +6,12 @@ from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase, TestCase, override_settings
 
-from ..offer_ingestion import ImportFailure, fetch_public, parse_page, read_url
+from eures_beta.journeys.offer_ingestion import (
+    ImportFailure,
+    fetch_public,
+    parse_page,
+    read_url,
+)
 
 HANDLE = 'ZmljdGlvbmFsLWV1cmVzLWpvYi0xIDM'
 URL = f'https://europa.eu/eures/portal/jv-se/jv-details/{HANDLE}'
@@ -211,7 +216,7 @@ class EuresSourceReviewTests(TestCase):
     def test_public_import_prepares_a_review_without_saving_an_offer(
         self, fetch, target
     ):
-        from ..models import EmployerImport
+        from eures_beta.journeys.models import EmployerImport
 
         fetch.return_value = (json.dumps(vacancy()), API)
         refused = self.client.post('/api/imports/source/', {'url': URL}, secure=True)

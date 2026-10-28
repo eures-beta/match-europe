@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views, employer_login, employer_workspace
-from . import employer_api, push_test, employer_search
+from eures_beta.journeys import views, employer_login, employer_workspace
+from eures_beta.journeys import employer_api, push_test, employer_search
 
 urlpatterns = [
     path(
@@ -49,10 +49,6 @@ urlpatterns = [
     path('api/imports/<uuid:id>/', employer_api.imports),
     path('imported-offers/<uuid:pk>/', views.imported_offer, name='imported_offer'),
     path('', views.dashboard, name='dashboard'),
-    path('access/', views.access, name='access'),
-    path('demo/<int:pk>/', views.demo_login, name='demo_login'),
-    path('confirm/<str:token>/', views.confirm, name='confirm'),
-    path('logout/', views.sign_out, name='logout'),
     path('upload/', views.upload, name='upload'),
     path('matches/<int:pk>/', views.match_detail, name='match'),
     path('manifest.webmanifest', views.manifest),

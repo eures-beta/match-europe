@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from eures_beta.conversations import views
 
 urlpatterns = [
     path('<int:pk>/', views.conversation, name='conversation'),

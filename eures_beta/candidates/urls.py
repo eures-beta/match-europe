@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, landing
+from eures_beta.candidates import views, landing
 
 urlpatterns = [
     path('candidate/', landing.landing, name='candidate_landing'),

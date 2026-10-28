@@ -2,10 +2,10 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from eures_beta.journeys.access_control import require_identity, forbid
-from eures_beta.journeys.services import audit
+from eures_beta.accounts.access_control import require_identity, forbid
+from eures_beta.accounts.services import audit
 from eures_beta.journeys.forms import CandidateForm
-from .models import Candidate
+from eures_beta.candidates.models import Candidate
 
 
 @require_identity

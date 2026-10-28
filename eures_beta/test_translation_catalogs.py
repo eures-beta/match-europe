@@ -2,7 +2,7 @@ from pathlib import Path
 import tempfile
 from django.test import SimpleTestCase
 
-from .translation_check import incomplete_entries
+from eures_beta.translation_check import incomplete_entries
 
 
 class CatalogCompletenessTests(SimpleTestCase):

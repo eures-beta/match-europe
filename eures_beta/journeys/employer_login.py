@@ -16,15 +16,15 @@ from django.utils import timezone, translation
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST, require_http_methods, require_GET
 
-from .models import (
+from eures_beta.journeys.models import (
     EmployerEmailLink,
     EmployerIdentity,
     EmployerCompany,
     EmployerMembership,
     EmployerImport,
 )
-from .employer_ownership import identity, memberships
-from .establishments import EstablishmentForm
+from eures_beta.journeys.employer_ownership import identity, memberships
+from eures_beta.journeys.establishments import EstablishmentForm
 
 
 def enabled(view):
@@ -197,7 +197,7 @@ def connected(request):
 
 
 def connected_page(request, email, person, draft, establishment_form=None):
-    from .employer_workspace import offer_home
+    from eures_beta.journeys.employer_workspace import offer_home
 
     return offer_home(
         request,

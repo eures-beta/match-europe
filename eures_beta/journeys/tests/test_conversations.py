@@ -3,7 +3,7 @@ from eures_beta.journeys.models import Answer
 from eures_beta.conversations.models import Conversation, Message
 
 
-from .base import JourneyScenario
+from eures_beta.journeys.tests.base import JourneyScenario
 
 
 class ConversationsTests(JourneyScenario):

@@ -4,8 +4,8 @@ import subprocess
 import sys
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-from .models import Document
-from eures_beta.journeys.services import audit
+from eures_beta.documents.models import Document
+from eures_beta.accounts.services import audit
 
 
 def extract_pdf(upload, user):

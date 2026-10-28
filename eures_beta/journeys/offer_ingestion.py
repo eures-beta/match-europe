@@ -120,7 +120,7 @@ def fetch_public(
 def read_url(url):
     p = urlsplit(url)
     if p.hostname == 'europa.eu' and p.path.startswith('/eures/'):
-        from .eures_import import read_eures
+        from eures_beta.journeys.eures_import import read_eures
 
         public_target(url)
         return read_eures(url, fetch_public), url
@@ -443,6 +443,6 @@ def read_pdf(upload, split_sections=True):
 
 
 def parse_pdf_text(text, split_sections=True):
-    from .document_fields import extract_fields
+    from eures_beta.journeys.document_fields import extract_fields
 
     return extract_fields(text, empty_data(), split_sections=split_sections)

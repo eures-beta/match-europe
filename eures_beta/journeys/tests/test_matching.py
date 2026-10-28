@@ -2,7 +2,7 @@ from django.urls import reverse
 from eures_beta.journeys.models import Answer
 
 
-from .base import JourneyScenario
+from eures_beta.journeys.tests.base import JourneyScenario
 
 
 class MatchingTests(JourneyScenario):

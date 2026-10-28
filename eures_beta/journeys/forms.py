@@ -1,4 +1,3 @@
-from eures_beta.documents.forms import UploadForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from eures_beta.candidates.models import Candidate
@@ -10,10 +9,6 @@ MOBILITY = [
     ('no', _('No')),
     ('discuss', _('To discuss')),
 ]
-
-
-class AccessForm(forms.Form):
-    email = forms.EmailField(label=_('Email'), max_length=150)
 
 
 class OfferForm(forms.ModelForm):

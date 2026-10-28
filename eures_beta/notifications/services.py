@@ -1,4 +1,4 @@
-from .models import Notification
+from eures_beta.notifications.models import Notification
 
 
 def notify(user, label, url):
