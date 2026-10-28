@@ -5,9 +5,9 @@ from django.test import Client, TestCase, override_settings
 from django.utils import timezone, translation
 
 from config.demo import ensure_demo
-from eures_beta.journeys.employer_api import aglae
-from eures_beta.journeys.models import EmployerImport
-from eures_beta.journeys.offer_ingestion import ImportFailure
+from eures_beta.employers.employer_api import aglae
+from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.offer_ingestion import ImportFailure
 
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
@@ -68,8 +68,8 @@ class SharedDemoTests(TestCase):
 
     def test_shared_demo_never_reads_sandbox_key_or_calls_aglae(self):
         with (
-            patch("eures_beta.journeys.employer_api.Path.read_text") as key,
-            patch("eures_beta.journeys.employer_api.build_opener") as network,
+            patch("eures_beta.employers.employer_api.Path.read_text") as key,
+            patch("eures_beta.employers.employer_api.build_opener") as network,
         ):
             with self.assertRaises(ImportFailure):
                 aglae("POST", "job-posting", {})

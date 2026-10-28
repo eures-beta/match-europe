@@ -5,7 +5,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
 from eures_beta.accounts.models import Profile
-from eures_beta.journeys.models import EmployerImport
+from eures_beta.employers.models import EmployerImport
 
 
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
@@ -157,7 +157,7 @@ class EmployerContactTests(TestCase):
             'contact': dict(self.contact, name='Changed fictional contact'),
         }
         url = f'/api/imports/{self.obj.pk}/'
-        with patch('eures_beta.journeys.employer_api.aglae') as api:
+        with patch('eures_beta.employers.employer_api.aglae') as api:
             response = self.owner.post(
                 url, json.dumps(payload), content_type='application/json'
             )
@@ -182,10 +182,10 @@ class EmployerContactTests(TestCase):
             404,
         )
 
-    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.aglae')
     def test_contact_not_sent_to_aglae_initial_or_final(self, api):
-        from eures_beta.journeys.offer_ingestion import empty_data
-        from eures_beta.journeys.employer_api import initial_send
+        from eures_beta.employers.offer_ingestion import empty_data
+        from eures_beta.employers.employer_api import initial_send
 
         data = empty_data()
         data.update(

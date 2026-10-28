@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from eures_beta.accounts import views
 
 urlpatterns = [
     path('access/', views.access, name='access'),

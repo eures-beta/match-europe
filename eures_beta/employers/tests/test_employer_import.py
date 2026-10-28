@@ -3,8 +3,8 @@ from unittest.mock import patch
 from django.test import TestCase, SimpleTestCase, Client
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
-from eures_beta.journeys.models import EmployerImport
-from eures_beta.journeys.offer_ingestion import (
+from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.offer_ingestion import (
     parse_page,
     public_target,
     ImportFailure,
@@ -13,8 +13,8 @@ from eures_beta.journeys.offer_ingestion import (
 
 
 class ReadingTests(SimpleTestCase):
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_ft_dynamic_offer_uses_workplace_not_agency_address(self, fetch, target):
         sample = {
             'numeroOffre': 'Offre n° TEST123',
@@ -42,8 +42,8 @@ class ReadingTests(SimpleTestCase):
         self.assertEqual(data['clarifications']['salary'], '12 EUR/h')
         self.assertEqual(data['contractType'], 'PERMANENT_CONTRACT')
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_ft_hours_use_workplace_conditions_when_summary_unavailable(
         self, fetch, target
     ):
@@ -89,7 +89,7 @@ class ReadingTests(SimpleTestCase):
         )
 
     def test_requirements_validation_and_backward_compatible_defaults(self):
-        from eures_beta.journeys.employer_api import clean_data
+        from eures_beta.employers.employer_api import clean_data
 
         data = clean_data(
             {
@@ -125,7 +125,7 @@ class ReadingTests(SimpleTestCase):
         self.assertEqual(cleared['requirements']['permits'], [])
         self.assertEqual(cleared['requirements']['permitOther'], '')
 
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_ft_search_page_is_rejected_before_fetch(self, fetch):
         with self.assertRaises(ImportFailure) as caught:
             read_url('https://candidat.francetravail.fr/offres/emploi/boucher/s11m12')
@@ -159,7 +159,7 @@ class ReadingTests(SimpleTestCase):
         self.assertEqual(data['clarifications']['salary'], '')
         self.assertEqual(data['questions'], [])
 
-    @patch('eures_beta.journeys.offer_ingestion.socket.getaddrinfo')
+    @patch('eures_beta.employers.offer_ingestion.socket.getaddrinfo')
     def test_mixed_or_private_dns_answers_rejected(self, resolve):
         resolve.return_value = [
             (2, 1, 6, '', ('93.184.216.34', 443)),
@@ -179,7 +179,7 @@ class ReadingTests(SimpleTestCase):
                 public_target(url)
 
     def test_pdf_offer_header_ignores_bullets_and_font_mapping(self):
-        from eures_beta.journeys.offer_ingestion import parse_pdf_text
+        from eures_beta.employers.offer_ingestion import parse_pdf_text
 
         data = parse_pdf_text(
             '●\n●\nVendeur H/F\nEntreprise Exɑmple\n•\n12345 Ville-Test\nContinuer pour postuler\nCDI, Temps plein\nDescription du poste\nMissions fictives.'
@@ -191,7 +191,7 @@ class ReadingTests(SimpleTestCase):
         self.assertIn('Missions fictives.', data['description'])
 
     def test_pdf_does_not_invent_employer_or_use_body_address(self):
-        from eures_beta.journeys.offer_ingestion import parse_pdf_text
+        from eures_beta.employers.offer_ingestion import parse_pdf_text
 
         data = parse_pdf_text(
             'Poste fictif\nDescription du poste\nContact agence\n12345 Autre-Ville\nCDI ou CDD'
@@ -261,10 +261,10 @@ class ImportFlowTests(TestCase):
             Client().get('/api/imports/' + obj['id'] + '/').status_code, 404
         )
 
-    @patch('eures_beta.journeys.employer_api.aglae')
-    @patch('eures_beta.journeys.employer_api.geocode')
+    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.geocode')
     @patch(
-        'eures_beta.journeys.employer_api.read_pdf',
+        'eures_beta.employers.employer_api.read_pdf',
         return_value={
             'title': 'Original title',
             'description': 'Fictional PDF text',
@@ -344,7 +344,7 @@ class ImportFlowTests(TestCase):
         )
 
     def test_consent_required_before_reading(self):
-        with patch('eures_beta.journeys.offer_ingestion.fetch_public') as fetch:
+        with patch('eures_beta.employers.offer_ingestion.fetch_public') as fetch:
             r = self.client.post(
                 '/api/imports/',
                 {
@@ -376,7 +376,7 @@ class ImportFlowTests(TestCase):
             + '</script>'
         )
         with patch(
-            'eures_beta.journeys.offer_ingestion.fetch_public',
+            'eures_beta.employers.offer_ingestion.fetch_public',
             return_value=(html, 'https://example.org/different'),
         ):
             first = self.client.post(
@@ -404,7 +404,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(r.json()['data']['title'], 'Different job')
 
     @patch(
-        'eures_beta.journeys.offer_ingestion.fetch_public',
+        'eures_beta.employers.offer_ingestion.fetch_public',
         side_effect=ImportFailure('unreadable_url'),
     )
     def test_blocked_source_fails_before_email(self, fetch):
@@ -440,7 +440,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(r.status_code, 400)
 
     @patch(
-        'eures_beta.journeys.employer_api.read_pdf',
+        'eures_beta.employers.employer_api.read_pdf',
         return_value={'description': 'Fictional PDF text'},
     )
     def test_pdf_read_before_email_and_reused_once(self, read):
@@ -471,7 +471,7 @@ class ImportFlowTests(TestCase):
         read.assert_called_once()
 
     @patch(
-        'eures_beta.journeys.employer_api.read_pdf',
+        'eures_beta.employers.employer_api.read_pdf',
         side_effect=ImportFailure('unreadable'),
     )
     def test_unreadable_pdf_fails_before_email(self, read):
@@ -491,7 +491,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(EmployerImport.objects.count(), 0)
 
     @patch(
-        'eures_beta.journeys.employer_api.read_pdf',
+        'eures_beta.employers.employer_api.read_pdf',
         return_value={'description': 'Fictional PDF text'},
     )
     def test_expired_pdf_preflight_is_rejected(self, read):
@@ -537,7 +537,7 @@ class ImportFlowTests(TestCase):
         )
         self.assertEqual(self.update(obj).status_code, 409)
 
-    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.aglae')
     def test_no_api_call_without_validation_or_location(self, api):
         obj = self.create().json()
         self.assertEqual(self.update(obj).status_code, 200)
@@ -545,9 +545,9 @@ class ImportFlowTests(TestCase):
         self.assertEqual(self.update(obj, 'validate', confirmed=True).status_code, 400)
         api.assert_not_called()
 
-    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.aglae')
     @patch(
-        'eures_beta.journeys.employer_api.geocode',
+        'eures_beta.employers.employer_api.geocode',
         return_value={
             'latitude': 48.0,
             'longitude': 2.0,
@@ -579,11 +579,11 @@ class ImportFlowTests(TestCase):
         )
 
     @patch(
-        'eures_beta.journeys.employer_api.aglae',
+        'eures_beta.employers.employer_api.aglae',
         side_effect=ImportFailure('sandbox_error'),
     )
     @patch(
-        'eures_beta.journeys.employer_api.geocode',
+        'eures_beta.employers.employer_api.geocode',
         return_value={
             'latitude': 48.0,
             'longitude': 2.0,
@@ -604,7 +604,7 @@ class ImportFlowTests(TestCase):
         self.assertIsNone(row.synced_at)
 
     @patch(
-        'eures_beta.journeys.employer_api.geocode',
+        'eures_beta.employers.employer_api.geocode',
         return_value={
             'latitude': 48.0,
             'longitude': 2.0,
@@ -612,7 +612,7 @@ class ImportFlowTests(TestCase):
             'label': 'Testville',
         },
     )
-    @patch('eures_beta.journeys.employer_api.aglae')
+    @patch('eures_beta.employers.employer_api.aglae')
     def test_initial_send_and_readback_precede_review(self, api, geo):
         obj = self.create().json()
         self.assertEqual(obj['stage'], 'prepare')
@@ -646,7 +646,7 @@ class ImportFlowTests(TestCase):
         )
 
     def test_pdf_reader_receives_actual_document(self):
-        with patch('eures_beta.journeys.offer_ingestion.subprocess.run') as run:
+        with patch('eures_beta.employers.offer_ingestion.subprocess.run') as run:
             run.return_value.stdout = json.dumps(
                 {
                     'text': 'Example extracted title\nAn actual extracted fictional document.'

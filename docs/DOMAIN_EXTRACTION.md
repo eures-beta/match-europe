@@ -16,5 +16,16 @@ Les tests PostgreSQL vérifient les valeurs, relations, tables et identifiants d
 permissions dans les deux sens. `make migrations-create` génère les futures
 migrations à relire ; `make check` vérifie qu’aucune migration n’est oubliée.
 
-L’extraction est progressive : employeurs/imports et rapprochements restent
-encore dans `journeys` à cette étape. Ses migrations historiques restent requises.
+## Employeurs et imports
+
+`employers` porte les établissements, appartenances, identités employeur,
+brouillons/imports, liens de vérification et opérations de recherche simulée.
+Les adaptateurs de lecture des offres, formulaires, API, pages et tests associés
+vivent dans cette application. Les URL et contrôles d’accès sont conservés.
+
+Les sept modèles utilisent leurs tables `journeys_*` existantes. L’aller-retour
+de migration conserve également les imports JSON, relations UUID, appartenances,
+événements et permissions. Aucun service externe n’est appelé par ces tests.
+
+L’extraction est progressive : les rapprochements et quelques utilitaires
+transverses restent dans `journeys`. Ses migrations historiques restent requises.

@@ -5,6 +5,7 @@ from eures_beta.journeys.redirects import legacy_employer_page
 from .health import health
 
 urlpatterns = [
+    path("", include("eures_beta.employers.urls")),
     path("", include("eures_beta.accounts.urls")),
     path("", include("eures_beta.offers.urls")),
     path("", include("eures_beta.candidates.urls")),

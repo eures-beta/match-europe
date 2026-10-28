@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'eures_beta.candidates.apps.CandidatesConfig',
     'eures_beta.offers.apps.OffersConfig',
     'eures_beta.accounts.apps.AccountsConfig',
+    'eures_beta.employers.apps.EmployersConfig',
     'eures_beta.journeys.apps.JourneysConfig',
     'eures_beta.conversations.apps.ConversationsConfig',
 ]

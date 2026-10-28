@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase, Client, override_settings
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import serialization
-from eures_beta.journeys.push_test import subscription
+from eures_beta.employers.push_test import subscription
 
 
 def sample():
@@ -68,7 +68,7 @@ class PushDiagnosticTests(TestCase):
             with self.assertRaises(ValueError):
                 subscription(data)
 
-    @patch('eures_beta.journeys.push_test.threading.Timer')
+    @patch('eures_beta.employers.push_test.threading.Timer')
     def test_subscribe_send_and_stop(self, timer):
         c = Client()
         self.assertEqual(
