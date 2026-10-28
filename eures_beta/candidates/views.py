@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from eures_beta.accounts.access_control import require_identity, forbid
 from eures_beta.accounts.services import audit
-from eures_beta.journeys.forms import CandidateForm
+from eures_beta.candidates.forms import CandidateForm
 from eures_beta.candidates.models import Candidate
 
 

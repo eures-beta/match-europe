@@ -3,10 +3,10 @@ from django.core.management import call_command
 from django.urls import reverse
 
 
-from eures_beta.journeys.tests.base import JourneyScenario
+from eures_beta.testing_support import DomainScenario
 
 
-class DemoTests(JourneyScenario):
+class DemoTests(DomainScenario):
     def test_demo_adapter_never_calls_network(self):
         with patch(
             'socket.create_connection', side_effect=AssertionError('Network forbidden')

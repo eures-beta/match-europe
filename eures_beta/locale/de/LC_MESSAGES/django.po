@@ -2,10 +2,85 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 19:18+0000\n"
+"POT-Creation-Date: 2026-10-28 19:36+0000\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: eures_beta/accounts/forms.py:6 eures_beta/templates/employer_login.html:10
+#: eures_beta/templates/employer_login.html:43
+msgid "Email"
+msgstr "E-Mail-Adresse"
+
+#: eures_beta/accounts/models.py:8
+#: eures_beta/templates/conversations/detail.html:5
+msgid "Employer"
+msgstr "Arbeitgeber"
+
+#: eures_beta/accounts/models.py:9
+#: eures_beta/templates/conversations/detail.html:4
+msgid "Candidate"
+msgstr "Bewerbende Person"
+
+#: eures_beta/accounts/models.py:10
+#: eures_beta/templates/conversations/detail.html:6
+msgid "Adviser"
+msgstr "Beratungskraft"
+
+#: eures_beta/accounts/models.py:11
+msgid "Administrator"
+msgstr "Administration"
+
+#: eures_beta/accounts/views.py:52
+msgid "If this address is eligible, a connection link has been prepared. No email is sent in demonstration mode."
+msgstr "Falls diese Adresse berechtigt ist, wurde ein Anmeldelink vorbereitet. Im Demomodus wird keine E-Mail versandt."
+
+#: eures_beta/accounts/views.py:101
+msgid "This link has expired or has already been used. Request a new link."
+msgstr "Dieser Link ist abgelaufen oder wurde bereits verwendet. Fordern Sie einen neuen an."
+
+#: eures_beta/accounts/views.py:107
+msgid "Email confirmed."
+msgstr "E-Mail-Adresse bestätigt."
+
+#: eures_beta/candidates/forms.py:9
+msgid "Would you work in another country while keeping your current residence?"
+msgstr "Würden Sie in einem anderen Land arbeiten und Ihren aktuellen Wohnsitz behalten?"
+
+#: eures_beta/candidates/forms.py:14
+msgid "Would you move to another country for a job?"
+msgstr "Würden Sie für eine Stelle in ein anderes Land umziehen?"
+
+#: eures_beta/candidates/forms.py:37 eures_beta/templates/candidate.html:6
+msgid "Name"
+msgstr "Name"
+
+#: eures_beta/candidates/forms.py:38
+#: eures_beta/employers/employer_workspace.py:112
+#: eures_beta/templates/candidate.html:14
+msgid "Experience"
+msgstr "Erfahrung"
+
+#: eures_beta/candidates/forms.py:39 eures_beta/templates/candidate.html:10
+msgid "Jobs sought"
+msgstr "Gesuchte Tätigkeiten"
+
+#: eures_beta/candidates/forms.py:40 eures_beta/offers/forms.py:46
+msgid "Skills"
+msgstr "Kompetenzen"
+
+#: eures_beta/candidates/forms.py:41 eures_beta/offers/forms.py:45
+#: eures_beta/templates/candidate.html:18 eures_beta/templates/offer.html:43
+msgid "Languages"
+msgstr "Sprachen"
+
+#: eures_beta/candidates/forms.py:42 eures_beta/templates/candidate.html:22
+msgid "Residence"
+msgstr "Wohnort"
+
+#: eures_beta/candidates/forms.py:43 eures_beta/templates/candidate.html:26
+msgid "Availability"
+msgstr "Verfügbarkeit"
 
 #: eures_beta/candidates/templates/candidates/landing.html:4
 #: eures_beta/candidates/templates/candidates/landing.html:274
@@ -184,17 +259,39 @@ msgstr "Datenschutz"
 msgid "Please agree to matching and confirm your profile."
 msgstr "Stimmen Sie dem Matching zu und bestätigen Sie Ihr Profil."
 
-#: eures_beta/candidates/views.py:40 eures_beta/offers/views.py:77
+#: eures_beta/candidates/views.py:40 eures_beta/offers/views.py:78
 msgid "Draft saved."
 msgstr "Entwurf gespeichert."
+
+#: eures_beta/choices.py:4 eures_beta/employers/employer_workspace.py:69
+msgid "Please choose"
+msgstr "Bitte auswählen"
+
+#: eures_beta/choices.py:5 eures_beta/templates/match.html:71
+#: eures_beta/templates/match.html:74
+msgid "Yes"
+msgstr "Ja"
+
+#: eures_beta/choices.py:6
+msgid "No"
+msgstr "Nein"
+
+#: eures_beta/choices.py:7 eures_beta/employers/employer_workspace.py:134
+#: eures_beta/employers/employer_workspace.py:145
+msgid "To discuss"
+msgstr "Zu besprechen"
 
 #: eures_beta/conversations/forms.py:7
 msgid "Your message"
 msgstr "Ihre Nachricht"
 
-#: eures_beta/conversations/views.py:39
+#: eures_beta/conversations/views.py:40
 msgid "New message"
 msgstr "Neue Nachricht"
+
+#: eures_beta/demo.py:8
+msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
+msgstr "Geteilte Demonstration: nur fiktive Daten. Externes Speichern und Push-Diagnose sind deaktiviert."
 
 #: eures_beta/documents/forms.py:7
 msgid "PDF document"
@@ -216,550 +313,449 @@ msgstr "Bitte laden Sie eine gültige PDF-Datei hoch."
 msgid "This PDF cannot be read. Use an unencrypted document with at most 30 pages."
 msgstr "Diese PDF ist nicht lesbar. Verwenden Sie ein unverschlüsseltes Dokument mit höchstens 30 Seiten."
 
-#: eures_beta/journeys/demo.py:8
-msgid "Shared demonstration: fictional data only. External saving and Push diagnostics are disabled."
-msgstr "Geteilte Demonstration: nur fiktive Daten. Externes Speichern und Push-Diagnose sind deaktiviert."
-
-#: eures_beta/journeys/employer_api.py:132
+#: eures_beta/employers/employer_api.py:124
 #: eures_beta/templates/employer_auth_shell.html:11
 #: eures_beta/templates/employer_workspace.html:286
 msgid "My employer space"
 msgstr "Mein Arbeitgeberbereich"
 
-#: eures_beta/journeys/employer_search.py:20
+#: eures_beta/employers/employer_search.py:20
 msgid "I confirm the start of candidate search, including qualification and contact."
 msgstr "Ich bestätige den Start der Kandidatensuche einschließlich Qualifizierung und Kontaktaufnahme."
 
-#: eures_beta/journeys/employer_search.py:24
+#: eures_beta/employers/employer_search.py:24
 msgid "Local simulation scenario"
 msgstr "Szenario der lokalen Simulation"
 
-#: eures_beta/journeys/employer_search.py:26
+#: eures_beta/employers/employer_search.py:26
 msgid "Confirmed start"
 msgstr "Bestätigter Start"
 
-#: eures_beta/journeys/employer_search.py:27
+#: eures_beta/employers/employer_search.py:27
 msgid "Failure before start"
 msgstr "Fehler vor dem Start"
 
-#: eures_beta/journeys/employer_search.py:28
+#: eures_beta/employers/employer_search.py:28
 msgid "Timeout: request accepted"
 msgstr "Zeitüberschreitung: Anfrage angenommen"
 
-#: eures_beta/journeys/employer_search.py:29
+#: eures_beta/employers/employer_search.py:29
 msgid "Timeout: request not accepted"
 msgstr "Zeitüberschreitung: Anfrage nicht angenommen"
 
-#: eures_beta/journeys/employer_workspace.py:54 eures_beta/journeys/forms.py:51
+#: eures_beta/employers/employer_workspace.py:55 eures_beta/offers/forms.py:38
 #: eures_beta/templates/employer_workspace.html:330
 msgid "Job title"
 msgstr "Stellenbezeichnung"
 
-#: eures_beta/journeys/employer_workspace.py:56 eures_beta/journeys/forms.py:52
+#: eures_beta/employers/employer_workspace.py:57 eures_beta/offers/forms.py:39
 msgid "Company"
 msgstr "Unternehmen"
 
-#: eures_beta/journeys/employer_workspace.py:60
+#: eures_beta/employers/employer_workspace.py:61
 msgid "Changing this text does not change the establishment or access rights."
 msgstr "Eine Änderung dieses Textes ändert weder die Betriebsstätte noch die Zugriffsrechte."
 
-#: eures_beta/journeys/employer_workspace.py:63 eures_beta/journeys/forms.py:53
+#: eures_beta/employers/employer_workspace.py:64 eures_beta/offers/forms.py:40
 msgid "Workplace"
 msgstr "Arbeitsort"
 
-#: eures_beta/journeys/employer_workspace.py:65 eures_beta/journeys/forms.py:55
+#: eures_beta/employers/employer_workspace.py:66 eures_beta/offers/forms.py:42
 #: eures_beta/templates/offer.html:31
 msgid "Contract"
 msgstr "Vertrag"
 
-#: eures_beta/journeys/employer_workspace.py:68 eures_beta/journeys/forms.py:8
-msgid "Please choose"
-msgstr "Bitte auswählen"
-
-#: eures_beta/journeys/employer_workspace.py:69
+#: eures_beta/employers/employer_workspace.py:70
 msgid "Permanent contract"
 msgstr "Unbefristeter Vertrag"
 
-#: eures_beta/journeys/employer_workspace.py:70
+#: eures_beta/employers/employer_workspace.py:71
 msgid "Fixed-term contract"
 msgstr "Befristeter Vertrag"
 
-#: eures_beta/journeys/employer_workspace.py:71
+#: eures_beta/employers/employer_workspace.py:72
 msgid "Temporary work"
 msgstr "Zeitarbeit"
 
-#: eures_beta/journeys/employer_workspace.py:72
+#: eures_beta/employers/employer_workspace.py:73
 msgid "Internship"
 msgstr "Praktikum"
 
-#: eures_beta/journeys/employer_workspace.py:73
+#: eures_beta/employers/employer_workspace.py:74
 msgid "Apprenticeship"
 msgstr "Ausbildung"
 
-#: eures_beta/journeys/employer_workspace.py:74
+#: eures_beta/employers/employer_workspace.py:75
 msgid "Freelance"
 msgstr "Selbstständig"
 
-#: eures_beta/journeys/employer_workspace.py:75
+#: eures_beta/employers/employer_workspace.py:76
 msgid "Training"
 msgstr "Weiterbildung"
 
-#: eures_beta/journeys/employer_workspace.py:79 eures_beta/journeys/forms.py:54
+#: eures_beta/employers/employer_workspace.py:80 eures_beta/offers/forms.py:41
 msgid "Job description"
 msgstr "Stellenbeschreibung"
 
-#: eures_beta/journeys/employer_workspace.py:85
+#: eures_beta/employers/employer_workspace.py:86
 msgid "Skills and experience sought"
 msgstr "Gesuchte Fähigkeiten und Erfahrung"
 
-#: eures_beta/journeys/employer_workspace.py:91 eures_beta/journeys/forms.py:21
+#: eures_beta/employers/employer_workspace.py:92 eures_beta/offers/forms.py:8
 msgid "Do you accept candidates who keep living in a neighbouring country?"
 msgstr "Akzeptieren Sie Personen, die weiterhin in einem Nachbarland wohnen?"
 
-#: eures_beta/journeys/employer_workspace.py:96 eures_beta/journeys/forms.py:25
+#: eures_beta/employers/employer_workspace.py:97 eures_beta/offers/forms.py:12
 msgid "Do you accept candidates who move from another country for this job?"
 msgstr "Akzeptieren Sie Personen, die für diese Stelle aus einem anderen Land umziehen?"
 
-#: eures_beta/journeys/employer_workspace.py:107
-#: eures_beta/journeys/forms.py:56 eures_beta/templates/offer.html:35
+#: eures_beta/employers/employer_workspace.py:108 eures_beta/offers/forms.py:43
+#: eures_beta/templates/offer.html:35
 msgid "Salary"
 msgstr "Gehalt"
 
-#: eures_beta/journeys/employer_workspace.py:108
-#: eures_beta/journeys/forms.py:57 eures_beta/templates/offer.html:39
+#: eures_beta/employers/employer_workspace.py:109 eures_beta/offers/forms.py:44
+#: eures_beta/templates/offer.html:39
 msgid "Working hours"
 msgstr "Arbeitszeiten"
 
-#: eures_beta/journeys/employer_workspace.py:109
+#: eures_beta/employers/employer_workspace.py:110
 msgid "Start date"
 msgstr "Arbeitsbeginn"
 
-#: eures_beta/journeys/employer_workspace.py:110
+#: eures_beta/employers/employer_workspace.py:111
 msgid "Languages and levels"
 msgstr "Sprachen und Niveaus"
 
-#: eures_beta/journeys/employer_workspace.py:111
-#: eures_beta/journeys/forms.py:96 eures_beta/templates/candidate.html:14
-msgid "Experience"
-msgstr "Erfahrung"
-
-#: eures_beta/journeys/employer_workspace.py:112
+#: eures_beta/employers/employer_workspace.py:113
 msgid "Access to the workplace"
 msgstr "Erreichbarkeit des Arbeitsortes"
 
-#: eures_beta/journeys/employer_workspace.py:123
+#: eures_beta/employers/employer_workspace.py:124
 msgid "Early hours"
 msgstr "Frühe Arbeitszeiten"
 
-#: eures_beta/journeys/employer_workspace.py:124
+#: eures_beta/employers/employer_workspace.py:125
 msgid "Night work"
 msgstr "Nachtarbeit"
 
-#: eures_beta/journeys/employer_workspace.py:125
+#: eures_beta/employers/employer_workspace.py:126
 msgid "Weekends"
 msgstr "Wochenenden"
 
-#: eures_beta/journeys/employer_workspace.py:126
+#: eures_beta/employers/employer_workspace.py:127
 msgid "Variable hours"
 msgstr "Variable Arbeitszeiten"
 
-#: eures_beta/journeys/employer_workspace.py:127
+#: eures_beta/employers/employer_workspace.py:128
 msgid "Shift work"
 msgstr "Schichtarbeit"
 
-#: eures_beta/journeys/employer_workspace.py:128
+#: eures_beta/employers/employer_workspace.py:129
 msgid "Physical work"
 msgstr "Körperliche Arbeit"
 
-#: eures_beta/journeys/employer_workspace.py:129
+#: eures_beta/employers/employer_workspace.py:130
 msgid "Standing work"
 msgstr "Längeres Stehen"
 
-#: eures_beta/journeys/employer_workspace.py:130
+#: eures_beta/employers/employer_workspace.py:131
 msgid "Outdoor work"
 msgstr "Arbeit im Freien"
 
-#: eures_beta/journeys/employer_workspace.py:131
+#: eures_beta/employers/employer_workspace.py:132
 msgid "Frequent travel"
 msgstr "Häufige Dienstreisen"
 
-#: eures_beta/journeys/employer_workspace.py:132
-#: eures_beta/journeys/employer_workspace.py:143
+#: eures_beta/employers/employer_workspace.py:133
+#: eures_beta/employers/employer_workspace.py:144
 msgid "None"
 msgstr "Keine"
 
-#: eures_beta/journeys/employer_workspace.py:133
-#: eures_beta/journeys/employer_workspace.py:144
-#: eures_beta/journeys/forms.py:11
-msgid "To discuss"
-msgstr "Zu besprechen"
-
-#: eures_beta/journeys/employer_workspace.py:136
-#: eures_beta/journeys/employer_workspace.py:142
+#: eures_beta/employers/employer_workspace.py:137
+#: eures_beta/employers/employer_workspace.py:143
 msgid "Other"
 msgstr "Andere"
 
-#: eures_beta/journeys/employer_workspace.py:138
+#: eures_beta/employers/employer_workspace.py:139
 msgid "Housing"
 msgstr "Unterkunft"
 
-#: eures_beta/journeys/employer_workspace.py:139
+#: eures_beta/employers/employer_workspace.py:140
 msgid "Administrative support"
 msgstr "Unterstützung bei Verwaltungsverfahren"
 
-#: eures_beta/journeys/employer_workspace.py:140
+#: eures_beta/employers/employer_workspace.py:141
 msgid "Transport"
 msgstr "Transport"
 
-#: eures_beta/journeys/employer_workspace.py:141
+#: eures_beta/employers/employer_workspace.py:142
 msgid "Onboarding"
 msgstr "Unterstützung beim Arbeitsbeginn"
 
-#: eures_beta/journeys/employer_workspace.py:149
+#: eures_beta/employers/employer_workspace.py:150
 msgid "Working conditions"
 msgstr "Arbeitsbedingungen"
 
-#: eures_beta/journeys/employer_workspace.py:150
+#: eures_beta/employers/employer_workspace.py:151
 msgid "Driving licences and authorisations"
 msgstr "Führerscheine und Berechtigungen"
 
-#: eures_beta/journeys/employer_workspace.py:151
+#: eures_beta/employers/employer_workspace.py:152
 msgid "Arrival support"
 msgstr "Unterstützung bei der Ankunft"
 
-#: eures_beta/journeys/employer_workspace.py:161
+#: eures_beta/employers/employer_workspace.py:162
 msgid "Is a licence or authorisation required?"
 msgstr "Ist ein Führerschein oder eine Berechtigung erforderlich?"
 
-#: eures_beta/journeys/employer_workspace.py:167
+#: eures_beta/employers/employer_workspace.py:168
 msgid "Other authorisation"
 msgstr "Weitere Berechtigung"
 
-#: eures_beta/journeys/employer_workspace.py:168
+#: eures_beta/employers/employer_workspace.py:169
 msgid "Other arrival support"
 msgstr "Weitere Unterstützung bei der Ankunft"
 
-#: eures_beta/journeys/employer_workspace.py:201
+#: eures_beta/employers/employer_workspace.py:202
 msgid "Select Yes before choosing required licences or authorisations."
 msgstr "Wählen Sie „Ja“, bevor Sie erforderliche Führerscheine oder Berechtigungen auswählen."
 
-#: eures_beta/journeys/employer_workspace.py:234
+#: eures_beta/employers/employer_workspace.py:235
 msgid "Choose either specific conditions or None / To discuss, not both."
 msgstr "Wählen Sie konkrete Bedingungen oder „Keine / Zu besprechen“, nicht beides."
 
-#: eures_beta/journeys/employer_workspace.py:344
+#: eures_beta/employers/employer_workspace.py:345
 msgid "A colleague changed this offer. Your changes have not been saved. Open the current version before trying again."
 msgstr "Ein Kollege hat dieses Angebot geändert. Ihre Änderungen wurden nicht gespeichert. Öffnen Sie zuerst die aktuelle Version."
 
-#: eures_beta/journeys/establishments.py:9
+#: eures_beta/employers/establishments.py:9
 msgid "Establishment name"
 msgstr "Name der Betriebsstätte"
 
-#: eures_beta/journeys/forms.py:9 eures_beta/templates/match.html:71
-#: eures_beta/templates/match.html:74
-msgid "Yes"
-msgstr "Ja"
-
-#: eures_beta/journeys/forms.py:10
-msgid "No"
-msgstr "Nein"
-
-#: eures_beta/journeys/forms.py:16 eures_beta/templates/employer_login.html:10
-#: eures_beta/templates/employer_login.html:43
-msgid "Email"
-msgstr "E-Mail-Adresse"
-
-#: eures_beta/journeys/forms.py:58 eures_beta/journeys/forms.py:99
-#: eures_beta/templates/candidate.html:18 eures_beta/templates/offer.html:43
-msgid "Languages"
-msgstr "Sprachen"
-
-#: eures_beta/journeys/forms.py:59 eures_beta/journeys/forms.py:98
-msgid "Skills"
-msgstr "Kompetenzen"
-
-#: eures_beta/journeys/forms.py:67
-msgid "Would you work in another country while keeping your current residence?"
-msgstr "Würden Sie in einem anderen Land arbeiten und Ihren aktuellen Wohnsitz behalten?"
-
-#: eures_beta/journeys/forms.py:72
-msgid "Would you move to another country for a job?"
-msgstr "Würden Sie für eine Stelle in ein anderes Land umziehen?"
-
-#: eures_beta/journeys/forms.py:95 eures_beta/templates/candidate.html:6
-msgid "Name"
-msgstr "Name"
-
-#: eures_beta/journeys/forms.py:97 eures_beta/templates/candidate.html:10
-msgid "Jobs sought"
-msgstr "Gesuchte Tätigkeiten"
-
-#: eures_beta/journeys/forms.py:100 eures_beta/templates/candidate.html:22
-msgid "Residence"
-msgstr "Wohnort"
-
-#: eures_beta/journeys/forms.py:101 eures_beta/templates/candidate.html:26
-msgid "Availability"
-msgstr "Verfügbarkeit"
-
-#: eures_beta/journeys/forms.py:111
-msgid "Question for the candidate"
-msgstr "Frage an die bewerbende Person"
-
-#: eures_beta/journeys/forms.py:112 eures_beta/templates/match.html:61
-msgid "Expected answer or evaluation guideline"
-msgstr "Erwartete Antwort oder Bewertungshinweis"
-
-#: eures_beta/journeys/forms.py:113
-msgid "Quick answers separated by | (optional)"
-msgstr "Schnellantworten, getrennt durch | (optional)"
-
-#: eures_beta/journeys/forms.py:114
-msgid "Essential requirement — human review required"
-msgstr "Unverzichtbare Voraussetzung — menschliche Prüfung erforderlich"
-
-#: eures_beta/journeys/forms.py:120
-msgid "Review note"
-msgstr "Prüfvermerk oder Vorstellungsnachricht"
-
-#: eures_beta/journeys/forms.py:128 eures_beta/templates/imported_offer.html:13
+#: eures_beta/employers/forms.py:6 eures_beta/templates/imported_offer.html:13
 msgid "Contact name"
 msgstr "Name der Kontaktperson"
 
-#: eures_beta/journeys/forms.py:129 eures_beta/templates/imported_offer.html:17
+#: eures_beta/employers/forms.py:7 eures_beta/templates/imported_offer.html:17
 msgid "Contact email"
 msgstr "E-Mail der Kontaktperson"
 
-#: eures_beta/journeys/forms.py:130 eures_beta/templates/imported_offer.html:21
+#: eures_beta/employers/forms.py:8 eures_beta/templates/imported_offer.html:21
 msgid "Phone (optional)"
 msgstr "Telefon (optional)"
 
-#: eures_beta/journeys/forms.py:132 eures_beta/templates/imported_offer.html:25
+#: eures_beta/employers/forms.py:10 eures_beta/templates/imported_offer.html:25
 msgid "Role in the company (optional)"
 msgstr "Funktion im Unternehmen (optional)"
 
-#: eures_beta/journeys/forms.py:138
+#: eures_beta/employers/forms.py:16
 msgid "Adviser responsible for this offer"
 msgstr "Zuständige Beratungsperson für dieses Angebot"
 
-#: eures_beta/journeys/forms.py:141 eures_beta/templates/dashboard.html:65
+#: eures_beta/employers/forms.py:19 eures_beta/templates/dashboard.html:65
 msgid "Unassigned"
 msgstr "Noch nicht zugewiesen"
 
-#: eures_beta/journeys/models.py:104
-#: eures_beta/templates/conversations/detail.html:5
-msgid "Employer"
-msgstr "Arbeitgeber"
-
-#: eures_beta/journeys/models.py:105
-#: eures_beta/templates/conversations/detail.html:4
-msgid "Candidate"
-msgstr "Bewerbende Person"
-
-#: eures_beta/journeys/models.py:106
-#: eures_beta/templates/conversations/detail.html:6
-msgid "Adviser"
-msgstr "Beratungskraft"
-
-#: eures_beta/journeys/models.py:107
-msgid "Administrator"
-msgstr "Administration"
-
-#: eures_beta/journeys/models.py:134
-msgid "Suggested — adviser review"
-msgstr "Vorschlag — Prüfung durch Beratungskraft"
-
-#: eures_beta/journeys/models.py:135
-msgid "Offer proposed"
-msgstr "Stelle vorgeschlagen"
-
-#: eures_beta/journeys/models.py:136 eures_beta/templates/match.html:21
-msgid "Not interested"
-msgstr "Kein Interesse"
-
-#: eures_beta/journeys/models.py:137
-msgid "Prequalification in progress"
-msgstr "Vorqualifizierung läuft"
-
-#: eures_beta/journeys/models.py:138
-msgid "Awaiting adviser review"
-msgstr "Prüfung durch Beratungskraft ausstehend"
-
-#: eures_beta/journeys/models.py:139
-msgid "Conversation opened"
-msgstr "Gespräch eröffnet"
-
-#: eures_beta/journeys/models.py:140
-msgid "Clarification needed"
-msgstr "Klärung erforderlich"
-
-#: eures_beta/journeys/push_strings.py:9
+#: eures_beta/employers/push_strings.py:9
 msgctxt "push diagnostic"
 msgid "The server could not complete this step."
 msgstr "Der Server konnte diesen Schritt nicht abschließen."
 
-#: eures_beta/journeys/push_strings.py:13
+#: eures_beta/employers/push_strings.py:13
 msgctxt "push diagnostic"
 msgid "Permission was not granted. You can change it in Chrome's site settings."
 msgstr "Die Berechtigung wurde nicht erteilt. Sie können sie in den Website-Einstellungen von Chrome ändern."
 
-#: eures_beta/journeys/push_strings.py:17
+#: eures_beta/employers/push_strings.py:17
 msgctxt "push diagnostic"
 msgid "Notifications allowed and subscription saved. You can schedule the test."
 msgstr "Benachrichtigungen sind erlaubt und das Abonnement wurde gespeichert. Sie können den Test planen."
 
-#: eures_beta/journeys/push_strings.py:21
+#: eures_beta/employers/push_strings.py:21
 msgctxt "push diagnostic"
 msgid "Scheduled in 10 seconds. Close this tab while keeping Chrome open. Click the notification to return here."
 msgstr "Versand in 10 Sekunden geplant. Schließen Sie diesen Tab und lassen Sie Chrome geöffnet. Klicken Sie auf die Benachrichtigung, um zurückzukehren."
 
-#: eures_beta/journeys/push_strings.py:25
+#: eures_beta/employers/push_strings.py:25
 msgctxt "push diagnostic"
 msgid "Test stopped and subscription removed. Chrome's permission can be removed in its settings."
 msgstr "Der Test wurde beendet und das Abonnement entfernt. Die Chrome-Berechtigung können Sie in den Einstellungen zurücknehmen."
 
-#: eures_beta/journeys/push_strings.py:27
+#: eures_beta/employers/push_strings.py:27
 msgctxt "push diagnostic"
 msgid "Creating a new alert…"
 msgstr "Eine neue Benachrichtigung wird erstellt…"
 
-#: eures_beta/journeys/push_strings.py:28
+#: eures_beta/employers/push_strings.py:28
 msgctxt "push diagnostic"
 msgid "Match Europe — local display"
 msgstr "Match Europe — lokale Anzeige"
 
-#: eures_beta/journeys/push_strings.py:31
+#: eures_beta/employers/push_strings.py:31
 msgctxt "push diagnostic"
 msgid "This alert is created directly on your Mac, without remote delivery."
 msgstr "Diese Benachrichtigung wird direkt auf Ihrem Mac ohne Fernversand erstellt."
 
-#: eures_beta/journeys/push_strings.py:35
+#: eures_beta/employers/push_strings.py:35
 #, python-brace-format
 msgctxt "push diagnostic"
 msgid "Chrome accepted the local display. Active notifications: {count}. If no alert is visible, check Chrome/macOS display settings."
 msgstr "Chrome hat die lokale Anzeige akzeptiert. Aktive Benachrichtigungen: {count}. Wenn keine Meldung sichtbar ist, prüfen Sie die Anzeigeeinstellungen von Chrome/macOS."
 
-#: eures_beta/journeys/push_strings.py:37
+#: eures_beta/employers/push_strings.py:37
 msgctxt "push diagnostic"
 msgid "Display error: "
 msgstr "Anzeigefehler: "
 
-#: eures_beta/journeys/push_strings.py:40
+#: eures_beta/employers/push_strings.py:40
 msgctxt "push diagnostic"
 msgid "Remote message received by Chrome and display accepted by the system."
 msgstr "Die Fernnachricht wurde von Chrome empfangen und die Anzeige vom System akzeptiert."
 
-#: eures_beta/journeys/push_strings.py:44
+#: eures_beta/employers/push_strings.py:44
 msgctxt "push diagnostic"
 msgid "Remote message received by Chrome, attempting to display…"
 msgstr "Die Fernnachricht wurde von Chrome empfangen. Anzeige wird versucht…"
 
-#: eures_beta/journeys/push_strings.py:46
+#: eures_beta/employers/push_strings.py:46
 msgctxt "push diagnostic"
 msgid "Browser error: "
 msgstr "Browserfehler: "
 
-#: eures_beta/journeys/push_strings.py:49
+#: eures_beta/employers/push_strings.py:49
 msgctxt "push diagnostic"
 msgid "Web Push is unavailable here. Open this address in Chrome outside private browsing."
 msgstr "Web Push ist hier nicht verfügbar. Öffnen Sie diese Adresse in Chrome außerhalb des privaten Modus."
 
-#: eures_beta/journeys/push_strings.py:53
+#: eures_beta/employers/push_strings.py:53
 msgctxt "push diagnostic"
 msgid "The notification service accepted the last delivery. Did you see the alert on your Mac?"
 msgstr "Der Benachrichtigungsdienst hat den letzten Versand akzeptiert. Haben Sie die Meldung auf Ihrem Mac gesehen?"
 
-#: eures_beta/journeys/push_strings.py:56
+#: eures_beta/employers/push_strings.py:56
 msgctxt "push diagnostic"
 msgid "The last delivery failed. You can try again."
 msgstr "Der letzte Versand ist fehlgeschlagen. Sie können es erneut versuchen."
 
-#: eures_beta/journeys/push_strings.py:58
+#: eures_beta/employers/push_strings.py:58
 msgctxt "push diagnostic"
 msgid "Ready. Click Enable notifications."
 msgstr "Bereit. Klicken Sie auf Benachrichtigungen aktivieren."
 
-#: eures_beta/journeys/push_test.py:100
+#: eures_beta/employers/push_test.py:100
 msgctxt "push diagnostic"
 msgid "Match Europe — test notification"
 msgstr "Match Europe — Testbenachrichtigung"
 
-#: eures_beta/journeys/push_test.py:104
+#: eures_beta/employers/push_test.py:104
 msgctxt "push diagnostic"
 msgid "The test works. Click to return to Match Europe."
 msgstr "Der Test funktioniert. Klicken Sie, um zu Match Europe zurückzukehren."
 
-#: eures_beta/journeys/services.py:96 eures_beta/journeys/services.py:113
+#: eures_beta/employers/views.py:40
+msgid "Adviser assignment saved."
+msgstr "Zuweisung der Beratungsperson gespeichert."
+
+#: eures_beta/matching/forms.py:7
+msgid "Review note"
+msgstr "Prüfvermerk oder Vorstellungsnachricht"
+
+#: eures_beta/matching/models.py:9
+msgid "Suggested — adviser review"
+msgstr "Vorschlag — Prüfung durch Beratungskraft"
+
+#: eures_beta/matching/models.py:10
+msgid "Offer proposed"
+msgstr "Stelle vorgeschlagen"
+
+#: eures_beta/matching/models.py:11 eures_beta/templates/match.html:21
+msgid "Not interested"
+msgstr "Kein Interesse"
+
+#: eures_beta/matching/models.py:12
+msgid "Prequalification in progress"
+msgstr "Vorqualifizierung läuft"
+
+#: eures_beta/matching/models.py:13
+msgid "Awaiting adviser review"
+msgstr "Prüfung durch Beratungskraft ausstehend"
+
+#: eures_beta/matching/models.py:14
+msgid "Conversation opened"
+msgstr "Gespräch eröffnet"
+
+#: eures_beta/matching/models.py:15
+msgid "Clarification needed"
+msgstr "Klärung erforderlich"
+
+#: eures_beta/matching/services.py:11 eures_beta/offers/services.py:11
 msgid "Validate the offer and confirm your email first."
 msgstr "Bestätigen Sie zuerst die Stelle und Ihre E-Mail-Adresse."
 
-#: eures_beta/journeys/services.py:105
-msgid "New validated offer"
-msgstr "Neue bestätigte Stelle"
-
-#: eures_beta/journeys/services.py:122
+#: eures_beta/matching/services.py:20
 msgid "Demonstration suggestion: no AGLAE score. Review skills, languages, mobility and availability."
 msgstr "Demovorschlag ohne AGLAE-Punkte. Prüfen Sie Kompetenzen, Sprachen, Mobilität und Verfügbarkeit."
 
-#: eures_beta/journeys/views.py:120
-msgid "If this address is eligible, a connection link has been prepared. No email is sent in demonstration mode."
-msgstr "Falls diese Adresse berechtigt ist, wurde ein Anmeldelink vorbereitet. Im Demomodus wird keine E-Mail versandt."
-
-#: eures_beta/journeys/views.py:169
-msgid "This link has expired or has already been used. Request a new link."
-msgstr "Dieser Link ist abgelaufen oder wurde bereits verwendet. Fordern Sie einen neuen an."
-
-#: eures_beta/journeys/views.py:175
-msgid "Email confirmed."
-msgstr "E-Mail-Adresse bestätigt."
-
-#: eures_beta/journeys/views.py:301
+#: eures_beta/matching/views.py:111
 msgid "An offer is waiting for you"
 msgstr "Eine Stelle wartet auf Sie"
 
-#: eures_beta/journeys/views.py:319
+#: eures_beta/matching/views.py:129
 msgid "Candidate response received"
 msgstr "Antwort der bewerbenden Person erhalten"
 
-#: eures_beta/journeys/views.py:334
+#: eures_beta/matching/views.py:144
 msgid "Invalid answer."
 msgstr "Ungültige Antwort."
 
-#: eures_beta/journeys/views.py:343
+#: eures_beta/matching/views.py:153
 msgid "Answer each question or explain what needs clarification, and confirm your agreement to introduction."
 msgstr "Beantworten Sie jede Frage oder erläutern Sie den Klärungsbedarf und stimmen Sie der Kontaktanbahnung zu."
 
-#: eures_beta/journeys/views.py:358 eures_beta/journeys/views.py:363
+#: eures_beta/matching/views.py:168 eures_beta/matching/views.py:173
 msgid "Prequalification ready for review"
 msgstr "Vorqualifizierung zur Prüfung bereit"
 
-#: eures_beta/journeys/views.py:372
+#: eures_beta/matching/views.py:182
 msgid "Agreement required."
 msgstr "Ihre Zustimmung ist erforderlich."
 
-#: eures_beta/journeys/views.py:378
+#: eures_beta/matching/views.py:188
 msgid "Please explain what needs clarification."
 msgstr "Erläutern Sie bitte den Klärungsbedarf."
 
-#: eures_beta/journeys/views.py:386 eures_beta/templates/match.html:26
+#: eures_beta/matching/views.py:196 eures_beta/templates/match.html:26
 msgid "Clarification requested"
 msgstr "Klärung angefordert"
 
-#: eures_beta/journeys/views.py:396
+#: eures_beta/matching/views.py:206
 msgid "Both participants must agree before the conversation is opened."
 msgstr "Beide Teilnehmenden müssen vor Eröffnung des Gesprächs zustimmen."
 
-#: eures_beta/journeys/views.py:402
+#: eures_beta/matching/views.py:212
 msgid "Write an introduction message."
 msgstr "Verfassen Sie eine Vorstellungsnachricht."
 
-#: eures_beta/journeys/views.py:409
+#: eures_beta/matching/views.py:219
 msgid "Your conversation is open"
 msgstr "Ihr Gespräch ist eröffnet"
 
-#: eures_beta/journeys/views.py:499
-msgid "Adviser assignment saved."
-msgstr "Zuweisung der Beratungsperson gespeichert."
+#: eures_beta/offers/forms.py:56
+msgid "Question for the candidate"
+msgstr "Frage an die bewerbende Person"
+
+#: eures_beta/offers/forms.py:57 eures_beta/templates/match.html:61
+msgid "Expected answer or evaluation guideline"
+msgstr "Erwartete Antwort oder Bewertungshinweis"
+
+#: eures_beta/offers/forms.py:58
+msgid "Quick answers separated by | (optional)"
+msgstr "Schnellantworten, getrennt durch | (optional)"
+
+#: eures_beta/offers/forms.py:59
+msgid "Essential requirement — human review required"
+msgstr "Unverzichtbare Voraussetzung — menschliche Prüfung erforderlich"
 
 #: eures_beta/offers/models.py:10 eures_beta/templates/dashboard.html:19
 msgid "Draft"
@@ -777,7 +773,11 @@ msgstr "Bestätigt"
 msgid "Sent to matching — demonstration"
 msgstr "An Matching übermittelt — Demonstration"
 
-#: eures_beta/offers/views.py:61
+#: eures_beta/offers/services.py:20
+msgid "New validated offer"
+msgstr "Neue bestätigte Stelle"
+
+#: eures_beta/offers/views.py:62
 msgid "Please confirm that the offer and questions are ready for matching."
 msgstr "Bestätigen Sie, dass Stelle und Fragen für das Matching bereit sind."
 

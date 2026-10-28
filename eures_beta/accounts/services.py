@@ -50,7 +50,7 @@ def issue_token(user):
 
 @transaction.atomic
 def consume_token(raw):
-    from eures_beta.journeys.services import dispatch_offer
+    from eures_beta.offers.services import dispatch_offer
 
     token = (
         AccessToken.objects.select_for_update()

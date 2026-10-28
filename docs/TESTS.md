@@ -1,23 +1,22 @@
 # Organisation des tests
 
-`make test` découvre automatiquement les tests sous `eures_beta` et `config`
-et exécute toute la suite PostgreSQL, sans liste de modules à maintenir. `TEST_ARGS` permet de transmettre
-les options du lanceur Django ; le rôle local doit pouvoir créer une base de test.
+`make test` découvre les tests sous `eures_beta` et `config` et exécute la suite
+PostgreSQL. `TEST_ARGS` transmet les options du lanceur Django ; le rôle local
+doit pouvoir créer une base de test.
 
-- `eures_beta/test_entrypoints.py` : accueil, langues et accès à l’administration.
-- `eures_beta/test_layout.py` : organisation du projet et emplacement des ressources.
-- `eures_beta/test_logging.py` : masquage des liens sensibles dans les journaux.
-- `config/test_*.py` : santé, statiques, HTTPS et démonstration partagée.
-- `eures_beta/journeys/tests/` : accès, offres, matching, conversations, langues et données fictives.
-- `eures_beta/journeys/tests/test_employer_*.py` : scénarios détaillés du nouveau parcours employeur.
-- Les tests du lecteur de documents et du diagnostic Push gardent leurs modules dédiés.
+- Chaque application métier a son dossier `tests/` : comptes, employeurs,
+  candidats, offres, matching, conversations, documents et notifications.
+- `employers/tests/test_employer_*.py` : parcours employeur, établissements et accès.
+- `documents/tests/test_document_reader.py` : extraction des documents.
+- `employers/tests/test_push_test.py` : diagnostic Push, restreint au mode local.
+- `eures_beta/test_*.py` : entrées, organisation, journalisation, scénarios
+  transverses et traduction des pages.
+- `config/test_*.py` : santé, statiques, HTTPS et configuration partagée.
 
-Le dossier `journeys/tests/base.py` partage seulement la préparation du scénario
-fictif. Chaque méthode de test est conservée dans un seul module ; il n’est pas
-nécessaire de maintenir une liste d’imports dans `tests/__init__.py`.
-Les trois fichiers à la racine du paquet ne représentent donc pas toute la suite.
+`eures_beta/testing_support.py` partage la préparation des scénarios fictifs.
+Chaque méthode reste dans un seul module, sans liste d’imports à maintenir
+dans `tests/__init__.py`. `employers/push_test.py` est du code applicatif.
 
-Tous les modules de tests de `journeys` sont maintenant dans `journeys/tests/`.
-Le fichier `journeys/push_test.py` reste du code applicatif : il implémente le
-diagnostic Push, ce ne sont pas des tests automatisés. Les imports relatifs
-pointent vers le code métier au niveau supérieur, les scénarios sont inchangés.
+Les tests de migration vérifient sur PostgreSQL les valeurs, relations, tables
+et permissions dans les deux sens, y compris après déplacement de l’historique
+dans `migration_history`. Les appels externes sont simulés.

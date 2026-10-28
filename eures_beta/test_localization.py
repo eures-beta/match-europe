@@ -1,10 +1,10 @@
 from django.urls import reverse
 
 
-from eures_beta.journeys.tests.base import JourneyScenario
+from eures_beta.testing_support import DomainScenario
 
 
-class LocalizationTests(JourneyScenario):
+class LocalizationTests(DomainScenario):
     def test_three_languages_and_no_private_cache(self):
         self.as_role('adviser')
         for lang, expected in [

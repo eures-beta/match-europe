@@ -77,7 +77,7 @@ class SharedDemoTests(TestCase):
             network.assert_not_called()
 
     def test_notice_is_available_in_each_interface_language(self):
-        from eures_beta.journeys.demo import shared_notice
+        from eures_beta.demo import shared_notice
 
         for language, expected in [
             ('fr', 'Démonstration partagée'),

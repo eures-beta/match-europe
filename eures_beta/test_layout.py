@@ -6,7 +6,9 @@ from django.test import SimpleTestCase, override_settings
 class UnifiedLayoutTests(SimpleTestCase):
     def test_packaged_application_preserves_its_database_label(self):
         app = apps.get_app_config('journeys')
-        self.assertEqual(app.name, 'eures_beta.journeys')
+        self.assertEqual(app.name, 'eures_beta.migration_history')
+        self.assertEqual(list(app.get_models()), [])
+        self.assertFalse((settings.APPS_DIR / 'journeys').exists())
         self.assertEqual(
             apps.get_model('accounts', 'Profile')._meta.db_table, 'journeys_profile'
         )

@@ -3,10 +3,10 @@ from eures_beta.matching.models import Answer
 from eures_beta.conversations.models import Conversation, Message
 
 
-from eures_beta.journeys.tests.base import JourneyScenario
+from eures_beta.testing_support import DomainScenario
 
 
-class ConversationsTests(JourneyScenario):
+class ConversationsTests(DomainScenario):
     def test_complete_introduction_and_three_party_messages(self):
         self.as_role('adviser')
         self.client.post(reverse('match', args=[self.match.pk]), {'action': 'invite'})

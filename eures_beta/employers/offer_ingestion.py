@@ -425,7 +425,9 @@ def read_pdf(upload, split_sections=True):
         result = subprocess.run(
             [
                 sys.executable,
-                str(Path(__file__).resolve().parents[1] / 'journeys' / 'pdf_reader.py'),
+                str(
+                    Path(__file__).resolve().parents[1] / 'documents' / 'pdf_reader.py'
+                ),
             ],
             input=upload.read(),
             capture_output=True,
@@ -446,6 +448,6 @@ def read_pdf(upload, split_sections=True):
 
 
 def parse_pdf_text(text, split_sections=True):
-    from eures_beta.journeys.document_fields import extract_fields
+    from eures_beta.documents.document_fields import extract_fields
 
     return extract_fields(text, empty_data(), split_sections=split_sections)

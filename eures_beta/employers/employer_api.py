@@ -105,7 +105,7 @@ def employer_page(request, path):
                 .render(context, request=request)
                 .replace('<body>', body_tag)
             )
-        from eures_beta.journeys.demo import shared_notice
+        from eures_beta.demo import shared_notice
 
         language = Path(path).stem.rsplit('-', 1)[-1]
         with translation.override(

@@ -1,9 +1,7 @@
 from eures_beta.accounts.services import audit
 from django.utils.translation import gettext_noop
-
 from django.utils import timezone
 from django.utils.translation import gettext as _
-
 from eures_beta.notifications.models import Notification
 from eures_beta.offers.models import Offer
 

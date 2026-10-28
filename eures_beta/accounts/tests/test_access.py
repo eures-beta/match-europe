@@ -7,10 +7,10 @@ from eures_beta.accounts.models import AccessToken
 from eures_beta.accounts.services import consume_token, invite_for, issue_token
 
 
-from eures_beta.journeys.tests.base import JourneyScenario
+from eures_beta.testing_support import DomainScenario
 
 
-class AccessTests(JourneyScenario):
+class AccessTests(DomainScenario):
     def test_tokens_expire_are_single_use_and_get_does_not_consume(self):
         raw = issue_token(self.users['employer'])
         self.assertEqual(

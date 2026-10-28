@@ -7,13 +7,13 @@ from eures_beta.documents.forms import UploadForm
 from eures_beta.offers.models import Offer
 from eures_beta.accounts.models import Profile
 from eures_beta.matching.models import Match
-from eures_beta.journeys.services import dispatch_offer
+from eures_beta.offers.services import dispatch_offer
 
 
-from eures_beta.journeys.tests.base import JourneyScenario
+from eures_beta.testing_support import DomainScenario
 
 
-class OffersTests(JourneyScenario):
+class OffersTests(DomainScenario):
     def test_offer_and_match_object_permissions(self):
         outsider = User.objects.create_user('other@example.invalid')
         Profile.objects.create(user=outsider, role='employer', verified=True)
