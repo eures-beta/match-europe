@@ -54,8 +54,8 @@ def vacancy():
 
 
 class EuresImportTests(SimpleTestCase):
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_handle_length_is_not_a_vacancy_validity_rule(self, fetch, target):
         for handle in ('QQ', 'ODM1MDEzOSA5', HANDLE, HANDLE + '=', 'A' * 220):
             with self.subTest(handle=handle):
@@ -72,8 +72,8 @@ class EuresImportTests(SimpleTestCase):
                     endpoint, ('application/json',), allow_redirects=False
                 )
 
-    @patch('eures_beta.journeys.offer_ingestion.public_target')
-    @patch('eures_beta.journeys.offer_ingestion.fetch_public')
+    @patch('eures_beta.employers.offer_ingestion.public_target')
+    @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_unrecognized_eures_url_does_not_report_a_france_travail_listing(
         self, fetch, target
     ):
