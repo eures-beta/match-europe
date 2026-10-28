@@ -16,7 +16,8 @@ from django.utils.translation import gettext as _
 from eures_beta.notifications.models import Notification
 from eures_beta.documents.models import Document
 from eures_beta.candidates.models import Candidate
-from .models import AccessToken, Event, Match, Offer
+from eures_beta.offers.models import Offer
+from .models import AccessToken, Event, Match
 
 
 def audit(actor, action, obj):

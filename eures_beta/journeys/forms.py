@@ -2,7 +2,7 @@ from eures_beta.documents.forms import UploadForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from eures_beta.candidates.models import Candidate
-from .models import Offer, Question
+from eures_beta.offers.models import Offer, Question
 
 MOBILITY = [
     ('', _('Please choose')),

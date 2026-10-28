@@ -54,7 +54,6 @@ urlpatterns = [
     path('confirm/<str:token>/', views.confirm, name='confirm'),
     path('logout/', views.sign_out, name='logout'),
     path('upload/', views.upload, name='upload'),
-    path('offers/<int:pk>/', views.offer, name='offer'),
     path('matches/<int:pk>/', views.match_detail, name='match'),
     path('manifest.webmanifest', views.manifest),
     path('sw.js', views.service_worker),
