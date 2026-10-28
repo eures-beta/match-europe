@@ -50,6 +50,9 @@ La lecture d’offres par URL possède des adaptateurs publics ciblés pour Fran
 Travail et EURES, sans navigateur ni authentification externe. Voir
 [leur fonctionnement, protections et limites](OFFER_URL_IMPORT.md).
 
+Les pages employeur consolidées utilisent les templates Django et les catalogues
+gettext plutôt que trois copies HTML par langue. Voir [les pages concernées et les limites restantes](EMPLOYER_TRANSLATIONS.md).
+
 - Le scénario de démonstration relie offre, candidat, préqualification, double accord et conversation à trois avec des données fictives.
 - Le parcours employeur d’import possède ses propres brouillons et objets `EmployerImport`. Leur affichage aux conseillers/admins ne les convertit pas en `Offer` et ne lance pas le matching.
 - Le scénario initial simule les services externes. Le nouveau parcours employeur peut lire des sources publiques, géocoder et envoyer/relire une offre inactive dans AGLAE sandbox lorsque configuré. Ne pas résumer tous les parcours comme entièrement simulés.

@@ -3610,3 +3610,63 @@ msgstr "Le brouillon a changé. Rechargez-le avant de modifier le contact."
 msgctxt "employer import-v2"
 msgid "The contact may be different from the person accessing this workspace."
 msgstr "Le contact peut être différent de la personne qui accède à cet espace."
+
+msgctxt "employer auth-shell"
+msgid "Match Europe — Add your job offer"
+msgstr "Match Europe — Ajoutez votre offre d’emploi"
+
+msgctxt "employer auth-shell"
+msgid "EURES beta - cross-border mobility, matching and follow-up"
+msgstr "EURES beta - mobilité, matching et accompagnement transfrontalier"
+
+msgctxt "employer auth-shell"
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+msgctxt "employer auth-shell"
+msgid "Home"
+msgstr "Accueil"
+
+msgctxt "employer auth-shell"
+msgid "Candidate"
+msgstr "Candidat"
+
+msgctxt "employer auth-shell"
+msgid "Employer"
+msgstr "Employeur"
+
+msgctxt "employer auth-shell"
+msgid "Stats"
+msgstr "Statistiques"
+
+msgctxt "employer auth-shell"
+msgid "Project"
+msgstr "Le projet"
+
+msgctxt "employer auth-shell"
+msgid "Project journal"
+msgstr "Journal du projet"
+
+msgctxt "employer auth-shell"
+msgid "Language"
+msgstr "Langue"
+
+msgctxt "employer auth-shell"
+msgid "My employer space"
+msgstr "Mon espace employeur"
+
+msgctxt "employer auth-shell"
+msgid "Sign in"
+msgstr "Me connecter"
+
+msgctxt "employer auth-shell"
+msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
+msgstr "Match Europe · Une expérimentation France Travail / EURES / ADEM / Le Forem / ELA"
+
+msgctxt "employer auth-shell"
+msgid "Useful links"
+msgstr "Liens utiles"
+
+msgctxt "employer auth-shell"
+msgid "Data protection"
+msgstr "Protection des données"
