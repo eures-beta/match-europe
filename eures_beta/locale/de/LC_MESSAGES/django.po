@@ -3670,97 +3670,157 @@ msgstr "Weitere Links"
 msgctxt "employer auth-shell"
 msgid "Data protection"
 msgstr "Datenschutz"
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Find your next job in Europe"
 msgstr "Finden Sie Ihren nächsten Job in Europa"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Candidate journey"
 msgstr "Für Bewerbende"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Start with your CV, your LinkedIn profile or manual entry. You can then review and complete your information."
 msgstr "Starten Sie mit Ihrem Lebenslauf, Ihrem LinkedIn-Profil oder einer manuellen Eingabe. Anschließend können Sie Ihre Angaben prüfen und ergänzen."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "How would you like to start?"
 msgstr "Wie möchten Sie beginnen?"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Upload my CV"
 msgstr "Lebenslauf hochladen"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Use a LinkedIn link"
 msgstr "LinkedIn-Link verwenden"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Enter my profile"
 msgstr "Profil selbst ausfüllen"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Use your CV to prepare your profile."
 msgstr "Nutzen Sie Ihren Lebenslauf, um Ihr Profil vorzubereiten."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Start with the link to your professional profile."
 msgstr "Beginnen Sie mit dem Link zu Ihrem beruflichen Profil."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "No CV to hand? Enter your information directly."
 msgstr "Kein Lebenslauf zur Hand? Geben Sie Ihre Angaben direkt ein."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "What happens next"
 msgstr "So geht es weiter"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Review and complete your profile."
 msgstr "Prüfen und ergänzen Sie Ihr Profil."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Tell us your preferences, languages and mobility plans."
 msgstr "Geben Sie Ihre Wünsche, Sprachkenntnisse und Mobilitätspläne an."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Explore suggested opportunities with support from an EURES adviser."
 msgstr "Prüfen Sie vorgeschlagene Stellen mit Unterstützung einer EURES-Beratungskraft."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "You stay in control"
 msgstr "Sie behalten die Kontrolle"
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "You can correct your information before confirming it. An introduction requires your agreement and the employer’s."
 msgstr "Sie können Ihre Angaben vor der Bestätigung korrigieren. Eine Kontaktaufnahme erfordert Ihre Zustimmung und die des Arbeitgebers."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Demonstration — candidate welcome. No data is transmitted."
 msgstr "Demonstration — Einstieg für Bewerbende. Es werden keine Daten übermittelt."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted."
 msgstr "Auswahl getroffen. Die nächsten Schritte werden noch vorbereitet; es werden keine Daten übermittelt."
 
-#: scripts/employer-ui/candidate-copy.json
+#: eures_beta/candidates/templates/candidates/landing.html
 msgctxt "candidate landing"
 msgid "Candidate sign-in will be prepared in a later step."
 msgstr "Die Anmeldung für Bewerbende folgt in einem späteren Schritt."
+
+msgctxt "candidate shell"
+msgid "Skip to content"
+msgstr "Zum Inhalt"
+
+msgctxt "candidate shell"
+msgid "EURES beta - cross-border mobility, matching and follow-up"
+msgstr "EURES beta - grenzüberschreitende Mobilität, Matching und Begleitung"
+
+msgctxt "candidate shell"
+msgid "Main navigation"
+msgstr "Hauptnavigation"
+
+msgctxt "candidate shell"
+msgid "Home"
+msgstr "Start"
+
+msgctxt "candidate shell"
+msgid "Candidate"
+msgstr "Kandidaten"
+
+msgctxt "candidate shell"
+msgid "Employer"
+msgstr "Arbeitgeber"
+
+msgctxt "candidate shell"
+msgid "Stats"
+msgstr "Statistik"
+
+msgctxt "candidate shell"
+msgid "Project"
+msgstr "Projekt"
+
+msgctxt "candidate shell"
+msgid "Project journal"
+msgstr "Projektjournal"
+
+msgctxt "candidate shell"
+msgid "Language"
+msgstr "Sprache"
+
+msgctxt "candidate shell"
+msgid "Sign in"
+msgstr "Anmelden"
+
+msgctxt "candidate shell"
+msgid "Partners"
+msgstr "Partner"
+
+msgctxt "candidate shell"
+msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
+msgstr "Match Europe · Eine Erprobung von France Travail / EURES / ADEM / Le Forem / ELA"
+
+msgctxt "candidate shell"
+msgid "Useful links"
+msgstr "Weitere Links"
+
+msgctxt "candidate shell"
+msgid "Data protection"
+msgstr "Datenschutz"

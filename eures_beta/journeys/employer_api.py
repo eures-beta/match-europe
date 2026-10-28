@@ -25,6 +25,8 @@ from django.utils import translation
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
+from eures_beta.demo_access import require_demo_access as demo_api
+
 from .models import EmployerImport
 from .employer_ownership import accessible_imports, identity
 from .forms import EmployerContactForm
@@ -53,28 +55,6 @@ def local_only(view):
             or request.META.get('REMOTE_ADDR') not in ('127.0.0.1', '::1')
             or os.environ.get('ME_EMPLOYER_DEV_ACCESS') != '1'
         ):
-            raise Http404()
-        return view(request, *args, **kwargs)
-
-    return wrapped
-
-
-def demo_api(view):
-    """Shared HTTPS demos retain CSRF and session ownership; Push stays local-only."""
-
-    @wraps(view)
-    @never_cache
-    def wrapped(request, *args, **kwargs):
-        shared = getattr(settings, 'SHARED_DEMO', False)
-        allowed = (
-            request.is_secure()
-            if shared
-            else (
-                request.META.get('REMOTE_ADDR') in ('127.0.0.1', '::1')
-                and os.environ.get('ME_EMPLOYER_DEV_ACCESS') == '1'
-            )
-        )
-        if not settings.DEMO_MODE or not allowed:
             raise Http404()
         return view(request, *args, **kwargs)
 
