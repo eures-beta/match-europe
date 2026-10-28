@@ -96,3 +96,11 @@ que le démarrage est en cours ou incertain ; seul un démarrage confirmé rense
 la date de verrouillage définitif. Aucun contact réel autorisé. Clôture, archivage,
 effets sur les dossiers en cours et réouverture restent des décisions à prendre.
 Voir [périmètre du lot 4A](EMPLOYER_SEARCH_LAUNCH.md).
+
+## 28 octobre 2026 — reprise du volet candidat
+
+Eric valide la reprise de l’accueil candidat du 26 octobre sur le main actuel,
+avec l’identité visuelle et les trois entrées CV/LinkedIn/saisie manuelle déjà
+validées. L’ancienne dépendance à la PR #15 n’est pas reprise. Ce lot conserve
+les interactions simulées ; il ne valide pas encore le parcours de profil,
+l’authentification candidat ni une collecte réelle de données.

@@ -3670,3 +3670,97 @@ msgstr "Liens utiles"
 msgctxt "employer auth-shell"
 msgid "Data protection"
 msgstr "Protection des données"
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Find your next job in Europe"
+msgstr "Trouvez votre prochain emploi en Europe"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Candidate journey"
+msgstr "Parcours candidat"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Start with your CV, your LinkedIn profile or manual entry. You can then review and complete your information."
+msgstr "Commencez avec votre CV, votre profil LinkedIn ou une saisie manuelle. Vous pourrez ensuite vérifier et compléter vos informations."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "How would you like to start?"
+msgstr "Comment souhaitez-vous commencer ?"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Upload my CV"
+msgstr "Importer mon CV"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Use a LinkedIn link"
+msgstr "Utiliser un lien LinkedIn"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Enter my profile"
+msgstr "Saisir mon profil"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Use your CV to prepare your profile."
+msgstr "Partez de votre CV pour préparer votre profil."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Start with the link to your professional profile."
+msgstr "Commencez à partir du lien de votre profil professionnel."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "No CV to hand? Enter your information directly."
+msgstr "Vous n’avez pas de CV sous la main ? Renseignez directement vos informations."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "What happens next"
+msgstr "Ce qui se passe ensuite"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Review and complete your profile."
+msgstr "Vérifiez et complétez votre profil."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Tell us your preferences, languages and mobility plans."
+msgstr "Précisez vos souhaits, vos langues et votre mobilité."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Explore suggested opportunities with support from an EURES adviser."
+msgstr "Examinez les opportunités proposées avec l’appui d’un conseiller EURES."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "You stay in control"
+msgstr "Vous gardez la main"
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "You can correct your information before confirming it. An introduction requires your agreement and the employer’s."
+msgstr "Vous pourrez corriger vos informations avant de les valider. Une mise en relation nécessite votre accord et celui de l’employeur."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Demonstration — candidate welcome. No data is transmitted."
+msgstr "Démonstration — accueil candidat. Aucune donnée transmise."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted."
+msgstr "Choix sélectionné. La suite du parcours candidat reste à préparer ; aucune donnée n’est transmise."
+
+#: scripts/employer-ui/candidate-copy.json
+msgctxt "candidate landing"
+msgid "Candidate sign-in will be prepared in a later step."
+msgstr "La connexion candidat sera préparée dans une prochaine étape."

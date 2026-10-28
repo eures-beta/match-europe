@@ -1,0 +1,83 @@
+{
+  "fr": {
+    "title": "Trouvez votre prochain emploi en Europe",
+    "kicker": "Parcours candidat",
+    "intro": "Commencez avec votre CV, votre profil LinkedIn ou une saisie manuelle. Vous pourrez ensuite vérifier et compléter vos informations.",
+    "choiceTitle": "Comment souhaitez-vous commencer ?",
+    "choices": [
+      "Importer mon CV",
+      "Utiliser un lien LinkedIn",
+      "Saisir mon profil"
+    ],
+    "descriptions": [
+      "Partez de votre CV pour préparer votre profil.",
+      "Commencez à partir du lien de votre profil professionnel.",
+      "Vous n’avez pas de CV sous la main ? Renseignez directement vos informations."
+    ],
+    "nextTitle": "Ce qui se passe ensuite",
+    "nextSteps": [
+      "Vérifiez et complétez votre profil.",
+      "Précisez vos souhaits, vos langues et votre mobilité.",
+      "Examinez les opportunités proposées avec l’appui d’un conseiller EURES."
+    ],
+    "controlTitle": "Vous gardez la main",
+    "controlText": "Vous pourrez corriger vos informations avant de les valider. Une mise en relation nécessite votre accord et celui de l’employeur.",
+    "preview": "Démonstration — accueil candidat. Aucune donnée transmise.",
+    "selectionNotice": "Choix sélectionné. La suite du parcours candidat reste à préparer ; aucune donnée n’est transmise.",
+    "accountNotice": "La connexion candidat sera préparée dans une prochaine étape."
+  },
+  "en": {
+    "title": "Find your next job in Europe",
+    "kicker": "Candidate journey",
+    "intro": "Start with your CV, your LinkedIn profile or manual entry. You can then review and complete your information.",
+    "choiceTitle": "How would you like to start?",
+    "choices": [
+      "Upload my CV",
+      "Use a LinkedIn link",
+      "Enter my profile"
+    ],
+    "descriptions": [
+      "Use your CV to prepare your profile.",
+      "Start with the link to your professional profile.",
+      "No CV to hand? Enter your information directly."
+    ],
+    "nextTitle": "What happens next",
+    "nextSteps": [
+      "Review and complete your profile.",
+      "Tell us your preferences, languages and mobility plans.",
+      "Explore suggested opportunities with support from an EURES adviser."
+    ],
+    "controlTitle": "You stay in control",
+    "controlText": "You can correct your information before confirming it. An introduction requires your agreement and the employer’s.",
+    "preview": "Demonstration — candidate welcome. No data is transmitted.",
+    "selectionNotice": "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted.",
+    "accountNotice": "Candidate sign-in will be prepared in a later step."
+  },
+  "de": {
+    "title": "Finden Sie Ihren nächsten Job in Europa",
+    "kicker": "Für Bewerbende",
+    "intro": "Starten Sie mit Ihrem Lebenslauf, Ihrem LinkedIn-Profil oder einer manuellen Eingabe. Anschließend können Sie Ihre Angaben prüfen und ergänzen.",
+    "choiceTitle": "Wie möchten Sie beginnen?",
+    "choices": [
+      "Lebenslauf hochladen",
+      "LinkedIn-Link verwenden",
+      "Profil selbst ausfüllen"
+    ],
+    "descriptions": [
+      "Nutzen Sie Ihren Lebenslauf, um Ihr Profil vorzubereiten.",
+      "Beginnen Sie mit dem Link zu Ihrem beruflichen Profil.",
+      "Kein Lebenslauf zur Hand? Geben Sie Ihre Angaben direkt ein."
+    ],
+    "nextTitle": "So geht es weiter",
+    "nextSteps": [
+      "Prüfen und ergänzen Sie Ihr Profil.",
+      "Geben Sie Ihre Wünsche, Sprachkenntnisse und Mobilitätspläne an.",
+      "Prüfen Sie vorgeschlagene Stellen mit Unterstützung einer EURES-Beratungskraft."
+    ],
+    "controlTitle": "Sie behalten die Kontrolle",
+    "controlText": "Sie können Ihre Angaben vor der Bestätigung korrigieren. Eine Kontaktaufnahme erfordert Ihre Zustimmung und die des Arbeitgebers.",
+    "preview": "Demonstration — Einstieg für Bewerbende. Es werden keine Daten übermittelt.",
+    "selectionNotice": "Auswahl getroffen. Die nächsten Schritte werden noch vorbereitet; es werden keine Daten übermittelt.",
+    "accountNotice": "Die Anmeldung für Bewerbende folgt in einem späteren Schritt."
+  }
+}

@@ -82,3 +82,9 @@ Voir [périmètre et recette](EMPLOYER_OFFER_WORKSPACE.md).
 Confirmation de recherche incluant qualification/contact, gestion des échecs et
 états incertains, sans appel réel ni nouvelle candidature/conversation.
 Clôture et archivage restent à définir. Voir [lot 4A](EMPLOYER_SEARCH_LAUNCH.md).
+
+## Accueil candidat — 28 octobre 2026
+
+Premier écran repris dans la structure Django actuelle, trois entrées simulées
+CV/LinkedIn/saisie manuelle en FR/EN/DE. Aucun raccordement au matching, aux
+conseillers ou aux données candidat. Voir [périmètre](CANDIDATE_LANDING.md).

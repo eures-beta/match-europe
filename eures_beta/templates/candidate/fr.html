@@ -1,0 +1,92 @@
+{% load i18n %}
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Match Europe — {% translate "Candidate journey" context "candidate landing" %}</title>
+<link rel="stylesheet" href="/static/employer/site.css">
+<style>.employer-partner-logos{display:grid;grid-template-columns:1.5fr 1.4fr 1fr 1fr;align-items:center;gap:24px;padding:20px;margin-bottom:24px;background:#fff;border:1px solid var(--line);border-radius:16px}.employer-partner-logo{display:flex;align-items:center;justify-content:center;min-width:0;padding:8px}.employer-partner-logo img{display:block;width:100%;height:auto;object-fit:contain}.employer-partner-forem img{max-width:110px}@media(max-width:700px){.employer-partner-logos{grid-template-columns:1fr 1fr;gap:12px 24px;padding:16px}.employer-partner-eures img{max-width:210px}.employer-partner-ft img{max-width:190px}.employer-partner-adem img{max-width:112px}.employer-partner-forem img{max-width:110px}}.employer-page-footer{margin-top:32px;border-top:1px solid var(--line);padding:24px 0 32px;color:var(--muted);font-size:14px}.employer-page-footer-inner{display:flex;flex-direction:column;align-items:flex-start;gap:14px}.employer-page-footer-inner>p{max-width:100%;text-wrap:balance}.employer-page-legal{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.employer-page-footer p{margin:0;line-height:1.6}.employer-page-footer nav{display:flex;flex-wrap:wrap;gap:12px 24px}.employer-page-footer a{color:inherit;text-decoration:underline;text-underline-offset:4px}.employer-page-footer a:hover{color:var(--text)}.employer-page-footer a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:640px){.employer-page-footer-inner{align-items:flex-start;flex-direction:column}}.demo-notice{margin:0;padding:12px 24px;background:#fff0bd;color:#17324d;text-align:center}.primary-action:disabled{cursor:default;opacity:1}.skip-content{position:absolute;left:-10000px}.skip-content:focus{left:12px;top:12px;background:white;padding:12px;z-index:100}</style>
+<style>.site-header .employer-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:.75rem;flex-wrap:wrap;margin-left:auto}.site-header .employer-header-actions .lang-switch{width:auto}.site-header .employer-account-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;box-sizing:border-box;white-space:nowrap;background:#d6e9ff;color:#003566;border-color:#8cb8e8;font-weight:700}.site-header .employer-account-link:hover{background:#c4dfff;border-color:#527faf}.employer-account-link:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:700px){.site-header .employer-header-actions{width:100%;gap:.5rem;justify-content:space-between}}</style><link rel="stylesheet" href="/static/candidate/candidate.css"></head><body><a class="skip-content" href="#main-content">Aller au contenu</a><p class="demo-notice" id="demo-notice">{% translate "Demonstration — candidate welcome. No data is transmitted." context "candidate landing" %}</p>
+
+    <header class="site-header">
+      <div class="shell">
+        <a class="brand" href="/forms/eures-beta/?lang=fr">
+          <span class="brand-copy">
+            <strong>Match Europe</strong>
+            <span>EURES beta - mobilité, matching et accompagnement transfrontalier</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Navigation principale">
+          <div class="nav-links">
+            <a class="nav-pill" href="/forms/eures-beta/?lang=fr">Accueil</a>
+            <a class="nav-pill is-active" aria-current="page" href="/candidate/?lang=fr">Candidat</a>
+            <a class="nav-pill" href="/employer/pages/fr.html">Employeur</a>
+            <a class="nav-pill" href="/forms/eures-beta/stat?lang=fr">Statistiques</a>
+          </div>
+          <div class="nav-links nav-links-secondary">
+            <a class="nav-pill" href="/forms/eures-beta/le-projet?lang=fr">Le projet</a>
+            <a class="nav-pill" href="/forms/eures-beta/journal?lang=fr">Journal du projet</a>
+          </div>
+          <div class="employer-header-actions"><div class="lang-switch" aria-label="Langue">
+
+              <a class="lang-link is-active" href="/candidate/?lang=fr">FR</a>
+
+              <a class="lang-link" href="/candidate/?lang=en">EN</a>
+
+              <a class="lang-link" href="/candidate/?lang=de">DE</a>
+
+          </div><button type="button" class="nav-pill employer-account-link" data-candidate-account>Me connecter</button></div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="section candidate-landing-page">
+    <div class="shell candidate-landing-layout">
+      <article class="candidate-letter">
+        <div class="employer-partner-logos" role="group" aria-label="Partenaires">
+      <div class="employer-partner-logo employer-partner-eures"><img src="/static/employer/assets/eures-ela.jpg" alt="EURES / European Labour Authority" width="5956" height="2372"></div>
+      <div class="employer-partner-logo employer-partner-ft"><img src="/static/employer/assets/france-travail.svg" alt="République française — France Travail" width="893" height="296"></div>
+      <div class="employer-partner-logo employer-partner-adem"><img src="/static/employer/assets/adem.png" alt="ADEM — Agence pour le développement de l’emploi" width="591" height="591"></div>
+      <div class="employer-partner-logo employer-partner-forem"><img src="/static/employer/assets/forem.png" alt="Le Forem" width="795" height="229"></div>
+    </div>
+        <div class="candidate-letter-head"><div class="kicker">{% translate "Candidate journey" context "candidate landing" %}</div>
+          <h1>{% translate "Find your next job in Europe" context "candidate landing" %}</h1><p class="lede">{% translate "Start with your CV, your LinkedIn profile or manual entry. You can then review and complete your information." context "candidate landing" %}</p>
+        </div>
+        <div><h2 class="choice-heading">{% translate "How would you like to start?" context "candidate landing" %}</h2><div class="entry-choices">
+    <button class="import-choice" type="button" data-candidate-choice="0">
+      <span class="choice-symbol" aria-hidden="true">CV</span>
+      <span><strong>{% translate "Upload my CV" context "candidate landing" %}</strong><span class="choice-description">{% translate "Use your CV to prepare your profile." context "candidate landing" %}</span></span>
+      <span class="choice-arrow" aria-hidden="true">→</span>
+    </button>
+    <button class="import-choice" type="button" data-candidate-choice="1">
+      <span class="choice-symbol" aria-hidden="true">URL</span>
+      <span><strong>{% translate "Use a LinkedIn link" context "candidate landing" %}</strong><span class="choice-description">{% translate "Start with the link to your professional profile." context "candidate landing" %}</span></span>
+      <span class="choice-arrow" aria-hidden="true">→</span>
+    </button>
+    <button class="import-choice" type="button" data-candidate-choice="2">
+      <span class="choice-symbol" aria-hidden="true">Aa</span>
+      <span><strong>{% translate "Enter my profile" context "candidate landing" %}</strong><span class="choice-description">{% translate "No CV to hand? Enter your information directly." context "candidate landing" %}</span></span>
+      <span class="choice-arrow" aria-hidden="true">→</span>
+    </button></div></div>
+        <p id="candidate-status" class="candidate-highlight" role="status" hidden
+           data-selection-notice="{% translate "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted." context "candidate landing" %}" data-account-notice="{% translate "Candidate sign-in will be prepared in a later step." context "candidate landing" %}"></p>
+      </article>
+      <aside class="candidate-sidebar">
+        <article class="surface-card candidate-info-card"><h2>{% translate "What happens next" context "candidate landing" %}</h2>
+          <ol><li>{% translate "Review and complete your profile." context "candidate landing" %}</li><li>{% translate "Tell us your preferences, languages and mobility plans." context "candidate landing" %}</li><li>{% translate "Explore suggested opportunities with support from an EURES adviser." context "candidate landing" %}</li></ol>
+        </article>
+        <article class="surface-card candidate-info-card"><h2>{% translate "You stay in control" context "candidate landing" %}</h2><p>{% translate "You can correct your information before confirming it. An introduction requires your agreement and the employer’s." context "candidate landing" %}</p></article>
+      </aside>
+    </div>
+  </main>
+
+
+    <footer class="employer-page-footer">
+      <div class="shell employer-page-footer-inner">
+        <p>Match Europe · Une expérimentation France Travail / EURES / ADEM / Le Forem / ELA</p>
+        <nav aria-label="Liens utiles">
+          <a href="/forms/eures-beta/le-projet?lang=fr">Le projet</a>
+          <a href="/forms/eures-beta/journal?lang=fr">Journal du projet</a>
+          <a href="/employer/pages/privacy-fr.html">Protection des données</a>
+        </nav>
+      </div>
+    </footer>
+
+  <script src="/static/candidate/candidate.js" defer></script></body></html>
