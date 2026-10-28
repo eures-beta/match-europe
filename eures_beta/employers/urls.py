@@ -1,5 +1,5 @@
 from django.urls import path
-from . import (
+from eures_beta.employers import (
     views,
     employer_login,
     employer_workspace,

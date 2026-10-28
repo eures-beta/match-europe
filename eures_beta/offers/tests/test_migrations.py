@@ -56,9 +56,10 @@ class PreservedModelMigrationTests(TransactionTestCase):
             tables = set(connection.introspection.table_names())
             new = self.migrate(leaves)
             for name, snapshot in snapshots.items():
-                label = 'offers' if name in ['Offer', 'Question'] else 'journeys'
+                table = old.get_model('journeys', name)._meta.db_table
+                model = next(m for m in new.get_models() if m._meta.db_table == table)
                 self.assertEqual(
-                    list(new.get_model(label, name).objects.order_by('pk').values()),
+                    list(model.objects.order_by('pk').values()),
                     snapshot,
                 )
             self.assertEqual(

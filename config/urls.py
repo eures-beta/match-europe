@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from eures_beta.journeys import views
+from eures_beta.matching.views import dashboard
 from eures_beta.journeys.redirects import legacy_employer_page
 from .health import health
 
@@ -18,7 +19,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", views.home, name="home"),
+    path("", include("eures_beta.matching.urls")),
     path("", include("eures_beta.journeys.urls")),
     # Keep role navigation separate from the public employer entry point.
-    path("dashboard/", views.dashboard, name="dashboard"),
+    path("dashboard/", dashboard, name="dashboard"),
 ]

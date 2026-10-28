@@ -27,5 +27,16 @@ Les sept modèles utilisent leurs tables `journeys_*` existantes. L’aller-reto
 de migration conserve également les imports JSON, relations UUID, appartenances,
 événements et permissions. Aucun service externe n’est appelé par ces tests.
 
-L’extraction est progressive : les rapprochements et quelques utilitaires
-transverses restent dans `journeys`. Ses migrations historiques restent requises.
+## Rapprochements
+
+`matching` porte Match, Answer, les suggestions fictives, les accords et la revue
+du rapprochement, ainsi que le tableau de suivi par rôle. Les permissions des
+offres sont dans `offers.permissions`. Les règles métier et URL sont inchangées.
+
+Les tables des rapprochements et réponses restent en place. La relation de la
+conversation est mise à jour dans l’état Django uniquement : sa clé étrangère
+physique pointe déjà sur la même table. Les tests conservent réponses, accords,
+conversations et permissions dans les deux sens.
+
+Quelques utilitaires et formulaires restent dans `journeys` avant le nettoyage
+final. Ses migrations historiques restent requises.

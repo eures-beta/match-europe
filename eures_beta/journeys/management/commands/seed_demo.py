@@ -6,7 +6,8 @@ from django.utils import timezone
 from eures_beta.candidates.models import Candidate
 from eures_beta.offers.models import Offer, Question
 from eures_beta.accounts.models import Profile
-from eures_beta.journeys.services import dispatch_offer, suggest_candidates
+from eures_beta.matching.services import suggest_candidates
+from eures_beta.journeys.services import dispatch_offer
 
 
 class Command(BaseCommand):

@@ -4,7 +4,7 @@ from django.db import models
 
 class Conversation(models.Model):
     match = models.OneToOneField(
-        'journeys.Match', on_delete=models.PROTECT, related_name='conversation'
+        'matching.Match', on_delete=models.PROTECT, related_name='conversation'
     )
     opened_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created = models.DateTimeField(auto_now_add=True)

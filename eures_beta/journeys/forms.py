@@ -108,12 +108,3 @@ class QuestionForm(forms.ModelForm):
             'options': _('Quick answers separated by | (optional)'),
             'mandatory': _('Essential requirement — human review required'),
         }
-
-
-class ReviewForm(forms.Form):
-    note = forms.CharField(
-        label=_('Review note'),
-        max_length=2000,
-        required=False,
-        widget=forms.Textarea(attrs={'rows': 3}),
-    )

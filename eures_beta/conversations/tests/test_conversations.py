@@ -1,5 +1,5 @@
 from django.urls import reverse
-from eures_beta.journeys.models import Answer
+from eures_beta.matching.models import Answer
 from eures_beta.conversations.models import Conversation, Message
 
 

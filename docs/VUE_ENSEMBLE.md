@@ -33,7 +33,8 @@ Le découpage progressif distingue désormais :
 - `offers` : offres et questions ;
 - `accounts` : profils, rôles, accès et audit des acteurs ;
 - `employers` : établissements, imports, accès et parcours employeur ;
-- `journeys` : rapprochements, accords et orchestration restante.
+- `matching` : rapprochements, réponses, accords, revue et tableau de suivi ;
+- `journeys` : derniers utilitaires et formulaires en cours de rangement.
 
 Les URL et tables physiques existantes sont conservées. Les migrations déplacent
 l’état des modèles et leurs ContentType sans recréer les tables. Les formulaires
