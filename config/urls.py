@@ -5,6 +5,7 @@ from eures_beta.journeys.redirects import legacy_employer_page
 from .health import health
 
 urlpatterns = [
+    path("", include("eures_beta.notifications.urls")),
     # Old tabs/bookmarks still contain these relative language links after deployment.
     path('previews/employer-landing/<path:path>', legacy_employer_page),
     path("conversations/", include("eures_beta.conversations.urls")),
