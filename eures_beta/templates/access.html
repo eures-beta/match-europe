@@ -10,12 +10,21 @@
           <p>{% trans "Your adviser" %} : {{ adviser.profile.name }}</p>{% else %}
           <p>{% trans "Use an existing email, or ask your adviser for an invitation." %}</p>
         {% endif %}
-        <form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">{% trans "Continue with my email" %}</button></form></div></section>
-      <section class="col-lg-6"><div class="panel"><h2>{% trans "Try the four journeys" %}</h2><p>{% trans "These fictional identities are shared demonstration accounts. They must not contain real data." %}</p><div class="demo-people">{% for person in demo_people %}<form action="{% url 'demo_login' person.pk %}" method="post">{% csrf_token %}<button class="btn btn-outline-primary w-100"><strong>{{ person.profile.get_role_display }}</strong><span>{{ person.profile.name }}</span></button></form>{% empty %}
-        <p>{% trans "Demonstration data has not been loaded." %}</p>
-{% endfor %}
-</div>
-</div>
-</section>
-</div>
+        <form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-primary">{% trans "Continue with my email" %}</button></form>
+      </div>
+    </section>
+    <section class="col-lg-6">
+      <div class="panel">
+        <h2>{% trans "Try the four journeys" %}</h2>
+        <p>{% trans "These fictional identities are shared demonstration accounts. They must not contain real data." %}</p>
+        <div class="demo-people">
+          {% for person in demo_people %}
+            <form action="{% url 'demo_login' person.pk %}" method="post">{% csrf_token %}<button class="btn btn-outline-primary w-100"><strong>{{ person.profile.get_role_display }}</strong><span>{{ person.profile.name }}</span></button></form>
+          {% empty %}
+            <p>{% trans "Demonstration data has not been loaded." %}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </div>
 {% endblock %}

@@ -1094,11 +1094,14 @@
             <div class="lang-switch"
                  aria-label="{% translate "Language" context "employer auth-shell" %}">
               <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="{% if workspace %}{{ request.path }}{% else %}/employer/access/{% endif %}?lang=fr">FR</a>
+                 href="{% if workspace %}
+{{ request.path }}{% else %}/employer/access/{% endif %}?lang=fr">FR</a>
               <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="{% if workspace %}{{ request.path }}{% else %}/employer/access/{% endif %}?lang=en">EN</a>
+                 href="{% if workspace %}
+{{ request.path }}{% else %}/employer/access/{% endif %}?lang=en">EN</a>
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="{% if workspace %}{{ request.path }}{% else %}/employer/access/{% endif %}?lang=de">DE</a>
+                 href="{% if workspace %}
+{{ request.path }}{% else %}/employer/access/{% endif %}?lang=de">DE</a>
             </div>
             <a class="nav-pill employer-account-link"
                href="{% if signed_in %}/employer/connected/?lang={{ page_language }}{% else %}/employer/access/?lang={{ page_language }}{% endif %}">
