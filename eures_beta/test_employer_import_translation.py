@@ -30,6 +30,11 @@ class EmployerImportTranslationTests(SimpleTestCase):
                 strings = json.loads(scripts['import-strings'])
                 self.assertEqual(strings['continue'], label)
                 self.assertTrue(strings['errors'])
+                self.assertTrue(strings['errors']['session_expired'])
+                self.assertTrue(strings['connectedContactTitle'])
+                self.assertTrue(strings['connectedContactHelp'])
+                review = json.loads(scripts['review-strings'])
+                self.assertTrue(review['errors']['search_started'])
                 self.assertTrue(json.loads(scripts['contact-strings'])['privacy'])
                 self.assertNotIn('{%', html)
 

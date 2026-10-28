@@ -16,7 +16,6 @@ let selectionVersion = 0;
 let previousStep = 'file-step';
 let sourceToken = null;
 const connectedSubmission = document.body.dataset.employerConnected === 'true';
-strings.errors.session_expired = {fr:'Votre session a expiré. Reconnectez-vous, puis relisez le document ou le lien. Vos corrections restent visibles dans cette page.', en:'Your session expired. Sign in, then read the document or link again. Your edits remain visible on this page.', de:'Ihre Sitzung ist abgelaufen. Melden Sie sich an und lesen Sie das Dokument oder den Link erneut ein. Ihre Änderungen bleiben auf dieser Seite sichtbar.'}[document.documentElement.lang];
 
 // A changed source needs a new preparation agreement.
 for (const id of ['offer-url', 'offer-text', 'offer-file']) {
@@ -212,7 +211,7 @@ if (liveAPI) {
     field.required = false; field.hidden = true;
     document.querySelector('label[for=work-email]').hidden = true;
     document.getElementById('email-help').hidden = true;
-    const t = {fr:['Contact pour le conseiller','Ce contact peut être différent de la personne connectée.'], en:['Contact for the adviser','This contact may differ from the signed-in person.'], de:['Kontakt für die Beratung','Dieser Kontakt kann von der angemeldeten Person abweichen.']}[document.documentElement.lang] || [];
+    const t = [strings.connectedContactTitle, strings.connectedContactHelp];
     document.querySelector('#email-step h1').textContent = t[0];
     document.querySelector('#email-step .lede').textContent = t[1];
   }

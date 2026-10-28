@@ -93,11 +93,18 @@ def employer_page(request, path):
             + '">'
         )
         language = Path(path).stem.rsplit('-', 1)[-1]
+        if path == 'push-test.html':
+            language = request.GET.get('lang', request.LANGUAGE_CODE)
         language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         with translation.override(language):
+            context = {}
+            if path == 'push-test.html':
+                from .push_strings import browser_strings
+
+                context['push_strings'] = browser_strings()
             body = (
                 get_template('employer/' + template_name)
-                .render(request=request)
+                .render(context, request=request)
                 .replace('<body>', body_tag)
             )
         from .demo import shared_notice
@@ -121,11 +128,8 @@ def employer_page(request, path):
                 (code for code in ('fr', 'en', 'de') if path.endswith(code + '.html')),
                 'fr',
             )
-            label = {
-                'fr': 'Mon espace employeur',
-                'en': 'My employer space',
-                'de': 'Mein Arbeitgeberbereich',
-            }[lang]
+            with translation.override(lang):
+                label = translation.gettext('My employer space')
             body = re.sub(
                 r'(<a\s+class="nav-pill employer-account-link"\s+data-employer-account\s+href=")[^"]*(">)[^<]*(</a>)',
                 lambda match: match[1]

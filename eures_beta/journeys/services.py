@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_noop
 from eures_beta.notifications.services import notify
 import hashlib
 import secrets
@@ -100,7 +101,9 @@ def dispatch_offer(offer, actor):
     offer.save(update_fields=['state', 'sent_at'])
     audit(actor, 'demo_offer_dispatched', offer)
     Notification.objects.create(
-        user=offer.adviser, label='New validated offer', url=f'/offers/{offer.pk}/'
+        user=offer.adviser,
+        label=gettext_noop('New validated offer'),
+        url=f'/offers/{offer.pk}/',
     )
 
 
@@ -115,7 +118,9 @@ def suggest_candidates(offer, actor):
             offer=offer,
             candidate=candidate,
             defaults={
-                'explanation': 'Demonstration suggestion: no AGLAE score. Review skills, languages, mobility and availability.'
+                'explanation': gettext_noop(
+                    'Demonstration suggestion: no AGLAE score. Review skills, languages, mobility and availability.'
+                )
             },
         )
         if created:

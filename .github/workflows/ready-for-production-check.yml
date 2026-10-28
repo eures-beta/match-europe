@@ -44,6 +44,15 @@ jobs:
           python-version: '3.14'
       - name: Installer les dépendances applicatives et de test
         run: make install-test
+      - name: Installer GNU gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext
+      - name: Vérifier les traductions extraites et compiler les catalogues
+        run: |
+          make translations-extract
+          make translations-check
+          make translations-compile
       - name: Vérifier les imports des tests dans cet environnement
         run: make test-collection
       - name: Vérifier Django et les migrations
