@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 10:59+0000\n"
+"POT-Creation-Date: 2026-10-29 13:46+0000\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2088,7 +2088,7 @@ msgid "Local test: external services are disabled. You can save the draft."
 msgstr "Lokaler Test: externe Dienste sind deaktiviert. Sie können den Entwurf speichern."
 
 #: eures_beta/templates/employer/import-v2.html:1646
-#: eures_beta/templates/employer/import.html:1241
+#: eures_beta/templates/employer/import.html:1242
 msgctxt "employer shared browser"
 msgid "Candidate search has started. To change your needs, duplicate this offer from your employer space."
 msgstr "Die Kandidatensuche hat begonnen. Duplizieren Sie dieses Angebot in Ihrem Arbeitgeberbereich, um Ihren Bedarf zu ändern."
@@ -2491,7 +2491,7 @@ msgid "Check the company contact name and email."
 msgstr "Prüfen Sie Name und E-Mail des Unternehmenskontakts."
 
 #: eures_beta/templates/employer/import-v2.html:1901
-#: eures_beta/templates/employer/import.html:1487
+#: eures_beta/templates/employer/import.html:1488
 msgctxt "employer shared browser"
 msgid "Your session expired. Sign in, then read the document or link again. Your edits remain visible on this page."
 msgstr "Ihre Sitzung ist abgelaufen. Melden Sie sich an und lesen Sie das Dokument oder den Link erneut ein. Ihre Änderungen bleiben auf dieser Seite sichtbar."
@@ -2552,13 +2552,13 @@ msgid "Your job is in a document or screenshots."
 msgstr "Ihre Stelle liegt als Dokument oder Screenshots vor."
 
 #: eures_beta/templates/employer/import-v2.html:1915
-#: eures_beta/templates/employer/import.html:1501
+#: eures_beta/templates/employer/import.html:1502
 msgctxt "employer shared browser"
 msgid "Contact for the adviser"
 msgstr "Kontakt für die Beratung"
 
 #: eures_beta/templates/employer/import-v2.html:1916
-#: eures_beta/templates/employer/import.html:1502
+#: eures_beta/templates/employer/import.html:1503
 msgctxt "employer shared browser"
 msgid "This contact may differ from the signed-in person."
 msgstr "Dieser Kontakt kann von der angemeldeten Person abweichen."
@@ -2623,1480 +2623,1480 @@ msgctxt "employer import"
 msgid "Match Europe — Add your job offer"
 msgstr "Match Europe — Fügen Sie Ihr Stellenangebot hinzu"
 
-#: eures_beta/templates/employer/import.html:663
+#: eures_beta/templates/employer/import.html:664
 msgctxt "employer import"
 msgid "Skip to content"
 msgstr "Zum Inhalt"
 
-#: eures_beta/templates/employer/import.html:664
-#: eures_beta/templates/employer/import.html:1434
+#: eures_beta/templates/employer/import.html:665
+#: eures_beta/templates/employer/import.html:1435
 msgctxt "employer import"
 msgid "Local demonstration: no the preparation service request. You may voluntarily download the test summary to your computer. Email is not saved."
 msgstr "Lokale Demonstration: keine den Aufbereitungsdienst-Anfrage. Sie können die Testübersicht freiwillig herunterladen. Die E-Mail-Adresse wird nicht gespeichert."
 
-#: eures_beta/templates/employer/import.html:670
+#: eures_beta/templates/employer/import.html:671
 msgctxt "employer import"
 msgid "EURES beta - cross-border mobility, matching and follow-up"
 msgstr "EURES beta - grenzüberschreitende Mobilität, Matching und Begleitung"
 
-#: eures_beta/templates/employer/import.html:674
+#: eures_beta/templates/employer/import.html:675
 msgctxt "employer import"
 msgid "Main navigation"
 msgstr "Hauptnavigation"
 
-#: eures_beta/templates/employer/import.html:677
+#: eures_beta/templates/employer/import.html:678
 msgctxt "employer import"
 msgid "Home"
 msgstr "Start"
 
-#: eures_beta/templates/employer/import.html:679
+#: eures_beta/templates/employer/import.html:680
 msgctxt "employer import"
 msgid "Candidate"
 msgstr "Kandidaten"
 
-#: eures_beta/templates/employer/import.html:681
+#: eures_beta/templates/employer/import.html:682
 msgctxt "employer import"
 msgid "Employer"
 msgstr "Arbeitgeber"
 
-#: eures_beta/templates/employer/import.html:683
+#: eures_beta/templates/employer/import.html:684
 msgctxt "employer import"
 msgid "Stats"
 msgstr "Statistik"
 
-#: eures_beta/templates/employer/import.html:687
-#: eures_beta/templates/employer/import.html:1407
+#: eures_beta/templates/employer/import.html:688
+#: eures_beta/templates/employer/import.html:1408
 msgctxt "employer import"
 msgid "Project"
 msgstr "Projekt"
 
-#: eures_beta/templates/employer/import.html:689
-#: eures_beta/templates/employer/import.html:1408
+#: eures_beta/templates/employer/import.html:690
+#: eures_beta/templates/employer/import.html:1409
 msgctxt "employer import"
 msgid "Project journal"
 msgstr "Projektjournal"
 
-#: eures_beta/templates/employer/import.html:692
+#: eures_beta/templates/employer/import.html:693
 msgctxt "employer import"
 msgid "Language"
 msgstr "Sprache"
 
-#: eures_beta/templates/employer/import.html:706
+#: eures_beta/templates/employer/import.html:707
 msgctxt "employer import"
 msgid "1. Your offer"
 msgstr "1. Ihr Angebot"
 
-#: eures_beta/templates/employer/import.html:707
+#: eures_beta/templates/employer/import.html:708
 msgctxt "employer import"
 msgid "2. Review"
 msgstr "2. Prüfung"
 
-#: eures_beta/templates/employer/import.html:708
+#: eures_beta/templates/employer/import.html:709
 msgctxt "employer import"
 msgid "3. Save"
 msgstr "3. Speichern"
 
-#: eures_beta/templates/employer/import.html:711
-#: eures_beta/templates/employer/import.html:1456
+#: eures_beta/templates/employer/import.html:712
+#: eures_beta/templates/employer/import.html:1457
 msgctxt "employer import"
 msgid "How would you like to add your offer?"
 msgstr "Wie möchten Sie Ihr Angebot hinzufügen?"
 
-#: eures_beta/templates/employer/import.html:712
-#: eures_beta/templates/employer/import.html:1457
+#: eures_beta/templates/employer/import.html:713
+#: eures_beta/templates/employer/import.html:1458
 msgctxt "employer import"
 msgid "Choose the format you already have. You can then check and complete the information."
 msgstr "Wählen Sie das vorhandene Format. Danach können Sie die Angaben prüfen und ergänzen."
 
-#: eures_beta/templates/employer/import.html:714
-#: eures_beta/templates/employer/import.html:723
-#: eures_beta/templates/employer/import.html:1458
+#: eures_beta/templates/employer/import.html:715
+#: eures_beta/templates/employer/import.html:724
+#: eures_beta/templates/employer/import.html:1459
 msgctxt "employer import"
 msgid "Import a PDF"
 msgstr "PDF importieren"
 
-#: eures_beta/templates/employer/import.html:714
-#: eures_beta/templates/employer/import.html:1459
+#: eures_beta/templates/employer/import.html:715
+#: eures_beta/templates/employer/import.html:1460
 msgctxt "employer import"
 msgid "You already have a document containing your job offer."
 msgstr "Sie haben bereits ein Dokument mit Ihrem Stellenangebot."
 
-#: eures_beta/templates/employer/import.html:715
-#: eures_beta/templates/employer/import.html:1460
+#: eures_beta/templates/employer/import.html:716
+#: eures_beta/templates/employer/import.html:1461
 msgctxt "employer import"
 msgid "Add a link"
 msgstr "Link hinzufügen"
 
-#: eures_beta/templates/employer/import.html:715
-#: eures_beta/templates/employer/import.html:1461
+#: eures_beta/templates/employer/import.html:716
+#: eures_beta/templates/employer/import.html:1462
 msgctxt "employer import"
 msgid "Your offer is published on a page accessible without signing in."
 msgstr "Ihr Angebot steht auf einer Seite, die ohne Anmeldung zugänglich ist."
 
-#: eures_beta/templates/employer/import.html:716
-#: eures_beta/templates/employer/import.html:1462
+#: eures_beta/templates/employer/import.html:717
+#: eures_beta/templates/employer/import.html:1463
 msgctxt "employer import"
 msgid "Enter or paste text"
 msgstr "Text eingeben oder einfügen"
 
-#: eures_beta/templates/employer/import.html:716
-#: eures_beta/templates/employer/import.html:1463
+#: eures_beta/templates/employer/import.html:717
+#: eures_beta/templates/employer/import.html:1464
 msgctxt "employer import"
 msgid "You prefer to paste your advert or write it here."
 msgstr "Sie möchten Ihre Anzeige einfügen oder hier verfassen."
 
-#: eures_beta/templates/employer/import.html:718
-#: eures_beta/templates/employer/import.html:737
-#: eures_beta/templates/employer/import.html:1419
+#: eures_beta/templates/employer/import.html:719
+#: eures_beta/templates/employer/import.html:738
+#: eures_beta/templates/employer/import.html:1420
 msgctxt "employer import"
 msgid "Your offer will not be published. The candidate search starts only after your validation."
 msgstr "Ihr Angebot wird nicht veröffentlicht. Die Suche beginnt erst nach Ihrer Bestätigung."
 
-#: eures_beta/templates/employer/import.html:720
-#: eures_beta/templates/employer/import.html:739
-#: eures_beta/templates/employer/import.html:760
-#: eures_beta/templates/employer/import.html:776
-#: eures_beta/templates/employer/import.html:795
-#: eures_beta/templates/employer/import.html:1421
+#: eures_beta/templates/employer/import.html:721
+#: eures_beta/templates/employer/import.html:740
+#: eures_beta/templates/employer/import.html:761
+#: eures_beta/templates/employer/import.html:777
+#: eures_beta/templates/employer/import.html:796
+#: eures_beta/templates/employer/import.html:1422
 msgctxt "employer import"
 msgid "Back"
 msgstr "Zurück"
 
-#: eures_beta/templates/employer/import.html:724
-#: eures_beta/templates/employer/import.html:1464
+#: eures_beta/templates/employer/import.html:725
+#: eures_beta/templates/employer/import.html:1465
 msgctxt "employer import"
 msgid "Import your offer as a PDF. You can check the information before any candidate search."
 msgstr "Importieren Sie Ihr Angebot als PDF. Sie können die Angaben vor jeder Suche prüfen."
 
-#: eures_beta/templates/employer/import.html:727
-#: eures_beta/templates/employer/import.html:1417
+#: eures_beta/templates/employer/import.html:728
+#: eures_beta/templates/employer/import.html:1418
 msgctxt "employer import"
 msgid "Choose a PDF file"
 msgstr "PDF-Datei auswählen"
 
-#: eures_beta/templates/employer/import.html:728
-#: eures_beta/templates/employer/import.html:1418
+#: eures_beta/templates/employer/import.html:729
+#: eures_beta/templates/employer/import.html:1419
 msgctxt "employer import"
 msgid "PDF · Maximum 10 MB"
 msgstr "PDF · Maximal 10 MB"
 
-#: eures_beta/templates/employer/import.html:734
-#: eures_beta/templates/employer/import.html:1446
+#: eures_beta/templates/employer/import.html:735
+#: eures_beta/templates/employer/import.html:1447
 msgctxt "employer import"
 msgid "You can choose another file to replace it."
 msgstr "Sie können eine andere Datei auswählen, um sie zu ersetzen."
 
-#: eures_beta/templates/employer/import.html:739
-#: eures_beta/templates/employer/import.html:760
-#: eures_beta/templates/employer/import.html:776
-#: eures_beta/templates/employer/import.html:1420
+#: eures_beta/templates/employer/import.html:740
+#: eures_beta/templates/employer/import.html:761
+#: eures_beta/templates/employer/import.html:777
+#: eures_beta/templates/employer/import.html:1421
 msgctxt "employer import"
 msgid "Continue"
 msgstr "Weiter"
 
-#: eures_beta/templates/employer/import.html:744
-#: eures_beta/templates/employer/import.html:1452
+#: eures_beta/templates/employer/import.html:745
+#: eures_beta/templates/employer/import.html:1453
 msgctxt "employer import"
 msgid "Add your job offer link"
 msgstr "Fügen Sie den Link zu Ihrem Angebot hinzu"
 
-#: eures_beta/templates/employer/import.html:745
+#: eures_beta/templates/employer/import.html:746
 msgctxt "employer import"
 msgid "Copy the address of the page describing your offer, accessible without signing in. If it cannot be read, you can upload a PDF or paste the text."
 msgstr "Kopieren Sie die Adresse der Angebotsseite, die ohne Anmeldung erreichbar ist. Falls sie nicht gelesen werden kann, können Sie ein PDF hochladen oder den Text einfügen."
 
-#: eures_beta/templates/employer/import.html:747
-#: eures_beta/templates/employer/import.html:1453
+#: eures_beta/templates/employer/import.html:748
+#: eures_beta/templates/employer/import.html:1454
 msgctxt "employer import"
 msgid "Link to a publicly accessible job offer"
 msgstr "Link zu einem öffentlich zugänglichen Stellenangebot"
 
-#: eures_beta/templates/employer/import.html:758
-#: eures_beta/templates/employer/import.html:1454
+#: eures_beta/templates/employer/import.html:759
+#: eures_beta/templates/employer/import.html:1455
 msgctxt "employer import"
 msgid "This demonstration does not visit the link yet. Reading the page will be connected in the next step."
 msgstr "In dieser Demonstration wird der Link noch nicht aufgerufen. Das Lesen der Seite wird im nächsten Schritt angebunden."
 
-#: eures_beta/templates/employer/import.html:762
-#: eures_beta/templates/employer/import.html:1490
+#: eures_beta/templates/employer/import.html:763
+#: eures_beta/templates/employer/import.html:1491
 msgctxt "employer import"
 msgid "By clicking “Read this offer”, you authorise reading this public page to prepare your offer."
 msgstr "Mit „Angebot lesen“ erlauben Sie das Lesen dieser öffentlichen Seite zur Vorbereitung Ihres Angebots."
 
-#: eures_beta/templates/employer/import.html:766
-#: eures_beta/templates/employer/import.html:1423
+#: eures_beta/templates/employer/import.html:767
+#: eures_beta/templates/employer/import.html:1424
 msgctxt "employer import"
 msgid "Describe your offer"
 msgstr "Beschreiben Sie Ihr Angebot"
 
-#: eures_beta/templates/employer/import.html:767
-#: eures_beta/templates/employer/import.html:1425
+#: eures_beta/templates/employer/import.html:768
+#: eures_beta/templates/employer/import.html:1426
 msgctxt "employer import"
 msgid "Include the role, duties and working conditions. You can complete this information later."
 msgstr "Nennen Sie die Stelle, Aufgaben und Arbeitsbedingungen. Sie können die Angaben später ergänzen."
 
-#: eures_beta/templates/employer/import.html:769
-#: eures_beta/templates/employer/import.html:1424
+#: eures_beta/templates/employer/import.html:770
+#: eures_beta/templates/employer/import.html:1425
 msgctxt "employer import"
 msgid "Your job offer text"
 msgstr "Text Ihres Stellenangebots"
 
-#: eures_beta/templates/employer/import.html:781
-#: eures_beta/templates/employer/import.html:1426
+#: eures_beta/templates/employer/import.html:782
+#: eures_beta/templates/employer/import.html:1427
 msgctxt "employer import"
 msgid "Save your offer"
 msgstr "Ihr Angebot speichern"
 
-#: eures_beta/templates/employer/import.html:782
-#: eures_beta/templates/employer/import.html:1427
+#: eures_beta/templates/employer/import.html:783
+#: eures_beta/templates/employer/import.html:1428
 msgctxt "employer import"
 msgid "Your offer is ready. Enter your email and company contact to save it and return to it later."
 msgstr "Ihr Angebot ist vorbereitet. Geben Sie Ihre E-Mail-Adresse und den Unternehmenskontakt ein, um es zu speichern und später wiederzufinden."
 
-#: eures_beta/templates/employer/import.html:784
-#: eures_beta/templates/employer/import.html:1428
+#: eures_beta/templates/employer/import.html:785
+#: eures_beta/templates/employer/import.html:1429
 msgctxt "employer import"
 msgid "Your work email"
 msgstr "Ihre berufliche E-Mail-Adresse"
 
-#: eures_beta/templates/employer/import.html:792
-#: eures_beta/templates/employer/import.html:1429
+#: eures_beta/templates/employer/import.html:793
+#: eures_beta/templates/employer/import.html:1430
 msgctxt "employer import"
 msgid "Use a fictional address for this demonstration. No email is sent."
 msgstr "Verwenden Sie für diese Vorschau eine fiktive Adresse. Es wird keine E-Mail versendet."
 
-#: eures_beta/templates/employer/import.html:793
-#: eures_beta/templates/employer/import.html:1409
+#: eures_beta/templates/employer/import.html:794
+#: eures_beta/templates/employer/import.html:1410
 msgctxt "employer import"
 msgid "Data protection"
 msgstr "Datenschutz"
 
-#: eures_beta/templates/employer/import.html:795
-#: eures_beta/templates/employer/import.html:1328
-#: eures_beta/templates/employer/import.html:1430
+#: eures_beta/templates/employer/import.html:796
+#: eures_beta/templates/employer/import.html:1329
+#: eures_beta/templates/employer/import.html:1431
 msgctxt "employer import"
 msgid "Save and continue"
 msgstr "Speichern und weiter"
 
-#: eures_beta/templates/employer/import.html:800
-#: eures_beta/templates/employer/import.html:1145
+#: eures_beta/templates/employer/import.html:801
+#: eures_beta/templates/employer/import.html:1146
 msgctxt "employer import"
 msgid "Check and complete your offer"
 msgstr "Prüfen und ergänzen Sie Ihr Angebot"
 
-#: eures_beta/templates/employer/import.html:802
-#: eures_beta/templates/employer/import.html:1208
+#: eures_beta/templates/employer/import.html:803
+#: eures_beta/templates/employer/import.html:1209
 msgctxt "employer import"
 msgid "Drafts are saved only through voluntary download. Email and preparation agreement are excluded. Validation does not send anything to the preparation service."
 msgstr "Entwürfe werden nur durch freiwilligen Download gespeichert. E-Mail und Zustimmung sind nicht enthalten. Es erfolgt keine Übermittlung an den Aufbereitungsdienst."
 
-#: eures_beta/templates/employer/import.html:804
-#: eures_beta/templates/employer/import.html:1149
+#: eures_beta/templates/employer/import.html:805
+#: eures_beta/templates/employer/import.html:1150
 msgctxt "employer import"
 msgid "1. Your offer information"
 msgstr "1. Angaben zum Angebot"
 
-#: eures_beta/templates/employer/import.html:807
-#: eures_beta/templates/employer/import.html:1151
+#: eures_beta/templates/employer/import.html:808
+#: eures_beta/templates/employer/import.html:1152
 msgctxt "employer import"
 msgid "Job title"
 msgstr "Stellenbezeichnung"
 
-#: eures_beta/templates/employer/import.html:811
-#: eures_beta/templates/employer/import.html:1152
+#: eures_beta/templates/employer/import.html:812
+#: eures_beta/templates/employer/import.html:1153
 msgctxt "employer import"
 msgid "Company"
 msgstr "Unternehmen"
 
-#: eures_beta/templates/employer/import.html:815
-#: eures_beta/templates/employer/import.html:1153
+#: eures_beta/templates/employer/import.html:816
+#: eures_beta/templates/employer/import.html:1154
 msgctxt "employer import"
 msgid "Exact workplace location"
 msgstr "Genauer Arbeitsort"
 
-#: eures_beta/templates/employer/import.html:819
-#: eures_beta/templates/employer/import.html:1154
+#: eures_beta/templates/employer/import.html:820
+#: eures_beta/templates/employer/import.html:1155
 msgctxt "employer import"
 msgid "Contract type"
 msgstr "Vertragsart"
 
-#: eures_beta/templates/employer/import.html:821
-#: eures_beta/templates/employer/import.html:1159
-#: eures_beta/templates/employer/import.html:1181
-#: eures_beta/templates/employer/import.html:1276
+#: eures_beta/templates/employer/import.html:822
+#: eures_beta/templates/employer/import.html:1160
+#: eures_beta/templates/employer/import.html:1182
+#: eures_beta/templates/employer/import.html:1277
 msgctxt "employer import"
 msgid "To clarify"
 msgstr "Zu klären"
 
-#: eures_beta/templates/employer/import.html:822
-#: eures_beta/templates/employer/import.html:1160
+#: eures_beta/templates/employer/import.html:823
+#: eures_beta/templates/employer/import.html:1161
 msgctxt "employer import"
 msgid "Permanent"
 msgstr "Unbefristet"
 
-#: eures_beta/templates/employer/import.html:823
-#: eures_beta/templates/employer/import.html:1161
+#: eures_beta/templates/employer/import.html:824
+#: eures_beta/templates/employer/import.html:1162
 msgctxt "employer import"
 msgid "Fixed-term"
 msgstr "Befristet"
 
-#: eures_beta/templates/employer/import.html:824
-#: eures_beta/templates/employer/import.html:1162
+#: eures_beta/templates/employer/import.html:825
+#: eures_beta/templates/employer/import.html:1163
 msgctxt "employer import"
 msgid "Temporary agency work"
 msgstr "Zeitarbeit"
 
-#: eures_beta/templates/employer/import.html:825
-#: eures_beta/templates/employer/import.html:1163
+#: eures_beta/templates/employer/import.html:826
+#: eures_beta/templates/employer/import.html:1164
 msgctxt "employer import"
 msgid "Internship"
 msgstr "Praktikum"
 
-#: eures_beta/templates/employer/import.html:826
-#: eures_beta/templates/employer/import.html:1164
+#: eures_beta/templates/employer/import.html:827
+#: eures_beta/templates/employer/import.html:1165
 msgctxt "employer import"
 msgid "Apprenticeship"
 msgstr "Ausbildung"
 
-#: eures_beta/templates/employer/import.html:827
-#: eures_beta/templates/employer/import.html:1165
+#: eures_beta/templates/employer/import.html:828
+#: eures_beta/templates/employer/import.html:1166
 msgctxt "employer import"
 msgid "Freelance"
 msgstr "Selbstständig"
 
-#: eures_beta/templates/employer/import.html:828
-#: eures_beta/templates/employer/import.html:1166
+#: eures_beta/templates/employer/import.html:829
+#: eures_beta/templates/employer/import.html:1167
 msgctxt "employer import"
 msgid "Training"
 msgstr "Schulung"
 
-#: eures_beta/templates/employer/import.html:832
-#: eures_beta/templates/employer/import.html:1155
+#: eures_beta/templates/employer/import.html:833
+#: eures_beta/templates/employer/import.html:1156
 msgctxt "employer import"
 msgid "Duties and working conditions"
 msgstr "Aufgaben und Arbeitsbedingungen"
 
-#: eures_beta/templates/employer/import.html:840
-#: eures_beta/templates/employer/import.html:1156
+#: eures_beta/templates/employer/import.html:841
+#: eures_beta/templates/employer/import.html:1157
 msgctxt "employer import"
 msgid "Required skills and experience"
 msgstr "Gesuchte Kompetenzen und Erfahrung"
 
-#: eures_beta/templates/employer/import.html:847
-#: eures_beta/templates/employer/import.html:1168
+#: eures_beta/templates/employer/import.html:848
+#: eures_beta/templates/employer/import.html:1169
 msgctxt "employer import"
 msgid "2. Clarify the job conditions"
 msgstr "2. Arbeitsbedingungen präzisieren"
 
-#: eures_beta/templates/employer/import.html:848
-#: eures_beta/templates/employer/import.html:1169
+#: eures_beta/templates/employer/import.html:849
+#: eures_beta/templates/employer/import.html:1170
 msgctxt "employer import"
 msgid "Review information already included in your offer and complete only what is missing. Specify languages, working conditions and mobility options."
 msgstr "Prüfen Sie die vorhandenen Angaben und ergänzen Sie nur Fehlendes. Präzisieren Sie Sprachen, Arbeitsbedingungen und Mobilitätsmöglichkeiten."
 
-#: eures_beta/templates/employer/import.html:850
-#: eures_beta/templates/employer/import.html:1246
+#: eures_beta/templates/employer/import.html:851
+#: eures_beta/templates/employer/import.html:1247
 msgctxt "employer import"
 msgid "Information already provided"
 msgstr "Bereits vorhandene Angaben"
 
-#: eures_beta/templates/employer/import.html:854
-#: eures_beta/templates/employer/import.html:1247
+#: eures_beta/templates/employer/import.html:855
+#: eures_beta/templates/employer/import.html:1248
 msgctxt "employer import"
 msgid "Complete if needed"
 msgstr "Bei Bedarf ergänzen"
 
-#: eures_beta/templates/employer/import.html:855
-#: eures_beta/templates/employer/import.html:1249
+#: eures_beta/templates/employer/import.html:856
+#: eures_beta/templates/employer/import.html:1250
 msgctxt "employer import"
 msgid "Not provided — you can clarify this later"
 msgstr "Nicht angegeben — kann später ergänzt werden"
 
-#: eures_beta/templates/employer/import.html:859
-#: eures_beta/templates/employer/import.html:1171
+#: eures_beta/templates/employer/import.html:860
+#: eures_beta/templates/employer/import.html:1172
 msgctxt "employer import"
 msgid "Pay"
 msgstr "Vergütung"
 
-#: eures_beta/templates/employer/import.html:860
-#: eures_beta/templates/employer/import.html:1252
+#: eures_beta/templates/employer/import.html:861
+#: eures_beta/templates/employer/import.html:1253
 msgctxt "employer import"
 msgid "If needed: gross or net, amount or range, currency and period."
 msgstr "Bei Bedarf: brutto oder netto, Betrag oder Spanne, Währung und Zeitraum."
 
-#: eures_beta/templates/employer/import.html:868
-#: eures_beta/templates/employer/import.html:1172
+#: eures_beta/templates/employer/import.html:869
+#: eures_beta/templates/employer/import.html:1173
 msgctxt "employer import"
 msgid "Working hours"
 msgstr "Arbeitszeiten und Arbeitsumfang"
 
-#: eures_beta/templates/employer/import.html:869
-#: eures_beta/templates/employer/import.html:1253
+#: eures_beta/templates/employer/import.html:870
+#: eures_beta/templates/employer/import.html:1254
 msgctxt "employer import"
 msgid "Weekly hours, working days, night work or split shifts."
 msgstr "Wochenstunden, Arbeitstage, Nachtarbeit oder geteilte Dienste."
 
-#: eures_beta/templates/employer/import.html:878
-#: eures_beta/templates/employer/import.html:1173
+#: eures_beta/templates/employer/import.html:879
+#: eures_beta/templates/employer/import.html:1174
 msgctxt "employer import"
 msgid "Start date"
 msgstr "Arbeitsbeginn"
 
-#: eures_beta/templates/employer/import.html:880
-#: eures_beta/templates/employer/import.html:1254
+#: eures_beta/templates/employer/import.html:881
+#: eures_beta/templates/employer/import.html:1255
 msgctxt "employer import"
 msgid "Preferred date or possible time before arrival."
 msgstr "Gewünschter Termin oder möglicher Zeitraum bis zur Ankunft."
 
-#: eures_beta/templates/employer/import.html:889
-#: eures_beta/templates/employer/import.html:1174
+#: eures_beta/templates/employer/import.html:890
+#: eures_beta/templates/employer/import.html:1175
 msgctxt "employer import"
 msgid "Languages and expected levels"
 msgstr "Sprachen und erwartete Niveaus"
 
-#: eures_beta/templates/employer/import.html:890
-#: eures_beta/templates/employer/import.html:1255
+#: eures_beta/templates/employer/import.html:891
+#: eures_beta/templates/employer/import.html:1256
 msgctxt "employer import"
 msgid "State essential languages and the level needed for the role."
 msgstr "Erforderliche Sprachen und das benötigte Niveau angeben."
 
-#: eures_beta/templates/employer/import.html:899
-#: eures_beta/templates/employer/import.html:1175
+#: eures_beta/templates/employer/import.html:900
+#: eures_beta/templates/employer/import.html:1176
 msgctxt "employer import"
 msgid "Expected experience"
 msgstr "Erwartete Erfahrung"
 
-#: eures_beta/templates/employer/import.html:900
-#: eures_beta/templates/employer/import.html:1256
+#: eures_beta/templates/employer/import.html:901
+#: eures_beta/templates/employer/import.html:1257
 msgctxt "employer import"
 msgid "Distinguish essential experience from skills that can be learned on the job."
 msgstr "Unverzichtbare Erfahrung von erlernbaren Fähigkeiten unterscheiden."
 
-#: eures_beta/templates/employer/import.html:908
-#: eures_beta/templates/employer/import.html:1176
+#: eures_beta/templates/employer/import.html:909
+#: eures_beta/templates/employer/import.html:1177
 msgctxt "employer import"
 msgid "Access to the workplace"
 msgstr "Erreichbarkeit des Arbeitsorts"
 
-#: eures_beta/templates/employer/import.html:909
-#: eures_beta/templates/employer/import.html:1257
+#: eures_beta/templates/employer/import.html:910
+#: eures_beta/templates/employer/import.html:1258
 msgctxt "employer import"
 msgid "State transport constraints related to the location and working hours."
 msgstr "Verkehrsbedingungen im Zusammenhang mit Arbeitsort und Arbeitszeiten angeben."
 
-#: eures_beta/templates/employer/import.html:919
-#: eures_beta/templates/employer/import.html:1260
+#: eures_beta/templates/employer/import.html:920
+#: eures_beta/templates/employer/import.html:1261
 msgctxt "employer import"
 msgid "Working conditions to know"
 msgstr "Relevante Arbeitsbedingungen"
 
-#: eures_beta/templates/employer/import.html:920
-#: eures_beta/templates/employer/import.html:1261
+#: eures_beta/templates/employer/import.html:921
+#: eures_beta/templates/employer/import.html:1262
 msgctxt "employer import"
 msgid "Select constraints genuinely related to the role. Check information extracted from the offer."
 msgstr "Wählen Sie nur tatsächlich stellenbezogene Anforderungen. Prüfen Sie die aus dem Angebot übernommenen Angaben."
 
-#: eures_beta/templates/employer/import.html:924
-#: eures_beta/templates/employer/import.html:1263
+#: eures_beta/templates/employer/import.html:925
+#: eures_beta/templates/employer/import.html:1264
 msgctxt "employer import"
 msgid "Early starts or unusual hours"
 msgstr "Früher Beginn oder versetzte Arbeitszeiten"
 
-#: eures_beta/templates/employer/import.html:928
-#: eures_beta/templates/employer/import.html:1264
+#: eures_beta/templates/employer/import.html:929
+#: eures_beta/templates/employer/import.html:1265
 msgctxt "employer import"
 msgid "Evening or night work"
 msgstr "Abend- oder Nachtarbeit"
 
-#: eures_beta/templates/employer/import.html:932
-#: eures_beta/templates/employer/import.html:1265
+#: eures_beta/templates/employer/import.html:933
+#: eures_beta/templates/employer/import.html:1266
 msgctxt "employer import"
 msgid "Weekends or public holidays"
 msgstr "Wochenenden oder Feiertage"
 
-#: eures_beta/templates/employer/import.html:936
-#: eures_beta/templates/employer/import.html:1266
+#: eures_beta/templates/employer/import.html:937
+#: eures_beta/templates/employer/import.html:1267
 msgctxt "employer import"
 msgid "Variable hours"
 msgstr "Variable Arbeitszeiten"
 
-#: eures_beta/templates/employer/import.html:940
-#: eures_beta/templates/employer/import.html:1267
+#: eures_beta/templates/employer/import.html:941
+#: eures_beta/templates/employer/import.html:1268
 msgctxt "employer import"
 msgid "Shift work"
 msgstr "Schichtarbeit"
 
-#: eures_beta/templates/employer/import.html:944
-#: eures_beta/templates/employer/import.html:1268
+#: eures_beta/templates/employer/import.html:945
+#: eures_beta/templates/employer/import.html:1269
 msgctxt "employer import"
 msgid "Physical work"
 msgstr "Körperliche Arbeit"
 
-#: eures_beta/templates/employer/import.html:948
-#: eures_beta/templates/employer/import.html:1269
+#: eures_beta/templates/employer/import.html:949
+#: eures_beta/templates/employer/import.html:1270
 msgctxt "employer import"
 msgid "Prolonged standing"
 msgstr "Langes Stehen"
 
-#: eures_beta/templates/employer/import.html:952
-#: eures_beta/templates/employer/import.html:1270
+#: eures_beta/templates/employer/import.html:953
+#: eures_beta/templates/employer/import.html:1271
 msgctxt "employer import"
 msgid "Outdoor work"
 msgstr "Arbeit im Freien"
 
-#: eures_beta/templates/employer/import.html:956
-#: eures_beta/templates/employer/import.html:1271
+#: eures_beta/templates/employer/import.html:957
+#: eures_beta/templates/employer/import.html:1272
 msgctxt "employer import"
 msgid "Frequent travel"
 msgstr "Häufige Dienstreisen"
 
-#: eures_beta/templates/employer/import.html:960
-#: eures_beta/templates/employer/import.html:1272
+#: eures_beta/templates/employer/import.html:961
+#: eures_beta/templates/employer/import.html:1273
 msgctxt "employer import"
 msgid "No particular conditions"
 msgstr "Keine besonderen Bedingungen"
 
-#: eures_beta/templates/employer/import.html:965
-#: eures_beta/templates/employer/import.html:1274
+#: eures_beta/templates/employer/import.html:966
+#: eures_beta/templates/employer/import.html:1275
 msgctxt "employer import"
 msgid "Does this role require a licence or specific authorisation?"
 msgstr "Erfordert die Stelle einen Führerschein oder eine besondere Berechtigung?"
 
-#: eures_beta/templates/employer/import.html:969
-#: eures_beta/templates/employer/import.html:992
-#: eures_beta/templates/employer/import.html:1012
-#: eures_beta/templates/employer/import.html:1182
-#: eures_beta/templates/employer/import.html:1277
+#: eures_beta/templates/employer/import.html:970
+#: eures_beta/templates/employer/import.html:993
+#: eures_beta/templates/employer/import.html:1013
+#: eures_beta/templates/employer/import.html:1183
+#: eures_beta/templates/employer/import.html:1278
 msgctxt "employer import"
 msgid "Yes"
 msgstr "Ja"
 
-#: eures_beta/templates/employer/import.html:973
-#: eures_beta/templates/employer/import.html:996
-#: eures_beta/templates/employer/import.html:1016
-#: eures_beta/templates/employer/import.html:1183
-#: eures_beta/templates/employer/import.html:1278
+#: eures_beta/templates/employer/import.html:974
+#: eures_beta/templates/employer/import.html:997
+#: eures_beta/templates/employer/import.html:1017
+#: eures_beta/templates/employer/import.html:1184
+#: eures_beta/templates/employer/import.html:1279
 msgctxt "employer import"
 msgid "No"
 msgstr "Nein"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1280
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1281
 msgctxt "employer import"
 msgid "Which licences or authorisations are required?"
 msgstr "Welche Führerscheine oder Berechtigungen sind erforderlich?"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1303
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1304
 msgctxt "employer import"
 msgid "Licence B"
 msgstr "Führerschein B"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1304
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1305
 msgctxt "employer import"
 msgid "Licence C"
 msgstr "Führerschein C"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1305
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1306
 msgctxt "employer import"
 msgid "Licence CE"
 msgstr "Führerschein CE"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1306
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1307
 msgctxt "employer import"
 msgid "Licence D"
 msgstr "Führerschein D"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1307
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1308
 msgctxt "employer import"
 msgid "Licence DE"
 msgstr "Führerschein DE"
 
-#: eures_beta/templates/employer/import.html:977
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1288
-#: eures_beta/templates/employer/import.html:1309
+#: eures_beta/templates/employer/import.html:978
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1289
+#: eures_beta/templates/employer/import.html:1310
 msgctxt "employer import"
 msgid "Other"
 msgstr "Andere"
 
-#: eures_beta/templates/employer/import.html:980
-#: eures_beta/templates/employer/import.html:1281
+#: eures_beta/templates/employer/import.html:981
+#: eures_beta/templates/employer/import.html:1282
 msgctxt "employer import"
 msgid "Other licence or authorisation: specify"
 msgstr "Andere Berechtigung: bitte angeben"
 
-#: eures_beta/templates/employer/import.html:985
-#: eures_beta/templates/employer/import.html:1250
+#: eures_beta/templates/employer/import.html:986
+#: eures_beta/templates/employer/import.html:1251
 msgctxt "employer import"
 msgid "Welcoming mobile candidates"
 msgstr "Bewerber mit Mobilitätsvorhaben"
 
-#: eures_beta/templates/employer/import.html:988
-#: eures_beta/templates/employer/import.html:1178
+#: eures_beta/templates/employer/import.html:989
+#: eures_beta/templates/employer/import.html:1179
 msgctxt "employer import"
 msgid "Do you accept cross-border workers?"
 msgstr "Akzeptieren Sie Grenzgänger?"
 
-#: eures_beta/templates/employer/import.html:1003
-#: eures_beta/templates/employer/import.html:1023
-#: eures_beta/templates/employer/import.html:1184
+#: eures_beta/templates/employer/import.html:1004
+#: eures_beta/templates/employer/import.html:1024
+#: eures_beta/templates/employer/import.html:1185
 msgctxt "employer import"
 msgid "Discuss with the candidate"
 msgstr "Mit der Person zu besprechen"
 
-#: eures_beta/templates/employer/import.html:1008
-#: eures_beta/templates/employer/import.html:1179
+#: eures_beta/templates/employer/import.html:1009
+#: eures_beta/templates/employer/import.html:1180
 msgctxt "employer import"
 msgid "Do you accept people relocating from another European country?"
 msgstr "Akzeptieren Sie Personen, die aus einem anderen europäischen Land zuziehen?"
 
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1282
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1283
 msgctxt "employer import"
 msgid "What support can you provide on arrival?"
 msgstr "Welche Unterstützung können Sie bei der Ankunft anbieten?"
 
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1284
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1285
 msgctxt "employer import"
 msgid "Housing or housing search"
 msgstr "Wohnung oder Wohnungssuche"
 
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1285
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1286
 msgctxt "employer import"
 msgid "Administrative procedures"
 msgstr "Verwaltungsformalitäten"
 
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1287
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1288
 msgctxt "employer import"
 msgid "Onboarding support"
 msgstr "Unterstützung bei der Einarbeitung"
 
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1289
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1290
 msgctxt "employer import"
 msgid "No support planned"
 msgstr "Keine Unterstützung vorgesehen"
 
-#: eures_beta/templates/employer/import.html:1028
-#: eures_beta/templates/employer/import.html:1290
+#: eures_beta/templates/employer/import.html:1029
+#: eures_beta/templates/employer/import.html:1291
 msgctxt "employer import"
 msgid "To discuss"
 msgstr "Zu besprechen"
 
-#: eures_beta/templates/employer/import.html:1031
-#: eures_beta/templates/employer/import.html:1292
+#: eures_beta/templates/employer/import.html:1032
+#: eures_beta/templates/employer/import.html:1293
 msgctxt "employer import"
 msgid "Other support: specify"
 msgstr "Andere Unterstützung: bitte angeben"
 
-#: eures_beta/templates/employer/import.html:1035
-#: eures_beta/templates/employer/import.html:1186
+#: eures_beta/templates/employer/import.html:1036
+#: eures_beta/templates/employer/import.html:1187
 msgctxt "employer import"
 msgid "3. Prequalify candidates before talking"
 msgstr "3. Bewerbungen vor dem Gespräch vorqualifizieren"
 
-#: eures_beta/templates/employer/import.html:1038
-#: eures_beta/templates/employer/import.html:1293
+#: eures_beta/templates/employer/import.html:1039
+#: eures_beta/templates/employer/import.html:1294
 msgctxt "employer import"
 msgid "Suggest questions from my answers"
 msgstr "Fragen aus meinen Antworten vorschlagen"
 
-#: eures_beta/templates/employer/import.html:1039
-#: eures_beta/templates/employer/import.html:1294
+#: eures_beta/templates/employer/import.html:1040
+#: eures_beta/templates/employer/import.html:1295
 msgctxt "employer import"
 msgid "Suggested questions are not automatically enabled. Review, adapt and select those to ask. Previously edited questions are kept."
 msgstr "Vorschläge werden nicht automatisch aktiviert. Prüfen, bearbeiten und wählen Sie die Fragen aus. Bereits bearbeitete Fragen bleiben erhalten."
 
-#: eures_beta/templates/employer/import.html:1040
-#: eures_beta/templates/employer/import.html:1187
+#: eures_beta/templates/employer/import.html:1041
+#: eures_beta/templates/employer/import.html:1188
 msgctxt "employer import"
 msgid "Choose and adapt questions to help pursue or reject applications against job requirements. Interested candidates answer before an introduction. No automatic exclusion: a human reviews the answers."
 msgstr "Wählen und bearbeiten Sie Fragen, um Bewerbungen anhand der Stellenanforderungen weiterzuverfolgen oder auszuschließen. Interessierte Personen antworten vor der Kontaktaufnahme. Kein automatischer Ausschluss: Menschen prüfen die Antworten."
 
-#: eures_beta/templates/employer/import.html:1042
-#: eures_beta/templates/employer/import.html:1048
+#: eures_beta/templates/employer/import.html:1043
+#: eures_beta/templates/employer/import.html:1049
 msgctxt "employer import"
 msgid "Question 1"
 msgstr "Frage 1"
 
-#: eures_beta/templates/employer/import.html:1045
-#: eures_beta/templates/employer/import.html:1060
-#: eures_beta/templates/employer/import.html:1075
-#: eures_beta/templates/employer/import.html:1090
-#: eures_beta/templates/employer/import.html:1105
-#: eures_beta/templates/employer/import.html:1189
+#: eures_beta/templates/employer/import.html:1046
+#: eures_beta/templates/employer/import.html:1061
+#: eures_beta/templates/employer/import.html:1076
+#: eures_beta/templates/employer/import.html:1091
+#: eures_beta/templates/employer/import.html:1106
+#: eures_beta/templates/employer/import.html:1190
 msgctxt "employer import"
 msgid "Ask this question"
 msgstr "Diese Frage stellen"
 
-#: eures_beta/templates/employer/import.html:1053
-#: eures_beta/templates/employer/import.html:1068
-#: eures_beta/templates/employer/import.html:1083
-#: eures_beta/templates/employer/import.html:1098
-#: eures_beta/templates/employer/import.html:1113
-#: eures_beta/templates/employer/import.html:1190
+#: eures_beta/templates/employer/import.html:1054
+#: eures_beta/templates/employer/import.html:1069
+#: eures_beta/templates/employer/import.html:1084
+#: eures_beta/templates/employer/import.html:1099
+#: eures_beta/templates/employer/import.html:1114
+#: eures_beta/templates/employer/import.html:1191
 msgctxt "employer import"
 msgid "Essential requirement, subject to human review"
 msgstr "Unverzichtbare Anforderung, durch Menschen zu prüfen"
 
-#: eures_beta/templates/employer/import.html:1057
-#: eures_beta/templates/employer/import.html:1063
+#: eures_beta/templates/employer/import.html:1058
+#: eures_beta/templates/employer/import.html:1064
 msgctxt "employer import"
 msgid "Question 2"
 msgstr "Frage 2"
 
-#: eures_beta/templates/employer/import.html:1072
-#: eures_beta/templates/employer/import.html:1078
+#: eures_beta/templates/employer/import.html:1073
+#: eures_beta/templates/employer/import.html:1079
 msgctxt "employer import"
 msgid "Question 3"
 msgstr "Frage 3"
 
-#: eures_beta/templates/employer/import.html:1087
-#: eures_beta/templates/employer/import.html:1093
+#: eures_beta/templates/employer/import.html:1088
+#: eures_beta/templates/employer/import.html:1094
 msgctxt "employer import"
 msgid "Question 4"
 msgstr "Frage 4"
 
-#: eures_beta/templates/employer/import.html:1102
-#: eures_beta/templates/employer/import.html:1108
+#: eures_beta/templates/employer/import.html:1103
+#: eures_beta/templates/employer/import.html:1109
 msgctxt "employer import"
 msgid "Question 5"
 msgstr "Frage 5"
 
-#: eures_beta/templates/employer/import.html:1116
-#: eures_beta/templates/employer/import.html:1198
+#: eures_beta/templates/employer/import.html:1117
+#: eures_beta/templates/employer/import.html:1199
 msgctxt "employer import"
 msgid "Another question for candidates (optional)"
 msgstr "Weitere Frage an Bewerberinnen und Bewerber (optional)"
 
-#: eures_beta/templates/employer/import.html:1120
-#: eures_beta/templates/employer/import.html:1298
+#: eures_beta/templates/employer/import.html:1121
+#: eures_beta/templates/employer/import.html:1299
 msgctxt "employer import"
 msgid "Use of your information"
 msgstr "Verwendung Ihrer Angaben"
 
-#: eures_beta/templates/employer/import.html:1121
-#: eures_beta/templates/employer/import.html:1299
+#: eures_beta/templates/employer/import.html:1122
+#: eures_beta/templates/employer/import.html:1300
 msgctxt "employer import"
 msgid "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human."
 msgstr "Diese Angaben dienen dazu, Ihren Personalbedarf zu verstehen und die Vorqualifizierung vorzubereiten. Berechtigte Match-Europe-Teams und beteiligte EURES-Partner können bei einer Kontaktvermittlung auf erforderliche Angaben zugreifen. Antworten werden von Menschen geprüft."
 
-#: eures_beta/templates/employer/import.html:1122
-#: eures_beta/templates/employer/import.html:1300
+#: eures_beta/templates/employer/import.html:1123
+#: eures_beta/templates/employer/import.html:1301
 msgctxt "employer import"
 msgid "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners."
 msgstr "Im lokalen Test wird ein inaktives Angebot beim Aufbereitungsdienst gespeichert. Es erfolgt keine Bewerbersuche oder Übermittlung an EURES-Partner."
 
-#: eures_beta/templates/employer/import.html:1123
-#: eures_beta/templates/employer/import.html:1301
+#: eures_beta/templates/employer/import.html:1124
+#: eures_beta/templates/employer/import.html:1302
 msgctxt "employer import"
 msgid "Read the data protection notice"
 msgstr "Datenschutzhinweise lesen"
 
-#: eures_beta/templates/employer/import.html:1127
-#: eures_beta/templates/employer/import.html:1199
-#: eures_beta/templates/employer/import.html:1215
+#: eures_beta/templates/employer/import.html:1128
+#: eures_beta/templates/employer/import.html:1200
+#: eures_beta/templates/employer/import.html:1216
 msgctxt "employer import"
 msgid "I confirm the corrected offer information and request that it be saved. No candidate search or contact will start."
 msgstr "Ich bestätige die korrigierten Angebotsangaben und beauftrage deren Speicherung. Es wird keine Bewerbersuche oder Kontaktaufnahme gestartet."
 
-#: eures_beta/templates/employer/import.html:1132
-#: eures_beta/templates/employer/import.html:1200
+#: eures_beta/templates/employer/import.html:1133
+#: eures_beta/templates/employer/import.html:1201
 msgctxt "employer import"
 msgid "Download my draft"
 msgstr "Entwurf herunterladen"
 
-#: eures_beta/templates/employer/import.html:1132
-#: eures_beta/templates/employer/import.html:1201
+#: eures_beta/templates/employer/import.html:1133
+#: eures_beta/templates/employer/import.html:1202
 msgctxt "employer import"
 msgid "Validate my offer"
 msgstr "Angebot bestätigen"
 
-#: eures_beta/templates/employer/import.html:1137
-#: eures_beta/templates/employer/import.html:1205
+#: eures_beta/templates/employer/import.html:1138
+#: eures_beta/templates/employer/import.html:1206
 msgctxt "employer import"
 msgid "Download validated summary"
 msgstr "Bestätigte Übersicht herunterladen"
 
-#: eures_beta/templates/employer/import.html:1141
-#: eures_beta/templates/employer/import.html:1202
+#: eures_beta/templates/employer/import.html:1142
+#: eures_beta/templates/employer/import.html:1203
 msgctxt "employer import"
 msgid "Back to my email"
 msgstr "Zurück zur E-Mail"
 
-#: eures_beta/templates/employer/import.html:1146
+#: eures_beta/templates/employer/import.html:1147
 msgctxt "employer import"
 msgid "Review the extracted information and clarify the job conditions."
 msgstr "Prüfen Sie die übernommenen Angaben und präzisieren Sie die Arbeitsbedingungen."
 
-#: eures_beta/templates/employer/import.html:1147
+#: eures_beta/templates/employer/import.html:1148
 msgctxt "employer import"
 msgid "Actual the preparation service response dated 15 October 2026 for the tested Moovijob offer. Location is approximate and must be confirmed. the preparation service did not generate the questions below."
 msgstr "Tatsächliche Antwort der den Aufbereitungsdienst vom 15. Oktober 2026 zum getesteten Moovijob-Angebot. Der Standort ist ungefähr und muss bestätigt werden. Die folgenden Fragen wurden nicht von den Aufbereitungsdienst erstellt."
 
-#: eures_beta/templates/employer/import.html:1148
+#: eures_beta/templates/employer/import.html:1149
 msgctxt "employer import"
 msgid "Automatic reading of this source is not connected. Complete the form below; no information has been invented from your file or link."
 msgstr "Das automatische Lesen dieser Quelle ist noch nicht angebunden. Ergänzen Sie die Angaben; aus Datei oder Link wurden keine Informationen erfunden."
 
-#: eures_beta/templates/employer/import.html:1188
+#: eures_beta/templates/employer/import.html:1189
 msgctxt "employer import"
 msgid "Question"
 msgstr "Frage"
 
-#: eures_beta/templates/employer/import.html:1192
+#: eures_beta/templates/employer/import.html:1193
 msgctxt "employer import"
 msgid "What experience do you have in brasserie cooking?"
 msgstr "Welche Erfahrung haben Sie in der Brasserie-Küche?"
 
-#: eures_beta/templates/employer/import.html:1193
+#: eures_beta/templates/employer/import.html:1194
 msgctxt "employer import"
 msgid "Which preparations can you handle: starters, hot dishes, meat cooking and sauces?"
 msgstr "Welche Zubereitungen beherrschen Sie: Vorspeisen, warme Gerichte, Fleisch und Saucen?"
 
-#: eures_beta/templates/employer/import.html:1194
+#: eures_beta/templates/employer/import.html:1195
 msgctxt "employer import"
 msgid "Can you work split shifts? Describe any constraints."
 msgstr "Können Sie geteilte Dienste übernehmen? Nennen Sie mögliche Einschränkungen."
 
-#: eures_beta/templates/employer/import.html:1195
+#: eures_beta/templates/employer/import.html:1196
 msgctxt "employer import"
 msgid "When could you start?"
 msgstr "Ab wann wären Sie verfügbar?"
 
-#: eures_beta/templates/employer/import.html:1196
+#: eures_beta/templates/employer/import.html:1197
 msgctxt "employer import"
 msgid "How could you reach the workplace at the required times?"
 msgstr "Wie könnten Sie den Arbeitsort zu den vorgesehenen Zeiten erreichen?"
 
-#: eures_beta/templates/employer/import.html:1203
+#: eures_beta/templates/employer/import.html:1204
 msgctxt "employer import"
 msgid "Draft downloaded as JSON. Keep the file on your computer: nothing is saved on the server."
 msgstr "Entwurf als JSON heruntergeladen. Bewahren Sie die Datei auf; auf dem Server wird nichts gespeichert."
 
-#: eures_beta/templates/employer/import.html:1204
+#: eures_beta/templates/employer/import.html:1205
 msgctxt "employer import"
 msgid "Offer validated in this demonstration. You can download the validated summary. No the preparation service update, search or candidate contact has occurred."
 msgstr "Angebot in dieser Demonstration bestätigt. Sie können die bestätigte Übersicht herunterladen. Keine den Aufbereitungsdienst-Aktualisierung, Suche oder Kontaktaufnahme wurde ausgelöst."
 
-#: eures_beta/templates/employer/import.html:1206
+#: eures_beta/templates/employer/import.html:1207
 msgctxt "employer import"
 msgid "The offer has changed: review and confirm again before validating."
 msgstr "Das Angebot wurde geändert: Prüfen und bestätigen Sie es erneut."
 
-#: eures_beta/templates/employer/import.html:1207
+#: eures_beta/templates/employer/import.html:1208
 msgctxt "employer import"
 msgid "Complete job title, company, location, description and contract type, then confirm. Every selected question must contain text."
 msgstr "Ergänzen Sie Stelle, Unternehmen, Ort, Beschreibung und Vertragsart und bestätigen Sie. Jede ausgewählte Frage benötigt einen Text."
 
-#: eures_beta/templates/employer/import.html:1209
+#: eures_beta/templates/employer/import.html:1210
 msgctxt "employer import"
 msgid "Save my draft"
 msgstr "Entwurf speichern"
 
-#: eures_beta/templates/employer/import.html:1210
+#: eures_beta/templates/employer/import.html:1211
 msgctxt "employer import"
 msgid "Draft saved in PostgreSQL on this computer. Resume it from this browser."
 msgstr "Entwurf in PostgreSQL auf diesem Computer gespeichert. In diesem Browser fortsetzbar."
 
-#: eures_beta/templates/employer/import.html:1211
+#: eures_beta/templates/employer/import.html:1212
 msgctxt "employer import"
 msgid "Confirm my offer"
 msgstr "Mein Angebot bestätigen"
 
-#: eures_beta/templates/employer/import.html:1212
+#: eures_beta/templates/employer/import.html:1213
 msgctxt "employer import"
 msgid "Your offer has been saved."
 msgstr "Ihr Angebot wurde gespeichert."
 
-#: eures_beta/templates/employer/import.html:1213
+#: eures_beta/templates/employer/import.html:1214
 msgctxt "employer import"
 msgid "AI-assisted offer summary. Review all information and clarify missing details."
 msgstr "KI-gestützt vorbereitete Übersicht. Prüfen und ergänzen Sie alle Angaben."
 
-#: eures_beta/templates/employer/import.html:1214
+#: eures_beta/templates/employer/import.html:1215
 msgctxt "employer import"
 msgid "An initial inactive offer has been sent to the preparation service. Corrections stay local until you validate the update. Your email is not sent to the preparation service."
 msgstr "Eine erste inaktive Version wurde an den Aufbereitungsdienst gesendet. Korrekturen bleiben bis zur bestätigten Aktualisierung lokal. Ihre E-Mail wird nicht übermittelt."
 
-#: eures_beta/templates/employer/import.html:1216
+#: eures_beta/templates/employer/import.html:1217
 msgctxt "employer import"
 msgid "Check on OpenStreetMap"
 msgstr "Auf OpenStreetMap prüfen"
 
-#: eures_beta/templates/employer/import.html:1217
+#: eures_beta/templates/employer/import.html:1218
 msgctxt "employer import"
 msgid "I checked the proposed point and confirm it matches the workplace."
 msgstr "Ich habe den Punkt geprüft und bestätige den Arbeitsort."
 
-#: eures_beta/templates/employer/import.html:1218
+#: eures_beta/templates/employer/import.html:1219
 msgctxt "employer import"
 msgid "View the location on OpenStreetMap"
 msgstr "Arbeitsort auf OpenStreetMap ansehen"
 
-#: eures_beta/templates/employer/import.html:1219
+#: eures_beta/templates/employer/import.html:1220
 msgctxt "employer import"
 msgid "Unsure about the location? Check it on the map. This is optional."
 msgstr "Unsicher beim Arbeitsort? Prüfen Sie ihn auf der Karte. Dies ist freiwillig."
 
-#: eures_beta/templates/employer/import.html:1220
+#: eures_beta/templates/employer/import.html:1221
 msgctxt "employer import"
 msgid "Saving and reading back from the preparation service…"
 msgstr "Speichern und Rücklesen bei den Aufbereitungsdienst…"
 
-#: eures_beta/templates/employer/import.html:1221
+#: eures_beta/templates/employer/import.html:1222
 msgctxt "employer import"
 msgid "Saving draft…"
 msgstr "Entwurf wird gespeichert…"
 
-#: eures_beta/templates/employer/import.html:1223
+#: eures_beta/templates/employer/import.html:1224
 msgctxt "employer import"
 msgid "What experience do you have for this job?"
 msgstr "Welche Erfahrung haben Sie für diese Stelle?"
 
-#: eures_beta/templates/employer/import.html:1224
+#: eures_beta/templates/employer/import.html:1225
 msgctxt "employer import"
 msgid "Which required skills do you have?"
 msgstr "Welche geforderten Kompetenzen beherrschen Sie?"
 
-#: eures_beta/templates/employer/import.html:1225
+#: eures_beta/templates/employer/import.html:1226
 msgctxt "employer import"
 msgid "What are your availability and working-hour constraints?"
 msgstr "Welche Verfügbarkeit und zeitlichen Einschränkungen haben Sie?"
 
-#: eures_beta/templates/employer/import.html:1226
+#: eures_beta/templates/employer/import.html:1227
 msgctxt "employer import variant"
 msgid "When could you start?"
 msgstr "Ab wann könnten Sie beginnen?"
 
-#: eures_beta/templates/employer/import.html:1227
+#: eures_beta/templates/employer/import.html:1228
 msgctxt "employer import"
 msgid "Can you reach the workplace at the required times?"
 msgstr "Können Sie den Arbeitsort zu den vorgesehenen Zeiten erreichen?"
 
-#: eures_beta/templates/employer/import.html:1230
+#: eures_beta/templates/employer/import.html:1231
 msgctxt "employer import"
 msgid "Complete and save the company contact before validating the offer."
 msgstr "Ergänzen und speichern Sie den Unternehmenskontakt, bevor Sie das Angebot bestätigen."
 
-#: eures_beta/templates/employer/import.html:1231
+#: eures_beta/templates/employer/import.html:1232
 msgctxt "employer import"
 msgid "Sandbox did not confirm complete storage. Corrections are saved; retry."
 msgstr "Sandbox hat Speicherung nicht vollständig bestätigt. Korrekturen gespeichert; erneut versuchen."
 
-#: eures_beta/templates/employer/import.html:1232
+#: eures_beta/templates/employer/import.html:1233
 msgctxt "employer import"
 msgid "Sandbox key is missing from the local server."
 msgstr "Sandbox-Schlüssel auf lokalem Server fehlt."
 
-#: eures_beta/templates/employer/import.html:1233
+#: eures_beta/templates/employer/import.html:1234
 msgctxt "employer import"
 msgid "Location not found. Specify city, country and street if possible."
 msgstr "Ort nicht gefunden. Stadt, Land und möglichst Adresse ergänzen."
 
-#: eures_beta/templates/employer/import.html:1234
+#: eures_beta/templates/employer/import.html:1235
 msgctxt "employer import"
 msgid "Check the map point and confirm the workplace."
 msgstr "Kartenpunkt prüfen und Ort bestätigen."
 
-#: eures_beta/templates/employer/import.html:1235
+#: eures_beta/templates/employer/import.html:1236
 msgctxt "employer import"
 msgid "Complete essential fields and confirm."
 msgstr "Pflichtfelder ergänzen und bestätigen."
 
-#: eures_beta/templates/employer/import.html:1236
+#: eures_beta/templates/employer/import.html:1237
 msgctxt "employer import"
 msgid "Draft changed in another tab. Reload it first."
 msgstr "Entwurf in anderem Tab geändert. Zuerst neu laden."
 
-#: eures_beta/templates/employer/import.html:1237
+#: eures_beta/templates/employer/import.html:1238
 msgctxt "employer import"
 msgid "Check fields, questions and lengths."
 msgstr "Felder, Fragen und Längen prüfen."
 
-#: eures_beta/templates/employer/import.html:1238
+#: eures_beta/templates/employer/import.html:1239
 msgctxt "employer import"
 msgid "Local server unavailable. Entries remain on screen."
 msgstr "Lokaler Server nicht erreichbar. Eingaben bleiben sichtbar."
 
-#: eures_beta/templates/employer/import.html:1239
+#: eures_beta/templates/employer/import.html:1240
 msgctxt "employer import"
 msgid "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions."
 msgstr "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen."
 
-#: eures_beta/templates/employer/import.html:1240
-#: eures_beta/templates/employer/import.html:1486
+#: eures_beta/templates/employer/import.html:1241
+#: eures_beta/templates/employer/import.html:1487
 msgctxt "employer import"
 msgid "Local test: external services are disabled. You can save the draft."
 msgstr "Lokaler Test: externe Dienste sind deaktiviert. Sie können den Entwurf speichern."
 
-#: eures_beta/templates/employer/import.html:1243
+#: eures_beta/templates/employer/import.html:1244
 msgctxt "employer import"
 msgid "Some information before sending to the preparation service"
 msgstr "Angaben vor der Übermittlung an den Aufbereitungsdienst"
 
-#: eures_beta/templates/employer/import.html:1244
+#: eures_beta/templates/employer/import.html:1245
 msgctxt "employer import variant"
 msgid "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions."
 msgstr "den Aufbereitungsdienst benötigt Stelle, Unternehmen, Ort und Beschreibung. Ergänzen Sie fehlende Angaben für eine erste inaktive Übermittlung. Danach prüfen Sie Antwort und Fragen."
 
-#: eures_beta/templates/employer/import.html:1245
+#: eures_beta/templates/employer/import.html:1246
 msgctxt "employer import"
 msgid "Send to the preparation service and retrieve the offer"
 msgstr "An den Aufbereitungsdienst senden und Angebot abrufen"
 
-#: eures_beta/templates/employer/import.html:1248
+#: eures_beta/templates/employer/import.html:1249
 msgctxt "employer import"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: eures_beta/templates/employer/import.html:1295
+#: eures_beta/templates/employer/import.html:1296
 #, python-brace-format
 msgctxt "employer import"
 msgid "The role involves: {items}. Can you work under these conditions?"
 msgstr "Die Stelle beinhaltet: {items}. Können Sie unter diesen Bedingungen arbeiten?"
 
-#: eures_beta/templates/employer/import.html:1296
+#: eures_beta/templates/employer/import.html:1297
 #, python-brace-format
 msgctxt "employer import"
 msgid "Do you hold these licences or authorisations: {items}?"
 msgstr "Verfügen Sie über folgende Führerscheine oder Berechtigungen: {items}?"
 
-#: eures_beta/templates/employer/import.html:1297
+#: eures_beta/templates/employer/import.html:1298
 msgctxt "employer import"
 msgid "When could you start and, if needed, relocate near the workplace?"
 msgstr "Ab wann könnten Sie beginnen und gegebenenfalls in die Nähe des Arbeitsorts ziehen?"
 
-#: eures_beta/templates/employer/import.html:1313
-#: eures_beta/templates/employer/import.html:1371
+#: eures_beta/templates/employer/import.html:1314
+#: eures_beta/templates/employer/import.html:1372
 msgctxt "employer import"
 msgid "Your offer has been saved"
 msgstr "Ihr Angebot wurde gespeichert"
 
-#: eures_beta/templates/employer/import.html:1314
-#: eures_beta/templates/employer/import.html:1372
+#: eures_beta/templates/employer/import.html:1315
+#: eures_beta/templates/employer/import.html:1373
 msgctxt "employer import"
 msgid "You have completed this step. You can review the saved information below."
 msgstr "Dieser Schritt ist abgeschlossen. Unten können Sie die gespeicherten Angaben ansehen."
 
-#: eures_beta/templates/employer/import.html:1315
-#: eures_beta/templates/employer/import.html:1373
+#: eures_beta/templates/employer/import.html:1316
+#: eures_beta/templates/employer/import.html:1374
 msgctxt "employer import"
 msgid "What happens next?"
 msgstr "Wie geht es weiter?"
 
-#: eures_beta/templates/employer/import.html:1317
-#: eures_beta/templates/employer/import.html:1375
+#: eures_beta/templates/employer/import.html:1318
+#: eures_beta/templates/employer/import.html:1376
 msgctxt "employer import"
 msgid "Your offer is saved with the job conditions and arrival support you specified."
 msgstr "Ihr Angebot wird mit den angegebenen Arbeitsbedingungen und Ankunftshilfen gespeichert."
 
-#: eures_beta/templates/employer/import.html:1318
-#: eures_beta/templates/employer/import.html:1376
+#: eures_beta/templates/employer/import.html:1319
+#: eures_beta/templates/employer/import.html:1377
 msgctxt "employer import"
 msgid "The next step in the journey will be candidate prequalification: availability, skills and job requirements."
 msgstr "Der nächste Schritt ist die Vorqualifizierung: Verfügbarkeit, Kompetenzen und Stellenanforderungen."
 
-#: eures_beta/templates/employer/import.html:1319
-#: eures_beta/templates/employer/import.html:1377
+#: eures_beta/templates/employer/import.html:1320
+#: eures_beta/templates/employer/import.html:1378
 msgctxt "employer import"
 msgid "An introduction will then require agreement from you and the candidate, with support from an adviser."
 msgstr "Eine Kontaktvermittlung erfordert anschließend Ihre Zustimmung und die der bewerbenden Person sowie die Begleitung durch eine Beratung."
 
-#: eures_beta/templates/employer/import.html:1321
-#: eures_beta/templates/employer/import.html:1379
+#: eures_beta/templates/employer/import.html:1322
+#: eures_beta/templates/employer/import.html:1380
 msgctxt "employer import"
 msgid "This local trial stops here: no candidate search, prequalification or contact is started. No confirmation email is sent."
 msgstr "Der lokale Test endet hier: Es werden weder Bewerbersuche, Vorqualifizierung noch Kontaktaufnahme gestartet. Es wird keine Bestätigungs-E-Mail versendet."
 
-#: eures_beta/templates/employer/import.html:1322
-#: eures_beta/templates/employer/import.html:1381
+#: eures_beta/templates/employer/import.html:1323
+#: eures_beta/templates/employer/import.html:1382
 msgctxt "employer import"
 msgid "View my offer"
 msgstr "Mein Angebot ansehen"
 
-#: eures_beta/templates/employer/import.html:1323
-#: eures_beta/templates/employer/import.html:1391
+#: eures_beta/templates/employer/import.html:1324
+#: eures_beta/templates/employer/import.html:1392
 msgctxt "employer import"
 msgid "Add another offer"
 msgstr "Weiteres Angebot hinzufügen"
 
-#: eures_beta/templates/employer/import.html:1324
-#: eures_beta/templates/employer/import.html:1388
+#: eures_beta/templates/employer/import.html:1325
+#: eures_beta/templates/employer/import.html:1389
 msgctxt "employer import"
 msgid "Back to the employer home"
 msgstr "Zur Arbeitgeber-Startseite"
 
-#: eures_beta/templates/employer/import.html:1326
+#: eures_beta/templates/employer/import.html:1327
 msgctxt "employer import"
 msgid "Offer extracted from your document. Check and complete the information."
 msgstr "Angebot aus Ihrem Dokument übernommen. Prüfen und ergänzen Sie die Angaben."
 
-#: eures_beta/templates/employer/import.html:1327
+#: eures_beta/templates/employer/import.html:1328
 msgctxt "employer import"
 msgid "Local reading using text extraction, without generative AI or transfer to a provider. The result may contain errors."
 msgstr "Lokales Lesen mit Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Das Ergebnis kann Fehler enthalten."
 
-#: eures_beta/templates/employer/import.html:1329
+#: eures_beta/templates/employer/import.html:1330
 msgctxt "employer import"
 msgid "During this trial, the draft is saved only in the local database. No publication, candidate search or transfer to EURES partners."
 msgstr "In diesem Test wird der Entwurf nur in der lokalen Datenbank gespeichert. Keine Veröffentlichung, Kandidatensuche oder Übertragung an EURES-Partner."
 
-#: eures_beta/templates/employer/import.html:1330
+#: eures_beta/templates/employer/import.html:1331
 msgctxt "employer import"
 msgid "Your offer has been saved locally."
 msgstr "Ihr Angebot wurde lokal gespeichert."
 
-#: eures_beta/templates/employer/import.html:1332
+#: eures_beta/templates/employer/import.html:1333
 msgctxt "employer import"
 msgid "Document information to check"
 msgstr "Angaben aus dem Dokument prüfen"
 
-#: eures_beta/templates/employer/import.html:1333
+#: eures_beta/templates/employer/import.html:1334
 msgctxt "employer import"
 msgid "Conflicting hours — please confirm"
 msgstr "Widersprüchliche Arbeitszeiten — bitte bestätigen"
 
-#: eures_beta/templates/employer/import.html:1334
+#: eures_beta/templates/employer/import.html:1335
 msgctxt "employer import"
 msgid "Multiple contract types — please confirm"
 msgstr "Mehrere Vertragsarten — bitte bestätigen"
 
-#: eures_beta/templates/employer/import.html:1335
+#: eures_beta/templates/employer/import.html:1336
 msgctxt "employer import"
 msgid "Clarify location or remote work conditions"
 msgstr "Arbeitsort oder Homeoffice-Bedingungen klären"
 
-#: eures_beta/templates/employer/import.html:1336
+#: eures_beta/templates/employer/import.html:1337
 msgctxt "employer import"
 msgid "Text recognized from an image: check for recognition errors"
 msgstr "Text aus einem Bild erkannt: bitte auf Erkennungsfehler prüfen"
 
-#: eures_beta/templates/employer/import.html:1337
+#: eures_beta/templates/employer/import.html:1338
 msgctxt "employer import"
 msgid "Please confirm this information"
 msgstr "Angabe bitte bestätigen"
 
-#: eures_beta/templates/employer/import.html:1395
-#: eures_beta/templates/employer/import.html:1431
+#: eures_beta/templates/employer/import.html:1396
+#: eures_beta/templates/employer/import.html:1432
 msgctxt "employer import"
 msgid "Next step: review your offer"
 msgstr "Nächster Schritt: Ihr Angebot prüfen"
 
-#: eures_beta/templates/employer/import.html:1396
-#: eures_beta/templates/employer/import.html:1432
+#: eures_beta/templates/employer/import.html:1397
+#: eures_beta/templates/employer/import.html:1433
 msgctxt "employer import"
 msgid "PDF, link or manual entry and the email step can be tested. Reading documents and web pages is not connected yet. No offer or email has been sent or saved, and no job website has been contacted."
 msgstr "PDF-Auswahl, Link, manuelle Eingabe und E-Mail-Schritt können getestet werden. Dokumente und Webseiten werden noch nicht gelesen. Kein Angebot und keine E-Mail-Adresse wurde übermittelt oder gespeichert; keine Angebotsseite wurde aufgerufen."
 
-#: eures_beta/templates/employer/import.html:1399
-#: eures_beta/templates/employer/import.html:1433
+#: eures_beta/templates/employer/import.html:1400
+#: eures_beta/templates/employer/import.html:1434
 msgctxt "employer import"
 msgid "Start again"
 msgstr "Neu beginnen"
 
-#: eures_beta/templates/employer/import.html:1405
+#: eures_beta/templates/employer/import.html:1406
 msgctxt "employer import"
 msgid "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment"
 msgstr "Match Europe · Eine Erprobung von France Travail / EURES / ADEM / Le Forem / ELA"
 
-#: eures_beta/templates/employer/import.html:1406
+#: eures_beta/templates/employer/import.html:1407
 msgctxt "employer import"
 msgid "Useful links"
 msgstr "Weitere Links"
 
-#: eures_beta/templates/employer/import.html:1415
+#: eures_beta/templates/employer/import.html:1416
 msgctxt "employer import"
 msgid "Add your job offer"
 msgstr "Fügen Sie Ihr Stellenangebot hinzu"
 
-#: eures_beta/templates/employer/import.html:1416
+#: eures_beta/templates/employer/import.html:1417
 msgctxt "employer import"
 msgid "Import a PDF, paste a link to a public job offer or enter your offer manually. We will prepare a summary for you to check and complete."
 msgstr "Importieren Sie ein PDF, fügen Sie den Link zu einem öffentlichen Stellenangebot ein oder geben Sie Ihr Angebot manuell ein. Wir bereiten eine Übersicht vor, die Sie prüfen und ergänzen können."
 
-#: eures_beta/templates/employer/import.html:1422
+#: eures_beta/templates/employer/import.html:1423
 msgctxt "employer import"
 msgid "I prefer to enter my offer manually"
 msgstr "Ich möchte mein Angebot manuell eingeben"
 
-#: eures_beta/templates/employer/import.html:1435
-#: eures_beta/templates/employer/import.html:1476
+#: eures_beta/templates/employer/import.html:1436
+#: eures_beta/templates/employer/import.html:1477
 msgctxt "employer import"
 msgid "Choose one PDF or PNG/JPEG images of the same job."
 msgstr "Wählen Sie eine einzelne PDF oder PNG/JPEG-Bilder derselben Stelle."
 
-#: eures_beta/templates/employer/import.html:1436
-#: eures_beta/templates/employer/import.html:1477
+#: eures_beta/templates/employer/import.html:1437
+#: eures_beta/templates/employer/import.html:1478
 msgctxt "employer import"
 msgid "Limit: 8 images and 10 MB total, or one 10 MB PDF."
 msgstr "Grenze: 8 Bilder und insgesamt 10 MB oder eine PDF mit 10 MB."
 
-#: eures_beta/templates/employer/import.html:1437
+#: eures_beta/templates/employer/import.html:1438
 msgctxt "employer import"
 msgid "Choose a PDF or images to continue."
 msgstr "Wählen Sie eine PDF oder Bilder aus."
 
-#: eures_beta/templates/employer/import.html:1438
-#: eures_beta/templates/employer/import.html:1475
+#: eures_beta/templates/employer/import.html:1439
+#: eures_beta/templates/employer/import.html:1476
 msgctxt "employer import"
 msgid "Unreadable, protected or excessive document, or local OCR unavailable. Try another file or paste the text."
 msgstr "Dokument unlesbar, geschützt oder zu lang oder lokale OCR nicht verfügbar. Andere Datei versuchen oder Text einfügen."
 
-#: eures_beta/templates/employer/import.html:1439
+#: eures_beta/templates/employer/import.html:1440
 msgctxt "employer import"
 msgid "Enter your offer text to continue."
 msgstr "Geben Sie den Text Ihres Angebots ein, um fortzufahren."
 
-#: eures_beta/templates/employer/import.html:1441
+#: eures_beta/templates/employer/import.html:1442
 msgctxt "employer import"
 msgid "Your offer"
 msgstr "Ihr Angebot"
 
-#: eures_beta/templates/employer/import.html:1442
+#: eures_beta/templates/employer/import.html:1443
 msgctxt "employer import"
 msgid "Review"
 msgstr "Prüfung"
 
-#: eures_beta/templates/employer/import.html:1443
+#: eures_beta/templates/employer/import.html:1444
 msgctxt "employer import"
 msgid "Save"
 msgstr "Speichern"
 
-#: eures_beta/templates/employer/import.html:1445
+#: eures_beta/templates/employer/import.html:1446
 msgctxt "employer import"
 msgid "Selected file: "
 msgstr "Ausgewählte Datei: "
 
-#: eures_beta/templates/employer/import.html:1447
+#: eures_beta/templates/employer/import.html:1448
 msgctxt "employer import"
 msgid "Your agreement to prepare the offer"
 msgstr "Ihre Zustimmung zur Vorbereitung"
 
-#: eures_beta/templates/employer/import.html:1448
+#: eures_beta/templates/employer/import.html:1449
 msgctxt "employer import"
 msgid "I request AI-assisted preparation of my offer. Offer information is sent to a technical service provider to prepare a summary for my review. My email is not sent to that provider."
 msgstr "Ich beauftrage die KI-gestützte Vorbereitung meines Angebots. Die Angebotsangaben werden zur Vorbereitung meiner zu prüfenden Übersicht an einen technischen Dienstleister übermittelt. Meine E-Mail-Adresse wird nicht übermittelt."
 
-#: eures_beta/templates/employer/import.html:1449
+#: eures_beta/templates/employer/import.html:1450
 msgctxt "employer import"
 msgid "Artificial intelligence helps structure your offer and identify information to clarify. It can make mistakes: you will review and correct the summary before confirming it."
 msgstr "Künstliche Intelligenz hilft, Ihr Angebot zu strukturieren und offene Angaben zu erkennen. Sie kann Fehler machen: Sie prüfen und korrigieren die Übersicht vor der Bestätigung."
 
-#: eures_beta/templates/employer/import.html:1450
+#: eures_beta/templates/employer/import.html:1451
 msgctxt "employer import"
 msgid "In this demonstration, agreement is simulated and is not recorded. The legal basis and final wording remain to be confirmed with France Travail."
 msgstr "In dieser Demonstration wird die Zustimmung simuliert und nicht gespeichert. Rechtsgrundlage und endgültiger Wortlaut sind noch mit France Travail zu klären."
 
-#: eures_beta/templates/employer/import.html:1451
+#: eures_beta/templates/employer/import.html:1452
 msgctxt "employer import"
 msgid "Use a job offer link"
 msgstr "Link zu einem Stellenangebot verwenden"
 
-#: eures_beta/templates/employer/import.html:1455
+#: eures_beta/templates/employer/import.html:1456
 msgctxt "employer import"
 msgid "Enter an HTTPS link to a public website, without credentials or a local address."
 msgstr "Geben Sie einen HTTPS-Link zu einer öffentlichen Website ohne Zugangsdaten oder lokale Adresse ein."
 
-#: eures_beta/templates/employer/import.html:1465
+#: eures_beta/templates/employer/import.html:1466
 msgctxt "employer import"
 msgid "Local trial: documents read without an external service. No publication or candidate search."
 msgstr "Lokaler Test: Dokumente werden ohne externen Dienst gelesen. Keine Veröffentlichung oder Kandidatensuche."
 
-#: eures_beta/templates/employer/import.html:1466
+#: eures_beta/templates/employer/import.html:1467
 msgctxt "employer import"
 msgid "Your email is saved in your local draft. No sign-in email is sent during this trial."
 msgstr "Ihre E-Mail-Adresse wird im lokalen Entwurf gespeichert. Im Test wird keine Anmelde-E-Mail gesendet."
 
-#: eures_beta/templates/employer/import.html:1467
+#: eures_beta/templates/employer/import.html:1468
 msgctxt "employer import"
 msgid "No application is assessed or rejected at this step."
 msgstr "In diesem Schritt wird keine Bewerbung bewertet oder abgelehnt."
 
-#: eures_beta/templates/employer/import.html:1468
+#: eures_beta/templates/employer/import.html:1469
 msgctxt "employer import"
 msgid "The page will be checked before we ask for your email."
 msgstr "Die Seite wird vor der Abfrage Ihrer E-Mail geprüft."
 
-#: eures_beta/templates/employer/import.html:1469
+#: eures_beta/templates/employer/import.html:1470
 msgctxt "employer import"
 msgid "Reading and preparing your offer…"
 msgstr "Ihr Angebot wird gelesen und vorbereitet…"
 
-#: eures_beta/templates/employer/import.html:1470
+#: eures_beta/templates/employer/import.html:1471
 msgctxt "employer import"
 msgid "Resume a draft in this browser"
 msgstr "Entwurf in diesem Browser fortsetzen"
 
-#: eures_beta/templates/employer/import.html:1471
+#: eures_beta/templates/employer/import.html:1472
 msgctxt "employer import"
 msgid "Unable to continue: "
 msgstr "Fortfahren nicht möglich: "
 
-#: eures_beta/templates/employer/import.html:1473
+#: eures_beta/templates/employer/import.html:1474
 msgctxt "employer import"
 msgid "Use a public HTTPS page without credentials or internal addresses."
 msgstr "Öffentliche HTTPS-Seite ohne Zugangsdaten oder interne Adresse erforderlich."
 
-#: eures_beta/templates/employer/import.html:1474
+#: eures_beta/templates/employer/import.html:1475
 msgctxt "employer import"
 msgid "The site is unavailable or does not allow this page to be read automatically."
 msgstr "Die Website ist nicht erreichbar oder erlaubt kein automatisches Lesen dieser Seite."
 
-#: eures_beta/templates/employer/import.html:1478
+#: eures_beta/templates/employer/import.html:1479
 msgctxt "employer import"
 msgid "Confirm agreement to prepare the offer."
 msgstr "Bitte Zustimmung bestätigen."
 
-#: eures_beta/templates/employer/import.html:1479
+#: eures_beta/templates/employer/import.html:1480
 msgctxt "employer import"
 msgid "Check your email."
 msgstr "E-Mail-Adresse prüfen."
 
-#: eures_beta/templates/employer/import.html:1480
+#: eures_beta/templates/employer/import.html:1481
 msgctxt "employer import"
 msgid "Check the fields and text length."
 msgstr "Felder und Textlänge prüfen."
 
-#: eures_beta/templates/employer/import.html:1481
+#: eures_beta/templates/employer/import.html:1482
 msgctxt "employer import"
 msgid "This session has reached 30 drafts."
 msgstr "30 Entwürfe in dieser Sitzung erreicht."
 
-#: eures_beta/templates/employer/import.html:1482
+#: eures_beta/templates/employer/import.html:1483
 msgctxt "employer import"
 msgid "This draft is unavailable in this session."
 msgstr "Entwurf in dieser Sitzung nicht verfügbar."
 
-#: eures_beta/templates/employer/import.html:1483
+#: eures_beta/templates/employer/import.html:1484
 msgctxt "employer import"
 msgid "The local server is unavailable. Your entries remain on screen."
 msgstr "Lokaler Server nicht erreichbar. Eingaben bleiben sichtbar."
 
-#: eures_beta/templates/employer/import.html:1484
+#: eures_beta/templates/employer/import.html:1485
 msgctxt "employer import"
 msgid "This link opens a list of offers. Open the individual advert on France Travail and copy its specific link."
 msgstr "Dieser Link führt zu einer Ergebnisliste. Öffnen Sie die einzelne Anzeige auf France Travail und kopieren Sie deren Link."
 
-#: eures_beta/templates/employer/import.html:1485
+#: eures_beta/templates/employer/import.html:1486
 msgctxt "employer import"
 msgid "Check the company contact name and email."
 msgstr "Prüfen Sie Name und E-Mail des Unternehmenskontakts."
 
-#: eures_beta/templates/employer/import.html:1489
+#: eures_beta/templates/employer/import.html:1490
 msgctxt "employer import"
 msgid "Read this offer"
 msgstr "Angebot lesen"
 
-#: eures_beta/templates/employer/import.html:1491
+#: eures_beta/templates/employer/import.html:1492
 msgctxt "employer import"
 msgid "Reading the link…"
 msgstr "Link wird gelesen…"
 
-#: eures_beta/templates/employer/import.html:1492
+#: eures_beta/templates/employer/import.html:1493
 msgctxt "employer import"
 msgid "We cannot read this offer"
 msgstr "Dieses Angebot kann nicht gelesen werden"
 
-#: eures_beta/templates/employer/import.html:1493
+#: eures_beta/templates/employer/import.html:1494
 msgctxt "employer import"
 msgid "Choose another method: import a PDF or paste the offer text."
 msgstr "Andere Methode wählen: PDF importieren oder Anzeigentext einfügen."
 
-#: eures_beta/templates/employer/import.html:1494
+#: eures_beta/templates/employer/import.html:1495
 msgctxt "employer import"
 msgid "Read documents"
 msgstr "Dokumente lesen"
 
-#: eures_beta/templates/employer/import.html:1495
+#: eures_beta/templates/employer/import.html:1496
 msgctxt "employer import"
 msgid "Reading documents…"
 msgstr "Dokumente werden gelesen…"
 
-#: eures_beta/templates/employer/import.html:1496
+#: eures_beta/templates/employer/import.html:1497
 msgctxt "employer import"
 msgid "By clicking “Read documents”, you request preparation of your offer. The result may contain errors: check and correct it before validation. This trial uses local text extraction, without generative AI or transfer to a provider. No publication or candidate search will be started."
 msgstr "Mit einem Klick auf „Dokumente lesen“ beauftragen Sie die Vorbereitung Ihres Angebots. Das Ergebnis kann Fehler enthalten: Prüfen und korrigieren Sie es vor der Bestätigung. Dieser Test verwendet lokale Textextraktion, ohne generative KI oder Übertragung an einen Dienstleister. Es wird keine Veröffentlichung oder Kandidatensuche gestartet."
 
-#: eures_beta/templates/employer/import.html:1497
+#: eures_beta/templates/employer/import.html:1498
 msgctxt "employer import"
 msgid "Choose a PDF or images"
 msgstr "PDF oder Bilder auswählen"
 
-#: eures_beta/templates/employer/import.html:1498
+#: eures_beta/templates/employer/import.html:1499
 msgctxt "employer import"
 msgid "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total. Local reading of images and scanned pages."
 msgstr "Eine PDF oder bis zu 8 PNG/JPEG-Bilder derselben Stelle in Lesereihenfolge · insgesamt 10 MB. Lokales Lesen von Bildern und gescannten Seiten."
 
-#: eures_beta/templates/employer/import.html:1499
+#: eures_beta/templates/employer/import.html:1500
 msgctxt "employer import"
 msgid "Import a PDF or images"
 msgstr "PDF oder Bilder importieren"
 
-#: eures_beta/templates/employer/import.html:1500
+#: eures_beta/templates/employer/import.html:1501
 msgctxt "employer import"
 msgid "Your job is in a document or screenshots."
 msgstr "Ihre Stelle liegt als Dokument oder Screenshots vor."
 
-#: eures_beta/templates/employer/import.html:1507
+#: eures_beta/templates/employer/import.html:1508
 msgctxt "employer import"
 msgid "Your contact for the adviser"
 msgstr "Ihr Kontakt für die Beratung"
 
-#: eures_beta/templates/employer/import.html:1508
+#: eures_beta/templates/employer/import.html:1509
 msgctxt "employer import"
 msgid "Full name"
 msgstr "Vor- und Nachname"
 
-#: eures_beta/templates/employer/import.html:1509
+#: eures_beta/templates/employer/import.html:1510
 msgctxt "employer import"
 msgid "Contact email"
 msgstr "E-Mail des Kontakts"
 
-#: eures_beta/templates/employer/import.html:1510
+#: eures_beta/templates/employer/import.html:1511
 msgctxt "employer import"
 msgid "Phone (optional)"
 msgstr "Telefon (optional)"
 
-#: eures_beta/templates/employer/import.html:1511
+#: eures_beta/templates/employer/import.html:1512
 msgctxt "employer import"
 msgid "Role in the company (optional)"
 msgstr "Funktion im Unternehmen (optional)"
 
-#: eures_beta/templates/employer/import.html:1512
+#: eures_beta/templates/employer/import.html:1513
 msgctxt "employer import"
 msgid "These contact details can be viewed by the adviser responsible for your offer and administrators. They are not shown to candidates or added to the offer data sent to AGLAE."
 msgstr "Diese Kontaktdaten sind für die zuständige Beratungsperson und Administratoren einsehbar. Sie werden Bewerbenden nicht angezeigt und nicht zu den an AGLAE übermittelten Stellendaten hinzugefügt."
 
-#: eures_beta/templates/employer/import.html:1513
+#: eures_beta/templates/employer/import.html:1514
 msgctxt "employer import"
 msgid "Save contact"
 msgstr "Kontakt speichern"
 
-#: eures_beta/templates/employer/import.html:1514
+#: eures_beta/templates/employer/import.html:1515
 msgctxt "employer import"
 msgid "Contact saved."
 msgstr "Kontakt gespeichert."
 
-#: eures_beta/templates/employer/import.html:1515
+#: eures_beta/templates/employer/import.html:1516
 msgctxt "employer import"
 msgid "Unable to save the contact. Check the fields."
 msgstr "Der Kontakt konnte nicht gespeichert werden. Prüfen Sie die Felder."
 
-#: eures_beta/templates/employer/import.html:1516
+#: eures_beta/templates/employer/import.html:1517
 msgctxt "employer import"
 msgid "The draft has changed. Reload it before editing the contact."
 msgstr "Der Entwurf wurde geändert. Laden Sie ihn neu, bevor Sie den Kontakt bearbeiten."
 
-#: eures_beta/templates/employer/import.html:1517
+#: eures_beta/templates/employer/import.html:1518
 msgctxt "employer import"
 msgid "The contact may be different from the person accessing this workspace."
 msgstr "Die Kontaktperson kann von der Person abweichen, die diesen Bereich verwendet."
@@ -4382,6 +4382,62 @@ msgstr "Ausgewählte Berufsbeschreibungen"
 msgctxt "employer occupations"
 msgid "Title changed: search for descriptions and confirm your choices for this job."
 msgstr "Berufsbezeichnung geändert: Suchen Sie Beschreibungen und bestätigen Sie Ihre Auswahl erneut."
+
+#: eures_beta/templates/employer/occupation_strings.html:20
+msgctxt "employer occupations"
+msgid "Job title detected in your job description"
+msgstr "In Ihrer Stellenbeschreibung erkannte Berufsbezeichnung"
+
+#: eures_beta/templates/employer/occupation_strings.html:21
+msgctxt "employer occupations"
+msgid "Title of your offer"
+msgstr "Titel Ihres Stellenangebots"
+
+#: eures_beta/templates/employer/occupation_strings.html:22
+msgctxt "employer occupations"
+msgid "Which occupation matches this job?"
+msgstr "Welcher Beruf passt zu dieser Stelle?"
+
+#: eures_beta/templates/employer/occupation_strings.html:23
+msgctxt "employer occupations"
+msgid "Type a job name. Suggestions appear as you type. Searching does not change your offer title."
+msgstr "Geben Sie einen Beruf ein. Vorschläge erscheinen während der Eingabe. Der Titel Ihres Angebots bleibt unverändert."
+
+#: eures_beta/templates/employer/occupation_strings.html:24
+msgctxt "employer occupations"
+msgid "Do you know an ESCO reference or a ROME code?"
+msgstr "Kennen Sie eine ESCO-Referenz oder einen ROME-Code?"
+
+#: eures_beta/templates/employer/occupation_strings.html:25
+msgctxt "employer occupations"
+msgid "ESCO reference or ROME code"
+msgstr "ESCO-Referenz oder ROME-Code"
+
+#: eures_beta/templates/employer/occupation_strings.html:26
+msgctxt "employer occupations"
+msgid "For example: ROME D1102, an ESCO occupation code, UUID or full URI. One ROME code may match several ESCO occupations; check their descriptions."
+msgstr "Zum Beispiel: ROME D1102, ein ESCO-Berufscode, eine UUID oder die vollständige URI. Ein ROME-Code kann mehreren ESCO-Berufen entsprechen. Prüfen Sie die Beschreibungen."
+
+#: eures_beta/templates/employer/occupation_strings.html:27
+msgctxt "employer occupations"
+msgid "Type at least two characters to see suggestions."
+msgstr "Geben Sie mindestens zwei Zeichen ein, um Vorschläge zu sehen."
+
+#: eures_beta/templates/employer/occupation_strings.html:28
+#, python-brace-format
+msgctxt "employer occupations"
+msgid "{count} description(s) found. Choose those that fit."
+msgstr "{count} Beschreibung(en) gefunden. Wählen Sie passende Beschreibungen."
+
+#: eures_beta/templates/employer/occupation_strings.html:29
+msgctxt "employer occupations"
+msgid "The first 20 matches are shown. Refine your search by job name if needed."
+msgstr "Die ersten 20 Treffer werden angezeigt. Präzisieren Sie bei Bedarf mit einer Berufsbezeichnung."
+
+#: eures_beta/templates/employer/occupation_strings.html:30
+msgctxt "employer occupations"
+msgid "Occupation suggestions"
+msgstr "Berufsvorschläge"
 
 #: eures_beta/templates/employer/privacy.html:8
 #: eures_beta/templates/employer/privacy.html:180

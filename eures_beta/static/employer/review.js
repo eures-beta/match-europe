@@ -176,7 +176,7 @@
       const values = result.data;
       suggestedQuestions.clear(); loadRequirements(values);
       for (const name of Object.keys(t.fields)) field(name).value = values[name] || '';
-      window.meOccupation?.load(values.occupation);
+      window.meOccupation?.load(values.occupation,result.kind !== 'manual');
       for (const name of Object.keys(t.clarifications)) document.getElementById('clarify-'+name).value = values.clarifications?.[name] || '';
       arrangeClarifications();
       for (const name of ['crossBorder','relocation']) {

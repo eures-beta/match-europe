@@ -7,6 +7,35 @@ from eures_beta.occupations.catalog import suggestions
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class OccupationSearchTests(SimpleTestCase):
+    def test_reference_lookup_accepts_rome_and_esco_without_changing_offer_title(self):
+        baker = suggestions('boulanger', 'fr')[0]
+        for value in (
+            'D1102',
+            'rome d1102',
+            baker['reference'],
+            baker['uri'],
+            baker['esco_code'],
+        ):
+            response = self.client.get(
+                '/api/occupations/',
+                {'q': value, 'lang': 'fr', 'mode': 'reference'},
+                secure=True,
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                baker['uri'], [row['uri'] for row in response.json()['results']]
+            )
+        response = self.client.get(
+            '/api/occupations/', {'q': 'Z9999', 'mode': 'reference'}, secure=True
+        )
+        self.assertEqual(response.json()['results'], [])
+        for query in ('bou', 'boul', 'boulanger'):
+            self.assertTrue(
+                self.client.get(
+                    '/api/occupations/', {'q': query, 'lang': 'fr'}, secure=True
+                ).json()['results']
+            )
+
     def test_search_api_uses_local_catalog_and_enforces_access_and_limits(self):
         for lang, query in [('fr', 'boulanger'), ('en', 'baker'), ('de', 'Bäcker')]:
             response = self.client.get(

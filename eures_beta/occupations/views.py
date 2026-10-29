@@ -5,7 +5,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from eures_beta.demo_access import require_demo_access
-from .catalog import catalog, occupation_index, nearby, suggestions
+from .catalog import catalog, occupation_index, nearby, suggestions, references
 
 
 @require_demo_access
@@ -32,7 +32,7 @@ def search_api(request):
         language not in ('fr', 'en', 'de')
         or not isinstance(query, str)
         or not 1 <= len(query) <= 150
-        or mode not in ('search', 'near')
+        or mode not in ('search', 'near', 'reference')
         or not isinstance(context, str)
         or len(context) > 20000
         or not isinstance(excluded, list)
@@ -44,8 +44,18 @@ def search_api(request):
     ):
         return JsonResponse({'error': 'invalid_data'}, status=400)
     rows = (
-        nearby(query, language, excluded, context)
-        if mode == 'near'
-        else suggestions(query, language, context)
+        references(query, language)
+        if mode == 'reference'
+        else (
+            nearby(query, language, excluded, context)
+            if mode == 'near'
+            else suggestions(query, language, context)
+        )
     )
-    return JsonResponse({'version': catalog()['manifest']['version'], 'results': rows})
+    return JsonResponse(
+        {
+            'version': catalog()['manifest']['version'],
+            'results': rows[:20],
+            'total': len(rows),
+        }
+    )
