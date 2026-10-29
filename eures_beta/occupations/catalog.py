@@ -72,10 +72,25 @@ def present(row, language):
         'label': row['labels'][language],
         'description': row['descriptions'][language],
         'reference': row['uri'].rsplit('/', 1)[-1],
+        'esco_code': row['code'],
         'rome': row.get('rome', []),
         'rome_fiches': row.get('romeFiches', []),
         'rome_unresolved': row.get('romeUnresolved', []),
     }
+
+
+def references(value, language):
+    """Exact local ESCO URI/UUID/code or five-character ROME fiche lookup."""
+    value = re.sub(r'^(ESCO|ROME)\s*[:—-]?\s*', '', value.strip(), flags=re.I)
+    rows = []
+    for row in catalog()['occupations']:
+        if value.casefold() in (
+            row['uri'].casefold(),
+            row['uri'].rsplit('/', 1)[-1].casefold(),
+            row['code'].casefold(),
+        ) or any(fiche['code'] == value.upper() for fiche in row.get('romeFiches', [])):
+            rows.append(present(row, language))
+    return sorted(rows, key=lambda row: (normalize(row['label']), row['uri']))
 
 
 def search_title(value):

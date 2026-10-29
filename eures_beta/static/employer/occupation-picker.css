@@ -1,0 +1,2 @@
+.occupation-picker input[type=text]{width:100%;box-sizing:border-box;padding:12px;border:1px solid var(--muted);border-radius:8px;font:inherit;background:#fff;color:var(--text)}
+.occupation-picker>details{margin:20px 0}.occupation-picker summary{cursor:pointer;min-height:32px;padding:6px 0}.occupation-picker p{line-height:1.5}.occupation-picker h4{font-size:18px;margin:24px 0 12px}.occupation-picker .review-question:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}

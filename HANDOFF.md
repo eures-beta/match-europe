@@ -309,3 +309,17 @@ PDF fourni relu dans le navigateur : une description pertinente selon le libell�
 de métier de la source apparaît sans être cochée, automatiquement puis au clic.
 Document conservé hors dépôt et hors fixtures ; aucune offre réelle enregistrée.
 Correction ajoutée à la branche de la PR #77, sans rebase ni changement de #76.
+
+## 29 octobre 2026 — essai métier indépendant avec recherche pendant la saisie
+
+À la demande d’Eric, champ métier indépendant de l’intitulé de l’offre et recherche
+progressive (300 ms, à partir de deux caractères, annulation des réponses anciennes).
+Option de recherche directe par code ROME, code ESCO, UUID ou URI ; contrôle local
+exact et associations multiples explicites. Titre extrait indiqué comme repéré,
+titre manuel étiqueté distinctement. Choix conservés entre recherches et séparés
+visuellement des nouvelles propositions. FR/EN/DE, mêmes droits et CSRF.
+204 tests PostgreSQL passent avec réseau externe bloqué, puis 38 ciblés repassés
+après textes ; essais navigateur de recherche indépendante, saisie progressive
+et code D1102 réussis. Essai local sur 9031 et branche
+`codex/occupation-picker-live-trial`, hors train publié en attente du retour UX
+d’Eric. PR #77 non modifiée par cet essai ; aucun push/fusion/déploiement.

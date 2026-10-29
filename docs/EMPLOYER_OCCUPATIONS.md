@@ -69,3 +69,25 @@ pour les recherches simples. Aucun envoi à un service tiers.
 priorité au titre exact, limites et CSRF. Import d’un PDF fourni puis recherche
 automatique et au clic vérifiés dans le navigateur local. Le fichier n’est pas
 ajouté au dépôt ni aux fixtures.
+
+## Essai local : recherche indépendante et saisie progressive
+
+Branche `codex/occupation-picker-live-trial`, hors train publié en attente de
+validation ergonomique. Champ métier distinct du titre de l’offre : prérempli
+à l’ouverture, propositions après deux caractères et 300 ms de pause, requêtes
+précédentes annulées ; saisie/Entrée et bouton restent utilisables au clavier.
+Les choix déjà retenus sont conservés et présentés séparément des propositions.
+Le titre n’est pas remplacé par une suggestion ou par le texte de recherche.
+
+Une section repliée permet une référence exacte : code de fiche ROME à cinq
+caractères, code métier ESCO, UUID ou URI ESCO complète. Le mode API `reference`
+retourne les liens du catalogue versionné, au plus 20 résultats avec total et
+indication de limite ; aucune équivalence unique supposée pour un code ROME.
+La saisie explicite n’est pas surclassée par le contexte du document.
+La description personnelle et la sélection multiple restent possibles.
+
+204 tests PostgreSQL réussis hors réseau externe, puis 38 tests catalogue/import
+repassés après finalisation des textes. Contrôles gettext et HTML réussis. Recette
+navigateur : recherche bibliothécaire indépendante du titre boulanger, choix
+conservés, propositions automatiques sur « boul » et recherche ROME D1102 vérifiés.
+Aucune publication de cet essai, aucune nouvelle migration ni intégration candidat.
