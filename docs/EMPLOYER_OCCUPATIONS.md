@@ -121,3 +121,17 @@ Titre et paragraphes répétitifs supprimés, label court Rechercher un métier 
 Intitulé ou code ROME/ESCO. Le message spécifique d’échec automatique demeure au
 premier affichage concerné. Les annonces de progression/résultat restent
 accessibles aux lecteurs d’écran ; les cartes gardent leurs descriptions et références.
+
+## Livraison de la recherche améliorée
+
+Les sections d’essai ci-dessus décrivent les étapes historiques. Eric autorise
+leur publication au sommet du train, après la PR #77, sous le titre
+« amélioration de la recherche de métiers ». Le comportement final est le suivant :
+recherche automatique depuis l’intitulé conservé ; propositions à confirmer ;
+champ manuel vide immédiatement visible si aucune correspondance automatique ;
+sinon bouton de recours après les cartes. Le même champ accepte texte, ROME ou
+ESCO, avec recherche pendant la saisie et touche Entrée, sans bouton de recherche.
+Les choix retenus restent conservés entre recherches ; aide et focus sont espacés.
+38 tests PostgreSQL catalogue/imports repassés avant publication, sans réseau
+externe ; Black, syntaxe JavaScript et format des deux templates contrôlés.
+Aucune migration, aucun changement candidat, aucune fusion ni déploiement.
