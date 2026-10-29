@@ -5469,3 +5469,43 @@ msgstr "Diese Version liest Text lokal aus. Die Felder werden noch nicht mit KI 
 #: eures_beta/templates/upload.html:9
 msgid "Read my PDF"
 msgstr "Meine PDF lesen"
+
+msgctxt "employer review steps"
+msgid "The role"
+msgstr "Die Stelle"
+
+msgctxt "employer review steps"
+msgid "Job conditions"
+msgstr "Arbeitsbedingungen"
+
+msgctxt "employer review steps"
+msgid "Candidate profile"
+msgstr "Gesuchtes Profil"
+
+msgctxt "employer review steps"
+msgid "Welcome and mobility"
+msgstr "Ankunft und Mobilität"
+
+msgctxt "employer review steps"
+msgid "Review and save"
+msgstr "Prüfen und speichern"
+
+msgctxt "employer review steps"
+msgid "Previous"
+msgstr "Zurück"
+
+msgctxt "employer review steps"
+msgid "Continue"
+msgstr "Weiter"
+
+msgctxt "employer review steps"
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgctxt "employer review steps"
+msgid "To clarify"
+msgstr "Noch zu klären"
+
+msgctxt "employer review steps"
+msgid "Your progress"
+msgstr "Ihr Fortschritt"
