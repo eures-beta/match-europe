@@ -393,7 +393,7 @@ class ImportFlowTests(TestCase):
     def test_requirements_survive_save_and_resume(self):
         created = self.create().json()
         req = {
-            'workConditions': ['weekend', 'standing'],
+            'workConditions': ['weekend', 'standing', 'split'],
             'permitRequired': 'yes',
             'permits': ['B'],
             'permitOther': '',

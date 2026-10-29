@@ -5701,3 +5701,14 @@ msgstr "Weitere Sprache (optional)"
 msgctxt "employer languages"
 msgid "Level for the additional language"
 msgstr "Niveau der weiteren Sprache"
+
+msgctxt "employer import"
+msgid "Split shifts"
+msgstr "Geteilte Dienste"
+
+msgctxt "employer import-v2"
+msgid "Split shifts"
+msgstr "Geteilte Dienste"
+
+msgid "Split shifts"
+msgstr "Geteilte Dienste"

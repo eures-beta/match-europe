@@ -981,6 +981,10 @@
                     <span>{% translate "Shift work" context "employer import" %}</span>
                   </label>
                   <label>
+                    <input type="checkbox" name="workConditions" value="split">
+                    <span>{% translate "Split shifts" context "employer import" %}</span>
+                  </label>
+                  <label>
                     <input type="checkbox" name="workConditions" value="physical">
                     <span>{% translate "Physical work" context "employer import" %}</span>
                   </label>
@@ -1374,6 +1378,7 @@
       "variable": "{% translate "Variable hours" context "employer import" as translated_value_103 %}{{ translated_value_103|escapejs }}",
       "shift": "{% translate "Shift work" context "employer import" as translated_value_104 %}{{ translated_value_104|escapejs }}",
       "physical": "{% translate "Physical work" context "employer import" as translated_value_105 %}{{ translated_value_105|escapejs }}",
+      "split": "{% translate "Split shifts" context "employer import" as split_shift_label %}{{ split_shift_label|escapejs }}",
       "standing": "{% translate "Prolonged standing" context "employer import" as translated_value_106 %}{{ translated_value_106|escapejs }}",
       "outdoor": "{% translate "Outdoor work" context "employer import" as translated_value_107 %}{{ translated_value_107|escapejs }}",
       "travel": "{% translate "Frequent travel" context "employer import" as translated_value_108 %}{{ translated_value_108|escapejs }}",

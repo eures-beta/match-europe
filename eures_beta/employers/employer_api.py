@@ -517,6 +517,7 @@ def clean_data(raw):
             'shift',
             'physical',
             'standing',
+            'split',
             'outdoor',
             'travel',
             'none',
