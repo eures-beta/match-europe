@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 19:36+0000\n"
+"POT-Creation-Date: 2026-10-29 10:59+0000\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -43,42 +43,42 @@ msgstr "Ce lien a expiré ou a déjà été utilisé. Demandez un nouveau lien."
 msgid "Email confirmed."
 msgstr "Adresse e-mail confirmée."
 
-#: eures_beta/candidates/forms.py:9
+#: eures_beta/candidates/forms.py:10
 msgid "Would you work in another country while keeping your current residence?"
 msgstr "Travailleriez-vous dans un autre pays en conservant votre résidence actuelle ?"
 
-#: eures_beta/candidates/forms.py:14
+#: eures_beta/candidates/forms.py:15
 msgid "Would you move to another country for a job?"
 msgstr "Déménageriez-vous dans un autre pays pour travailler ?"
 
-#: eures_beta/candidates/forms.py:37 eures_beta/templates/candidate.html:6
+#: eures_beta/candidates/forms.py:38 eures_beta/templates/candidate.html:6
 msgid "Name"
 msgstr "Nom"
 
-#: eures_beta/candidates/forms.py:38
-#: eures_beta/employers/employer_workspace.py:112
+#: eures_beta/candidates/forms.py:39
+#: eures_beta/employers/employer_workspace.py:116
 #: eures_beta/templates/candidate.html:14
 msgid "Experience"
 msgstr "Expérience"
 
-#: eures_beta/candidates/forms.py:39 eures_beta/templates/candidate.html:10
+#: eures_beta/candidates/forms.py:40 eures_beta/templates/candidate.html:10
 msgid "Jobs sought"
 msgstr "Métiers recherchés"
 
-#: eures_beta/candidates/forms.py:40 eures_beta/offers/forms.py:46
+#: eures_beta/candidates/forms.py:41 eures_beta/offers/forms.py:47
 msgid "Skills"
 msgstr "Compétences"
 
-#: eures_beta/candidates/forms.py:41 eures_beta/offers/forms.py:45
+#: eures_beta/candidates/forms.py:42 eures_beta/offers/forms.py:46
 #: eures_beta/templates/candidate.html:18 eures_beta/templates/offer.html:43
 msgid "Languages"
 msgstr "Langues"
 
-#: eures_beta/candidates/forms.py:42 eures_beta/templates/candidate.html:22
+#: eures_beta/candidates/forms.py:43 eures_beta/templates/candidate.html:22
 msgid "Residence"
 msgstr "Lieu de résidence"
 
-#: eures_beta/candidates/forms.py:43 eures_beta/templates/candidate.html:26
+#: eures_beta/candidates/forms.py:44 eures_beta/templates/candidate.html:26
 msgid "Availability"
 msgstr "Disponibilité"
 
@@ -263,7 +263,7 @@ msgstr "Acceptez le matching et confirmez votre profil."
 msgid "Draft saved."
 msgstr "Brouillon enregistré."
 
-#: eures_beta/choices.py:4 eures_beta/employers/employer_workspace.py:69
+#: eures_beta/choices.py:4 eures_beta/employers/employer_workspace.py:73
 msgid "Please choose"
 msgstr "Choisir une réponse"
 
@@ -276,8 +276,8 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: eures_beta/choices.py:7 eures_beta/employers/employer_workspace.py:134
-#: eures_beta/employers/employer_workspace.py:145
+#: eures_beta/choices.py:7 eures_beta/employers/employer_workspace.py:138
+#: eures_beta/employers/employer_workspace.py:149
 msgid "To discuss"
 msgstr "À discuter"
 
@@ -309,11 +309,11 @@ msgstr "Le PDF doit faire moins de 10 Mo."
 msgid "Please provide a valid PDF."
 msgstr "Veuillez fournir un PDF valide."
 
-#: eures_beta/documents/services.py:30
+#: eures_beta/documents/services.py:32
 msgid "This PDF cannot be read. Use an unencrypted document with at most 30 pages."
 msgstr "Ce PDF est illisible. Utilisez un document non chiffré de 30 pages maximum."
 
-#: eures_beta/employers/employer_api.py:124
+#: eures_beta/employers/employer_api.py:130
 #: eures_beta/templates/employer_auth_shell.html:11
 #: eures_beta/templates/employer_workspace.html:286
 msgid "My employer space"
@@ -343,189 +343,189 @@ msgstr "Délai dépassé : demande acceptée"
 msgid "Timeout: request not accepted"
 msgstr "Délai dépassé : demande non acceptée"
 
-#: eures_beta/employers/employer_workspace.py:55 eures_beta/offers/forms.py:38
+#: eures_beta/employers/employer_workspace.py:59 eures_beta/offers/forms.py:39
 #: eures_beta/templates/employer_workspace.html:330
 msgid "Job title"
 msgstr "Intitulé du poste"
 
-#: eures_beta/employers/employer_workspace.py:57 eures_beta/offers/forms.py:39
+#: eures_beta/employers/employer_workspace.py:61 eures_beta/offers/forms.py:40
 msgid "Company"
 msgstr "Entreprise"
 
-#: eures_beta/employers/employer_workspace.py:61
+#: eures_beta/employers/employer_workspace.py:65
 msgid "Changing this text does not change the establishment or access rights."
 msgstr "Modifier ce texte ne change ni l’établissement ni les droits d’accès."
 
-#: eures_beta/employers/employer_workspace.py:64 eures_beta/offers/forms.py:40
+#: eures_beta/employers/employer_workspace.py:68 eures_beta/offers/forms.py:41
 msgid "Workplace"
 msgstr "Lieu de travail"
 
-#: eures_beta/employers/employer_workspace.py:66 eures_beta/offers/forms.py:42
+#: eures_beta/employers/employer_workspace.py:70 eures_beta/offers/forms.py:43
 #: eures_beta/templates/offer.html:31
 msgid "Contract"
 msgstr "Contrat"
 
-#: eures_beta/employers/employer_workspace.py:70
+#: eures_beta/employers/employer_workspace.py:74
 msgid "Permanent contract"
 msgstr "CDI"
 
-#: eures_beta/employers/employer_workspace.py:71
+#: eures_beta/employers/employer_workspace.py:75
 msgid "Fixed-term contract"
 msgstr "CDD"
 
-#: eures_beta/employers/employer_workspace.py:72
+#: eures_beta/employers/employer_workspace.py:76
 msgid "Temporary work"
 msgstr "Intérim"
 
-#: eures_beta/employers/employer_workspace.py:73
+#: eures_beta/employers/employer_workspace.py:77
 msgid "Internship"
 msgstr "Stage"
 
-#: eures_beta/employers/employer_workspace.py:74
+#: eures_beta/employers/employer_workspace.py:78
 msgid "Apprenticeship"
 msgstr "Apprentissage"
 
-#: eures_beta/employers/employer_workspace.py:75
+#: eures_beta/employers/employer_workspace.py:79
 msgid "Freelance"
 msgstr "Indépendant"
 
-#: eures_beta/employers/employer_workspace.py:76
+#: eures_beta/employers/employer_workspace.py:80
 msgid "Training"
 msgstr "Formation"
 
-#: eures_beta/employers/employer_workspace.py:80 eures_beta/offers/forms.py:41
+#: eures_beta/employers/employer_workspace.py:84 eures_beta/offers/forms.py:42
 msgid "Job description"
 msgstr "Description du poste"
 
-#: eures_beta/employers/employer_workspace.py:86
+#: eures_beta/employers/employer_workspace.py:90
 msgid "Skills and experience sought"
 msgstr "Compétences et expérience recherchées"
 
-#: eures_beta/employers/employer_workspace.py:92 eures_beta/offers/forms.py:8
+#: eures_beta/employers/employer_workspace.py:96 eures_beta/offers/forms.py:9
 msgid "Do you accept candidates who keep living in a neighbouring country?"
 msgstr "Acceptez-vous les candidats qui continuent à résider dans un pays voisin ?"
 
-#: eures_beta/employers/employer_workspace.py:97 eures_beta/offers/forms.py:12
+#: eures_beta/employers/employer_workspace.py:101 eures_beta/offers/forms.py:13
 msgid "Do you accept candidates who move from another country for this job?"
 msgstr "Acceptez-vous les candidats qui déménagent depuis un autre pays pour ce poste ?"
 
-#: eures_beta/employers/employer_workspace.py:108 eures_beta/offers/forms.py:43
+#: eures_beta/employers/employer_workspace.py:112 eures_beta/offers/forms.py:44
 #: eures_beta/templates/offer.html:35
 msgid "Salary"
 msgstr "Salaire"
 
-#: eures_beta/employers/employer_workspace.py:109 eures_beta/offers/forms.py:44
+#: eures_beta/employers/employer_workspace.py:113 eures_beta/offers/forms.py:45
 #: eures_beta/templates/offer.html:39
 msgid "Working hours"
 msgstr "Temps et horaires de travail"
 
-#: eures_beta/employers/employer_workspace.py:110
+#: eures_beta/employers/employer_workspace.py:114
 msgid "Start date"
 msgstr "Date de prise de poste"
 
-#: eures_beta/employers/employer_workspace.py:111
+#: eures_beta/employers/employer_workspace.py:115
 msgid "Languages and levels"
 msgstr "Langues et niveaux"
 
-#: eures_beta/employers/employer_workspace.py:113
+#: eures_beta/employers/employer_workspace.py:117
 msgid "Access to the workplace"
 msgstr "Accès au lieu de travail"
 
-#: eures_beta/employers/employer_workspace.py:124
+#: eures_beta/employers/employer_workspace.py:128
 msgid "Early hours"
 msgstr "Tôt le matin"
 
-#: eures_beta/employers/employer_workspace.py:125
+#: eures_beta/employers/employer_workspace.py:129
 msgid "Night work"
 msgstr "Travail de nuit"
 
-#: eures_beta/employers/employer_workspace.py:126
+#: eures_beta/employers/employer_workspace.py:130
 msgid "Weekends"
 msgstr "Week-end"
 
-#: eures_beta/employers/employer_workspace.py:127
+#: eures_beta/employers/employer_workspace.py:131
 msgid "Variable hours"
 msgstr "Horaires variables"
 
-#: eures_beta/employers/employer_workspace.py:128
+#: eures_beta/employers/employer_workspace.py:132
 msgid "Shift work"
 msgstr "Travail posté"
 
-#: eures_beta/employers/employer_workspace.py:129
+#: eures_beta/employers/employer_workspace.py:133
 msgid "Physical work"
 msgstr "Travail physique"
 
-#: eures_beta/employers/employer_workspace.py:130
+#: eures_beta/employers/employer_workspace.py:134
 msgid "Standing work"
 msgstr "Station debout prolongée"
 
-#: eures_beta/employers/employer_workspace.py:131
+#: eures_beta/employers/employer_workspace.py:135
 msgid "Outdoor work"
 msgstr "Travail en extérieur"
 
-#: eures_beta/employers/employer_workspace.py:132
+#: eures_beta/employers/employer_workspace.py:136
 msgid "Frequent travel"
 msgstr "Déplacements fréquents"
 
-#: eures_beta/employers/employer_workspace.py:133
-#: eures_beta/employers/employer_workspace.py:144
+#: eures_beta/employers/employer_workspace.py:137
+#: eures_beta/employers/employer_workspace.py:148
 msgid "None"
 msgstr "Aucune"
 
-#: eures_beta/employers/employer_workspace.py:137
-#: eures_beta/employers/employer_workspace.py:143
+#: eures_beta/employers/employer_workspace.py:141
+#: eures_beta/employers/employer_workspace.py:147
 msgid "Other"
 msgstr "Autre"
 
-#: eures_beta/employers/employer_workspace.py:139
+#: eures_beta/employers/employer_workspace.py:143
 msgid "Housing"
 msgstr "Logement"
 
-#: eures_beta/employers/employer_workspace.py:140
+#: eures_beta/employers/employer_workspace.py:144
 msgid "Administrative support"
 msgstr "Démarches administratives"
 
-#: eures_beta/employers/employer_workspace.py:141
+#: eures_beta/employers/employer_workspace.py:145
 msgid "Transport"
 msgstr "Transport"
 
-#: eures_beta/employers/employer_workspace.py:142
+#: eures_beta/employers/employer_workspace.py:146
 msgid "Onboarding"
 msgstr "Accompagnement à la prise de poste"
 
-#: eures_beta/employers/employer_workspace.py:150
+#: eures_beta/employers/employer_workspace.py:154
 msgid "Working conditions"
 msgstr "Conditions de travail"
 
-#: eures_beta/employers/employer_workspace.py:151
+#: eures_beta/employers/employer_workspace.py:155
 msgid "Driving licences and authorisations"
 msgstr "Permis et autorisations"
 
-#: eures_beta/employers/employer_workspace.py:152
+#: eures_beta/employers/employer_workspace.py:156
 msgid "Arrival support"
 msgstr "Aides à l’arrivée"
 
-#: eures_beta/employers/employer_workspace.py:162
+#: eures_beta/employers/employer_workspace.py:166
 msgid "Is a licence or authorisation required?"
 msgstr "Un permis ou une autorisation est-il nécessaire ?"
 
-#: eures_beta/employers/employer_workspace.py:168
+#: eures_beta/employers/employer_workspace.py:172
 msgid "Other authorisation"
 msgstr "Autre autorisation"
 
-#: eures_beta/employers/employer_workspace.py:169
+#: eures_beta/employers/employer_workspace.py:173
 msgid "Other arrival support"
 msgstr "Autre aide à l’arrivée"
 
-#: eures_beta/employers/employer_workspace.py:202
+#: eures_beta/employers/employer_workspace.py:206
 msgid "Select Yes before choosing required licences or authorisations."
 msgstr "Choisissez « Oui » avant de sélectionner les permis ou autorisations nécessaires."
 
-#: eures_beta/employers/employer_workspace.py:235
+#: eures_beta/employers/employer_workspace.py:241
 msgid "Choose either specific conditions or None / To discuss, not both."
 msgstr "Choisissez des conditions précises ou « Aucune / À discuter », sans les combiner."
 
-#: eures_beta/employers/employer_workspace.py:345
+#: eures_beta/employers/employer_workspace.py:351
 msgid "A colleague changed this offer. Your changes have not been saved. Open the current version before trying again."
 msgstr "Un collègue a modifié cette offre. Vos modifications n’ont pas été enregistrées. Ouvrez la version actuelle avant de réessayer."
 
@@ -689,7 +689,7 @@ msgstr "Conversation ouverte"
 msgid "Clarification needed"
 msgstr "Précision nécessaire"
 
-#: eures_beta/matching/services.py:11 eures_beta/offers/services.py:11
+#: eures_beta/matching/services.py:11 eures_beta/offers/services.py:12
 msgid "Validate the offer and confirm your email first."
 msgstr "Validez l’offre et confirmez d’abord votre e-mail."
 
@@ -741,19 +741,19 @@ msgstr "Rédigez un message de présentation."
 msgid "Your conversation is open"
 msgstr "Votre conversation est ouverte"
 
-#: eures_beta/offers/forms.py:56
+#: eures_beta/offers/forms.py:57
 msgid "Question for the candidate"
 msgstr "Question à poser au candidat"
 
-#: eures_beta/offers/forms.py:57 eures_beta/templates/match.html:61
+#: eures_beta/offers/forms.py:58 eures_beta/templates/match.html:61
 msgid "Expected answer or evaluation guideline"
 msgstr "Réponse attendue ou consigne d’évaluation"
 
-#: eures_beta/offers/forms.py:58
+#: eures_beta/offers/forms.py:59
 msgid "Quick answers separated by | (optional)"
 msgstr "Réponses rapides séparées par | (facultatif)"
 
-#: eures_beta/offers/forms.py:59
+#: eures_beta/offers/forms.py:60
 msgid "Essential requirement — human review required"
 msgstr "Condition indispensable — examen humain requis"
 
@@ -773,7 +773,7 @@ msgstr "Validée"
 msgid "Sent to matching — demonstration"
 msgstr "Transmise au matching — démonstration"
 
-#: eures_beta/offers/services.py:20
+#: eures_beta/offers/services.py:21
 msgid "New validated offer"
 msgstr "Nouvelle offre validée"
 
@@ -4302,6 +4302,86 @@ msgstr "Liens utiles"
 msgctxt "employer landing"
 msgid "Data protection"
 msgstr "Protection des données"
+
+#: eures_beta/templates/employer/occupation_strings.html:4
+msgctxt "employer occupations"
+msgid "Describe the job offered"
+msgstr "Précisez le métier proposé"
+
+#: eures_beta/templates/employer/occupation_strings.html:5
+msgctxt "employer occupations"
+msgid "Choose at least one description. Your own job title is kept; these choices describe the occupation without replacing your offer’s duties."
+msgstr "Choisissez au moins une description. Votre intitulé reste celui que vous avez saisi ; ces choix précisent le métier sans remplacer les missions de votre offre."
+
+#: eures_beta/templates/employer/occupation_strings.html:6
+msgctxt "employer occupations"
+msgid "Find descriptions"
+msgstr "Trouver des descriptions"
+
+#: eures_beta/templates/employer/occupation_strings.html:7
+msgctxt "employer occupations"
+msgid "None of these descriptions fits"
+msgstr "Aucune de ces descriptions ne convient"
+
+#: eures_beta/templates/employer/occupation_strings.html:8
+msgctxt "employer occupations"
+msgid "Describe the job in your own words"
+msgstr "Décrivez le métier avec vos mots"
+
+#: eures_beta/templates/employer/occupation_strings.html:9
+msgctxt "employer occupations"
+msgid "If no suggestion fits, write a description. No ESCO or ROME code will be invented."
+msgstr "Si aucune proposition ne convient, écrivez une description. Aucun code ESCO ou ROME ne sera inventé."
+
+#: eures_beta/templates/employer/occupation_strings.html:10
+msgctxt "employer occupations"
+msgid "These jobs belong to the same occupational family. Check the descriptions before choosing."
+msgstr "Voici des métiers de la même famille professionnelle. Vérifiez les descriptions avant de choisir."
+
+#: eures_beta/templates/employer/occupation_strings.html:11
+msgctxt "employer occupations"
+msgid "No description found. Try another title or describe the job in your own words."
+msgstr "Aucune description trouvée. Essayez un autre intitulé ou décrivez le métier avec vos mots."
+
+#: eures_beta/templates/employer/occupation_strings.html:12
+msgctxt "employer occupations"
+msgid "Finding descriptions…"
+msgstr "Recherche des descriptions…"
+
+#: eures_beta/templates/employer/occupation_strings.html:13
+msgctxt "employer occupations"
+msgid "Unable to load descriptions. Try again; your other information is preserved."
+msgstr "Impossible de charger les descriptions. Réessayez ; vos autres informations sont conservées."
+
+#: eures_beta/templates/employer/occupation_strings.html:14
+msgctxt "employer occupations"
+msgid "Choose at least one job description, or write your own if none fits."
+msgstr "Choisissez au moins une description du métier, ou écrivez votre description si aucune ne convient."
+
+#: eures_beta/templates/employer/occupation_strings.html:15
+msgctxt "employer occupations"
+msgid "ESCO and ROME references"
+msgstr "Références ESCO et ROME"
+
+#: eures_beta/templates/employer/occupation_strings.html:16
+msgctxt "employer occupations"
+msgid "No ROME correspondence available."
+msgstr "Aucune correspondance ROME disponible."
+
+#: eures_beta/templates/employer/occupation_strings.html:17
+msgctxt "employer occupations"
+msgid "ESCO 1.2.1 · ROME links 25M06 · fiche codes 26M10. Editions differ; these links are not automatic equivalents."
+msgstr "ESCO 1.2.1 · liens ROME 25M06 · codes de fiches 26M10. Les éditions diffèrent ; ces liens ne sont pas des équivalences automatiques."
+
+#: eures_beta/templates/employer/occupation_strings.html:18
+msgctxt "employer occupations"
+msgid "Selected job descriptions"
+msgstr "Descriptions du métier retenues"
+
+#: eures_beta/templates/employer/occupation_strings.html:19
+msgctxt "employer occupations"
+msgid "Title changed: search for descriptions and confirm your choices for this job."
+msgstr "Intitulé modifié : recherchez les descriptions et confirmez vos choix pour ce métier."
 
 #: eures_beta/templates/employer/privacy.html:8
 #: eures_beta/templates/employer/privacy.html:180

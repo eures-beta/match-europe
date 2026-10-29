@@ -280,3 +280,19 @@ multilingues et reconstruction identique des deux gzip/manifeste contrôlées.
 Catalogue indépendant du futur raccordement employeur. Aucune publication,
 fusion ou mise en production à cette étape.
 Voir [sources et maintenance](docs/OCCUPATION_CATALOG_MAINTENANCE.md).
+
+## 29 octobre 2026 — raccordement employeur adapté au train
+
+Branche `codex/employer-occupation-selection` au-dessus de
+`codex/occupation-catalog-local` (PR #76, elle-même sur #74). Reprise ciblée dans
+`employers` et `occupations`, sans copie de l’application `journeys`, générateurs
+ou changements candidat. Widget FR/EN/DE depuis un fragment gettext inclus dans
+le template unique. Sélections et références validées serveur, conservées dans
+le JSON de l’import avec les droits et révisions existants.
+202 tests PostgreSQL réussis avec réseau externe bloqué ; Black, djLint, gettext,
+check et absence de migrations nouvelles vérifiés. Recette distincte : sauvegarde
+de deux descriptions pour un boulanger, réouverture avec cases cochées, effacement
+des choix après changement de titre vérifiés dans le navigateur. Aucune donnée
+de la recette historique modifiée. Aucun nouveau contrat externe, aucune fusion
+ou mise en production. Éditeur connecté historique sans widget et import CV exclus.
+Voir [fonctionnement et limites](docs/EMPLOYER_OCCUPATIONS.md).

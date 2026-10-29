@@ -232,6 +232,8 @@ class OfferEditForm(forms.Form):
                 'aidOther',
             )
         }
+        if data.get('occupation', {}).get('title') != data['title']:
+            data.pop('occupation', None)
         try:
             cleaned = clean_data(data)
         except ImportFailure:
