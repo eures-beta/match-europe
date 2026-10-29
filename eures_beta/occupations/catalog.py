@@ -78,11 +78,38 @@ def present(row, language):
     }
 
 
-def suggestions(query, language):
-    query = normalize(query)
+def search_title(value):
+    """Ignore recruitment annotations for lookup only; keep the stored title intact."""
+    value = re.sub(r'\((?:[mfw dhx]+[/·, -]*){2,}\)', ' ', value, flags=re.I)
+    value = re.split(
+        r'\s*[-–—|,]\s*(?=(?:CDI|CDD|full[ -]time|part[ -]time|\d+\s*h)\b)',
+        value,
+        maxsplit=1,
+        flags=re.I,
+    )[0]
+    return normalize(value)
+
+
+def suggestions(query, language, context=''):
+    query = search_title(query)
     if not query:
         return []
     index = search_index(language)
+    # A generic title can mean several jobs. Prefer explicit multilingual catalog
+    # names present in the offer, rather than guessing a profession from generic
+    # words. An exact title remains authoritative; no choice is ever automatic.
+    if context and query not in index:
+        text = ' ' + normalize(context) + ' '
+        matches = {}
+        for source_language in LANGUAGES:
+            for term, uris in search_index(source_language).items():
+                if len(term.split()) >= 3 and f' {term} ' in text:
+                    for uri in uris:
+                        matches[uri] = max(len(term), matches.get(uri, 0))
+        if matches:
+            jobs = occupation_index()
+            ranked = sorted(matches, key=lambda uri: (-matches[uri], uri))
+            return [present(jobs[uri], language) for uri in ranked[:3]]
     scores = {}
     words = query.split()
     for term, uris in index.items():
@@ -111,12 +138,12 @@ def suggestions(query, language):
     return [present(jobs[uri], language) for uri in ranked[:3]]
 
 
-def nearby(query, language, excluded=()):
+def nearby(query, language, excluded=(), context=''):
     """Other occupations in an explicitly related ESCO/ISCO family, not an equivalence."""
     jobs = occupation_index()
     # Anchor related jobs to the best match: lower-ranked matches may describe
     # another activity (e.g. bakery manager rather than baker).
-    seeds = [jobs[row['uri']] for row in suggestions(query, language)[:1]]
+    seeds = [jobs[row['uri']] for row in suggestions(query, language, context)[:1]]
     if not seeds:
         return []
     excluded = set(excluded)

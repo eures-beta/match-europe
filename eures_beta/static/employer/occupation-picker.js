@@ -48,8 +48,9 @@
     else {offered=[];}
     status.textContent=t.busy; error.textContent=''; search.disabled=near.disabled=true;
     try {
-      const params=new URLSearchParams({q,lang,mode}); for(const uri of offered) params.append('excluded',uri);
-      const response=await fetch('/api/occupations/?'+params,{credentials:'same-origin'});
+      const context=[document.getElementById('review-description').value,document.getElementById('review-desiredProfile').value].join('\n').slice(0,20000);
+      const csrf=document.cookie.split('; ').find(value=>value.startsWith('csrftoken='))?.split('=')[1] || '';
+      const response=await fetch('/api/occupations/',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRFToken':csrf},body:JSON.stringify({q,lang,mode,excluded:offered,context})});
       if(!response.ok) throw new Error('catalogue');
       const result=await response.json();
       if(request!==serial || title.value.trim()!==q) return;

@@ -296,3 +296,16 @@ des choix après changement de titre vérifiés dans le navigateur. Aucune donn�
 de la recette historique modifiée. Aucun nouveau contrat externe, aucune fusion
 ou mise en production. Éditeur connecté historique sans widget et import CV exclus.
 Voir [fonctionnement et limites](docs/EMPLOYER_OCCUPATIONS.md).
+
+## 29 octobre 2026 — correction recherche après import d’un intitulé enrichi
+
+Bug reproduit : les suffixes genre/contrat/horaires bloquaient toute correspondance.
+Nettoyage uniquement pour la recherche, titre utilisateur inchangé. Pour les titres
+génériques, priorité aux libellés ESCO multilingues explicites présents dans le
+contexte de l’offre ; les titres exacts restent prioritaires. Requête du widget
+en POST JSON/CSRF pour ne pas mettre les missions dans l’URL. Aucun réseau externe.
+203 tests PostgreSQL réussis sans réseau externe, régression et CSRF inclus.
+PDF fourni relu dans le navigateur : une description pertinente selon le libellé
+de métier de la source apparaît sans être cochée, automatiquement puis au clic.
+Document conservé hors dépôt et hors fixtures ; aucune offre réelle enregistrée.
+Correction ajoutée à la branche de la PR #77, sans rebase ni changement de #76.

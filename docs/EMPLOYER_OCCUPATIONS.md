@@ -50,3 +50,22 @@ aucune migration oubliée. Recette navigateur sur base distincte : offre fictive
 boulanger, deux descriptions choisies, enregistrement et réouverture avec cases
 cochées ; changement de titre effaçant les anciens choix vérifié sans sauvegarde.
 La recette historique et le travail candidat restent préservés séparément.
+
+## Correction des intitulés enrichis
+
+Les mentions de recrutement comme `(m/f/x)`, `(H/F)`, le contrat et les horaires
+placés en suffixe sont ignorées pour la recherche, sans modifier le titre conservé.
+Pour un titre générique sans correspondance exacte, le service cherche aussi des
+libellés/synonymes ESCO explicites de trois mots au moins dans les missions et le
+profil, dans les trois langues. Un intitulé exact reste prioritaire. Ce mécanisme
+n’est pas une compréhension sémantique générale ; les propositions restent à
+confirmer, sans attribuer automatiquement de métier ou de compétence.
+
+Le widget utilise désormais `POST /api/occupations/` (JSON, CSRF) avec `q`, `lang`,
+`mode`, `excluded`, `context` : le contexte, limité à 20 000 caractères, ne figure
+pas dans l’URL et n’est pas enregistré par cet endpoint. Le GET reste compatible
+pour les recherches simples. Aucun envoi à un service tiers.
+203 tests PostgreSQL réussis ; régression titre enrichi/contexte multilingue,
+priorité au titre exact, limites et CSRF. Import d’un PDF fourni puis recherche
+automatique et au clic vérifiés dans le navigateur local. Le fichier n’est pas
+ajouté au dépôt ni aux fixtures.
