@@ -414,3 +414,15 @@ s’il ne reconnaît pas le format. Bornes positives et fourchette ordonnée con
 dans le navigateur. Recette fictive : sauvegarde/reprise 2400 EUR brut mensuel,
 35 heures, dès que possible ; fourchette inversée refusée, valide acceptée.
 FR/EN/DE compilés ; JS, format HTML et diff contrôlés. Aucun push ni déploiement.
+
+### Progression obligatoire avant enregistrement
+
+Sur demande d’Eric, retrait du bouton brouillon/enregistrer des quatre étapes
+intermédiaires. Seule l’action Continuer accompagne le retour Précédent ;
+enregistrement disponible au récapitulatif. Réponses attendues contrôlées
+au navigateur, y compris groupes conditions, permis et mobilité. Les choix
+À préciser demeurent des réponses explicites ; aucune sélection par défaut
+dans les nouveaux modes guidés vides. Précisions facultatives conservées.
+Recette : absence de réponse aux conditions bloque, sélection explicite autorise
+la suite ; absence de bouton enregistrer vérifiée. Ce lot reste une recette UX
+locale ; le contrat serveur historique n’est pas durci dans ce changement.

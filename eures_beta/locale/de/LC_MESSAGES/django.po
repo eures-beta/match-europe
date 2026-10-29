@@ -5621,3 +5621,7 @@ msgstr "Diese Angabe beibehalten"
 msgctxt "employer conditions"
 msgid "Specify using the choices"
 msgstr "Mit Auswahlmöglichkeiten präzisieren"
+
+msgctxt "employer review steps"
+msgid "Please answer this question before continuing."
+msgstr "Bitte beantworten Sie diese Frage, bevor Sie fortfahren."
