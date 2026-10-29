@@ -57,7 +57,7 @@
       const edit = document.createElement('button'); edit.type = 'button'; edit.className = 'ghost-action'; edit.textContent = t.edit+' — '+titles[i]; edit.onclick = () => show(i);
       section.append(heading, edit);
       for (const input of panel.querySelectorAll('input,textarea,select')) {
-        if (input.closest('[hidden]') !== panel || input.disabled || ['occupation-query'].includes(input.id) || ['radio','checkbox'].includes(input.type) && !input.checked) continue;
+        if (input.closest('.guided-condition') || input.closest('[hidden]') !== panel || input.disabled || ['occupation-query'].includes(input.id) || ['radio','checkbox'].includes(input.type) && !input.checked) continue;
         let value = input.tagName === 'SELECT' ? input.selectedOptions[0]?.textContent : input.value.trim();
         let label = input.labels?.[0]?.textContent.trim() || input.closest('label')?.textContent.trim();
         if (['radio','checkbox'].includes(input.type)) { label = input.closest('fieldset')?.querySelector('legend')?.textContent || titles[i]; value = input.closest('label')?.textContent.trim(); }

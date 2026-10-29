@@ -400,3 +400,17 @@ existant conservé sur chaque écran. Recette avec données fictives : cinq éta
 retour depuis la synthèse, réponse conservée, sauvegarde et réouverture réussies.
 38 tests catalogue/imports repassés ; syntaxe JS, templates et diff contrôlés.
 Les réponses guidées et nouvelles questions proposées restent un lot ultérieur.
+
+### Conditions guidées — essai local
+
+Rémunération : montant fixe ou fourchette, devise, brut/net, période. Durée du
+travail : heures hebdomadaires fixes ou variables. Prise de poste : immédiate,
+date précise ou flexible. Les contraintes horaires restent dans les conditions
+de travail, avec précision facultative. Sources importées conservées explicitement
+sans interprétation automatique ; champs produits par cette interface restaurés
+dans la même langue après reprise. Pour cet essai UX, le contrat existant reste\;textuel : valeurs guidées sérialisées dans les clarifications, pas encore un
+schéma métier structuré côté serveur. Un changement de langue conserve le texte
+s’il ne reconnaît pas le format. Bornes positives et fourchette ordonnée contrôlées
+dans le navigateur. Recette fictive : sauvegarde/reprise 2400 EUR brut mensuel,
+35 heures, dès que possible ; fourchette inversée refusée, valide acceptée.
+FR/EN/DE compilés ; JS, format HTML et diff contrôlés. Aucun push ni déploiement.
