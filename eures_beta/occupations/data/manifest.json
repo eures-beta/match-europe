@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "version": "1.2.1",
+  "languages": [
+    "fr",
+    "en",
+    "de"
+  ],
+  "scope": "complete occupations pillar FR/EN/DE; complete ROME hierarchy and official France mapping",
+  "retrieved": "2026-10-29",
+  "sources": [
+    {
+      "name": "ESCO fr",
+      "version": "1.2.1",
+      "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20fr%20-%20csv.zip",
+      "sha256": "84fe49774fad90bdfd27d080440ffb1fdef1fbd62939f6436d2fc21f4d58d4e8",
+      "occupationCount": 3039
+    },
+    {
+      "name": "ESCO en",
+      "version": "1.2.1",
+      "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20en%20-%20csv.zip",
+      "sha256": "f9761b0b52be1828b38a3e5e0ae59a93a7b0ce358bc800f52f57a8b002adeb3e",
+      "occupationCount": 3039
+    },
+    {
+      "name": "ESCO de",
+      "version": "1.2.1",
+      "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20de%20-%20csv.zip",
+      "sha256": "a4d12661e9d4208e7e4583b6a2268d0a8c6d31618f7df2d46e90831d95e06d51",
+      "occupationCount": 3039
+    },
+    {
+      "name": "ESCO/ROME mapping",
+      "url": "https://esco.ec.europa.eu/system/files/2025-12/EURESmapping_occs_FR.csv",
+      "version": "V1.1; ESCO 1.0.9 / ROME 25M06",
+      "date": "2025-11-19",
+      "sha256": "2b67c5636cf0145811e23c2ee57d1c271c84f456c49f56ce12255c4b2147ccc8"
+    },
+    {
+      "name": "ROME hierarchy",
+      "url": "https://www.francetravail.org/files/live/sites/peorg/files/documents/Statistiques-et-analyses/Open-data/ROME/261014-rome_arboprincipale-octobre-2026.xlsx",
+      "version": "26M10",
+      "date": "2026-10-19",
+      "sha256": "8bf3a618c1dc25d9907e1eece1909c970954a222d90f99715aa756dc4759a11c"
+    }
+  ],
+  "counts": {
+    "esco_fr_sourceRows": 3043,
+    "esco_fr_duplicateRows": 4,
+    "esco_fr": 3039,
+    "esco_en_sourceRows": 3043,
+    "esco_en_duplicateRows": 4,
+    "esco_en": 3039,
+    "esco_de_sourceRows": 3043,
+    "esco_de_duplicateRows": 4,
+    "esco_de": 3039,
+    "occupations": 3039,
+    "romeFiches": 1923,
+    "romeAppellations": 14330,
+    "romeAppellationRows": 14330,
+    "mappingRows": 13120,
+    "occupationsWithRome": 2047,
+    "occupationsWithFicheCodes": 2046,
+    "mappingUrisAbsentFromEsco": 4,
+    "unresolvedRomeAppellationIds": [
+      "11370",
+      "11371",
+      "11401",
+      "11748",
+      "11750",
+      "11786",
+      "11789",
+      "12495",
+      "15365",
+      "15788",
+      "18309",
+      "19122",
+      "404431",
+      "404440",
+      "488676",
+      "488828",
+      "488950",
+      "488951",
+      "489227",
+      "489241",
+      "489242",
+      "489244"
+    ]
+  },
+  "artifacts": {
+    "occupations.json.gz": {
+      "sha256": "ea7cf6a6d0b7a9c40907f10a4f4c57506fea3b5fb14fd4c8c7275df96dd4aea5",
+      "bytes": 2223910,
+      "uncompressedBytes": 8487327
+    },
+    "rome.json.gz": {
+      "sha256": "a687f494aa3f4c8ebe73e3bd4f6d5bea13d7f2a1f5db5b43697cc414b172ee24",
+      "bytes": 694017,
+      "uncompressedBytes": 4421256
+    }
+  },
+  "attribution": {
+    "esco": "European Union / European Commission, ESCO 1.2.1; CSV extracts merged without changing definitions",
+    "rome": "France Travail, ROME 26M10; official ESCO crosswalk 25M06; normalized and joined by OGR ID"
+  }
+}

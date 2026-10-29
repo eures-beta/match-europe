@@ -104,3 +104,13 @@ avec l’identité visuelle et les trois entrées CV/LinkedIn/saisie manuelle d�
 validées. L’ancienne dépendance à la PR #15 n’est pas reprise. Ce lot conserve
 les interactions simulées ; il ne valide pas encore le parcours de profil,
 l’authentification candidat ni une collecte réelle de données.
+
+## 29 octobre 2026 — catalogue local, reprise sur le train
+
+Eric confirme de préserver les travaux candidat hors de cette reprise et
+d’adapter le catalogue et l’intégration employeur à l’architecture du sommet du
+train (#74 vérifiée au départ). Catalogue partagé indépendant, puis intégration
+employeur dans une branche dépendante. Pas de générateurs ni de dossier métier
+`journeys` réintroduits. Les nouvelles PR de livraison cibleront le sommet courant
+du train unique, les essais incertains restant hors train. Aucune fusion ou
+mise en production autorisée.

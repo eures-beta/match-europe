@@ -1,0 +1,358 @@
+{
+  "counts": {
+    "esco_fr_sourceRows": 3043,
+    "esco_fr_duplicateRows": 4,
+    "esco_fr": 3039,
+    "esco_en_sourceRows": 3043,
+    "esco_en_duplicateRows": 4,
+    "esco_en": 3039,
+    "esco_de_sourceRows": 3043,
+    "esco_de_duplicateRows": 4,
+    "esco_de": 3039,
+    "occupations": 3039,
+    "romeFiches": 1923,
+    "romeAppellations": 14330,
+    "romeAppellationRows": 14330,
+    "mappingRows": 13120,
+    "occupationsWithRome": 2047,
+    "occupationsWithFicheCodes": 2046,
+    "mappingUrisAbsentFromEsco": 4,
+    "unresolvedRomeAppellationIds": [
+      "11370",
+      "11371",
+      "11401",
+      "11748",
+      "11750",
+      "11786",
+      "11789",
+      "12495",
+      "15365",
+      "15788",
+      "18309",
+      "19122",
+      "404431",
+      "404440",
+      "488676",
+      "488828",
+      "488950",
+      "488951",
+      "489227",
+      "489241",
+      "489242",
+      "489244"
+    ]
+  },
+  "searchChecks": [
+    {
+      "language": "fr",
+      "query": "soudeur",
+      "labels": [
+        "soudeur/soudeuse",
+        "ingénieur soudeur/ingénieure soudeuse",
+        "scaphandrier/scaphandrière TP sur réseaux et ouvrages immergés"
+      ],
+      "milliseconds": 90.52
+    },
+    {
+      "language": "fr",
+      "query": "comptable",
+      "labels": [
+        "comptable",
+        "agent comptable/agente comptable",
+        "aide-comptable fiscaliste"
+      ],
+      "milliseconds": 8.85
+    },
+    {
+      "language": "fr",
+      "query": "infirmier",
+      "labels": [
+        "enseignant-chercheur en soins infirmiers/enseignante-chercheuse en soins infirmiers",
+        "infirmier anesthésiste/infirmière anesthésiste",
+        "infirmier de pratique avancée/infirmière de pratique avancée"
+      ],
+      "milliseconds": 8.67
+    },
+    {
+      "language": "fr",
+      "query": "architecte",
+      "labels": [
+        "architecte",
+        "architecte cloud",
+        "architecte d’entreprise"
+      ],
+      "milliseconds": 8.71
+    },
+    {
+      "language": "fr",
+      "query": "bibliothécaire",
+      "labels": [
+        "bibliothécaire",
+        "aide-bibliothécaire"
+      ],
+      "milliseconds": 7.91
+    },
+    {
+      "language": "fr",
+      "query": "psychologue",
+      "labels": [
+        "psychologue",
+        "assistant pédagogique/assistante pédagogique",
+        "chargé d’orientation et d’insertion professionnelle/chargée d’orientation et d’insertion professionnelle"
+      ],
+      "milliseconds": 8.05
+    },
+    {
+      "language": "fr",
+      "query": "boulanger",
+      "labels": [
+        "boulanger/boulangère",
+        "opérateur de boulangerie/opératrice de boulangerie",
+        "gérant de boulangerie/gérante de boulangerie"
+      ],
+      "milliseconds": 7.96
+    },
+    {
+      "language": "fr",
+      "query": "pharmacien",
+      "labels": [
+        "pharmacien/pharmacienne",
+        "enseignant-chercheur en pharmacie/enseignante-chercheuse en pharmacie",
+        "pharmacien assistant/pharmacienne assistante"
+      ],
+      "milliseconds": 8.15
+    },
+    {
+      "language": "fr",
+      "query": "électricien",
+      "labels": [
+        "électricien/électricienne",
+        "chef d’équipe d’électriciens monteurs de réseaux",
+        "chef d’équipe électricien/chef d’équipe électricienne"
+      ],
+      "milliseconds": 8.07
+    },
+    {
+      "language": "fr",
+      "query": "développeur",
+      "labels": [
+        "concepteur de jeux numériques/conceptrice de jeux numériques",
+        "développeur d’applications mobiles/développeuse d’applications mobiles",
+        "développeur d’interface utilisateur/développeuse d’interface utilisatrice"
+      ],
+      "milliseconds": 8.39
+    },
+    {
+      "language": "fr",
+      "query": "orthophoniste",
+      "labels": [
+        "orthophoniste"
+      ],
+      "milliseconds": 8.03
+    },
+    {
+      "language": "fr",
+      "query": "menuisier",
+      "labels": [
+        "charpentier/charpentière",
+        "chef constructeur en décors/chef constructrice en décors",
+        "installateur d’escalier/installatrice d’escalier"
+      ],
+      "milliseconds": 8.25
+    },
+    {
+      "language": "en",
+      "query": "welder",
+      "labels": [
+        "laser beam welder",
+        "welder",
+        "battery assembler"
+      ],
+      "milliseconds": 128.9
+    },
+    {
+      "language": "en",
+      "query": "accountant",
+      "labels": [
+        "accountant",
+        "financial controller",
+        "accounting assistant"
+      ],
+      "milliseconds": 15.44
+    },
+    {
+      "language": "en",
+      "query": "nurse",
+      "labels": [
+        "advanced nurse practitioner",
+        "child care worker",
+        "child day care worker"
+      ],
+      "milliseconds": 16.1
+    },
+    {
+      "language": "en",
+      "query": "architect",
+      "labels": [
+        "architect",
+        "interior architect",
+        "architectural drafter"
+      ],
+      "milliseconds": 16.92
+    },
+    {
+      "language": "en",
+      "query": "librarian",
+      "labels": [
+        "librarian",
+        "archivist",
+        "big data archive librarian"
+      ],
+      "milliseconds": 16.14
+    },
+    {
+      "language": "en",
+      "query": "psychologist",
+      "labels": [
+        "psychologist",
+        "assistant clinical psychologist",
+        "clinical psychologist"
+      ],
+      "milliseconds": 16.02
+    },
+    {
+      "language": "en",
+      "query": "baker",
+      "labels": [
+        "baker",
+        "pastry chef",
+        "bakery shop manager"
+      ],
+      "milliseconds": 16.37
+    },
+    {
+      "language": "en",
+      "query": "pharmacist",
+      "labels": [
+        "pharmacist",
+        "hospital pharmacist",
+        "industrial pharmacist"
+      ],
+      "milliseconds": 16.28
+    },
+    {
+      "language": "en",
+      "query": "electrician",
+      "labels": [
+        "domestic electrician",
+        "electrical mechanic",
+        "electrician"
+      ],
+      "milliseconds": 16.45
+    },
+    {
+      "language": "en",
+      "query": "software developer",
+      "labels": [
+        "software developer",
+        "cloud software developer",
+        "embedded system designer"
+      ],
+      "milliseconds": 16.18
+    },
+    {
+      "language": "de",
+      "query": "Schweißer",
+      "labels": [
+        "Schweißer/Schweißerin",
+        "Elektronenstrahlschweißer/Elektronenstrahlschweißerin",
+        "Gleisbauerhelfer/Gleisbauerhelferin"
+      ],
+      "milliseconds": 106.68
+    },
+    {
+      "language": "de",
+      "query": "Buchhalter",
+      "labels": [
+        "Buchhalter/Buchhalterin",
+        "Controller/Controllerin",
+        "Lohn- und Gehaltsbuchhalter/Lohn- und Gehaltsbuchhalterin"
+      ],
+      "milliseconds": 8.12
+    },
+    {
+      "language": "de",
+      "query": "Krankenpfleger",
+      "labels": [
+        "Gesundheits- und Krankenpfleger/Gesundheits- und Krankenschwester",
+        "Akademischer Krankenpfleger/Akademische Krankenschwester",
+        "Fachkrankenpfleger/Fachkrankenschwester"
+      ],
+      "milliseconds": 8.11
+    },
+    {
+      "language": "de",
+      "query": "Architekt",
+      "labels": [
+        "Architekt/Architektin",
+        "Bauzeichner Architektur/Bauzeichnerin Architektur",
+        "Blockchain-Architekt/Blockchain-Architektin"
+      ],
+      "milliseconds": 8.38
+    },
+    {
+      "language": "de",
+      "query": "Bibliothekar",
+      "labels": [
+        "Bibliothekar/Bibliothekarin"
+      ],
+      "milliseconds": 8.07
+    },
+    {
+      "language": "de",
+      "query": "Psychologe",
+      "labels": [
+        "Psychologe/Psychologin",
+        "Erziehungspsychologe/Erziehungspsychologin",
+        "Gesundheitspsychologe/Gesundheitspsychologin"
+      ],
+      "milliseconds": 7.97
+    },
+    {
+      "language": "de",
+      "query": "Bäcker",
+      "labels": [
+        "Bäcker/Bäckerin",
+        "Fachverkäufer für Bäckerei- und Konditoreiwaren/Fachverkäuferin für Bäckerei- und Konditoreiwaren",
+        "Konditor/Konditorin"
+      ],
+      "milliseconds": 8.15
+    },
+    {
+      "language": "de",
+      "query": "Apotheker",
+      "labels": [
+        "Apotheker/Apothekerin",
+        "Fachapotheker/Fachapothekerin",
+        "Krankenhausapotheker/Krankenhausapothekerin"
+      ],
+      "milliseconds": 7.92
+    },
+    {
+      "language": "de",
+      "query": "Elektriker",
+      "labels": [
+        "Bauelektriker/Bauelektrikerin",
+        "Elektroniker für Energie- und Gebäudetechnik/Elektronikerin für Energie- und Gebäudetechnik",
+        "Industrieelektriker – Geräte und Systeme/Industrieelektrikerin – Geräte und Systeme"
+      ],
+      "milliseconds": 7.94
+    }
+  ],
+  "delta": {
+    "previousSample": 35,
+    "added": 3004,
+    "removed": [],
+    "changedLabels": []
+  }
+}
