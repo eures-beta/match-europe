@@ -323,3 +323,13 @@ après textes ; essais navigateur de recherche indépendante, saisie progressive
 et code D1102 réussis. Essai local sur 9031 et branche
 `codex/occupation-picker-live-trial`, hors train publié en attente du retour UX
 d’Eric. PR #77 non modifiée par cet essai ; aucun push/fusion/déploiement.
+
+## 29 octobre 2026 — suppression du doublon d’intitulé dans l’essai local
+
+Sur retour d’Eric : recherche initiale depuis l’intitulé et propositions directes.
+Le champ de recherche n’est plus prérempli ni visible au départ ; il apparaît vide
+avec message d’absence de correspondance, ou à la demande si aucune proposition
+ne convient. Recherche progressive et alternative ESCO/ROME conservées en recours.
+Les deux branches d’affichage ont été vérifiées dans le navigateur ; pas de
+changement d’API, modèle ou permissions. FR/EN/DE compilés et vérifiés, JS et
+format HTML contrôlés. Reste sur la branche locale d’essai hors train publié.
