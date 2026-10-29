@@ -5712,3 +5712,27 @@ msgstr "Horaires avec coupure"
 
 msgid "Split shifts"
 msgstr "Horaires avec coupure"
+
+msgctxt "employer languages"
+msgid "Add a language"
+msgstr "Ajouter une langue"
+
+msgctxt "employer languages"
+msgid "Search for a language"
+msgstr "Rechercher une langue"
+
+msgctxt "employer languages"
+msgid "Remove"
+msgstr "Retirer"
+
+msgctxt "employer languages"
+msgid "No particular language requirement"
+msgstr "Aucune exigence linguistique particulière"
+
+msgctxt "employer languages"
+msgid "Select a suggested language, or confirm that no language is required."
+msgstr "Choisissez une langue proposée ou indiquez qu’aucune langue n’est exigée."
+
+msgctxt "employer languages"
+msgid "No language found. Try another name."
+msgstr "Aucune langue trouvée. Essayez un autre nom."

@@ -5712,3 +5712,27 @@ msgstr "Geteilte Dienste"
 
 msgid "Split shifts"
 msgstr "Geteilte Dienste"
+
+msgctxt "employer languages"
+msgid "Add a language"
+msgstr "Sprache hinzufügen"
+
+msgctxt "employer languages"
+msgid "Search for a language"
+msgstr "Sprache suchen"
+
+msgctxt "employer languages"
+msgid "Remove"
+msgstr "Entfernen"
+
+msgctxt "employer languages"
+msgid "No particular language requirement"
+msgstr "Keine besonderen Sprachanforderungen"
+
+msgctxt "employer languages"
+msgid "Select a suggested language, or confirm that no language is required."
+msgstr "Wählen Sie eine vorgeschlagene Sprache oder bestätigen Sie, dass keine erforderlich ist."
+
+msgctxt "employer languages"
+msgid "No language found. Try another name."
+msgstr "Keine Sprache gefunden. Versuchen Sie einen anderen Namen."
