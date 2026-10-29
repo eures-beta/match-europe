@@ -13,13 +13,9 @@
   const intro=node('p',t.intro,box);heading.hidden=intro.hidden=true;
   const fallback=node('section','',box); fallback.hidden=true;
   const fallbackIntro=node('p',t.manualIntro,fallback);
-  const queryLabel=node('label',t.manualQuery,fallback); queryLabel.htmlFor='occupation-query';
+  const queryLabel=node('label',t.unifiedQuery,fallback); queryLabel.htmlFor='occupation-query';
   const query=node('input','',fallback); query.id='occupation-query'; query.type='text'; query.maxLength=150; query.autocomplete='off'; query.setAttribute('aria-describedby','occupation-query-help'); query.setAttribute('aria-controls','occupation-results'); query.style.width='100%';
-  const help=node('p',t.queryHelp,fallback); help.id='occupation-query-help';
-  const codeDetails=node('details','',fallback); node('summary',t.codeDetails,codeDetails);
-  const codeLabel=node('label',t.codeLabel,codeDetails); codeLabel.htmlFor='occupation-code';
-  const code=node('input','',codeDetails); code.id='occupation-code'; code.type='text'; code.maxLength=150; code.autocomplete='off'; code.setAttribute('aria-describedby','occupation-code-help');
-  const codeHelp=node('p',t.codeHelp,codeDetails); codeHelp.id='occupation-code-help';
+  const help=node('p',t.unifiedHelp,fallback); help.id='occupation-query-help';
   const search=node('button',t.search,fallback); search.type='button'; search.className='ghost-action';
   const status=node('p','',box); status.setAttribute('role','status');
   const list=node('div','',box); list.id='occupation-results';
@@ -58,7 +54,7 @@
   function manual(message=t.manualIntro,focus=false) { fallback.hidden=false;fallbackIntro.textContent=message;if(focus) query.focus(); }
   async function find(mode='search',useContext=false,fromTitle=false) {
     clearTimeout(timer);
-    const q=(fromTitle?title.value:mode==='reference'?code.value:query.value).trim();
+    const q=(fromTitle?title.value:query.value).trim();
     if(!q) {manual(t.manualHelp);status.textContent='';return;}
     cancel(); const request=serial; const boundTitle=title.value.trim(); controller=new AbortController();
     if(mode==='near') { offered=[...new Set([...offered,...cards.map(row=>row.uri)])]; }
@@ -84,21 +80,19 @@
   }
   function schedule(mode) {
     cancel();cards=cards.filter(row=>choices.has(row.uri));render();near.hidden=true;
-    if(mode==='search') code.value='';
-    const q=(mode==='reference'?code.value:query.value).trim();
+    const q=(query.value).trim();
     if(q.length<2) {status.textContent=t.startTyping;return;}
     status.textContent=t.busy;timer=setTimeout(()=>find(mode),300);
   }
   query.addEventListener('input',()=>schedule('search'));
-  code.addEventListener('input',()=>schedule('reference'));
-  for(const input of [query,code]) input.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();find(input===code?'reference':'search');}});
-  search.addEventListener('click',()=>find(code.value.trim()?'reference':'search'));
+  query.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();find();}});
+  search.addEventListener('click',()=>find());
   near.addEventListener('click',()=>{manual(t.manualHelp,true);cards=cards.filter(row=>choices.has(row.uri));render();heading.hidden=intro.hidden=!cards.length;near.hidden=true;});
   personal.addEventListener('input',()=>{searchedTitle=title.value.trim();error.textContent='';});
-  title.addEventListener('input',()=>{clear();fallback.hidden=true;query.value='';code.value='';status.textContent=t.busy;timer=setTimeout(()=>find('search',true,true),300);});
+  title.addEventListener('input',()=>{clear();fallback.hidden=true;query.value='';status.textContent=t.busy;timer=setTimeout(()=>find('search',true,true),300);});
   window.meOccupation={
     load(value,detected=false) {
-      clear();fallback.hidden=true;query.value='';code.value='';status.textContent='';
+      clear();fallback.hidden=true;query.value='';status.textContent='';
       document.querySelector('label[for=review-title]').textContent=detected?t.detectedTitle:t.ownTitle;
       if(value && value.title===title.value.trim()) {
         version=value.version;searchedTitle=value.title;choices=new Set(value.uris || []);cards=value.jobs || [];personal.value=value.personal || '';custom.hidden=!personal.value;render();
