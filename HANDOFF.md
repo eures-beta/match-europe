@@ -333,3 +333,10 @@ ne convient. Recherche progressive et alternative ESCO/ROME conservées en recou
 Les deux branches d’affichage ont été vérifiées dans le navigateur ; pas de
 changement d’API, modèle ou permissions. FR/EN/DE compilés et vérifiés, JS et
 format HTML contrôlés. Reste sur la branche locale d’essai hors train publié.
+
+### Visibilité de l’action de recours
+
+Après retour UX d’Eric : action « Aucune de ces descriptions ne convient »
+déplacée au-dessus des cartes, bouton pleine largeur avec bordure et fond
+contrastés. Clic vérifié : ouvre le champ manuel vide et y place le focus.
+Syntaxe JS et diff contrôlés ; modification de présentation uniquement, locale.

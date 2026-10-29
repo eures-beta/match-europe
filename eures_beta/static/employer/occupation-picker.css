@@ -1,2 +1,5 @@
 .occupation-picker input[type=text]{width:100%;box-sizing:border-box;padding:12px;border:1px solid var(--muted);border-radius:8px;font:inherit;background:#fff;color:var(--text)}
 .occupation-picker>details{margin:20px 0}.occupation-picker summary{cursor:pointer;min-height:32px;padding:6px 0}.occupation-picker p{line-height:1.5}.occupation-picker h4{font-size:18px;margin:24px 0 12px}.occupation-picker .review-question:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+
+.occupation-picker .occupation-change{display:block;width:100%;box-sizing:border-box;min-height:48px;margin:16px 0 24px;padding:14px 18px;border:2px solid var(--accent);border-radius:10px;background:var(--accent-soft);color:var(--accent-strong);font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.occupation-picker .occupation-change:hover{background:#e4edff}.occupation-picker .occupation-change:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
