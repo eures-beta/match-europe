@@ -440,3 +440,11 @@ Recette fictive : préremplissage French: A1, autres langues Pas nécessaire,
 sauvegarde finale et reprise avec choix conservés. Contrôles JS/HTML/gettext.
 Aucune publication ; validation du contrat de données structuré reste ultérieure.
 Référence : https://www.coe.int/en/web/common-European-framework-reference-languages/table-1-cefr-3.3-common-reference-levels-global-scale
+
+### Condition horaires avec coupure
+
+Ajout du choix split (Horaires avec coupure) aux conditions employeur, aux
+libellés du récapitulatif et à l’éditeur historique pour éviter sa perte.
+FR/EN/DE compilés ; 38 tests ciblés passent, dont sauvegarde/reprise avec split.
+Case et exclusion mutuelle avec Aucune condition particulière vérifiées navigateur.
+Modification locale, sans publication.

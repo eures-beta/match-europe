@@ -132,6 +132,7 @@ class OfferEditForm(forms.Form):
                 ('shift', _('Shift work')),
                 ('physical', _('Physical work')),
                 ('standing', _('Standing work')),
+                ('split', _('Split shifts')),
                 ('outdoor', _('Outdoor work')),
                 ('travel', _('Frequent travel')),
                 ('none', _('None')),
