@@ -376,3 +376,13 @@ Message d’échec automatique préservé lorsque nécessaire ; nombre de résul
 annoncé aux lecteurs d’écran sans ajout de texte visuel. Recherche au fil de la
 saisie vérifiée navigateur avec boul ; syntaxe JS, HTML, gettext FR/EN/DE et diff
 contrôlés. Essai toujours local, sans push ni changement des PR publiées.
+
+## 29 octobre 2026 — publication autorisée de la recherche métier améliorée
+
+Eric valide la publication des itérations UX dans une nouvelle PR intitulée
+« amélioration de la recherche de métiers », basée sur le sommet revalidé #77
+(`codex/employer-occupation-selection`). Champ mixte progressif en recours,
+intitulé de l’offre conservé, bouton après les cartes et aide espacée du focus.
+38 tests ciblés PostgreSQL passent à nouveau, réseau externe bloqué ; contrôles
+Black, JavaScript, templates et diff réussis. Relecture à demander à dejafait.
+Cette autorisation porte sur push/PR, sans fusion ni déploiement.
