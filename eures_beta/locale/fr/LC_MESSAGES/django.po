@@ -5469,3 +5469,43 @@ msgstr "Cette version lit le texte localement. Elle ne répartit pas encore les 
 #: eures_beta/templates/upload.html:9
 msgid "Read my PDF"
 msgstr "Lire mon PDF"
+
+msgctxt "employer review steps"
+msgid "The role"
+msgstr "Le poste"
+
+msgctxt "employer review steps"
+msgid "Job conditions"
+msgstr "Les conditions proposées"
+
+msgctxt "employer review steps"
+msgid "Candidate profile"
+msgstr "Le profil recherché"
+
+msgctxt "employer review steps"
+msgid "Welcome and mobility"
+msgstr "L’accueil et la mobilité"
+
+msgctxt "employer review steps"
+msgid "Review and save"
+msgstr "Vérifier et enregistrer"
+
+msgctxt "employer review steps"
+msgid "Previous"
+msgstr "Précédent"
+
+msgctxt "employer review steps"
+msgid "Continue"
+msgstr "Continuer"
+
+msgctxt "employer review steps"
+msgid "Edit"
+msgstr "Modifier"
+
+msgctxt "employer review steps"
+msgid "To clarify"
+msgstr "À préciser"
+
+msgctxt "employer review steps"
+msgid "Your progress"
+msgstr "Votre progression"

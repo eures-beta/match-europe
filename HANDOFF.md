@@ -386,3 +386,17 @@ intitulé de l’offre conservé, bouton après les cartes et aide espacée du f
 38 tests ciblés PostgreSQL passent à nouveau, réseau externe bloqué ; contrôles
 Black, JavaScript, templates et diff réussis. Relecture à demander à dejafait.
 Cette autorisation porte sur push/PR, sans fusion ni déploiement.
+
+## 29 octobre 2026 — essai local de relecture employeur en cinq étapes
+
+Branche `codex/employer-review-steps-trial`, basée sur la livraison #78, non publiée.
+Réorganisation des contrôles existants : poste, conditions, profil, mobilité,
+récapitulatif. Navigation précédent/continuer, focus des titres, validation des
+champs de l’étape et retour Modifier depuis le récapitulatif. Les champs et le
+contrat de sauvegarde restent inchangés ; aucune migration ni nouvel appel externe.
+Textes de navigation FR/EN/DE compilés. Le contact reste un formulaire enregistré
+séparément, visible à la dernière étape. Pas d’autosauvegarde : bouton brouillon
+existant conservé sur chaque écran. Recette avec données fictives : cinq étapes,
+retour depuis la synthèse, réponse conservée, sauvegarde et réouverture réussies.
+38 tests catalogue/imports repassés ; syntaxe JS, templates et diff contrôlés.
+Les réponses guidées et nouvelles questions proposées restent un lot ultérieur.

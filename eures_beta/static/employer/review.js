@@ -42,8 +42,10 @@
         item.append(value, details); known.append(item);
       } else missing.append(item);
     }
+    window.meReviewSteps?.arrange();
     document.getElementById('clarifications-known').hidden = !known.children.length;
     document.getElementById('clarifications-missing').hidden = !missing.children.length;
+    window.meReviewSteps?.arrange();
   }
   const selected = name => [...form.querySelectorAll('input[name='+name+']:checked')].map(input=>input.value);
   function syncRequirements() {
