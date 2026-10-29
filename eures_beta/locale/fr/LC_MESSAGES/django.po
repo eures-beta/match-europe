@@ -5509,3 +5509,115 @@ msgstr "À préciser"
 msgctxt "employer review steps"
 msgid "Your progress"
 msgstr "Votre progression"
+
+msgctxt "employer conditions"
+msgid "Pay"
+msgstr "Rémunération"
+
+msgctxt "employer conditions"
+msgid "Fixed amount"
+msgstr "Montant fixe"
+
+msgctxt "employer conditions"
+msgid "Range"
+msgstr "Fourchette"
+
+msgctxt "employer conditions"
+msgid "To clarify"
+msgstr "À préciser"
+
+msgctxt "employer conditions"
+msgid "Amount"
+msgstr "Montant"
+
+msgctxt "employer conditions"
+msgid "Minimum"
+msgstr "Minimum"
+
+msgctxt "employer conditions"
+msgid "Maximum"
+msgstr "Maximum"
+
+msgctxt "employer conditions"
+msgid "Currency"
+msgstr "Devise"
+
+msgctxt "employer conditions"
+msgid "Gross or net"
+msgstr "Brut ou net"
+
+msgctxt "employer conditions"
+msgid "Gross"
+msgstr "Brut"
+
+msgctxt "employer conditions"
+msgid "Net"
+msgstr "Net"
+
+msgctxt "employer conditions"
+msgid "Pay period"
+msgstr "Période de rémunération"
+
+msgctxt "employer conditions"
+msgid "Per hour"
+msgstr "Par heure"
+
+msgctxt "employer conditions"
+msgid "Per month"
+msgstr "Par mois"
+
+msgctxt "employer conditions"
+msgid "Per year"
+msgstr "Par an"
+
+msgctxt "employer conditions"
+msgid "Weekly working time"
+msgstr "Durée hebdomadaire du travail"
+
+msgctxt "employer conditions"
+msgid "Fixed weekly hours"
+msgstr "Nombre d’heures fixe"
+
+msgctxt "employer conditions"
+msgid "Variable weekly hours"
+msgstr "Nombre d’heures variable"
+
+msgctxt "employer conditions"
+msgid "Hours per week"
+msgstr "Heures par semaine"
+
+msgctxt "employer conditions"
+msgid "Start date"
+msgstr "Prise de poste"
+
+msgctxt "employer conditions"
+msgid "As soon as possible"
+msgstr "Dès que possible"
+
+msgctxt "employer conditions"
+msgid "On a specific date"
+msgstr "À une date précise"
+
+msgctxt "employer conditions"
+msgid "From a flexible date"
+msgstr "À partir d’une date flexible"
+
+msgctxt "employer conditions"
+msgid "Date"
+msgstr "Date"
+
+msgctxt "employer conditions"
+msgid "Schedule details (optional)"
+msgstr "Précisions sur les horaires — facultatif"
+
+msgctxt "employer conditions"
+msgid "Information already provided"
+msgstr "Information déjà fournie"
+
+msgctxt "employer conditions"
+msgid "Keep this information"
+msgstr "Conserver cette information"
+
+msgctxt "employer conditions"
+msgid "Specify using the choices"
+msgstr "Préciser avec les choix"
