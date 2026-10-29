@@ -211,6 +211,72 @@ class ReadingTests(SimpleTestCase):
 
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class ImportFlowTests(TestCase):
+    @patch('eures_beta.employers.employer_api.aglae')
+    def test_occupation_choices_are_saved_reopened_and_validated_locally(self, api):
+        from eures_beta.occupations.catalog import suggestions, catalog
+
+        with patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'}):
+            obj = self.create().json()
+            data = self.payload(obj)
+            job = suggestions('boulanger', 'fr')[0]
+            data['occupation'] = {
+                'version': catalog()['manifest']['version'],
+                'title': data['title'],
+                'language': 'fr',
+                'uris': [job['uri']],
+                'personal': '',
+                'jobs': [{'label': 'forged'}],
+            }
+            url = '/api/imports/' + obj['id'] + '/'
+            saved = self.client.post(
+                url,
+                json.dumps(
+                    {
+                        'action': 'save',
+                        'revision': obj['revision'],
+                        'data': data,
+                    }
+                ),
+                content_type='application/json',
+            )
+            self.assertEqual(saved.status_code, 200)
+            reopened = self.client.get(url).json()
+            self.assertEqual(reopened['data']['occupation']['jobs'][0], job)
+            self.assertEqual(reopened['data']['title'], data['title'])
+            self.assertEqual(Client().get(url).status_code, 404)
+            for bad in (
+                {**data['occupation'], 'uris': ['http://invalid.example/occupation']},
+                {**data['occupation'], 'version': '0.0'},
+                {**data['occupation'], 'title': 'Other title'},
+            ):
+                result = self.client.post(
+                    url,
+                    json.dumps(
+                        {
+                            'action': 'save',
+                            'revision': reopened['revision'],
+                            'data': {**data, 'occupation': bad},
+                        }
+                    ),
+                    content_type='application/json',
+                )
+                self.assertEqual(result.status_code, 400)
+            data['occupation']['uris'] = []
+            result = self.client.post(
+                url,
+                json.dumps(
+                    {
+                        'action': 'validate',
+                        'revision': reopened['revision'],
+                        'data': data,
+                        'confirmed': True,
+                    }
+                ),
+                content_type='application/json',
+            )
+            self.assertEqual(result.json()['error'], 'occupation_required')
+        api.assert_not_called()
+
     def create(self):
         return self.client.post(
             '/api/imports/',

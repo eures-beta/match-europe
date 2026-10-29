@@ -1,4 +1,5 @@
 from django.urls import path
+from eures_beta.occupations.views import search_api
 from eures_beta.employers import (
     views,
     employer_login,
@@ -9,6 +10,7 @@ from eures_beta.employers import (
 )
 
 urlpatterns = [
+    path('api/occupations/', search_api, name='occupation_search'),
     path(
         'employer/offers/<uuid:id>/search/',
         employer_search.launch,

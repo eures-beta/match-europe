@@ -1,0 +1,21 @@
+{% load i18n %}
+<script id="occupation-strings" type="application/json">
+{
+  "heading": "{% translate "Describe the job offered" context "employer occupations" as occupation_text_0 %}{{ occupation_text_0|escapejs }}",
+  "intro": "{% translate "Choose at least one description. Your own job title is kept; these choices describe the occupation without replacing your offer’s duties." context "employer occupations" as occupation_text_1 %}{{ occupation_text_1|escapejs }}",
+  "search": "{% translate "Find descriptions" context "employer occupations" as occupation_text_2 %}{{ occupation_text_2|escapejs }}",
+  "near": "{% translate "None of these descriptions fits" context "employer occupations" as occupation_text_3 %}{{ occupation_text_3|escapejs }}",
+  "personal": "{% translate "Describe the job in your own words" context "employer occupations" as occupation_text_4 %}{{ occupation_text_4|escapejs }}",
+  "personalHelp": "{% translate "If no suggestion fits, write a description. No ESCO or ROME code will be invented." context "employer occupations" as occupation_text_5 %}{{ occupation_text_5|escapejs }}",
+  "related": "{% translate "These jobs belong to the same occupational family. Check the descriptions before choosing." context "employer occupations" as occupation_text_6 %}{{ occupation_text_6|escapejs }}",
+  "empty": "{% translate "No description found. Try another title or describe the job in your own words." context "employer occupations" as occupation_text_7 %}{{ occupation_text_7|escapejs }}",
+  "busy": "{% translate "Finding descriptions…" context "employer occupations" as occupation_text_8 %}{{ occupation_text_8|escapejs }}",
+  "error": "{% translate "Unable to load descriptions. Try again; your other information is preserved." context "employer occupations" as occupation_text_9 %}{{ occupation_text_9|escapejs }}",
+  "required": "{% translate "Choose at least one job description, or write your own if none fits." context "employer occupations" as occupation_text_10 %}{{ occupation_text_10|escapejs }}",
+  "references": "{% translate "ESCO and ROME references" context "employer occupations" as occupation_text_11 %}{{ occupation_text_11|escapejs }}",
+  "noRome": "{% translate "No ROME correspondence available." context "employer occupations" as occupation_text_12 %}{{ occupation_text_12|escapejs }}",
+  "versions": "{% translate "ESCO 1.2.1 · ROME links 25M06 · fiche codes 26M10. Editions differ; these links are not automatic equivalents." context "employer occupations" as occupation_text_13 %}{{ occupation_text_13|escapejs }}",
+  "saved": "{% translate "Selected job descriptions" context "employer occupations" as occupation_text_14 %}{{ occupation_text_14|escapejs }}",
+  "changed": "{% translate "Title changed: search for descriptions and confirm your choices for this job." context "employer occupations" as occupation_text_15 %}{{ occupation_text_15|escapejs }}"
+}
+</script>

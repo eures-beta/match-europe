@@ -85,6 +85,7 @@
       const definition=document.createElement('dd');definition.textContent=value;list.append(term,definition);
     }
     for(const [name,label] of Object.entries(t.fields)) row(label,name==='contractType'?t.contracts[values[name]]:values[name]);
+    if(window.meOccupation) row(window.meOccupation.summaryLabel,window.meOccupation.summary(values.occupation));
     for(const [name,label] of Object.entries(t.clarifications)) row(label,values.clarifications?.[name]);
     for(const name of ['crossBorder','relocation']) if(values[name]) row(t[name],t.choices[values[name]]);
     const r=values.requirements || {};const labels=t.requirements;
@@ -101,6 +102,7 @@
   function collect(state) {
     const values = {};
     for (const name of Object.keys(t.fields)) values[name] = field(name).value.trim();
+    if(window.meOccupation) values.occupation=window.meOccupation.collect();
     values.clarifications = {};
     for (const name of Object.keys(t.clarifications)) values.clarifications[name] = document.getElementById('clarify-' + name).value.trim();
     values.requirements={workConditions:selected('workConditions'),permitRequired:form.querySelector('[name=permitRequired]:checked')?.value || '',permits:[],permitOther:'',arrivalAids:selected('arrivalAids'),aidOther:selected('arrivalAids').includes('other')?document.getElementById('aid-other').value.trim():''};
@@ -174,6 +176,7 @@
       const values = result.data;
       suggestedQuestions.clear(); loadRequirements(values);
       for (const name of Object.keys(t.fields)) field(name).value = values[name] || '';
+      window.meOccupation?.load(values.occupation);
       for (const name of Object.keys(t.clarifications)) document.getElementById('clarify-'+name).value = values.clarifications?.[name] || '';
       arrangeClarifications();
       for (const name of ['crossBorder','relocation']) {
@@ -204,12 +207,13 @@
       document.getElementById('review-provenance').textContent = usesSnapshot ? t.snapshot : t.blank;
       for (const name of Object.keys(t.fields)) field(name).value = usesSnapshot ? (name === 'city' ? snapshot.workplaceLocation.city : snapshot[name] || '') : '';
       if (mode === 'manual-step') field('description').value = raw.slice(0,16000);
+      window.meOccupation?.load();
       arrangeClarifications();
       t.questions.forEach((question,i) => {
         const q = questionInputs(i); q.text.value = usesSnapshot ? question : ''; q.enabled.checked = false; q.mandatory.checked = false; syncQuestion(i);
       });
     },
-    reset() { current = null; preparedSignature = null; form.reset(); validated = false; downloadValidated.hidden = true; }
+    reset() { current = null; preparedSignature = null; form.reset(); window.meOccupation?.reset(); validated = false; downloadValidated.hidden = true; }
   };
   form.addEventListener('input', event => {
     const item = event.target.closest('.clarification-item');
@@ -228,7 +232,8 @@
     if(event.target === field('city')) showGeo();
     t.questions.forEach((_,i) => syncQuestion(i));
   });
-    async function liveAction(action) {
+  t.errors.occupation_required=JSON.parse(document.getElementById('occupation-strings')?.textContent || '{}').required;
+  async function liveAction(action) {
     if (busy || !current) return;
     if (!current.id) { document.dispatchEvent(new Event('me-request-email'));return; }
     busy = true;
@@ -259,6 +264,7 @@
       if (missing) field(missing).focus(); else if (emptyQuestion >= 0) questionInputs(emptyQuestion).text.focus(); else if (!confirm.checked) confirm.focus(); else form.reportValidity();
       return;
     }
+    if(window.meOccupation && !window.meOccupation.validate()) return;
     if (api) { await liveAction('validate'); return; }
     error.textContent = ''; validated = true; status.textContent = t.validated; downloadValidated.hidden = false;
   });

@@ -101,3 +101,9 @@ des restrictions. Le générateur candidat et son dictionnaire trilingue sont re
 Le paquet `eures_beta/occupations` fournit des références et recherches métiers
 locales versionnées, indépendantes des applications métier. Aucun import CV ni
 interface candidat ajouté. Voir [catalogue et limites](OCCUPATION_CATALOG_MAINTENANCE.md).
+
+## Métier dans la relecture employeur — 29 octobre 2026
+
+La fiche d’import employeur utilise le catalogue partagé et conserve les choix
+explicites dans son brouillon. Template unique et gettext, aucun parcours candidat
+ajouté. Voir [contrat et limites](EMPLOYER_OCCUPATIONS.md).

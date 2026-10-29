@@ -490,6 +490,13 @@ def clean_data(raw):
         out[key] = value.strip()
     if out['contractType'] and out['contractType'] not in CONTRACTS:
         raise ImportFailure('invalid_data')
+    if 'occupation' in raw:
+        from .occupation_selection import clean_selection
+
+        try:
+            out['occupation'] = clean_selection(raw['occupation'], out['title'])
+        except ValueError:
+            raise ImportFailure('invalid_data') from None
     clar = raw.get('clarifications', {})
     if not isinstance(clar, dict):
         raise ImportFailure('invalid_data')
@@ -733,6 +740,11 @@ def update_locked(request, obj, payload):
         if geo:
             clean['geo'] = geo
         if action == 'validate':
+            occupation = clean.get('occupation')
+            if occupation is not None and not (
+                occupation['uris'] or occupation['personal']
+            ):
+                raise ImportFailure('occupation_required')
             clean_contact(obj.contact)
             if not obj.initial_sent_at:
                 raise ImportFailure('initial_required')
