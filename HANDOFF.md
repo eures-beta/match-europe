@@ -426,3 +426,17 @@ dans les nouveaux modes guidés vides. Précisions facultatives conservées.
 Recette : absence de réponse aux conditions bloque, sélection explicite autorise
 la suite ; absence de bouton enregistrer vérifiée. Ce lot reste une recette UX
 locale ; le contrat serveur historique n’est pas durci dans ce changement.
+
+### Langues et niveaux expliqués
+
+Module local : français, allemand, anglais, luxembourgeois et une autre langue
+facultative. Pas nécessaire ou A1–C2 avec descriptions pratiques FR/EN/DE,
+inspirées de l’échelle globale du Conseil de l’Europe (repères, pas certification).
+Préremplissage seulement pour un couple langue/niveau explicite reconnu, exemple
+French: A1 ; aucune déduction depuis langue de rédaction ou « bon niveau ».
+Texte ambigu conservé comme source ; choix de chaque langue principale exigé.
+Les réponses restent sérialisées dans la clarification existante pour l’essai UX.
+Recette fictive : préremplissage French: A1, autres langues Pas nécessaire,
+sauvegarde finale et reprise avec choix conservés. Contrôles JS/HTML/gettext.
+Aucune publication ; validation du contrat de données structuré reste ultérieure.
+Référence : https://www.coe.int/en/web/common-European-framework-reference-languages/table-1-cefr-3.3-common-reference-levels-global-scale

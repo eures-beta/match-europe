@@ -5625,3 +5625,79 @@ msgstr "Préciser avec les choix"
 msgctxt "employer review steps"
 msgid "Please answer this question before continuing."
 msgstr "Répondez à cette question avant de continuer."
+
+msgctxt "employer languages"
+msgid "Which languages are needed for this role?"
+msgstr "Quelles langues sont nécessaires pour ce poste ?"
+
+msgctxt "employer languages"
+msgid "Select the minimum level needed for each language. The descriptions are practical guidance, not a language assessment."
+msgstr "Indiquez le niveau minimum nécessaire pour chaque langue. Les descriptions sont des repères pratiques, pas une évaluation linguistique."
+
+msgctxt "employer languages"
+msgid "Select a level"
+msgstr "Choisir un niveau"
+
+msgctxt "employer languages"
+msgid "Not required"
+msgstr "Pas nécessaire"
+
+msgctxt "employer languages"
+msgid "A1 — Understand and use very simple words and phrases"
+msgstr "A1 — Comprendre et utiliser des mots et phrases très simples"
+
+msgctxt "employer languages"
+msgid "A2 — Communicate about simple, routine tasks"
+msgstr "A2 — Échanger sur des tâches simples et habituelles"
+
+msgctxt "employer languages"
+msgid "B1 — Handle familiar situations and explain simple points"
+msgstr "B1 — Se débrouiller dans les situations habituelles et expliquer simplement"
+
+msgctxt "employer languages"
+msgid "B2 — Communicate with ease and discuss detailed matters"
+msgstr "B2 — Échanger avec aisance et discuter de sujets détaillés"
+
+msgctxt "employer languages"
+msgid "C1 — Communicate fluently and precisely in complex situations"
+msgstr "C1 — Communiquer avec fluidité et précision dans des situations complexes"
+
+msgctxt "employer languages"
+msgid "C2 — Understand almost everything and express fine distinctions"
+msgstr "C2 — Comprendre presque tout et exprimer des nuances fines"
+
+msgctxt "employer languages"
+msgid "French"
+msgstr "Français"
+
+msgctxt "employer languages"
+msgid "German"
+msgstr "Allemand"
+
+msgctxt "employer languages"
+msgid "English"
+msgstr "Anglais"
+
+msgctxt "employer languages"
+msgid "Luxembourgish"
+msgstr "Luxembourgeois"
+
+msgctxt "employer languages"
+msgid "Information already provided"
+msgstr "Information déjà fournie"
+
+msgctxt "employer languages"
+msgid "Prefilled level — check this selection."
+msgstr "Niveau prérempli — vérifiez cette sélection."
+
+msgctxt "employer languages"
+msgid "Some wording could not be converted into an exact level. Please confirm the choices; the source text is retained."
+msgstr "Certaines formulations ne permettent pas de déterminer un niveau exact. Confirmez les choix ; le texte source est conservé."
+
+msgctxt "employer languages"
+msgid "Another language (optional)"
+msgstr "Autre langue — facultatif"
+
+msgctxt "employer languages"
+msgid "Level for the additional language"
+msgstr "Niveau de l’autre langue"
