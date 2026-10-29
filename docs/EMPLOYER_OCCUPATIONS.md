@@ -104,3 +104,12 @@ pause. La description personnelle n’apparaît qu’après un essai manuel infr
 Aucun changement d’API ou de modèle ; essai toujours local, hors train publié.
 Cas avec/sans résultats vérifiés au navigateur ; traductions FR/EN/DE compilées
 et vérifiées, syntaxe JS et HTML contrôlés.
+
+### Recherche unifiée dans le recours manuel
+
+Le même champ accepte désormais intitulé, code ROME à cinq caractères ou
+référence ESCO (code métier, UUID, URI). L’API reconnaît automatiquement ces
+formats dans le mode search ; le mode reference explicite reste compatible.
+L’option de saisie de code séparée est retirée de l’interface. Détection et droits
+couverts par les 38 tests ciblés ; l’auto-complétion et le titre indépendant
+restent conservés. Essai local en attente de validation UX.

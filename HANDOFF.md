@@ -345,3 +345,12 @@ Syntaxe JS et diff contrôlés ; modification de présentation uniquement, local
 
 Design contrasté et pleine largeur conservé ; bouton replacé après les cartes
 de métiers, conformément au retour suivant d’Eric. Essai local uniquement.
+
+### Champ de recours unique : intitulé, ROME ou ESCO
+
+Sur demande d’Eric, suppression du champ de référence séparé. Le même champ
+accepte un intitulé, un code ROME ou une référence ESCO ; détection serveur
+automatique des codes/UUID/URI, saisie progressive inchangée. 38 tests ciblés
+PostgreSQL hors réseau externe passent, dont toutes les références testées sans
+mode explicite. Traductions FR/EN/DE, JS et HTML contrôlés. Code D1102 testé au
+navigateur dans le champ unique. Essai local seulement, hors train publié.

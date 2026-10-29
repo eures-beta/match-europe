@@ -1,6 +1,7 @@
 """Local reference search for the prototype, behind the shared demo access gate."""
 
 import json
+import re
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
@@ -43,6 +44,12 @@ def search_api(request):
         )
     ):
         return JsonResponse({'error': 'invalid_data'}, status=400)
+    if mode == 'search' and re.fullmatch(
+        r'(?:ROME\s*[:—-]?\s*[A-Z]\d{4}|[A-Z]\d{4}|ESCO\s*[:—-]?\s*.+|\d+(?:\.\d+)+|[0-9a-f-]{36}|https?://data\.europa\.eu/esco/occupation/[0-9a-f-]{36})',
+        query.strip(),
+        re.I,
+    ):
+        mode = 'reference'
     rows = (
         references(query, language)
         if mode == 'reference'

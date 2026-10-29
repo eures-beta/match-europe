@@ -18,7 +18,7 @@ class OccupationSearchTests(SimpleTestCase):
         ):
             response = self.client.get(
                 '/api/occupations/',
-                {'q': value, 'lang': 'fr', 'mode': 'reference'},
+                {'q': value, 'lang': 'fr'},
                 secure=True,
             )
             self.assertEqual(response.status_code, 200)
