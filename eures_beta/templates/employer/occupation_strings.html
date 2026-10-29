@@ -32,6 +32,7 @@
   "manualHelp": "{% translate "Enter another job title to help us find the best match, or enter an ESCO or ROME code if you know it." context "employer occupations" as occupation_fallback_1 %}{{ occupation_fallback_1|escapejs }}",
   "manualQuery": "{% translate "Job title to search for" context "employer occupations" as occupation_fallback_2 %}{{ occupation_fallback_2|escapejs }}",
   "unifiedQuery": "{% translate "Job title, ROME code or ESCO reference" context "employer occupations" as occupation_unified_0 %}{{ occupation_unified_0|escapejs }}",
-  "unifiedHelp": "{% translate "For example: baker, D1102, an ESCO occupation code, UUID or full URI. The input format is detected automatically; your offer title stays unchanged." context "employer occupations" as occupation_unified_1 %}{{ occupation_unified_1|escapejs }}"
+  "unifiedHelp": "{% translate "For example: baker, D1102, an ESCO occupation code, UUID or full URI. The input format is detected automatically; your offer title stays unchanged." context "employer occupations" as occupation_unified_1 %}{{ occupation_unified_1|escapejs }}",
+  "automaticFailure": "{% translate "The job title detected in your job description did not allow us to find a match automatically. Enter a job title, ROME code or ESCO reference below." context "employer occupations" as occupation_automatic_failure %}{{ occupation_automatic_failure|escapejs }}"
 }
 </script>

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 14:13+0000\n"
+"POT-Creation-Date: 2026-10-29 14:25+0000\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -4463,6 +4463,11 @@ msgstr "Berufsbezeichnung, ROME-Code oder ESCO-Referenz"
 msgctxt "employer occupations"
 msgid "For example: baker, D1102, an ESCO occupation code, UUID or full URI. The input format is detected automatically; your offer title stays unchanged."
 msgstr "Zum Beispiel: Bäcker, D1102, ein ESCO-Berufscode, eine UUID oder vollständige URI. Das Format wird automatisch erkannt; der Titel Ihres Angebots bleibt unverändert."
+
+#: eures_beta/templates/employer/occupation_strings.html:36
+msgctxt "employer occupations"
+msgid "The job title detected in your job description did not allow us to find a match automatically. Enter a job title, ROME code or ESCO reference below."
+msgstr "Die in Ihrer Stellenbeschreibung erkannte Berufsbezeichnung hat keine automatische Zuordnung ermöglicht. Geben Sie unten eine Berufsbezeichnung, einen ROME-Code oder eine ESCO-Referenz ein."
 
 #: eures_beta/templates/employer/privacy.html:8
 #: eures_beta/templates/employer/privacy.html:180

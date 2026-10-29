@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% translate "Match Europe — Add your job offer" context "employer import" %}</title>
     <link rel="stylesheet" href="/static/employer/site.css">
-    <link rel="stylesheet" href="/static/employer/occupation-picker.css">
+    <link rel="stylesheet"
+          href="/static/employer/occupation-picker.css?v=unified-fallback-2">
     <style>
         .employer-partner-logos {
             display: grid;
@@ -1627,8 +1628,9 @@
     <script src="/static/employer/offer-import-api.js" defer></script>
     <script src="/static/employer/contact.js" defer></script>
     {% include "employer/occupation_strings.html" %}
-    <script src="/static/employer/occupation-picker.js" defer></script>
-    <script src="/static/employer/review.js" defer></script>
+    <script src="/static/employer/occupation-picker.js?v=unified-fallback-2"
+            defer></script>
+    <script src="/static/employer/review.js?v=unified-fallback-2" defer></script>
     <script src="/static/employer/import.js" defer></script>
   </body>
 </html>
