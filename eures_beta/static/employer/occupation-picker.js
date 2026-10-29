@@ -23,7 +23,7 @@
   const search=node('button',t.search,fallback); search.type='button'; search.className='ghost-action';
   const status=node('p','',box); status.setAttribute('role','status');
   const list=node('div','',box); list.id='occupation-results';
-  const near=node('button',t.near,box); near.type='button'; near.className='import-text-button'; near.hidden=true;
+  const near=node('button',t.near,box); near.type='button'; near.className='ghost-action occupation-change'; near.hidden=true;box.insertBefore(near,list);
   const custom=node('div','',box); custom.hidden=true;
   node('p',t.personalHelp,custom);
   const label=node('label',t.personal,custom); label.htmlFor='occupation-personal';
