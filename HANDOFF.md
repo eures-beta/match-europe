@@ -462,3 +462,14 @@ Recette fictive : ajout anglais B1, sauvegarde finale et reprise français A1/an
 B1 ; retrait des deux bloque la progression, puis choix sans exigence autorise
 la suite. JS, gettext FR/EN/DE et format template contrôlés. Essai local non publié,
 contrat de persistance textuel inchangé.
+
+## 29 octobre 2026 — publication autorisée du parcours séquencé
+
+Eric autorise push et nouvelle PR au sommet revalidé #78, sous le titre exact
+« améliorations et séquençage du parcours de dépôt d'offre ». Le lot regroupe
+les cinq étapes, conditions guidées, coupure et langues à la demande, documentés
+dans docs/EMPLOYER_REVIEW_STEPS.md. Suite complète de 204 tests PostgreSQL
+repassée avec réseau externe interdit ; Black, neuf templates employeur, syntaxe
+des trois nouveaux modules JavaScript et diff contrôlés. Les limites de stockage
+textuel et de contrôle de complétude au navigateur sont explicites.
+Aucune fusion ni déploiement autorisés.
