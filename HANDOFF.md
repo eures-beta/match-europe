@@ -366,3 +366,13 @@ pour éviter la réutilisation de statiques anciens au rechargement. Comparaison
 HTTP/source confirme le bon JS sur 9031 ; réponse HTML réelle relue avec le
 message attendu et l’URL de statique actualisée. Contrôles JS/HTML/diff réussis.
 Essai local seulement ; ancien écran déjà chargé à actualiser pour tester.
+
+### Épuration visuelle de la recherche métier
+
+Retrait du bouton Trouver des descriptions, du titre Précisez le métier proposé
+et des paragraphes répétés. Seuls restent le label Rechercher un métier, un
+exemple en placeholder, l’aide courte Intitulé ou code ROME/ESCO, puis les cartes.
+Message d’échec automatique préservé lorsque nécessaire ; nombre de résultats
+annoncé aux lecteurs d’écran sans ajout de texte visuel. Recherche au fil de la
+saisie vérifiée navigateur avec boul ; syntaxe JS, HTML, gettext FR/EN/DE et diff
+contrôlés. Essai toujours local, sans push ni changement des PR publiées.

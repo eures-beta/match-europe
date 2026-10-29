@@ -113,3 +113,11 @@ formats dans le mode search ; le mode reference explicite reste compatible.
 L’option de saisie de code séparée est retirée de l’interface. Détection et droits
 couverts par les 38 tests ciblés ; l’auto-complétion et le titre indépendant
 restent conservés. Essai local en attente de validation UX.
+
+### Présentation épurée du recours
+
+Le bouton de recherche est retiré : saisie progressive et touche Entrée suffisent.
+Titre et paragraphes répétitifs supprimés, label court Rechercher un métier et aide
+Intitulé ou code ROME/ESCO. Le message spécifique d’échec automatique demeure au
+premier affichage concerné. Les annonces de progression/résultat restent
+accessibles aux lecteurs d’écran ; les cartes gardent leurs descriptions et références.

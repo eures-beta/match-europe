@@ -9,14 +9,12 @@
   const node = (tag, text, parent) => { const el=document.createElement(tag); if(text) el.textContent=text; if(parent) parent.append(el); return el; };
   const box=node('section'); box.className='occupation-picker'; box.style.gridColumn='1 / -1';
   title.closest('.review-field').after(box);
-  const heading=node('h3',t.heading,box); heading.id='occupation-heading'; box.setAttribute('aria-labelledby',heading.id);
-  const intro=node('p',t.intro,box);heading.hidden=intro.hidden=true;
+  box.setAttribute('aria-label',t.proposals);
   const fallback=node('section','',box); fallback.hidden=true;
   const fallbackIntro=node('p',t.manualIntro,fallback);
-  const queryLabel=node('label',t.unifiedQuery,fallback); queryLabel.htmlFor='occupation-query';
-  const query=node('input','',fallback); query.id='occupation-query'; query.type='text'; query.maxLength=150; query.autocomplete='off'; query.setAttribute('aria-describedby','occupation-query-help'); query.setAttribute('aria-controls','occupation-results'); query.style.width='100%';
-  const help=node('p',t.unifiedHelp,fallback); help.id='occupation-query-help';
-  const search=node('button',t.search,fallback); search.type='button'; search.className='ghost-action';
+  const queryLabel=node('label',t.conciseQuery,fallback); queryLabel.htmlFor='occupation-query';
+  const query=node('input','',fallback); query.id='occupation-query'; query.type='text'; query.maxLength=150; query.autocomplete='off';query.placeholder=t.searchExample; query.setAttribute('aria-describedby','occupation-query-help'); query.setAttribute('aria-controls','occupation-results'); query.style.width='100%';
+  const help=node('p',t.conciseHelp,fallback); help.id='occupation-query-help';
   const status=node('p','',box); status.setAttribute('role','status');
   const list=node('div','',box); list.id='occupation-results';
   const near=node('button',t.near,box); near.type='button'; near.className='ghost-action occupation-change'; near.hidden=true;
@@ -49,9 +47,9 @@
     }
     }
   }
-  function cancel() { clearTimeout(timer); controller?.abort(); serial++; search.disabled=near.disabled=false; }
+  function cancel() { clearTimeout(timer); controller?.abort(); serial++;near.disabled=false; }
   function clear() { cancel(); searchedTitle=''; cards=[];choices=new Set();offered=[];personal.value='';custom.hidden=true;near.hidden=true;list.replaceChildren();error.textContent=''; }
-  function manual(message=t.manualIntro,focus=false) { fallback.hidden=false;fallbackIntro.textContent=message;if(focus) query.focus(); }
+  function manual(message=t.manualIntro,focus=false) { fallback.hidden=false;fallbackIntro.textContent=message;fallbackIntro.hidden=message===t.manualHelp;if(focus) query.focus(); }
   async function find(mode='search',useContext=false,fromTitle=false) {
     clearTimeout(timer);
     const q=(fromTitle?title.value:query.value).trim();
@@ -69,25 +67,25 @@
       if(request!==serial || title.value.trim()!==boundTitle) return;
       version=result.version;searchedTitle=boundTitle;
       const retained=cards.filter(row=>choices.has(row.uri));
-      cards=[...retained,...result.results.filter(row=>!retained.some(old=>old.uri===row.uri))];render();heading.hidden=intro.hidden=!cards.length;
+      cards=[...retained,...result.results.filter(row=>!retained.some(old=>old.uri===row.uri))];render();
       if(fromTitle && !result.results.length) manual(fromDocument?t.automaticFailure:t.manualIntro);
-      if(!fromTitle) fallbackIntro.textContent=result.results.length?t.manualHelp:t.manualIntro;
+      if(!fromTitle) fallbackIntro.hidden=true;
       status.textContent=result.results.length?t.found.replace('{count}',String(result.total || result.results.length)):(fromTitle?'':t.empty);
+      status.className=result.results.length?'visually-hidden':'';
       if(result.total>result.results.length) status.textContent+=' '+t.limited;
       custom.hidden=(fromTitle || result.results.length>0) && !personal.value;
       near.hidden=mode==='near' || mode==='reference' || !result.results.length;
     } catch(exc) { if(request===serial && exc.name!=='AbortError') {manual(t.manualHelp);status.textContent='';error.textContent=t.error;} }
   }
   function schedule(mode) {
-    cancel();cards=cards.filter(row=>choices.has(row.uri));render();near.hidden=true;
+    cancel();fallbackIntro.hidden=true;status.className='visually-hidden';cards=cards.filter(row=>choices.has(row.uri));render();near.hidden=true;
     const q=(query.value).trim();
     if(q.length<2) {status.textContent=t.startTyping;return;}
     status.textContent=t.busy;timer=setTimeout(()=>find(mode),300);
   }
   query.addEventListener('input',()=>schedule('search'));
   query.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();find();}});
-  search.addEventListener('click',()=>find());
-  near.addEventListener('click',()=>{manual(t.manualHelp,true);cards=cards.filter(row=>choices.has(row.uri));render();heading.hidden=intro.hidden=!cards.length;near.hidden=true;});
+  near.addEventListener('click',()=>{manual(t.manualHelp,true);status.textContent='';cards=cards.filter(row=>choices.has(row.uri));render();near.hidden=true;});
   personal.addEventListener('input',()=>{searchedTitle=title.value.trim();error.textContent='';});
   title.addEventListener('input',()=>{clear();fallback.hidden=true;query.value='';status.textContent=t.busy;timer=setTimeout(()=>find('search',true,true),300);});
   window.meOccupation={
