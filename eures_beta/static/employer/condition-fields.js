@@ -21,6 +21,7 @@
       row.append(lab,input); box.append(row); controls[key] = input; return input;
     }
     const mode = control('mode',title,'', ['unknown',...modes]);
+    const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='—';mode.prepend(placeholder);mode.required=true;
     for(const [key,label,type,options] of specs) control(key,label,type,options);
     item.append(box);
     if(name === 'hours') form.querySelector('.requirements-fields fieldset').append(controls.notes.closest('.review-field'));
@@ -56,7 +57,7 @@
       for(const [key,input] of Object.entries(controls)) if(key !== 'mode') input.value = input.tagName === 'SELECT' ? input.options[0].value : '';
       const old = mode.querySelector('[value=keep]'); old?.remove();
       if(kept) { const opt=document.createElement('option');opt.value='keep';opt.textContent=t.keep;mode.prepend(opt); }
-      mode.value = kept ? 'keep' : 'unknown';
+      mode.value = kept ? 'keep' : '';
       source.textContent = kept ? t.source+' : '+kept : ''; source.hidden = !kept;
       const parts = kept.split(' · ');
       const number = /^\d+(?:[.,]\d+)?$/;

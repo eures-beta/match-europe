@@ -71,19 +71,33 @@
     active = index; panels.forEach((panel,i) => panel.hidden = i !== active);
     [...nav.children].forEach((item,i) => { if (i === active) item.setAttribute('aria-current','step'); else item.removeAttribute('aria-current'); });
     previous.hidden = active === 0; next.hidden = active === 4;
+    document.getElementById('review-draft').hidden = active !== 4;
     document.getElementById('review-back').hidden = active !== 0;
     const contact = document.getElementById('contact-editor'); if (contact) contact.hidden = active !== 4;
     if (active === 4) renderSummary();
     if (focus) panels[active].querySelector('h2').focus();
   }
   previous.onclick = () => show(active-1);
+  function requireAnswers() {
+    ['review-desiredProfile','clarify-frenchLevel','clarify-experience','clarify-commute'].forEach(id => {document.getElementById(id).required = true;});
+    for(const name of ['permitRequired','crossBorder','relocation']) {
+      const first = form.querySelector('[name='+name+']'); if(first) first.required = true;
+    }
+    for(const name of ['workConditions','arrivalAids','permits']) {
+      const first = form.querySelector('[name='+name+']');
+      const needed = name !== 'permits' || form.querySelector('[name=permitRequired]:checked')?.value === 'yes';
+      first.setCustomValidity(!needed || form.querySelector('[name='+name+']:checked') ? '' : t.answerRequired);
+    }
+  }
   next.onclick = () => {
+    requireAnswers();
     const invalid = [...panels[active].querySelectorAll('input,textarea,select')].find(input => !input.disabled && !input.checkValidity());
     if (invalid) { invalid.closest('details')?.setAttribute('open',''); invalid.reportValidity(); return; }
     if (active === 0 && window.meOccupation && !window.meOccupation.validate()) return;
     show(active+1);
   };
   form.addEventListener('submit', event => {
+    requireAnswers();
     if (active !== 4) { event.preventDefault(); event.stopImmediatePropagation(); next.click(); return; }
     const invalid = [...form.querySelectorAll('input,textarea,select')].find(input => !input.disabled && !input.checkValidity());
     if (invalid) { const panel = invalid.closest('[data-review-panel]'); if (panel) show(Number(panel.dataset.reviewPanel)); invalid.closest('details')?.setAttribute('open',''); }
