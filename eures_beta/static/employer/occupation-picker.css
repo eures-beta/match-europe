@@ -3,3 +3,7 @@
 
 .occupation-picker .occupation-change{display:block;width:100%;box-sizing:border-box;min-height:48px;margin:16px 0 24px;padding:14px 18px;border:2px solid var(--accent);border-radius:10px;background:var(--accent-soft);color:var(--accent-strong);font:inherit;font-weight:700;text-align:left;cursor:pointer}
 .occupation-picker .occupation-change:hover{background:#e4edff}.occupation-picker .occupation-change:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+
+.occupation-picker label[for="occupation-query"]{margin-bottom:12px}
+.occupation-picker #occupation-query{display:block;margin-bottom:0}
+.occupation-picker #occupation-query-help{margin:14px 0 24px;font-size:14px;line-height:1.5;color:var(--muted)}
