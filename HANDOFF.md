@@ -354,3 +354,15 @@ automatique des codes/UUID/URI, saisie progressive inchangée. 38 tests ciblés
 PostgreSQL hors réseau externe passent, dont toutes les références testées sans
 mode explicite. Traductions FR/EN/DE, JS et HTML contrôlés. Code D1102 testé au
 navigateur dans le champ unique. Essai local seulement, hors train publié.
+
+### Message précis d’échec automatique après lecture d’un document
+
+Distinction du titre issu d’un document et du titre manuel pour l’échec initial.
+Message FR : « L’intitulé déduit de votre fiche de poste ne nous a pas permis de
+trouver une correspondance automatiquement », suivi directement du champ mixte
+vide ; pas de textarea personnel initial. Traductions FR/EN/DE compilées et
+contrôlées. Version des fichiers widget/review/CSS dans le template actualisée
+pour éviter la réutilisation de statiques anciens au rechargement. Comparaison
+HTTP/source confirme le bon JS sur 9031 ; réponse HTML réelle relue avec le
+message attendu et l’URL de statique actualisée. Contrôles JS/HTML/diff réussis.
+Essai local seulement ; ancien écran déjà chargé à actualiser pour tester.

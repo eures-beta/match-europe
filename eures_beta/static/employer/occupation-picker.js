@@ -25,7 +25,7 @@
   const label=node('label',t.personal,custom); label.htmlFor='occupation-personal';
   const personal=node('textarea','',custom); personal.id='occupation-personal'; personal.maxLength=2000; personal.rows=3;
   const error=node('p','',box); error.setAttribute('role','alert'); error.className='import-error';
-  let version='1.2.1', searchedTitle='', cards=[], choices=new Set(), offered=[], serial=0, timer=null, controller=null;
+  let version='1.2.1', searchedTitle='', cards=[], choices=new Set(), offered=[], serial=0, timer=null, controller=null, fromDocument=false;
   function render() {
     list.replaceChildren();
     for(const selected of [true,false]) {
@@ -70,7 +70,7 @@
       version=result.version;searchedTitle=boundTitle;
       const retained=cards.filter(row=>choices.has(row.uri));
       cards=[...retained,...result.results.filter(row=>!retained.some(old=>old.uri===row.uri))];render();heading.hidden=intro.hidden=!cards.length;
-      if(fromTitle && !result.results.length) manual();
+      if(fromTitle && !result.results.length) manual(fromDocument?t.automaticFailure:t.manualIntro);
       if(!fromTitle) fallbackIntro.textContent=result.results.length?t.manualHelp:t.manualIntro;
       status.textContent=result.results.length?t.found.replace('{count}',String(result.total || result.results.length)):(fromTitle?'':t.empty);
       if(result.total>result.results.length) status.textContent+=' '+t.limited;
@@ -92,6 +92,7 @@
   title.addEventListener('input',()=>{clear();fallback.hidden=true;query.value='';status.textContent=t.busy;timer=setTimeout(()=>find('search',true,true),300);});
   window.meOccupation={
     load(value,detected=false) {
+      fromDocument=detected;
       clear();fallback.hidden=true;query.value='';status.textContent='';
       document.querySelector('label[for=review-title]').textContent=detected?t.detectedTitle:t.ownTitle;
       if(value && value.title===title.value.trim()) {
