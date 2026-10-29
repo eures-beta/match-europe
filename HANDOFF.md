@@ -266,3 +266,17 @@ Vérifications locales de cette série : tests PostgreSQL des parcours et des
 migrations aller-retour, contrôles Django, Black, djLint et catalogues FR/DE.
 Aucune fusion ni mise en production n’est effectuée par cette série. L’accueil
 candidat garde ses trois choix simulés, sans collecte ni parcours suivant.
+
+## 29 octobre 2026 — catalogue partagé adapté au sommet #74
+
+Branche `codex/occupation-catalog-local` depuis #74 (`8abbde2`). Reprise ciblée
+dans `eures_beta/occupations`, sans modèle ni migration : catalogue ESCO 1.2.1
+FR/EN/DE (3 039 concepts), ROME 26M10 (1 923 fiches, 14 330 appellations),
+table officielle de 13 120 liens. Sources et lacunes versionnées, aucune API
+à l’usage. Recherche et rapprochements ancrés sur le meilleur résultat repris.
+Pas d’import CV, page d’essai candidat ou générateur réintroduit.
+199 tests PostgreSQL réussis avec réseau externe interdit ; 31 recherches
+multilingues et reconstruction identique des deux gzip/manifeste contrôlées.
+Catalogue indépendant du futur raccordement employeur. Aucune publication,
+fusion ou mise en production à cette étape.
+Voir [sources et maintenance](docs/OCCUPATION_CATALOG_MAINTENANCE.md).

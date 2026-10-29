@@ -95,3 +95,9 @@ La PR #63 conserve un seul template gettext, ses statiques et tests dans
 `candidates`. Le contrôle d’accès de démonstration est partagé dans
 `eures_beta/demo_access.py`, sans dépendance à une API employeur ni modification
 des restrictions. Le générateur candidat et son dictionnaire trilingue sont retirés.
+
+## Catalogue partagé ESCO/ROME — 29 octobre 2026
+
+Le paquet `eures_beta/occupations` fournit des références et recherches métiers
+locales versionnées, indépendantes des applications métier. Aucun import CV ni
+interface candidat ajouté. Voir [catalogue et limites](OCCUPATION_CATALOG_MAINTENANCE.md).
