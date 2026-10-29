@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 13:46+0000\n"
+"POT-Creation-Date: 2026-10-29 13:54+0000\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -4438,6 +4438,21 @@ msgstr "Les 20 premiers résultats sont affichés. Précisez si nécessaire avec
 msgctxt "employer occupations"
 msgid "Occupation suggestions"
 msgstr "Propositions de métiers"
+
+#: eures_beta/templates/employer/occupation_strings.html:31
+msgctxt "employer occupations"
+msgid "We found no matching occupation. Please enter a job title manually to help us find the best match, or enter an ESCO or ROME code if you know it."
+msgstr "Nous n’avons pas trouvé de correspondance. Veuillez saisir un intitulé de métier manuellement pour nous aider à trouver la meilleure correspondance, ou saisir directement un code métier ESCO ou ROME si vous le connaissez."
+
+#: eures_beta/templates/employer/occupation_strings.html:32
+msgctxt "employer occupations"
+msgid "Enter another job title to help us find the best match, or enter an ESCO or ROME code if you know it."
+msgstr "Saisissez un autre intitulé de métier pour nous aider à trouver la meilleure correspondance, ou un code métier ESCO ou ROME si vous le connaissez."
+
+#: eures_beta/templates/employer/occupation_strings.html:33
+msgctxt "employer occupations"
+msgid "Job title to search for"
+msgstr "Intitulé du métier à rechercher"
 
 #: eures_beta/templates/employer/privacy.html:8
 #: eures_beta/templates/employer/privacy.html:180

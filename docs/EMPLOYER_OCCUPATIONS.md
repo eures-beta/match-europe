@@ -91,3 +91,16 @@ repassés après finalisation des textes. Contrôles gettext et HTML réussis. R
 navigateur : recherche bibliothécaire indépendante du titre boulanger, choix
 conservés, propositions automatiques sur « boul » et recherche ROME D1102 vérifiés.
 Aucune publication de cet essai, aucune nouvelle migration ni intégration candidat.
+
+### Révision de l’essai : recherche manuelle seulement en recours
+
+À la demande d’Eric, l’intitulé extrait n’est plus recopié dans un deuxième champ
+visible. À l’ouverture : recherche depuis le titre et affichage direct des
+correspondances. Si aucune n’est trouvée : message explicite et champ manuel vide,
+avec recherche progressive et alternative ESCO/ROME. Si les propositions ne
+conviennent pas, le bouton correspondant ouvre le même recours manuel.
+Un changement de titre relance automatiquement la recherche après une courte
+pause. La description personnelle n’apparaît qu’après un essai manuel infructueux.
+Aucun changement d’API ou de modèle ; essai toujours local, hors train publié.
+Cas avec/sans résultats vérifiés au navigateur ; traductions FR/EN/DE compilées
+et vérifiées, syntaxe JS et HTML contrôlés.
