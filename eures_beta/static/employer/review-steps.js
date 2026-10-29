@@ -79,7 +79,7 @@
   }
   previous.onclick = () => show(active-1);
   function requireAnswers() {
-    ['review-desiredProfile','clarify-frenchLevel','clarify-experience','clarify-commute'].forEach(id => {document.getElementById(id).required = true;});
+    ['review-desiredProfile','clarify-experience','clarify-commute'].forEach(id => {document.getElementById(id).required = true;});
     for(const name of ['permitRequired','crossBorder','relocation']) {
       const first = form.querySelector('[name='+name+']'); if(first) first.required = true;
     }

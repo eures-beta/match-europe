@@ -3,3 +3,5 @@
 .guided-condition{border:1px solid var(--border);border-radius:10px;padding:18px;margin:22px 0}.guided-condition legend{font-weight:700}.guided-condition .review-field{margin:14px 0}.clarification-item:has(.guided-condition)>:not(.guided-condition){display:none}.guided-condition [hidden]{display:none}
 
 .language-row{margin:20px 0}.language-row label{display:block;font-weight:700;margin-bottom:8px}.language-row select{width:100%;white-space:normal}.language-row .mini-note{margin-top:8px;line-height:1.5}
+
+.language-search{margin:18px 0}.language-search label{display:block;font-weight:700;margin-bottom:8px}.language-search input{width:100%}.language-search ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}.language-row>.ghost-action{margin:8px 0 12px}.language-fields>.review-check{margin:20px 0;display:flex;align-items:center;gap:10px}

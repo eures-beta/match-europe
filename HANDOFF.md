@@ -448,3 +448,17 @@ libellés du récapitulatif et à l’éditeur historique pour éviter sa perte.
 FR/EN/DE compilés ; 38 tests ciblés passent, dont sauvegarde/reprise avec split.
 Case et exclusion mutuelle avec Aucune condition particulière vérifiées navigateur.
 Modification locale, sans publication.
+
+### Langues ajoutées à la demande
+
+Liste fixe retirée. Seules les langues explicitement requises apparaissent ;
+recherche locale dans les codes ISO 639-1 avec libellés Intl.DisplayNames FR/EN/DE,
+suggestions limitées à huit et exclusion des doublons. Ajout, niveau A1–C2 expliqué,
+retrait et choix explicite Aucune exigence linguistique particulière. Ni niveau
+ni langue déduits d’une absence de donnée ; texte source ambigu préservé.
+Compatibilité avec les anciens choix Pas nécessaire ; seuls les positifs sont
+affichés. Quatre réponses négatives explicites anciennes restent compatibles.
+Recette fictive : ajout anglais B1, sauvegarde finale et reprise français A1/anglais
+B1 ; retrait des deux bloque la progression, puis choix sans exigence autorise
+la suite. JS, gettext FR/EN/DE et format template contrôlés. Essai local non publié,
+contrat de persistance textuel inchangé.
