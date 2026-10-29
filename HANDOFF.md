@@ -340,3 +340,8 @@ Après retour UX d’Eric : action « Aucune de ces descriptions ne convient »
 déplacée au-dessus des cartes, bouton pleine largeur avec bordure et fond
 contrastés. Clic vérifié : ouvre le champ manuel vide et y place le focus.
 Syntaxe JS et diff contrôlés ; modification de présentation uniquement, locale.
+
+### Position finale du bouton de recours (retour Eric)
+
+Design contrasté et pleine largeur conservé ; bouton replacé après les cartes
+de métiers, conformément au retour suivant d’Eric. Essai local uniquement.
