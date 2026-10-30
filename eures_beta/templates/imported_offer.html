@@ -4,7 +4,11 @@
   {% trans "Untitled offer" as untitled_offer %}
   <a href="{% url 'dashboard' %}">{% trans "My workspace" %}</a>
   <h1>{{ imported.data.title|default:untitled_offer }}</h1>
-  <section class="panel"><h2>{% trans "Offer details" %}</h2><p>{{ imported.data.companyName }} · {{ imported.data.city }}</p><p>{{ imported.data.description|linebreaksbr }}</p></section>
+  <section class="panel">
+    <h2>{% trans "Offer details" %}</h2>
+    <p>{{ imported.data.companyName }} · {{ imported.data.city }}</p>
+    <p>{{ imported.data.description|linebreaksbr }}</p>
+  </section>
   <section class="panel">
     <h2>{% trans "Company contact" %}</h2>
     <p>{% trans "Company contacts are visible only to the assigned adviser and administrators." %}</p>
@@ -32,7 +36,11 @@
     {% endif %}
   </section>
   {% if assignment_form %}
-    <section class="panel"><h2>{% trans "Assign an adviser" %}</h2><form method="post">{% csrf_token %}{{ assignment_form.as_p }}<button class="btn btn-primary" type="submit">{% trans "Save assignment" %}</button></form>
+    <section class="panel">
+      <h2>{% trans "Assign an adviser" %}</h2>
+      <form method="post">{% csrf_token %}{{ assignment_form.as_p }}
+        <button class="btn btn-primary" type="submit">{% trans "Save assignment" %}</button>
+      </form>
     </section>
   {% endif %}
 {% endblock %}

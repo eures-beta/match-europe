@@ -1,195 +1,199 @@
 {% load i18n %}
 {% get_current_language as page_language %}
 <!DOCTYPE html>
-<html lang="{{ page_language }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Match Europe — {% translate "Candidate journey" context "candidate landing" %}</title>
-  <link rel="stylesheet" href="/static/employer/site.css">
-  <style>
-      .employer-partner-logos {
-          display: grid;
-          grid-template-columns: 1.5fr 1.4fr 1fr 1fr;
-          align-items: center;
-          gap: 24px;
-          padding: 20px;
-          margin-bottom: 24px;
-          background: #fff;
-          border: 1px solid var(--line);
-          border-radius: 16px
-      }
+<html lang="{{ page_language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Match Europe — {% translate "Candidate journey" context "candidate landing" %}</title>
+    <link rel="stylesheet" href="/static/employer/site.css">
+    <style>
+        .employer-partner-logos {
+            display: grid;
+            grid-template-columns: 1.5fr 1.4fr 1fr 1fr;
+            align-items: center;
+            gap: 24px;
+            padding: 20px;
+            margin-bottom: 24px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 16px
+        }
 
-      .employer-partner-logo {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-width: 0;
-          padding: 8px
-      }
+        .employer-partner-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            padding: 8px
+        }
 
-      .employer-partner-logo img {
-          display: block;
-          width: 100%;
-          height: auto;
-          object-fit: contain
-      }
+        .employer-partner-logo img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain
+        }
 
-      .employer-partner-forem img {
-          max-width: 110px
-      }
+        .employer-partner-forem img {
+            max-width: 110px
+        }
 
-      @media(max-width:700px) {
-          .employer-partner-logos {
-              grid-template-columns: 1fr 1fr;
-              gap: 12px 24px;
-              padding: 16px
-          }
+        @media(max-width:700px) {
+            .employer-partner-logos {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px 24px;
+                padding: 16px
+            }
 
-          .employer-partner-eures img {
-              max-width: 210px
-          }
+            .employer-partner-eures img {
+                max-width: 210px
+            }
 
-          .employer-partner-ft img {
-              max-width: 190px
-          }
+            .employer-partner-ft img {
+                max-width: 190px
+            }
 
-          .employer-partner-adem img {
-              max-width: 112px
-          }
+            .employer-partner-adem img {
+                max-width: 112px
+            }
 
-          .employer-partner-forem img {
-              max-width: 110px
-          }
-      }
+            .employer-partner-forem img {
+                max-width: 110px
+            }
+        }
 
-      .employer-page-footer {
-          margin-top: 32px;
-          border-top: 1px solid var(--line);
-          padding: 24px 0 32px;
-          color: var(--muted);
-          font-size: 14px
-      }
+        .employer-page-footer {
+            margin-top: 32px;
+            border-top: 1px solid var(--line);
+            padding: 24px 0 32px;
+            color: var(--muted);
+            font-size: 14px
+        }
 
-      .employer-page-footer-inner {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 14px
-      }
+        .employer-page-footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px
+        }
 
-      .employer-page-footer-inner>p {
-          max-width: 100%;
-          text-wrap: balance
-      }
+        .employer-page-footer-inner>p {
+            max-width: 100%;
+            text-wrap: balance
+        }
 
-      .employer-page-legal {
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid var(--line)
-      }
+        .employer-page-legal {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line)
+        }
 
-      .employer-page-footer p {
-          margin: 0;
-          line-height: 1.6
-      }
+        .employer-page-footer p {
+            margin: 0;
+            line-height: 1.6
+        }
 
-      .employer-page-footer nav {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px 24px
-      }
+        .employer-page-footer nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px
+        }
 
-      .employer-page-footer a {
-          color: inherit;
-          text-decoration: underline;
-          text-underline-offset: 4px
-      }
+        .employer-page-footer a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 4px
+        }
 
-      .employer-page-footer a:hover {
-          color: var(--text)
-      }
+        .employer-page-footer a:hover {
+            color: var(--text)
+        }
 
-      .employer-page-footer a:focus-visible {
-          outline: 2px solid var(--accent);
-          outline-offset: 4px
-      }
+        .employer-page-footer a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px
+        }
 
-      @media(max-width:640px) {
-          .employer-page-footer-inner {
-              align-items: flex-start;
-              flex-direction: column
-          }
-      }
+        @media(max-width:640px) {
+            .employer-page-footer-inner {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
 
-      .demo-notice {
-          margin: 0;
-          padding: 12px 24px;
-          background: #fff0bd;
-          color: #17324d;
-          text-align: center
-      }
+        .demo-notice {
+            margin: 0;
+            padding: 12px 24px;
+            background: #fff0bd;
+            color: #17324d;
+            text-align: center
+        }
 
-      .primary-action:disabled {
-          cursor: default;
-          opacity: 1
-      }
+        .primary-action:disabled {
+            cursor: default;
+            opacity: 1
+        }
 
-      .skip-content {
-          position: absolute;
-          left: -10000px
-      }
+        .skip-content {
+            position: absolute;
+            left: -10000px
+        }
 
-      .skip-content:focus {
-          left: 12px;
-          top: 12px;
-          background: white;
-          padding: 12px;
-          z-index: 100
-      }
-  </style>
-  <style>
-      .site-header .employer-header-actions {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          gap: .75rem;
-          flex-wrap: wrap;
-          margin-left: auto
-      }
+        .skip-content:focus {
+            left: 12px;
+            top: 12px;
+            background: white;
+            padding: 12px;
+            z-index: 100
+        }
+    </style>
+    <style>
+        .site-header .employer-header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-left: auto
+        }
 
-      .site-header .employer-header-actions .lang-switch {
-          width: auto
-      }
+        .site-header .employer-header-actions .lang-switch {
+            width: auto
+        }
 
-      .site-header .employer-account-link {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 44px;
-          box-sizing: border-box;
-          white-space: nowrap;
-          background: #d6e9ff;
-          color: #003566;
-          border-color: #8cb8e8;
-          font-weight: 700
-      }
+        .site-header .employer-account-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            background: #d6e9ff;
+            color: #003566;
+            border-color: #8cb8e8;
+            font-weight: 700
+        }
 
-      .site-header .employer-account-link:hover {
-          background: #c4dfff;
-          border-color: #527faf
-      }
+        .site-header .employer-account-link:hover {
+            background: #c4dfff;
+            border-color: #527faf
+        }
 
-      .employer-account-link:focus-visible {
-          outline: 3px solid var(--accent);
-          outline-offset: 3px
-      }
+        .employer-account-link:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px
+        }
 
-      @media(max-width:700px) {
-          .site-header .employer-header-actions {
-              width: 100%;
-              gap: .5rem;
-              justify-content: space-between
-          }
-      }
-  </style>
-  <link rel="stylesheet" href="/static/candidate/candidate.css">
+        @media(max-width:700px) {
+            .site-header .employer-header-actions {
+                width: 100%;
+                gap: .5rem;
+                justify-content: space-between
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/static/candidate/candidate.css">
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "candidate shell" %}</a>
@@ -280,17 +284,29 @@
             <div class="entry-choices">
               <button class="import-choice" type="button" data-candidate-choice="0">
                 <span class="choice-symbol" aria-hidden="true">CV</span>
-                <span><strong>{% translate "Upload my CV" context "candidate landing" %}</strong><span class="choice-description">{% translate "Use your CV to prepare your profile." context "candidate landing" %}</span></span>
+                <span>
+                  <strong>{% translate "Upload my CV" context "candidate landing" %}</strong>
+                  <span class="choice-description">{% translate "Use your CV to prepare your profile." context "candidate landing" %}
+                  </span>
+                </span>
                 <span class="choice-arrow" aria-hidden="true">→</span>
               </button>
               <button class="import-choice" type="button" data-candidate-choice="1">
                 <span class="choice-symbol" aria-hidden="true">URL</span>
-                <span><strong>{% translate "Use a LinkedIn link" context "candidate landing" %}</strong><span class="choice-description">{% translate "Start with the link to your professional profile." context "candidate landing" %}</span></span>
+                <span>
+                  <strong>{% translate "Use a LinkedIn link" context "candidate landing" %}</strong>
+                  <span class="choice-description">{% translate "Start with the link to your professional profile." context "candidate landing" %}
+                  </span>
+                </span>
                 <span class="choice-arrow" aria-hidden="true">→</span>
               </button>
               <button class="import-choice" type="button" data-candidate-choice="2">
                 <span class="choice-symbol" aria-hidden="true">Aa</span>
-                <span><strong>{% translate "Enter my profile" context "candidate landing" %}</strong><span class="choice-description">{% translate "No CV to hand? Enter your information directly." context "candidate landing" %}</span></span>
+                <span>
+                  <strong>{% translate "Enter my profile" context "candidate landing" %}</strong>
+                  <span class="choice-description">{% translate "No CV to hand? Enter your information directly." context "candidate landing" %}
+                  </span>
+                </span>
                 <span class="choice-arrow" aria-hidden="true">→</span>
               </button>
             </div>

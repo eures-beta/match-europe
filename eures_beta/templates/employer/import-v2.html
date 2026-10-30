@@ -1111,9 +1111,33 @@
           <h1 tabindex="-1">{% translate "How would you like to add your offer?" context "employer import-v2" %}</h1>
           <p class="lede">{% translate "Choose the format you already have. You can then check and complete the information." context "employer import-v2" %}</p>
           <div class="import-choices">
-            <button type="button" id="pdf-choice" class="import-choice"><span class="choice-symbol" aria-hidden="true">PDF</span><span><strong>{% translate "Import a PDF" context "employer import-v2" %}</strong><span class="choice-description">{% translate "You already have a document containing your job offer." context "employer import-v2" %}</span></span><span class="choice-arrow" aria-hidden="true">→</span></button>
-            <button type="button" id="url-choice" class="import-choice"><span class="choice-symbol" aria-hidden="true">URL</span><span><strong>{% translate "Add a link" context "employer import-v2" %}</strong><span class="choice-description">{% translate "Your offer is published on a page accessible without signing in." context "employer import-v2" %}</span></span><span class="choice-arrow" aria-hidden="true">→</span></button>
-            <button type="button" id="manual-choice" class="import-choice"><span class="choice-symbol" aria-hidden="true">Aa</span><span><strong>{% translate "Enter or paste text" context "employer import-v2" %}</strong><span class="choice-description">{% translate "You prefer to paste your advert or write it here." context "employer import-v2" %}</span></span><span class="choice-arrow" aria-hidden="true">→</span></button>
+            <button type="button" id="pdf-choice" class="import-choice">
+              <span class="choice-symbol" aria-hidden="true">PDF</span>
+              <span>
+                <strong>{% translate "Import a PDF" context "employer import-v2" %}</strong>
+                <span class="choice-description">{% translate "You already have a document containing your job offer." context "employer import-v2" %}
+                </span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
+            <button type="button" id="url-choice" class="import-choice">
+              <span class="choice-symbol" aria-hidden="true">URL</span>
+              <span>
+                <strong>{% translate "Add a link" context "employer import-v2" %}</strong>
+                <span class="choice-description">{% translate "Your offer is published on a page accessible without signing in." context "employer import-v2" %}
+                </span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
+            <button type="button" id="manual-choice" class="import-choice">
+              <span class="choice-symbol" aria-hidden="true">Aa</span>
+              <span>
+                <strong>{% translate "Enter or paste text" context "employer import-v2" %}</strong>
+                <span class="choice-description">{% translate "You prefer to paste your advert or write it here." context "employer import-v2" %}
+                </span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
           </div>
           <p class="mini-note choice-reassurance">{% translate "Your offer will not be published. The candidate search starts only after your validation." context "employer import-v2" %}</p>
           <a class="import-text-button"
@@ -1136,7 +1160,11 @@
             </div>
             <p>{% translate "Your offer will not be published. The candidate search starts only after your validation." context "employer import-v2" %}</p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Continue" context "employer import-v2" %}</button><button type="button" id="file-back" class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
+              <button type="submit"
+                      class="primary-action">{% translate "Continue" context "employer import-v2" %}</button>
+              <button type="button"
+                      id="file-back"
+                      class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
             </div>
           </form>
         </section>
@@ -1157,7 +1185,11 @@
             <div id="url-error" class="import-error url-error-box" role="alert" hidden></div>
             <p id="url-help" class="mini-note">{% translate "This demonstration does not visit the link yet. Reading the page will be connected in the next step." context "employer import-v2" %}</p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Continue" context "employer import-v2" %}</button><button type="button" id="url-back" class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
+              <button type="submit"
+                      class="primary-action">{% translate "Continue" context "employer import-v2" %}</button>
+              <button type="button"
+                      id="url-back"
+                      class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
             </div>
             <p id="url-read-agreement-note" class="mini-note" hidden>{% translate "By clicking “Read this offer”, you authorise reading this public page to prepare your offer." context "employer import-v2" %}</p>
           </form>
@@ -1173,7 +1205,11 @@
                       aria-describedby="manual-error"></textarea>
             <p id="manual-error" role="alert" class="import-error"></p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Continue" context "employer import-v2" %}</button><button type="button" id="manual-back" class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
+              <button type="submit"
+                      class="primary-action">{% translate "Continue" context "employer import-v2" %}</button>
+              <button type="button" id="manual-back" class="ghost-action">
+                {% translate "Back" context "employer import-v2" %}
+              </button>
             </div>
           </form>
         </section>
@@ -1190,9 +1226,15 @@
                    placeholder="recrutement@example.invalid"
                    aria-describedby="email-help">
             <p id="email-help" class="mini-note">{% translate "Use a fictional address for this demonstration. No email is sent." context "employer import-v2" %}</p>
-            <p><a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import-v2" %}</a></p>
+            <p>
+              <a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import-v2" %}</a>
+            </p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Save and continue" context "employer import-v2" %}</button><button id="email-back" type="button" class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
+              <button type="submit"
+                      class="primary-action">{% translate "Save and continue" context "employer import-v2" %}</button>
+              <button id="email-back"
+                      type="button"
+                      class="ghost-action">{% translate "Back" context "employer import-v2" %}</button>
             </div>
           </form>
         </section>
@@ -1376,120 +1418,245 @@
                     </label>
                   </div>
                 </fieldset>
-                <div id="permit-details" hidden><fieldset class="mobility-field"><legend>{% translate "Which licences or authorisations are required?" context "employer import-v2" %}</legend><div class="mobility-options"><label><input type="checkbox" name="permits" value="B"><span>{% translate "Licence B" context "employer import-v2" %}</span></label><label><input type="checkbox" name="permits" value="C"><span>{% translate "Licence C" context "employer import-v2" %}</span></label><label><input type="checkbox" name="permits" value="CE"><span>{% translate "Licence CE" context "employer import-v2" %}</span></label><label><input type="checkbox" name="permits" value="D"><span>{% translate "Licence D" context "employer import-v2" %}</span></label><label><input type="checkbox" name="permits" value="DE"><span>{% translate "Licence DE" context "employer import-v2" %}</span></label><label><input type="checkbox" name="permits" value="CACES"><span>CACES</span></label><label><input type="checkbox" name="permits" value="other"><span>{% translate "Other" context "employer import-v2" %}</span></label></div></fieldset><div id="permit-other-field" hidden><label for="permit-other">{% translate "Other licence or authorisation: specify" context "employer import-v2" %}</label><input id="permit-other" maxlength="500"></div></div></div></section><section class="alt-panel"><h2>{% translate "Welcoming mobile candidates" context "employer import-v2" %}</h2><div class="mobility-fields"><fieldset class="mobility-field"><legend>{% translate "Do you accept cross-border workers?" context "employer import-v2" %}</legend><div class="mobility-options"><label for="review-crossBorder-0"><input id="review-crossBorder-0" type="radio" name="crossBorder" value="yes"><span>{% translate "Yes" context "employer import-v2" %}</span></label><label for="review-crossBorder-1"><input id="review-crossBorder-1" type="radio" name="crossBorder" value="no"><span>{% translate "No" context "employer import-v2" %}</span></label><label for="review-crossBorder-2"><input id="review-crossBorder-2"
-       type="radio"
-       name="crossBorder"
-       value="discuss"><span>{% translate "Discuss with the candidate" context "employer import-v2" %}</span></label></div></fieldset><fieldset class="mobility-field"><legend>{% translate "Do you accept people relocating from another European country?" context "employer import-v2" %}</legend><div class="mobility-options"><label for="review-relocation-0"><input id="review-relocation-0" type="radio" name="relocation" value="yes"><span>{% translate "Yes" context "employer import-v2" %}</span></label><label for="review-relocation-1"><input id="review-relocation-1" type="radio" name="relocation" value="no"><span>{% translate "No" context "employer import-v2" %}</span></label><label for="review-relocation-2"><input id="review-relocation-2"
-       type="radio"
-       name="relocation"
-       value="discuss"><span>{% translate "Discuss with the candidate" context "employer import-v2" %}</span></label></div></fieldset></div>
-              <fieldset class="mobility-field arrival-aids"><legend>{% translate "What support can you provide on arrival?" context "employer import-v2" %}</legend><div class="mobility-options"><label><input type="checkbox" name="arrivalAids" value="housing"><span>{% translate "Housing or housing search" context "employer import-v2" %}</span></label><label><input type="checkbox" name="arrivalAids" value="admin"><span>{% translate "Administrative procedures" context "employer import-v2" %}</span></label><label><input type="checkbox" name="arrivalAids" value="transport"><span>Transport</span></label><label><input type="checkbox" name="arrivalAids" value="onboarding"><span>{% translate "Onboarding support" context "employer import-v2" %}</span></label><label><input type="checkbox" name="arrivalAids" value="other"><span>{% translate "Other" context "employer import-v2" %}</span></label><label><input type="checkbox" name="arrivalAids" value="none"><span>{% translate "No support planned" context "employer import-v2" %}</span></label><label><input type="checkbox" name="arrivalAids" value="unknown"><span>{% translate "To discuss" context "employer import-v2" %}</span></label></div></fieldset><div id="aid-other-field" hidden><label for="aid-other">{% translate "Other support: specify" context "employer import-v2" %}</label><input id="aid-other" maxlength="500"></div>
-              </section>
-              <fieldset id="prequalification-section" hidden disabled>
-                <h2>{% translate "3. Prequalify candidates before talking" context "employer import-v2" %}</h2>
-                <button id="suggest-questions"
-                        type="button"
-                        class="ghost-action">{% translate "Suggest questions from my answers" context "employer import-v2" %}</button>
-                <p class="mini-note">{% translate "Suggested questions are not automatically enabled. Review, adapt and select those to ask. Previously edited questions are kept." context "employer import-v2" %}</p>
-                <p>{% translate "Choose and adapt questions to help pursue or reject applications against job requirements. Interested candidates answer before an introduction. No automatic exclusion: a human reviews the answers." context "employer import-v2" %}</p>
-                <fieldset class="review-question">
-                  <legend>{% translate "Question 1" context "employer import-v2" %}</legend>
-                  <label class="review-check">
-                    <input type="checkbox" id="question-enabled-0">
-                    <span>{% translate "Ask this question" context "employer import-v2" %}</span>
-                  </label>
-                  <label class="visually-hidden"
-                         for="question-text-0">{% translate "Question 1" context "employer import-v2" %}</label>
-                  <textarea id="question-text-0"
-                            rows="2"
-                            maxlength="2000"></textarea><label class="review-check"><input type="checkbox" id="question-mandatory-0">
-                  <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
-                  </label>
-                </fieldset>
-                <fieldset class="review-question">
-                  <legend>{% translate "Question 2" context "employer import-v2" %}</legend>
-                  <label class="review-check">
-                    <input type="checkbox" id="question-enabled-1">
-                    <span>{% translate "Ask this question" context "employer import-v2" %}</span>
-                  </label>
-                  <label class="visually-hidden"
-                         for="question-text-1">{% translate "Question 2" context "employer import-v2" %}</label>
-                  <textarea id="question-text-1"
-                            rows="2"
-                            maxlength="2000"></textarea><label class="review-check"><input type="checkbox" id="question-mandatory-1">
-                  <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
-                  </label>
-                </fieldset>
-                <fieldset class="review-question">
-                  <legend>{% translate "Question 3" context "employer import-v2" %}</legend>
-                  <label class="review-check">
-                    <input type="checkbox" id="question-enabled-2">
-                    <span>{% translate "Ask this question" context "employer import-v2" %}</span>
-                  </label>
-                  <label class="visually-hidden"
-                         for="question-text-2">{% translate "Question 3" context "employer import-v2" %}</label>
-                  <textarea id="question-text-2"
-                            rows="2"
-                            maxlength="2000"></textarea><label class="review-check"><input type="checkbox" id="question-mandatory-2">
-                  <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
-                  </label>
-                </fieldset>
-                <fieldset class="review-question">
-                  <legend>{% translate "Question 4" context "employer import-v2" %}</legend>
-                  <label class="review-check">
-                    <input type="checkbox" id="question-enabled-3">
-                    <span>{% translate "Ask this question" context "employer import-v2" %}</span>
-                  </label>
-                  <label class="visually-hidden"
-                         for="question-text-3">{% translate "Question 4" context "employer import-v2" %}</label>
-                  <textarea id="question-text-3"
-                            rows="2"
-                            maxlength="2000"></textarea><label class="review-check"><input type="checkbox" id="question-mandatory-3">
-                  <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
-                  </label>
-                </fieldset>
-                <fieldset class="review-question">
-                  <legend>{% translate "Question 5" context "employer import-v2" %}</legend>
-                  <label class="review-check">
-                    <input type="checkbox" id="question-enabled-4">
-                    <span>{% translate "Ask this question" context "employer import-v2" %}</span>
-                  </label>
-                  <label class="visually-hidden"
-                         for="question-text-4">{% translate "Question 5" context "employer import-v2" %}</label>
-                  <textarea id="question-text-4"
-                            rows="2"
-                            maxlength="2000"></textarea><label class="review-check"><input type="checkbox" id="question-mandatory-4">
-                  <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
-                  </label>
-                </fieldset>
-                <label for="question-custom">{% translate "Another question for candidates (optional)" context "employer import-v2" %}</label>
-                <textarea id="question-custom" rows="2" maxlength="2000"></textarea>
-              </fieldset>
-              <section class="review-provenance review-privacy-compact alt-privacy">
-                <h2>{% translate "Use of your information" context "employer import-v2" %}</h2>
-                <p>{% translate "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human." context "employer import-v2" %}</p>
-                <p>{% translate "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" %}</p>
-                <a href="privacy-{{ page_language }}.html">{% translate "Read the data protection notice" context "employer import-v2" %}</a>
-              </section>
-              <label class="review-check review-confirm">
-                <input type="checkbox" id="review-confirm">
-                <span>{% translate "I confirm the corrected offer information and request that it be saved. No candidate search or contact will start." context "employer import-v2" %}</span>
-              </label>
-              <p id="review-error" class="import-error" role="alert"></p>
-              <p id="review-status" role="status"></p>
-              <div class="landing-actions">
-                <button type="button" id="review-draft" class="ghost-action">{% translate "Download my draft" context "employer import-v2" %}</button><button type="submit" class="primary-action">{% translate "Validate my offer" context "employer import-v2" %}</button>
+                <div id="permit-details" hidden>
+                  <fieldset class="mobility-field">
+                    <legend>{% translate "Which licences or authorisations are required?" context "employer import-v2" %}</legend>
+                    <div class="mobility-options">
+                      <label>
+                        <input type="checkbox" name="permits" value="B">
+                        <span>{% translate "Licence B" context "employer import-v2" %}</span>
+                      </label>
+                      <label>
+                        <input type="checkbox" name="permits" value="C">
+                        <span>{% translate "Licence C" context "employer import-v2" %}</span>
+                      </label>
+                      <label>
+                        <input type="checkbox" name="permits" value="CE">
+                        <span>{% translate "Licence CE" context "employer import-v2" %}</span>
+                      </label>
+                      <label>
+                        <input type="checkbox" name="permits" value="D">
+                        <span>{% translate "Licence D" context "employer import-v2" %}</span>
+                      </label>
+                      <label>
+                        <input type="checkbox" name="permits" value="DE">
+                        <span>{% translate "Licence DE" context "employer import-v2" %}</span>
+                      </label>
+                      <label>
+                        <input type="checkbox" name="permits" value="CACES"><span>CACES</span>
+                      </label>
+                      <label>
+                        <input type="checkbox" name="permits" value="other">
+                        <span>{% translate "Other" context "employer import-v2" %}</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                  <div id="permit-other-field" hidden>
+                    <label for="permit-other">
+                      {% translate "Other licence or authorisation: specify" context "employer import-v2" %}
+                    </label>
+                    <input id="permit-other" maxlength="500">
+                  </div>
+                </div>
               </div>
-              <button type="button"
-                      id="review-download"
-                      class="import-text-button"
-                      hidden>{% translate "Download validated summary" context "employer import-v2" %}</button>
-              <br>
-              <button type="button"
-                      id="review-back"
-                      class="import-text-button">{% translate "Back to my email" context "employer import-v2" %}</button>
-            </form>
-            <script type="application/json" id="review-strings">
+            </section>
+            <section class="alt-panel">
+              <h2>{% translate "Welcoming mobile candidates" context "employer import-v2" %}</h2>
+              <div class="mobility-fields">
+                <fieldset class="mobility-field">
+                  <legend>{% translate "Do you accept cross-border workers?" context "employer import-v2" %}</legend>
+                  <div class="mobility-options">
+                    <label for="review-crossBorder-0">
+                      <input id="review-crossBorder-0" type="radio" name="crossBorder" value="yes">
+                      <span>{% translate "Yes" context "employer import-v2" %}</span>
+                    </label>
+                    <label for="review-crossBorder-1">
+                      <input id="review-crossBorder-1" type="radio" name="crossBorder" value="no">
+                      <span>{% translate "No" context "employer import-v2" %}</span>
+                    </label>
+                    <label for="review-crossBorder-2">
+                      <input id="review-crossBorder-2"
+                             type="radio"
+                             name="crossBorder"
+                             value="discuss">
+                      <span>{% translate "Discuss with the candidate" context "employer import-v2" %}</span>
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset class="mobility-field">
+                  <legend>
+                    {% translate "Do you accept people relocating from another European country?" context "employer import-v2" %}
+                  </legend>
+                  <div class="mobility-options">
+                    <label for="review-relocation-0">
+                      <input id="review-relocation-0" type="radio" name="relocation" value="yes">
+                      <span>{% translate "Yes" context "employer import-v2" %}</span>
+                    </label>
+                    <label for="review-relocation-1">
+                      <input id="review-relocation-1" type="radio" name="relocation" value="no">
+                      <span>{% translate "No" context "employer import-v2" %}</span>
+                    </label>
+                    <label for="review-relocation-2">
+                      <input id="review-relocation-2"
+                             type="radio"
+                             name="relocation"
+                             value="discuss">
+                      <span>{% translate "Discuss with the candidate" context "employer import-v2" %}</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+              <fieldset class="mobility-field arrival-aids">
+                <legend>{% translate "What support can you provide on arrival?" context "employer import-v2" %}</legend>
+                <div class="mobility-options">
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="housing">
+                    <span>{% translate "Housing or housing search" context "employer import-v2" %}</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="admin">
+                    <span>{% translate "Administrative procedures" context "employer import-v2" %}</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="transport"><span>Transport</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="onboarding">
+                    <span>{% translate "Onboarding support" context "employer import-v2" %}</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="other">
+                    <span>{% translate "Other" context "employer import-v2" %}</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="none">
+                    <span>{% translate "No support planned" context "employer import-v2" %}</span>
+                  </label>
+                  <label>
+                    <input type="checkbox" name="arrivalAids" value="unknown">
+                    <span>{% translate "To discuss" context "employer import-v2" %}</span>
+                  </label>
+                </div>
+              </fieldset>
+              <div id="aid-other-field" hidden>
+                <label for="aid-other">{% translate "Other support: specify" context "employer import-v2" %}</label>
+                <input id="aid-other" maxlength="500">
+              </div>
+            </section>
+            <fieldset id="prequalification-section" hidden disabled>
+              <h2>{% translate "3. Prequalify candidates before talking" context "employer import-v2" %}</h2>
+              <button id="suggest-questions"
+                      type="button"
+                      class="ghost-action">{% translate "Suggest questions from my answers" context "employer import-v2" %}</button>
+              <p class="mini-note">{% translate "Suggested questions are not automatically enabled. Review, adapt and select those to ask. Previously edited questions are kept." context "employer import-v2" %}</p>
+              <p>{% translate "Choose and adapt questions to help pursue or reject applications against job requirements. Interested candidates answer before an introduction. No automatic exclusion: a human reviews the answers." context "employer import-v2" %}</p>
+              <fieldset class="review-question">
+                <legend>{% translate "Question 1" context "employer import-v2" %}</legend>
+                <label class="review-check">
+                  <input type="checkbox" id="question-enabled-0">
+                  <span>{% translate "Ask this question" context "employer import-v2" %}</span>
+                </label>
+                <label class="visually-hidden"
+                       for="question-text-0">{% translate "Question 1" context "employer import-v2" %}</label>
+                <textarea id="question-text-0"
+                          rows="2"
+                          maxlength="2000"></textarea><label class="review-check"><input type="checkbox"
+       id="question-mandatory-0">
+                <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
+                </label>
+              </fieldset>
+              <fieldset class="review-question">
+                <legend>{% translate "Question 2" context "employer import-v2" %}</legend>
+                <label class="review-check">
+                  <input type="checkbox" id="question-enabled-1">
+                  <span>{% translate "Ask this question" context "employer import-v2" %}</span>
+                </label>
+                <label class="visually-hidden"
+                       for="question-text-1">{% translate "Question 2" context "employer import-v2" %}</label>
+                <textarea id="question-text-1"
+                          rows="2"
+                          maxlength="2000"></textarea><label class="review-check"><input type="checkbox"
+       id="question-mandatory-1">
+                <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
+                </label>
+              </fieldset>
+              <fieldset class="review-question">
+                <legend>{% translate "Question 3" context "employer import-v2" %}</legend>
+                <label class="review-check">
+                  <input type="checkbox" id="question-enabled-2">
+                  <span>{% translate "Ask this question" context "employer import-v2" %}</span>
+                </label>
+                <label class="visually-hidden"
+                       for="question-text-2">{% translate "Question 3" context "employer import-v2" %}</label>
+                <textarea id="question-text-2"
+                          rows="2"
+                          maxlength="2000"></textarea><label class="review-check"><input type="checkbox"
+       id="question-mandatory-2">
+                <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
+                </label>
+              </fieldset>
+              <fieldset class="review-question">
+                <legend>{% translate "Question 4" context "employer import-v2" %}</legend>
+                <label class="review-check">
+                  <input type="checkbox" id="question-enabled-3">
+                  <span>{% translate "Ask this question" context "employer import-v2" %}</span>
+                </label>
+                <label class="visually-hidden"
+                       for="question-text-3">{% translate "Question 4" context "employer import-v2" %}</label>
+                <textarea id="question-text-3"
+                          rows="2"
+                          maxlength="2000"></textarea><label class="review-check"><input type="checkbox"
+       id="question-mandatory-3">
+                <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
+                </label>
+              </fieldset>
+              <fieldset class="review-question">
+                <legend>{% translate "Question 5" context "employer import-v2" %}</legend>
+                <label class="review-check">
+                  <input type="checkbox" id="question-enabled-4">
+                  <span>{% translate "Ask this question" context "employer import-v2" %}</span>
+                </label>
+                <label class="visually-hidden"
+                       for="question-text-4">{% translate "Question 5" context "employer import-v2" %}</label>
+                <textarea id="question-text-4"
+                          rows="2"
+                          maxlength="2000"></textarea><label class="review-check"><input type="checkbox"
+       id="question-mandatory-4">
+                <span>{% translate "Essential requirement, subject to human review" context "employer import-v2" %}</span>
+                </label>
+              </fieldset>
+              <label for="question-custom">{% translate "Another question for candidates (optional)" context "employer import-v2" %}</label>
+              <textarea id="question-custom" rows="2" maxlength="2000"></textarea>
+            </fieldset>
+            <section class="review-provenance review-privacy-compact alt-privacy">
+              <h2>{% translate "Use of your information" context "employer import-v2" %}</h2>
+              <p>{% translate "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human." context "employer import-v2" %}</p>
+              <p>{% translate "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" %}</p>
+              <a href="privacy-{{ page_language }}.html">{% translate "Read the data protection notice" context "employer import-v2" %}</a>
+            </section>
+            <label class="review-check review-confirm">
+              <input type="checkbox" id="review-confirm">
+              <span>{% translate "I confirm the corrected offer information and request that it be saved. No candidate search or contact will start." context "employer import-v2" %}</span>
+            </label>
+            <p id="review-error" class="import-error" role="alert"></p>
+            <p id="review-status" role="status"></p>
+            <div class="landing-actions">
+              <button type="button" id="review-draft" class="ghost-action">
+                {% translate "Download my draft" context "employer import-v2" %}
+              </button>
+              <button type="submit"
+                      class="primary-action">{% translate "Validate my offer" context "employer import-v2" %}</button>
+            </div>
+            <button type="button"
+                    id="review-download"
+                    class="import-text-button"
+                    hidden>{% translate "Download validated summary" context "employer import-v2" %}</button>
+            <br>
+            <button type="button"
+                    id="review-back"
+                    class="import-text-button">{% translate "Back to my email" context "employer import-v2" %}</button>
+          </form>
+          <script type="application/json" id="review-strings">
 {
   "title": "{% translate "Check and complete your offer" context "employer import-v2" as translated_value_1 %}{{ translated_value_1|escapejs }}",
   "intro": "{% translate "Review the extracted information and clarify the job conditions." context "employer import-v2" as translated_value_2 %}{{ translated_value_2|escapejs }}",
@@ -1685,8 +1852,8 @@
     "other": "{% translate "Please confirm this information" context "employer import-v2" as translated_value_159 %}{{ translated_value_159|escapejs }}"
   }
 }
-            </script>
-            <script type="application/json" id="review-snapshot">
+          </script>
+          <script type="application/json" id="review-snapshot">
 {
   "id": "f34f8867-4909-433e-997d-d8cdcff1146c",
   "title": "Cuisinier / Cuisinière expérimenté(e) en brasserie",
@@ -1710,64 +1877,64 @@
   "retrievedAt": "2026-10-15",
   "approximateLocation": true
 }
-            </script>
-          </section>
-          <section id="completion-step"
-                   data-step
-                   class="surface-card import-card"
-                   hidden>
-            <h1 tabindex="-1">{% translate "Your offer has been saved" context "employer import-v2" %}</h1>
-            <p class="lede">{% translate "Your offer is saved. To participate in the trial and receive proposals, enable notifications for your Match Europe space." context "employer import-v2" %}</p>
-            <section class="completion-notifications">
-              <h2>{% translate "Receive proposals and messages" context "employer import-v2" %}</h2>
-              <p>{% translate "Notifications are required to participate in the trial. They can alert you when the page is closed, depending on your device settings. On some devices, you must first install Match Europe on your home screen." context "employer import-v2" %}</p>
-              <button type="button"
-                      class="primary-action"
-                      disabled
-                      aria-describedby="notification-local-note">{% translate "Enable notifications — coming soon" context "employer import-v2" %}</button>
-              <p>{% translate "If you decline or cannot enable them, your offer stays saved, but trial participation is not finalised. You can return to this step later." context "employer import-v2" %}</p>
-            </section>
-            <h2>{% translate "What happens next" context "employer import-v2" %}</h2>
-            <ol class="completion-next">
-              <li>{% translate "We search for profiles compatible with your offer with the help of artificial intelligence." context "employer import-v2" %}</li>
-              <li>{% translate "For shortlisted candidates, we check availability, interest and continued acceptance of the proposed conditions." context "employer import-v2" %}</li>
-              <li>{% translate "After review by an adviser and agreement from both parties, a discussion dedicated to this offer opens in your Match Europe space, with the candidate and adviser." context "employer import-v2" %}</li>
-            </ol>
-            <p id="notification-local-note" class="review-provenance">{% translate "Local trial: notification activation and trial enrolment are not connected yet. No matching, prequalification or introductions are started." context "employer import-v2" %}</p>
-            <details id="completed-offer">
-              <summary>{% translate "View my offer" context "employer import-v2" %}</summary>
-              <dl id="completed-offer-data">
-              </dl>
-            </details>
-            <div class="landing-actions">
-              <a class="primary-action"
-                 href="{{ page_language }}.html"
-                 id="completion-home">{% translate "Back to the employer home" context "employer import-v2" %}</a>
-              <button type="button"
-                      class="ghost-action"
-                      id="completion-another">{% translate "Add another offer" context "employer import-v2" %}</button>
-            </div>
-          </section>
-          <section id="ready-step" data-step class="surface-card import-card" hidden>
-            <h1 tabindex="-1">{% translate "Next step: review your offer" context "employer import-v2" %}</h1>
-            <p>{% translate "PDF, link or manual entry and the email step can be tested. Reading documents and web pages is not connected yet. No offer or email has been sent or saved, and no job website has been contacted." context "employer import-v2" %}</p>
+          </script>
+        </section>
+        <section id="completion-step"
+                 data-step
+                 class="surface-card import-card"
+                 hidden>
+          <h1 tabindex="-1">{% translate "Your offer has been saved" context "employer import-v2" %}</h1>
+          <p class="lede">{% translate "Your offer is saved. To participate in the trial and receive proposals, enable notifications for your Match Europe space." context "employer import-v2" %}</p>
+          <section class="completion-notifications">
+            <h2>{% translate "Receive proposals and messages" context "employer import-v2" %}</h2>
+            <p>{% translate "Notifications are required to participate in the trial. They can alert you when the page is closed, depending on your device settings. On some devices, you must first install Match Europe on your home screen." context "employer import-v2" %}</p>
             <button type="button"
-                    id="restart"
-                    class="primary-action">{% translate "Start again" context "employer import-v2" %}</button>
+                    class="primary-action"
+                    disabled
+                    aria-describedby="notification-local-note">{% translate "Enable notifications — coming soon" context "employer import-v2" %}</button>
+            <p>{% translate "If you decline or cannot enable them, your offer stays saved, but trial participation is not finalised. You can return to this step later." context "employer import-v2" %}</p>
           </section>
-        </div>
-      </main>
-      <footer class="employer-page-footer">
-        <div class="shell employer-page-footer-inner">
-          <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer import-v2" %}</p>
-          <nav aria-label="{% translate "Useful links" context "employer import-v2" %}">
-            <a href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer import-v2" %}</a>
-            <a href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer import-v2" %}</a>
-            <a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import-v2" %}</a>
-          </nav>
-        </div>
-      </footer>
-      <script id="import-strings" type="application/json">
+          <h2>{% translate "What happens next" context "employer import-v2" %}</h2>
+          <ol class="completion-next">
+            <li>{% translate "We search for profiles compatible with your offer with the help of artificial intelligence." context "employer import-v2" %}</li>
+            <li>{% translate "For shortlisted candidates, we check availability, interest and continued acceptance of the proposed conditions." context "employer import-v2" %}</li>
+            <li>{% translate "After review by an adviser and agreement from both parties, a discussion dedicated to this offer opens in your Match Europe space, with the candidate and adviser." context "employer import-v2" %}</li>
+          </ol>
+          <p id="notification-local-note" class="review-provenance">{% translate "Local trial: notification activation and trial enrolment are not connected yet. No matching, prequalification or introductions are started." context "employer import-v2" %}</p>
+          <details id="completed-offer">
+            <summary>{% translate "View my offer" context "employer import-v2" %}</summary>
+            <dl id="completed-offer-data">
+            </dl>
+          </details>
+          <div class="landing-actions">
+            <a class="primary-action"
+               href="{{ page_language }}.html"
+               id="completion-home">{% translate "Back to the employer home" context "employer import-v2" %}</a>
+            <button type="button"
+                    class="ghost-action"
+                    id="completion-another">{% translate "Add another offer" context "employer import-v2" %}</button>
+          </div>
+        </section>
+        <section id="ready-step" data-step class="surface-card import-card" hidden>
+          <h1 tabindex="-1">{% translate "Next step: review your offer" context "employer import-v2" %}</h1>
+          <p>{% translate "PDF, link or manual entry and the email step can be tested. Reading documents and web pages is not connected yet. No offer or email has been sent or saved, and no job website has been contacted." context "employer import-v2" %}</p>
+          <button type="button"
+                  id="restart"
+                  class="primary-action">{% translate "Start again" context "employer import-v2" %}</button>
+        </section>
+      </div>
+    </main>
+    <footer class="employer-page-footer">
+      <div class="shell employer-page-footer-inner">
+        <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer import-v2" %}</p>
+        <nav aria-label="{% translate "Useful links" context "employer import-v2" %}">
+          <a href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer import-v2" %}</a>
+          <a href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer import-v2" %}</a>
+          <a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import-v2" %}</a>
+        </nav>
+      </div>
+    </footer>
+    <script id="import-strings" type="application/json">
 {
   "title": "{% translate "Add your job offer" context "employer import-v2" as translated_value_1 %}{{ translated_value_1|escapejs }}",
   "intro": "{% translate "Import a PDF, paste a link to a public job offer or enter your offer manually. We will prepare a summary for you to check and complete." context "employer import-v2" as translated_value_2 %}{{ translated_value_2|escapejs }}",
@@ -1855,8 +2022,8 @@
   "documentChoice": "{% translate "Import a PDF or images" context "employer import-v2" as translated_value_80 %}{{ translated_value_80|escapejs }}",
   "documentDescription": "{% translate "Your job is in a document or screenshots." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}"
 }
-      </script>
-      <script id="contact-strings" type="application/json">
+    </script>
+    <script id="contact-strings" type="application/json">
 {
   "title": "{% translate "Your contact for the adviser" context "employer import-v2" as translated_value_1 %}{{ translated_value_1|escapejs }}",
   "name": "{% translate "Full name" context "employer import-v2" as translated_value_2 %}{{ translated_value_2|escapejs }}",
@@ -1870,10 +2037,10 @@
   "conflict": "{% translate "The draft has changed. Reload it before editing the contact." context "employer import-v2" as translated_value_10 %}{{ translated_value_10|escapejs }}",
   "help": "{% translate "The contact may be different from the person accessing this workspace." context "employer import-v2" as translated_value_11 %}{{ translated_value_11|escapejs }}"
 }
-      </script>
-      <script src="/static/employer/offer-import-api.js" defer></script>
-      <script src="/static/employer/contact.js" defer></script>
-      <script src="/static/employer/review.js" defer></script>
-      <script src="/static/employer/import.js" defer></script>
-    </body>
-  </html>
+    </script>
+    <script src="/static/employer/offer-import-api.js" defer></script>
+    <script src="/static/employer/contact.js" defer></script>
+    <script src="/static/employer/review.js" defer></script>
+    <script src="/static/employer/import.js" defer></script>
+  </body>
+</html>

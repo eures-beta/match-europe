@@ -2,7 +2,11 @@
 {% load i18n %}
 {% block content %}
   {% trans "Untitled offer" as untitled_offer %}
-  <div class="page-title"><div><p class="eyebrow">{{ me_user.profile.get_role_display }}</p><h1>{% trans "My workspace" %}</h1></div>
+  <div class="page-title">
+    <div>
+      <p class="eyebrow">{{ me_user.profile.get_role_display }}</p>
+      <h1>{% trans "My workspace" %}</h1>
+    </div>
     {% if me_user.profile.role == "employer" %}
       <a class="btn btn-primary" href="{% url 'upload' %}">{% trans "Upload a new offer" %}</a>
     {% endif %}
@@ -45,7 +49,14 @@
     <h2>{% trans "Recruitments" %}</h2>
     <div class="card-grid">
       {% for offer in offers %}
-        <article class="panel"><span class="state">{{ offer.get_state_display }}</span><h3><a href="{% url 'offer' offer.pk %}">{{ offer.title|default:offer.pk }}</a></h3><p>{{ offer.company }} · {{ offer.location }}</p><small>{{ offer.created|date:'SHORT_DATE_FORMAT' }}</small></article>
+        <article class="panel">
+          <span class="state">{{ offer.get_state_display }}</span>
+          <h3>
+            <a href="{% url 'offer' offer.pk %}">{{ offer.title|default:offer.pk }}</a>
+          </h3>
+          <p>{{ offer.company }} · {{ offer.location }}</p>
+          <small>{{ offer.created|date:'SHORT_DATE_FORMAT' }}</small>
+        </article>
       {% empty %}
         <div class="panel">
           <p>{% trans "No offers yet." %}</p>
@@ -60,42 +71,55 @@
     <p>{% trans "Company contacts are visible only to the assigned adviser and administrators." %}</p>
     <div class="card-grid">
       {% for imported in imports %}
-        <article class="panel"><h3><a href="{% url 'imported_offer' imported.pk %}">{{ imported.data.title|default:untitled_offer }}</a></h3><p>{{ imported.data.companyName }} · {{ imported.data.city }}</p><p>{% if imported.adviser %}
-          {{ imported.adviser.profile.name|default:imported.adviser.username }}{% else %}
-          {% trans "Unassigned" %}
-      {% endif %}
-      </p>
-    </article>
-{% empty %}
-  <p>{% trans "No imported offers to display." %}</p>
-{% endfor %}
-</div>
-</section>
+        <article class="panel">
+          <h3>
+            <a href="{% url 'imported_offer' imported.pk %}">{{ imported.data.title|default:untitled_offer }}</a>
+          </h3>
+          <p>{{ imported.data.companyName }} · {{ imported.data.city }}</p>
+          <p>
+            {% if imported.adviser %}
+              {{ imported.adviser.profile.name|default:imported.adviser.username }}{% else %}
+              {% trans "Unassigned" %}
+            {% endif %}
+          </p>
+        </article>
+      {% empty %}
+        <p>{% trans "No imported offers to display." %}</p>
+      {% endfor %}
+    </div>
+  </section>
 {% endif %}
 <section>
   <h2>{% trans "Opportunities and introductions" %}</h2>
   <div class="card-grid">
     {% for item in matches %}
-      <article class="panel"><span class="state">{{ item.get_state_display }}</span><h3><a href="{% url 'match' item.pk %}">{{ item.offer.title }}</a></h3><p>{{ item.offer.company }} · {{ item.offer.location }}</p>{% if me_user.profile.role == "adviser" or me_user.profile.role == "admin" %}
-        <p>{{ item.candidate.name }}</p>{% endif %}
-      {% if item.state == "introduced" and me_user.profile.role != "admin" %}
-        <a class="btn btn-primary"
-           href="{% url 'conversation' item.conversation.pk %}">{% trans "Open conversation" %}</a>
-      {% endif %}
-    </article>
-  {% empty %}
-    <div class="panel">
-      <p>{% trans "No action required yet. New opportunities will appear here." %}</p>
-    </div>
-  {% endfor %}
-</div>
+      <article class="panel">
+        <span class="state">{{ item.get_state_display }}</span>
+        <h3>
+          <a href="{% url 'match' item.pk %}">{{ item.offer.title }}</a>
+        </h3>
+        <p>{{ item.offer.company }} · {{ item.offer.location }}</p>
+        {% if me_user.profile.role == "adviser" or me_user.profile.role == "admin" %}
+          <p>{{ item.candidate.name }}</p>{% endif %}
+        {% if item.state == "introduced" and me_user.profile.role != "admin" %}
+          <a class="btn btn-primary"
+             href="{% url 'conversation' item.conversation.pk %}">{% trans "Open conversation" %}</a>
+        {% endif %}
+      </article>
+    {% empty %}
+      <div class="panel">
+        <p>{% trans "No action required yet. New opportunities will appear here." %}</p>
+      </div>
+    {% endfor %}
+  </div>
 </section>
 {% if notifications %}
   <section class="panel">
     <h2>{% trans "Notifications" %}</h2>
     <ul>
       {% for item in notifications %}
-        <li><a href="{{ item.url }}">{% trans item.label %}</a> · {{ item.created|date:'SHORT_DATETIME_FORMAT' }}{% if not item.read %} · {% trans "New" %}
+        <li>
+          <a href="{{ item.url }}">{% trans item.label %}</a> · {{ item.created|date:'SHORT_DATETIME_FORMAT' }}{% if not item.read %} · {% trans "New" %}
       {% endif %}
     </li>
 {% endfor %}

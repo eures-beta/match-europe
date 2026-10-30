@@ -711,9 +711,33 @@
           <h1 tabindex="-1">{% translate "How would you like to add your offer?" context "employer import" %}</h1>
           <p class="lede">{% translate "Choose the format you already have. You can then check and complete the information." context "employer import" %}</p>
           <div class="import-choices">
-            <button type="button" id="pdf-choice" class="import-choice"><span class="choice-symbol" aria-hidden="true">PDF</span><span><strong>{% translate "Import a PDF" context "employer import" %}</strong><span class="choice-description">{% translate "You already have a document containing your job offer." context "employer import" %}</span></span><span class="choice-arrow" aria-hidden="true">→</span></button>
-            <button type="button" id="url-choice" class="import-choice"><span class="choice-symbol" aria-hidden="true">URL</span><span><strong>{% translate "Add a link" context "employer import" %}</strong><span class="choice-description">{% translate "Your offer is published on a page accessible without signing in." context "employer import" %}</span></span><span class="choice-arrow" aria-hidden="true">→</span></button>
-            <button type="button" id="manual-choice" class="import-choice"><span class="choice-symbol" aria-hidden="true">Aa</span><span><strong>{% translate "Enter or paste text" context "employer import" %}</strong><span class="choice-description">{% translate "You prefer to paste your advert or write it here." context "employer import" %}</span></span><span class="choice-arrow" aria-hidden="true">→</span></button>
+            <button type="button" id="pdf-choice" class="import-choice">
+              <span class="choice-symbol" aria-hidden="true">PDF</span>
+              <span>
+                <strong>{% translate "Import a PDF" context "employer import" %}</strong>
+                <span class="choice-description">{% translate "You already have a document containing your job offer." context "employer import" %}
+                </span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
+            <button type="button" id="url-choice" class="import-choice">
+              <span class="choice-symbol" aria-hidden="true">URL</span>
+              <span>
+                <strong>{% translate "Add a link" context "employer import" %}</strong>
+                <span class="choice-description">{% translate "Your offer is published on a page accessible without signing in." context "employer import" %}
+                </span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
+            <button type="button" id="manual-choice" class="import-choice">
+              <span class="choice-symbol" aria-hidden="true">Aa</span>
+              <span>
+                <strong>{% translate "Enter or paste text" context "employer import" %}</strong>
+                <span class="choice-description">{% translate "You prefer to paste your advert or write it here." context "employer import" %}
+                </span>
+              </span>
+              <span class="choice-arrow" aria-hidden="true">→</span>
+            </button>
           </div>
           <p class="mini-note choice-reassurance">{% translate "Your offer will not be published. The candidate search starts only after your validation." context "employer import" %}</p>
           <a class="import-text-button"
@@ -736,7 +760,10 @@
             </div>
             <p>{% translate "Your offer will not be published. The candidate search starts only after your validation." context "employer import" %}</p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Continue" context "employer import" %}</button><button type="button" id="file-back" class="ghost-action">{% translate "Back" context "employer import" %}</button>
+              <button type="submit" class="primary-action">{% translate "Continue" context "employer import" %}</button>
+              <button type="button"
+                      id="file-back"
+                      class="ghost-action">{% translate "Back" context "employer import" %}</button>
             </div>
           </form>
         </section>
@@ -757,7 +784,10 @@
             <div id="url-error" class="import-error url-error-box" role="alert" hidden></div>
             <p id="url-help" class="mini-note">{% translate "This demonstration does not visit the link yet. Reading the page will be connected in the next step." context "employer import" %}</p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Continue" context "employer import" %}</button><button type="button" id="url-back" class="ghost-action">{% translate "Back" context "employer import" %}</button>
+              <button type="submit" class="primary-action">{% translate "Continue" context "employer import" %}</button>
+              <button type="button"
+                      id="url-back"
+                      class="ghost-action">{% translate "Back" context "employer import" %}</button>
             </div>
             <p id="url-read-agreement-note" class="mini-note" hidden>{% translate "By clicking “Read this offer”, you authorise reading this public page to prepare your offer." context "employer import" %}</p>
           </form>
@@ -773,7 +803,10 @@
                       aria-describedby="manual-error"></textarea>
             <p id="manual-error" role="alert" class="import-error"></p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Continue" context "employer import" %}</button><button type="button" id="manual-back" class="ghost-action">{% translate "Back" context "employer import" %}</button>
+              <button type="submit" class="primary-action">{% translate "Continue" context "employer import" %}</button>
+              <button type="button"
+                      id="manual-back"
+                      class="ghost-action">{% translate "Back" context "employer import" %}</button>
             </div>
           </form>
         </section>
@@ -790,9 +823,15 @@
                    placeholder="recrutement@example.invalid"
                    aria-describedby="email-help">
             <p id="email-help" class="mini-note">{% translate "Use a fictional address for this demonstration. No email is sent." context "employer import" %}</p>
-            <p><a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import" %}</a></p>
+            <p>
+              <a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import" %}</a>
+            </p>
             <div class="landing-actions">
-              <button type="submit" class="primary-action">{% translate "Save and continue" context "employer import" %}</button><button id="email-back" type="button" class="ghost-action">{% translate "Back" context "employer import" %}</button>
+              <button type="submit"
+                      class="primary-action">{% translate "Save and continue" context "employer import" %}</button>
+              <button id="email-back"
+                      type="button"
+                      class="ghost-action">{% translate "Back" context "employer import" %}</button>
             </div>
           </form>
         </section>
@@ -974,14 +1013,126 @@
                   </label>
                 </div>
               </fieldset>
-              <div id="permit-details" hidden><fieldset class="mobility-field"><legend>{% translate "Which licences or authorisations are required?" context "employer import" %}</legend><div class="mobility-options"><label><input type="checkbox" name="permits" value="B"><span>{% translate "Licence B" context "employer import" %}</span></label><label><input type="checkbox" name="permits" value="C"><span>{% translate "Licence C" context "employer import" %}</span></label><label><input type="checkbox" name="permits" value="CE"><span>{% translate "Licence CE" context "employer import" %}</span></label><label><input type="checkbox" name="permits" value="D"><span>{% translate "Licence D" context "employer import" %}</span></label><label><input type="checkbox" name="permits" value="DE"><span>{% translate "Licence DE" context "employer import" %}</span></label><label><input type="checkbox" name="permits" value="CACES"><span>CACES</span></label><label><input type="checkbox" name="permits" value="other"><span>{% translate "Other" context "employer import" %}</span></label></div></fieldset><div id="permit-other-field" hidden><label for="permit-other">{% translate "Other licence or authorisation: specify" context "employer import" %}</label><input id="permit-other" maxlength="500"></div></div></div><h3>{% translate "Welcoming mobile candidates" context "employer import" %}</h3><div class="mobility-fields"><fieldset class="mobility-field"><legend>{% translate "Do you accept cross-border workers?" context "employer import" %}</legend><div class="mobility-options"><label for="review-crossBorder-0"><input id="review-crossBorder-0" type="radio" name="crossBorder" value="yes"><span>{% translate "Yes" context "employer import" %}</span></label><label for="review-crossBorder-1"><input id="review-crossBorder-1" type="radio" name="crossBorder" value="no"><span>{% translate "No" context "employer import" %}</span></label><label for="review-crossBorder-2"><input id="review-crossBorder-2"
-       type="radio"
-       name="crossBorder"
-       value="discuss"><span>{% translate "Discuss with the candidate" context "employer import" %}</span></label></div></fieldset><fieldset class="mobility-field"><legend>{% translate "Do you accept people relocating from another European country?" context "employer import" %}</legend><div class="mobility-options"><label for="review-relocation-0"><input id="review-relocation-0" type="radio" name="relocation" value="yes"><span>{% translate "Yes" context "employer import" %}</span></label><label for="review-relocation-1"><input id="review-relocation-1" type="radio" name="relocation" value="no"><span>{% translate "No" context "employer import" %}</span></label><label for="review-relocation-2"><input id="review-relocation-2"
-       type="radio"
-       name="relocation"
-       value="discuss"><span>{% translate "Discuss with the candidate" context "employer import" %}</span></label></div></fieldset></div>
-            <fieldset class="mobility-field arrival-aids"><legend>{% translate "What support can you provide on arrival?" context "employer import" %}</legend><div class="mobility-options"><label><input type="checkbox" name="arrivalAids" value="housing"><span>{% translate "Housing or housing search" context "employer import" %}</span></label><label><input type="checkbox" name="arrivalAids" value="admin"><span>{% translate "Administrative procedures" context "employer import" %}</span></label><label><input type="checkbox" name="arrivalAids" value="transport"><span>Transport</span></label><label><input type="checkbox" name="arrivalAids" value="onboarding"><span>{% translate "Onboarding support" context "employer import" %}</span></label><label><input type="checkbox" name="arrivalAids" value="other"><span>{% translate "Other" context "employer import" %}</span></label><label><input type="checkbox" name="arrivalAids" value="none"><span>{% translate "No support planned" context "employer import" %}</span></label><label><input type="checkbox" name="arrivalAids" value="unknown"><span>{% translate "To discuss" context "employer import" %}</span></label></div></fieldset><div id="aid-other-field" hidden><label for="aid-other">{% translate "Other support: specify" context "employer import" %}</label><input id="aid-other" maxlength="500"></div>
+              <div id="permit-details" hidden>
+                <fieldset class="mobility-field">
+                  <legend>{% translate "Which licences or authorisations are required?" context "employer import" %}</legend>
+                  <div class="mobility-options">
+                    <label>
+                      <input type="checkbox" name="permits" value="B">
+                      <span>{% translate "Licence B" context "employer import" %}</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="permits" value="C">
+                      <span>{% translate "Licence C" context "employer import" %}</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="permits" value="CE">
+                      <span>{% translate "Licence CE" context "employer import" %}</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="permits" value="D">
+                      <span>{% translate "Licence D" context "employer import" %}</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="permits" value="DE">
+                      <span>{% translate "Licence DE" context "employer import" %}</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="permits" value="CACES"><span>CACES</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="permits" value="other">
+                      <span>{% translate "Other" context "employer import" %}</span>
+                    </label>
+                  </div>
+                </fieldset>
+                <div id="permit-other-field" hidden>
+                  <label for="permit-other">{% translate "Other licence or authorisation: specify" context "employer import" %}</label>
+                  <input id="permit-other" maxlength="500">
+                </div>
+              </div>
+            </div>
+            <h3>{% translate "Welcoming mobile candidates" context "employer import" %}</h3>
+            <div class="mobility-fields">
+              <fieldset class="mobility-field">
+                <legend>{% translate "Do you accept cross-border workers?" context "employer import" %}</legend>
+                <div class="mobility-options">
+                  <label for="review-crossBorder-0">
+                    <input id="review-crossBorder-0" type="radio" name="crossBorder" value="yes">
+                    <span>{% translate "Yes" context "employer import" %}</span>
+                  </label>
+                  <label for="review-crossBorder-1">
+                    <input id="review-crossBorder-1" type="radio" name="crossBorder" value="no">
+                    <span>{% translate "No" context "employer import" %}</span>
+                  </label>
+                  <label for="review-crossBorder-2">
+                    <input id="review-crossBorder-2"
+                           type="radio"
+                           name="crossBorder"
+                           value="discuss">
+                    <span>{% translate "Discuss with the candidate" context "employer import" %}</span>
+                  </label>
+                </div>
+              </fieldset>
+              <fieldset class="mobility-field">
+                <legend>
+                  {% translate "Do you accept people relocating from another European country?" context "employer import" %}
+                </legend>
+                <div class="mobility-options">
+                  <label for="review-relocation-0">
+                    <input id="review-relocation-0" type="radio" name="relocation" value="yes">
+                    <span>{% translate "Yes" context "employer import" %}</span>
+                  </label>
+                  <label for="review-relocation-1">
+                    <input id="review-relocation-1" type="radio" name="relocation" value="no">
+                    <span>{% translate "No" context "employer import" %}</span>
+                  </label>
+                  <label for="review-relocation-2">
+                    <input id="review-relocation-2"
+                           type="radio"
+                           name="relocation"
+                           value="discuss">
+                    <span>{% translate "Discuss with the candidate" context "employer import" %}</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            <fieldset class="mobility-field arrival-aids">
+              <legend>{% translate "What support can you provide on arrival?" context "employer import" %}</legend>
+              <div class="mobility-options">
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="housing">
+                  <span>{% translate "Housing or housing search" context "employer import" %}</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="admin">
+                  <span>{% translate "Administrative procedures" context "employer import" %}</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="transport"><span>Transport</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="onboarding">
+                  <span>{% translate "Onboarding support" context "employer import" %}</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="other">
+                  <span>{% translate "Other" context "employer import" %}</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="none">
+                  <span>{% translate "No support planned" context "employer import" %}</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="arrivalAids" value="unknown">
+                  <span>{% translate "To discuss" context "employer import" %}</span>
+                </label>
+              </div>
+            </fieldset>
+            <div id="aid-other-field" hidden>
+              <label for="aid-other">{% translate "Other support: specify" context "employer import" %}</label>
+              <input id="aid-other" maxlength="500">
+            </div>
             <fieldset id="prequalification-section" hidden disabled>
               <h2>{% translate "3. Prequalify candidates before talking" context "employer import" %}</h2>
               <button id="suggest-questions"
@@ -1080,7 +1231,11 @@
             <p id="review-error" class="import-error" role="alert"></p>
             <p id="review-status" role="status"></p>
             <div class="landing-actions">
-              <button type="button" id="review-draft" class="ghost-action">{% translate "Download my draft" context "employer import" %}</button><button type="submit" class="primary-action">{% translate "Validate my offer" context "employer import" %}</button>
+              <button type="button" id="review-draft" class="ghost-action">
+                {% translate "Download my draft" context "employer import" %}
+              </button>
+              <button type="submit"
+                      class="primary-action">{% translate "Validate my offer" context "employer import" %}</button>
             </div>
             <button type="button"
                     id="review-download"
