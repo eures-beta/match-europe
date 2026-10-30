@@ -17,8 +17,9 @@ L’accueil est une page de présentation accessible hors démo ; il n’ouvre a
 accès métier supplémentaire et ne crée aucun profil, import ou compte.
 Les liens candidat et employeur mènent aux pages locales existantes et conservent
 la langue. Les protections de ces parcours restent inchangées. Les autres liens
-du menu (statistiques, projet, journal) sont conservés : ces pages ne sont pas
-implémentées par ce lot.
+du menu (statistiques, projet, journal) disposent désormais de routes canoniques
+avec des pages d’attente traduites. Leur contenu métier reste à construire.
+Voir [le nettoyage des routes](PUBLIC_NAVIGATION.md).
 
 Tests ciblés : contenu et liens dans les trois langues, priorité de la langue,
 compatibilité des deux adresses, retour depuis les deux parcours, refus des

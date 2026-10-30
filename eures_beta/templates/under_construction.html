@@ -1,0 +1,31 @@
+{% load i18n static %}
+{% get_current_language as page_language %}
+<!DOCTYPE html>
+<html lang="{{ page_language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} — Match Europe</title>
+    <link rel="stylesheet" href="{% static 'employer/site.css' %}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{% translate "Skip to content" %}</a>
+    <header class="site-header">
+      <a class="brand" href="{% url 'home' %}?lang={{ page_language }}">Match Europe</a>
+      <nav aria-label="{% translate 'Language' %}">
+        {% get_available_languages as languages %}
+        {% for code, name in languages %}
+          <a href="?lang={{ code }}"
+             lang="{{ code }}"
+             {% if code == page_language %}aria-current="true"{% endif %}>{{ name }}</a>
+        {% endfor %}
+      </nav>
+    </header>
+    <main id="main" class="page">
+      <h1>{{ title }}</h1>
+      <p>{% translate "This page is under construction." context "public information" %}</p>
+      <p>{% translate "The content is not available yet. You can return to the home page to explore the available journeys." context "public information" %}</p>
+      <a href="{% url 'home' %}?lang={{ page_language }}">{% translate "Back to home" context "public information" %}</a>
+    </main>
+  </body>
+</html>

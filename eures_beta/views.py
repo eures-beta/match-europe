@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_safe
 from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 
 from eures_beta.accounts.access_control import identity
 
@@ -23,11 +24,26 @@ def interface(request):
 @never_cache
 @require_safe
 def home(request):
+    return _public_page(request, 'home.html')
+
+
+@never_cache
+@require_safe
+def information_page(request, section):
+    titles = {
+        'statistics': _('Statistics'),
+        'project': _('The project'),
+        'journal': _('Project journal'),
+    }
+    return _public_page(request, 'under_construction.html', {'title': titles[section]})
+
+
+def _public_page(request, template, context=None):
     language = request.GET.get('lang', request.LANGUAGE_CODE)
     if language not in ('fr', 'en', 'de'):
         language = 'fr'
     with translation.override(language):
-        return render(request, 'home.html')
+        return render(request, template, context)
 
 
 def manifest(request):

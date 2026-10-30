@@ -6015,3 +6015,24 @@ msgstr "Ausbau des Angebots auf Grundlage der Erkenntnisse aus den ersten Tests.
 msgctxt "public home"
 msgid "The Match Europe experiment supports professional mobility and recruitment in the Greater Region."
 msgstr "Das Experiment Match Europe erleichtert berufliche Mobilität und Personalgewinnung in der Großregion."
+
+msgctxt "public information"
+msgid "This page is under construction."
+msgstr "Diese Seite befindet sich im Aufbau."
+
+msgctxt "public information"
+msgid "The content is not available yet. You can return to the home page to explore the available journeys."
+msgstr "Die Inhalte sind noch nicht verfügbar. Auf der Startseite finden Sie die verfügbaren Angebote."
+
+msgctxt "public information"
+msgid "Back to home"
+msgstr "Zurück zur Startseite"
+
+msgid "Statistics"
+msgstr "Statistiken"
+
+msgid "The project"
+msgstr "Das Projekt"
+
+msgid "Project journal"
+msgstr "Projektjournal"

@@ -24,6 +24,20 @@ Note de reprise : une seule configuration Django existe désormais à la racine.
 Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
 mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
+## 30 octobre 2026 — navigation publique canonique
+
+Nettoyage transverse au-dessus du formatage JavaScript : les menus emploient les
+routes Django nommées ; les anciennes adresses restent uniquement des redirections
+301 de compatibilité avec conservation des paramètres et refus des écritures.
+Statistiques, projet et journal disposent de pages d’attente FR/EN/DE publiques,
+sans contenu métier simulé ni collecte. Les accès candidat restent protégés.
+L’accueil et le tableau de bord ne partagent plus de déclaration de route racine.
+Voir [le périmètre](docs/PUBLIC_NAVIGATION.md).
+
+Validation locale : 218 tests PostgreSQL réussis, dont les redirections,
+la navigation et les annonces traduites. Aucun modèle ni migration ajouté.
+Cette note ne constitue pas une validation de déploiement.
+
 ## 30 octobre 2026 — accueil général
 
 Branche `codex/public-home`, initialement depuis #79 puis replacée sur le sommet

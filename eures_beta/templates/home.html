@@ -200,7 +200,7 @@
     {% if shared_demo_notice %}<p class="demo-notice">{{ shared_demo_notice }}</p>{% endif %}
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="/?lang={{ page_language }}">
+        <a class="brand" href="{% url 'home' %}?lang={{ page_language }}">
           <span class="brand-copy">
             <strong>Match Europe</strong>
             <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer landing" %}</span>
@@ -211,33 +211,33 @@
           <div class="nav-links">
             <a class="nav-pill is-active"
                aria-current="page"
-               href="/?lang={{ page_language }}">{% translate "Home" context "employer landing" %}</a>
+               href="{% url 'home' %}?lang={{ page_language }}">{% translate "Home" context "employer landing" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/candidate?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
+               href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
             <a class="nav-pill"
                href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/stat?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>
+               href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>
           </div>
           <div class="nav-links nav-links-secondary">
             <a class="nav-pill"
-               href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
+               href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
+               href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
           </div>
           <div class="employer-header-actions">
             <div class="lang-switch"
                  aria-label='{% translate "Language" context "employer landing" %}'>
               <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="/?lang=fr"
+                 href="{% url 'home' %}?lang=fr"
                  lang="fr"
                  hreflang="fr">FR</a>
               <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="/?lang=en"
+                 href="{% url 'home' %}?lang=en"
                  lang="en"
                  hreflang="en">EN</a>
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="/?lang=de"
+                 href="{% url 'home' %}?lang=de"
                  lang="de"
                  hreflang="de">DE</a>
             </div>

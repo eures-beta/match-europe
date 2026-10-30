@@ -6015,3 +6015,24 @@ msgstr "Montée en charge du dispositif à partir des enseignements issus des pr
 msgctxt "public home"
 msgid "The Match Europe experiment supports professional mobility and recruitment in the Greater Region."
 msgstr "Expérimentation Match Europe pour faciliter la mobilité professionnelle et les recrutements dans la Grande Région."
+
+msgctxt "public information"
+msgid "This page is under construction."
+msgstr "Cette page est en construction."
+
+msgctxt "public information"
+msgid "The content is not available yet. You can return to the home page to explore the available journeys."
+msgstr "Le contenu n’est pas encore disponible. Vous pouvez revenir à l’accueil pour découvrir les parcours disponibles."
+
+msgctxt "public information"
+msgid "Back to home"
+msgstr "Retour à l’accueil"
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid "The project"
+msgstr "Le projet"
+
+msgid "Project journal"
+msgstr "Journal du projet"
