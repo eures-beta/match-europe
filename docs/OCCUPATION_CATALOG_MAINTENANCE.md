@@ -37,13 +37,10 @@ Les noms ESCO attendus sont `esco-1.2.1-fr.zip`, `esco-1.2.1-en.zip`,
 `esco-1.2.1-de.zip`. Les sources brutes restent hors Git.
 
 ```bash
-python3 -m eures_beta.occupations.tools.build_catalog \
-  --esco-dir .runtime/catalog-sources \
-  --mapping .runtime/catalog-sources/esco-rome-other.csv \
-  --rome .runtime/catalog-sources/rome-oct2026.xlsx \
-  --output .runtime/catalog-staging
-python3 -m eures_beta.occupations.tools.validate_catalog \
-  .runtime/catalog-staging --report .runtime/catalog-staging/validation.json
+make occupations-build
+make occupations-validate \
+  CATALOG_DIR=.runtime/catalog-staging \
+  CATALOG_REPORT=.runtime/catalog-staging/validation.json
 ```
 
 L’importeur est lié aux versions et schémas audités. Il rejette les langues avec
@@ -53,6 +50,11 @@ promouvoir manuellement les deux `.json.gz`, le manifeste et le rapport validés
 vers `eures_beta/occupations/data/`, puis redémarrer pour purger les caches.
 Garder les versions précédentes dans Git. Ne pas supprimer ni reclasser des
 choix métier existants lors d’un changement de catalogue.
+
+`make occupations-validate` vérifie par défaut le catalogue livré et écrit son
+rapport dans `.runtime/`. `make occupations-test` exécute les tests du catalogue.
+`PYTHON`, `CATALOG_SOURCES` et `CATALOG_OUTPUT` sont configurables. Aucun de ces
+outils ne télécharge de données ni ne promeut automatiquement un catalogue.
 
 `--previous` accepte un ancien fichier occupations JSON décompressé et compare
 URI et libellés ; ce contrôle n’est pas un audit sémantique exhaustif des éditions.

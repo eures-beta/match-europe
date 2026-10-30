@@ -16,6 +16,21 @@ format-check: ## Vérifier le formatage sans modifier les fichiers
 
 .PHONY: format-html format-html-check translations-extract translations-check
 PYTHON ?= .venv/bin/python
+CATALOG_SOURCES ?= .runtime/catalog-sources
+CATALOG_OUTPUT ?= .runtime/catalog-staging
+CATALOG_DIR ?= eures_beta/occupations/data
+CATALOG_REPORT ?= .runtime/catalog-validation.json
+
+.PHONY: occupations-build occupations-validate occupations-test
+occupations-build: ## Construire un catalogue en staging depuis les archives locales (sans réseau)
+	$(PYTHON) -m eures_beta.occupations.tools.build_catalog --esco-dir "$(CATALOG_SOURCES)" --mapping "$(CATALOG_SOURCES)/esco-rome-other.csv" --rome "$(CATALOG_SOURCES)/rome-oct2026.xlsx" --output "$(CATALOG_OUTPUT)"
+
+occupations-validate: ## Vérifier un catalogue et écrire son rapport, sans modifier les données
+	@mkdir -p "$(dir $(CATALOG_REPORT))"
+	$(PYTHON) -m eures_beta.occupations.tools.validate_catalog "$(CATALOG_DIR)" --report "$(CATALOG_REPORT)"
+
+occupations-test: ## Tester uniquement le catalogue partagé et ses interfaces
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.occupations --noinput $(TEST_ARGS)
 HOST ?= 127.0.0.1
 PORT ?= 8000
 # Commandes usuelles sans paramètres ; chaque worktree possède son .venv et .env.
