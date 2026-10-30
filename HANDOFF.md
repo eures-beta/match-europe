@@ -495,3 +495,11 @@ repassée avec réseau externe interdit ; Black, neuf templates employeur, synta
 des trois nouveaux modules JavaScript et diff contrôlés. Les limites de stockage
 textuel et de contrôle de complétude au navigateur sont explicites.
 Aucune fusion ni déploiement autorisés.
+
+## 30 octobre 2026 — entrée vers le parcours enrichi
+
+La recette #80 contient bien les commits #76–79, mais l’accueil et l’espace
+employeur pointaient toujours vers import-v2, qui ne porte pas les évolutions
+ESCO/intitulé et cinq étapes. Les entrées accueil, ajout d’offre et reprise
+pointent désormais vers import, qui contient ces évolutions. La V2 reste
+accessible par son URL historique. Aucun transfert ni duplication de données.
