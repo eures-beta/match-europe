@@ -743,7 +743,9 @@ def update_locked(request, obj, payload):
         if action == 'validate':
             occupation = clean.get('occupation')
             if occupation is not None and not (
-                occupation['uris'] or occupation['personal']
+                occupation['uris']
+                or occupation.get('rome_codes')
+                or occupation['personal']
             ):
                 raise ImportFailure('occupation_required')
             clean_contact(obj.contact)
