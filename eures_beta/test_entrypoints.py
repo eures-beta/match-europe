@@ -6,15 +6,14 @@ from django.urls import reverse
 
 class EntryPointTests(TestCase):
     @override_settings(SHARED_DEMO=True)
-    def test_home_opens_the_employer_landing_page(self):
+    def test_home_opens_the_public_home_with_both_journeys(self):
         response = self.client.get("/", secure=True)
-        self.assertRedirects(
-            response,
-            "/employer/pages/fr.html",
-            fetch_redirect_response=False,
-        )
+        self.assertTemplateUsed(response, "home.html")
+        self.assertContains(response, '<html lang="fr"')
+        self.assertContains(response, 'href="/employer/pages/fr.html"')
+        self.assertContains(response, 'href="/candidate/?lang=fr"')
         self.assertContains(
-            self.client.get(response["Location"], secure=True), '<html lang="fr"'
+            self.client.get("/employer/pages/fr.html", secure=True), '<html lang="fr"'
         )
 
     @override_settings(SHARED_DEMO=True)
