@@ -1,5 +1,6 @@
 from django.test import SimpleTestCase, override_settings
 from django.urls import resolve, reverse
+from eures_beta.testing import assert_active_link
 
 
 class PublicNavigationTests(SimpleTestCase):
@@ -36,9 +37,20 @@ class PublicNavigationTests(SimpleTestCase):
                 ):
                     response = self.client.get(reverse(route), {'lang': language})
                     self.assertTemplateUsed(response, 'under_construction.html')
+                    self.assertTemplateUsed(response, 'public_base.html')
                     self.assertContains(response, notice)
                     self.assertContains(response, f'<html lang="{language}">')
                     self.assertContains(response, f'href="/?lang={language}"')
+                    self.assertContains(response, 'employer-partner-logos')
+                    self.assertContains(response, 'employer-page-footer')
+                    self.assertContains(response, '/static/employer/site.css')
+                    assert_active_link(
+                        self, response, reverse(route) + f'?lang={language}'
+                    )
+                    for target in ('fr', 'en', 'de'):
+                        self.assertContains(
+                            response, f'href="{reverse(route)}?lang={target}"'
+                        )
                     self.assertEqual(self.client.post(reverse(route)).status_code, 405)
 
     @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
