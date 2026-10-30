@@ -111,3 +111,4 @@ format-html: ## Indenter les templates Django avec djLint (cible 120 colonnes)
 	$(QUALITY_PYTHON) -m djlint eures_beta --reformat --quiet || test $$? -eq 1
 format-html-check: ## Vérifier le formatage des templates sans les modifier
 	$(QUALITY_PYTHON) -m djlint eures_beta --check
+	$(QUALITY_PYTHON) -m eures_beta.template_layout
