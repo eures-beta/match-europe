@@ -135,21 +135,3 @@ Les choix retenus restent conservés entre recherches ; aide et focus sont espac
 38 tests PostgreSQL catalogue/imports repassés avant publication, sans réseau
 externe ; Black, syntaxe JavaScript et format des deux templates contrôlés.
 Aucune migration, aucun changement candidat, aucune fusion ni déploiement.
-
-## Essai du 30 octobre — recherches indépendantes ESCO et ROME
-
-Sur demande d’Eric, une saisie alimente deux recherches locales distinctes.
-ESCO garde ses descriptions multilingues ; ROME recherche directement les
-appellations françaises et codes des fiches 26M10, sans utiliser la table de
-correspondance. Les descriptions détaillées ROME ne sont pas disponibles dans
-cet instantané et ne sont pas inventées. Trois fiches maximum sont proposées,
-regroupées par code, avec quelques appellations ayant effectivement répondu
-à la recherche. Les résultats proches restent à confirmer ; aucun choix automatique.
-
-Le champ JSON `occupation` conserve séparément `uris`/`jobs` pour ESCO et
-`rome_codes`/`rome_jobs`/`rome_version` pour ROME. Le serveur contrôle les codes
-et reconstruit les intitulés depuis le catalogue. Les anciens brouillons restent
-compatibles. Au moins un choix dans l’un des référentiels ou une description
-personnelle est nécessaire ; aucun choix double imposé. Pas de conversion
-ESCO–ROME automatique, migration, appel externe ni effet sur le rapprochement.
-La liste de correspondances ROME est retirée des cartes ESCO de cet essai.

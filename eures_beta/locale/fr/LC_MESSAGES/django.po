@@ -5800,35 +5800,3 @@ msgstr "Mobilité"
 msgctxt "employer review steps"
 msgid "Summary"
 msgstr "Récapitulatif"
-
-msgctxt "employer occupations"
-msgid "Two independent searches. Select the results that describe your job; no equivalence between ESCO and ROME is assumed."
-msgstr "Deux recherches indépendantes. Sélectionnez les résultats qui décrivent votre poste ; aucune équivalence entre ESCO et ROME n’est supposée."
-
-msgctxt "employer occupations"
-msgid "ESCO · Occupation descriptions"
-msgstr "ESCO · Descriptions des métiers"
-
-msgctxt "employer occupations"
-msgid "ROME · Job titles"
-msgstr "ROME · Intitulés des métiers"
-
-msgctxt "employer occupations"
-msgid "French ROME catalogue, searched directly by job title or code. Detailed descriptions are not included in this trial."
-msgstr "Catalogue ROME français, recherché directement par intitulé ou code. Les descriptions détaillées ne sont pas incluses dans cet essai."
-
-msgctxt "employer occupations"
-msgid "No ROME result. Try a French job title or a ROME code."
-msgstr "Aucun résultat ROME. Essayez un intitulé en français ou un code ROME."
-
-msgctxt "employer occupations"
-msgid "No ESCO description found for this search."
-msgstr "Aucune description ESCO trouvée pour cette recherche."
-
-msgctxt "employer occupations"
-msgid "ESCO reference"
-msgstr "Référence ESCO"
-
-msgctxt "employer occupations"
-msgid "{count} result(s) found. Select those that fit."
-msgstr "{count} résultat(s) trouvé(s). Sélectionnez ceux qui conviennent."
