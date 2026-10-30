@@ -79,6 +79,30 @@
 
 ## Séparation entre code et exploitation
 
+### Rangement des outils par domaine
+
+- Ne pas créer de dossier `scripts/` à la racine du dépôt.
+- Placer les scripts et outils spécifiques à un domaine dans le paquet de
+  l’application concernée, par exemple `eures_beta/occupations/tools/` pour
+  l’entretien du catalogue métiers. Préférer des modules Python exécutables
+  avec `python -m`, sans manipulation ad hoc de `sys.path`.
+- Exposer les opérations répétables par des cibles Makefile documentées à la
+  racine. Ne pas confondre ce point d’entrée commun avec l’emplacement du code.
+- Avant de placer un outil transverse à la racine, identifier sa responsabilité
+  et choisir un paquet commun explicite ; ne pas utiliser la racine par défaut.
+
+### Reprise quotidienne et vocabulaire des revues
+
+- Lors du premier point de reprise quotidien demandé par dejafait, vérifier les
+  piles GitHub. Maintenir une pile active composée uniquement des PR ouvertes
+  non fusionnées, dans leur ordre de dépendance. Si GitHub conserve les PR déjà
+  fusionnées, détacher les PR actives et recréer une pile avec elles ; conserver
+  les branches, commits et PR, sans fusionner. Exclure les essais et sauvegardes.
+- Cette vérification se fait pendant la session, sans automatisme en arrière-plan.
+- Dans les récapitulatifs, préciser le rôle utilisateur concerné : employeur,
+  candidat, conseiller, administrateur ou outillage transverse. Distinguer la
+  recherche de métiers pour décrire une offre de la recherche de candidats.
+
 Ce dépôt public contient le code et les instructions de développement local.
 Les destinations, configurations et procédures propres aux environnements
 restent dans les dépôts privés de déploiement. Ne pas inscrire ici de secrets,
