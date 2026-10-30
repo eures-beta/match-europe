@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_safe
+from django.utils import translation
 
 from eures_beta.accounts.access_control import identity
 
@@ -19,10 +21,13 @@ def interface(request):
 
 
 @never_cache
+@require_safe
 def home(request):
-    if settings.DEMO_MODE:
-        return redirect('/employer/pages/fr.html')
-    return render(request, 'home.html')
+    language = request.GET.get('lang', request.LANGUAGE_CODE)
+    if language not in ('fr', 'en', 'de'):
+        language = 'fr'
+    with translation.override(language):
+        return render(request, 'home.html')
 
 
 def manifest(request):

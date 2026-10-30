@@ -46,7 +46,9 @@ class LanguageNavigationTests(SimpleTestCase):
         for language, href in zip(('fr', 'en', 'de'), menu.hrefs):
             with self.subTest(language=language):
                 url = urljoin(home.wsgi_request.path, href)
-                self.assert_language_page(url, language)
+                response = self.open_page(url)
+                self.assertContains(response, f'<html lang="{language}"')
+                self.assertTemplateUsed(response, 'home.html')
 
     def test_language_switch_from_french_page_already_open_before_deployment(self):
         # These are the relative links in the French page before the URL move.
