@@ -17,6 +17,7 @@ staticfiles/
 # Environnement local de formatage, sans dépendances applicatives.
 /.venv-quality/
 coverage/
+node_modules/
 htmlcov/
 previews/employer-landing/versions/
 

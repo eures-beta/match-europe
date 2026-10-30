@@ -1,5 +1,20 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
+
+# Prettier est un outil de développement ; aucune étape de build JavaScript.
+.PHONY: install-js format-js format-js-check check-js
+install-js: ## Installer la version verrouillée du formateur JavaScript
+	npm ci --ignore-scripts --no-audit --no-fund
+
+format-js: ## Formater les sources JavaScript (cible 100 colonnes, indentation 2 espaces)
+	./node_modules/.bin/prettier --write 'eures_beta/**/*.{js,cjs,mjs}'
+
+format-js-check: ## Vérifier le format JavaScript sans modifier les sources
+	./node_modules/.bin/prettier --check 'eures_beta/**/*.{js,cjs,mjs}'
+
+check-js: ## Vérifier la syntaxe de chaque source JavaScript
+	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}'
+	find eures_beta -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
 # Outillage isolé des dépendances de l'application et des identifiants personnels.
 QUALITY_PYTHON ?= .venv-quality/bin/python
 
