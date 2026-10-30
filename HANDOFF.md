@@ -522,3 +522,11 @@ et présentation en deux listes. ROME demeure en français, avec absence de
 descriptions détaillées signalée. Choix explicites, stockage séparé dans le JSON
 existant et reconstruction serveur ; anciennes sélections compatibles. Aucun
 changement de matching ni d’appel externe. Voir docs/EMPLOYER_OCCUPATIONS.md.
+
+## 30 octobre 2026 — reprise après échec de recherche
+
+Capture Eric : erreur de chargement au premier affichage après import. La même
+recherche réussit après relance dans son onglet, sans changement final de titre
+ni sauvegarde ; origine du premier échec non reproduite. Ajout d’un bouton de
+relance automatique et message distinct d’une absence de résultats, avec recours
+manuel conservé. Aucun résultat fictif substitué à une erreur réseau.
