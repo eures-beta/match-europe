@@ -1,9 +1,10 @@
 # Accueil général — 30 octobre 2026
 
 À la demande d’Eric, le bouton Accueil ouvre une page du prototype reprenant
-le contenu de la page publique `/forms/eures-beta/?lang=fr`, consultée dans le
-navigateur le 30 octobre 2026. La racine `/` et `/forms/eures-beta/` servent
-le même template Django `home.html`, en FR/EN/DE via gettext. Le paramètre
+le contenu de la page publique historique, consultée dans le navigateur le
+30 octobre 2026. Seule la racine `/` sert le template Django `home.html`,
+en FR/EN/DE via gettext. L’ancienne adresse est réservée à une redirection
+permanente vers la racine, avec conservation de la chaîne de requête. Le paramètre
 `lang` prime sur la langue du navigateur ; une valeur invalide revient au français.
 
 Contenu repris : introduction, contexte transfrontalier, chiffres clés, parcours

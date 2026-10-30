@@ -3,7 +3,7 @@ from django.urls import include, path
 from eures_beta import views
 from eures_beta.documents import views as document_views
 from eures_beta.matching.views import dashboard
-from eures_beta.redirects import legacy_employer_page
+from eures_beta.redirects import legacy_employer_page, legacy_home
 from .health import health
 
 urlpatterns = [
@@ -20,7 +20,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", views.home, name="home"),
-    path("forms/eures-beta/", views.home, name="legacy_home"),
+    path("forms/eures-beta/", legacy_home, name="legacy_home"),
     path("", include("eures_beta.matching.urls")),
     path('upload/', document_views.upload, name='upload'),
     path('manifest.webmanifest', views.manifest),
