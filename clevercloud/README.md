@@ -33,3 +33,15 @@ make clever-run
 La dernière commande écoute uniquement sur loopback en usage local via Make.
 Les tâches planifiées et le chargement de secrets propres aux Emplois ne sont pas
 repris : Match Europe n’a pas besoin de reproduire leur infrastructure complète.
+
+## Contenu de ce dossier
+
+### Fichiers
+
+- [http.json](http.json) — Configure le comportement HTTP attendu par Clever Cloud.
+- [post_build.sh](post_build.sh) — Exécute le hook de préparation après construction de l’application.
+- [pre_run.sh](pre_run.sh) — Exécute les opérations requises avant le démarrage de l’application.
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [run.sh](run.sh) — Lance le serveur applicatif via le hook Clever Cloud.
+
+[Remonter au dossier parent](../).

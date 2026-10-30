@@ -60,3 +60,15 @@ les fichiers embarqués. Les gzip sont déterministes (mtime=0) ; deux construct
 sur les mêmes sources ont produit des fichiers et manifestes identiques.
 Le rapport conserve la comparaison historique avec les 35 métiers du pilote.
 Cet échantillon expérimental n’est pas réintroduit dans le train.
+
+## Contenu de ce dossier
+
+### Fichiers
+
+- [manifest.json](manifest.json) — Décrit les sources et versions du catalogue métier distribué.
+- [occupations.json.gz](occupations.json.gz) — Contient les références ESCO compressées du catalogue local.
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [rome.json.gz](rome.json.gz) — Contient les références ROME compressées du catalogue local.
+- [validation.json](validation.json) — Conserve le rapport de validation du catalogue distribué.
+
+[Remonter au dossier parent](../).
