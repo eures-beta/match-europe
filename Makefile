@@ -16,7 +16,8 @@ format-check: ## Vérifier le formatage sans modifier les fichiers
 PYTHON ?= .venv/bin/python
 HOST ?= 127.0.0.1
 PORT ?= 8000
-TEST_ARGS ?=
+# Commandes usuelles sans paramètres ; chaque worktree possède son .venv et .env.
+TEST_ARGS ?= --verbosity=0
 # .env est un fichier shell : ne pas l'inclure comme syntaxe Make (secrets avec $).
 LOAD_ENV = set -e; set -a; if [ -f .env ]; then . ./.env; fi; set +a;
 MANAGE = $(LOAD_ENV) "$(PYTHON)" manage.py
@@ -35,6 +36,10 @@ run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 
 test: ## Tests PostgreSQL : scénarios fictifs explicites et contrôles hors démo
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta config --noinput $(TEST_ARGS)
+
+.PHONY: employer-test
+employer-test: ## Tests du parcours employeur (imports, accès et traductions)
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta config --pattern='test_employer*.py' --noinput $(TEST_ARGS)
 
 .PHONY: test-collection
 test-collection: ## Vérifier les imports de tous les tests, sans créer de base
