@@ -514,3 +514,11 @@ libellés courts, compteur étape/total et barre ; sur petit écran, les numéro
 le titre courant restent affichés. FR/EN/DE, aria-current et navigation
 Précédent/Continuer conservés. Tests de pages trilingues et gettext réussis,
 syntaxe JavaScript contrôlée et rendu bureau local inspecté.
+
+## 30 octobre 2026 — essai ESCO et ROME indépendants
+
+Recherche directe ROME par appellation ou code, distincte des descriptions ESCO,
+et présentation en deux listes. ROME demeure en français, avec absence de
+descriptions détaillées signalée. Choix explicites, stockage séparé dans le JSON
+existant et reconstruction serveur ; anciennes sélections compatibles. Aucun
+changement de matching ni d’appel externe. Voir docs/EMPLOYER_OCCUPATIONS.md.
