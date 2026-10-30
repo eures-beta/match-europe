@@ -658,7 +658,7 @@
     {% include "employer/development_notice.html" %}
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="/forms/eures-beta/?lang={{ page_language }}">
+        <a class="brand" href="/?lang={{ page_language }}">
           <span class="brand-copy">
             <strong>Match Europe</strong>
             <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer import" %}</span>
@@ -667,8 +667,7 @@
         <nav class="nav"
              aria-label="{% translate "Main navigation" context "employer import" %}">
           <div class="nav-links">
-            <a class="nav-pill"
-               href="/forms/eures-beta/?lang={{ page_language }}">{% translate "Home" context "employer import" %}</a>
+            <a class="nav-pill" href="/?lang={{ page_language }}">{% translate "Home" context "employer import" %}</a>
             <a class="nav-pill"
                href="/forms/eures-beta/candidate?lang={{ page_language }}">{% translate "Candidate" context "employer import" %}</a>
             <a class="nav-pill is-active"

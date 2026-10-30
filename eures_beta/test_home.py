@@ -1,10 +1,21 @@
 from django.test import SimpleTestCase, override_settings
+from django.urls import reverse
 
 
 class PublicHomeTests(SimpleTestCase):
+    def test_legacy_home_redirects_to_canonical_home_with_query(self):
+        for query in ('', '?lang=fr', '?lang=en', '?lang=de&source=bookmark'):
+            with self.subTest(query=query):
+                self.assertRedirects(
+                    self.client.get(reverse('legacy_home') + query),
+                    reverse('home') + query,
+                    status_code=301,
+                    fetch_redirect_response=False,
+                )
+
     def test_reference_content_and_journey_links_in_each_language(self):
         for demo_mode in (False, True):
-            for path in ('/', '/forms/eures-beta/'):
+            for path in (reverse('home'),):
                 for language, title, figures, outlook in (
                     (
                         'fr',
@@ -50,7 +61,7 @@ class PublicHomeTests(SimpleTestCase):
 
     def test_invalid_language_and_writes(self):
         self.assertContains(self.client.get('/?lang=invalid'), '<html lang="fr">')
-        for path in ('/', '/forms/eures-beta/'):
+        for path in (reverse('home'), reverse('legacy_home')):
             self.assertEqual(self.client.post(path).status_code, 405)
 
     @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
@@ -61,8 +72,9 @@ class PublicHomeTests(SimpleTestCase):
                 f'/employer/pages/{language}.html',
             ):
                 response = self.client.get(path, secure=True)
-                target = f'/forms/eures-beta/?lang={language}'
+                target = f'/?lang={language}'
                 self.assertContains(response, f'href="{target}"')
+                self.assertNotContains(response, f'href="{reverse("legacy_home")}?')
                 home = self.client.get(target, secure=True)
                 self.assertTemplateUsed(home, 'home.html')
                 self.assertContains(home, f'<html lang="{language}">')
