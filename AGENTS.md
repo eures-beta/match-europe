@@ -1,5 +1,29 @@
 # Consignes de développement
 
+## Commandes locales réutilisables pour les agents
+
+- Utiliser les cibles existantes directement : `make test` pour la suite complète,
+  `make employer-test` pour les modules de tests du parcours employeur, `make check`
+  pour Django et les migrations. Le filtre employeur ne remplace pas la suite
+  complète pour valider les interactions entre domaines.
+- Chaque worktree possède son propre `.venv`, installé avec `make install-test`,
+  et son `.env` ignoré par Git. Ne pas utiliser le Python d’un autre worktree ou
+  d’une ancienne PR. Installer les dépendances avant de lancer les tests.
+- Configurer une valeur `PGDATABASE` distincte par worktree dans `.env`, avec un
+  rôle PostgreSQL de développement autorisé à créer la base de test. Django
+  utilise normalement `test_<PGDATABASE>`. Ne pas partager cette base entre
+  exécutions concurrentes ; ne jamais utiliser des identifiants de production.
+- Pour les vérifications usuelles, lancer les commandes sans paramètres, sans
+  wrapper `bash -lc`, sans `cd` incorporé et sans redirection shell `> … 2>&1`.
+  Utiliser le répertoire de travail de l’outil et récupérer directement sa sortie.
+  Cela permet la reconnaissance des préfixes d’approbation ciblés lorsque le
+  client les a autorisés. Les options de diagnostic restent possibles au besoin.
+- Ne pas masquer une opération supplémentaire dans une cible Makefile pour
+  contourner une approbation. Ces consignes ne constituent pas une règle
+  d’autorisation : les droits et règles locales du client continuent de s’appliquer.
+- Lors d’une reprise sur une branche ancienne, relire les consignes de la branche
+  de travail et les changements de consignes de `main` avant de poursuivre.
+
 ## Pull requests et collaboration en équipe
 
 ### Création
