@@ -39,6 +39,30 @@
 - Lors d’une reprise sur une branche ancienne, relire les consignes de la branche
   de travail et les changements de consignes de `main` avant de poursuivre.
 
+## Documentation des dossiers
+
+- À chaque changement, maintenir dans la même PR les README des dossiers
+  concernés et les inventaires de leurs parents : rôle du dossier, place dans
+  l’architecture et description fidèle de son contenu actuel.
+- Chaque dossier versionné possède un `README.md` en français. Lors d’un ajout,
+  déplacement, renommage ou retrait de fichier ou de dossier, créer ou actualiser
+  les entrées correspondantes ; revoir aussi les descriptions si le rôle change.
+- Présenter chaque sous-dossier immédiat avec un lien vers le **dossier** et une
+  phrase expliquant son rôle. Le lien doit afficher sur GitHub à la fois les
+  fichiers et le README ; ne pas le faire pointer directement vers `README.md`.
+- Présenter ensuite chaque fichier versionné du dossier, y compris les fichiers
+  cachés et le README lui-même, avec un lien vers le fichier et une phrase sur
+  son rôle. Ne pas inventorier les fichiers locaux ignorés ou générés non suivis.
+- Ajouter un lien vers le dossier parent dans les README des sous-dossiers.
+  Conserver les introductions utiles et vérifier les liens après les déplacements.
+- Le README racine conserve sa présentation du service et du démarrage local ;
+  maintenir à sa fin la section « Contenu de ce dépôt de code », avec les dossiers
+  et fichiers immédiats, leurs liens et leurs descriptions.
+- Avant publication, vérifier que les inventaires correspondent aux fichiers
+  suivis par Git et que les liens relatifs aboutissent. La documentation décrit
+  les responsabilités réelles, sans inventer une fonctionnalité ni recopier des
+  secrets ou des informations propres aux environnements privés.
+
 ## Pull requests et collaboration en équipe
 
 ### Création
