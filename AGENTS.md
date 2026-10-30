@@ -2,6 +2,17 @@
 
 ## Commandes locales réutilisables pour les agents
 
+- Toute opération de développement, test, qualité ou maintenance destinée à être
+  répétée doit disposer d’une cible dans le Makefile racine. Réutiliser une cible
+  existante ou la créer dans la même PR, avec un nom court et explicite et une
+  description visible dans `make help`.
+- Dans les README, la documentation et les descriptions de PR, présenter la
+  commande `make` correspondante. Conserver les détails d’exécution dans sa
+  recette, plutôt que recopier de longues commandes shell dans les fichiers
+  Markdown. Documenter les paramètres utiles sans dupliquer l’implémentation.
+- Avant publication, vérifier que les opérations documentées sont exposées et
+  testées via ces cibles. Les diagnostics ponctuels et les commandes Git/GitHub
+  peuvent rester directs lorsqu’une cible n’apporte pas de valeur réutilisable.
 - Utiliser les cibles existantes directement : `make test` pour la suite complète,
   `make employer-test` pour les modules de tests du parcours employeur, `make check`
   pour Django et les migrations. Le filtre employeur ne remplace pas la suite
