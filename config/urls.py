@@ -20,6 +20,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", views.home, name="home"),
+    path("forms/eures-beta/", views.home, name="legacy_home"),
     path("", include("eures_beta.matching.urls")),
     path('upload/', document_views.upload, name='upload'),
     path('manifest.webmanifest', views.manifest),

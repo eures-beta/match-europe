@@ -5840,3 +5840,178 @@ msgstr "Réessayer la recherche automatique"
 msgctxt "employer occupations"
 msgid "The search could not be completed. Retry the automatic search or enter an occupation in the search field. This does not mean that no match exists."
 msgstr "La recherche n’a pas abouti. Réessayez la recherche automatique ou saisissez un métier dans le champ de recherche. Cela ne signifie pas qu’aucune correspondance n’existe."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "An experiment in the Greater Region"
+msgstr "Une expérimentation dans la Grande Région"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Facilitating recruitment and professional mobility in the Greater Region"
+msgstr "Faciliter les recrutements et la mobilité professionnelle dans la Grande Région"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Match Europe is testing a new way to connect employers’ needs with candidates’ mobility plans in a cross-border economic area."
+msgstr "Match Europe expérimente une nouvelle façon de rapprocher les besoins des employeurs et les projets de mobilité des candidats dans un espace économique transfrontalier."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Start as a candidate"
+msgstr "Commencer côté candidat"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Start as an employer"
+msgstr "Commencer côté employeur"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "A cross-border labour market that remains fragmented"
+msgstr "Un marché du travail transfrontalier encore fragmenté"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The labour market extends beyond national borders, but recruitment and job searches are still largely organised country by country."
+msgstr "Le marché du travail dépasse les frontières nationales, mais les recrutements et les recherches d'emploi restent encore largement organisés pays par pays."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The project aims to better identify needs, mobility intentions and opportunities to support more relevant and faster introductions."
+msgstr "Le projet vise à mieux identifier les besoins, les intentions de mobilité et les opportunités afin de favoriser des mises en relation plus pertinentes et plus rapides."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "In the Greater Region, several hundred thousand people already work across borders. Yet job offers and applications still circulate with difficulty between countries."
+msgstr "Dans la Grande Région, plusieurs centaines de milliers de personnes travaillent déjà au-delà des frontières. Pourtant, les offres d'emploi et les candidatures circulent encore difficilement entre les pays."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Employers face recruitment difficulties, while candidates open to mobility do not always find the opportunities that might suit them."
+msgstr "Des employeurs rencontrent des difficultés de recrutement tandis que des candidats ouverts à la mobilité ne repèrent pas toujours les opportunités qui pourraient leur correspondre."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "A few figures about the Greater Region"
+msgstr "Quelques repères sur la Grande Région"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "280,000 cross-border workers travel within the Greater Region every day."
+msgstr "280 000 travailleurs frontaliers circulent chaque jour dans la Grande Région."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "40–50k people with cross-border experience could be looking for a job."
+msgstr "40–50 k personnes avec expérience transfrontalière pourraient rechercher un emploi."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "15,000+ positions may remain vacant in the same economic area."
+msgstr "15 000+ postes resteraient vacants dans le même bassin économique."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Two complementary journeys"
+msgstr "Deux parcours complémentaires"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Candidate journey"
+msgstr "Parcours candidat"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The service helps understand people’s mobility plans, skills, languages and preferences to identify opportunities that could suit them more easily."
+msgstr "Le service permet de mieux comprendre les projets de mobilité, les compétences, les langues et les préférences des personnes afin d'identifier plus facilement les opportunités susceptibles de leur correspondre."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "View the candidate journey"
+msgstr "Voir le parcours candidat"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Employer journey"
+msgstr "Parcours employeur"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The service helps clarify recruitment needs and better account for important constraints and criteria to facilitate introductions."
+msgstr "Le service aide à qualifier les besoins de recrutement et à mieux prendre en compte les contraintes et critères importants pour faciliter les mises en relation."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "View the employer journey"
+msgstr "Voir le parcours employeur"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "An experiment focused on usage"
+msgstr "Une expérimentation centrée sur les usages"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Test quickly"
+msgstr "Tester rapidement"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "An initial lightweight, multilingual service collects real needs and observes usage."
+msgstr "Un premier service léger et multilingue permet de recueillir des besoins réels et d'observer les usages."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Build knowledge"
+msgstr "Produire de la connaissance"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The information collected gradually improves understanding of candidates’ and employers’ needs."
+msgstr "Les informations recueillies permettent d'améliorer progressivement la compréhension des besoins des candidats et des employeurs."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Combine automation and human expertise"
+msgstr "Associer automatisation et expertise humaine"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The project explores different forms of assistance while keeping human intervention available when necessary."
+msgstr "Le projet explore différentes formes d'assistance tout en conservant la possibilité d'une intervention humaine lorsque cela est nécessaire."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Outlook"
+msgstr "Perspectives"
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Opening up to other countries in the Greater Region."
+msgstr "Ouverture à d'autres pays de la Grande Région."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Including new business sectors."
+msgstr "Intégration de nouveaux secteurs d'activité."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Continuously improving user journeys."
+msgstr "Amélioration continue des parcours utilisateur."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Developing monitoring and support tools."
+msgstr "Développement d'outils de suivi et d'accompagnement."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "Scaling the initiative based on lessons from initial tests."
+msgstr "Montée en charge du dispositif à partir des enseignements issus des premiers tests."
+
+#: eures_beta/templates/home.html
+msgctxt "public home"
+msgid "The Match Europe experiment supports professional mobility and recruitment in the Greater Region."
+msgstr "Expérimentation Match Europe pour faciliter la mobilité professionnelle et les recrutements dans la Grande Région."

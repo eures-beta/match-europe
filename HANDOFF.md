@@ -24,6 +24,22 @@ Note de reprise : une seule configuration Django existe désormais à la racine.
 Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
 mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
+## 30 octobre 2026 — accueil général
+
+Branche `codex/public-home`, initialement depuis #79 puis replacée sur le sommet
+#81 (`6d545bc`) pour la publication explicitement demandée par Eric.
+Accueil général à `/` et `/forms/eures-beta/`, contenu français repris de la
+page de référence consultée, traduit en EN/DE avec gettext. Liens des parcours
+locaux et langue conservés ; présentation publique sans collecte ni élargissement
+des droits métier. Les chiffres sont repris sans validation statistique.
+16 tests ciblés passent sans base de données ; aucun modèle ou migration.
+Format Black et djLint, catalogues complets et diff vérifiés. Au navigateur,
+aller-retour accueil → employeur → Accueil vérifié en français sur une session
+locale vierge (`localhost:9033`). Rendu bureau contrôlé ; pas d’audit mobile
+ou WCAG complet effectué. La suite PostgreSQL complète n’a pas été exécutée.
+Voir [périmètre et limites](docs/PUBLIC_HOME.md). Push et nouvelle PR autorisés
+avec le titre « Mise en place page d'accueil ». Aucune fusion ni mise en production.
+
 ## 27 octobre 2026 — fermeture des anciennes sessions hors démo
 
 Suivi de la revue d’Oly sur #50 : `require_identity` refuse désormais les parcours
