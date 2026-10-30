@@ -5832,3 +5832,11 @@ msgstr "ESCO-Referenz"
 msgctxt "employer occupations"
 msgid "{count} result(s) found. Select those that fit."
 msgstr "{count} Ergebnis(se) gefunden. Wählen Sie die passenden Ergebnisse."
+
+msgctxt "employer occupations"
+msgid "Retry automatic search"
+msgstr "Automatische Suche erneut versuchen"
+
+msgctxt "employer occupations"
+msgid "The search could not be completed. Retry the automatic search or enter an occupation in the search field. This does not mean that no match exists."
+msgstr "Die Suche konnte nicht abgeschlossen werden. Versuchen Sie die automatische Suche erneut oder geben Sie einen Beruf im Suchfeld ein. Dies bedeutet nicht, dass keine Zuordnung vorhanden ist."
