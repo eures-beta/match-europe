@@ -1058,7 +1058,7 @@
     {% include "employer/development_notice.html" %}
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="/?lang={{ page_language }}">
+        <a class="brand" href="{% url 'home' %}?lang={{ page_language }}">
           <span class="brand-copy">
             <strong>Match Europe</strong>
             <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer auth-shell" %}</span>
@@ -1068,19 +1068,19 @@
              aria-label="{% translate "Main navigation" context "employer auth-shell" %}">
           <div class="nav-links">
             <a class="nav-pill"
-               href="/?lang={{ page_language }}">{% translate "Home" context "employer auth-shell" %}</a>
+               href="{% url 'home' %}?lang={{ page_language }}">{% translate "Home" context "employer auth-shell" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/candidate?lang={{ page_language }}">{% translate "Candidate" context "employer auth-shell" %}</a>
+               href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer auth-shell" %}</a>
             <a class="nav-pill is-active"
                href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "employer auth-shell" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/stat?lang={{ page_language }}">{% translate "Stats" context "employer auth-shell" %}</a>
+               href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer auth-shell" %}</a>
           </div>
           <div class="nav-links nav-links-secondary">
             <a class="nav-pill"
-               href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
+               href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
+               href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
           </div>
           <div class="employer-header-actions">
             <div class="lang-switch"
@@ -1116,8 +1116,8 @@
       <div class="shell employer-page-footer-inner">
         <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer auth-shell" %}</p>
         <nav aria-label="{% translate "Useful links" context "employer auth-shell" %}">
-          <a href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
-          <a href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
+          <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
+          <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
           <a href="/employer/pages/privacy-{{ page_language }}.html">{% translate "Data protection" context "employer auth-shell" %}</a>
         </nav>
       </div>

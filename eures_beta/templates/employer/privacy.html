@@ -23,17 +23,17 @@
           <div class="nav-links">
             <a class="nav-pill" href="{{ page_language }}.html">{% translate "Home" context "employer privacy" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/candidate?lang={{ page_language }}">{% translate "Candidate" context "employer privacy" %}</a>
+               href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer privacy" %}</a>
             <a class="nav-pill"
                href="{{ page_language }}.html">{% translate "Employer" context "employer privacy" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/stat?lang={{ page_language }}">{% translate "Stats" context "employer privacy" %}</a>
+               href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer privacy" %}</a>
           </div>
           <div class="nav-links nav-links-secondary">
             <a class="nav-pill"
-               href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer privacy" %}</a>
+               href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer privacy" %}</a>
             <a class="nav-pill"
-               href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer privacy" %}</a>
+               href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer privacy" %}</a>
           </div>
           <div class="lang-switch"
                aria-label="{% translate "Language" context "employer privacy" %}">
@@ -179,8 +179,8 @@
       <div class="shell employer-page-footer-inner">
         <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer privacy" %}</p>
         <nav aria-label="{% translate "Useful links" context "employer privacy" %}">
-          <a href="/forms/eures-beta/le-projet?lang={{ page_language }}">{% translate "Project" context "employer privacy" %}</a>
-          <a href="/forms/eures-beta/journal?lang={{ page_language }}">{% translate "Project journal" context "employer privacy" %}</a>
+          <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer privacy" %}</a>
+          <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer privacy" %}</a>
           <a href="privacy-en.html">{% translate "Data protection" context "employer privacy" %}</a>
         </nav>
       </div>

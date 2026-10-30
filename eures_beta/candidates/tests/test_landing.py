@@ -9,7 +9,7 @@ class CandidateLandingTests(SimpleTestCase):
     def test_candidate_routes_belong_to_the_candidate_application(self):
         from django.urls import resolve
 
-        for path in ('/candidate/', '/forms/eures-beta/candidate'):
+        for path in ('/candidate/',):
             self.assertEqual(
                 resolve(path).func.__module__, 'eures_beta.candidates.landing'
             )
@@ -78,8 +78,8 @@ class CandidateLandingTests(SimpleTestCase):
                 self.assertContains(response, f'href="/employer/pages/{language}.html"')
                 assert_active_link(self, response, f'/candidate/?lang={language}')
 
-    def test_legacy_entry_and_unsupported_language(self):
-        for path in ('/candidate/', '/forms/eures-beta/candidate'):
+    def test_unsupported_language(self):
+        for path in ('/candidate/',):
             self.assertContains(
                 self.client.get(path, {'lang': 'en'}, secure=True),
                 'Find your next job in Europe',
@@ -90,7 +90,7 @@ class CandidateLandingTests(SimpleTestCase):
             )
 
     def test_rejects_writes_and_is_closed_outside_demo(self):
-        for path in ('/candidate/', '/forms/eures-beta/candidate'):
+        for path in ('/candidate/',):
             self.assertEqual(self.client.post(path, secure=True).status_code, 405)
             self.assertEqual(self.client.get(path).status_code, 404)
             with override_settings(DEMO_MODE=False):
