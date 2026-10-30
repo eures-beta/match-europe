@@ -1,37 +1,51 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-  <section class="panel narrow"><p class="eyebrow">02 / 03</p><h1>{% trans "My profile and mobility" %}</h1><p>{% trans "Check your experience and tell us what you want next. A CV alone does not describe your current wishes." %}</p>{% if candidate.sent_at %}
-    <dl>
-      <dt>{% trans "Name" %}</dt>
-      <dd>
-        {{ candidate.name }}
-      </dd>
-      <dt>{% trans "Jobs sought" %}</dt>
-      <dd>
-        {{ candidate.jobs }}
-      </dd>
-      <dt>{% trans "Experience" %}</dt>
-      <dd class="preserve">
-        {{ candidate.experience }}
-      </dd>
-      <dt>{% trans "Languages" %}</dt>
-      <dd>
-        {{ candidate.languages }}
-      </dd>
-      <dt>{% trans "Residence" %}</dt>
-      <dd>
-        {{ candidate.location }}
-      </dd>
-      <dt>{% trans "Availability" %}</dt>
-      <dd>
-        {{ candidate.availability }}
-      </dd>
-    </dl>
-    <p>{% trans "Profile validated — matching simulated" %}</p>
-{% else %}
-  <form method="post">{% csrf_token %}{{ form.as_p }}<label class="check"><input type="checkbox" name="agreement" value="yes">{% trans "I confirm my profile and agree to its use for matching. My contact details are not shared automatically." %}</label><div class="actions"><button class="btn btn-outline-primary" name="action" value="save">{% trans "Save draft" %}</button><button class="btn btn-primary" name="action" value="validate">{% trans "Validate my profile" %}</button></div>
-  </form>
-{% endif %}
-</section>
+  <section class="panel narrow">
+    <p class="eyebrow">02 / 03</p>
+    <h1>{% trans "My profile and mobility" %}</h1>
+    <p>
+      {% trans "Check your experience and tell us what you want next. A CV alone does not describe your current wishes." %}
+    </p>
+    {% if candidate.sent_at %}
+      <dl>
+        <dt>{% trans "Name" %}</dt>
+        <dd>
+          {{ candidate.name }}
+        </dd>
+        <dt>{% trans "Jobs sought" %}</dt>
+        <dd>
+          {{ candidate.jobs }}
+        </dd>
+        <dt>{% trans "Experience" %}</dt>
+        <dd class="preserve">
+          {{ candidate.experience }}
+        </dd>
+        <dt>{% trans "Languages" %}</dt>
+        <dd>
+          {{ candidate.languages }}
+        </dd>
+        <dt>{% trans "Residence" %}</dt>
+        <dd>
+          {{ candidate.location }}
+        </dd>
+        <dt>{% trans "Availability" %}</dt>
+        <dd>
+          {{ candidate.availability }}
+        </dd>
+      </dl>
+      <p>{% trans "Profile validated — matching simulated" %}</p>
+    {% else %}
+      <form method="post">{% csrf_token %}{{ form.as_p }}
+        <label class="check">
+          <input type="checkbox" name="agreement" value="yes">
+          {% trans "I confirm my profile and agree to its use for matching. My contact details are not shared automatically." %}
+        </label>
+        <div class="actions">
+          <button class="btn btn-outline-primary" name="action" value="save">{% trans "Save draft" %}</button>
+          <button class="btn btn-primary" name="action" value="validate">{% trans "Validate my profile" %}</button>
+        </div>
+      </form>
+    {% endif %}
+  </section>
 {% endblock %}

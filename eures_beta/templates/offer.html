@@ -8,50 +8,80 @@
     </div>
   </div>
   {% if editable %}
-    <p class="alert alert-info">{% trans "Review every extracted item. Missing information stays unspecified and must never become a negative criterion." %}</p><div class="row g-4"><section class="col-lg-7"><div class="panel"><h2>{% trans "Verify and complete the offer" %}</h2><form method="post">{% csrf_token %}{{ form.as_p }}<label class="check"><input type="checkbox" name="agreement" value="yes">{% trans "I confirm the offer and prequalification questions, and agree to matching. No candidate is contacted automatically." %}</label><div class="actions"><button name="action" value="save" class="btn btn-outline-primary">{% trans "Save draft" %}</button><button name="action" value="validate" class="btn btn-primary">{% trans "Validate the offer" %}</button></div>
-    </form>
-    </div>
-    </section>
-    <aside class="col-lg-5"><div class="panel"><h2>{% trans "What should we check before introduction?" %}</h2><p>{% trans "Define useful job-related questions. A mandatory requirement still needs human review. Avoid questions about private or sensitive matters." %}</p><form method="post">{% csrf_token %}{{ question_form.as_p }}<button name="action" value="question" class="btn btn-outline-primary">{% trans "Add question" %}</button></form>
-      </div>
-      <div class="panel">
-        <h2>{% trans "Prequalification questions" %}</h2>
-        {% for q in offer.questions.all %}
-          <article class="question"><strong>{{ q.text }}</strong><p>{{ q.expectation }}</p><small>{{ q.options }}</small><form method="post">{% csrf_token %}<input type="hidden" name="question" value="{{ q.pk }}"><button class="btn btn-sm btn-outline-danger"
-        name="action"
-        value="remove_question">{% trans "Remove question" %}</button></form>
-          </article>
-        {% empty %}
-          <p>{% trans "No additional question. You can validate without a questionnaire." %}</p>
-        {% endfor %}
-      </div>
-    </aside>
+    <p class="alert alert-info">{% trans "Review every extracted item. Missing information stays unspecified and must never become a negative criterion." %}</p>
+    <div class="row g-4">
+      <section class="col-lg-7">
+        <div class="panel">
+          <h2>{% trans "Verify and complete the offer" %}</h2>
+          <form method="post">{% csrf_token %}{{ form.as_p }}
+            <label class="check">
+              <input type="checkbox" name="agreement" value="yes">
+              {% trans "I confirm the offer and prequalification questions, and agree to matching. No candidate is contacted automatically." %}
+            </label>
+            <div class="actions">
+              <button name="action" value="save" class="btn btn-outline-primary">{% trans "Save draft" %}</button>
+              <button name="action" value="validate" class="btn btn-primary">{% trans "Validate the offer" %}</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <aside class="col-lg-5">
+        <div class="panel">
+          <h2>{% trans "What should we check before introduction?" %}</h2>
+          <p>{% trans "Define useful job-related questions. A mandatory requirement still needs human review. Avoid questions about private or sensitive matters." %}</p>
+          <form method="post">{% csrf_token %}{{ question_form.as_p }}
+            <button name="action" value="question" class="btn btn-outline-primary">{% trans "Add question" %}</button>
+          </form>
+        </div>
+        <div class="panel">
+          <h2>{% trans "Prequalification questions" %}</h2>
+          {% for q in offer.questions.all %}
+            <article class="question"><strong>{{ q.text }}</strong>
+              <p>{{ q.expectation }}</p>
+              <small>{{ q.options }}</small>
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="question" value="{{ q.pk }}">
+                <button class="btn btn-sm btn-outline-danger"
+                        name="action"
+                        value="remove_question">{% trans "Remove question" %}</button>
+              </form>
+            </article>
+          {% empty %}
+            <p>{% trans "No additional question. You can validate without a questionnaire." %}</p>
+          {% endfor %}
+        </div>
+      </aside>
     </div>
   {% else %}
-    <section class="panel"><h2>{{ offer.company }} · {{ offer.location }}</h2><p class="preserve">{{ offer.description }}</p><dl><dt>{% trans "Contract" %}</dt>
-      <dd>
-        {{ offer.contract|default:'—' }}
-      </dd>
-      <dt>{% trans "Salary" %}</dt>
-      <dd>
-        {{ offer.salary|default:'—' }}
-      </dd>
-      <dt>{% trans "Working hours" %}</dt>
-      <dd>
-        {{ offer.hours|default:'—' }}
-      </dd>
-      <dt>{% trans "Languages" %}</dt>
-      <dd>
-        {{ offer.languages|default:'—' }}
-      </dd>
-      <dt>{% trans "Cross-border recruitment" %}</dt>
-      <dd>
-        {% trans offer.cross_border %}
-      </dd>
-      <dt>{% trans "Relocation recruitment" %}</dt>
-      <dd>
-        {% trans offer.relocation %}
-      </dd>
+    <section class="panel">
+      <h2>{{ offer.company }} · {{ offer.location }}</h2>
+      <p class="preserve">{{ offer.description }}</p>
+      <dl>
+        <dt>{% trans "Contract" %}</dt>
+        <dd>
+          {{ offer.contract|default:'—' }}
+        </dd>
+        <dt>{% trans "Salary" %}</dt>
+        <dd>
+          {{ offer.salary|default:'—' }}
+        </dd>
+        <dt>{% trans "Working hours" %}</dt>
+        <dd>
+          {{ offer.hours|default:'—' }}
+        </dd>
+        <dt>{% trans "Languages" %}</dt>
+        <dd>
+          {{ offer.languages|default:'—' }}
+        </dd>
+        <dt>{% trans "Cross-border recruitment" %}</dt>
+        <dd>
+          {% trans offer.cross_border %}
+        </dd>
+        <dt>{% trans "Relocation recruitment" %}</dt>
+        <dd>
+          {% trans offer.relocation %}
+        </dd>
       </dl>
       <h3>{% trans "Prequalification questions" %}</h3>
       <ol>

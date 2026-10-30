@@ -25,7 +25,20 @@
   <h1>{% trans "Test inbox" %}</h1>
   <p class="mini-note">{% trans "Local simulation — this email has not been sent. The sender address will be configured with Brevo FT." %}</p>
   {% if message %}
-    <dl><dt>{% trans "From" %}</dt><dd>Match Europe</dd><dt>{% trans "To" %}</dt><dd>{{ message.email }}</dd><dt>{% trans "Subject" %}</dt><dd>{% trans "Verify your email address — Match Europe" %}</dd></dl>
+    <dl>
+      <dt>{% trans "From" %}</dt>
+      <dd>
+        Match Europe
+      </dd>
+      <dt>{% trans "To" %}</dt>
+      <dd>
+        {{ message.email }}
+      </dd>
+      <dt>{% trans "Subject" %}</dt>
+      <dd>
+        {% trans "Verify your email address — Match Europe" %}
+      </dd>
+    </dl>
     <hr>
     <article aria-label="Email">
       <p>{% trans "Hello," %}</p>
