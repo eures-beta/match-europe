@@ -16,6 +16,7 @@
   const query=node('input','',fallback); query.id='occupation-query'; query.type='text'; query.maxLength=150; query.autocomplete='off';query.placeholder=t.searchExample; query.setAttribute('aria-describedby','occupation-query-help'); query.setAttribute('aria-controls','occupation-results'); query.style.width='100%';
   const help=node('p',t.conciseHelp,fallback); help.id='occupation-query-help';
   const status=node('p','',box); status.setAttribute('role','status');
+  node('p',t.independentHelp,box);
   const list=node('div','',box); list.id='occupation-results';
   const near=node('button',t.near,box); near.type='button'; near.className='ghost-action occupation-change'; near.hidden=true;
   const custom=node('div','',box); custom.hidden=true;
@@ -24,8 +25,10 @@
   const personal=node('textarea','',custom); personal.id='occupation-personal'; personal.maxLength=2000; personal.rows=3;
   const error=node('p','',box); error.setAttribute('role','alert'); error.className='import-error';
   let version='1.2.1', searchedTitle='', cards=[], choices=new Set(), offered=[], serial=0, timer=null, controller=null, fromDocument=false;
+  let romeCards=[], romeChoices=new Set();
   function render() {
     list.replaceChildren();
+    node('h3',t.escoHeading,list);
     for(const selected of [true,false]) {
       const groupCards=cards.filter(job=>choices.has(job.uri)===selected);
       if(!groupCards.length) continue;
@@ -36,19 +39,27 @@
       const check=node('input','',label); check.type='checkbox'; check.value=job.uri; check.checked=choices.has(job.uri);
       const text=node('span','',label); node('strong',job.label,text); node('span',job.description,text).style.display='block';
       check.addEventListener('change',()=>{ if(check.checked) choices.add(job.uri); else choices.delete(job.uri); error.textContent=''; });
-      const details=node('details','',article); node('summary',t.references,details);
+      const details=node('details','',article); node('summary',t.escoReference,details);
       const link=node('a','ESCO — '+job.label,details); link.href='https://esco.ec.europa.eu/en/classification/occupation?uri='+encodeURIComponent(job.uri); link.target='_blank'; link.rel='noopener noreferrer';
-      node('p',[job.esco_code,job.reference].filter(Boolean).join(' · '),details);
-      const refs=node('ul','',details);
-      for(const fiche of job.rome_fiches || []) node('li','ROME '+fiche.code+' — '+fiche.label,refs);
-      if(!job.rome_fiches?.length) node('p',t.noRome,details);
-      for(const match of job.rome || []) node('p',`ROME ${match.id} — ${match.label} · ${match.relation}`,details);
-      node('p',t.versions,details);
+      node('p',job.esco_code,details);
+
     }
+    }
+    if(!cards.length) node('p',t.noEsco,list);
+    node('h3',t.romeHeading,list);
+    node('p',t.romeHelp,list);
+    if(!romeCards.length) node('p',t.noRomeResult,list);
+    for(const job of romeCards) {
+      const article=node('article','',list); article.className='review-question';article.lang='fr';
+      const label=node('label','',article); label.className='review-check';
+      const check=node('input','',label);check.type='checkbox';check.checked=romeChoices.has(job.code);
+      node('strong',`ROME ${job.code} — ${job.label}`,label);
+      check.addEventListener('change',()=>{if(check.checked)romeChoices.add(job.code);else romeChoices.delete(job.code);error.textContent='';});
+      if(job.matched_labels?.length) node('p',job.matched_labels.join(' · '),article);
     }
   }
   function cancel() { clearTimeout(timer); controller?.abort(); serial++;near.disabled=false; }
-  function clear() { cancel(); searchedTitle=''; cards=[];choices=new Set();offered=[];personal.value='';custom.hidden=true;near.hidden=true;list.replaceChildren();error.textContent=''; }
+  function clear() { cancel();romeCards=[];romeChoices=new Set(); searchedTitle=''; cards=[];choices=new Set();offered=[];personal.value='';custom.hidden=true;near.hidden=true;list.replaceChildren();error.textContent=''; }
   function manual(message=t.manualIntro,focus=false) { fallback.hidden=false;fallbackIntro.textContent=message;fallbackIntro.hidden=message===t.manualHelp;if(focus) query.focus(); }
   async function find(mode='search',useContext=false,fromTitle=false) {
     clearTimeout(timer);
@@ -61,20 +72,23 @@
     try {
       const context=useContext?[document.getElementById('review-description').value,document.getElementById('review-desiredProfile').value].join('\n').slice(0,20000):'';
       const csrf=document.cookie.split('; ').find(value=>value.startsWith('csrftoken='))?.split('=')[1] || '';
-      const response=await fetch('/api/occupations/',{method:'POST',credentials:'same-origin',signal:controller.signal,headers:{'Content-Type':'application/json','X-CSRFToken':csrf},body:JSON.stringify({q,lang,mode,excluded:offered,context})});
+      const response=await fetch('/api/occupations/',{method:'POST',credentials:'same-origin',signal:controller.signal,headers:{'Content-Type':'application/json','X-CSRFToken':csrf},body:JSON.stringify({q,lang,mode,excluded:offered,context,independent:true})});
       if(!response.ok) throw new Error('catalogue');
       const result=await response.json();
       if(request!==serial || title.value.trim()!==boundTitle) return;
       version=result.version;searchedTitle=boundTitle;
+      const retainedRome=romeCards.filter(row=>romeChoices.has(row.code));
+      romeCards=[...retainedRome,...(result.rome_results || []).filter(row=>!retainedRome.some(old=>old.code===row.code))];
       const retained=cards.filter(row=>choices.has(row.uri));
       cards=[...retained,...result.results.filter(row=>!retained.some(old=>old.uri===row.uri))];render();
-      if(fromTitle && !result.results.length) manual(fromDocument?t.automaticFailure:t.manualIntro);
+      if(fromTitle && !result.results.length && !result.rome_results?.length) manual(fromDocument?t.automaticFailure:t.manualIntro);
       if(!fromTitle) fallbackIntro.hidden=true;
-      status.textContent=result.results.length?t.found.replace('{count}',String(result.total || result.results.length)):(fromTitle?'':t.empty);
-      status.className=result.results.length?'visually-hidden':'';
+      const count=result.results.length+(result.rome_results || []).length;
+      status.textContent=count?t.resultsFound.replace('{count}',String(count)):(fromTitle?'':t.empty);
+      status.className=count?'visually-hidden':'';
       if(result.total>result.results.length) status.textContent+=' '+t.limited;
-      custom.hidden=(fromTitle || result.results.length>0) && !personal.value;
-      near.hidden=mode==='near' || mode==='reference' || !result.results.length;
+      custom.hidden=(fromTitle || result.results.length>0 || result.rome_results?.length>0) && !personal.value;
+      near.hidden=mode==='near' || (!result.results.length && !result.rome_results?.length);
     } catch(exc) { if(request===serial && exc.name!=='AbortError') {manual(t.manualHelp);status.textContent='';error.textContent=t.error;} }
   }
   function schedule(mode) {
@@ -94,17 +108,17 @@
       clear();fallback.hidden=true;query.value='';status.textContent='';
       document.querySelector('label[for=review-title]').textContent=detected?t.detectedTitle:t.ownTitle;
       if(value && value.title===title.value.trim()) {
-        version=value.version;searchedTitle=value.title;choices=new Set(value.uris || []);cards=value.jobs || [];personal.value=value.personal || '';custom.hidden=!personal.value;render();
+        version=value.version;searchedTitle=value.title;choices=new Set(value.uris || []);cards=value.jobs || [];romeCards=value.rome_jobs || [];romeChoices=new Set(value.rome_codes || []);personal.value=value.personal || '';custom.hidden=!personal.value;render();
       }
       find('search',true,true);
     },
     reset:clear,
-    collect() { return {version,title:title.value.trim(),language:lang,uris:searchedTitle===title.value.trim()?[...choices]:[],personal:searchedTitle===title.value.trim()?personal.value.trim():''}; },
+    collect() { return {version,title:title.value.trim(),language:lang,rome_codes:searchedTitle===title.value.trim()?[...romeChoices]:[],uris:searchedTitle===title.value.trim()?[...choices]:[],personal:searchedTitle===title.value.trim()?personal.value.trim():''}; },
     validate() {
       const value=this.collect();
-      if(!value.uris.length && !value.personal) {error.textContent=t.required;box.scrollIntoView({block:'center'});if(fallback.hidden){near.focus();}else{query.focus();}return false;}return true;
+      if(!value.uris.length && !value.rome_codes.length && !value.personal) {error.textContent=t.required;box.scrollIntoView({block:'center'});if(fallback.hidden){near.focus();}else{query.focus();}return false;}return true;
     },
-    summary(value) { return [...(value?.jobs || []).map(job=>job.label+' — '+job.description),value?.personal].filter(Boolean).join('\n\n'); },
+    summary(value) { return [...(value?.jobs || cards.filter(job=>(value?.uris || []).includes(job.uri))).map(job=>'ESCO — '+job.label+' — '+job.description),...(value?.rome_jobs || romeCards.filter(job=>(value?.rome_codes || []).includes(job.code))).map(job=>'ROME '+job.code+' — '+job.label),value?.personal].filter(Boolean).join('\n\n'); },
     summaryLabel:t.saved,
   };
 })();

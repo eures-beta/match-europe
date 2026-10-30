@@ -6,7 +6,14 @@ import re
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from eures_beta.demo_access import require_demo_access
-from .catalog import catalog, occupation_index, nearby, suggestions, references
+from .catalog import (
+    catalog,
+    occupation_index,
+    nearby,
+    suggestions,
+    references,
+    rome_suggestions,
+)
 
 
 @require_demo_access
@@ -28,9 +35,11 @@ def search_api(request):
     language = data.get('lang', 'fr')
     query = data.get('q', '')
     mode = data.get('mode', 'search')
+    independent = data.get('independent', False)
     context = data.get('context', '')
     if (
-        language not in ('fr', 'en', 'de')
+        not isinstance(independent, bool)
+        or language not in ('fr', 'en', 'de')
         or not isinstance(query, str)
         or not 1 <= len(query) <= 150
         or mode not in ('search', 'near', 'reference')
@@ -50,17 +59,31 @@ def search_api(request):
         re.I,
     ):
         mode = 'reference'
+    independent_rome_code = independent and bool(
+        re.fullmatch(r'(?:ROME\s*[:—-]?\s*)?[A-Z]\d{4}', query.strip(), re.I)
+    )
     rows = (
-        references(query, language)
-        if mode == 'reference'
+        []
+        if independent_rome_code
         else (
-            nearby(query, language, excluded, context)
-            if mode == 'near'
-            else suggestions(query, language, context)
+            references(query, language)
+            if mode == 'reference'
+            else (
+                nearby(query, language, excluded, context)
+                if mode == 'near'
+                else suggestions(query, language, context)
+            )
         )
     )
+    rome_rows = rome_suggestions(query) if independent else []
+    if independent and re.fullmatch(
+        r'(?:ROME\s*[:—-]?\s*)?[A-Z]\d{4}', query.strip(), re.I
+    ):
+        rows = []  # Never turn a ROME code into ESCO matches in the independent trial.
     return JsonResponse(
         {
+            'rome_results': rome_rows,
+            'rome_version': '26M10',
             'version': catalog()['manifest']['version'],
             'results': rows[:20],
             'total': len(rows),

@@ -226,6 +226,8 @@ class ImportFlowTests(TestCase):
                 'uris': [job['uri']],
                 'personal': '',
                 'jobs': [{'label': 'forged'}],
+                'rome_codes': ['D1102'],
+                'rome_jobs': [{'code': 'D1102', 'label': 'forged'}],
             }
             url = '/api/imports/' + obj['id'] + '/'
             saved = self.client.post(
@@ -242,11 +244,16 @@ class ImportFlowTests(TestCase):
             self.assertEqual(saved.status_code, 200)
             reopened = self.client.get(url).json()
             self.assertEqual(reopened['data']['occupation']['jobs'][0], job)
+            self.assertEqual(reopened['data']['occupation']['rome_codes'], ['D1102'])
+            self.assertNotEqual(
+                reopened['data']['occupation']['rome_jobs'][0]['label'], 'forged'
+            )
             self.assertEqual(reopened['data']['title'], data['title'])
             self.assertEqual(Client().get(url).status_code, 404)
             for bad in (
                 {**data['occupation'], 'uris': ['http://invalid.example/occupation']},
                 {**data['occupation'], 'version': '0.0'},
+                {**data['occupation'], 'rome_codes': ['Z9999']},
                 {**data['occupation'], 'title': 'Other title'},
             ):
                 result = self.client.post(
@@ -262,6 +269,7 @@ class ImportFlowTests(TestCase):
                 )
                 self.assertEqual(result.status_code, 400)
             data['occupation']['uris'] = []
+            data['occupation']['rome_codes'] = []
             result = self.client.post(
                 url,
                 json.dumps(
