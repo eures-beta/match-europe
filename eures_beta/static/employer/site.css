@@ -1238,3 +1238,29 @@ body[data-page="home"] .hero-card h1 {
     max-width: none;
   }
 }
+
+/* Shared employer service status, including connection and workspace pages. */
+.employer-development-notice {
+  margin: 0;
+  padding: 12px 24px;
+  background: #fff0bd;
+  color: #17324d;
+  text-align: center;
+}
+
+.employer-development-notice p {
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+.employer-development-notice a {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.employer-development-notice a:focus-visible {
+  outline: 3px solid #004494;
+  outline-offset: 3px;
+}

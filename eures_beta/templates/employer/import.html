@@ -124,14 +124,6 @@
             }
         }
 
-        .demo-notice {
-            margin: 0;
-            padding: 12px 24px;
-            background: #fff0bd;
-            color: #17324d;
-            text-align: center
-        }
-
         .primary-action:disabled {
             cursor: default;
             opacity: 1
@@ -663,7 +655,7 @@
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer import" %}</a>
-    <p class="demo-notice" id="demo-notice">{% translate "Local demonstration: no the preparation service request. You may voluntarily download the test summary to your computer. Email is not saved." context "employer import" %}</p>
+    {% include "employer/development_notice.html" %}
     <header class="site-header">
       <div class="shell">
         <a class="brand" href="/forms/eures-beta/?lang={{ page_language }}">

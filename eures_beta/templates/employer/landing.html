@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static %}
 {% get_current_language as page_language %}
 <!DOCTYPE html>
 <html lang="{{ page_language }}">
@@ -122,12 +122,14 @@
             }
         }
 
-        .demo-notice {
-            margin: 0;
-            padding: 12px 24px;
-            background: #fff0bd;
-            color: #17324d;
-            text-align: center
+        .brand {
+            gap: 12px
+        }
+
+        .match-europe-logo {
+            flex-shrink: 0;
+            object-fit: contain;
+            border-radius: 8px
         }
 
         .primary-action:disabled {
@@ -196,10 +198,15 @@
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
-    <p class="demo-notice" id="demo-notice">{% translate "Local demonstration — proposed journey. Import, offer analysis and follow-up questions are not yet connected." context "employer landing" %}</p>
+    {% include "employer/development_notice.html" %}
     <header class="site-header">
       <div class="shell">
         <a class="brand" href="/forms/eures-beta/?lang={{ page_language }}">
+          <img class="match-europe-logo"
+               src="{% static 'employer/assets/match-europe-logo.png' %}"
+               alt=""
+               width="56"
+               height="56">
           <span class="brand-copy">
             <strong>Match Europe</strong>
             <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer landing" %}</span>
@@ -280,7 +287,7 @@
           <div class="candidate-letter-head">
             <div class="kicker">{% translate "Employer journey" context "employer landing" %}</div>
             <h1>{% translate "Make recruitment easier through European mobility" context "employer landing" %}</h1>
-            <p class="lede">{% translate "Already written your job offer? Import a PDF or add the link to your advert. Match Europe helps you search for candidates in Europe." context "employer landing" %}</p>
+            <p class="lede">{% translate "Already written your job offer? Import a PDF or add the link to your advert to prepare and save your recruitment needs." context "employer landing" %}</p>
             <div class="landing-actions">
               <a class="primary-action"
                  href="import-v2-{{ page_language }}.html">{% translate "Import my job offer" context "employer landing" %}</a>
@@ -295,7 +302,7 @@
             <p>{% translate "Check this summary, correct any information if needed and complete what is missing." context "employer landing" %}</p>
             <p>{% translate "If information is missing or unclear, you will be asked additional questions. In particular, specify whether you can welcome cross-border workers or people relocating from another European country." context "employer landing" %}</p>
             <p>{% translate "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers." context "employer landing" %}</p>
-            <div class="candidate-highlight">{% translate "The search for candidates starts only after you validate your offer." context "employer landing" %}</div>
+            <div class="candidate-highlight">{% translate "Saving your offer does not start a candidate search. Matching is coming soon." context "employer landing" %}</div>
           </section>
           <section class="candidate-about">
             <h2>{% translate "How the service can help" context "employer landing" %}</h2>
@@ -308,8 +315,8 @@
             <ul>
               <li>{% translate "1. Add your offer as a PDF, a link or manual text." context "employer landing" %}</li>
               <li>{% translate "2. Check the information and answer any additional questions." context "employer landing" %}</li>
-              <li>{% translate "3. Choose your questions for candidates, then validate your offer." context "employer landing" %}</li>
-              <li>{% translate "4. Review applications and answers before deciding on an introduction." context "employer landing" %}</li>
+              <li>{% translate "3. Prepare your questions for candidates and save your offer." context "employer landing" %}</li>
+              <li>{% translate "4. Coming soon: matching with candidates. No matching is carried out at this stage." context "employer landing" %}</li>
             </ul>
           </article>
           <article class="surface-card candidate-info-card">

@@ -20,6 +20,8 @@ class EmployerAuthTranslationTests(TestCase):
                 )
                 response = self.client.get(f'/employer/access/?lang={language}')
                 self.assertTemplateUsed(response, 'employer_auth_shell.html')
+                self.assertContains(response, 'id="development-notice"', count=1)
+                self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, label)
                 self.assertContains(response, f'href="/employer/pages/{language}.html"')

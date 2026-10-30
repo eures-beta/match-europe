@@ -114,3 +114,14 @@ employeur dans une branche dépendante. Pas de générateurs ni de dossier méti
 `journeys` réintroduits. Les nouvelles PR de livraison cibleront le sommet courant
 du train unique, les essais incertains restant hors train. Aucune fusion ou
 mise en production autorisée.
+
+## 30 octobre 2026 — information sur le dépôt employeur
+
+Eric demande de présenter le dépôt de besoins réels comme enregistré, en distinguant
+le rapprochement avec les candidats, encore indisponible et annoncé prochainement
+sans date garantie. Le bandeau commun aux pages employeur affiche le statut de
+développement et son adresse professionnelle de retour. Le logo Match Europe
+existant est repris, sans modifier les logos officiels partenaires.
+Cette décision éditoriale ne vérifie pas le stockage distant, ne transforme pas
+une recette jetable en service permanent. Eric autorise ensuite la création
+d’une PR au sommet de la pile et une recette jetable, sans fusion ni production.

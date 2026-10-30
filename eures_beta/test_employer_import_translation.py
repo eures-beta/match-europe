@@ -21,6 +21,11 @@ class EmployerImportTranslationTests(SimpleTestCase):
                 response = self.client.get(
                     f'/employer/pages/{self.page}-{language}.html', secure=True
                 )
+                self.assertContains(response, 'id="development-notice"', count=1)
+                self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
+                self.assertNotContains(response, 'Démonstration partagée')
+                self.assertNotContains(response, 'Shared demonstration:')
+                self.assertNotContains(response, 'Geteilte Demonstration')
                 self.assertTemplateUsed(response, f'employer/{self.page}.html')
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, f'href="privacy-{language}.html"')
