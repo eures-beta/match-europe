@@ -40,7 +40,14 @@ class EmployerLandingTranslationTests(SimpleTestCase):
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, heading)
                 self.assertContains(response, skip)
-                self.assertContains(response, f'href="import-v2-{language}.html"')
+                self.assertContains(response, f'href="import-{language}.html"')
+                import_response = self.client.get(
+                    f'/employer/pages/import-{language}.html', secure=True
+                )
+                self.assertContains(
+                    import_response, '/static/employer/occupation-picker.js'
+                )
+                self.assertContains(import_response, '/static/employer/review-steps.js')
                 self.assertContains(response, f'href="privacy-{language}.html"')
                 self.assertContains(
                     response, f'href="/employer/access/?lang={language}"'
