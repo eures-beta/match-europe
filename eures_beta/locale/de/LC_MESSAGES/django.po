@@ -5776,3 +5776,27 @@ msgstr "3. Bereiten Sie Ihre Fragen an Bewerbende vor und speichern Sie Ihr Ange
 msgctxt "employer landing"
 msgid "4. Coming soon: matching with candidates. No matching is carried out at this stage."
 msgstr "4. Demnächst: Abgleich mit Bewerbenden. Derzeit findet noch kein Abgleich statt."
+
+msgctxt "employer import"
+msgid "Local reading using text extraction, without generative AI. The result may contain errors."
+msgstr "Lokales Lesen durch Textextraktion, ohne generative KI. Das Ergebnis kann Fehler enthalten."
+
+msgctxt "employer import-v2"
+msgid "Local reading using text extraction, without generative AI. The result may contain errors."
+msgstr "Lokales Lesen durch Textextraktion, ohne generative KI. Das Ergebnis kann Fehler enthalten."
+
+msgctxt "employer review steps"
+msgid "Conditions"
+msgstr "Bedingungen"
+
+msgctxt "employer review steps"
+msgid "Profile"
+msgstr "Profil"
+
+msgctxt "employer review steps"
+msgid "Mobility"
+msgstr "Mobilität"
+
+msgctxt "employer review steps"
+msgid "Summary"
+msgstr "Übersicht"
