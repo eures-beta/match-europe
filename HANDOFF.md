@@ -1,3 +1,25 @@
+## 30 octobre 2026 — information commune du parcours employeur
+
+Sur la base de la PR #79 (`ef51200`), branche `codex/employer-wip-feedback` :
+bandeau unique FR/EN/DE pour accueil, imports classique/V2, confidentialité et
+enveloppe de connexion/espace employeur (offres, détail, édition, duplication).
+Adresse de retour visible/cliquable, logo Match Europe existant sur l’accueil et
+étapes distinguant enregistrement et rapprochement prochainement disponible.
+Le JavaScript d’import ne remplace plus le bandeau ; l’injection de l’ancien
+avertissement générique est réservée au diagnostic Push privé.
+
+Les indications factuelles sur les emails simulés et la notice de confidentialité
+non validée restent conservées. Aucun changement des données, habilitations,
+authentification ou intégrations. L’enregistrement est présenté conformément à
+la demande d’Eric ; la conservation distante n’est pas vérifiée par cette PR.
+Une recette jetable ne garantit pas une conservation durable des offres.
+
+Validation : 21 tests ciblés réussis sur PostgreSQL local (pages FR/EN/DE,
+connexion, démo partagée et protections hors démo), contrôle gettext, compilation,
+formatage et diff. 33 rendus de templates contrôlés et rendu bureau FR vérifié.
+Eric autorise le 30 octobre le push, la PR au sommet de la pile et une recette
+jetable ; aucune fusion ni mise en production autorisée.
+
 Note de reprise : une seule configuration Django existe désormais à la racine.
 Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
 mentionnés dans les notes historiques ci-dessous ont été supprimés.

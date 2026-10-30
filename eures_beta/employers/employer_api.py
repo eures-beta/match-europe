@@ -112,7 +112,7 @@ def employer_page(request, path):
             language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         ):
             notice = shared_notice()
-        if notice:
+        if notice and path == 'push-test.html':
             body = body.replace(
                 body_tag,
                 body_tag

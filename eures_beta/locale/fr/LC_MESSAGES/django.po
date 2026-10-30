@@ -5736,3 +5736,43 @@ msgstr "Choisissez une langue proposée ou indiquez qu’aucune langue n’est e
 msgctxt "employer languages"
 msgid "No language found. Try another name."
 msgstr "Aucune langue trouvée. Essayez un autre nom."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Service status"
+msgstr "État du service"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Version under development"
+msgstr "Version en cours de développement"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Your offers are saved. Matching with candidates is not available yet and is coming soon."
+msgstr "Vos offres sont enregistrées. Le rapprochement avec des candidats n’est pas encore disponible et le sera prochainement."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "A bug, a difficulty or an idea for improvement? Write to"
+msgstr "Un bug, une difficulté ou une idée d’amélioration ? Écrivez à"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Already written your job offer? Import a PDF or add the link to your advert to prepare and save your recruitment needs."
+msgstr "Vous avez déjà rédigé votre offre ? Importez un PDF ou ajoutez le lien de votre annonce pour préparer et enregistrer vos besoins de recrutement."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Saving your offer does not start a candidate search. Matching is coming soon."
+msgstr "L’enregistrement de votre offre ne lance pas de recherche de candidats. Le rapprochement sera disponible prochainement."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "3. Prepare your questions for candidates and save your offer."
+msgstr "3. Préparez vos questions pour les candidats et enregistrez votre offre."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "4. Coming soon: matching with candidates. No matching is carried out at this stage."
+msgstr "4. Prochainement : le rapprochement avec des candidats. Aucun rapprochement n’est effectué à ce stade."

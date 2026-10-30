@@ -79,14 +79,15 @@ class SharedDemoTests(TestCase):
     def test_notice_is_available_in_each_interface_language(self):
         from eures_beta.demo import shared_notice
 
-        for language, expected in [
-            ('fr', 'Démonstration partagée'),
-            ('en', 'Shared demonstration'),
-            ('de', 'Geteilte Demonstration'),
+        for language, expected, employer_status in [
+            ('fr', 'Démonstration partagée', 'Version en cours de développement'),
+            ('en', 'Shared demonstration', 'Version under development'),
+            ('de', 'Geteilte Demonstration', 'Version in Entwicklung'),
         ]:
             with translation.override(language):
                 self.assertIn(expected, shared_notice())
             response = self.client.get(
                 f"/employer/pages/import-v2-{language}.html", secure=True
             )
-            self.assertContains(response, expected)
+            self.assertContains(response, employer_status)
+            self.assertNotContains(response, expected)

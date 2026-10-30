@@ -204,7 +204,6 @@ if (liveAPI) {
     }).catch(()=>{ /* Session ownership remains enforced by the server. */ });
   }
 
-  document.getElementById('demo-notice').textContent = strings.demoNotice;
   document.getElementById('email-help').textContent = strings.liveEmailHelp;
   if (connectedSubmission) {
     const field = document.getElementById('work-email');

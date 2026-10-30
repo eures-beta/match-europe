@@ -129,14 +129,6 @@
             }
         }
 
-        .demo-notice {
-            margin: 0;
-            padding: 12px 24px;
-            background: #fff0bd;
-            color: #17324d;
-            text-align: center
-        }
-
         .primary-action:disabled {
             cursor: default;
             opacity: 1
@@ -1063,7 +1055,7 @@
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% trans "Skip to content" %}</a>
-    <p class="demo-notice">{% trans "Local demonstration · Fictional data · No emails or external calls" %}</p>
+    {% include "employer/development_notice.html" %}
     <header class="site-header">
       <div class="shell">
         <a class="brand" href="/forms/eures-beta/?lang={{ page_language }}">

@@ -5736,3 +5736,43 @@ msgstr "Wählen Sie eine vorgeschlagene Sprache oder bestätigen Sie, dass keine
 msgctxt "employer languages"
 msgid "No language found. Try another name."
 msgstr "Keine Sprache gefunden. Versuchen Sie einen anderen Namen."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Service status"
+msgstr "Dienststatus"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Version under development"
+msgstr "Version in Entwicklung"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Your offers are saved. Matching with candidates is not available yet and is coming soon."
+msgstr "Ihre Angebote werden gespeichert. Der Abgleich mit Bewerbenden ist noch nicht verfügbar und folgt in Kürze."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "A bug, a difficulty or an idea for improvement? Write to"
+msgstr "Ein Fehler, eine Schwierigkeit oder ein Verbesserungsvorschlag? Schreiben Sie an"
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Already written your job offer? Import a PDF or add the link to your advert to prepare and save your recruitment needs."
+msgstr "Sie haben Ihr Stellenangebot bereits verfasst? Laden Sie ein PDF hoch oder fügen Sie den Link zu Ihrer Anzeige hinzu, um Ihren Personalbedarf vorzubereiten und zu speichern."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "Saving your offer does not start a candidate search. Matching is coming soon."
+msgstr "Das Speichern Ihres Angebots startet keine Kandidatensuche. Der Abgleich wird in Kürze verfügbar sein."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "3. Prepare your questions for candidates and save your offer."
+msgstr "3. Bereiten Sie Ihre Fragen an Bewerbende vor und speichern Sie Ihr Angebot."
+
+#: eures_beta/templates/employer/landing.html
+msgctxt "employer landing"
+msgid "4. Coming soon: matching with candidates. No matching is carried out at this stage."
+msgstr "4. Demnächst: Abgleich mit Bewerbenden. Derzeit findet noch kein Abgleich statt."
