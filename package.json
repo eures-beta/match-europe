@@ -1,0 +1,8 @@
+{
+  "name": "match-europe-quality",
+  "private": true,
+  "description": "Outillage de développement JavaScript uniquement",
+  "devDependencies": {
+    "prettier": "3.9.10"
+  }
+}

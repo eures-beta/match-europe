@@ -13,6 +13,10 @@
 - Avant publication, vérifier que les opérations documentées sont exposées et
   testées via ces cibles. Les diagnostics ponctuels et les commandes Git/GitHub
   peuvent rester directs lorsqu’une cible n’apporte pas de valeur réutilisable.
+- Pour le JavaScript, utiliser `make install-js`, puis `make format-js` et
+  `make format-js-check` ; vérifier la syntaxe avec `make check-js`. Respecter
+  la configuration Prettier du dépôt (deux espaces, largeur cible 100 caractères).
+  Ne pas compacter les sources à la main ; Black ne formate pas le JavaScript.
 - Utiliser les cibles existantes directement : `make test` pour la suite complète,
   `make employer-test` pour les modules de tests du parcours employeur, `make check`
   pour Django et les migrations. Le filtre employeur ne remplace pas la suite
