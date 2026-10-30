@@ -1052,18 +1052,14 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/static/public-brand.css">
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% trans "Skip to content" %}</a>
     {% include "employer/development_notice.html" %}
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="{% url 'home' %}?lang={{ page_language }}">
-          <span class="brand-copy">
-            <strong>Match Europe</strong>
-            <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer auth-shell" %}</span>
-          </span>
-        </a>
+        {% include "includes/public_brand.html" %}
         <nav class="nav"
              aria-label="{% translate "Main navigation" context "employer auth-shell" %}">
           <div class="nav-links">

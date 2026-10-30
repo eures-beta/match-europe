@@ -22,3 +22,9 @@ nommée à `/dashboard/` et ses protections.
 Vérifications : `make test`, `make check`, `make format-check`,
 `make format-html-check`, `make format-js-check`, `make check-js` et
 `make translations-check`.
+
+Les pages d’attente et l’accueil partagent public_base.html : navigation active,
+logos partenaires et pied de page. Le bloc de marque (logo Match Europe et
+sous-titre traduit) est commun aux en-têtes publics et métiers, avec ses styles
+dans public-brand.css. Les tests vérifient sa présence identique dans chaque
+onglet et chaque langue.

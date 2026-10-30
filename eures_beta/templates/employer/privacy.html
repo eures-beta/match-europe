@@ -7,21 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% translate "Data protection" context "employer privacy" %}</title>
     <link rel="stylesheet" href="/static/employer/site.css">
+    <link rel="stylesheet" href="/static/public-brand.css">
   </head>
   <body>
     {% include "employer/development_notice.html" %}
     <p class="shell" role="note">{% translate "Existing notice dated 3 August 2026 — needs updating for the offer import journey. Local copy, not validated for this new journey." context "employer privacy" %}</p>
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="{{ page_language }}.html">
-          <span class="brand-copy">
-            <strong>Match Europe</strong>
-            <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer privacy" %}</span>
-          </span>
-        </a>
+        {% include "includes/public_brand.html" %}
         <nav class="nav" aria-label="Primary">
           <div class="nav-links">
-            <a class="nav-pill" href="{{ page_language }}.html">{% translate "Home" context "employer privacy" %}</a>
+            <a class="nav-pill"
+               href="{% url 'home' %}?lang={{ page_language }}">{% translate "Home" context "employer privacy" %}</a>
             <a class="nav-pill"
                href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer privacy" %}</a>
             <a class="nav-pill"
