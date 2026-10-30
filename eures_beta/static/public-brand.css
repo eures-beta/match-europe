@@ -1,0 +1,19 @@
+.site-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.site-header .match-europe-logo {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.site-header .brand-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}

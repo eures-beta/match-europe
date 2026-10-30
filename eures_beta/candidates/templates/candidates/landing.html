@@ -194,6 +194,7 @@
         }
     </style>
     <link rel="stylesheet" href="/static/candidate/candidate.css">
+    <link rel="stylesheet" href="/static/public-brand.css">
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "candidate shell" %}</a>
@@ -201,12 +202,7 @@
        id="demo-notice">{% translate "Demonstration — candidate welcome. No data is transmitted." context "candidate landing" %}</p>
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="{% url 'home' %}?lang={{ page_language }}">
-          <span class="brand-copy">
-            <strong>Match Europe</strong>
-            <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "candidate shell" %}</span>
-          </span>
-        </a>
+        {% include "includes/public_brand.html" %}
         <nav class="nav"
              aria-label="{% translate "Main navigation" context "candidate shell" %}">
           <div class="nav-links">

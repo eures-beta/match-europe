@@ -11,17 +11,13 @@
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'app.css' %}">
     <script src="{% static 'app.js' %}" defer></script>
+    <link rel="stylesheet" href="/static/public-brand.css">
   </head>
   <body class="role-{{ me_user.profile.role|default:'public' }}">
     <a class="skip" href="#main">{% trans "Skip to content" %}</a>
-    <header>
+    <header class="site-header">
       <div class="container header">
-        <a class="brand" href="/">
-          <img src="{% static 'eures-logo.jpg' %}" alt="EURES">
-          <span>Match Europe
-            <small>{% trans "European recruitment, supported by people" %}</small>
-          </span>
-        </a>
+        {% include "includes/public_brand.html" %}
         <form action="{% url 'set_language' %}" method="post" class="language">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ request.path }}">

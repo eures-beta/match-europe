@@ -194,18 +194,14 @@
         }
     </style>
     <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="/static/public-brand.css">
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
     {% if shared_demo_notice %}<p class="demo-notice">{{ shared_demo_notice }}</p>{% endif %}
     <header class="site-header">
       <div class="shell">
-        <a class="brand" href="{% url 'home' %}?lang={{ page_language }}">
-          <span class="brand-copy">
-            <strong>Match Europe</strong>
-            <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer landing" %}</span>
-          </span>
-        </a>
+        {% include "includes/public_brand.html" %}
         <nav class="nav"
              aria-label='{% translate "Main navigation" context "employer landing" %}'>
           <div class="nav-links">

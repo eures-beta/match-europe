@@ -1,0 +1,13 @@
+{% load i18n static %}
+{% get_current_language as brand_language %}
+<a class="brand" href="{% url 'home' %}?lang={{ brand_language }}">
+  <img class="match-europe-logo"
+       src="{% static 'employer/assets/match-europe-logo.png' %}"
+       alt=""
+       width="56"
+       height="56">
+  <span class="brand-copy">
+    <strong>Match Europe</strong>
+    <span>{% translate "EURES beta - cross-border mobility, matching and follow-up" context "employer landing" %}</span>
+  </span>
+</a>
