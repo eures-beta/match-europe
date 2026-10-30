@@ -36,13 +36,13 @@ au manifeste dans un répertoire local ignoré (par exemple `.runtime/catalog-so
 Les noms ESCO attendus sont `esco-1.2.1-fr.zip`, `esco-1.2.1-en.zip`,
 `esco-1.2.1-de.zip`. Les sources brutes restent hors Git.
 
-```sh
-rtk proxy python3 scripts/esco/build-catalog.py \
+```bash
+python3 -m eures_beta.occupations.tools.build_catalog \
   --esco-dir .runtime/catalog-sources \
   --mapping .runtime/catalog-sources/esco-rome-other.csv \
   --rome .runtime/catalog-sources/rome-oct2026.xlsx \
   --output .runtime/catalog-staging
-rtk proxy python3 scripts/esco/validate-catalog.py \
+python3 -m eures_beta.occupations.tools.validate_catalog \
   .runtime/catalog-staging --report .runtime/catalog-staging/validation.json
 ```
 
