@@ -503,3 +503,14 @@ employeur pointaient toujours vers import-v2, qui ne porte pas les évolutions
 ESCO/intitulé et cinq étapes. Les entrées accueil, ajout d’offre et reprise
 pointent désormais vers import, qui contient ces évolutions. La V2 reste
 accessible par son URL historique. Aucun transfert ni duplication de données.
+
+## 30 octobre 2026 — allègement de la relecture
+
+À la demande d’Eric, retrait du bloc global « Informations à vérifier » au-dessus
+de la fiche, sans modifier les valeurs extraites ni les contrôles de validation.
+La mention de lecture conserve l’extraction locale et l’absence d’IA générative,
+mais retire la référence au prestataire. Progression en cinq colonnes avec
+libellés courts, compteur étape/total et barre ; sur petit écran, les numéros et
+le titre courant restent affichés. FR/EN/DE, aria-current et navigation
+Précédent/Continuer conservés. Tests de pages trilingues et gettext réussis,
+syntaxe JavaScript contrôlée et rendu bureau local inspecté.

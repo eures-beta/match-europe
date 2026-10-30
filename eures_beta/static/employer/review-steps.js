@@ -5,15 +5,19 @@
   const t = Object.fromEntries([...document.querySelectorAll('#review-step-labels [data-key]')].map(el => [el.dataset.key, el.textContent]));
   const titles = ['post','conditions','profile','mobility','summary'].map(key => t[key]);
   const nav = document.createElement('ol'); nav.className = 'review-progress'; nav.setAttribute('aria-label', t.progress);
+  const shortTitles = [t.post, t.conditionsShort, t.profileShort, t.mobilityShort, t.summaryShort];
+  const position = document.createElement('p'); position.className = 'review-position';
+  const meter = document.createElement('div'); meter.className = 'review-meter'; meter.setAttribute('aria-hidden', 'true');
+  const fill = document.createElement('span'); meter.append(fill);
   const panels = titles.map((title, i) => {
     const panel = document.createElement('section'); panel.className = 'review-panel'; panel.dataset.reviewPanel = i;
     const heading = document.createElement('h2'); heading.textContent = title; heading.tabIndex = -1;
     panel.append(heading); form.prepend(panel);
-    const item = document.createElement('li'); item.textContent = `${i+1}. ${title}`; nav.append(item);
+    const item = document.createElement('li'); const number = document.createElement('span'); number.className = 'review-step-number'; number.textContent = i+1; const label = document.createElement('span'); label.textContent = shortTitles[i]; item.append(number, label); nav.append(item);
     return panel;
   });
   // Restore natural document order after creating the sections.
-  form.prepend(nav, ...panels);
+  form.prepend(position, nav, meter, ...panels);
   const move = (node, i) => { if (node) panels[i].append(node); };
   const field = (id, i) => move(document.getElementById(id)?.closest('.review-field'), i);
   const oldHeadings = [...form.children].filter(el => ['H2','H3'].includes(el.tagName));
@@ -70,6 +74,9 @@
   function show(index, focus = true) {
     active = index; panels.forEach((panel,i) => panel.hidden = i !== active);
     [...nav.children].forEach((item,i) => { if (i === active) item.setAttribute('aria-current','step'); else item.removeAttribute('aria-current'); });
+    [...nav.children].forEach((item,i) => item.classList.toggle('is-complete', i < active));
+    position.textContent = `${active+1} / ${titles.length} · ${titles[active]}`;
+    fill.style.width = `${(active+1)/titles.length*100}%`;
     previous.hidden = active === 0; next.hidden = active === 4;
     document.getElementById('review-draft').hidden = active !== 4;
     document.getElementById('review-back').hidden = active !== 0;
