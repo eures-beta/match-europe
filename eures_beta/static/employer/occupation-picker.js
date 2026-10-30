@@ -10,10 +10,13 @@
   const box=node('section'); box.className='occupation-picker'; box.style.gridColumn='1 / -1';
   title.closest('.review-field').after(box);
   box.setAttribute('aria-label',t.proposals);
+  const feedback=node('div','',box); feedback.className='occupation-feedback';
+  const error=node('p','',feedback); error.id='occupation-error'; error.setAttribute('role','alert'); error.className='import-error';
+  const retry=node('button',t.retry,feedback);retry.type='button';retry.className='ghost-action occupation-change';retry.hidden=true;
   const fallback=node('section','',box); fallback.hidden=true;
   const fallbackIntro=node('p',t.manualIntro,fallback);
   const queryLabel=node('label',t.conciseQuery,fallback); queryLabel.htmlFor='occupation-query';
-  const query=node('input','',fallback); query.id='occupation-query'; query.type='text'; query.maxLength=150; query.autocomplete='off';query.placeholder=t.searchExample; query.setAttribute('aria-describedby','occupation-query-help'); query.setAttribute('aria-controls','occupation-results'); query.style.width='100%';
+  const query=node('input','',fallback); query.id='occupation-query'; query.type='text'; query.maxLength=150; query.autocomplete='off';query.placeholder=t.searchExample; query.setAttribute('aria-describedby','occupation-query-help occupation-error'); query.setAttribute('aria-controls','occupation-results'); query.style.width='100%';
   const help=node('p',t.conciseHelp,fallback); help.id='occupation-query-help';
   const status=node('p','',box); status.setAttribute('role','status');
   node('p',t.independentHelp,box);
@@ -23,8 +26,6 @@
   node('p',t.personalHelp,custom);
   const label=node('label',t.personal,custom); label.htmlFor='occupation-personal';
   const personal=node('textarea','',custom); personal.id='occupation-personal'; personal.maxLength=2000; personal.rows=3;
-  const error=node('p','',box); error.setAttribute('role','alert'); error.className='import-error';
-  const retry=node('button',t.retry,box);retry.type='button';retry.className='ghost-action occupation-change';retry.hidden=true;
   let version='1.2.1', searchedTitle='', cards=[], choices=new Set(), offered=[], serial=0, timer=null, controller=null, fromDocument=false;
   let romeCards=[], romeChoices=new Set();
   function render() {

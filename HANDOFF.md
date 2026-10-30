@@ -530,3 +530,10 @@ recherche réussit après relance dans son onglet, sans changement final de titr
 ni sauvegarde ; origine du premier échec non reproduite. Ajout d’un bouton de
 relance automatique et message distinct d’une absence de résultats, avec recours
 manuel conservé. Aucun résultat fictif substitué à une erreur réseau.
+
+## 30 octobre 2026 — visibilité du message de recherche
+
+À la demande d’Eric, message d’échec et bouton de relance regroupés dans un
+encadré contrasté avant le champ de recherche manuelle. Le message conserve son
+rôle d’alerte et est relié au champ par aria-describedby. Bloc masqué lorsqu’il
+est vide. Aucun changement de recherche, de sélection ou de sauvegarde.

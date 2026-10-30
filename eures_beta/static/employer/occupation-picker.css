@@ -7,3 +7,16 @@
 .occupation-picker label[for="occupation-query"]{margin-bottom:12px}
 .occupation-picker #occupation-query{display:block;margin-bottom:0}
 .occupation-picker #occupation-query-help{margin:14px 0 24px;font-size:14px;line-height:1.5;color:var(--muted)}
+
+.occupation-picker .occupation-feedback {
+  margin: 20px 0 24px;
+  padding: 18px 20px;
+  border: 1px solid #b47816;
+  border-left: 5px solid #b47816;
+  border-radius: 10px;
+  background: #fff0bd;
+  color: #17324d;
+}
+.occupation-picker .occupation-feedback:has(.import-error:empty) { display: none; }
+.occupation-picker .occupation-feedback .import-error { margin: 0; font-weight: 700; color: inherit; line-height: 1.6; }
+.occupation-picker .occupation-feedback .occupation-change { margin: 14px 0 0; background: #fff; }
