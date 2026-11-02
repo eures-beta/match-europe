@@ -160,3 +160,7 @@ journal-test: ## Vérifier le journal public trilingue, les liens et les méthod
 .PHONY: users-upgrade-test
 users-upgrade-test: ## Vérifier la migration des identités dans une base PostgreSQL locale jetable
 	@$(LOAD_ENV) "$(PYTHON)" -m eures_beta.users.tools.verify_upgrade
+
+.PHONY: registration-test
+registration-test: ## Vérifier la fermeture de la création autonome de comptes
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.users.tests.test_closed_registration --noinput $(TEST_ARGS)

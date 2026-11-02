@@ -8,7 +8,6 @@ from functools import wraps
 
 from django import forms
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.hashers import make_password
 from django.conf import settings
 from django.db import transaction
 from django.http import Http404
@@ -102,6 +101,15 @@ def access(request):
             or recent.count() >= 5
         ):
             return page(request, 'limited', form=form)
+        request.session['employer_email_sent_at'] = now.timestamp()
+        request.session.pop('employer_test_message', None)
+        # A connection request is never an invitation or an account creation.
+        if (
+            not get_user_model()
+            .objects.filter(email__iexact=email, kind='employer', is_active=True)
+            .exists()
+        ):
+            return redirect('employer_email_sent')
         raw = secrets.token_urlsafe(32)
         with transaction.atomic():
             EmployerEmailLink.objects.filter(email=email, used=False).update(used=True)
@@ -111,7 +119,6 @@ def access(request):
                 digest=hashlib.sha256(raw.encode()).hexdigest(),
                 expires=now + timedelta(minutes=15),
             )
-        request.session['employer_email_sent_at'] = now.timestamp()
         # Rehearsal delivery: message is isolated to the requesting browser's server-side session.
         request.session['employer_test_message'] = {
             'email': email,
@@ -138,9 +145,15 @@ def inbox(request):
 def confirm(request, token):
     digest = hashlib.sha256(token.encode()).hexdigest()
     if request.method != 'POST':
-        valid = EmployerEmailLink.objects.filter(
+        link = EmployerEmailLink.objects.filter(
             digest=digest, used=False, expires__gt=timezone.now()
-        ).exists()
+        ).first()
+        valid = bool(
+            link
+            and get_user_model()
+            .objects.filter(email__iexact=link.email, kind='employer', is_active=True)
+            .exists()
+        )
         return page(request, 'confirm' if valid else 'invalid')
     with transaction.atomic():
         link = (
@@ -152,15 +165,12 @@ def confirm(request, token):
             return page(request, 'invalid')
         link.used = True
         link.save(update_fields=['used'])
-        person, _ = get_user_model().objects.get_or_create(
-            email__iexact=link.email,
-            defaults={
-                'email': link.email,
-                'kind': 'employer',
-                'password': make_password(None),
-            },
+        person = (
+            get_user_model()
+            .objects.filter(email__iexact=link.email, kind='employer', is_active=True)
+            .first()
         )
-        if person.kind != 'employer' or not person.is_active:
+        if person is None:
             return page(request, 'invalid')
         request.session.cycle_key()
         login(request, person, backend='django.contrib.auth.backends.ModelBackend')

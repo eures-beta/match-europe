@@ -95,3 +95,6 @@ Le scénario `make users-upgrade-test` crée réellement le schéma autonome ave
 refus d'une base sans marqueur autonome avant toute création de table utilisateur.
 Les contrôles de rôles, collisions d'e-mails et conservation des quatre relations
 restent vérifiés dans cette base locale jetable.
+
+La connexion ne crée plus de compte implicitement : seuls les employeurs
+existants et actifs sont acceptés. Voir [la fermeture des inscriptions](ACCOUNT_REGISTRATION.md).

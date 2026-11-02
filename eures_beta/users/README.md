@@ -17,3 +17,5 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [README.md](README.md) — Présente ce dossier et son contenu.
 
 [Remonter au dossier parent](../).
+
+La création autonome est fermée : voir [les points d’entrée et les tests](../../docs/ACCOUNT_REGISTRATION.md).
