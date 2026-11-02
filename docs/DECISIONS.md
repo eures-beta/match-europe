@@ -152,6 +152,31 @@ de 15 minutes à usage unique et une confirmation POST. L’envoi SMTP reste
 désactivé en attente du raccordement e-mail ; la recette est visuelle à ce stade.
 Inscriptions fermées, invitations non implémentées. Voir [le fonctionnement
 et ses limites](MAGIC_LOGIN.md).
+
+
+## 2 novembre 2026 — proposition locale candidat
+
+Eric demande la version locale du parcours proposé : CV facultatif, projet explicite, parcours vérifiable, conditions puis relecture. Utiliser des noms métier et abandonner les identifiants historiques dans les nouveaux champs. Cette autorisation couvre la recette locale, pas une collecte réelle, publication ou sauvegarde durable. Le détail des questions reste une proposition à essayer. Voir [recette](CANDIDATE_LOCAL_JOURNEY.md).
+
+
+### Ajustement du 2 novembre — choix guidés candidat
+
+Eric demande de reprendre le fonctionnement employeur : privilégier les choix guidés et intégrer la recherche ESCO/ROME. Les deux catalogues restent indépendants ; les réponses candidat portent sur les souhaits ou éléments déclarés, sans déduction depuis le CV. La saisie libre complète les choix et conserve les descriptions de parcours.
+
+
+## 2 novembre 2026 — abandon du CV dans le nouveau parcours candidat
+
+Eric demande de s’inspirer du questionnaire historique FT, de garder la recherche métier ESCO/ROME et de retirer import CV, expériences professionnelles, formations/diplômes et compétences. La version locale devient un questionnaire de projet en quatre étapes : projet, mobilité/langues, conditions, relecture. Les décisions antérieures sur le préremplissage CV sont abandonnées pour ce parcours. Aucune modification du questionnaire Flask ni collecte réelle autorisée.
+
+
+### Langues candidat — réutilisation du module employeur
+
+Eric demande le module employeur pour les langues candidat. Réutiliser la recherche et les niveaux expliqués, en adaptant les formulations au niveau déclaré de la personne. Aucune déduction depuis un métier, CV ou langue maternelle.
+
+
+### Conditions candidat et grille horaire
+
+Eric demande des précochages et la détection des incohérences. Reprise locale : propositions limitées aux horaires explicitement présents, corrections manuelles prioritaires ; absence de créneau interprétée comme exclusion uniquement après confirmation explicite des seules disponibilités. Aucun souhait de travail physique ou autre condition non temporelle déduit.
 # E-mails réels
 
 Tous les e-mails Django passent par un backend SMTP exigeant production déclarée

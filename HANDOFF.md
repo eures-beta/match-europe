@@ -755,6 +755,48 @@ annoncée en construction en FR/EN/DE, sans liste métier ni nouveaux droits.
 La page de connexion redirige aussi une session déjà ouverte vers ce tableau.
 Validation locale : 267 tests PostgreSQL passent, dont le parcours HTTPS/CSRF
 pour employeur, conseiller et conseiller staff.
+
+
+## 2 novembre 2026 — parcours candidat local
+
+Branche `codex/candidate-local-journey` créée dans la copie courante, qui ne reste donc plus une référence détachée inchangée. Parcours avec/sans CV, profil commun en cinq étapes et récapitulatif ; interface FR/EN/DE. Lecture brute PDF/image partagée dans `documents`, brouillon de session uniquement, sans migration ni changement employeur. 231 tests PostgreSQL passent, dont 10 nouveaux. Recette : `make candidate-run`. Voir [périmètre, conservation et limites](docs/CANDIDATE_LOCAL_JOURNEY.md). Aucun push, fusion ou déploiement.
+
+
+### Ajustement local candidat — choix guidés et métiers
+
+Recherche ESCO/ROME indépendante raccordée à l’API locale existante, sélection multiple conservée et validée côté serveur, relecture avec libellés canoniques. Pays, langues, permis, disponibilité, mobilité, contrats, quotité, conditions et salaire guidés. Contrôles serveur et détails conditionnels. 235 tests PostgreSQL réussis, recette navigateur jusqu’au récapitulatif. Voir `docs/CANDIDATE_LOCAL_JOURNEY.md`. Aucun changement employeur, migration, push ou déploiement.
+
+
+### Correction locale — reprise sans CV
+
+Le lien « Commencer sans CV » ouvre toujours le projet (étape 2), même avec un brouillon déjà avancé. La condition précédente ne sautait le dépôt que lors du premier démarrage. Progression et réponses existantes conservées ; test de reprise FR/EN/DE ajouté.
+
+
+### Horaires candidat — module historique
+
+À la demande d’Eric, reprise locale du choix horaires variés/contraintes puis grille hebdomadaire matin, après-midi, soir, nuit, avec adaptation mobile. Source historique locale consultée, site FT inaccessible en lecture directe. Noms métier, validation serveur, conservation en session et relecture. Aucun changement distant.
+
+
+## 2 novembre 2026 — candidat sans CV ni historique professionnel
+
+Décision d’Eric : reprendre l’esprit du questionnaire historique FT et garder ESCO/ROME ; retirer import CV, expériences, formations/diplômes et compétences. Quatre étapes, bouton de démarrage unique. Choix historiques de trajet et transports ajoutés conditionnellement à mobilité/langues ; horaires hebdomadaires conservés. Retrait du lecteur introduit uniquement pour l’essai CV et refus serveur des fichiers. Nettoyage des champs retirés à la reprise des anciennes sessions, projet/préférences conservés pour relecture. Aucun changement du lecteur employeur, du modèle ou du matching. Voir `docs/CANDIDATE_LOCAL_JOURNEY.md`.
+
+
+### Langues candidat — module partagé
+
+Module employeur réutilisé pour ajout/recherche/retrait de langues et niveaux A1–C2 expliqués. Textes candidat, déclaration structurée et validation serveur, anciens niveaux repris sans équivalence inventée. 235 tests PostgreSQL passent. Recette navigateur recherche portugais, ajout, B1 et retrait sans enregistrement de la langue d’essai. Aucun changement du format des données employeur ou déploiement.
+
+
+### Conditions candidat — précochages et incohérences
+
+Précochages journée/soirée-nuit/week-end depuis la grille, explication visible et priorité aux corrections manuelles. Option de disponibilités exclusives, alerte immédiate et validation serveur si aucune intersection avec une condition acceptée. Référence week-end distincte des jours fériés. Recette navigateur dans une session localhost distincte, sans modifier le brouillon utilisateur : propositions, correction manuelle et alerte vérifiées. Tests ciblés : 23 réussis. Aucun déploiement.
+
+
+## Publication du parcours candidat — 2 novembre 2026
+
+Sur demande d’Eric, préparation de la PR « parcours candidat » au sommet courant. Aucune PR encore ouverte lors du contrôle : base `main`, actualisée à `1c0ffba`. Rebase ciblé résolu en conservant la suppression des anciens modèles/prototypes et les nouveaux liens de connexion ; aucune réintroduction d’inscription autonome.
+
+305 tests PostgreSQL passent sur ce socle ; contrôles Django, absence de nouvelle migration, format Python/templates/JavaScript et traductions réussis. Les comptes et migrations du main nécessitent une nouvelle base locale de recette distincte : ancienne base conservée, seules sessions recopiées pour préserver les brouillons. Aucune donnée externe, fusion ou action de déploiement. Le parcours candidat demeure protégé comme démonstration.
 # E-mails réservés à la production
 
 Backend SMTP commun exigeant `DJANGO_ENVIRONMENT=production` et
