@@ -14,6 +14,14 @@ PostgreSQL sur l’utilisateur. Le GET nettoie l’adresse puis affiche une
 confirmation ; seul le POST protégé par CSRF ouvre la session. Un scanner de
 courrier ne consomme donc pas le lien simplement en l’ouvrant.
 
+La redirection portant le jeton utilise `no-referrer`. La page suivante, dont
+l’URL est nettoyée, utilise `same-origin` : les informations d’origine restent
+disponibles pour la protection CSRF HTTPS, sans référent envoyé aux sites tiers.
+Appliquer `no-referrer` au formulaire empêche notamment Chrome de le confirmer
+(`Origin: null`, puis 403) ; le test HTTPS et une vérification navigateur couvrent
+cette régression. L’URL courte seule ne permet pas de se connecter : le jeton
+reste dans la session serveur associée au cookie du navigateur jusqu’au POST.
+
 La session Django reste valable 30 jours depuis la dernière requête, y compris
 après fermeture du navigateur. Se déconnecter sur un appareil partagé. Les anciens
 cookies du backend à mot de passe ne sont plus acceptés. La colonne `password`
