@@ -12,3 +12,13 @@
 .home-section li { margin-block: .65rem; line-height: 1.6; }
 .public-home :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 @media (max-width: 760px) { .home-grid { grid-template-columns: 1fr; } }
+
+.project-page p { line-height: 1.7; max-width: 85ch; }
+.project-page .home-section { scroll-margin-top: 2rem; }
+.project-summary { padding: 1.5rem; }
+.project-summary ul { columns: 2 20rem; padding-left: 1.25rem; }
+.project-summary li { break-inside: avoid; margin-block: .75rem; line-height: 1.5; }
+.project-summary a { color: var(--accent-strong); text-underline-offset: .2em; }
+.project-highlight { border-left: 4px solid var(--accent); padding: 1rem; background: var(--accent-soft); }
+.project-territories { display: flex; flex-wrap: wrap; gap: .5rem 2rem; }
+.project-page h2 { overflow-wrap: anywhere; }

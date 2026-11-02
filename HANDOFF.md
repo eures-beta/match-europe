@@ -1,3 +1,19 @@
+## 2 novembre 2026 — contenu de la page Projet
+
+Branche locale `codex/project-page` empilée sur `codex/directory-readmes` (#92,
+`e16ff0b`), seule PR ouverte vérifiée au démarrage. Reprise des textes FR/EN/DE
+servis par la page historique FT `forms/eures-beta/le-projet` et son `app.js`.
+Template Django/gettext dans le cadre public existant, sommaire à quinze entrées,
+sections, listes, exemple fictif, réserves sur les chiffres et canaux envisagés.
+La reprise éditoriale ne valide pas à nouveau les résultats historiques ni les
+chiffres de cadrage. Aucune donnée personnelle, migration ou appel externe à
+l’affichage. Statistiques et journal restent en construction. Validation locale : 223 tests PostgreSQL réussis, contrôles Django et absence
+de migrations, Black, djLint, structure HTML, catalogues gettext et collecte
+statique réussis. Comparaison exhaustive des textes des quinze sections en
+FR/EN/DE avec les réponses locales : aucune omission. Sommaire et bascule de
+langue vérifiés au navigateur local ; pas d’audit WCAG/marque complet.
+Aucun push, fusion ou déploiement.
+
 ## 30 octobre 2026 — information commune du parcours employeur
 
 Sur la base de la PR #79 (`ef51200`), branche `codex/employer-wip-feedback` :

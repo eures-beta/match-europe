@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 11:00+0000\n"
+"POT-Creation-Date: 2026-11-02 12:01+0000\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -3757,12 +3757,14 @@ msgid "Home"
 msgstr "Accueil"
 
 #: eures_beta/templates/employer/landing.html:212
+#: eures_beta/templates/project.html:214
 #: eures_beta/templates/public_base.html:213
 msgctxt "employer landing"
 msgid "Candidate"
 msgstr "Candidat"
 
 #: eures_beta/templates/employer/landing.html:214
+#: eures_beta/templates/project.html:216
 #: eures_beta/templates/public_base.html:215
 msgctxt "employer landing"
 msgid "Employer"
@@ -5360,6 +5362,555 @@ msgctxt "employer landing"
 msgid "EURES beta - cross-border mobility, matching and follow-up"
 msgstr "EURES beta - mobilité, matching et accompagnement transfrontalier"
 
+#: eures_beta/templates/project.html:3 eures_beta/views.py:21
+msgid "The project"
+msgstr "Le projet"
+
+#: eures_beta/templates/project.html:7
+msgctxt "project page"
+msgid "Institutional presentation"
+msgstr "Présentation institutionnelle"
+
+#: eures_beta/templates/project.html:8
+msgctxt "project page"
+msgid "Match Europe"
+msgstr "Match Europe"
+
+#: eures_beta/templates/project.html:9
+msgctxt "project page"
+msgid "Connecting talent and jobs across a shared economic area"
+msgstr "Connecter les talents et les emplois d’un même bassin économique"
+
+#: eures_beta/templates/project.html:10
+msgctxt "project page"
+msgid "Match Europe is a public cross-border introduction service. It relies on public employment services, explainable matching and human validation to make it easier for candidates and employers to connect across the same economic area."
+msgstr "Match Europe est un dispositif public de mise en relation transfrontalière. Il s’appuie sur les services publics de l’emploi, un matching explicable et une validation humaine pour faciliter la rencontre entre candidats et employeurs à l’échelle d’un même bassin économique."
+
+#: eures_beta/templates/project.html:14
+msgctxt "project page"
+msgid "Contents"
+msgstr "Sommaire"
+
+#: eures_beta/templates/project.html:16 eures_beta/templates/project.html:34
+msgctxt "project page"
+msgid "Observation"
+msgstr "Le constat"
+
+#: eures_beta/templates/project.html:17 eures_beta/templates/project.html:39
+msgctxt "project page"
+msgid "A practical situation"
+msgstr "Une situation concrète"
+
+#: eures_beta/templates/project.html:18 eures_beta/templates/project.html:46
+msgctxt "project page"
+msgid "The public challenge"
+msgstr "Le problème public"
+
+#: eures_beta/templates/project.html:19 eures_beta/templates/project.html:57
+msgctxt "project page"
+msgid "What the experiment validated"
+msgstr "Ce que l’expérimentation a validé"
+
+#: eures_beta/templates/project.html:20 eures_beta/templates/project.html:71
+msgctxt "project page"
+msgid "Value proposition"
+msgstr "La proposition de valeur"
+
+#: eures_beta/templates/project.html:21 eures_beta/templates/project.html:90
+msgctxt "project page"
+msgid "How the service works"
+msgstr "Comment fonctionne le service"
+
+#: eures_beta/templates/project.html:22 eures_beta/templates/project.html:101
+msgctxt "project page"
+msgid "A pilot across three sides"
+msgstr "Un pilote sur trois versants"
+
+#: eures_beta/templates/project.html:23 eures_beta/templates/project.html:112
+msgctxt "project page"
+msgid "The role of partners"
+msgstr "Le rôle des partenaires"
+
+#: eures_beta/templates/project.html:24 eures_beta/templates/project.html:125
+msgctxt "project page"
+msgid "Building the candidate pool"
+msgstr "La stratégie de constitution du vivier"
+
+#: eures_beta/templates/project.html:25 eures_beta/templates/project.html:130
+msgctxt "project page"
+msgid "Dead-end professional situations"
+msgstr "Les situations d’impasse professionnelle"
+
+#: eures_beta/templates/project.html:26 eures_beta/templates/project.html:143
+msgctxt "project page"
+msgid "Conditions for trust"
+msgstr "Les conditions de confiance"
+
+#: eures_beta/templates/project.html:27 eures_beta/templates/project.html:166
+msgctxt "project page"
+msgid "Measuring impact"
+msgstr "La mesure de l’impact"
+
+#: eures_beta/templates/project.html:28 eures_beta/templates/project.html:155
+msgctxt "project page"
+msgid "The Startup d'Etat approach"
+msgstr "La méthode Startup d’État"
+
+#: eures_beta/templates/project.html:29 eures_beta/templates/project.html:209
+msgctxt "project page"
+msgid "What we propose to partners"
+msgstr "Ce que nous proposons aux partenaires"
+
+#: eures_beta/templates/project.html:30 eures_beta/templates/project.html:220
+msgctxt "project page"
+msgid "Sources and data still to be consolidated"
+msgstr "Sources et données à consolider"
+
+#: eures_beta/templates/project.html:35
+msgctxt "project page"
+msgid "The Greater Region already functions as a cross-border labour market: around 280,000 people cross a border every day for work. People with cross-border experience are looking for jobs, companies face recruitment difficulties, yet tools, vacancies and support remain largely organised at national level."
+msgstr "La Grande Région constitue déjà un bassin d’emploi transfrontalier: environ 280 000 personnes franchissent quotidiennement une frontière pour travailler. Des personnes disposant d’une expérience transfrontalière recherchent un emploi, des entreprises rencontrent des difficultés de recrutement, mais les outils, les offres et les accompagnements restent encore largement organisés à l’échelle nationale."
+
+#: eures_beta/templates/project.html:36
+msgctxt "project page"
+msgid "The labour market already works across borders, but return-to-work pathways and introduction tools still do not fully reflect that reality."
+msgstr "Le marché du travail fonctionne déjà à l’échelle transfrontalière, mais les parcours de retour à l’emploi et les outils de mise en relation ne suivent pas encore pleinement cette réalité."
+
+#: eures_beta/templates/project.html:40
+msgctxt "project page"
+msgid "Sophie lives in Thionville and worked in Luxembourg for eight years. After a restructuring, she loses her job. Her experience could match needs in France, Luxembourg or Wallonia, but she does not always have the right channels to identify these opportunities and be introduced within a reassuring framework."
+msgstr "Sophie habite à Thionville et a travaillé pendant huit ans au Luxembourg. À la suite d’une restructuration, elle perd son emploi. Son expérience peut correspondre à des besoins situés en France, au Luxembourg ou en Wallonie, mais elle ne dispose pas toujours des bons relais pour identifier ces opportunités et être mise en relation dans un cadre rassurant."
+
+#: eures_beta/templates/project.html:41
+msgctxt "project page"
+msgid "This example illustrates a typical situation. It does not refer to an identified real case."
+msgstr "Cet exemple illustre une situation type. Il ne correspond pas à un cas réel identifié."
+
+#: eures_beta/templates/project.html:48
+msgctxt "project page"
+msgid "Identifying candidates who are genuinely interested in mobility."
+msgstr "L’identification des candidats réellement intéressés par la mobilité."
+
+#: eures_beta/templates/project.html:49
+msgctxt "project page"
+msgid "Qualifying skills, constraints and expectations."
+msgstr "La qualification des compétences, contraintes et attentes."
+
+#: eures_beta/templates/project.html:50
+msgctxt "project page"
+msgid "Understanding employer needs."
+msgstr "La compréhension des besoins employeurs."
+
+#: eures_beta/templates/project.html:51
+msgctxt "project page"
+msgid "Building trust at the time of first contact."
+msgstr "La confiance accordée au premier contact."
+
+#: eures_beta/templates/project.html:52
+msgctxt "project page"
+msgid "Providing human support during introductions."
+msgstr "L’accompagnement humain dans la mise en relation."
+
+#: eures_beta/templates/project.html:53
+msgctxt "project page"
+msgid "Coordinating public employment services."
+msgstr "La coordination entre services publics de l’emploi."
+
+#: eures_beta/templates/project.html:59
+msgctxt "project page"
+msgid "Mobilising employers."
+msgstr "La mobilisation d’employeurs."
+
+#: eures_beta/templates/project.html:60
+msgctxt "project page"
+msgid "Collecting employer needs."
+msgstr "Le recueil des besoins."
+
+#: eures_beta/templates/project.html:61
+msgctxt "project page"
+msgid "Identifying candidates."
+msgstr "L’identification de candidats."
+
+#: eures_beta/templates/project.html:62
+msgctxt "project page"
+msgid "Qualifying profiles."
+msgstr "La qualification des profils."
+
+#: eures_beta/templates/project.html:63
+msgctxt "project page"
+msgid "Producing relevant matching proposals."
+msgstr "Les propositions de matching pertinentes."
+
+#: eures_beta/templates/project.html:64
+msgctxt "project page"
+msgid "Organising first introductions."
+msgstr "Les premières mises en relation."
+
+#: eures_beta/templates/project.html:66
+msgctxt "project page"
+msgid "The main obstacle is not matching. It is trust at the moment of first contact."
+msgstr "Le principal frein n’est pas le matching. C’est la confiance au moment du premier contact."
+
+#: eures_beta/templates/project.html:74
+msgctxt "project page"
+msgid "Proximity of public employment services"
+msgstr "La proximité des services publics de l’emploi"
+
+#: eures_beta/templates/project.html:75
+msgctxt "project page"
+msgid "Local teams present the service, explain how it works and help build trust."
+msgstr "Les équipes locales présentent le service, expliquent son fonctionnement et contribuent à instaurer la confiance."
+
+#: eures_beta/templates/project.html:78
+msgctxt "project page"
+msgid "Explainable cross-border matching"
+msgstr "Un matching transfrontalier explicable"
+
+#: eures_beta/templates/project.html:79
+msgctxt "project page"
+msgid "Introductions may take into account occupation, key skills, languages, mobility and location, availability, working conditions, qualifications or authorisations, as well as salary expectations. Results must remain understandable and humanly validated."
+msgstr "Les rapprochements peuvent prendre en compte le métier, les compétences clés, les langues, la mobilité et la localisation, la disponibilité, les conditions de travail, les qualifications ou autorisations, ainsi que les attentes salariales. Les résultats doivent rester compréhensibles et validés humainement."
+
+#: eures_beta/templates/project.html:82
+msgctxt "project page"
+msgid "Human support"
+msgstr "Un accompagnement humain"
+
+#: eures_beta/templates/project.html:83
+msgctxt "project page"
+msgid "Technology facilitates introductions, but decisions and contacts remain human."
+msgstr "La technologie facilite le rapprochement, mais la décision et la mise en relation restent humaines."
+
+#: eures_beta/templates/project.html:92
+msgctxt "project page"
+msgid "Service presentation"
+msgstr "Présentation du service"
+
+#: eures_beta/templates/project.html:93
+msgctxt "project page"
+msgid "Registration and consent"
+msgstr "Inscription et consentement"
+
+#: eures_beta/templates/project.html:94
+msgctxt "project page"
+msgid "Qualification of the candidate or employer need"
+msgstr "Qualification du candidat ou du besoin employeur"
+
+#: eures_beta/templates/project.html:95
+msgctxt "project page"
+msgid "Matching proposal"
+msgstr "Proposition de matching"
+
+#: eures_beta/templates/project.html:96
+msgctxt "project page"
+msgid "Contact through an identified channel"
+msgstr "Prise de contact par un canal identifié"
+
+#: eures_beta/templates/project.html:97
+msgctxt "project page"
+msgid "Introduction and follow-up"
+msgstr "Mise en relation et suivi"
+
+#: eures_beta/templates/project.html:102
+msgctxt "project page"
+msgid "The proposed pilot brings together France, Wallonia and Luxembourg. The aim is not immediate large-scale deployment, but gradual co-design in order to adapt the journey, clarify roles, progressively identify willing teams or territories, mobilise candidates, collect employer needs, test introductions and measure results."
+msgstr "Le pilote envisagé associe la France, la Wallonie et le Luxembourg. L’objectif n’est pas un déploiement immédiat à grande échelle, mais une coconstruction progressive pour adapter le parcours, préciser les rôles, identifier progressivement des équipes ou territoires volontaires, mobiliser des candidats, recueillir des besoins employeurs, tester les mises en relation et mesurer les résultats."
+
+#: eures_beta/templates/project.html:104
+msgctxt "project page"
+msgid "France"
+msgstr "France"
+
+#: eures_beta/templates/project.html:105
+msgctxt "project page"
+msgid "Wallonia"
+msgstr "Wallonie"
+
+#: eures_beta/templates/project.html:106
+msgctxt "project page"
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+#: eures_beta/templates/project.html:113
+msgctxt "project page"
+msgid "The first step sought is to identify, within each partner organisation, a contact person who could contribute to co-design."
+msgstr "La première étape recherchée est l’identification, chez chaque partenaire, d’un interlocuteur susceptible de participer à la coconstruction."
+
+#: eures_beta/templates/project.html:115
+msgctxt "project page"
+msgid "Clarify territorial needs."
+msgstr "Préciser les besoins du territoire."
+
+#: eures_beta/templates/project.html:116
+msgctxt "project page"
+msgid "Adapt candidate and employer journeys."
+msgstr "Adapter le parcours candidat et employeur."
+
+#: eures_beta/templates/project.html:117
+msgctxt "project page"
+msgid "Define consent arrangements."
+msgstr "Définir les modalités de consentement."
+
+#: eures_beta/templates/project.html:118
+msgctxt "project page"
+msgid "Identify available data and resources."
+msgstr "Identifier les données et ressources disponibles."
+
+#: eures_beta/templates/project.html:119
+msgctxt "project page"
+msgid "Prepare the gradual involvement of local teams."
+msgstr "Préparer progressivement l’implication des équipes locales."
+
+#: eures_beta/templates/project.html:120
+msgctxt "project page"
+msgid "Suggest shared indicators."
+msgstr "Proposer des indicateurs communs."
+
+#: eures_beta/templates/project.html:121
+msgctxt "project page"
+msgid "Analyse results."
+msgstr "Analyser les résultats."
+
+#: eures_beta/templates/project.html:126
+msgctxt "project page"
+msgid "An experimental horizon of around 300 qualified candidates informed about how the service works would provide enough diversity of profiles, help secure consent, produce more relevant introductions and improve responsiveness to employer needs."
+msgstr "Un horizon expérimental d’environ 300 candidats qualifiés et informés du fonctionnement du service permettrait de disposer d’une diversité suffisante de profils, de mieux sécuriser le consentement, de produire des rapprochements plus pertinents et d’améliorer la réactivité face aux besoins employeurs."
+
+#: eures_beta/templates/project.html:127
+msgctxt "project page"
+msgid "This horizon is not a quota imposed on each partner."
+msgstr "Cet horizon n’est pas un quota imposé à chaque partenaire."
+
+#: eures_beta/templates/project.html:131
+msgctxt "project page"
+msgid "The project may also help identify situations in which a plan focused on one labour market becomes durably difficult."
+msgstr "Le projet peut aussi aider à repérer les situations dans lesquelles un projet vers un marché donné devient durablement difficile."
+
+#: eures_beta/templates/project.html:133
+msgctxt "project page"
+msgid "Alert an adviser."
+msgstr "Alerter un conseiller."
+
+#: eures_beta/templates/project.html:134
+msgctxt "project page"
+msgid "Propose a diagnostic review."
+msgstr "Proposer un diagnostic."
+
+#: eures_beta/templates/project.html:135
+msgctxt "project page"
+msgid "Identify training needs."
+msgstr "Identifier des besoins de formation."
+
+#: eures_beta/templates/project.html:136
+msgctxt "project page"
+msgid "Suggest adjacent occupations."
+msgstr "Suggérer des métiers proches."
+
+#: eures_beta/templates/project.html:137
+msgctxt "project page"
+msgid "Propose other geographical opportunities."
+msgstr "Proposer d’autres opportunités géographiques."
+
+#: eures_beta/templates/project.html:138
+msgctxt "project page"
+msgid "Avoid a job search that remains blocked over time."
+msgstr "Éviter une recherche durablement sans issue."
+
+#: eures_beta/templates/project.html:140
+msgctxt "project page"
+msgid "Any analysis must remain explainable, controlled, used as decision support and validated by a human."
+msgstr "Toute analyse doit rester explicable, contrôlée, utilisée comme aide à la décision et validée humainement."
+
+#: eures_beta/templates/project.html:145
+msgctxt "project page"
+msgid "A clear institutional identity for the service."
+msgstr "Une identité institutionnelle claire du service."
+
+#: eures_beta/templates/project.html:146
+msgctxt "project page"
+msgid "Well-managed contact channels."
+msgstr "Des canaux de contact maîtrisés."
+
+#: eures_beta/templates/project.html:147
+msgctxt "project page"
+msgid "Explicit consent."
+msgstr "Un consentement explicite."
+
+#: eures_beta/templates/project.html:148
+msgctxt "project page"
+msgid "Appropriate data protection."
+msgstr "Une protection des données adaptée."
+
+#: eures_beta/templates/project.html:149
+msgctxt "project page"
+msgid "Defined authorisations."
+msgstr "Des habilitations définies."
+
+#: eures_beta/templates/project.html:150
+msgctxt "project page"
+msgid "Human validation of decisions and introductions."
+msgstr "Une validation humaine des décisions et des mises en relation."
+
+#: eures_beta/templates/project.html:152
+msgctxt "project page"
+msgid "WhatsApp Business may be considered as a possible channel, without implying that it is already active."
+msgstr "WhatsApp Business peut constituer un canal envisagé, sans préjuger de son activation."
+
+#: eures_beta/templates/project.html:157
+msgctxt "project page"
+msgid "Start from field realities."
+msgstr "Partir du terrain."
+
+#: eures_beta/templates/project.html:158
+msgctxt "project page"
+msgid "Test quickly."
+msgstr "Tester rapidement."
+
+#: eures_beta/templates/project.html:159
+msgctxt "project page"
+msgid "Progress through iterations."
+msgstr "Progresser par itérations."
+
+#: eures_beta/templates/project.html:160
+msgctxt "project page"
+msgid "Measure real impact."
+msgstr "Mesurer l’impact réel."
+
+#: eures_beta/templates/project.html:161
+msgctxt "project page"
+msgid "Remain transparent."
+msgstr "Rester transparent."
+
+#: eures_beta/templates/project.html:162
+msgctxt "project page"
+msgid "Adjust or stop an unconvincing hypothesis."
+msgstr "Ajuster ou arrêter une hypothèse non concluante."
+
+#: eures_beta/templates/project.html:169
+msgctxt "project page"
+msgid "Mobilisation"
+msgstr "Mobilisation"
+
+#: eures_beta/templates/project.html:171
+msgctxt "project page"
+msgid "Partners involved"
+msgstr "Partenaires impliqués"
+
+#: eures_beta/templates/project.html:172
+msgctxt "project page"
+msgid "Contacts identified"
+msgstr "Interlocuteurs identifiés"
+
+#: eures_beta/templates/project.html:173
+msgctxt "project page"
+msgid "Local teams associated"
+msgstr "Équipes locales associées"
+
+#: eures_beta/templates/project.html:174
+msgctxt "project page"
+msgid "Candidates and employers informed"
+msgstr "Candidats et employeurs informés"
+
+#: eures_beta/templates/project.html:178
+msgctxt "project page"
+msgid "Usage"
+msgstr "Usage"
+
+#: eures_beta/templates/project.html:180
+msgctxt "project page"
+msgid "Registrations"
+msgstr "Inscriptions"
+
+#: eures_beta/templates/project.html:181
+msgctxt "project page"
+msgid "Qualified profiles"
+msgstr "Profils qualifiés"
+
+#: eures_beta/templates/project.html:182
+msgctxt "project page"
+msgid "Employer needs collected"
+msgstr "Besoins employeurs recueillis"
+
+#: eures_beta/templates/project.html:183
+msgctxt "project page"
+msgid "Response rate"
+msgstr "Taux de réponse"
+
+#: eures_beta/templates/project.html:187
+msgctxt "project page"
+msgid "Results"
+msgstr "Résultats"
+
+#: eures_beta/templates/project.html:189
+msgctxt "project page"
+msgid "Matching proposals"
+msgstr "Propositions de matching"
+
+#: eures_beta/templates/project.html:190
+msgctxt "project page"
+msgid "Introductions"
+msgstr "Mises en relation"
+
+#: eures_beta/templates/project.html:191
+msgctxt "project page"
+msgid "Interviews"
+msgstr "Entretiens"
+
+#: eures_beta/templates/project.html:192
+msgctxt "project page"
+msgid "Hires"
+msgstr "Recrutements"
+
+#: eures_beta/templates/project.html:193
+msgctxt "project page"
+msgid "Time between need and introduction"
+msgstr "Délai entre besoin et mise en relation"
+
+#: eures_beta/templates/project.html:197
+msgctxt "project page"
+msgid "Support"
+msgstr "Accompagnement"
+
+#: eures_beta/templates/project.html:199
+msgctxt "project page"
+msgid "Dead-end situations identified"
+msgstr "Situations d’impasse identifiées"
+
+#: eures_beta/templates/project.html:200
+msgctxt "project page"
+msgid "Diagnostic reviews"
+msgstr "Diagnostics"
+
+#: eures_beta/templates/project.html:201
+msgctxt "project page"
+msgid "Alternatives or reorientations proposed"
+msgstr "Alternatives ou réorientations proposées"
+
+#: eures_beta/templates/project.html:210
+msgctxt "project page"
+msgid "Examine together the conditions for a shared pilot, identify the contacts who could contribute to its design and gradually prepare the involvement of local teams."
+msgstr "Examiner ensemble les conditions d’un pilote commun, identifier les interlocuteurs susceptibles de contribuer à sa conception et préparer progressivement l’implication d’équipes locales."
+
+#: eures_beta/templates/project.html:211
+msgctxt "project page"
+msgid "Candidate and employer journeys remain the operational entry points already open in this first version."
+msgstr "Les parcours candidat et employeur restent les portes d’entrée opérationnelles déjà ouvertes dans cette première version."
+
+#: eures_beta/templates/project.html:222
+msgctxt "project page"
+msgid "The figure of around 280,000 cross-border workers in the Greater Region is used here as a framing order of magnitude already referenced in the project."
+msgstr "Le chiffre d’environ 280 000 travailleurs frontaliers dans la Grande Région est repris ici comme ordre de grandeur de cadrage déjà mobilisé dans le projet."
+
+#: eures_beta/templates/project.html:223
+msgctxt "project page"
+msgid "Other contextual figures mentioned in working documents are not published in this version until they are consolidated, dated and verifiable."
+msgstr "Les autres chiffres de cadrage mentionnés dans les documents de travail ne sont pas publiés dans cette version tant qu’ils ne sont pas consolidés, datés et vérifiables."
+
+#: eures_beta/templates/project.html:224
+msgctxt "project page"
+msgid "This section is intended to be updated as data and publishable references are consolidated."
+msgstr "Cette section a vocation à être mise à jour au fil de la consolidation des données et des références publiables."
+
 #: eures_beta/templates/public_base.html:281
 msgctxt "public home"
 msgid "The Match Europe experiment supports professional mobility and recruitment in the Greater Region."
@@ -5383,10 +5934,6 @@ msgstr "Retour à l’accueil"
 #: eures_beta/views.py:20
 msgid "Statistics"
 msgstr "Statistiques"
-
-#: eures_beta/views.py:21
-msgid "The project"
-msgstr "Le projet"
 
 #: eures_beta/views.py:22
 msgid "Project journal"
