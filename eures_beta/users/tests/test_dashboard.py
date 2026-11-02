@@ -85,3 +85,19 @@ class DashboardTests(TestCase):
             '/accounts/logout/',
         ):
             self.assertNotContains(response, f'"{url}')
+
+    def test_switching_account_keeps_the_language_selected_before_confirmation(self):
+        previous = get_user_model().objects.create_user(
+            email='previous@example.invalid', kind='employer'
+        )
+        adviser = get_user_model().objects.create_user(
+            email='next@example.invalid', kind='adviser'
+        )
+        self.client.force_login(previous)
+        self.client.get(reverse('magic_confirm') + get_query_string(adviser))
+        self.client.get(reverse('magic_confirm'), {'lang': 'fr'})
+        response = self.client.post(reverse('magic_confirm'), follow=True)
+        self.assertEqual(self.client.session['_auth_user_id'], str(adviser.pk))
+        self.assertEqual(self.client.session['login_language'], 'fr')
+        self.assertContains(response, '<html lang="fr">')
+        self.assertContains(response, 'Votre tableau de bord est en construction.')

@@ -141,6 +141,7 @@ def confirm(request):
             request,
             'confirm' if request.session.get('magic_login_token') else 'invalid',
         )
+    language = selected_language(request)
     token = request.session.pop('magic_login_token', '')
     user = get_user(token, update_last_login=False) if token else None
     if user is None:
@@ -153,6 +154,8 @@ def confirm(request):
         if user is None:
             return page(request, 'invalid')
         auth_login(request, user)
+        # Switching accounts flushes the old session; retain the chosen language.
+        request.session['login_language'] = language
         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
     return redirect(settings.LOGIN_REDIRECT_URL)
 
