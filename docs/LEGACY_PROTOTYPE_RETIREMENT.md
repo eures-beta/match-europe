@@ -33,6 +33,12 @@ Notification. Les applications sans fonctionnalité actuelle gardent uniquement
 leur compatibilité de migrations et leurs tests historiques ; les anciennes
 migrations ne sont pas effacées.
 
+Les cinq paquets qui n'ont plus de fonctionnalité active (`accounts`, `offers`,
+`matching`, `conversations`, `notifications`) sont regroupés dans
+`eures_beta/migration_history/retired/`. Leurs labels Django restent identiques.
+Ce rangement, livré séparément du retrait, ne modifie ni schéma ni données.
+Voir [le rôle de ces archives](../eures_beta/migration_history/README.md).
+
 Les modèles employeur actuels et les sessions Django sont conservés.
 
 La suppression des données fictives n’est pas annulable par un retour de code :

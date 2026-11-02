@@ -22,7 +22,7 @@ class RetiredDataTests(TransactionTestCase):
 
     def clean(self):
         module = import_module(
-            'eures_beta.accounts.migrations.0002_remove_legacy_demo_accounts'
+            'eures_beta.migration_history.retired.accounts.migrations.0002_remove_legacy_demo_accounts'
         )
         with connection.schema_editor(atomic=False) as editor:
             module.remove_legacy_demo(self.apps, editor)
@@ -110,7 +110,7 @@ class RetiredDataTests(TransactionTestCase):
         executor.migrate(executor.loader.graph.leaf_nodes())
         tables = connection.introspection.table_names()
         for label, name in import_module(
-            'eures_beta.accounts.migrations.0003_verify_retired_tables_empty'
+            'eures_beta.migration_history.retired.accounts.migrations.0003_verify_retired_tables_empty'
         ).LEGACY_MODELS:
             self.assertNotIn(self.apps.get_model(label, name)._meta.db_table, tables)
         from eures_beta.employers.models import EmployerImport

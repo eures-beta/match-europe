@@ -1,11 +1,16 @@
 # Parcours du prototype
 
-Ce paquet contient les applications `accounts`, `employers`, `matching`,
-`conversations`, `notifications`, `documents`, `candidates` et `offers`.
-`migration_history` conserve uniquement les migrations historiques, sans modèle métier.
-Voir [l’organisation métier et les dépendances restantes](../docs/VUE_ENSEMBLE.md#organisation-du-code--extraction-des-conversations).
+Ce paquet contient le parcours employeur dans `employers`, l’accueil candidat
+dans `candidates`, la lecture de documents dans `documents` et le catalogue
+métiers partagé dans `occupations`.
+
+`migration_history` conserve les migrations historiques, sans modèle métier.
+Les anciens paquets `accounts`, `offers`, `matching`, `conversations` et
+`notifications` sont rangés dans son sous-dossier `retired/` ; ils ne sont plus
+des applications fonctionnelles.
+Voir [pourquoi cet historique reste nécessaire](migration_history/README.md).
 Les réglages, dépendances et commandes sont centralisés à la racine.
-Voir le [README principal](../README.md) pour l’installation, le mode démo et les tests.
+Voir le [README principal](../README.md) pour l’installation et les tests.
 
 La page publique Projet utilise `templates/project.html`, le système gettext
 commun et les tests de contenu trilingue dans `test_project.py`.

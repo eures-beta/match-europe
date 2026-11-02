@@ -9,6 +9,12 @@ Les descriptions historiques de matching/conversations ci-dessous décrivent des
 travaux antérieurs, pas des fonctionnalités actuellement exposées.
 Voir [le périmètre, le nettoyage des comptes et le stockage](LEGACY_PROTOTYPE_RETIREMENT.md).
 
+Les anciens paquets sans fonctionnalité active sont maintenant archivés sous
+`eures_beta/migration_history/retired/`. Les applications actives restent
+`employers`, `candidates`, `documents` et le catalogue `occupations`.
+Ce rangement conserve les labels et le graphe de migration ; il ne supprime
+aucune donnée supplémentaire.
+
 Référence commune créée le 16 octobre 2026 à partir des README et de HANDOFF.md. Ce document décrit le cadre produit ; il ne constitue pas une vérification de production.
 
 ## Objectif et périmètre
