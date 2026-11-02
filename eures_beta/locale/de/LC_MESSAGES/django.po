@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 13:18+0000\n"
+"POT-Creation-Date: 2026-11-02 13:55+0000\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -6506,17 +6506,17 @@ msgctxt "public information"
 msgid "Back to home"
 msgstr "Zurück zur Startseite"
 
-#: eures_beta/users/admin.py:30
-msgid "Personal info"
-msgstr "Persönliche Informationen"
-
-#: eures_beta/users/admin.py:32
+#: eures_beta/users/admin.py:50
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: eures_beta/users/admin.py:43
+#: eures_beta/users/admin.py:61
 msgid "Important dates"
 msgstr "Wichtige Daten"
+
+#: eures_beta/users/admin.py:75
+msgid "Add adviser"
+msgstr "Beraterkonto anlegen"
 
 #: eures_beta/users/models.py:32
 msgid "Adviser"

@@ -2,6 +2,7 @@
 
 import sys
 from django.core.management.commands.migrate import Command as DjangoMigrate
+from django.core.management import call_command
 from django.db import connections
 from django.db.migrations.recorder import MigrationRecorder
 from django.test.utils import override_settings
@@ -47,4 +48,17 @@ class Command(DjangoMigrate):
                     super().handle(*args, **bootstrap)
             finally:
                 clear_migration_modules()
-        return super().handle(*args, **options)
+        result = super().handle(*args, **options)
+        if (
+            not options.get('app_label')
+            and not options.get('plan')
+            and not options.get('check_unapplied')
+        ):
+            # Django has now created the permission rows via post_migrate.
+            call_command(
+                'sync_group_and_perms',
+                database=options['database'],
+                verbosity=options['verbosity'],
+                stdout=self.stdout,
+            )
+        return result

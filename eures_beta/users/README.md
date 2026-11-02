@@ -6,6 +6,9 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [Droits administratifs](../../../docs/ADMIN_PERMISSIONS.md) — Politique versionnée, synchronisation et création restreinte de conseillers.
+- [permissions.py](permissions.py) — Matrice des droits et réconciliation des attributions.
+- [admin_config.py](admin_config.py) — Retire l'édition des groupes après découverte des administrations.
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [admin.py](admin.py) — Adapte l’administration Django au compte sans username et au kind immuable.
 - [apps.py](apps.py) — Déclare l’application Django users.

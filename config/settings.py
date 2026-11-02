@@ -70,7 +70,7 @@ AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'eures_beta.users.apps.UsersConfig',
-    'django.contrib.admin',
+    'eures_beta.users.admin_config.VersionedPermissionsAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
