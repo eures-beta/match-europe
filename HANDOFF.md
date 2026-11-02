@@ -42,6 +42,15 @@ mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
 ## 2 novembre 2026 — retrait des parcours historiques `/access/`
 
+Lot distinct au sommet de la pile, demandé par dejafait : consolidation native
+des 36 migrations connectées en `employers.0001_autonomous_schema`. Sur une base
+neuve, seules les sept tables métier actuelles sont créées ; un historique
+complet est reconnu sans DDL ; un historique partiel conserve son nettoyage et
+ses garde-fous. Les anciennes migrations restent pour cette transition, sans
+suppression de fichier avant confirmation des environnements. Aucun déploiement
+ni accès à la production effectué dans ce lot.
+Voir [le protocole de consolidation](docs/AUTONOMOUS_MIGRATIONS.md).
+
 Lot de rangement séparé, demandé après le retrait : les cinq anciens paquets
 `accounts`, `offers`, `matching`, `conversations`, `notifications` sont déplacés
 sous `eures_beta/migration_history/retired/`, avec leurs tests. Leurs labels et

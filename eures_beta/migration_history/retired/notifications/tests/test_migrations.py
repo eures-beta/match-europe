@@ -3,7 +3,9 @@ from eures_beta.migration_history.testing import (
     restore_current_schema,
 )
 from django.db import connection
-from django.db.migrations.executor import MigrationExecutor
+from eures_beta.migration_history.testing import (
+    HistoricalMigrationExecutor as MigrationExecutor,
+)
 from django.test import TransactionTestCase
 
 
