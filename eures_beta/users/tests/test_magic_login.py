@@ -57,7 +57,7 @@ class MagicLoginTests(TestCase):
             HTTP_ORIGIN='https://testserver',
             HTTP_REFERER='https://testserver/accounts/confirm/',
         )
-        self.assertRedirects(accepted, '/')
+        self.assertRedirects(accepted, '/accounts/dashboard/')
         self.assertEqual(client.session['_auth_user_id'], str(self.user.pk))
 
     def setUp(self):
@@ -123,7 +123,9 @@ class MagicLoginTests(TestCase):
             link = self.request_link(client, user.email.upper())
             self.assertRedirects(client.get(link), '/accounts/confirm/')
             self.assertNotIn('_auth_user_id', client.session)
-            self.assertRedirects(client.post('/accounts/confirm/'), '/')
+            self.assertRedirects(
+                client.post('/accounts/confirm/'), '/accounts/dashboard/'
+            )
             self.assertEqual(str(user.pk), client.session['_auth_user_id'])
 
     def test_get_and_mail_scanner_do_not_consume_token_and_url_is_cleaned(self):
@@ -134,7 +136,7 @@ class MagicLoginTests(TestCase):
         self.assertIsNone(get_user_model().objects.get(pk=self.user.pk).last_login)
         self.assertNotIn('_auth_user_id', self.client.session)
         self.assertContains(self.client.get(response.url), 'Confirm')
-        self.assertRedirects(self.client.post(response.url), '/')
+        self.assertRedirects(self.client.post(response.url), '/accounts/dashboard/')
 
     def test_tokens_are_single_use_even_in_another_browser(self):
         link = self.request_link()

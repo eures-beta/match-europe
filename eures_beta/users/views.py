@@ -37,6 +37,14 @@ def account(request):
         return render(request, 'users/account.html')
 
 
+@never_cache
+@login_required
+@require_GET
+def dashboard(request):
+    with translation.override(selected_language(request)):
+        return render(request, 'users/dashboard.html')
+
+
 def email_ready():
     origin = urlsplit(settings.LOGIN_EMAIL_ORIGIN)
     return bool(
@@ -75,6 +83,8 @@ def page(request, stage, **context):
 @sensitive_post_parameters('email')
 @require_http_methods(['GET', 'POST'])
 def login(request):
+    if request.user.is_authenticated:
+        return redirect(settings.LOGIN_REDIRECT_URL)
     with translation.override(selected_language(request)):
         form = LoginForm(request.POST if request.method == 'POST' else None)
         valid = request.method == 'POST' and form.is_valid()
@@ -144,7 +154,7 @@ def confirm(request):
             return page(request, 'invalid')
         auth_login(request, user)
         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-    return redirect('home')
+    return redirect(settings.LOGIN_REDIRECT_URL)
 
 
 @never_cache

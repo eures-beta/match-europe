@@ -736,3 +736,12 @@ uniquement pour is_staff, vers Django. FR/EN/DE et layout public conservés.
 Tests de confidentialité, refus des modifications, comptes inactifs et navigation
 par rôle ajoutés ; aucune migration ni modification des droits.
 Voir docs/ACCOUNT_PAGES.md.
+
+## 2 novembre 2026 — tableau de bord commun
+
+PR empilée sur Mon compte : arrivée après lien magique sur /accounts/dashboard/
+et bouton Tableau de bord pour tous les comptes connectés. Page privée commune
+annoncée en construction en FR/EN/DE, sans liste métier ni nouveaux droits.
+La page de connexion redirige aussi une session déjà ouverte vers ce tableau.
+Validation locale : 267 tests PostgreSQL passent, dont le parcours HTTPS/CSRF
+pour employeur, conseiller et conseiller staff.
