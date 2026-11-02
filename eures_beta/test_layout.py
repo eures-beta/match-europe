@@ -10,6 +10,19 @@ class UnifiedLayoutTests(SimpleTestCase):
         self.assertEqual(list(app.get_models()), [])
         self.assertFalse((settings.APPS_DIR / 'journeys').exists())
         self.assertEqual(list(apps.get_app_config('accounts').get_models()), [])
+        for label in (
+            'accounts',
+            'offers',
+            'matching',
+            'conversations',
+            'notifications',
+        ):
+            retired = apps.get_app_config(label)
+            self.assertEqual(
+                retired.name, f'eures_beta.migration_history.retired.{label}'
+            )
+            self.assertEqual(list(retired.get_models()), [])
+            self.assertFalse((settings.APPS_DIR / label).exists())
         self.assertEqual(settings.ROOT_URLCONF, 'config.urls')
         self.assertFalse((settings.APPS_DIR / 'manage.py').exists())
         self.assertFalse((settings.APPS_DIR / 'config').exists())

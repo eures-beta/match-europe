@@ -50,15 +50,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'eures_beta.notifications.apps.NotificationsConfig',
+    'eures_beta.migration_history.retired.notifications.apps.NotificationsConfig',
     'eures_beta.documents.apps.DocumentsConfig',
     'eures_beta.candidates.apps.CandidatesConfig',
-    'eures_beta.offers.apps.OffersConfig',
-    'eures_beta.accounts.apps.AccountsConfig',
+    'eures_beta.migration_history.retired.offers.apps.OffersConfig',
+    'eures_beta.migration_history.retired.accounts.apps.AccountsConfig',
     'eures_beta.employers.apps.EmployersConfig',
-    'eures_beta.matching.apps.MatchingConfig',
+    'eures_beta.migration_history.retired.matching.apps.MatchingConfig',
     'eures_beta.migration_history.apps.MigrationHistoryConfig',
-    'eures_beta.conversations.apps.ConversationsConfig',
+    'eures_beta.migration_history.retired.conversations.apps.ConversationsConfig',
 ]
 
 MIDDLEWARE = [

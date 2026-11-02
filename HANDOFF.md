@@ -42,6 +42,15 @@ mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
 ## 2 novembre 2026 — retrait des parcours historiques `/access/`
 
+Lot de rangement séparé, demandé après le retrait : les cinq anciens paquets
+`accounts`, `offers`, `matching`, `conversations`, `notifications` sont déplacés
+sous `eures_beta/migration_history/retired/`, avec leurs tests. Leurs labels et
+migrations restent identiques ; aucune nouvelle migration ni modification de
+données. Conserver `candidates`, `documents`, `employers` et `occupations`, qui
+servent le prototype actuel. Le déploiement est prévu après vérification du
+premier lot, sans fusion ni déploiement implicite de ce second lot.
+Voir [les archives de compatibilité](eures_beta/migration_history/README.md).
+
 À la demande de dejafait : supprimer les quatre parcours fictifs, la connexion
 sans mot de passe et leur initialisation automatique, en conservant l’accueil
 public, le candidat à trois choix et le dépôt employeur trilingue. Migration
