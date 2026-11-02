@@ -314,14 +314,34 @@ class MagicLoginTests(TestCase):
         response = self.client.post(
             '/admin/users/user/add/',
             {
-                'email': 'invited-employer@example.invalid',
-                'kind': 'employer',
+                'email': 'invited-adviser@example.invalid',
                 '_save': 'Save',
             },
         )
         self.assertEqual(response.status_code, 302)
-        user = get_user_model().objects.get(email='invited-employer@example.invalid')
+        user = get_user_model().objects.get(email='invited-adviser@example.invalid')
+        self.assertEqual(user.kind, 'adviser')
         self.assertFalse(user.has_usable_password())
-        self.assertEqual(
-            self.client.get(f'/admin/users/user/{user.pk}/password/').status_code, 403
+        # ModelAdmin has no password-change route; its catch-all treats it as an ID.
+        password_url = f'/admin/users/user/{user.pk}/password/'
+        self.assertRedirects(
+            self.client.get(password_url),
+            password_url + 'change/',
+            fetch_redirect_response=False,
         )
+        self.assertRedirects(
+            self.client.post(
+                password_url,
+                {
+                    'password1': 'ShouldNotBeSaved123!',
+                    'password2': 'ShouldNotBeSaved123!',
+                },
+            ),
+            password_url + 'change/',
+            fetch_redirect_response=False,
+        )
+        self.assertNotContains(
+            self.client.get(password_url, follow=True), 'type="password"'
+        )
+        user.refresh_from_db()
+        self.assertFalse(user.has_usable_password())
