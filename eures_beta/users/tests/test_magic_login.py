@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 from datetime import timedelta
 from unittest.mock import patch
@@ -25,6 +26,40 @@ from eures_beta.users.models import LoginRateLimit
     LOGIN_EMAIL_ENABLED=True,
 )
 class MagicLoginTests(TestCase):
+    def test_https_browser_can_confirm_without_disabling_csrf_or_leaking_token(self):
+        client = Client(enforce_csrf_checks=True)
+        response = client.get(
+            '/accounts/confirm/?sesame=' + get_token(self.user), secure=True
+        )
+        # The token-bearing redirect must not disclose the secret as a referrer.
+        self.assertEqual(response['Referrer-Policy'], 'no-referrer')
+        clean = client.get(response.url, secure=True)
+        # A no-referrer document makes Chromium submit Origin: null. Django
+        # correctly rejects that POST, even with a valid CSRF cookie and field.
+        # same-origin keeps HTTPS CSRF verification while hiding off-site referrers.
+        self.assertEqual(clean['Referrer-Policy'], 'same-origin')
+        self.assertNotContains(clean, 'sesame=')
+        csrf = re.search(
+            r'name="csrfmiddlewaretoken" value="([^"]+)"', clean.content.decode()
+        )[1]
+        rejected = client.post(
+            '/accounts/confirm/',
+            {'csrfmiddlewaretoken': csrf},
+            secure=True,
+            HTTP_ORIGIN='https://attacker.invalid',
+        )
+        self.assertEqual(rejected.status_code, 403)
+        self.assertNotIn('_auth_user_id', client.session)
+        accepted = client.post(
+            '/accounts/confirm/',
+            {'csrfmiddlewaretoken': csrf},
+            secure=True,
+            HTTP_ORIGIN='https://testserver',
+            HTTP_REFERER='https://testserver/accounts/confirm/',
+        )
+        self.assertRedirects(accepted, '/')
+        self.assertEqual(client.session['_auth_user_id'], str(self.user.pk))
+
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             email='invited@example.invalid', kind='adviser'
