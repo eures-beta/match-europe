@@ -6639,3 +6639,171 @@ msgstr "Tableau de bord"
 msgctxt "account dashboard"
 msgid "Your dashboard is under construction."
 msgstr "Votre tableau de bord est en construction."
+
+#: eures_beta/templates/users/accept_invitation.html:3
+#: eures_beta/templates/users/accept_invitation.html:6
+msgid "Employer invitation"
+msgstr "Invitation employeur"
+
+#: eures_beta/templates/users/accept_invitation.html:8
+msgid "Confirm this invitation to create your employer account and sign in on this device. Do not share your personal link."
+msgstr "Confirmez cette invitation pour créer votre compte employeur et vous connecter sur cet appareil. Ne partagez pas votre lien personnel."
+
+#: eures_beta/templates/users/accept_invitation.html:11
+msgid "Accept invitation and sign in"
+msgstr "Accepter l’invitation et se connecter"
+
+#: eures_beta/templates/users/accept_invitation.html:14
+msgid "This invitation is invalid, expired or already used. Contact your adviser for help."
+msgstr "Cette invitation est invalide, expirée ou déjà utilisée. Contactez votre conseiller pour obtenir de l’aide."
+
+#: eures_beta/templates/users/adviser_dashboard.html:6
+#: eures_beta/templates/users/invite_employer.html:3
+#: eures_beta/templates/users/invite_employer.html:6
+msgid "Invite an employer"
+msgstr "Inviter un employeur"
+
+#: eures_beta/templates/users/adviser_dashboard.html:7
+msgid "Employer accounts"
+msgstr "Comptes employeurs"
+
+#: eures_beta/templates/users/adviser_dashboard.html:10
+msgid "Existing employer accounts"
+msgstr "Comptes employeurs existants"
+
+#: eures_beta/templates/users/adviser_dashboard.html:14
+msgid "Active account"
+msgstr "Compte actif"
+
+#: eures_beta/templates/users/adviser_dashboard.html:14
+msgid "Inactive account"
+msgstr "Compte inactif"
+
+#: eures_beta/templates/users/adviser_dashboard.html:16
+msgid "No employer account yet."
+msgstr "Aucun compte employeur pour le moment."
+
+#: eures_beta/templates/users/adviser_dashboard.html:21
+msgid "Previous accounts"
+msgstr "Comptes précédents"
+
+#: eures_beta/templates/users/adviser_dashboard.html:22
+msgid "Next accounts"
+msgstr "Comptes suivants"
+
+#: eures_beta/templates/users/adviser_dashboard.html:23
+msgid "Employer invitations"
+msgstr "Invitations employeurs"
+
+#: eures_beta/templates/users/adviser_dashboard.html:26
+msgid "Invitations awaiting acceptance"
+msgstr "Invitations en attente d’acceptation"
+
+#: eures_beta/templates/users/adviser_dashboard.html:27
+msgid "Invited on"
+msgstr "Invité le"
+
+#: eures_beta/templates/users/adviser_dashboard.html:27
+#: eures_beta/templates/users/invite_employer.html:9
+msgid "Expires on"
+msgstr "Expire le"
+
+#: eures_beta/templates/users/adviser_dashboard.html:30
+msgid "Expired invitation"
+msgstr "Invitation expirée"
+
+#: eures_beta/templates/users/adviser_dashboard.html:30
+msgid "Invitation pending"
+msgstr "Invitation en attente"
+
+#: eures_beta/templates/users/adviser_dashboard.html:30
+msgid "Email not sent"
+msgstr "E-mail non envoyé"
+
+#: eures_beta/templates/users/adviser_dashboard.html:32
+msgid "No pending invitation."
+msgstr "Aucune invitation en attente."
+
+#: eures_beta/templates/users/adviser_dashboard.html:37
+msgid "Previous invitations"
+msgstr "Invitations précédentes"
+
+#: eures_beta/templates/users/adviser_dashboard.html:38
+msgid "Next invitations"
+msgstr "Invitations suivantes"
+
+#: eures_beta/templates/users/invitation_email.txt:1
+msgid "An EURES adviser has invited you to Match Europe as an employer."
+msgstr "Un conseiller EURES vous a invité sur Match Europe en tant qu’employeur."
+
+#: eures_beta/templates/users/invitation_email.txt:3
+msgid "Open your personal link, then confirm to create your account and sign in:"
+msgstr "Ouvrez votre lien personnel, puis confirmez pour créer votre compte et vous connecter :"
+
+#: eures_beta/templates/users/invitation_email.txt:6
+msgid "This invitation is valid for seven days and can be used once. Do not forward it. If you did not expect it, ignore this message."
+msgstr "Cette invitation est valable sept jours et ne peut être utilisée qu’une fois. Ne la transférez pas. Si vous ne l’attendiez pas, ignorez ce message."
+
+#: eures_beta/templates/users/invite_employer.html:8
+msgid "The invitation email has been sent."
+msgstr "L’e-mail d’invitation a été envoyé."
+
+#: eures_beta/templates/users/invite_employer.html:8
+msgid "Invitation saved. No email has been sent; delivery is not available. An operator can simulate the email privately."
+msgstr "Invitation enregistrée. Aucun e-mail n’a été envoyé : l’envoi est indisponible. Un opérateur peut simuler le message en privé."
+
+#: eures_beta/templates/users/invite_employer.html:10
+msgid "Invitation reference"
+msgstr "Référence de l’invitation"
+
+#: eures_beta/templates/users/invite_employer.html:12
+msgid "The invitation lasts seven days. The employer account will be created only after confirmation of the personal link."
+msgstr "L’invitation est valable sept jours. Le compte employeur ne sera créé qu’après confirmation du lien personnel."
+
+#: eures_beta/templates/users/invite_employer.html:13
+msgid "If an invitation has expired, enter the same address to renew it. Old links will stop working."
+msgstr "Si une invitation a expiré, saisissez la même adresse pour la renouveler. Les anciens liens ne fonctionneront plus."
+
+#: eures_beta/templates/users/invite_employer.html:17
+msgid "Create invitation"
+msgstr "Créer l’invitation"
+
+#: eures_beta/templates/users/invite_employer.html:20
+msgid "Back to dashboard"
+msgstr "Retour au tableau de bord"
+
+#: eures_beta/templates/users/login.html:35
+msgid "The link expires after one hour and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices."
+msgstr "Le lien expire après une heure et ne peut être utilisé qu’une fois. Vous restez connecté jusqu’à 30 jours sans activité sur cet appareil. Déconnectez-vous sur les appareils partagés."
+
+#: eures_beta/templates/users/login_email.txt:6
+msgid "This link expires after one hour and can be used once. Do not forward it. If you did not request it, ignore this message."
+msgstr "Ce lien expire après une heure et ne peut être utilisé qu’une fois. Ne le transférez pas. Si vous n’avez pas fait cette demande, ignorez ce message."
+
+#: eures_beta/users/forms.py:17
+msgid "Invitation language"
+msgstr "Langue de l’invitation"
+
+#: eures_beta/users/forms.py:27 eures_beta/users/invitations.py:61
+msgid "An account already exists for this email address."
+msgstr "Un compte existe déjà pour cette adresse e-mail."
+
+#: eures_beta/users/invitation_views.py:49
+msgid "An account or invitation already exists for this email address."
+msgstr "Un compte ou une invitation existe déjà pour cette adresse e-mail."
+
+#: eures_beta/users/invitations.py:58
+msgid "You are not allowed to invite employers."
+msgstr "Vous n’êtes pas autorisé à inviter des employeurs."
+
+#: eures_beta/users/invitations.py:71
+msgid "Too many invitations. Please try again later."
+msgstr "Trop d’invitations. Réessayez plus tard."
+
+#: eures_beta/users/invitations.py:78
+msgid "An invitation already exists for this email address."
+msgstr "Une invitation existe déjà pour cette adresse e-mail."
+
+#: eures_beta/users/invitations.py:125
+msgid "Your invitation to Match Europe"
+msgstr "Votre invitation à Match Europe"

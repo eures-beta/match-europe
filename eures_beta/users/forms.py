@@ -10,3 +10,20 @@ class LoginForm(forms.Form):
             attrs={'autocomplete': 'email', 'autocapitalize': 'none'}
         ),
     )
+
+
+class EmployerInvitationForm(LoginForm):
+    language = forms.ChoiceField(
+        label=_('Invitation language'),
+        choices=(('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')),
+    )
+
+    def clean_email(self):
+        from .models import User
+
+        email = self.cleaned_data['email'].strip().lower()
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError(
+                _('An account already exists for this email address.')
+            )
+        return email

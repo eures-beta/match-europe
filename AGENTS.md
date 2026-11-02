@@ -47,6 +47,11 @@
 - Les liens de connexion concernent uniquement les comptes existants et actifs.
   Ne pas réintroduire de `get_or_create` d’utilisateur dans ces vues.
 - Les invitations et listes blanches demandent une implémentation distincte.
+- Les invitations employeurs sont explicites et réservées aux conseillers habilités
+  (`docs/EMPLOYER_INVITATIONS.md`) : sept jours et confirmation POST. Ce parcours
+  distinct peut créer un compte employeur ; la connexion habituelle (une heure)
+  ne crée jamais de compte. Sans envoi configuré, les liens ne doivent être simulés
+  que par les commandes d'opérateur, jamais exposés dans une page publique.
   La création manuelle par un administrateur habilité, les migrations et les
   fixtures de test restent des opérations internes explicites.
 

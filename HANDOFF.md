@@ -1,3 +1,13 @@
+## 2 novembre 2026 — invitations employeurs (nouvelle PR)
+
+Conseillers : liste paginée des employeurs et invitations, création d'invitations
+de sept jours. Compte employeur créé seulement après confirmation POST/CSRF,
+sans mot de passe ni droits administratifs. Groupe de droits versionné ; table
+additive EmployerInvitation. Tableau employeur conservé en construction.
+Connexion habituelle prolongée à une heure ; session glissante de trente jours
+inchangée. Aucun prestataire mail activé. Commandes privées de simulation via
+Makefile, jamais de lien secret dans les pages. Voir docs/EMPLOYER_INVITATIONS.md.
+
 ## 2 novembre 2026 — diagnostic des performances
 
 PR transverse au-dessus de #103 : middleware de bilans JSON, agrégats SQL et

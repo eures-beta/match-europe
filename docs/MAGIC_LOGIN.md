@@ -8,7 +8,7 @@ adresse saisie ne crée de compte : inscriptions et invitations restent fermées
 
 Les jetons sont générés et vérifiés par
 [django-sesame](https://django-sesame.readthedocs.io/en/stable/howto.html).
-Ils expirent après 15 minutes, sont invalidés après une connexion, un changement
+Ils expirent après une heure, sont invalidés après une connexion, un changement
 d’e-mail ou une désactivation. La consommation est sérialisée par un verrou
 PostgreSQL sur l’utilisateur. Le GET nettoie l’adresse puis affiche une
 confirmation ; seul le POST protégé par CSRF ouvre la session. Un scanner de

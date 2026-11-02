@@ -176,5 +176,22 @@ registration-test: ## Vérifier la fermeture de la création autonome de comptes
 observability-test: ## Vérifier les mesures de requêtes, la confidentialité et les diagnostics de timeout
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.observability --noinput $(TEST_ARGS)
 .PHONY: login-test
+.PHONY: invitations-test invitation-email
+.PHONY: login-email
+EMAIL ?=
+LANGUAGE ?= fr
+login-email: ## Simuler un email privé de connexion, sans envoi (EMAIL et ORIGIN requis)
+	@test -n "$(EMAIL)" && test -n "$(ORIGIN)" || { echo 'Indiquer EMAIL et ORIGIN.' >&2; exit 2; }
+	@$(MANAGE) login_email "$(EMAIL)" --origin "$(ORIGIN)" --language "$(LANGUAGE)"
+
+invitations-test: ## Tester invitations, rôles, expiration et confirmation sur PostgreSQL local
+	@$(MANAGE) test eures_beta.users.tests.test_invitations --noinput $(TEST_ARGS)
+
+INVITATION ?=
+ORIGIN ?=
+invitation-email: ## Simuler un email privé contenant un lien secret (INVITATION=UUID et ORIGIN requis)
+	@test -n "$(INVITATION)" && test -n "$(ORIGIN)" || { echo 'Indiquer INVITATION=UUID et ORIGIN=https://hote-autorise.' >&2; exit 2; }
+	@$(MANAGE) invitation_email "$(INVITATION)" --origin "$(ORIGIN)"
+
 login-test: ## Tester les liens magiques, sessions, limites et inscriptions fermées
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.users.tests --noinput $(TEST_ARGS)

@@ -6,6 +6,10 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [Invitations employeurs](../../../docs/EMPLOYER_INVITATIONS.md) — Tableau conseiller, invitation de sept jours et simulation privée des e-mails.
+- [invitations.py](invitations.py) — Création explicite, jetons signés et limites.
+- [invitation_views.py](invitation_views.py) — Vues conseiller et acceptation publique protégée.
+
 - [Droits administratifs](../../../docs/ADMIN_PERMISSIONS.md) — Politique versionnée, synchronisation et création restreinte de conseillers.
 - [permissions.py](permissions.py) — Matrice des droits et réconciliation des attributions.
 - [admin_config.py](admin_config.py) — Retire l'édition des groupes après découverte des administrations.

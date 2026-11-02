@@ -1,0 +1,29 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "Invite an employer" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="invite-title">
+    <h1 id="invite-title">{% translate "Invite an employer" %}</h1>
+    {% if invitation %}
+      <p role="status">
+        {% if sent %}
+          {% translate "The invitation email has been sent." %}
+        {% else %}
+          {% translate "Invitation saved. No email has been sent; delivery is not available. An operator can simulate the email privately." %}
+        {% endif %}
+      </p>
+      <p>{{ invitation.email }} — {% translate "Expires on" %} <time datetime="{{ invitation.expires_at|date:'c' }}">{{ invitation.expires_at|date:"SHORT_DATETIME_FORMAT" }}</time></p>
+      <p>{% translate "Invitation reference" %} : <code>{{ invitation.pk }}</code></p>
+    {% else %}
+      <p>{% translate "The invitation lasts seven days. The employer account will be created only after confirmation of the personal link." %}</p>
+      <p>{% translate "If an invitation has expired, enter the same address to renew it. Old links will stop working." %}</p>
+      <form method="post"
+            action="{% url 'employer_invite' %}?lang={{ page_language }}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="primary-action" type="submit">{% translate "Create invitation" %}</button>
+      </form>
+    {% endif %}
+    <p><a href="{% url 'dashboard' %}?lang={{ page_language }}">{% translate "Back to dashboard" %}</a></p>
+  </section>
+{% endblock %}
