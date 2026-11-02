@@ -13,10 +13,10 @@ class CollectedStaticTests(TestCase):
             with override_settings(STATIC_ROOT=directory, DEBUG=False):
                 call_command("collectstatic", interactive=False, verbosity=0)
                 client = Client()
-                home = client.get("/access/")
+                home = client.get("/")
                 self.assertEqual(home.status_code, 200)
                 css_path = re.search(
-                    r'href="([^"]+bootstrap.min.css)"', home.content.decode()
+                    r'href="([^"]+employer/site.css)"', home.content.decode()
                 )[1]
                 for path in (
                     css_path,
@@ -36,11 +36,11 @@ class CollectedStaticTests(TestCase):
     def test_https_ingress_does_not_create_a_redirect_loop(self):
         client = Client()
         self.assertEqual(
-            client.get("/access/", HTTP_X_FORWARDED_PROTO="https").status_code, 200
+            client.get("/", HTTP_X_FORWARDED_PROTO="https").status_code, 200
         )
         self.assertRedirects(
-            client.get("/access/"),
-            "https://testserver/access/",
+            client.get("/"),
+            "https://testserver/",
             status_code=301,
             fetch_redirect_response=False,
         )

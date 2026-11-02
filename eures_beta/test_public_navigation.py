@@ -76,10 +76,8 @@ class PublicNavigationTests(SimpleTestCase):
                             self.client.get(target, secure=True).status_code, 200
                         )
 
-    def test_home_and_dashboard_have_distinct_routes(self):
-        self.assertEqual(reverse('dashboard'), '/dashboard/')
+    def test_home_is_the_public_entrypoint(self):
         self.assertEqual(resolve(reverse('home')).url_name, 'home')
-        self.assertEqual(resolve(reverse('dashboard')).url_name, 'dashboard')
 
     @override_settings(DEMO_MODE=False)
     def test_legacy_candidate_redirect_does_not_open_the_protected_journey(self):

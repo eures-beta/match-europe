@@ -5,7 +5,7 @@
 Le point d’entrée à la racine sert désormais le prototype conservé dans
 `eures_beta/`, avec Python 3.14, Django 6.1, PostgreSQL et Bootstrap.
 
-- `/` : page d’accueil employeur ; `/access/` : accès aux quatre parcours fictifs.
+- `/` : accueil public ; `/candidate/` : accueil candidat ; `/access/` et les anciens parcours fictifs ont été retirés.
 - `/admin/` : administration native Django (utilisateurs et groupes).
 - Les modèles et migrations `journeys` sont ceux du prototype d’origine.
 - Aucun email réel ni enregistrement AGLAE n’est activé en démonstration partagée.
@@ -28,7 +28,7 @@ prototype et les variables `DJANGO_*` / `PG*` du socle. La configuration autonom
 
 `make help` décrit l’installation, le serveur local, SQL et les tests.
 Après configuration de `.env` et création de sa base locale :
-`make install-test`, `make migrate`, `make seed-demo`, `make run`.
+`make install-test`, `make migrate`, `make run`.
 `make test` vérifie tous les parcours ; `make test-local` est un alias de cette même suite. `make serve` permet un essai Gunicorn sur loopback.
 
 La démonstration est désactivée par défaut. Pour les parcours fictifs locaux,
@@ -241,7 +241,7 @@ La pile est Django / PostgreSQL / Bootstrap. Le code historique Flask/Grist rest
 ## Lancer en local
 
 Utiliser les commandes à la racine : `make install-test`, configurer `.env`,
-puis `make migrate`, `make seed-demo` et `make run`.
+puis `make migrate`, `make run`.
 Pour les prévisualisations sur loopback, ajouter `ME_EMPLOYER_DEV_ACCESS=1` dans `.env`.
 Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 

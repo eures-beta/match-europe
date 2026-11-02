@@ -1,5 +1,9 @@
 # Découpage des applications Django
 
+Depuis le retrait du prototype `/access/`, les anciennes vues et services
+décrits ici ne sont plus exposés. Les modèles et migrations historiques restent
+pour la compatibilité des bases. Voir [le périmètre actuel](LEGACY_PROTOTYPE_RETIREMENT.md).
+
 ## Comptes
 
 `accounts` porte les profils et rôles, jetons de connexion, contrôles d’accès et

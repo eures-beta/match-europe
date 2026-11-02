@@ -4,14 +4,11 @@ import json
 import os
 import subprocess
 import sys
-from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
-from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase, override_settings
 
-from config.demo import ensure_demo
 from eures_beta.candidates.models import Candidate
 from eures_beta.accounts.models import Profile
 
@@ -96,10 +93,7 @@ class NonDemoTests(TestCase):
                 with self.subTest(path=path, method=method.__name__):
                     self.assertEqual(method(path).status_code, 404)
 
-    def test_demo_seed_cannot_create_fictional_accounts(self):
-        with patch("config.demo.call_command") as seed:
-            ensure_demo()
-            seed.assert_not_called()
-        with self.assertRaises(CommandError):
-            call_command("seed_demo", verbosity=0)
-        self.assertFalse(get_user_model().objects.exists())
+    def test_legacy_seed_command_is_no_longer_available(self):
+        from django.core.management import get_commands
+
+        self.assertNotIn('seed_demo', get_commands())

@@ -1,5 +1,14 @@
 # EURES beta / Match Europe — vue d’ensemble
 
+## 2 novembre 2026 — retrait du premier prototype
+
+Les quatre parcours de `/access/` sont retirés, avec leurs connexions fictives,
+vues, templates et initialisation automatique. Le prototype actuel reste celui
+de l’accueil public, du candidat à trois choix et de l’import employeur trilingue.
+Les descriptions historiques de matching/conversations ci-dessous décrivent des
+travaux antérieurs, pas des fonctionnalités actuellement exposées.
+Voir [le périmètre, le nettoyage des comptes et le stockage](LEGACY_PROTOTYPE_RETIREMENT.md).
+
 Référence commune créée le 16 octobre 2026 à partir des README et de HANDOFF.md. Ce document décrit le cadre produit ; il ne constitue pas une vérification de production.
 
 ## Objectif et périmètre

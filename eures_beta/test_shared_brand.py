@@ -29,8 +29,8 @@ class SharedBrandTests(SimpleTestCase):
                     self.assertContains(response, 'match-europe-logo.png', count=1)
                     self.assertContains(response, '/static/public-brand.css')
 
-    def test_role_and_employer_shells_use_the_shared_brand(self):
-        for template in ('base.html', 'employer_auth_shell.html'):
+    def test_employer_shell_uses_the_shared_brand(self):
+        for template in ('employer_auth_shell.html',):
             with self.subTest(template=template), translation.override('de'):
                 html = render_to_string(template, {'page_language': 'de'})
                 self.assertInHTML(render_to_string('includes/public_brand.html'), html)
