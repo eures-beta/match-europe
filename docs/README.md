@@ -35,6 +35,5 @@ Commencer par [la vue d’ensemble](VUE_ENSEMBLE.md), puis [les décisions](DECI
 - [TESTS.md](TESTS.md) — Documente « Organisation des tests ».
 - [VUE_ENSEMBLE.md](VUE_ENSEMBLE.md) — Documente « EURES beta / Match Europe — vue d’ensemble ».
 
-- [AUTONOMOUS_MIGRATIONS.md](AUTONOMOUS_MIGRATIONS.md) — Explique les deux déploiements et le retrait définitif des archives.
 
 [Remonter au dossier parent](../).

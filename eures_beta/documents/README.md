@@ -1,12 +1,11 @@
 # Lecture des documents
 
-Ce paquet fournit les lecteurs PDF et l’extraction de champs réutilisés par le parcours employeur. L’ancien modèle de pièce jointe et ses routes sont supprimés ; ses migrations et tests restent pour la compatibilité.
+Ce paquet fournit les lecteurs PDF et l’extraction de champs réutilisés par le parcours employeur. L’ancien modèle de pièce jointe et ses routes sont supprimés ; leur historique est supprimé ; les tests de lecture des documents restent actifs.
 
 ## Contenu de ce dossier
 
 ### Dossiers
 
-- [migrations/](migrations/) — Ces fichiers décrivent l’évolution du schéma et de l’état Django pour les documents et leur lecture.
 - [tests/](tests/) — Ces tests vérifient les documents et leur lecture.
 
 ### Fichiers

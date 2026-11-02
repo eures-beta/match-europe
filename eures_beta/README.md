@@ -27,7 +27,6 @@ limites](../docs/USER_MODEL.md).
 - [documents/](documents/) — Ce paquet fournit les lecteurs PDF et l’extraction de champs réutilisés par le parcours employeur.
 - [employers/](employers/) — Cette application regroupe les identités et établissements employeurs, les habilitations, les imports d’offres, la connexion par lien et l’espace de travail.
 - [locale/](locale/) — Les textes sources sont en anglais dans le code Python et les templates Django.
-- [migration_history/](migration_history/) — Ce dossier ne contient aucune fonctionnalité du site.
 - [occupations/](occupations/) — Ce paquet fournit la recherche locale dans les références ESCO et ROME.
 - [static/](static/) — Ce dossier contient CSS, JavaScript, service worker et ressources visuelles partagées.
 - [templates/](templates/) — Django transforme ces templates en pages HTML.

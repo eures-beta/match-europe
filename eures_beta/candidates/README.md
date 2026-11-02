@@ -1,12 +1,11 @@
 # Parcours candidat
 
-Cette application sert le nouvel accueil candidat à trois choix. Le modèle candidat de l’ancien prototype est supprimé ; les migrations conservées concernent sa compatibilité historique.
+Cette application sert le nouvel accueil candidat à trois choix. Le modèle candidat de l’ancien prototype et son historique ont été supprimés ; cette application ne possède actuellement aucun modèle.
 
 ## Contenu de ce dossier
 
 ### Dossiers
 
-- [migrations/](migrations/) — Ces fichiers décrivent l’évolution du schéma et de l’état Django pour les données et pages candidat.
 - [static/](static/) — Ce dossier est découvert par Django pour les fichiers statiques de l’application candidats.
 - [templates/](templates/) — Ce dossier rassemble les templates appartenant à l’application candidats.
 - [tests/](tests/) — Ces tests vérifient les données et pages candidat.
