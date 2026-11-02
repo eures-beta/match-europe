@@ -727,3 +727,12 @@ complet. Aucun droit de modification, suppression ou attribution de privilèges
 pour ces gestionnaires. Voir [la politique](docs/ADMIN_PERMISSIONS.md).
 Validation locale : 215 tests PostgreSQL et contrôle de transition utilisateurs
 réussis. L'authentification par lien magique et les invitations restent séparées.
+
+## 2 novembre 2026 — page Mon compte
+
+PR dédiée : fiche privée en lecture seule avec rôle, e-mail, nom facultatif et
+date de création. Navigation commune Mon compte / Me déconnecter ; lien Admin
+uniquement pour is_staff, vers Django. FR/EN/DE et layout public conservés.
+Tests de confidentialité, refus des modifications, comptes inactifs et navigation
+par rôle ajoutés ; aucune migration ni modification des droits.
+Voir docs/ACCOUNT_PAGES.md.

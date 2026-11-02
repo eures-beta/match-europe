@@ -9,6 +9,7 @@ from django.contrib.auth import (
     login as auth_login,
     logout as auth_logout,
 )
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.db import transaction
 from django.http import Http404
@@ -26,6 +27,14 @@ from .forms import LoginForm
 from .rate_limits import allow_request
 
 logger = logging.getLogger(__name__)
+
+
+@never_cache
+@login_required
+@require_GET
+def account(request):
+    with translation.override(selected_language(request)):
+        return render(request, 'users/account.html')
 
 
 def email_ready():
