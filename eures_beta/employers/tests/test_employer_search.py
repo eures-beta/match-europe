@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 import json
 from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
@@ -6,7 +7,6 @@ from django.db import close_old_connections
 from django.test import Client, TestCase, TransactionTestCase
 from eures_beta.employers.models import (
     EmployerImport,
-    EmployerIdentity,
     EmployerMembership,
     EmployerSearchOperation,
     EmployerSearchEvent,
@@ -204,7 +204,9 @@ class SearchTests(SearchSetup, TestCase):
 @patch.dict('os.environ', MODES)
 class SearchConcurrencyTests(SearchSetup, TransactionTestCase):
     def test_two_colleagues_start_same_revision_once(self):
-        colleague = EmployerIdentity.objects.create(email='rh2@fiction.invalid')
+        colleague = get_user_model().objects.create_user(
+            kind='employer', email='rh2@fiction.invalid'
+        )
         EmployerMembership.objects.create(person=colleague, company=self.company)
         clients = [Client(), Client()]
         self.login(clients[0], self.person)

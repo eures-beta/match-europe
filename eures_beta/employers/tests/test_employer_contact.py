@@ -1,6 +1,8 @@
 import json
 from unittest.mock import patch
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -22,7 +24,9 @@ class EmployerContactTests(TestCase):
             'employer',
             'unverified',
         ):
-            user = User.objects.create_user(username=role + '@example.invalid')
+            user = User.objects.create_user(
+                kind='adviser', email=role + '@example.invalid'
+            )
             self.staff[role] = user
         self.contact = {
             'name': 'Fictional Contact',

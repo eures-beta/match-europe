@@ -51,13 +51,15 @@ class DemoSettingsTests(SimpleTestCase):
 class NonDemoTests(TestCase):
     def test_previous_authenticated_demo_session_cannot_open_dashboard(self):
         user = get_user_model().objects.create_user(
-            username="candidate@example.invalid"
+            kind='adviser', email="candidate@example.invalid"
         )
         self.client.force_login(user)
         self.assertEqual(self.client.get("/dashboard/").status_code, 404)
 
     def test_previous_draft_session_cannot_open_profile(self):
-        user = get_user_model().objects.create_user(username="draft@example.invalid")
+        user = get_user_model().objects.create_user(
+            kind='adviser', email="draft@example.invalid"
+        )
         session = self.client.session
         session["draft_user"] = user.pk
         session.save()
@@ -70,7 +72,9 @@ class NonDemoTests(TestCase):
             fetch_redirect_response=False,
         )
         user = get_user_model().objects.create_superuser(
-            username="operator@example.invalid", password="fictional-test-password"
+            kind='adviser',
+            email="operator@example.invalid",
+            password="fictional-test-password",
         )
         self.client.force_login(user)
         self.assertEqual(self.client.get("/admin/").status_code, 200)

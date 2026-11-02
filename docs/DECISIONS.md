@@ -135,3 +135,11 @@ collègues dans les travaux début octobre. La priorité a été leur accueil et
 prise en main du projet ; aucune acquisition n’a été menée pendant cette phase.
 Le bilan chiffré au 2 novembre est retiré à sa demande. Publication GitHub après
 validation du rendu, au sommet de la pile ; aucune fusion ni mise en production.
+
+## 2 novembre 2026 — identité Django unique
+
+Choix validé par dejafait : hériter d’AbstractUser comme Les Emplois, avec le
+champ `kind`, deux valeurs exclusives conseiller/employeur, e-mail unique sans
+distinction de casse et rôle obligatoire fixé à la création. Aucun Profile.
+EmployerIdentity est remplacé par ce compte commun ; les habilitations aux
+établissements restent distinctes. Voir [les migrations et limites](USER_MODEL.md).

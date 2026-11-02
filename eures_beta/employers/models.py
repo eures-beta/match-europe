@@ -3,16 +3,6 @@ from django.conf import settings
 from django.db import models
 
 
-class EmployerIdentity(models.Model):
-    """Individual identity established by the local email verification flow."""
-
-    email = models.EmailField(unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'journeys_employeridentity'
-
-
 class EmployerCompany(models.Model):
     """A workspace, not a verified legal company registration."""
 
@@ -28,7 +18,7 @@ class EmployerMembership(models.Model):
         EmployerCompany, on_delete=models.PROTECT, related_name='memberships'
     )
     person = models.ForeignKey(
-        EmployerIdentity, on_delete=models.PROTECT, related_name='memberships'
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='memberships'
     )
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -54,7 +44,7 @@ class EmployerImport(models.Model):
         related_name='imports',
     )
     created_by = models.ForeignKey(
-        EmployerIdentity,
+        settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.PROTECT,
@@ -128,7 +118,7 @@ class EmployerSearchOperation(models.Model):
     offer = models.ForeignKey(
         EmployerImport, on_delete=models.PROTECT, related_name='search_operations'
     )
-    requested_by = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT)
+    requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     revision = models.PositiveIntegerField()
     state = models.CharField(
         max_length=12,
@@ -156,7 +146,7 @@ class EmployerSearchEvent(models.Model):
     operation = models.ForeignKey(
         EmployerSearchOperation, on_delete=models.PROTECT, related_name='events'
     )
-    actor = models.ForeignKey(EmployerIdentity, on_delete=models.PROTECT)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     state = models.CharField(max_length=12)
     created = models.DateTimeField(auto_now_add=True)
 

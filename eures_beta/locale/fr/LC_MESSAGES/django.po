@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 12:03+0000\n"
+"POT-Creation-Date: 2026-11-02 12:48+0000\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -6505,6 +6505,34 @@ msgstr "Le contenu n’est pas encore disponible. Vous pouvez revenir à l’acc
 msgctxt "public information"
 msgid "Back to home"
 msgstr "Retour à l’accueil"
+
+#: eures_beta/users/admin.py:30
+msgid "Personal info"
+msgstr "Informations personnelles"
+
+#: eures_beta/users/admin.py:32
+msgid "Permissions"
+msgstr "Permissions"
+
+#: eures_beta/users/admin.py:43
+msgid "Important dates"
+msgstr "Dates importantes"
+
+#: eures_beta/users/models.py:32
+msgid "Adviser"
+msgstr "Conseiller"
+
+#: eures_beta/users/models.py:33
+msgid "Employer"
+msgstr "Employeur"
+
+#: eures_beta/users/models.py:59
+msgid "An explicit valid kind is required."
+msgstr "Un type de compte valide doit être choisi explicitement."
+
+#: eures_beta/users/models.py:67
+msgid "The user kind cannot be changed."
+msgstr "Le type du compte ne peut pas être modifié."
 
 #: eures_beta/views.py:20
 msgid "Statistics"

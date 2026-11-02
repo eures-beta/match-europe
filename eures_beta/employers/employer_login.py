@@ -7,6 +7,8 @@ from datetime import timedelta
 from functools import wraps
 
 from django import forms
+from django.contrib.auth import get_user_model, login
+from django.contrib.auth.hashers import make_password
 from django.conf import settings
 from django.db import transaction
 from django.http import Http404
@@ -18,7 +20,6 @@ from django.views.decorators.http import require_POST, require_http_methods, req
 
 from eures_beta.employers.models import (
     EmployerEmailLink,
-    EmployerIdentity,
     EmployerCompany,
     EmployerMembership,
     EmployerImport,
@@ -151,9 +152,18 @@ def confirm(request, token):
             return page(request, 'invalid')
         link.used = True
         link.save(update_fields=['used'])
-        person, _ = EmployerIdentity.objects.get_or_create(email=link.email)
+        person, _ = get_user_model().objects.get_or_create(
+            email__iexact=link.email,
+            defaults={
+                'email': link.email,
+                'kind': 'employer',
+                'password': make_password(None),
+            },
+        )
+        if person.kind != 'employer' or not person.is_active:
+            return page(request, 'invalid')
         request.session.cycle_key()
-        request.session['employer_identity_id'] = person.pk
+        login(request, person, backend='django.contrib.auth.backends.ModelBackend')
         # Only the draft explicitly carried by this single-use link can be attached.
         request.session.pop('employer_pending_import', None)
         if link.pending_import_id:
@@ -261,7 +271,7 @@ def attach(request):
             company = member.company
         else:
             # Serialise first registration for this person, including across browsers.
-            EmployerIdentity.objects.select_for_update().get(pk=person.pk)
+            get_user_model().objects.select_for_update().get(pk=person.pk)
             if memberships(request).exists():
                 raise Http404
             form = EstablishmentForm(request.POST)
