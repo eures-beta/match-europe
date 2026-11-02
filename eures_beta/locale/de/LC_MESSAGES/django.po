@@ -6631,3 +6631,11 @@ msgstr "Name"
 msgctxt "account summary"
 msgid "Account created on"
 msgstr "Konto erstellt am"
+
+msgctxt "account navigation"
+msgid "Dashboard"
+msgstr "Übersicht"
+
+msgctxt "account dashboard"
+msgid "Your dashboard is under construction."
+msgstr "Ihre Übersicht befindet sich im Aufbau."

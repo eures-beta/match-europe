@@ -4,6 +4,9 @@
        role="group"
        aria-label="{% translate 'Account navigation' context 'account navigation' %}">
     <a class="nav-pill employer-account-link"
+       {% if request.resolver_match.url_name == 'dashboard' %}aria-current="page"{% endif %}
+       href="{% url 'dashboard' %}?lang={{ page_language }}">{% translate "Dashboard" context "account navigation" %}</a>
+    <a class="nav-pill employer-account-link"
        {% if request.resolver_match.url_name == 'account' %}aria-current="page"{% endif %}
        href="{% url 'account' %}?lang={{ page_language }}">{% translate "My account" context "account navigation" %}</a>
     {% if user.is_staff %}

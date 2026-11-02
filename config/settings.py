@@ -20,7 +20,7 @@ APPS_DIR = BASE_DIR / "eures_beta"
 DEMO_MODE = os.environ.get("ME_DEMO_MODE", os.environ.get("ME_SHARED_DEMO", "0")) == "1"
 SHARED_DEMO = DEMO_MODE and os.environ.get("ME_SHARED_DEMO", "0") == "1"
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'dashboard'
 # Only the token backend is enabled: username/password authentication is disabled.
 AUTHENTICATION_BACKENDS = ['sesame.backends.ModelBackend']
 SESAME_MAX_AGE = 15 * 60

@@ -76,6 +76,7 @@ class AccountPageTests(TestCase):
                 '/project/',
                 '/journal/',
                 '/statistics/',
+                '/accounts/dashboard/',
                 '/employer/pages/fr.html',
                 '/employer/pages/import-fr.html',
                 '/employer/pages/privacy-fr.html',
@@ -84,6 +85,7 @@ class AccountPageTests(TestCase):
                 with self.subTest(path=path, staff=staff):
                     response = self.client.get(path, secure=True)
                     self.assertContains(response, 'href="/accounts/me/?lang=fr"')
+                    self.assertContains(response, 'href="/accounts/dashboard/?lang=fr"')
                     self.assertContains(response, 'Me déconnecter')
                     self.assertContains(response, 'action="/accounts/logout/"')
                     self.assertNotContains(response, 'href="/accounts/login/')

@@ -1,0 +1,12 @@
+{% extends "public_base.html" %}
+{% load i18n static %}
+{% block page_title %}{% translate "Dashboard" context "account navigation" %} — Match Europe{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'users/account.css' %}">
+{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="dashboard-title">
+    <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
+    <p>{% translate "Your dashboard is under construction." context "account dashboard" %}</p>
+  </section>
+{% endblock %}
