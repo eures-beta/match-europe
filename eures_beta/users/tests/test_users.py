@@ -7,18 +7,17 @@ User = get_user_model()
 
 
 class UserTests(TestCase):
-    def test_email_authentication_uses_django_and_case_insensitive_identifier(self):
+    def test_email_is_normalised_and_password_authentication_is_disabled(self):
         user = User.objects.create_user(
             email='Contact@Example.invalid',
             kind='employer',
             password='fictional-password',
         )
         self.assertEqual(user.email, 'contact@example.invalid')
-        self.assertEqual(
+        self.assertIsNone(
             authenticate(
                 username='CONTACT@example.invalid', password='fictional-password'
             ),
-            user,
         )
         self.assertFalse(hasattr(user, 'profile'))
         self.assertFalse(hasattr(user, 'username') and user.username is not None)

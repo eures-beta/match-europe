@@ -31,7 +31,10 @@ class EntryPointTests(TestCase):
 
     def test_admin_requires_authentication(self):
         response = self.client.get(reverse("admin:index"))
-        self.assertRedirects(response, "/admin/login/?next=/admin/")
+        self.assertRedirects(
+            response, "/admin/login/?next=/admin/", fetch_redirect_response=False
+        )
+        self.assertRedirects(self.client.get(response.url), '/accounts/login/')
 
     def test_native_admin_with_postgresql(self):
         self.assertEqual(connection.vendor, "postgresql")

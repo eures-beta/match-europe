@@ -695,3 +695,16 @@ Un garde-fou vérifie le marqueur autonome avant la première bascule utilisateu
 Les tests des anciens modèles sont retirés avec leurs sources ; les tests du
 schéma actuel et de conservation des données restent actifs. Aucun changement
 des choix métier conseiller/employeur, aucune fusion de cette PR.
+
+## 2 novembre 2026 — connexion par lien magique (PR dédiée)
+
+Ajout de users/views.py, du formulaire public et de django-sesame 3.2.5. Bouton
+commun aux pages publiques, en FR/EN/DE ; seuls les comptes actifs préexistants
+peuvent recevoir un lien. Pas de backend de connexion par mot de passe. Liens
+de 15 minutes à usage unique, confirmation POST/CSRF et session glissante de
+30 jours. Compteurs anti-abus PostgreSQL dans une migration additive.
+Le SMTP reste désactivé et annoncé comme tel, conformément à la demande de
+dejafait : recette visuelle maintenant, raccordement Brevo distinct ensuite.
+Suite complète : 229 tests PostgreSQL passent. Voir docs/MAGIC_LOGIN.md pour
+les réglages, les limites de temporisation SMTP et les journaux à protéger.
+Aucune fusion ni modification de production dans ce lot.

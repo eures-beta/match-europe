@@ -195,6 +195,7 @@
     </style>
     <link rel="stylesheet" href="{% static 'home.css' %}">
     <link rel="stylesheet" href="/static/public-brand.css">
+    {% block extra_head %}{% endblock %}
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
@@ -241,6 +242,7 @@
                  lang="de"
                  hreflang="de">DE</a>
             </div>
+            {% include "includes/account_link.html" %}
           </div>
         </nav>
       </div>

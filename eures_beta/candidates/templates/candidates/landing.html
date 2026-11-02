@@ -232,9 +232,7 @@
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
                  href="/candidate/?lang=de">DE</a>
             </div>
-            <button type="button"
-                    class="nav-pill employer-account-link"
-                    data-candidate-account>{% translate "Sign in" context "candidate shell" %}</button>
+            {% include "includes/account_link.html" %}
           </div>
         </nav>
       </div>

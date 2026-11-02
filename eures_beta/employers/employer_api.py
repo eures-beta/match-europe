@@ -2,7 +2,6 @@
 
 from eures_beta.observability.runtime import stage, timed_stage
 import json
-import re
 import math
 import os
 import time
@@ -96,7 +95,7 @@ def employer_page(request, path):
             language = request.GET.get('lang', request.LANGUAGE_CODE)
         language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         with translation.override(language):
-            context = {}
+            context = {'signed_in': authenticated}
             if path == 'push-test.html':
                 from eures_beta.employers.push_strings import browser_strings
 
@@ -121,23 +120,6 @@ def employer_page(request, path):
                 + escape(notice)
                 + '</aside>',
                 1,
-            )
-        if authenticated:
-            lang = next(
-                (code for code in ('fr', 'en', 'de') if path.endswith(code + '.html')),
-                'fr',
-            )
-            with translation.override(lang):
-                label = translation.gettext('My employer space')
-            body = re.sub(
-                r'(<a\s+class="nav-pill employer-account-link"\s+data-employer-account\s+href=")[^"]*(">)[^<]*(</a>)',
-                lambda match: match[1]
-                + '/employer/connected/?lang='
-                + lang
-                + match[2]
-                + label
-                + match[3],
-                body,
             )
         return HttpResponse(body)
     return FileResponse(candidate.open('rb'))

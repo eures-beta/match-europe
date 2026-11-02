@@ -19,7 +19,30 @@ APPS_DIR = BASE_DIR / "eures_beta"
 # Demo access is opt-in. Existing preview environments explicitly set ME_SHARED_DEMO.
 DEMO_MODE = os.environ.get("ME_DEMO_MODE", os.environ.get("ME_SHARED_DEMO", "0")) == "1"
 SHARED_DEMO = DEMO_MODE and os.environ.get("ME_SHARED_DEMO", "0") == "1"
-LOGIN_URL = "/admin/login/"
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+# Only the token backend is enabled: username/password authentication is disabled.
+AUTHENTICATION_BACKENDS = ['sesame.backends.ModelBackend']
+SESAME_MAX_AGE = 15 * 60
+SESAME_ONE_TIME = True
+SESAME_INVALIDATE_ON_EMAIL_CHANGE = True
+SESAME_TOKENS = ['sesame.tokens_v2']
+SESAME_SIGNATURE_SIZE = 16
+SESSION_COOKIE_AGE = 30 * 24 * 60 * 60
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# A fixed, trusted origin prevents Host-header poisoning of emailed links.
+LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
+LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', '1') == '1'
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', '0') == '1'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
+EMAIL_TIMEOUT = 10
 RUNTIME = APPS_DIR / ".runtime"
 MEDIA_ROOT = RUNTIME / "private"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 12 * 1024 * 1024

@@ -8,5 +8,6 @@ class RedactAccessLinks(logging.Filter):
             r'/confirm/[^/\s?]+/?', '/confirm/[redacted]/', record.getMessage()
         )
         record.msg = re.sub(r'([?&]invite=)[^\s&]+', r'\1[redacted]', record.msg)
+        record.msg = re.sub(r'([?&]sesame=)[^\s&]+', r'\1[redacted]', record.msg)
         record.args = ()
         return True

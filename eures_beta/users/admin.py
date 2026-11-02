@@ -1,20 +1,28 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django import forms
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext_lazy as _
 from .models import User
 
 
-class CreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+class CreationForm(forms.ModelForm):
+    class Meta:
         model = User
         fields = ('email', 'kind')
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_unusable_password()
+        if commit:
+            user.save()
+        return user
 
-class ChangeForm(UserChangeForm):
-    class Meta(UserChangeForm.Meta):
+
+class ChangeForm(forms.ModelForm):
+    class Meta:
         model = User
-        fields = '__all__'
+        exclude = ('password',)
 
 
 @admin.register(User)
@@ -26,7 +34,7 @@ class AccountAdmin(UserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'kind')}),
+        (None, {'fields': ('email', 'kind')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),
         (
             _('Permissions'),
@@ -45,9 +53,12 @@ class AccountAdmin(UserAdmin):
     add_fieldsets = (
         (
             None,
-            {'fields': ('email', 'kind', 'usable_password', 'password1', 'password2')},
+            {'fields': ('email', 'kind')},
         ),
     )
 
     def get_readonly_fields(self, request, obj=None):
         return ('kind',) if obj else ()
+
+    def user_change_password(self, request, id, form_url=''):
+        raise PermissionDenied

@@ -4,13 +4,18 @@ from django.views.generic.base import RedirectView
 from eures_beta import views
 from eures_beta.redirects import legacy_employer_page
 from .health import health
+from eures_beta.users import views as user_views
 
 urlpatterns = [
+    path('', include('eures_beta.users.urls')),
     path("", include("eures_beta.employers.urls")),
     path("", include("eures_beta.candidates.urls")),
     # Old tabs/bookmarks still contain these relative language links after deployment.
     path('previews/employer-landing/<path:path>', legacy_employer_page),
     path("health/", health, name="health"),
+    path('admin/login/', user_views.admin_login),
+    path('admin/password_change/', user_views.password_disabled),
+    path('admin/password_change/done/', user_views.password_disabled),
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", views.home, name="home"),

@@ -1081,9 +1081,7 @@
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
                  href="import-v2-de.html">DE</a>
             </div>
-            <a class="nav-pill employer-account-link"
-               data-employer-account
-               href="/employer/access/?lang={{ page_language }}">{% translate "Sign in" context "employer import-v2" %}</a>
+            {% include "includes/account_link.html" %}
           </div>
         </nav>
       </div>

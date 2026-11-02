@@ -1,0 +1,38 @@
+{% extends "public_base.html" %}
+{% load i18n static %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+{% endblock %}
+{% block page_title %}{% translate "Sign in" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="import-card account-login" aria-labelledby="login-title">
+    <h1 id="login-title">{% translate "Sign in" %}</h1>
+    <p>{% translate "Public registration is closed. Accounts are available by invitation only." %}</p>
+    {% if stage == "sent" %}
+      <p role="status">{% translate "If an active account exists for this address, you will receive a sign-in link by email. Check your inbox and spam folder." %}</p>
+    {% elif stage == "confirm" %}
+      <p>{% translate "Confirm to sign in on this device. Do not share your personal link." %}</p>
+      <form method="post" action="{% url 'magic_confirm' %}">
+        {% csrf_token %}
+        <button class="primary-action" type="submit">{% translate "Confirm sign-in" %}</button>
+      </form>
+    {% elif stage == "invalid" %}
+      <p role="alert">{% translate "This link is invalid, expired or already used. Request a new sign-in link." %}</p>
+      <a class="primary-action" href="{% url 'magic_login' %}">{% translate "Request a new link" %}</a>
+    {% else %}
+      <p>{% translate "Already have an account? Enter your email address to receive a secure sign-in link. No password is needed." %}</p>
+      {% if not email_ready or stage == "unavailable" %}
+        <p role="status">{% translate "Email delivery is not available yet. You can view this page, but no sign-in email will be sent." %}</p>
+      {% endif %}
+      <form method="post"
+            action="{% url 'magic_login' %}?lang={{ page_language }}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="primary-action"
+                type="submit"
+                {% if not email_ready %}disabled{% endif %}>{% translate "Send me a sign-in link" %}</button>
+      </form>
+      <p>{% translate "The link expires after 15 minutes and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

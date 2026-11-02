@@ -50,7 +50,7 @@ class EmployerLandingTranslationTests(SimpleTestCase):
                 self.assertContains(import_response, '/static/employer/review-steps.js')
                 self.assertContains(response, f'href="privacy-{language}.html"')
                 self.assertContains(
-                    response, f'href="/employer/access/?lang={language}"'
+                    response, f'href="/accounts/login/?lang={language}"'
                 )
                 assert_active_link(self, response, f'{language}.html')
                 self.assertContains(response, saved)

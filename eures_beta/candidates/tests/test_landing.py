@@ -28,7 +28,7 @@ class CandidateLandingTests(SimpleTestCase):
                 self.assertContains(response, title)
                 body = response.content.decode()
                 self.assertEqual(body.count('data-candidate-choice='), 3)
-                self.assertIn('data-candidate-account', body)
+                self.assertIn(f'href="/accounts/login/?lang={language}"', body)
                 for forbidden in (
                     'data-employer-account',
                     'data-employer-api',
@@ -74,7 +74,9 @@ class CandidateLandingTests(SimpleTestCase):
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, skip)
                 self.assertContains(response, f'aria-label="{navigation}"')
-                self.assertContains(response, notice)
+                self.assertContains(
+                    response, f'href="/accounts/login/?lang={language}"'
+                )
                 self.assertContains(response, f'href="/employer/pages/{language}.html"')
                 assert_active_link(self, response, f'/candidate/?lang={language}')
 

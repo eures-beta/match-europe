@@ -237,9 +237,7 @@
                  lang="de"
                  hreflang="de">DE</a>
             </div>
-            <a class="nav-pill employer-account-link"
-               data-employer-account
-               href="/employer/access/?lang={{ page_language }}">{% translate "Sign in" context "employer landing" %}</a>
+            {% include "includes/account_link.html" %}
           </div>
         </nav>
       </div>
