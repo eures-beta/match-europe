@@ -27,7 +27,8 @@ class CandidateLandingTests(SimpleTestCase):
                 self.assertTemplateUsed(response, 'candidates/landing.html')
                 self.assertContains(response, title)
                 body = response.content.decode()
-                self.assertEqual(body.count('data-candidate-choice='), 3)
+                self.assertEqual(body.count('class="import-choice"'), 1)
+                self.assertIn('/candidate/prepare/?lang=', body)
                 self.assertIn(f'href="/accounts/login/?lang={language}"', body)
                 for forbidden in (
                     'data-employer-account',

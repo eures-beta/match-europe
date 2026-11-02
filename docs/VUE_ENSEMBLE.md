@@ -109,3 +109,13 @@ interface candidat ajouté. Voir [catalogue et limites](OCCUPATION_CATALOG_MAINT
 La fiche d’import employeur utilise le catalogue partagé et conserve les choix
 explicites dans son brouillon. Template unique et gettext, aucun parcours candidat
 ajouté. Voir [contrat et limites](EMPLOYER_OCCUPATIONS.md).
+
+
+## Proposition locale candidat — 2 novembre 2026
+
+Parcours commun avec/sans CV en cinq étapes, lecture locale et brouillon temporaire. Aucun compte ou raccordement au matching. Voir [périmètre et recette](CANDIDATE_LOCAL_JOURNEY.md).
+
+
+## Questionnaire candidat simplifié — état local actuel
+
+La proposition initiale avec CV est remplacée à la demande d’Eric : questionnaire sans import ni historique professionnel, avec recherche ESCO/ROME, mobilité/langues, conditions et relecture. Voir [recette et limites](CANDIDATE_LOCAL_JOURNEY.md). Aucun raccordement au matching ou compte durable.

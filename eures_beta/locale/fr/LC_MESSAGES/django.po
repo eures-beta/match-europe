@@ -6807,3 +6807,542 @@ msgstr "Une invitation existe déjà pour cette adresse e-mail."
 #: eures_beta/users/invitations.py:125
 msgid "Your invitation to Match Europe"
 msgstr "Votre invitation à Match Europe"
+
+#: eures_beta/candidates/journey.py:62
+msgid "Choose a specific answer or the discussion option, not both."
+msgstr "Choisissez des réponses précises ou « À discuter », pas les deux."
+
+#: eures_beta/candidates/journey.py:66
+msgid "Please specify your other choice."
+msgstr "Précisez votre autre choix."
+
+#: eures_beta/candidates/journey.py:72
+msgid "Search for an occupation"
+msgstr "Rechercher un métier"
+
+#: eures_beta/candidates/journey.py:76
+msgid "Job title or ROME/ESCO code. Search, then select one or more results."
+msgstr "Intitulé du métier ou code ROME/ESCO. Recherchez, puis sélectionnez un ou plusieurs résultats."
+
+#: eures_beta/candidates/journey.py:79
+msgid "Jobs I would like to do"
+msgstr "Les métiers que je souhaite exercer"
+
+#: eures_beta/candidates/journey.py:81
+msgid "Another job or a personal job title (optional)"
+msgstr "Autre métier ou intitulé personnel (facultatif)"
+
+#: eures_beta/candidates/journey.py:84
+msgid "Use this if no catalogue result fits. No code will be invented."
+msgstr "À utiliser si aucun résultat du catalogue ne convient. Aucun code ne sera inventé."
+
+#: eures_beta/candidates/journey.py:87
+msgid "Countries where I would like to work"
+msgstr "Pays où je souhaite travailler"
+
+#: eures_beta/candidates/journey.py:89
+msgid "France"
+msgstr "France"
+
+#: eures_beta/candidates/journey.py:90
+msgid "Luxembourg"
+msgstr "Luxembourg"
+
+#: eures_beta/candidates/journey.py:91
+msgid "Germany"
+msgstr "Allemagne"
+
+#: eures_beta/candidates/journey.py:92
+msgid "Belgium"
+msgstr "Belgique"
+
+#: eures_beta/candidates/journey.py:99
+msgid "Regions, towns or another country (optional)"
+msgstr "Régions, villes ou autre pays (facultatif)"
+
+#: eures_beta/candidates/journey.py:140
+msgid "Select up to ten occupations."
+msgstr "Sélectionnez dix métiers au maximum."
+
+#: eures_beta/candidates/journey.py:144
+msgid "Select an ESCO or ROME occupation, or enter your own job title."
+msgstr "Sélectionnez un métier ESCO ou ROME, ou indiquez votre propre intitulé."
+
+#: eures_beta/candidates/journey.py:151
+msgid "Your mobility plans"
+msgstr "Votre mobilité"
+
+#: eures_beta/candidates/journey.py:153
+msgid "Commute while keeping my residence"
+msgstr "Me déplacer en gardant mon domicile"
+
+#: eures_beta/candidates/journey.py:154
+msgid "Move for a job"
+msgstr "Déménager pour un emploi"
+
+#: eures_beta/candidates/journey.py:155
+msgid "Both are possible"
+msgstr "Les deux sont possibles"
+
+#: eures_beta/candidates/journey.py:161
+msgid "Maximum one-way commuting time"
+msgstr "Temps de trajet maximum à l’aller"
+
+#: eures_beta/candidates/journey.py:163
+msgid "30 minutes"
+msgstr "30 minutes"
+
+#: eures_beta/candidates/journey.py:164
+msgid "1 hour"
+msgstr "1 heure"
+
+#: eures_beta/candidates/journey.py:165
+msgid "1 hour 30 minutes"
+msgstr "1 heure 30"
+
+#: eures_beta/candidates/journey.py:166
+msgid "2 hours"
+msgstr "2 heures"
+
+#: eures_beta/candidates/journey.py:167
+msgid "More than 2 hours"
+msgstr "Plus de 2 heures"
+
+#: eures_beta/candidates/journey.py:172
+msgid "How could you travel to work?"
+msgstr "Comment pourriez-vous vous rendre au travail ?"
+
+#: eures_beta/candidates/journey.py:174
+msgid "Car"
+msgstr "Voiture"
+
+#: eures_beta/candidates/journey.py:175
+msgid "Train"
+msgstr "Train"
+
+#: eures_beta/candidates/journey.py:176
+msgid "Bus"
+msgstr "Bus"
+
+#: eures_beta/candidates/journey.py:177
+msgid "Carpooling"
+msgstr "Covoiturage"
+
+#: eures_beta/candidates/journey.py:183
+msgid "Other transport: specify"
+msgstr "Autre transport : précisez"
+
+#: eures_beta/candidates/journey.py:187
+msgid "Which licences or authorisations do you currently hold?"
+msgstr "Quels permis ou autorisations détenez-vous actuellement ?"
+
+#: eures_beta/candidates/journey.py:201
+msgid "Other licence or authorisation: specify"
+msgstr "Autre permis ou autorisation : précisez"
+
+#: eures_beta/candidates/journey.py:227
+msgid "Please choose an answer, or select the discussion option."
+msgstr "Choisissez une réponse ou « À discuter »."
+
+#: eures_beta/candidates/journey.py:233
+msgid "Monday"
+msgstr "Lundi"
+
+#: eures_beta/candidates/journey.py:234
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: eures_beta/candidates/journey.py:235
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: eures_beta/candidates/journey.py:236
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: eures_beta/candidates/journey.py:237
+msgid "Friday"
+msgstr "Vendredi"
+
+#: eures_beta/candidates/journey.py:238
+msgid "Saturday"
+msgstr "Samedi"
+
+#: eures_beta/candidates/journey.py:239
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: eures_beta/candidates/journey.py:242
+#: eures_beta/candidates/templates/candidates/journey.html:137
+msgid "Morning"
+msgstr "Matin"
+
+#: eures_beta/candidates/journey.py:243
+#: eures_beta/candidates/templates/candidates/journey.html:137
+msgid "Afternoon"
+msgstr "Après-midi"
+
+#: eures_beta/candidates/journey.py:244
+#: eures_beta/candidates/templates/candidates/journey.html:137
+msgid "Evening"
+msgstr "Soir"
+
+#: eures_beta/candidates/journey.py:245
+#: eures_beta/candidates/templates/candidates/journey.html:137
+msgid "Night"
+msgstr "Nuit"
+
+#: eures_beta/candidates/journey.py:251
+msgid "When could you start?"
+msgstr "Quand pourriez-vous commencer ?"
+
+#: eures_beta/candidates/journey.py:253
+msgid "As soon as possible"
+msgstr "Dès que possible"
+
+#: eures_beta/candidates/journey.py:254
+msgid "Within one month"
+msgstr "Dans un mois maximum"
+
+#: eures_beta/candidates/journey.py:255
+msgid "Within three months"
+msgstr "Dans trois mois maximum"
+
+#: eures_beta/candidates/journey.py:256
+msgid "From a specific date"
+msgstr "À partir d’une date précise"
+
+#: eures_beta/candidates/journey.py:262
+msgid "Available from"
+msgstr "Disponible à partir du"
+
+#: eures_beta/candidates/journey.py:267
+msgid "Contracts I would accept"
+msgstr "Contrats que j’accepterais"
+
+#: eures_beta/candidates/journey.py:271
+msgid "Temporary agency work"
+msgstr "Intérim"
+
+#: eures_beta/candidates/journey.py:272
+msgid "Seasonal work"
+msgstr "Travail saisonnier"
+
+#: eures_beta/candidates/journey.py:280
+msgid "Other contract: specify"
+msgstr "Autre contrat : précisez"
+
+#: eures_beta/candidates/journey.py:283
+msgid "Working time I would accept"
+msgstr "Temps de travail que j’accepterais"
+
+#: eures_beta/candidates/journey.py:284
+msgid "Full-time"
+msgstr "Temps plein"
+
+#: eures_beta/candidates/journey.py:284
+msgid "Part-time"
+msgstr "Temps partiel"
+
+#: eures_beta/candidates/journey.py:288
+msgid "What are your schedule availabilities?"
+msgstr "Quelles sont vos disponibilités horaires ?"
+
+#: eures_beta/candidates/journey.py:290
+msgid "I am available on varied schedules"
+msgstr "Je suis disponible sur des horaires variés"
+
+#: eures_beta/candidates/journey.py:291
+msgid "I have schedule constraints or preferences"
+msgstr "J’ai des contraintes ou préférences horaires"
+
+#: eures_beta/candidates/journey.py:297
+msgid "These are my only available time slots"
+msgstr "Ce sont mes seules disponibilités"
+
+#: eures_beta/candidates/journey.py:302
+msgid "Working hours and conditions I would accept"
+msgstr "Horaires et conditions que j’accepterais"
+
+#: eures_beta/candidates/journey.py:304 eures_beta/candidates/journey.py:432
+msgid "Daytime work"
+msgstr "Travail en journée"
+
+#: eures_beta/candidates/journey.py:312 eures_beta/candidates/journey.py:434
+msgid "Weekend work"
+msgstr "Travail le week-end"
+
+#: eures_beta/candidates/journey.py:321
+msgid "None of these conditions"
+msgstr "Aucune de ces conditions"
+
+#: eures_beta/candidates/journey.py:326
+msgid "Additional details (optional)"
+msgstr "Précisions complémentaires (facultatif)"
+
+#: eures_beta/candidates/journey.py:328
+msgid "Salary expectations"
+msgstr "Attentes salariales"
+
+#: eures_beta/candidates/journey.py:331
+msgid "I have a minimum amount in mind"
+msgstr "J’ai un montant minimum en tête"
+
+#: eures_beta/candidates/journey.py:336
+msgid "Minimum amount"
+msgstr "Montant minimum"
+
+#: eures_beta/candidates/journey.py:344
+msgid "Currency"
+msgstr "Devise"
+
+#: eures_beta/candidates/journey.py:347 eures_beta/candidates/journey.py:357
+#: eures_beta/candidates/journey.py:366
+msgid "Choose an answer"
+msgstr "Choisir une réponse"
+
+#: eures_beta/candidates/journey.py:354
+msgid "Pay period"
+msgstr "Période de rémunération"
+
+#: eures_beta/candidates/journey.py:358
+msgid "Per hour"
+msgstr "Par heure"
+
+#: eures_beta/candidates/journey.py:359
+msgid "Per month"
+msgstr "Par mois"
+
+#: eures_beta/candidates/journey.py:360
+msgid "Per year"
+msgstr "Par an"
+
+#: eures_beta/candidates/journey.py:364
+msgid "Gross or net"
+msgstr "Brut ou net"
+
+#: eures_beta/candidates/journey.py:366
+msgid "Gross"
+msgstr "Brut"
+
+#: eures_beta/candidates/journey.py:366
+msgid "Net"
+msgstr "Net"
+
+#: eures_beta/candidates/journey.py:413
+msgid "Select at least one time slot, or choose the discussion option."
+msgstr "Sélectionnez au moins un créneau ou choisissez « À discuter »."
+
+#: eures_beta/candidates/journey.py:427
+msgid "Invalid schedule suggestion state. Please reload the page."
+msgstr "État des propositions horaires invalide. Rechargez la page."
+
+#: eures_beta/candidates/journey.py:441
+#, python-format
+msgid "Your exclusive schedule has no matching slot for: %(conditions)s. Change the grid or these choices."
+msgstr "Vos seules disponibilités ne comportent aucun créneau compatible avec : %(conditions)s. Modifiez la grille ou ces choix."
+
+#: eures_beta/candidates/journey.py:450
+msgid "Choose a date."
+msgstr "Choisissez une date."
+
+#: eures_beta/candidates/journey.py:463
+msgid "Complete the amount, currency, period and gross/net basis."
+msgstr "Précisez le montant, la devise, la période et brut/net."
+
+#: eures_beta/candidates/journey.py:478
+msgid "Name to display (fictional)"
+msgstr "Nom à afficher (fictif)"
+
+#: eures_beta/candidates/journey.py:481
+msgid "Email (fictional, optional)"
+msgstr "Email (fictif, facultatif)"
+
+#: eures_beta/candidates/journey.py:483
+msgid "I have reviewed this fictional profile."
+msgstr "J’ai vérifié ce profil fictif."
+
+#: eures_beta/candidates/journey.py:488
+msgid "My project"
+msgstr "Mon projet"
+
+#: eures_beta/candidates/journey.py:489
+msgid "Mobility and languages"
+msgstr "Mobilité et langues"
+
+#: eures_beta/candidates/journey.py:490
+msgid "My conditions"
+msgstr "Mes conditions"
+
+#: eures_beta/candidates/journey.py:491
+msgid "Review my project"
+msgstr "Relire mon projet"
+
+#: eures_beta/candidates/language_choices.py:15
+msgid "Languages I can use"
+msgstr "Langues que je peux utiliser"
+
+#: eures_beta/candidates/language_choices.py:26
+#: eures_beta/candidates/templates/candidates/language_strings.html:6
+msgid "Choose each language and its level, or select the discussion option."
+msgstr "Choisissez chaque langue et son niveau, ou sélectionnez « À discuter »."
+
+#: eures_beta/candidates/templates/candidates/journey.html:6
+msgid "Local demonstration — use fictional information only. No account is created and nothing is sent to an adviser or employer."
+msgstr "Démonstration locale — utilisez uniquement des informations fictives. Aucun compte créé, aucun envoi à un conseiller ou employeur."
+
+#: eures_beta/candidates/templates/candidates/journey.html:7
+msgid "Your progress"
+msgstr "Votre progression"
+
+#: eures_beta/candidates/templates/candidates/journey.html:18
+#, python-format
+msgid "Step %(step)s of 4"
+msgstr "Étape %(step)s sur 4"
+
+#: eures_beta/candidates/templates/candidates/journey.html:21
+msgid "Your previous draft expired. Start again."
+msgstr "Votre précédent brouillon a expiré. Recommencez."
+
+#: eures_beta/candidates/templates/candidates/journey.html:24
+msgid "Your demonstration profile has been reviewed. It remains a temporary draft in this browser session; there is no permanent save, account or transmission."
+msgstr "Votre profil de démonstration a été vérifié. Il reste un brouillon temporaire dans cette session : aucun enregistrement durable, compte ou envoi."
+
+#: eures_beta/candidates/templates/candidates/journey.html:27
+msgid "Choose the jobs and countries that interest you."
+msgstr "Choisissez les métiers et les pays qui vous intéressent."
+
+#: eures_beta/candidates/templates/candidates/journey.html:29
+msgid "Tell us how you could travel or move, and which languages you can use."
+msgstr "Précisez vos possibilités de déplacement ou d’installation et les langues que vous pouvez utiliser."
+
+#: eures_beta/candidates/templates/candidates/journey.html:31
+msgid "These are your current preferences. You can say that a point needs discussion."
+msgstr "Ce sont vos préférences actuelles. Vous pouvez indiquer qu’un point reste à discuter."
+
+#: eures_beta/candidates/templates/candidates/journey.html:36
+msgid "Edit this section"
+msgstr "Modifier cette rubrique"
+
+#: eures_beta/candidates/templates/candidates/journey.html:51
+#: eures_beta/candidates/templates/candidates/journey.html:53
+msgid "Not specified"
+msgstr "Non renseigné"
+
+#: eures_beta/candidates/templates/candidates/journey.html:59
+msgid "In the future, contact details will allow you to retrieve your profile. In this demonstration, use a fictional name and leave the email empty if you prefer."
+msgstr "À terme, vos coordonnées permettront de retrouver votre profil. Dans cette démonstration, utilisez un nom fictif et laissez l’email vide si vous préférez."
+
+#: eures_beta/candidates/templates/candidates/journey.html:64
+msgid "Please check the fields below."
+msgstr "Vérifiez les champs ci-dessous."
+
+#: eures_beta/candidates/templates/candidates/journey.html:74
+msgid "Please review these previous language answers; no CEFR level has been inferred."
+msgstr "Vérifiez ces anciennes réponses sur les langues ; aucun niveau CECRL n’a été déduit."
+
+#: eures_beta/candidates/templates/candidates/journey.html:77
+msgid "Native language"
+msgstr "Langue maternelle"
+
+#: eures_beta/candidates/templates/candidates/journey.html:82
+msgid "The language selector needs JavaScript. You can leave this optional section for discussion."
+msgstr "Le sélecteur de langues nécessite JavaScript. Vous pouvez laisser cette rubrique facultative à discuter."
+
+#: eures_beta/candidates/templates/candidates/journey.html:85
+#: eures_beta/candidates/templates/candidates/language_strings.html:5
+msgid "I prefer to discuss my languages"
+msgstr "Je préfère faire le point sur mes langues"
+
+#: eures_beta/candidates/templates/candidates/journey.html:94
+msgid "Two independent catalogues. Choose jobs you want; selecting ROME does not select ESCO."
+msgstr "Deux catalogues indépendants. Choisissez les métiers recherchés ; un choix ROME ne sélectionne pas ESCO."
+
+#: eures_beta/candidates/templates/candidates/journey.html:97
+msgid "No result. Try another job title or use the personal title field below."
+msgstr "Aucun résultat. Essayez un autre métier ou utilisez l’intitulé personnel ci-dessous."
+
+#: eures_beta/candidates/templates/candidates/journey.html:115
+#: eures_beta/candidates/templates/candidates/journey.html:155
+msgid "required"
+msgstr "obligatoire"
+
+#: eures_beta/candidates/templates/candidates/journey.html:125
+#, python-format
+msgid "Suggested from your time slots: %%(choices)s. Check these choices; you can change them."
+msgstr "Proposé depuis vos créneaux : %%(choices)s. Vérifiez ces choix ; vous pouvez les modifier."
+
+#: eures_beta/candidates/templates/candidates/journey.html:126
+#, python-format
+msgid "These choices have no matching slot in your exclusive schedule: %%(choices)s."
+msgstr "Ces choix ne correspondent à aucun créneau de vos seules disponibilités : %%(choices)s."
+
+#: eures_beta/candidates/templates/candidates/journey.html:128
+msgid "Your time slots suggest some timing choices. Review the options below."
+msgstr "Vos créneaux permettent de proposer certains horaires. Vérifiez les choix ci-dessous."
+
+#: eures_beta/candidates/templates/candidates/journey.html:136
+msgid "Select your availabilities"
+msgstr "Sélectionnez vos disponibilités"
+
+#: eures_beta/candidates/templates/candidates/journey.html:139
+msgid "If this is your exclusive schedule, unticked slots are outside your availability. Otherwise they remain unspecified."
+msgstr "Si ce sont vos seules disponibilités, les créneaux non cochés sont exclus. Sinon, ils restent non renseignés."
+
+#: eures_beta/candidates/templates/candidates/journey.html:162
+msgid "Search ESCO and ROME"
+msgstr "Rechercher dans ESCO et ROME"
+
+#: eures_beta/candidates/templates/candidates/journey.html:171
+msgid "Back"
+msgstr "Retour"
+
+#: eures_beta/candidates/templates/candidates/journey.html:177
+msgid "Confirm my demonstration profile"
+msgstr "Confirmer mon profil de démonstration"
+
+#: eures_beta/candidates/templates/candidates/journey.html:179
+msgid "Continue"
+msgstr "Continuer"
+
+#: eures_beta/candidates/templates/candidates/journey.html:187
+msgid "Your answers describe your current project. You can change them before confirming."
+msgstr "Vos réponses décrivent votre projet actuel. Vous pouvez les modifier avant de confirmer."
+
+#: eures_beta/candidates/templates/candidates/journey.html:188
+msgid "Your draft is available for 30 minutes from the start. It is private to this session. This is not a permanent save."
+msgstr "Votre brouillon est accessible pendant 30 minutes après le début. Il est privé à cette session. Ce n’est pas une sauvegarde durable."
+
+#: eures_beta/candidates/templates/candidates/journey.html:189
+msgid "Any future introduction to an employer will require a separate agreement."
+msgstr "Toute présentation future à un employeur nécessitera un accord distinct."
+
+#: eures_beta/candidates/templates/candidates/journey.html:194
+msgid "Delete my draft"
+msgstr "Supprimer mon brouillon"
+
+#: eures_beta/candidates/templates/candidates/landing.html:275
+msgctxt "candidate landing"
+msgid "Tell us which jobs interest you, where you would like to work and what conditions suit you."
+msgstr "Dites-nous quels métiers vous intéressent, où vous souhaitez travailler et quelles conditions vous conviennent."
+
+#: eures_beta/candidates/templates/candidates/landing.html:278
+msgctxt "candidate landing"
+msgid "Your next job starts with your project"
+msgstr "Votre prochain emploi commence par votre projet"
+
+#: eures_beta/candidates/templates/candidates/landing.html:283
+msgid "Start my project"
+msgstr "Commencer mon projet"
+
+#: eures_beta/candidates/templates/candidates/landing.html:283
+msgid "Choose your jobs, mobility and working conditions in four guided steps."
+msgstr "Précisez vos métiers, votre mobilité et vos conditions de travail en quatre étapes guidées."
+
+#: eures_beta/candidates/templates/candidates/language_strings.html:3
+msgid "Which languages can you use?"
+msgstr "Quelles langues pouvez-vous utiliser ?"
+
+#: eures_beta/candidates/templates/candidates/language_strings.html:4
+msgid "Add your languages and choose a level for each. The descriptions help you assess yourself; they are not a language test."
+msgstr "Ajoutez vos langues et choisissez un niveau pour chacune. Les descriptions vous aident à vous situer ; ce n’est pas un test de langue."

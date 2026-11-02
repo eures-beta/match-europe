@@ -1,14 +1,21 @@
 // Explicit language levels; language names use the browser's localised ISO catalogue.
 (() => {
-  const input = document.getElementById('clarify-frenchLevel');
-  const item = input.closest('.clarification-item');
-  const t = Object.fromEntries(
-    [...document.querySelectorAll('#language-labels [data-key]')].map((el) => [
-      el.dataset.key,
-      el.textContent,
-    ]),
-  );
   const lang = document.documentElement.lang.slice(0, 2) || 'fr';
+  const display = new Intl.DisplayNames([lang], { type: 'language' });
+  document.querySelectorAll('[data-language-code]').forEach((element) => {
+    element.textContent = display.of(element.dataset.languageCode);
+  });
+  const candidateInput = document.getElementById('id_language_skills');
+  const input = candidateInput || document.getElementById('clarify-frenchLevel');
+  if (!input) return;
+  const item = input.closest(candidateInput ? '.candidate-language-field' : '.clarification-item');
+  const t = Object.fromEntries(
+    [
+      ...document.querySelectorAll(
+        '#language-labels [data-key], #candidate-language-labels [data-key]',
+      ),
+    ].map((el) => [el.dataset.key, el.textContent]),
+  );
   const normal = (value) =>
     value
       .normalize('NFD')
@@ -18,7 +25,6 @@
   const names = ['fr', 'en', 'de'].map(
     (locale) => new Intl.DisplayNames([locale], { type: 'language' }),
   );
-  const display = new Intl.DisplayNames([lang], { type: 'language' });
   const codes =
     'aa ab ae af ak am an ar as av ay az ba be bg bh bi bm bn bo br bs ca ce ch co cr cs cu cv cy da de dv dz ee el en eo es et eu fa ff fi fj fo fr fy ga gd gl gn gu gv ha he hi ho hr ht hu hy hz ia id ie ig ii ik io is it iu ja jv ka kg ki kj kk kl km kn ko kr ks ku kv kw ky la lb lg li ln lo lt lu lv mg mh mi mk ml mn mr ms mt my na nb nd ne ng nl nn no nr nv ny oc oj om or os pa pi pl ps pt qu rm rn ro ru rw sa sc sd se sg si sk sl sm sn so sq sr ss st su sv sw ta te tg th ti tk tl tn to tr ts tt tw ty ug uk ur uz ve vi vo wa wo xh yi yo za zh zu'.split(
       ' ',
@@ -86,13 +92,21 @@
   let last = null,
     retained = '';
   function validate() {
-    none.setCustomValidity(selected.size || none.checked ? '' : t.selectLanguage);
+    none.setCustomValidity(candidateInput || selected.size || none.checked ? '' : t.selectLanguage);
   }
   function write() {
     const values = none.checked
       ? t.noRequirement
       : [...selected.values()].map((row) => row.label + ' : ' + row.control.value).join('; ');
-    input.value = values + (retained ? ' | Source : ' + retained : '');
+    input.value = candidateInput
+      ? JSON.stringify({
+          status: none.checked ? 'discuss' : selected.size ? 'specified' : 'unspecified',
+          languages: [...selected.entries()].map(([code, row]) => ({
+            code,
+            level: row.control.value,
+          })),
+        })
+      : values + (retained ? ' | Source : ' + retained : '');
     last = input.value;
     input.dispatchEvent(new Event('input', { bubbles: true }));
     validate();
@@ -206,6 +220,25 @@
     search.value = '';
     results.replaceChildren();
     searchBox.hidden = true;
+    if (candidateInput) {
+      let declaration;
+      try {
+        declaration = JSON.parse(input.value || '{}');
+      } catch {
+        declaration = {};
+      }
+      if (!declaration || typeof declaration !== 'object') declaration = {};
+      for (const row of Array.isArray(declaration.languages) ? declaration.languages : []) {
+        if (!row || typeof row.code !== 'string') continue;
+        const entry = catalogue.find((entry) => entry.code === row.code);
+        if (entry) create(entry, row.level, false);
+      }
+      none.checked = declaration.status === 'discuss';
+      source.hidden = true;
+      warning.hidden = true;
+      validate();
+      return;
+    }
     const pieces = input.value.split(' | Source : ');
     const raw = pieces.shift();
     retained = pieces.join(' | Source : ');

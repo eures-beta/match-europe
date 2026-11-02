@@ -226,109 +226,90 @@
             <div class="lang-switch"
                  aria-label="{% translate "Language" context "candidate shell" %}">
               <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="/candidate/?lang=fr">FR</a>
+                 href="{{ request.path }}?lang=fr{% if step %}&amp;step={{ step }}{% endif %}">FR</a>
               <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="/candidate/?lang=en">EN</a>
+                 href="{{ request.path }}?lang=en{% if step %}&amp;step={{ step }}{% endif %}">EN</a>
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="/candidate/?lang=de">DE</a>
+                 href="{{ request.path }}?lang=de{% if step %}&amp;step={{ step }}{% endif %}">DE</a>
             </div>
             {% include "includes/account_link.html" %}
           </div>
         </nav>
       </div>
     </header>
-    <main id="main-content" class="section candidate-landing-page">
-      <div class="shell candidate-landing-layout">
-        <article class="candidate-letter">
-          <div class="employer-partner-logos"
-               role="group"
-               aria-label="{% translate "Partners" context "candidate shell" %}">
-            <div class="employer-partner-logo employer-partner-eures">
-              <img src="/static/employer/assets/eures-ela.jpg"
-                   alt="EURES / European Labour Authority"
-                   width="5956"
-                   height="2372">
+    {% block candidate_content %}
+      <main id="main-content" class="section candidate-landing-page">
+        <div class="shell candidate-landing-layout">
+          <article class="candidate-letter">
+            <div class="employer-partner-logos"
+                 role="group"
+                 aria-label="{% translate "Partners" context "candidate shell" %}">
+              <div class="employer-partner-logo employer-partner-eures">
+                <img src="/static/employer/assets/eures-ela.jpg"
+                     alt="EURES / European Labour Authority"
+                     width="5956"
+                     height="2372">
+              </div>
+              <div class="employer-partner-logo employer-partner-ft">
+                <img src="/static/employer/assets/france-travail.svg"
+                     alt="République française — France Travail"
+                     width="893"
+                     height="296">
+              </div>
+              <div class="employer-partner-logo employer-partner-adem">
+                <img src="/static/employer/assets/adem.png"
+                     alt="ADEM — Agence pour le développement de l’emploi"
+                     width="591"
+                     height="591">
+              </div>
+              <div class="employer-partner-logo employer-partner-forem">
+                <img src="/static/employer/assets/forem.png"
+                     alt="Le Forem"
+                     width="795"
+                     height="229">
+              </div>
             </div>
-            <div class="employer-partner-logo employer-partner-ft">
-              <img src="/static/employer/assets/france-travail.svg"
-                   alt="République française — France Travail"
-                   width="893"
-                   height="296">
+            <div class="candidate-letter-head">
+              <div class="kicker">{% translate "Candidate journey" context "candidate landing" %}</div>
+              <h1>{% translate "Find your next job in Europe" context "candidate landing" %}</h1>
+              <p class="lede">{% translate "Tell us which jobs interest you, where you would like to work and what conditions suit you." context "candidate landing" %}</p>
             </div>
-            <div class="employer-partner-logo employer-partner-adem">
-              <img src="/static/employer/assets/adem.png"
-                   alt="ADEM — Agence pour le développement de l’emploi"
-                   width="591"
-                   height="591">
+            <div>
+              <h2 class="choice-heading">{% translate "Your next job starts with your project" context "candidate landing" %}</h2>
+              <div class="entry-choices">
+                <a class="import-choice"
+                   href="/candidate/prepare/?lang={{ page_language }}">
+                  <span class="choice-symbol" aria-hidden="true">→</span>
+                  <span><strong>{% translate "Start my project" %}</strong><span class="choice-description">{% translate "Choose your jobs, mobility and working conditions in four guided steps." %}</span></span>
+                  <span class="choice-arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
             </div>
-            <div class="employer-partner-logo employer-partner-forem">
-              <img src="/static/employer/assets/forem.png"
-                   alt="Le Forem"
-                   width="795"
-                   height="229">
-            </div>
-          </div>
-          <div class="candidate-letter-head">
-            <div class="kicker">{% translate "Candidate journey" context "candidate landing" %}</div>
-            <h1>{% translate "Find your next job in Europe" context "candidate landing" %}</h1>
-            <p class="lede">{% translate "Start with your CV, your LinkedIn profile or manual entry. You can then review and complete your information." context "candidate landing" %}</p>
-          </div>
-          <div>
-            <h2 class="choice-heading">{% translate "How would you like to start?" context "candidate landing" %}</h2>
-            <div class="entry-choices">
-              <button class="import-choice" type="button" data-candidate-choice="0">
-                <span class="choice-symbol" aria-hidden="true">CV</span>
-                <span>
-                  <strong>{% translate "Upload my CV" context "candidate landing" %}</strong>
-                  <span class="choice-description">{% translate "Use your CV to prepare your profile." context "candidate landing" %}
-                  </span>
-                </span>
-                <span class="choice-arrow" aria-hidden="true">→</span>
-              </button>
-              <button class="import-choice" type="button" data-candidate-choice="1">
-                <span class="choice-symbol" aria-hidden="true">URL</span>
-                <span>
-                  <strong>{% translate "Use a LinkedIn link" context "candidate landing" %}</strong>
-                  <span class="choice-description">{% translate "Start with the link to your professional profile." context "candidate landing" %}
-                  </span>
-                </span>
-                <span class="choice-arrow" aria-hidden="true">→</span>
-              </button>
-              <button class="import-choice" type="button" data-candidate-choice="2">
-                <span class="choice-symbol" aria-hidden="true">Aa</span>
-                <span>
-                  <strong>{% translate "Enter my profile" context "candidate landing" %}</strong>
-                  <span class="choice-description">{% translate "No CV to hand? Enter your information directly." context "candidate landing" %}
-                  </span>
-                </span>
-                <span class="choice-arrow" aria-hidden="true">→</span>
-              </button>
-            </div>
-          </div>
-          <p id="candidate-status"
-             class="candidate-highlight"
-             role="status"
-             hidden
-             data-selection-notice="{% translate "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted." context "candidate landing" %}"
-             data-account-notice="{% translate "Candidate sign-in will be prepared in a later step." context "candidate landing" %}">
-          </p>
-        </article>
-        <aside class="candidate-sidebar">
-          <article class="surface-card candidate-info-card">
-            <h2>{% translate "What happens next" context "candidate landing" %}</h2>
-            <ol>
-              <li>{% translate "Review and complete your profile." context "candidate landing" %}</li>
-              <li>{% translate "Tell us your preferences, languages and mobility plans." context "candidate landing" %}</li>
-              <li>{% translate "Explore suggested opportunities with support from an EURES adviser." context "candidate landing" %}</li>
-            </ol>
+            <p id="candidate-status"
+               class="candidate-highlight"
+               role="status"
+               hidden
+               data-selection-notice="{% translate "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted." context "candidate landing" %}"
+               data-account-notice="{% translate "Candidate sign-in will be prepared in a later step." context "candidate landing" %}">
+            </p>
           </article>
-          <article class="surface-card candidate-info-card">
-            <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
-            <p>{% translate "You can correct your information before confirming it. An introduction requires your agreement and the employer’s." context "candidate landing" %}</p>
-          </article>
-        </aside>
-      </div>
-    </main>
+          <aside class="candidate-sidebar">
+            <article class="surface-card candidate-info-card">
+              <h2>{% translate "What happens next" context "candidate landing" %}</h2>
+              <ol>
+                <li>{% translate "Review and complete your profile." context "candidate landing" %}</li>
+                <li>{% translate "Tell us your preferences, languages and mobility plans." context "candidate landing" %}</li>
+                <li>{% translate "Explore suggested opportunities with support from an EURES adviser." context "candidate landing" %}</li>
+              </ol>
+            </article>
+            <article class="surface-card candidate-info-card">
+              <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
+              <p>{% translate "You can correct your information before confirming it. An introduction requires your agreement and the employer’s." context "candidate landing" %}</p>
+            </article>
+          </aside>
+        </div>
+      </main>
+    {% endblock %}
     <footer class="employer-page-footer">
       <div class="shell employer-page-footer-inner">
         <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "candidate shell" %}</p>
