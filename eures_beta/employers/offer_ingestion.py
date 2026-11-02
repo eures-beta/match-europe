@@ -1,5 +1,6 @@
 """Bounded public-page/PDF reading. No AI inference, no third-party credential forwarding."""
 
+from eures_beta.observability.runtime import timed_stage
 import http.client
 import ipaddress
 import json
@@ -64,6 +65,7 @@ class PinnedHTTPS(http.client.HTTPSConnection):
             raise
 
 
+@timed_stage('source_download')
 def fetch_public(
     url, allowed_types=('text/html', 'application/xhtml+xml'), *, allow_redirects=True
 ):
@@ -326,6 +328,7 @@ def empty_data():
     )
 
 
+@timed_stage('source_parse')
 def parse_page(html):
     page = Page()
     try:
@@ -406,6 +409,7 @@ def parse_page(html):
     return data
 
 
+@timed_stage('document_extract')
 def read_pdf(upload, split_sections=True):
     if upload.size > 10 * 1024 * 1024:
         raise ImportFailure('large')
@@ -447,6 +451,7 @@ def read_pdf(upload, split_sections=True):
     return data
 
 
+@timed_stage('source_parse')
 def parse_pdf_text(text, split_sections=True):
     from eures_beta.documents.document_fields import extract_fields
 
