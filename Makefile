@@ -100,6 +100,13 @@ migrations: ## Afficher l'état des migrations sans les appliquer
 migrations-test: ## Tester les installations neuves et les transitions de migrations sur PostgreSQL local
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations --noinput $(TEST_ARGS)
 
+.PHONY: permissions-sync permissions-test
+permissions-sync: ## Réappliquer les groupes et droits administratifs versionnés à la base du .env
+	@$(MANAGE) sync_group_and_perms
+
+permissions-test: ## Tester la synchronisation et les protections de l'administration des comptes
+	@$(MANAGE) test eures_beta.users.tests.test_permissions --noinput $(TEST_ARGS)
+
 
 superuser: ## Créer un administrateur local, interactivement
 	@$(MANAGE) createsuperuser

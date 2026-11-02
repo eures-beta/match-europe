@@ -718,3 +718,12 @@ correction : same-origin pour les pages nettoyées, no-referrer conservé sur la
 redirection portant le jeton. Les 230 tests PostgreSQL passent après correction ;
 une origine étrangère reste rejetée. Aucun contournement CSRF ni changement de
 secret, de durée du lien ou de permission.
+
+## Administration des comptes — 2 novembre 2026
+
+Proposition non déployée : droits de création et consultation des conseillers
+pour les conseillers actifs `is_staff`, réconciliés après chaque `migrate`
+complet. Aucun droit de modification, suppression ou attribution de privilèges
+pour ces gestionnaires. Voir [la politique](docs/ADMIN_PERMISSIONS.md).
+Validation locale : 215 tests PostgreSQL et contrôle de transition utilisateurs
+réussis. L'authentification par lien magique et les invitations restent séparées.
