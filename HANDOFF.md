@@ -708,3 +708,13 @@ dejafait : recette visuelle maintenant, raccordement Brevo distinct ensuite.
 Suite complète : 229 tests PostgreSQL passent. Voir docs/MAGIC_LOGIN.md pour
 les réglages, les limites de temporisation SMTP et les journaux à protéger.
 Aucune fusion ni modification de production dans ce lot.
+
+## 2 novembre 2026 — correction CSRF de la connexion HTTPS
+
+403 reproduit dans Chrome lors de la confirmation du lien magique. La politique
+no-referrer appliquée au formulaire provoquait une origine null, rejetée par
+Django. Test de régression ajouté et constaté rouge (1 échec sur 230), puis
+correction : same-origin pour les pages nettoyées, no-referrer conservé sur la
+redirection portant le jeton. Les 230 tests PostgreSQL passent après correction ;
+une origine étrangère reste rejetée. Aucun contournement CSRF ni changement de
+secret, de durée du lien ou de permission.

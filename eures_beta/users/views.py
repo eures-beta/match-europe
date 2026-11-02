@@ -56,7 +56,9 @@ def page(request, stage, **context):
     request.session['login_language'] = language
     with translation.override(language):
         response = render(request, 'users/login.html', {'stage': stage, **context})
-    response['Referrer-Policy'] = 'no-referrer'
+    # The URL is already clean here. Keep same-site Origin/Referer for HTTPS
+    # CSRF checks; no-referrer documents make browsers submit Origin: null.
+    response['Referrer-Policy'] = 'same-origin'
     return response
 
 
