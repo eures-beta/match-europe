@@ -4,11 +4,11 @@ Ces migrations créent le compte commun et protègent son rôle en base. La tran
 
 Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 
-## Contenu
+## Contenu de ce dossier
 
 - [0001_initial.py](0001_initial.py) — Prépare et crée le compte unique après contrôle de l’ancienne table utilisateur.
 - [0002_kind_immutable.py](0002_kind_immutable.py) — Interdit le changement de kind par un déclencheur PostgreSQL.
-- [__init__.py](__init__.py) — Identifie le paquet Python.
 - [README.md](README.md) — Présente ce dossier et son contenu.
+- [__init__.py](__init__.py) — Identifie le paquet Python.
 
 [Remonter au dossier parent](../).

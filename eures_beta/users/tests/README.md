@@ -4,10 +4,10 @@ Ces tests vérifient authentification, unicité des e-mails et contraintes du r�
 
 Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 
-## Contenu
+## Contenu de ce dossier
 
+- [README.md](README.md) — Présente ce dossier et son contenu.
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [test_users.py](test_users.py) — Vérifie les règles des comptes et l’authentification Django.
-- [README.md](README.md) — Présente ce dossier et son contenu.
 
 [Remonter au dossier parent](../).

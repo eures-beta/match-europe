@@ -4,8 +4,6 @@ Commencer par [la vue d’ensemble](VUE_ENSEMBLE.md), puis [les décisions](DECI
 
 ## Contenu de ce dossier
 
-### Fichiers
-
 - [API_NAMING.md](API_NAMING.md) — Documente « Noms des pages et de l’API ».
 - [AUTONOMOUS_MIGRATIONS.md](AUTONOMOUS_MIGRATIONS.md) — Documente « Migrations autonomes : transition en deux déploiements ».
 - [CANDIDATE_LANDING.md](CANDIDATE_LANDING.md) — Documente « Accueil candidat — reprise du 28 octobre 2026 ».
@@ -33,7 +31,7 @@ Commencer par [la vue d’ensemble](VUE_ENSEMBLE.md), puis [les décisions](DECI
 - [PUBLIC_NAVIGATION.md](PUBLIC_NAVIGATION.md) — Documente « Navigation publique ».
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [TESTS.md](TESTS.md) — Documente « Organisation des tests ».
+- [USER_MODEL.md](USER_MODEL.md) — Documente « Compte utilisateur unique ».
 - [VUE_ENSEMBLE.md](VUE_ENSEMBLE.md) — Documente « EURES beta / Match Europe — vue d’ensemble ».
-
 
 [Remonter au dossier parent](../).

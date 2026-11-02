@@ -19,6 +19,7 @@ trilingues dans `test_journal.py`. Vérifier son contenu avec `make journal-test
 Les comptes conseiller et employeur partagent désormais [users/](users/), avec
 un seul modèle Django `User` et un champ `kind`. Voir [la transition et ses
 limites](../docs/USER_MODEL.md).
+
 ## Contenu de ce dossier
 
 ### Dossiers
@@ -30,6 +31,7 @@ limites](../docs/USER_MODEL.md).
 - [occupations/](occupations/) — Ce paquet fournit la recherche locale dans les références ESCO et ROME.
 - [static/](static/) — Ce dossier contient CSS, JavaScript, service worker et ressources visuelles partagées.
 - [templates/](templates/) — Django transforme ces templates en pages HTML.
+- [users/](users/) — Comptes Django uniques, rôles conseiller et employeur et transition des identités existantes.
 
 ### Fichiers
 
