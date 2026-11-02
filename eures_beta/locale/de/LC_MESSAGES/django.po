@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 12:48+0000\n"
+"POT-Creation-Date: 2026-11-02 13:18+0000\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -5381,8 +5381,8 @@ msgid "Access your employer space"
 msgstr "Zugang zu Ihrem Arbeitgeberbereich"
 
 #: eures_beta/templates/employer_login.html:9
-msgid "Enter a fictional email address. No email will be sent."
-msgstr "Geben Sie eine fiktive E-Mail-Adresse ein. Es wird keine E-Mail versendet."
+msgid "Use the email address of an existing account. Public registration is closed."
+msgstr "Verwenden Sie die E-Mail-Adresse eines bestehenden Kontos. Die öffentliche Registrierung ist geschlossen."
 
 #: eures_beta/templates/employer_login.html:12
 #: eures_beta/templates/employer_login.html:45
@@ -5402,8 +5402,8 @@ msgid "Check your email"
 msgstr "Prüfen Sie Ihre E-Mails"
 
 #: eures_beta/templates/employer_login.html:19
-msgid "Open the connection link in the email to continue to your employer space."
-msgstr "Öffnen Sie den Anmeldelink in der E-Mail, um zu Ihrem Arbeitgeberbereich zu gelangen."
+msgid "If an active employer account exists for this address, a connection link is available."
+msgstr "Wenn für diese Adresse ein aktives Arbeitgeberkonto besteht, ist ein Anmeldelink verfügbar."
 
 #: eures_beta/templates/employer_login.html:21
 msgid "Local test only"

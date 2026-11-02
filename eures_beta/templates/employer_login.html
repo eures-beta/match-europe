@@ -6,7 +6,7 @@
       {% include "employer_workspace.html" %}
     {% elif stage == "access" %}
       <h1>{% trans "Access your employer space" %}</h1>
-      <p>{% trans "Enter a fictional email address. No email will be sent." %}</p>
+      <p>{% trans "Use the email address of an existing account. Public registration is closed." %}</p>
       <form method="post">
         {% csrf_token %}
         <label for="id_email">{% trans "Email" %}</label>{{ form.email }}{% if form.errors %}
@@ -16,7 +16,7 @@
   </form>
 {% elif stage == "sent" %}
   <h1>{% trans "Check your email" %}</h1>
-  <p class="lede">{% trans "Open the connection link in the email to continue to your employer space." %}</p>
+  <p class="lede">{% trans "If an active employer account exists for this address, a connection link is available." %}</p>
   <aside class="review-provenance" aria-labelledby="test-email-title">
     <h2 id="test-email-title">{% trans "Local test only" %}</h2>
     <p>{% trans "No email is actually sent during this test. The button below lets you view the simulated message." %}</p>

@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 import hashlib
 from datetime import timedelta
 from unittest.mock import patch
@@ -9,6 +10,8 @@ from eures_beta.employers.models import EmployerEmailLink
 @patch.dict('os.environ', {'ME_EMPLOYER_EMAIL_LOCAL': '1'})
 class EmployerLoginTests(TestCase):
     def issue(self, email='fiction@example.invalid'):
+        if not get_user_model().objects.filter(email=email).exists():
+            get_user_model().objects.create_user(email=email, kind='employer')
         self.client.post('/employer/access/', {'email': email})
         return self.client.session['employer_test_message']['link']
 
@@ -114,6 +117,9 @@ class EmployerLoginTests(TestCase):
         self.assertEqual(self.client.session.get_expiry_age(), 3600)
 
     def test_csrf_and_http_methods(self):
+        get_user_model().objects.create_user(
+            email='csrf@example.invalid', kind='employer'
+        )
         client = Client(enforce_csrf_checks=True)
         client.get('/employer/access/')
         token = client.cookies['csrftoken'].value

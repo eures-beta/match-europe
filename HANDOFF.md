@@ -1,3 +1,15 @@
+## Fermeture de la création autonome de comptes — au-dessus de #100
+
+La validation d’un lien ne crée plus d’utilisateur. Les demandes ne produisent
+un lien que pour un employeur existant et actif ; inconnus, conseillers et
+comptes désactivés reçoivent la même confirmation générique sans jeton.
+Formulaires et anciens liens couverts par des tests serveur ; ni invitation,
+ni liste blanche implémentée ici. Administration habilitée et opérations
+internes conservées. Voir docs/ACCOUNT_REGISTRATION.md. Pas de migration ni
+de changement de données de production.
+Validation : 211 tests PostgreSQL, huit tests ciblés de fermeture, contrôles
+Django/migrations, Black, HTML, JavaScript et gettext réussis.
+
 ## 2 novembre 2026 — rafraîchissement de la PR utilisateurs sur la consolidation
 
 Rebase sur le main contenant la référence autonome c9034fd. Conservation du

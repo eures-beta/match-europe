@@ -44,6 +44,8 @@ class OwnershipTests(TestCase):
         return response.json()
 
     def login(self, client, email):
+        if not get_user_model().objects.filter(email=email).exists():
+            get_user_model().objects.create_user(email=email, kind='employer')
         session = client.session
         if session.get('employer_verified_email') == email:
             return get_user_model().objects.get(email=email)
@@ -120,6 +122,9 @@ class OwnershipTests(TestCase):
 
     def test_draft_survives_link_opened_in_other_browser(self):
         draft = self.create()
+        get_user_model().objects.create_user(
+            email='first@fiction.invalid', kind='employer'
+        )
         self.client.post('/employer/access/', {'email': 'first@fiction.invalid'})
         link = self.client.session['employer_test_message']['link']
         other = Client()

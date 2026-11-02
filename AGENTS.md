@@ -39,6 +39,17 @@
 - Lors d’une reprise sur une branche ancienne, relire les consignes de la branche
   de travail et les changements de consignes de `main` avant de poursuivre.
 
+## Création des comptes
+
+- La création autonome de comptes est fermée, pour les conseillers comme pour
+  les employeurs. Un formulaire public, une adresse de contact ou la validation
+  d’un lien de connexion ne doit jamais créer implicitement un utilisateur.
+- Les liens de connexion concernent uniquement les comptes existants et actifs.
+  Ne pas réintroduire de `get_or_create` d’utilisateur dans ces vues.
+- Les invitations et listes blanches demandent une implémentation distincte.
+  La création manuelle par un administrateur habilité, les migrations et les
+  fixtures de test restent des opérations internes explicites.
+
 ## Pull requests et collaboration en équipe
 
 ### Création
