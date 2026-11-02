@@ -9,16 +9,10 @@ Les descriptions historiques de matching/conversations ci-dessous décrivent des
 travaux antérieurs, pas des fonctionnalités actuellement exposées.
 Voir [le périmètre, le nettoyage des comptes et le stockage](LEGACY_PROTOTYPE_RETIREMENT.md).
 
-Les anciens paquets sans fonctionnalité active sont maintenant archivés sous
-`eures_beta/migration_history/retired/`. Les applications actives restent
-`employers`, `candidates`, `documents` et le catalogue `occupations`.
-Ce rangement conserve les labels et le graphe de migration ; il ne supprime
-aucune donnée supplémentaire.
-
-La consolidation décrite dans [le guide des migrations](AUTONOMOUS_MIGRATIONS.md)
-permet aux installations neuves de créer directement les sept tables employeur
-actuelles. Les anciens fichiers restent temporairement disponibles pour les
-bases dont l'historique n'est pas entièrement à jour.
+Les migrations actuelles sont maintenant autonomes dans `employers`.
+Le dossier d'archives et ses applications de compatibilité sont supprimés dans
+le second lot, à déployer après confirmation du marqueur de transition.
+Voir [le guide des deux déploiements](AUTONOMOUS_MIGRATIONS.md).
 
 Référence commune créée le 16 octobre 2026 à partir des README et de HANDOFF.md. Ce document décrit le cadre produit ; il ne constitue pas une vérification de production.
 
@@ -42,29 +36,17 @@ Deux implémentations coexistent :
 
 Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas quatre projets indépendants ni une nouvelle organisation imposée au code.
 
-## Organisation du code — extraction des conversations
+## Organisation actuelle du code
 
-Le découpage progressif distingue désormais :
+- `employers` : sept modèles, établissements, imports, accès et parcours employeur ;
+- `candidates` : accueil candidat et ses trois entrées simulées, sans modèle ;
+- `documents` : lecture et extraction PDF, sans ancien modèle de fichier stocké ;
+- `occupations` : catalogue métiers partagé ;
+- ressources et vues publiques communes directement dans `eures_beta`.
 
-- `conversations` : discussions et messages ;
-- `notifications` : notifications et lecture ;
-- `documents` : pièces jointes, téléversement, téléchargement et extraction PDF ;
-- `candidates` : accueil candidat, profils candidats et modification ;
-- `offers` : offres et questions ;
-- `accounts` : profils, rôles, accès et audit des acteurs ;
-- `employers` : établissements, imports, accès et parcours employeur ;
-- `matching` : rapprochements, réponses, accords, revue et tableau de suivi ;
-- `migration_history` : compatibilité technique des migrations, sans modèle métier.
-
-Les URL et tables physiques existantes sont conservées. Les migrations déplacent
-l’état des modèles et leurs ContentType sans recréer les tables. Les formulaires
-et services sont rangés par domaine. Les tests
-PostgreSQL couvrent les allers-retours de migration et la conservation des données.
-Voir aussi [la migration des conversations et ses limites](CONVERSATIONS_APP.md).
-
-Le dossier métier `journeys` est retiré. Son label technique et ses migrations
-restent conservés dans `migration_history` pour les bases existantes. Voir
-[le découpage et la compatibilité des données](DOMAIN_EXTRACTION.md).
+Les anciens parcours ne sont plus des applications installées. Leur historique
+de migrations n'est plus nécessaire après la transition des bases conservées.
+Les tables employeur actuelles gardent leurs noms physiques `journeys_employer*`.
 
 ## Parcours et limites à distinguer
 

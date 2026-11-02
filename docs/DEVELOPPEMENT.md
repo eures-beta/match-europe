@@ -251,7 +251,7 @@ Aucun second `manage.py` ni lanceur PostgreSQL autonome n’est conservé.
 | --- | --- |
 | `config/` | Réglages et points d’entrée Django uniques |
 | `eures_beta/<application>/` | Modèles, droits, services, vues et tests par domaine métier |
-| `eures_beta/migration_history/` | Historique de migrations conservé sans modèles métier |
+| `eures_beta/employers/migrations/` | Migration initiale autonome du schéma actuel |
 | `eures_beta/templates/`, `static/`, `locale/` | Templates, Bootstrap embarqué, ressources et traductions |
 | `eures_beta/templates/employer/` | Pages employeur V2, V1 conservée et diagnostic Push |
 | `eures_beta/static/employer/` | JavaScript, styles et logos de ces pages |

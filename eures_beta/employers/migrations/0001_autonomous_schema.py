@@ -1,8 +1,7 @@
-"""Consolidated final schema; old migrations remain for partial upgrades.
+"""Autonomous current schema, after the separately deployed transition.
 
-The historical schema moved between app labels, so this replacement covers the
-whole connected application history. Fresh installs create only current tables.
-Do not remove the replaced files until all existing environments have migrated.
+Existing databases must already have recorded this migration before history
+is removed. Fresh databases create only the current business tables.
 """
 
 import uuid
@@ -37,50 +36,6 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('contenttypes', '0002_remove_content_type_name'),
-    ]
-    replaces = [
-        ('journeys', '0001_initial'),
-        ('journeys', '0002_employerimport'),
-        ('journeys', '0003_employerimport_initial_sent_at'),
-        ('journeys', '0004_employer_contact_and_adviser'),
-        ('journeys', '0005_employer_email_link'),
-        ('journeys', '0006_employercompany_employeridentity_and_more'),
-        ('journeys', '0007_employer_offer_workspace'),
-        ('journeys', '0008_employer_search_simulation'),
-        ('journeys', '0009_move_conversations'),
-        ('journeys', '0010_delete_notification'),
-        ('journeys', '0011_alter_candidate_document_alter_offer_document_and_more'),
-        ('journeys', '0012_alter_match_candidate_delete_candidate'),
-        ('journeys', '0013_remove_offer_adviser_remove_offer_document_and_more'),
-        (
-            'journeys',
-            '0014_alter_match_offer_alter_answer_question_delete_offer_and_more',
-        ),
-        ('journeys', '0015_remove_event_actor_remove_profile_adviser_and_more'),
-        ('journeys', '0016_remove_employerimport_company_and_more'),
-        ('journeys', '0017_remove_answer_unique_answer_and_more'),
-        ('journeys', '0018_delete_match'),
-        ('accounts', '0001_initial'),
-        ('accounts', '0002_remove_legacy_demo_accounts'),
-        ('accounts', '0003_verify_retired_tables_empty'),
-        ('accounts', '0004_remove_event_actor_remove_profile_adviser_and_more'),
-        ('offers', '0001_initial'),
-        ('offers', '0002_remove_question_offer_delete_offer_delete_question'),
-        ('matching', '0001_initial'),
-        ('matching', '0002_remove_answer_unique_answer_and_more'),
-        ('conversations', '0001_initial'),
-        ('conversations', '0002_alter_conversation_match'),
-        (
-            'conversations',
-            '0003_remove_message_conversation_remove_message_sender_and_more',
-        ),
-        ('notifications', '0001_initial'),
-        ('notifications', '0002_delete_notification'),
-        ('documents', '0001_initial'),
-        ('documents', '0002_delete_document'),
-        ('candidates', '0001_initial'),
-        ('candidates', '0002_delete_candidate'),
-        ('employers', '0001_initial'),
     ]
     operations = [
         migrations.RunPython(require_fresh_schema, migrations.RunPython.noop),

@@ -1,8 +1,9 @@
 # Découpage des applications Django
 
 Depuis le retrait du prototype `/access/`, les anciennes vues et services
-décrits ici ne sont plus exposés. Seules les migrations historiques restent
-pour la compatibilité des bases. Voir [le périmètre actuel](LEGACY_PROTOTYPE_RETIREMENT.md).
+décrits ici ne sont plus exposés. Le texte ci-dessous décrit les étapes historiques de découpage. Les anciennes
+migrations ont ensuite été remplacées puis supprimées ; voir
+[la transition vers les migrations autonomes](AUTONOMOUS_MIGRATIONS.md). Voir [le périmètre actuel](LEGACY_PROTOTYPE_RETIREMENT.md).
 
 ## Comptes
 

@@ -4,25 +4,18 @@ from django.test import SimpleTestCase, override_settings
 
 
 class UnifiedLayoutTests(SimpleTestCase):
-    def test_packaged_application_preserves_its_database_label(self):
-        app = apps.get_app_config('journeys')
-        self.assertEqual(app.name, 'eures_beta.migration_history')
-        self.assertEqual(list(app.get_models()), [])
-        self.assertFalse((settings.APPS_DIR / 'journeys').exists())
-        self.assertEqual(list(apps.get_app_config('accounts').get_models()), [])
+    def test_only_current_applications_remain(self):
         for label in (
+            'journeys',
             'accounts',
             'offers',
             'matching',
             'conversations',
             'notifications',
         ):
-            retired = apps.get_app_config(label)
-            self.assertEqual(
-                retired.name, f'eures_beta.migration_history.retired.{label}'
-            )
-            self.assertEqual(list(retired.get_models()), [])
+            self.assertNotIn(label, apps.app_configs)
             self.assertFalse((settings.APPS_DIR / label).exists())
+        self.assertFalse((settings.APPS_DIR / 'migration_history').exists())
         self.assertEqual(settings.ROOT_URLCONF, 'config.urls')
         self.assertFalse((settings.APPS_DIR / 'manage.py').exists())
         self.assertFalse((settings.APPS_DIR / 'config').exists())
