@@ -1,5 +1,6 @@
 """Loopback-only sandbox workflow. PostgreSQL drafts are session-owned; CSRF remains enabled."""
 
+from eures_beta.observability.runtime import stage, timed_stage
 import json
 import re
 import math
@@ -357,16 +358,17 @@ def imports(request, id=None):
                 if key in data:
                     cleaned[key] = data[key]
             data = cleaned
-        obj = EmployerImport.objects.create(
-            created_by=person,
-            session_key='' if person else request.session.session_key,
-            email=email,
-            contact=contact,
-            preparation_agreed_at=timezone.now(),
-            source_kind=kind,
-            source_url=source,
-            data=data,
-        )
+        with stage('import_save'):
+            obj = EmployerImport.objects.create(
+                created_by=person,
+                session_key='' if person else request.session.session_key,
+                email=email,
+                contact=contact,
+                preparation_agreed_at=timezone.now(),
+                source_kind=kind,
+                source_url=source,
+                data=data,
+            )
         if person:
             request.session['employer_claim_import'] = str(obj.pk)
         else:
@@ -596,6 +598,7 @@ class NoRedirect(HTTPRedirectHandler):
         return None
 
 
+@timed_stage('external_submission')
 def aglae(method, path, payload=None):
     # Shared previews never read a personal key or write to an external service.
     if getattr(settings, 'SHARED_DEMO', False):
@@ -638,6 +641,7 @@ def aglae(method, path, payload=None):
         raise ImportFailure('sandbox_error') from None
 
 
+@timed_stage('geocode')
 def geocode(city):
     if os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1':
         raise ImportFailure('local_review_only')

@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'config.health.HealthCheckMiddleware',
+    'eures_beta.observability.middleware.RequestMetricsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -192,4 +193,22 @@ LOGGING = {
             'propagate': False,
         },
     },
+}
+
+# Bounded request telemetry; no bodies, SQL text, tokens, headers or raw URLs.
+REQUEST_METRICS_ENABLED = os.environ.get('REQUEST_METRICS_ENABLED', '1') == '1'
+REQUEST_METRICS_SAMPLE_RATE = max(
+    0.0, min(1.0, float(os.environ.get('REQUEST_METRICS_SAMPLE_RATE', '1')))
+)
+REQUEST_METRICS_SLOW_MS = max(
+    0.0, float(os.environ.get('REQUEST_METRICS_SLOW_MS', '1000'))
+)
+LOGGING['handlers']['performance_console'] = {
+    'class': 'logging.StreamHandler',
+    'stream': 'ext://sys.stdout',
+}
+LOGGING['loggers']['match_europe.performance'] = {
+    'handlers': ['performance_console'],
+    'level': 'INFO',
+    'propagate': False,
 }

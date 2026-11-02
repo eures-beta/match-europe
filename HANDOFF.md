@@ -1,3 +1,12 @@
+## 2 novembre 2026 — diagnostic des performances
+
+PR transverse au-dessus de #103 : middleware de bilans JSON, agrégats SQL et
+étapes d’import bornées, X-Request-ID et hook Gunicorn avant arrêt du worker.
+Pas de contenu métier ni données de connexion dans les nouveaux événements.
+Seuil et échantillonnage configurables, sondes et statiques exclus. Aucune
+modification des délais, instances ou données de production. Voir
+[les mesures et leurs limites](docs/OBSERVABILITY.md).
+
 ## Fermeture de la création autonome de comptes — au-dessus de #100
 
 La validation d’un lien ne crée plus d’utilisateur. Les demandes ne produisent

@@ -5,4 +5,5 @@ set -euo pipefail
 exec "${PYTHON:-python}" -m gunicorn config.wsgi:application \
     --bind "${GUNICORN_BIND:-0.0.0.0:9000}" \
     --workers "${WEB_CONCURRENCY:-1}" \
+    --access-logformat '%(m)s %(s)s %(L)s' \
     --access-logfile - "$@"
