@@ -42,6 +42,10 @@ références configurables sont évaluées à l’import. Aucun `--fake` ni modi
 manuelle de `django_migrations`. Les exécutions suivantes ne refont pas ce passage.
 Les options de consultation `--plan` et `--check` ne lancent pas la préparation.
 
+Sur une base ayant déjà des tables employeur, la commande exige d'abord le
+marqueur `employers.0001_autonomous_schema`. Son absence bloque avant toute
+bascule utilisateur ; il faut appliquer la version de transition autonome.
+
 La première étape **refuse tout utilisateur dans l’ancienne table `auth_user`** :
 on ne peut pas deviner son rôle. Une base contenant de tels comptes demande
 une stratégie d’attribution explicite avant cette transition. Le contrôle est
@@ -83,10 +87,11 @@ la bascule.
 
 ## Compatibilité avec la consolidation autonome
 
-La migration utilisateur reste au-dessus de la référence
-`employers.0001_autonomous_schema`. Les tests de consolidation examinent cette
-référence avec ses modèles historiques ; ils ne supposent plus que
-EmployerIdentity soit encore un modèle actif après la transition utilisateur.
-Le scénario `make users-upgrade-test` prépare aussi le marqueur autonome avant
-de changer d’utilisateur Django. `make migrations-test` garde la couverture des
-historiques complets, partiels et du refus de supprimer des données hors scénario.
+La migration utilisateur dépend de `employers.0001_autonomous_schema`, sans
+référence aux archives désormais supprimées. `make migrations-test` vérifie le
+schéma actuel et la conservation des données lors d'une nouvelle exécution.
+Le scénario `make users-upgrade-test` crée réellement le schéma autonome avec
+`auth.User`, puis exerce la transition vers `users.User`. Il vérifie aussi le
+refus d'une base sans marqueur autonome avant toute création de table utilisateur.
+Les contrôles de rôles, collisions d'e-mails et conservation des quatre relations
+restent vérifiés dans cette base locale jetable.

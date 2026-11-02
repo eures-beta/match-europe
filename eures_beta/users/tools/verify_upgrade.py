@@ -16,7 +16,7 @@ def main():
     from django.core.management import call_command
     from django.db import connections
     from django.db.migrations.executor import MigrationExecutor
-    from eures_beta.migration_history.testing import HistoricalMigrationExecutor
+    from django.db.migrations.recorder import MigrationRecorder
     from django.test.utils import override_settings
     from django.utils import timezone
     from eures_beta.users.management.commands.migrate import clear_migration_modules
@@ -41,17 +41,15 @@ def main():
         try:
             clear_migration_modules()
             with override_settings(AUTH_USER_MODEL='auth.User'):
-                executor = HistoricalMigrationExecutor(database)
+                executor = MigrationExecutor(database)
                 targets = [
                     node
                     for node in executor.loader.graph.leaf_nodes()
                     if node[0] not in ('users', 'employers')
                 ]
-                targets.append(('employers', '0001_initial'))
+                targets.append(('employers', '0001_autonomous_schema'))
                 executor.migrate(targets)
                 state = executor.loader.project_state(targets).apps
-                consolidated = MigrationExecutor(database)
-                consolidated.migrate([('employers', '0001_autonomous_schema')])
                 person = (
                     state.get_model('employers', 'EmployerIdentity')
                     .objects.using('user_upgrade')
@@ -93,6 +91,23 @@ def main():
                     'user_upgrade'
                 ).create(operation_id=operation.pk, actor_id=person.pk, state='started')
             clear_migration_modules()
+            recorder = MigrationRecorder(database)
+            recorder.record_unapplied('employers', '0001_autonomous_schema')
+            try:
+                call_command(
+                    'migrate', database='user_upgrade', interactive=False, verbosity=0
+                )
+            except RuntimeError as error:
+                assert 'autonomous migration transition' in str(error)
+            else:
+                raise AssertionError(
+                    'Missing autonomous marker must block before the user switch.'
+                )
+            assert 'users_user' not in database.introspection.table_names()
+            assert state.get_model('employers', 'EmployerImport').objects.using(
+                'user_upgrade'
+            ).get().data == {'description': 'Preserved fictional offer'}
+            recorder.record_applied('employers', '0001_autonomous_schema')
             LegacyUser = state.get_model('auth', 'User')
             legacy_user = LegacyUser._base_manager.using('user_upgrade').create(
                 username='operator@example.invalid', password='!'

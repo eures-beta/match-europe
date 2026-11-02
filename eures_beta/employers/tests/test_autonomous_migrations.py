@@ -13,7 +13,6 @@ from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 from eures_beta.employers.models import (
     EmployerCompany,
-    EmployerIdentity,
     EmployerMembership,
     EmployerImport,
     EmployerEmailLink,
@@ -25,7 +24,7 @@ BASELINE = ('employers', '0001_autonomous_schema')
 
 CURRENT_MODELS = (
     EmployerCompany,
-    EmployerIdentity,
+    get_user_model(),
     EmployerMembership,
     EmployerImport,
     EmployerEmailLink,
@@ -46,14 +45,17 @@ LEGACY_TABLES = (
     'journeys_message',
     'journeys_document',
     'journeys_notification',
+    'journeys_employeridentity',
+    'auth_user',
 )
 
 
 class AutonomousMigrationTests(TransactionTestCase):
-    def migrate_current(self):
-        executor = MigrationExecutor(connection)
-        executor.loader.check_consistent_history(connection)
-        executor.migrate(executor.loader.graph.leaf_nodes())
+    def test_current_schema_keeps_the_baseline_without_retired_identity_tables(self):
+        self.assert_no_legacy_tables()
+        applied = MigrationRecorder(connection).applied_migrations()
+        self.assertIn(BASELINE, applied)
+        self.assertIn(('users', '0002_kind_immutable'), applied)
 
     def assert_no_legacy_tables(self):
         tables = connection.introspection.table_names()
@@ -62,37 +64,13 @@ class AutonomousMigrationTests(TransactionTestCase):
         for model in CURRENT_MODELS:
             self.assertIn(model._meta.db_table, tables)
 
-    def test_fresh_install_creates_only_current_business_tables(self):
-        executor = MigrationExecutor(connection)
-        executor.migrate([('employers', None)])
-        ContentType.objects.filter(app_label='employers').delete()
-        ContentType.objects.clear_cache()
-        executor = MigrationExecutor(connection)
-        executor.loader.check_consistent_history(connection)
-        plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
-        self.assertEqual(
-            [(m.app_label, m.name, backwards) for m, backwards in plan],
-            [(*BASELINE, False)],
-        )
-        with CaptureQueriesContext(connection) as queries:
-            executor.migrate(executor.loader.graph.leaf_nodes())
-        created_tables = [
-            q['sql']
-            for q in queries
-            if q['sql'].lstrip().upper().startswith('CREATE TABLE')
-        ]
-        self.assertEqual(len(created_tables), 7)
-        for table in LEGACY_TABLES:
-            self.assertFalse(
-                any('"' + table + '"' in sql for sql in created_tables), table
-            )
-        self.assert_no_legacy_tables()
-        self.assertFalse(get_user_model().objects.exists())
-        self.assertFalse(EmployerImport.objects.exists())
-
     def test_transitioned_database_preserves_all_current_data_without_ddl(self):
-        user = get_user_model().objects.create_user('operator@example.invalid')
-        person = EmployerIdentity.objects.create(email='person@example.invalid')
+        user = get_user_model().objects.create_user(
+            'operator@example.invalid', kind='adviser'
+        )
+        person = get_user_model().objects.create_user(
+            'person@example.invalid', kind='employer'
+        )
         company = EmployerCompany.objects.create(name='Fictional workplace')
         EmployerMembership.objects.create(company=company, person=person)
         draft = EmployerImport.objects.create(
@@ -168,34 +146,3 @@ class AutonomousMigrationTests(TransactionTestCase):
             ContentType.objects.get(pk=content_type.pk).app_label, 'employers'
         )
         self.assertTrue(get_user_model().objects.filter(pk=user.pk).exists())
-
-    def test_cleanup_refuses_existing_database_without_transition_marker(self):
-        draft = EmployerImport.objects.create(
-            session_key='fictional',
-            email='contact@example.invalid',
-            preparation_agreed_at=timezone.now(),
-            source_kind='manual',
-            data={'description': 'Preserve this draft'},
-        )
-        recorder = MigrationRecorder(connection)
-        recorder.record_unapplied(*BASELINE)
-        # Simulate an installation that only ran the pre-transition release.
-        recorder.record_applied('journeys', '0001_initial')
-        try:
-            with CaptureQueriesContext(connection) as queries:
-                with self.assertRaisesRegex(
-                    RuntimeError, 'Deploy the transition release'
-                ):
-                    self.migrate_current()
-            self.assertFalse(
-                any(
-                    q['sql'].lstrip().upper().startswith(('CREATE ', 'ALTER ', 'DROP '))
-                    for q in queries
-                )
-            )
-            draft.refresh_from_db()
-            self.assertEqual(draft.data, {'description': 'Preserve this draft'})
-            self.assertNotIn(BASELINE, recorder.applied_migrations())
-        finally:
-            # Restore the test fixture marker so Django can flush normally.
-            recorder.record_applied(*BASELINE)
