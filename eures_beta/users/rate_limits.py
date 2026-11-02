@@ -18,10 +18,9 @@ def allow_request(request, email):
     with transaction.atomic():
         for kind, value, maximum in limits:
             key = salted_hmac('magic-login-rate', kind + ':' + value).hexdigest()
-            bucket, _ = LoginRateLimit.objects.get_or_create(
+            bucket, _ = LoginRateLimit.objects.select_for_update().get_or_create(
                 key=key, defaults={'expires': now + timedelta(minutes=15)}
             )
-            bucket = LoginRateLimit.objects.select_for_update().get(pk=bucket.pk)
             if bucket.attempts >= maximum:
                 return False
             bucket.attempts += 1
