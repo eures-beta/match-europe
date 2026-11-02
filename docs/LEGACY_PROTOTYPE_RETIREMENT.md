@@ -25,15 +25,20 @@ Les imports employeur actuels sont conservés ; une attribution à un conseiller
 retiré est simplement remise à vide. Les autres utilisateurs ne sont pas
 supprimés. Les sessions employeur ne sont pas purgées.
 
-Les migrations et modèles de stockage historiques restent disponibles pour la
-compatibilité des bases et leurs tests de migration ; aucun ancien parcours
-HTTP ne les rend accessible. Leur suppression physique globale demanderait un
-inventaire distinct des éventuelles données non fictives, qui ne sont pas
-supprimées par cette PR.
+Après ce nettoyage, `accounts.0003` vérifie que les douze anciennes tables sont
+vides. La présence d'autres données bloque leur suppression. Les migrations
+suivantes suppriment les modèles et tables Profile, AccessToken, Event,
+Candidate, Offer, Question, Match, Answer, Conversation, Message, Document et
+Notification. Les applications sans fonctionnalité actuelle gardent uniquement
+leur compatibilité de migrations et leurs tests historiques ; les anciennes
+migrations ne sont pas effacées.
+
+Les modèles employeur actuels et les sessions Django sont conservés.
 
 La suppression des données fictives n’est pas annulable par un retour de code :
 la migration inverse ne recrée pas les comptes. Une restauration nécessite une
-sauvegarde. La PR n’exécute aucune migration sur un environnement distant.
+sauvegarde. Les migrations de la recette concernent sa base dédiée ; aucune
+modification directe de la base de production n'est effectuée pour cette revue.
 
 ## Stockage du parcours employeur conservé
 
@@ -54,3 +59,5 @@ pas la même étape. Le PDF original n’est pas conservé par cet import.
 `make test` couvre la disparition des routes même avec une ancienne session,
 les pages conservées en FR/EN/DE, les imports et accès employeur, et le nettoyage
 ciblé/idempotent des données. Les tests de migration historiques restent actifs.
+Les tests vérifient aussi la suppression des douze tables vides et le refus de
+supprimer une offre qui n'appartient pas au scénario fictif.

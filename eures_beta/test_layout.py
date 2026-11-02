@@ -9,9 +9,7 @@ class UnifiedLayoutTests(SimpleTestCase):
         self.assertEqual(app.name, 'eures_beta.migration_history')
         self.assertEqual(list(app.get_models()), [])
         self.assertFalse((settings.APPS_DIR / 'journeys').exists())
-        self.assertEqual(
-            apps.get_model('accounts', 'Profile')._meta.db_table, 'journeys_profile'
-        )
+        self.assertEqual(list(apps.get_app_config('accounts').get_models()), [])
         self.assertEqual(settings.ROOT_URLCONF, 'config.urls')
         self.assertFalse((settings.APPS_DIR / 'manage.py').exists())
         self.assertFalse((settings.APPS_DIR / 'config').exists())
