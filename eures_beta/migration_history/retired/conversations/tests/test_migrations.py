@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import connection
-from django.db.migrations.executor import MigrationExecutor
+from eures_beta.migration_history.testing import (
+    HistoricalMigrationExecutor as MigrationExecutor,
+)
 from django.test import TransactionTestCase
 from eures_beta.migration_history.testing import restore_current_schema
 

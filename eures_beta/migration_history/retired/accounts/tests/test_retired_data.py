@@ -2,7 +2,9 @@ from eures_beta.migration_history.testing import (
     pre_retirement_targets,
     restore_current_schema,
 )
-from django.db.migrations.executor import MigrationExecutor
+from eures_beta.migration_history.testing import (
+    HistoricalMigrationExecutor as MigrationExecutor,
+)
 from importlib import import_module
 
 from django.contrib.auth import get_user_model

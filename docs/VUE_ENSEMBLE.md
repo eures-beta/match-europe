@@ -15,6 +15,11 @@ Les anciens paquets sans fonctionnalité active sont maintenant archivés sous
 Ce rangement conserve les labels et le graphe de migration ; il ne supprime
 aucune donnée supplémentaire.
 
+La consolidation décrite dans [le guide des migrations](AUTONOMOUS_MIGRATIONS.md)
+permet aux installations neuves de créer directement les sept tables employeur
+actuelles. Les anciens fichiers restent temporairement disponibles pour les
+bases dont l'historique n'est pas entièrement à jour.
+
 Référence commune créée le 16 octobre 2026 à partir des README et de HANDOFF.md. Ce document décrit le cadre produit ; il ne constitue pas une vérification de production.
 
 ## Objectif et périmètre
