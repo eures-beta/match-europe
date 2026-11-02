@@ -65,7 +65,7 @@ def reverse_transfer(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ('users', '0002_kind_immutable'),
-        ('employers', '0001_initial'),
+        ('employers', '0001_autonomous_schema'),
         ('admin', '0003_logentry_add_action_flag_choices'),
     ]
     operations = (

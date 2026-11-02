@@ -665,3 +665,12 @@ traductions réussis. Rendu navigateur contrôlé à 1440 et 390 px sans débord
 horizontal ; lien du sommaire vérifié. Ces tests de page ne nécessitent pas de
 connexion à une base ; aucune validation d’intégration PostgreSQL revendiquée.
 Base distante #93 vérifiée au commit `7c618603e45752c966dae6ac34cf0e43134d1263`.
+## 2 novembre 2026 — rafraîchissement après suppression des archives
+
+La PR comptes uniques est rebasée sur le main sans `migration_history`.
+Sa migration dépend directement du schéma autonome. L'essai de mise à niveau
+construit ce schéma avec le chargeur Django normal, sans recréer d'archives.
+Un garde-fou vérifie le marqueur autonome avant la première bascule utilisateur.
+Les tests des anciens modèles sont retirés avec leurs sources ; les tests du
+schéma actuel et de conservation des données restent actifs. Aucun changement
+des choix métier conseiller/employeur, aucune fusion de cette PR.

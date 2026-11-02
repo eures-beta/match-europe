@@ -23,6 +23,13 @@ class Command(DjangoMigrate):
             and not options.get('plan')
             and not options.get('check_unapplied')
         ):
+            if (
+                ('employers', '0001_autonomous_schema') not in applied
+                and 'journeys_employerimport' in connection.introspection.table_names()
+            ):
+                raise RuntimeError(
+                    'Apply the autonomous migration transition before switching users.'
+                )
             clear_migration_modules()
             try:
                 with override_settings(AUTH_USER_MODEL='auth.User'):
