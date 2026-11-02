@@ -6,12 +6,12 @@ Ce dossier conserve les images et logos utilisés par les pages, dont les marque
 
 ### Fichiers
 
-- [adem.png](adem.png) — Logo de l’ADEM.
-- [eures-ela.jpg](eures-ela.jpg) — Visuel EURES et Autorité européenne du travail.
-- [eures.jpg](eures.jpg) — Logo EURES.
-- [forem.png](forem.png) — Logo du Forem.
-- [france-travail.svg](france-travail.svg) — Logo France Travail.
-- [match-europe-logo.png](match-europe-logo.png) — Logo Match Europe.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [adem.png](adem.png) — Ressource visuelle « adem » utilisée par le site.
+- [eures-ela.jpg](eures-ela.jpg) — Ressource visuelle « eures-ela » utilisée par le site.
+- [eures.jpg](eures.jpg) — Ressource visuelle « eures » utilisée par le site.
+- [forem.png](forem.png) — Ressource visuelle « forem » utilisée par le site.
+- [france-travail.svg](france-travail.svg) — Ressource visuelle « france-travail » utilisée par le site.
+- [match-europe-logo.png](match-europe-logo.png) — Ressource visuelle « match-europe-logo » utilisée par le site.
 
 [Remonter au dossier parent](../).

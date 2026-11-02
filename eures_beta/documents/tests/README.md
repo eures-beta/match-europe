@@ -6,9 +6,8 @@ Ces tests vérifient les documents et leur lecture. Les fichiers sont regroupés
 
 ### Fichiers
 
-- [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [test_document_reader.py](test_document_reader.py) — Tests portant sur lecture des documents.
-- [test_migrations.py](test_migrations.py) — Tests portant sur conservation des données pendant les migrations.
 
 [Remonter au dossier parent](../).

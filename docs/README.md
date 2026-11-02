@@ -7,6 +7,7 @@ Commencer par [la vue d’ensemble](VUE_ENSEMBLE.md), puis [les décisions](DECI
 ### Fichiers
 
 - [API_NAMING.md](API_NAMING.md) — Documente « Noms des pages et de l’API ».
+- [AUTONOMOUS_MIGRATIONS.md](AUTONOMOUS_MIGRATIONS.md) — Documente « Migrations autonomes : transition en deux déploiements ».
 - [CANDIDATE_LANDING.md](CANDIDATE_LANDING.md) — Documente « Accueil candidat — reprise du 28 octobre 2026 ».
 - [CONVERSATIONS_APP.md](CONVERSATIONS_APP.md) — Documente « Application conversations ».
 - [DECISIONS.md](DECISIONS.md) — Documente « EURES beta / Match Europe — décisions communes ».
@@ -24,6 +25,7 @@ Commencer par [la vue d’ensemble](VUE_ENSEMBLE.md), puis [les décisions](DECI
 - [HTML_FORMATTING.md](HTML_FORMATTING.md) — Documente « Format des templates Django ».
 - [JAVASCRIPT_FORMATTING.md](JAVASCRIPT_FORMATTING.md) — Documente « Format du JavaScript ».
 - [LANGUAGE_NAVIGATION_REGRESSION.md](LANGUAGE_NAVIGATION_REGRESSION.md) — Documente « Navigation de langue après déplacement des pages ».
+- [LEGACY_PROTOTYPE_RETIREMENT.md](LEGACY_PROTOTYPE_RETIREMENT.md) — Documente « Retrait des quatre parcours historiques ».
 - [OCCUPATION_CATALOG_MAINTENANCE.md](OCCUPATION_CATALOG_MAINTENANCE.md) — Documente « Catalogue métiers local ».
 - [OFFER_URL_IMPORT.md](OFFER_URL_IMPORT.md) — Documente « Lecture d’une offre par URL ».
 - [PROTOTYPE_REVIEW.md](PROTOTYPE_REVIEW.md) — Documente « Guide de lecture — PR de conservation du premier prototype ».
@@ -32,5 +34,7 @@ Commencer par [la vue d’ensemble](VUE_ENSEMBLE.md), puis [les décisions](DECI
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [TESTS.md](TESTS.md) — Documente « Organisation des tests ».
 - [VUE_ENSEMBLE.md](VUE_ENSEMBLE.md) — Documente « EURES beta / Match Europe — vue d’ensemble ».
+
+- [AUTONOMOUS_MIGRATIONS.md](AUTONOMOUS_MIGRATIONS.md) — Explique les deux déploiements et le retrait définitif des archives.
 
 [Remonter au dossier parent](../).

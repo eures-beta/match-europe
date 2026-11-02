@@ -6,8 +6,8 @@ Ces tests vérifient le catalogue de métiers et son API. Les fichiers sont regr
 
 ### Fichiers
 
-- [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [test_api.py](test_api.py) — Tests portant sur API du catalogue de métiers.
 - [test_catalog.py](test_catalog.py) — Tests portant sur catalogue ESCO/ROME.
 

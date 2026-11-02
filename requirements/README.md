@@ -6,10 +6,10 @@
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [base.txt](base.txt) — Liste les dépendances Python nécessaires à l’application.
 - [push.txt](push.txt) — Liste les dépendances du diagnostic Push.
 - [quality.txt](quality.txt) — Liste les outils de qualité et de formatage Python et HTML.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [test.txt](test.txt) — Ajoute les dépendances nécessaires à la suite de tests.
 
 [Remonter au dossier parent](../).

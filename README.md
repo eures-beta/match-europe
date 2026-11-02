@@ -39,12 +39,12 @@ Pour aller plus loin : [guide de développement détaillé](docs/DEVELOPPEMENT.m
 
 ### Dossiers
 
-- [.github/](.github/) — Configure les contrôles et relais automatisés sur GitHub.
-- [clevercloud/](clevercloud/) — Regroupe les hooks génériques de construction et de démarrage Clever Cloud.
-- [config/](config/) — Contient la configuration unique, les routes et les points d’entrée Django.
-- [docs/](docs/) — Rassemble les guides, décisions et explications détaillées du projet.
-- [eures_beta/](eures_beta/) — Contient les applications métier Django, les ressources communes et les traductions.
-- [requirements/](requirements/) — Sépare les dépendances Python applicatives, de test et de qualité.
+- [.github/](.github/) — Ce dossier configure le travail automatisé sur GitHub.
+- [clevercloud/](clevercloud/) — Contient les hooks génériques de construction et de démarrage.
+- [config/](config/) — Configure le projet Django unique et ses routes.
+- [docs/](docs/) — Rassemble les guides, décisions et explications techniques.
+- [eures_beta/](eures_beta/) — Regroupe les applications actives, ressources communes et archives de migrations.
+- [requirements/](requirements/) — Sépare les dépendances applicatives, de test et de qualité.
 
 ### Fichiers
 
@@ -56,12 +56,12 @@ Pour aller plus loin : [guide de développement détaillé](docs/DEVELOPPEMENT.m
 - [.prettierrc.json](.prettierrc.json) — Configure le style JavaScript appliqué par Prettier.
 - [.python-version](.python-version) — Indique la version de Python attendue pour ce projet.
 - [AGENTS.md](AGENTS.md) — Définit les consignes de travail et de maintenance destinées aux agents.
-- [gunicorn.conf.py](gunicorn.conf.py) — Configure le serveur WSGI Gunicorn.
 - [HANDOFF.md](HANDOFF.md) — Conserve les travaux documentés, validations datées et limites connues.
 - [Makefile](Makefile) — Expose les commandes réutilisables de développement, test et maintenance.
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [gunicorn.conf.py](gunicorn.conf.py) — Configure le serveur WSGI Gunicorn.
 - [manage.py](manage.py) — Point d’entrée unique des commandes de gestion Django.
 - [package-lock.json](package-lock.json) — Verrouille les versions exactes des dépendances JavaScript.
 - [package.json](package.json) — Déclare l’outillage JavaScript et ses dépendances de développement.
 - [pyproject.toml](pyproject.toml) — Configure notamment le formatage Python du projet.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [requirements.txt](requirements.txt) — Point d’entrée des dépendances Python applicatives.

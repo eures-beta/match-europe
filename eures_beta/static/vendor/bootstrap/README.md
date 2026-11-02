@@ -6,8 +6,8 @@
 
 ### Fichiers
 
-- [bootstrap.min.css](bootstrap.min.css) — Copie minifiée de la feuille de styles Bootstrap.
 - [LICENSE](LICENSE) — Conserve la licence de la bibliothèque tierce distribuée ici.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [bootstrap.min.css](bootstrap.min.css) — Copie minifiée de la feuille de styles Bootstrap.
 
 [Remonter au dossier parent](../).

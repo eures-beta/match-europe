@@ -11,14 +11,12 @@ Ce dossier contient CSS, JavaScript, service worker et ressources visuelles part
 
 ### Fichiers
 
-- [app.css](app.css) — Feuille de styles pour interactions et présentation des écrans métier partagés.
-- [app.js](app.js) — JavaScript pour interactions et présentation des écrans métier partagés.
-- [bootstrap.min.css](bootstrap.min.css) — Copie minifiée de la feuille de styles Bootstrap.
-- [eures-logo.jpg](eures-logo.jpg) — Logo EURES partagé.
-- [home.css](home.css) — Feuille de styles pour présentation de l’accueil public.
-- [icon.svg](icon.svg) — Icône de l’application.
-- [public-brand.css](public-brand.css) — Feuille de styles pour présentation du logo et du texte de marque communs.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [eures-logo.jpg](eures-logo.jpg) — Ressource visuelle « eures-logo » utilisée par le site.
+- [home.css](home.css) — Feuille de styles pour présentation de l’accueil public.
+- [icon.svg](icon.svg) — Ressource visuelle « icon » utilisée par le site.
+- [journal.css](journal.css) — Définit la présentation du journal du projet.
+- [public-brand.css](public-brand.css) — Feuille de styles pour présentation du logo et du texte de marque communs.
 - [sw.js](sw.js) — JavaScript pour service worker du navigateur.
 
 [Remonter au dossier parent](../).

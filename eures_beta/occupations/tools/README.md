@@ -6,9 +6,9 @@
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [build_catalog.py](build_catalog.py) — Construit le catalogue métier à partir des sources locales.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
-- [validate_catalog.py](validate_catalog.py) — Tests portant sur le catalogue métier et produit un rapport de validation.
+- [validate_catalog.py](validate_catalog.py) — Vérifie le catalogue métier et produit un rapport de validation.
 
 [Remonter au dossier parent](../).

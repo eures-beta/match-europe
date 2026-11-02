@@ -6,9 +6,8 @@ Ces tests vérifient les données et pages candidat. Les fichiers sont regroupé
 
 ### Fichiers
 
-- [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [test_landing.py](test_landing.py) — Tests portant sur accueil du parcours.
-- [test_migrations.py](test_migrations.py) — Tests portant sur conservation des données pendant les migrations.
 
 [Remonter au dossier parent](../).

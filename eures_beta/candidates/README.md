@@ -1,6 +1,6 @@
 # Parcours candidat
 
-Cette application porte le modèle candidat, sa modification et le nouvel accueil candidat. L’accueil propose les entrées CV, LinkedIn et saisie manuelle : ces trois entrées sont encore une maquette, pas un import complet. Ses templates et statiques sont rangés dans cette application. Voir [le périmètre de l’accueil](../../docs/CANDIDATE_LANDING.md).
+Cette application sert le nouvel accueil candidat à trois choix. Le modèle candidat de l’ancien prototype est supprimé ; les migrations conservées concernent sa compatibilité historique.
 
 ## Contenu de ce dossier
 
@@ -13,13 +13,10 @@ Cette application porte le modèle candidat, sa modification et le nouvel accuei
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [apps.py](apps.py) — Déclare l’application auprès de Django et son identité technique.
-- [forms.py](forms.py) — Définit les formulaires et la validation des saisies de ce domaine.
 - [landing.py](landing.py) — Prépare les données de présentation du nouvel accueil candidat.
-- [models.py](models.py) — Décrit les modèles persistants et leurs relations pour ce domaine.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [urls.py](urls.py) — Associe les chemins HTTP aux vues correspondantes.
-- [views.py](views.py) — Traite les requêtes HTTP et prépare les réponses de ce domaine.
 
 [Remonter au dossier parent](../).

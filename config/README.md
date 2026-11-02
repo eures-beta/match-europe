@@ -6,11 +6,10 @@ Ce dossier contient la configuration unique du site : `settings.py` pour les ré
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [asgi.py](asgi.py) — Expose l’application Django aux serveurs compatibles ASGI.
-- [demo.py](demo.py) — Regroupe les mécanismes du scénario fictif et ses réglages associés.
 - [health.py](health.py) — Implémente la sonde de santé du service.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [settings.py](settings.py) — Définit les réglages Django à partir de la configuration de l’environnement.
 - [test_demo_modes.py](test_demo_modes.py) — Tests portant sur réglages des modes fictifs et protections associées.
 - [test_deployment.py](test_deployment.py) — Tests portant sur dépendances et démarrage du déploiement.

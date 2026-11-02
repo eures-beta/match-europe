@@ -38,10 +38,10 @@ repris : Match Europe n’a pas besoin de reproduire leur infrastructure complè
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [http.json](http.json) — Configure le comportement HTTP attendu par Clever Cloud.
 - [post_build.sh](post_build.sh) — Exécute le hook de préparation après construction de l’application.
 - [pre_run.sh](pre_run.sh) — Exécute les opérations requises avant le démarrage de l’application.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [run.sh](run.sh) — Lance le serveur applicatif via le hook Clever Cloud.
 
 [Remonter au dossier parent](../).

@@ -6,8 +6,8 @@
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [candidate.css](candidate.css) — Feuille de styles pour présentation ou interactions de l’accueil candidat.
 - [candidate.js](candidate.js) — JavaScript pour présentation ou interactions de l’accueil candidat.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 
 [Remonter au dossier parent](../).

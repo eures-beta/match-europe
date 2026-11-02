@@ -6,7 +6,7 @@
 
 ### Fichiers
 
-- [landing.html](landing.html) — Template Django pour accueil du parcours.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [landing.html](landing.html) — Template Django pour accueil du parcours.
 
 [Remonter au dossier parent](../).

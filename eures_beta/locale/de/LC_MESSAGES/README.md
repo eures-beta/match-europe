@@ -6,8 +6,8 @@
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [django.mo](django.mo) — Catalogue gettext compilé utilisé par Django à l’exécution.
 - [django.po](django.po) — Catalogue gettext lisible contenant les traductions de cette langue.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 
 [Remonter au dossier parent](../).

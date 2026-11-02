@@ -10,6 +10,7 @@ Ces fichiers animent les pages employeur : lecture et relecture d’une offre, �
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [alternative.css](alternative.css) — Feuille de styles pour présentation de la variante d’interface employeur.
 - [condition-fields.js](condition-fields.js) — JavaScript pour champs guidés des conditions de travail.
 - [contact.js](contact.js) — JavaScript pour formulaire de contact employeur.
@@ -19,7 +20,6 @@ Ces fichiers animent les pages employeur : lecture et relecture d’une offre, �
 - [occupation-picker.js](occupation-picker.js) — JavaScript pour sélecteur de métiers ESCO/ROME.
 - [offer-import-api.js](offer-import-api.js) — JavaScript pour échanges du navigateur avec l’API d’import d’offres.
 - [push-test.js](push-test.js) — JavaScript pour interface de diagnostic Push.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [review-steps.css](review-steps.css) — Feuille de styles pour navigation et présentation des étapes de relecture.
 - [review-steps.js](review-steps.js) — JavaScript pour navigation et présentation des étapes de relecture.
 - [review.js](review.js) — JavaScript pour relecture et correction des informations de l’offre.

@@ -12,9 +12,9 @@ Ce paquet fournit la recherche locale dans les références ESCO et ROME. `catal
 
 ### Fichiers
 
+- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [__init__.py](__init__.py) — Identifie ce dossier comme un paquet Python.
 - [catalog.py](catalog.py) — Charge et interroge les références locales ESCO et ROME.
-- [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
 - [views.py](views.py) — Traite les requêtes HTTP et prépare les réponses de ce domaine.
 
 [Remonter au dossier parent](../).

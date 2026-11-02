@@ -6,7 +6,7 @@ Ces petits templates sont inclus dans d’autres pages. `public_brand.html` cent
 
 ### Fichiers
 
-- [public_brand.html](public_brand.html) — Template Django pour logo et texte de marque communs.
 - [README.md](README.md) — Présente ce dossier et guide la lecture de son contenu.
+- [public_brand.html](public_brand.html) — Template Django pour logo et texte de marque communs.
 
 [Remonter au dossier parent](../).
