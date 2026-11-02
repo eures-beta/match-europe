@@ -1,0 +1,31 @@
+{% extends "public_base.html" %}
+{% load i18n static %}
+{% block page_title %}{% translate "My account" context "account navigation" %} — Match Europe{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'users/account.css' %}">
+{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="account-title">
+    <h1 id="account-title">{% translate "My account" context "account navigation" %}</h1>
+    <dl class="account-details">
+      <dt>{% translate "Account type" context "account summary" %}</dt>
+      <dd>
+        {{ user.get_kind_display }}
+      </dd>
+      <dt>{% translate "Email address" %}</dt>
+      <dd>
+        {{ user.email }}
+      </dd>
+      {% if user.get_full_name %}
+        <dt>{% translate "Name" context "account summary" %}</dt>
+        <dd>
+          {{ user.get_full_name }}
+        </dd>
+      {% endif %}
+      <dt>{% translate "Account created on" context "account summary" %}</dt>
+      <dd>
+        <time datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"DATE_FORMAT" }}</time>
+      </dd>
+    </dl>
+  </section>
+{% endblock %}

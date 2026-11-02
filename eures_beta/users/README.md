@@ -17,6 +17,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [migrations/](migrations/) — Ces migrations créent le compte commun et protègent son rôle en base. La transition depuis auth.User est préparée par la commande migrate avant de résoudre le nouveau graphe.
 - [models.py](models.py) — Définit User et son gestionnaire.
 - [rate_limits.py](rate_limits.py) — Limite les demandes de liens avec des compteurs partagés en base.
+- [static/](static/) — Styles des écrans du compte connecté.
 - [urls.py](urls.py) — Déclare les routes de connexion, confirmation et déconnexion.
 - [views.py](views.py) — Envoie et vérifie les liens django-sesame pour les comptes existants.
 - [tests/](tests/) — Ces tests vérifient authentification, unicité des e-mails et contraintes du rôle, y compris les mises à jour directes en base.
@@ -29,3 +30,6 @@ La création autonome est fermée : voir [les points d’entrée et les tests](.
 
 La connexion publique utilise désormais [un lien magique](../../docs/MAGIC_LOGIN.md).
 L’envoi SMTP reste désactivé jusqu’à sa configuration privée.
+
+[Mon compte](../../docs/ACCOUNT_PAGES.md) affiche les informations de l’utilisateur
+connecté en lecture seule ; le lien d’administration est réservé aux comptes staff.

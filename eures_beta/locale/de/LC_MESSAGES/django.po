@@ -6603,3 +6603,31 @@ msgstr "E-Mail-Adresse"
 #: eures_beta/users/views.py:74
 msgid "Your Match Europe sign-in link"
 msgstr "Ihr Anmeldelink für Match Europe"
+
+msgctxt "account navigation"
+msgid "Account navigation"
+msgstr "Kontonavigation"
+
+msgctxt "account navigation"
+msgid "My account"
+msgstr "Mein Konto"
+
+msgctxt "account navigation"
+msgid "Admin"
+msgstr "Admin"
+
+msgctxt "account navigation"
+msgid "Sign out"
+msgstr "Abmelden"
+
+msgctxt "account summary"
+msgid "Account type"
+msgstr "Kontotyp"
+
+msgctxt "account summary"
+msgid "Name"
+msgstr "Name"
+
+msgctxt "account summary"
+msgid "Account created on"
+msgstr "Konto erstellt am"

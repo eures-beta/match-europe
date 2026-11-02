@@ -1,13 +1,21 @@
 {% load i18n %}
 {% if user.is_authenticated %}
-  {% if signed_in %}
+  <div class="account-actions"
+       role="group"
+       aria-label="{% translate 'Account navigation' context 'account navigation' %}">
     <a class="nav-pill employer-account-link"
-       href="/employer/connected/?lang={{ page_language }}">{% translate "My employer space" context "employer auth-shell" %}</a>
-  {% endif %}
-  <form action="{% url 'magic_logout' %}" method="post">
-    {% csrf_token %}
-    <button class="nav-pill employer-account-link" type="submit">{% translate "Sign out" %}</button>
-  </form>
+       {% if request.resolver_match.url_name == 'account' %}aria-current="page"{% endif %}
+       href="{% url 'account' %}?lang={{ page_language }}">{% translate "My account" context "account navigation" %}</a>
+    {% if user.is_staff %}
+      <a class="nav-pill employer-account-link"
+         href="{% url 'admin:index' %}">{% translate "Admin" context "account navigation" %}</a>
+    {% endif %}
+    <form action="{% url 'magic_logout' %}" method="post">
+      {% csrf_token %}
+      <button class="nav-pill employer-account-link"
+              type="submit">{% translate "Sign out" context "account navigation" %}</button>
+    </form>
+  </div>
 {% else %}
   <a class="nav-pill employer-account-link"
      href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>

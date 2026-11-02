@@ -37,3 +37,16 @@
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.account-actions form {
+  margin: 0;
+}
