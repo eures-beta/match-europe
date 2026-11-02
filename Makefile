@@ -147,3 +147,7 @@ translations-extract: ## Actualiser les catalogues FR/DE depuis le code et les t
 
 translations-check: ## Refuser les messages gettext non traduits ou encore marqués fuzzy
 	$(PYTHON) -m eures_beta.translation_check
+
+.PHONY: journal-test
+journal-test: ## Vérifier le journal public trilingue, les liens et les méthodes HTTP
+	@$(MANAGE) test eures_beta.test_journal eures_beta.test_public_navigation eures_beta.test_project --noinput $(TEST_ARGS)

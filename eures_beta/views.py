@@ -21,6 +21,10 @@ def information_page(request, section):
         'project': _('The project'),
         'journal': _('Project journal'),
     }
+    if section == 'journal':
+        from eures_beta.journal import ENTRIES
+
+        return _public_page(request, 'journal.html', {'entries': ENTRIES})
     template = 'project.html' if section == 'project' else 'under_construction.html'
     return _public_page(request, template, {'title': titles[section]})
 

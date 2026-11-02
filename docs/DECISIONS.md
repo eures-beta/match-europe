@@ -125,3 +125,13 @@ existant est repris, sans modifier les logos officiels partenaires.
 Cette décision éditoriale ne vérifie pas le stockage distant, ne transforme pas
 une recette jetable en service permanent. Eric autorise ensuite la création
 d’une PR au sommet de la pile et une recette jetable, sans fusion ni production.
+
+## 2 novembre 2026 — contenu du journal public
+
+Eric demande de conserver l’historique et d’ajouter la mobilisation ADEM, FOREM
+et France Travail Grand Est (un conseiller à un tiers temps par structure).
+Distinction éditoriale retenue : engagement à partir du 4 septembre, arrivée des
+collègues dans les travaux début octobre. La priorité a été leur accueil et leur
+prise en main du projet ; aucune acquisition n’a été menée pendant cette phase.
+Le bilan chiffré au 2 novembre est retiré à sa demande. Publication GitHub après
+validation du rendu, au sommet de la pile ; aucune fusion ni mise en production.

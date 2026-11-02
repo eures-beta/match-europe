@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 12:01+0000\n"
+"POT-Creation-Date: 2026-11-02 12:03+0000\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -532,6 +532,536 @@ msgstr "Match Europe — notification de test"
 msgctxt "push diagnostic"
 msgid "The test works. Click to return to Match Europe."
 msgstr "Le test fonctionne. Cliquez pour revenir dans Match Europe."
+
+#: eures_beta/journal.py:9
+msgctxt "project journal"
+msgid "Early October 2026"
+msgstr "Début octobre 2026"
+
+#: eures_beta/journal.py:11
+msgctxt "project journal"
+msgid "Welcoming advisers and preparing our work together"
+msgstr "Accueillir les conseillers et préparer le travail commun"
+
+#: eures_beta/journal.py:15
+msgctxt "project journal"
+msgid "Colleagues from ADEM, FOREM and France Travail Grand Est joined the work in early October. Their arrival puts the project’s focus on trust and support from field professionals into practice."
+msgstr "Les collègues de l’ADEM, du FOREM et de France Travail Grand Est ont rejoint les travaux début octobre. Leur arrivée donne une traduction concrète à la réorientation du projet vers la confiance et l’accompagnement par des professionnels de terrain."
+
+#: eures_beta/journal.py:19
+msgctxt "project journal"
+msgid "Dedicate this phase to welcoming advisers and helping them get to grips with the project. No acquisition campaign was carried out during this period: priority was deliberately given to preparing the work with colleagues from the three organisations."
+msgstr "Consacrer cette phase à l’accueil des conseillers et à leur prise en main du projet. Aucune démarche d’acquisition n’a été menée pendant cette période : la priorité a volontairement été donnée à la préparation du travail avec les collègues des trois structures."
+
+#: eures_beta/journal.py:24
+msgctxt "project journal"
+msgid "Work focuses on helping advisers understand the project and preparing their contribution to the experiment."
+msgstr "Le travail se concentre sur l’appropriation du projet par les conseillers et la préparation de leur contribution à l’expérimentation."
+
+#: eures_beta/journal.py:28
+msgctxt "project journal"
+msgid "Advisers have started approaching businesses to collect their recruitment needs."
+msgstr "Les conseillers ont commencé à démarcher les entreprises pour recueillir leurs besoins de recrutement."
+
+#: eures_beta/journal.py:32
+msgctxt "project journal"
+msgid "This phase prepares the continuation of the experiment with identified professionals in direct contact with employers."
+msgstr "Cette phase prépare la poursuite de l’expérimentation avec des professionnels identifiés, au contact des employeurs."
+
+#: eures_beta/journal.py:37
+msgctxt "project journal"
+msgid "Share the first needs collected and advisers’ feedback to adjust the collective work."
+msgstr "Mettre en commun les premiers besoins recueillis et les retours des conseillers pour ajuster le travail collectif."
+
+#: eures_beta/journal.py:43
+msgctxt "project journal"
+msgid "Since 4 September 2026"
+msgstr "Depuis le 4 septembre 2026"
+
+#: eures_beta/journal.py:45
+msgctxt "project journal"
+msgid "Three public employment services commit to the project"
+msgstr "Trois services publics de l’emploi s’engagent dans le projet"
+
+#: eures_beta/journal.py:49
+msgctxt "project journal"
+msgid "The first stages of the experiment highlighted the importance of trust in introductions. To collect business needs and start a conversation, the project relies on identified professionals rooted in their local areas."
+msgstr "Les premières étapes de l’expérimentation ont mis en évidence l’importance de la confiance dans la mise en relation. Pour recueillir les besoins des entreprises et engager un échange, le projet s’appuie sur des professionnels identifiés et ancrés dans les territoires."
+
+#: eures_beta/journal.py:53
+msgctxt "project journal"
+msgid "From 4 September 2026, ADEM, FOREM and France Travail Grand Est committed to the project. Each of the three organisations allocates one third of a field adviser’s working time to contribute to the experiment."
+msgstr "À partir du 4 septembre 2026, l’ADEM, le FOREM et France Travail Grand Est s’engagent dans le projet. Chacune des trois structures met à disposition un tiers du temps de travail d’un conseiller de terrain pour contribuer à l’expérimentation."
+
+#: eures_beta/journal.py:58
+msgctxt "project journal"
+msgid "The project benefits from the commitment of the three organisations to anchor the experiment in their local areas."
+msgstr "Le projet bénéficie de l’engagement des trois structures pour ancrer l’expérimentation dans les territoires."
+
+#: eures_beta/journal.py:62
+msgctxt "project journal"
+msgid "The contribution of field advisers puts the focus on trust and human support into practice."
+msgstr "La contribution de conseillers de terrain permet de donner une traduction concrète à l’orientation vers la confiance et l’accompagnement humain."
+
+#: eures_beta/journal.py:66
+msgctxt "project journal"
+msgid "Colleagues joined the work in early October, opening a phase of welcome and familiarisation with the project."
+msgstr "L’arrivée des collègues dans les travaux intervient début octobre et ouvre une phase d’accueil et de prise en main du projet."
+
+#: eures_beta/journal.py:71
+msgctxt "project journal"
+msgid "Prepare the arrival of advisers and help them get to grips with the project."
+msgstr "Préparer l’arrivée des conseillers et leur prise en main du projet."
+
+#: eures_beta/journal.py:77
+msgctxt "project journal"
+msgid "17 August 2026"
+msgstr "17 août 2026"
+
+#: eures_beta/journal.py:80
+msgctxt "project journal"
+msgid "Clarifying Match Europe’s role in a recruitment market saturated by automation"
+msgstr "Clarifier le rôle de Match Europe dans un marché du recrutement saturé par l’automatisation"
+
+#: eures_beta/journal.py:84
+msgctxt "project journal"
+msgid "An article published in Le Point on 17 August 2026 describes a recruitment market increasingly saturated by the use of artificial intelligence on both sides: candidates optimise CVs and applications to pass filters, while recruiters use automated tools to handle volumes that have become difficult to manage. This dynamic increases noise, favours standardised profiles, weakens the CV as a signal and reinforces the importance of networks, internal mobility and trust in introductions."
+msgstr "Un article publié le 17 août 2026 dans Le Point décrit un marché du recrutement de plus en plus saturé par l’usage symétrique de l’intelligence artificielle : des candidats optimisent leurs CV et leurs candidatures pour franchir les filtres, tandis que les recruteurs utilisent des outils automatisés pour traiter des volumes de candidatures devenus difficiles à gérer. Cette mécanique augmente le bruit, favorise les profils standardisés, affaiblit la qualité du signal CV et renforce l’importance du réseau, de la mobilité interne et de la confiance dans la mise en relation."
+
+#: eures_beta/journal.py:88
+msgctxt "project journal"
+msgid "Use this reading as a product hypothesis, without treating it as official statistical evidence: Match Europe should organise qualified, explainable, restrained and human introductions rather than add another flow of applications. The service should help explain why a profile is proposed, secure the first contact and track what happens after transmission."
+msgstr "Utiliser cette lecture comme hypothèse produit, sans la traiter comme une preuve statistique officielle : Match Europe ne doit pas chercher à ajouter un flux supplémentaire de candidatures, mais à organiser des mises en relation qualifiées, explicables, sobres et humaines. Le service doit aider à comprendre pourquoi un profil est proposé, à sécuriser le premier contact et à suivre ce qui se passe réellement après la transmission."
+
+#: eures_beta/journal.py:93
+msgctxt "project journal"
+msgid "The CV remains useful, but must not become the sole decision signal."
+msgstr "Le CV reste une pièce utile, mais il ne doit pas devenir le seul signal de décision."
+
+#: eures_beta/journal.py:97
+msgctxt "project journal"
+msgid "Structured answers from candidates and employers should be given greater prominence: availability, mobility, languages, working conditions, documents, salary, contact channel and consent."
+msgstr "Les réponses structurées des candidats et des employeurs doivent être davantage mises en avant : disponibilité, mobilité, langues, conditions de travail, documents, salaire, canal de contact et consentement."
+
+#: eures_beta/journal.py:101
+msgctxt "project journal"
+msgid "Matching must remain explainable and supervised, with a human decision before transmission."
+msgstr "Le matching doit rester explicable et supervisé, avec une décision humaine avant transmission."
+
+#: eures_beta/journal.py:105
+msgctxt "project journal"
+msgid "Tracking outcomes becomes a central product indicator: actual contact, discussion, interview, refusal, withdrawal, recruitment and reasons for no further action."
+msgstr "Le suivi des suites données devient un indicateur produit central : contact réel, échange, entretien, refus, abandon, recrutement et raison de non-suite."
+
+#: eures_beta/journal.py:110
+msgctxt "project journal"
+msgid "Strengthen administration around three objectives: reading profiles more effectively, explaining matching proposals more clearly and measuring introduction outcomes, especially to compare contact channels."
+msgstr "Renforcer l’administration autour de trois objectifs : mieux lire les profils, mieux expliquer les propositions de matching et mieux mesurer les résultats des mises en relation, notamment pour comparer les canaux de contact."
+
+#: eures_beta/journal.py:116
+msgctxt "project journal"
+msgid "August 13, 2026"
+msgstr "13 août 2026"
+
+#: eures_beta/journal.py:119
+msgctxt "project journal"
+msgid "Strengthen the public identity and test a more reassuring invitation channel"
+msgstr "Renforcer l’identité publique et tester un canal d’invitation plus rassurant"
+
+#: eures_beta/journal.py:123
+msgctxt "project journal"
+msgid "The first email tests show that trust does not depend only on the wording of the message. Even when the target URL is the Match Europe domain, some sending tools rewrite links through a technical tracking domain. For a candidate or an employer, this can immediately look suspicious."
+msgstr "Les premiers tests d’email montrent que la confiance ne dépend pas seulement du contenu du message. Même lorsque l’URL cible est bien celle de Match Europe, certains outils d’envoi réécrivent les liens avec un domaine technique de tracking. Pour un candidat ou un employeur, ce type de lien peut susciter une méfiance immédiate."
+
+#: eures_beta/journal.py:127
+msgctxt "project journal"
+msgid "Use matcheurope.beta.francetravail.fr as the public reference address, strengthen the visible identity of the service on public pages, and test invitations sent directly from the France Travail professional mailbox with readable and reassuring URLs."
+msgstr "Configurer le domaine public matcheurope.beta.francetravail.fr comme adresse de référence, renforcer l’identité visible du service sur les pages publiques et tester en parallèle des invitations envoyées directement depuis la boîte professionnelle France Travail, avec des URL lisibles et rassurantes."
+
+#: eures_beta/journal.py:132
+msgctxt "project journal"
+msgid "Public pages now display Match Europe as the main service name."
+msgstr "Les pages publiques affichent désormais Match Europe comme nom principal du service."
+
+#: eures_beta/journal.py:136
+msgctxt "project journal"
+msgid "The Match Europe logo is integrated into the public header."
+msgstr "Le logo Match Europe est intégré dans l’en-tête public."
+
+#: eures_beta/journal.py:140
+msgctxt "project journal"
+msgid "Test links and admin access links use the France Travail public URL."
+msgstr "Les liens de test et d’accès administrateur utilisent l’URL publique France Travail."
+
+#: eures_beta/journal.py:144
+msgctxt "project journal"
+msgid "A candidate invitation template is prepared for testing through professional Outlook."
+msgstr "Un modèle d’invitation candidat est préparé pour un test d’envoi depuis Outlook professionnel."
+
+#: eures_beta/journal.py:149
+msgctxt "project journal"
+msgid "Compare responses from Brevo invitations and from invitations sent through the professional mailbox, then decide which channel should be used for the next wave."
+msgstr "Comparer les réponses issues des invitations Brevo et des invitations envoyées depuis la boîte professionnelle, puis décider du canal à privilégier pour la prochaine vague."
+
+#: eures_beta/journal.py:155
+msgctxt "project journal"
+msgid "August 10, 2026"
+msgstr "10 août 2026"
+
+#: eures_beta/journal.py:157
+msgctxt "project journal"
+msgid "Test unsolicited applications with a new employer"
+msgstr "Tester la candidature spontanée auprès d’un nouvel employeur"
+
+#: eures_beta/journal.py:161
+msgctxt "project journal"
+msgid "A candidate profile may be relevant to a company that does not yet use Match Europe and has therefore not described a vacancy in the service. Requiring the employer questionnaire before presenting the profile would create unnecessary friction and make it harder to measure simple interest."
+msgstr "Un profil peut être pertinent pour une entreprise qui n’utilise pas encore Match Europe et qui n’a donc pas décrit de besoin dans le service. Imposer le questionnaire employeur avant de lui présenter ce profil créerait une friction inutile et empêcherait de mesurer simplement son intérêt."
+
+#: eures_beta/journal.py:165
+msgctxt "project journal"
+msgid "Create a separate unsolicited-application flow. The CV is sent to the employer, who can answer ‘Interested’ or ‘Not interested’ without immediately completing a questionnaire. The candidate is informed separately and every send is recorded for follow-up."
+msgstr "Créer un parcours de candidature spontanée distinct. Le CV est transmis à l’employeur, qui peut répondre « Intéressé » ou « Pas intéressé » sans remplir immédiatement de questionnaire. Le candidat est informé séparément de la transmission et chaque envoi est inscrit dans un registre de suivi."
+
+#: eures_beta/journal.py:170
+msgctxt "project journal"
+msgid "Match Europe can now open a relationship with a new employer through a concrete profile."
+msgstr "Match Europe peut désormais ouvrir une relation avec un nouvel employeur à partir d’un profil concret."
+
+#: eures_beta/journal.py:174
+msgctxt "project journal"
+msgid "The employer questionnaire is only proposed if the company wants to continue."
+msgstr "Le questionnaire employeur n’est proposé que si l’entreprise souhaite poursuivre."
+
+#: eures_beta/journal.py:178
+msgctxt "project journal"
+msgid "Sends and employer responses can be tracked in the administration area."
+msgstr "Les envois et les réponses employeur deviennent traçables dans l’administration."
+
+#: eures_beta/journal.py:183
+msgctxt "project journal"
+msgid "Measure responses, delays, exchanges, interviews and hires to assess the usefulness of this new channel."
+msgstr "Mesurer les réponses, les délais, les échanges, les entretiens et les recrutements afin d’évaluer l’utilité de ce nouveau canal."
+
+#: eures_beta/journal.py:189
+msgctxt "project journal"
+msgid "July 2026"
+msgstr "Juillet 2026"
+
+#: eures_beta/journal.py:191
+msgctxt "project journal"
+msgid "Open up the project and document its decisions"
+msgstr "Ouvrir le projet et documenter ses décisions"
+
+#: eures_beta/journal.py:195
+msgctxt "project journal"
+msgid "The project is entering a phase in which several categories of actors need to be able to quickly understand its purpose, results, lessons learned, key choices, method and next steps. A sign-up page alone is not enough for a decision-maker, a partner or a media outlet to present the project properly."
+msgstr "Le projet entre dans une phase où plusieurs catégories d’acteurs doivent pouvoir en comprendre rapidement la raison d’être, les résultats obtenus, les enseignements, les choix opérés, la méthode et les prochaines étapes. Une page d’inscription seule ne permet pas à un décideur, un partenaire ou un média de présenter correctement le projet."
+
+#: eures_beta/journal.py:199
+msgctxt "project journal"
+msgid "Create a public institutional space built around two complementary pages: The project, presenting the problem, the solution, the lessons learned, the method and the cooperation framework; and Project journal, retracing the milestones reached, the observations made and the structuring decisions taken. Match Europe is used as the editorial identity, while the existing EURES Beta technical foundations are kept in place."
+msgstr "Créer un espace institutionnel public autour de deux pages complémentaires : Le projet, qui présente le problème, la solution, les enseignements, la méthode et les modalités de coopération ; et Journal du projet, qui retrace les étapes franchies, les observations et les décisions structurantes. Le nom Match Europe est utilisé comme identité éditoriale, tandis que les fondations techniques existantes d’EURES Beta sont conservées."
+
+#: eures_beta/journal.py:204
+msgctxt "project journal"
+msgid "The project becomes more readable and more transparent."
+msgstr "Le projet devient plus lisible et plus transparent."
+
+#: eures_beta/journal.py:208
+msgctxt "project journal"
+msgid "Partners can now rely on a shared reference point to present the experiment."
+msgstr "Les partenaires peuvent désormais disposer d’une référence commune pour présenter l’expérimentation."
+
+#: eures_beta/journal.py:212
+msgctxt "project journal"
+msgid "The project’s developments and trajectory can be followed more easily."
+msgstr "Les évolutions du projet et sa trajectoire peuvent être suivies plus facilement."
+
+#: eures_beta/journal.py:217
+msgctxt "project journal"
+msgid "Update the journal regularly, consolidate published data and prepare the co-design of the pilot with the three public employment services."
+msgstr "Enrichir régulièrement le journal, consolider les données publiées et préparer la coconstruction du pilote avec les trois services publics de l’emploi."
+
+#: eures_beta/journal.py:223
+msgctxt "project journal"
+msgid "July 15, 2026"
+msgstr "15 juillet 2026"
+
+#: eures_beta/journal.py:224
+msgctxt "project journal"
+msgid "Trust becomes the main issue"
+msgstr "La confiance devient le principal enjeu"
+
+#: eures_beta/journal.py:227
+msgctxt "project journal"
+msgid "The experiment confirms that it is possible to convince employers, collect their needs, identify candidates, qualify profiles, produce matching proposals and organise first introductions. The main obstacle therefore no longer lies in the feasibility of matching itself. However, a significant share of candidates still hesitate to respond when they do not immediately recognise the institutional origin of the service or the framework in which their data is used."
+msgstr "L’expérimentation confirme qu’il est possible de convaincre des employeurs, de recueillir leurs besoins, d’identifier des candidats, de qualifier les profils, de produire des propositions de matching et d’organiser des premières mises en relation. Le principal frein ne se situe donc plus dans la faisabilité du matching. Une partie importante des candidats hésite toutefois à répondre lorsqu’elle ne reconnaît pas immédiatement l’origine institutionnelle du service ou le cadre dans lequel ses données sont utilisées."
+
+#: eures_beta/journal.py:231
+msgctxt "project journal"
+msgid "Evolve Match Europe towards an introduction service more clearly embodied by public employment services and their local relays. The strategy is to build an environment of trust before intensifying recruitment campaigns."
+msgstr "Faire évoluer Match Europe vers un dispositif de mise en relation davantage incarné par les services publics de l’emploi et leurs relais locaux. La stratégie consiste à construire un environnement de confiance avant d’intensifier les campagnes de recrutement."
+
+#: eures_beta/journal.py:236
+msgctxt "project journal"
+msgid "Presenting the service through recognised professionals becomes a priority."
+msgstr "La présentation du service par des professionnels connus devient une priorité."
+
+#: eures_beta/journal.py:240
+msgctxt "project journal"
+msgid "Candidate consent and a clear institutional identity become central."
+msgstr "Le consentement des candidats et une identité institutionnelle claire prennent une place centrale."
+
+#: eures_beta/journal.py:244
+msgctxt "project journal"
+msgid "Well-managed contact channels and human support become key components of the service."
+msgstr "Les canaux de contact maîtrisés et l’accompagnement humain deviennent des composantes clés du service."
+
+#: eures_beta/journal.py:248
+msgctxt "project journal"
+msgid "The gradual involvement of local agencies and the creation of a pool of around 300 informed and qualified candidates become structuring goals."
+msgstr "L’implication progressive des agences locales et la constitution d’un vivier d’environ 300 candidats informés et qualifiés deviennent des objectifs structurants."
+
+#: eures_beta/journal.py:253
+msgctxt "project journal"
+msgid "Co-design with French, Walloon and Luxembourg public employment services the conditions for a pilot across the three sides."
+msgstr "Coconstruire avec les services publics de l’emploi français, wallon et luxembourgeois les conditions d’un pilote sur les trois versants."
+
+#: eures_beta/journal.py:259
+msgctxt "project journal"
+msgid "June-July 2026"
+msgstr "Juin–juillet 2026"
+
+#: eures_beta/journal.py:260
+msgctxt "project journal"
+msgid "Test contact channels"
+msgstr "Tester les canaux de prise de contact"
+
+#: eures_beta/journal.py:263
+msgctxt "project journal"
+msgid "Being able to identify a relevant candidate does not guarantee that the person will respond to outreach. Emails or messages coming from a service that is still little known may be ignored or may trigger mistrust."
+msgstr "La capacité à identifier un candidat pertinent ne garantit pas qu’il répondra à la sollicitation. Les courriers électroniques ou messages provenant d’un service encore peu connu peuvent être ignorés ou susciter de la méfiance."
+
+#: eures_beta/journal.py:267
+msgctxt "project journal"
+msgid "Study more direct communication channels, including WhatsApp Business, starting with a limited manual use. This channel must remain governed by clear rules on consent, sender identity, authorised staff, exchanged information, message retention, traceability and the prohibition on using personal accounts."
+msgstr "Étudier des canaux de communication plus directs, notamment WhatsApp Business, en commençant par un usage manuel et limité. Ce canal doit rester encadré par des règles claires concernant le consentement, l’identité de l’émetteur, les personnes habilitées, les informations échangées, la conservation des messages, la traçabilité et l’interdiction d’utiliser des comptes personnels."
+
+#: eures_beta/journal.py:271
+msgctxt "project journal"
+msgid "Initial contact is now treated as a product component in its own right, not as a secondary step after matching."
+msgstr "La prise de contact est considérée comme une composante du produit à part entière, et non comme une simple étape secondaire après le matching."
+
+#: eures_beta/journal.py:275
+msgctxt "project journal"
+msgid "Test the most effective channels while reinforcing the service’s institutional and reassuring character."
+msgstr "Tester les canaux les plus efficaces tout en renforçant le caractère institutionnel et rassurant du service."
+
+#: eures_beta/journal.py:281 eures_beta/journal.py:305
+msgctxt "project journal"
+msgid "June 2026"
+msgstr "Juin 2026"
+
+#: eures_beta/journal.py:283
+msgctxt "project journal"
+msgid "Build explainable and supervised matching"
+msgstr "Construire un matching explicable et supervisé"
+
+#: eures_beta/journal.py:287
+msgctxt "project journal"
+msgid "A simple match based on a job title is not enough to suggest a candidate to an employer. Relevance depends on several dimensions: occupation and experience, skills, languages, mobility, availability, working conditions, pay, as well as required qualifications or authorisations."
+msgstr "Un simple rapprochement par intitulé de métier ne suffit pas pour proposer un candidat à un employeur. La pertinence dépend de plusieurs dimensions : le métier et l’expérience, les compétences, les langues, la mobilité, la disponibilité, les conditions de travail, la rémunération, ainsi que les qualifications ou autorisations nécessaires."
+
+#: eures_beta/journal.py:291
+msgctxt "project journal"
+msgid "Build a matching engine based on objective and understandable rules. Each proposal must be explainable through the criteria that led to the suggested match. The final decision remains subject to human validation before any introduction takes place."
+msgstr "Construire un moteur de matching reposant sur des règles objectives et compréhensibles. Chaque proposition doit pouvoir être expliquée par les critères ayant conduit au rapprochement. La décision finale reste soumise à une validation humaine avant la mise en relation."
+
+#: eures_beta/journal.py:295
+msgctxt "project journal"
+msgid "The score is not an automatic decision. It becomes a decision-support tool used to compare profiles, understand their strengths and limits, and prepare a more effective human intervention."
+msgstr "Le score ne constitue pas une décision automatique. Il devient un outil d’aide à la décision permettant de comparer les profils, de comprendre leurs points forts et leurs limites et de préparer une intervention humaine plus efficace."
+
+#: eures_beta/journal.py:299
+msgctxt "project journal"
+msgid "Gradually enrich the model, especially through a better account of key skills, while assessing the risks of bias."
+msgstr "Enrichir progressivement le modèle, notamment par une meilleure prise en compte des compétences clés, tout en évaluant les risques de biais."
+
+#: eures_beta/journal.py:307
+msgctxt "project journal"
+msgid "Put a first operational version online"
+msgstr "Mettre en ligne une première version opérationnelle"
+
+#: eures_beta/journal.py:311
+msgctxt "project journal"
+msgid "The initial collection tools made it possible to start quickly, but they were becoming insufficient to handle the growing number of profiles, needs and matching proposals. The service also needed to better address data protection, security, traceability, compliance, and the follow-up of decisions and exchanges."
+msgstr "Les outils de collecte initialement utilisés permettaient de démarrer rapidement, mais ils devenaient insuffisants pour suivre l’augmentation du nombre de profils, des besoins et des propositions de matching. Le service devait également mieux prendre en compte la protection des données, la sécurité, la traçabilité, la conformité, ainsi que le suivi des décisions et des échanges."
+
+#: eures_beta/journal.py:315
+msgctxt "project journal"
+msgid "Develop a first operational version of EURES Beta including a dedicated candidate entry point, a dedicated employer entry point, a statistics page, an administration space, an automated matching engine, manual validation before any transmission to an employer, and traceability of proposals and responses."
+msgstr "Développer une première version opérationnelle d’EURES Beta comprenant une entrée dédiée aux candidats, une entrée dédiée aux employeurs, une page de statistiques, un espace d’administration, un moteur de matching automatisé, une validation manuelle avant toute transmission à un employeur, ainsi que la traçabilité des propositions et des réponses."
+
+#: eures_beta/journal.py:319
+msgctxt "project journal"
+msgid "The project no longer relies only on scattered manual processing. It now has an online service capable of structuring data, producing matching proposals and recording the main steps of the introduction process."
+msgstr "Le projet ne repose plus uniquement sur des traitements manuels dispersés. Il dispose d’un service en ligne capable de structurer les données, de produire des propositions de matching et d’enregistrer les principales étapes de la mise en relation."
+
+#: eures_beta/journal.py:323
+msgctxt "project journal"
+msgid "Test how the service is used, improve the forms and make the matching criteria more precise and more explainable."
+msgstr "Tester l’usage du service, améliorer les formulaires et rendre les critères de rapprochement plus précis et plus explicables."
+
+#: eures_beta/journal.py:329
+msgctxt "project journal"
+msgid "Early June 2026"
+msgstr "Début juin 2026"
+
+#: eures_beta/journal.py:330
+msgctxt "project journal"
+msgid "Obtain the first field results"
+msgstr "Obtenir les premiers résultats terrain"
+
+#: eures_beta/journal.py:333
+msgctxt "project journal"
+msgid "Within two weeks of experimentation with employers in Luxembourg: 2 employers took part; 5 recruitment needs were collected; 158 candidates were contacted; 35 profiles were obtained; 22 matching proposals were produced; and first interviews were initiated. These results show that it is possible to mobilise employers, identify candidates and produce matches within short timeframes."
+msgstr "En deux semaines d’expérimentation avec des employeurs luxembourgeois : 2 employeurs ont participé ; 5 besoins de recrutement ont été recueillis ; 158 candidats ont été contactés ; 35 profils ont été obtenus ; 22 propositions de matching ont été produites ; de premiers entretiens ont été engagés. Ces résultats montrent qu’il est possible de mobiliser des employeurs, d’identifier des candidats et de réaliser des rapprochements dans des délais courts."
+
+#: eures_beta/journal.py:337
+msgctxt "project journal"
+msgid "Continue the experiment and transform the initial concierge-style mode into a more structured and traceable service."
+msgstr "Poursuivre l’expérimentation et transformer le mode de conciergerie initial en un service plus structuré et plus traçable."
+
+#: eures_beta/journal.py:341
+msgctxt "project journal"
+msgid "The project now has its first concrete results."
+msgstr "Le projet dispose désormais de premiers résultats concrets."
+
+#: eures_beta/journal.py:345
+msgctxt "project journal"
+msgid "The hypothesis of a cross-border introduction service is credible enough to justify developing a first operational tool."
+msgstr "L’hypothèse d’un service de mise en relation transfrontalière est suffisamment crédible pour justifier le développement d’un premier outil opérationnel."
+
+#: eures_beta/journal.py:350
+msgctxt "project journal"
+msgid "Create an environment capable of collecting information, automating part of the matching process and preserving human validation."
+msgstr "Créer un environnement permettant de recueillir les informations, automatiser une partie du matching et conserver une validation humaine."
+
+#: eures_beta/journal.py:356
+msgctxt "project journal"
+msgid "May 2026"
+msgstr "Mai 2026"
+
+#: eures_beta/journal.py:357
+msgctxt "project journal"
+msgid "Launch a first matching experiment"
+msgstr "Lancer une première expérimentation de matching"
+
+#: eures_beta/journal.py:360
+msgctxt "project journal"
+msgid "To understand the real conditions of cross-border introductions, it was necessary to move beyond purely theoretical reflection. A first experiment was therefore launched around the needs of employers in Luxembourg and candidates who might work in Luxembourg. The first targeted occupations notably concerned cleaning and maintenance, before a gradual opening to other sectors."
+msgstr "Pour comprendre les conditions réelles d’une mise en relation transfrontalière, il était nécessaire de sortir d’une réflexion uniquement théorique. Une première expérimentation a donc été engagée autour de besoins d’employeurs luxembourgeois et de candidats susceptibles de travailler au Luxembourg. Les premiers métiers ciblés concernaient notamment le nettoyage et l’entretien, avant une ouverture progressive à d’autres secteurs."
+
+#: eures_beta/journal.py:364
+msgctxt "project journal"
+msgid "Test the service in a concierge-style mode: collect employer needs directly, identify potential candidates, contact them, qualify their interest and constraints, analyse possible matches and propose the most relevant introductions."
+msgstr "Tester le service selon un mode de « conciergerie » : recueillir directement les besoins des employeurs, identifier des candidats potentiels, les contacter, qualifier leur intérêt et leurs contraintes, analyser les correspondances et proposer les mises en relation les plus pertinentes."
+
+#: eures_beta/journal.py:368
+msgctxt "project journal"
+msgid "The service is assessed on real situations and not only on the theoretical quality of an algorithm. Each exchange helps identify the information that is actually useful for matching and the difficulties faced by users."
+msgstr "Le service est évalué sur des situations réelles et non uniquement sur la qualité théorique d’un algorithme. Chaque échange permet d’identifier les informations réellement utiles au matching et les difficultés rencontrées par les utilisateurs."
+
+#: eures_beta/journal.py:372
+msgctxt "project journal"
+msgid "Structure the collected data and formalise the first matching criteria."
+msgstr "Structurer les données recueillies et formaliser les premiers critères de rapprochement."
+
+#: eures_beta/journal.py:378 eures_beta/journal.py:424
+msgctxt "project journal"
+msgid "April 2026"
+msgstr "Avril 2026"
+
+#: eures_beta/journal.py:379
+msgctxt "project journal"
+msgid "Choose the Startup d'Etat approach"
+msgstr "Choisir la méthode Startup d’État"
+
+#: eures_beta/journal.py:382
+msgctxt "project journal"
+msgid "The problem to be solved is complex and involves several administrations, countries, information systems and categories of users. In this context, defining a complete solution in advance would create a significant risk: building a long and costly service before verifying its real usefulness."
+msgstr "Le problème à résoudre est complexe et implique plusieurs administrations, pays, systèmes d’information et catégories d’utilisateurs. Dans ce contexte, définir à l’avance une solution complète présenterait un risque important : construire un service long et coûteux avant d’avoir vérifié son utilité réelle."
+
+#: eures_beta/journal.py:386
+msgctxt "project journal"
+msgid "Apply the principles of the Startup d'Etat approach: start from user needs, work with a small team, test quickly, progress through iterations, measure impact, and keep the possibility of adjusting or stopping a hypothesis that does not work."
+msgstr "Appliquer les principes de la démarche Startup d’État : partir des besoins des utilisateurs, travailler avec une équipe resserrée, tester rapidement, progresser par itérations, mesurer l’impact et conserver la possibilité d’ajuster ou d’arrêter une hypothèse qui ne fonctionne pas."
+
+#: eures_beta/journal.py:390
+msgctxt "project journal"
+msgid "Partners are not asked to validate a fixed specification. They are invited to contribute to a gradual experiment by providing access to users, useful data, professionals and existing schemes."
+msgstr "Les partenaires ne sont pas sollicités pour valider un cahier des charges figé. Ils sont invités à contribuer à une expérimentation progressive, en donnant accès aux utilisateurs, aux données utiles, aux professionnels et aux dispositifs existants."
+
+#: eures_beta/journal.py:394
+msgctxt "project journal"
+msgid "Build a first version of the candidate and employer journeys that is simple enough to be tested in the field."
+msgstr "Construire une première version du parcours candidat et employeur suffisamment simple pour être testée sur le terrain."
+
+#: eures_beta/journal.py:400
+msgctxt "project journal"
+msgid "April 15, 2026"
+msgstr "15 avril 2026"
+
+#: eures_beta/journal.py:402
+msgctxt "project journal"
+msgid "Connect the experiment with European workstreams"
+msgstr "Articuler l’expérimentation avec les travaux européens"
+
+#: eures_beta/journal.py:406
+msgctxt "project journal"
+msgid "Discussions with the EURES coordination team at France Travail confirmed several usability difficulties with the EURES portal, as well as an articulation with Europass that remains insufficient. They also made it possible to identify European work already under way around three priorities: a more personalised service, a mobile application and a shared dashboard."
+msgstr "Les échanges avec la coordination EURES de France Travail ont confirmé plusieurs difficultés d’usage du portail EURES, ainsi qu’une articulation encore insuffisante avec Europass. Ils ont également permis d’identifier des travaux européens déjà engagés autour de trois priorités : un service plus personnalisé, une application mobile et un tableau de bord commun."
+
+#: eures_beta/journal.py:410
+msgctxt "project journal"
+msgid "Position the experiment as a concrete and complementary contribution to reflections already under way at European level. The project must demonstrate, through real use, what a simpler, more personalised and results-driven approach can bring."
+msgstr "Positionner l’expérimentation comme une contribution concrète et complémentaire aux réflexions déjà engagées au niveau européen. Le projet doit démontrer, par l’usage, ce qu’une approche plus simple, personnalisée et pilotée par les résultats peut apporter."
+
+#: eures_beta/journal.py:414
+msgctxt "project journal"
+msgid "The experiment is conceived as a learning ground that can feed broader work on the evolution of EURES, without waiting for a complete transformation of European tools."
+msgstr "L’expérimentation est pensée comme un terrain d’apprentissage pouvant nourrir les travaux plus larges sur l’évolution d’EURES, sans attendre une transformation complète des outils européens."
+
+#: eures_beta/journal.py:418
+msgctxt "project journal"
+msgid "Gain access to the useful environments and resources, then prepare a first testable journey with real candidates and real employers."
+msgstr "Accéder aux environnements et ressources utiles, puis préparer un premier parcours testable avec de vrais candidats et de vrais employeurs."
+
+#: eures_beta/journal.py:426
+msgctxt "project journal"
+msgid "Understand the limits of the current system"
+msgstr "Comprendre les limites du fonctionnement actuel"
+
+#: eures_beta/journal.py:430
+msgctxt "project journal"
+msgid "Initial discussions with cross-border employment stakeholders helped clarify how the labour market currently works in the Greater Region. Several limits were identified: tools remain largely organised by country; navigating between vacancies can lead to multiple redirects; available candidate profiles are sometimes only partially usable or anonymised; existing services do not always support quick and personalised introductions; and the various actors hold information and resources that remain difficult to mobilise within a single journey."
+msgstr "Les premiers échanges menés avec les acteurs de l’emploi transfrontalier ont permis de mieux comprendre le fonctionnement actuel du marché de l’emploi dans la Grande Région. Plusieurs limites ont été relevées : les outils restent largement organisés par pays ; la navigation entre les offres peut conduire à de nombreuses redirections ; les profils de candidats disponibles sont parfois peu exploitables ou anonymisés ; les services existants ne facilitent pas toujours une mise en relation rapide et personnalisée ; les différents acteurs disposent d’informations et de ressources qui restent difficiles à mobiliser dans un parcours unique."
+
+#: eures_beta/journal.py:434
+msgctxt "project journal"
+msgid "Test a more direct approach focused on a concrete problem: better connect candidates and employers within the same cross-border economic area. The project adopts an approach inspired by Startup d'Etat: start from the field, experiment quickly and measure the results obtained."
+msgstr "Tester une approche plus directe, centrée sur un problème concret : mieux rapprocher les candidats et les employeurs d’un même bassin économique transfrontalier. Le projet adopte une démarche inspirée des Startups d’État : partir du terrain, expérimenter rapidement et mesurer les résultats obtenus."
+
+#: eures_beta/journal.py:438
+msgctxt "project journal"
+msgid "The project does not seek first to redesign the entire EURES system. It aims to test a limited solution that can be used quickly and then adjust it on the basis of feedback from candidates, employers and employment professionals."
+msgstr "Le projet ne cherche pas d’abord à refondre l’ensemble du système EURES. Il vise à tester une solution limitée, utilisable rapidement, puis à l’ajuster à partir des retours des candidats, des employeurs et des professionnels de l’emploi."
+
+#: eures_beta/journal.py:442
+msgctxt "project journal"
+msgid "Define a first use case and identify the partners who may contribute to the experiment."
+msgstr "Définir un premier cas d’usage et identifier les partenaires susceptibles de contribuer à l’expérimentation."
 
 #: eures_beta/templates/employer/condition_strings.html:3
 msgctxt "employer conditions"
@@ -5361,6 +5891,51 @@ msgstr "Montée en charge du dispositif à partir des enseignements issus des pr
 msgctxt "employer landing"
 msgid "EURES beta - cross-border mobility, matching and follow-up"
 msgstr "EURES beta - mobilité, matching et accompagnement transfrontalier"
+
+#: eures_beta/templates/journal.html:3 eures_beta/templates/journal.html:9
+msgctxt "project journal"
+msgid "Project journal"
+msgstr "Journal du projet"
+
+#: eures_beta/templates/journal.html:8
+msgctxt "project journal"
+msgid "Milestones and lessons learned"
+msgstr "Étapes et enseignements"
+
+#: eures_beta/templates/journal.html:10
+msgctxt "project journal"
+msgid "From the first introductions to the involvement of field advisers, follow the milestones, lessons learned and choices shaping Match Europe."
+msgstr "Des premières mises en relation à la mobilisation des conseillers de terrain, retrouvez les étapes, les enseignements et les choix qui orientent Match Europe."
+
+#: eures_beta/templates/journal.html:15
+msgctxt "project journal"
+msgid "On this page"
+msgstr "Sur cette page"
+
+#: eures_beta/templates/journal.html:35
+msgctxt "project journal"
+msgid "What we observed"
+msgstr "Ce que nous avons observé"
+
+#: eures_beta/templates/journal.html:39
+msgctxt "project journal"
+msgid "What we decided"
+msgstr "Ce que nous avons décidé"
+
+#: eures_beta/templates/journal.html:43
+msgctxt "project journal"
+msgid "What this changes"
+msgstr "Ce que cela change"
+
+#: eures_beta/templates/journal.html:53
+msgctxt "project journal"
+msgid "Next step"
+msgstr "Prochaine étape"
+
+#: eures_beta/templates/journal.html:57
+msgctxt "project journal"
+msgid "Back to contents"
+msgstr "Retour au sommaire"
 
 #: eures_beta/templates/project.html:3 eures_beta/views.py:21
 msgid "The project"

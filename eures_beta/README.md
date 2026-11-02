@@ -9,3 +9,6 @@ Voir le [README principal](../README.md) pour l’installation, le mode démo et
 
 La page publique Projet utilise `templates/project.html`, le système gettext
 commun et les tests de contenu trilingue dans `test_project.py`.
+
+Le journal public utilise `journal.py`, `templates/journal.html` et ses tests
+trilingues dans `test_journal.py`. Vérifier son contenu avec `make journal-test`.

@@ -2,8 +2,9 @@
 
 Les menus utilisent les noms de routes Django : accueil à `/`, candidat à
 `/candidate/`, statistiques à `/statistics/`, projet à `/project/` et journal à
-`/journal/`. Les statistiques et le journal affichent une annonce « en construction »
-en FR/EN/DE, avec retour à l’accueil et choix de langue. La page Projet reprend
+`/journal/`. Les statistiques affichent une annonce « en construction »
+en FR/EN/DE, avec retour à l’accueil et choix de langue. Le journal présente
+les étapes documentées du projet dans les trois langues. La page Projet reprend
 le contenu éditorial historique en FR/EN/DE, dans un template Django/gettext,
 avec sommaire et quinze sections. Ces pages ne collectent aucune donnée.
 
