@@ -32,7 +32,7 @@
                 type="submit"
                 {% if not email_ready %}disabled{% endif %}>{% translate "Send me a sign-in link" %}</button>
       </form>
-      <p>{% translate "The link expires after 15 minutes and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
+      <p>{% translate "The link expires after one hour and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
     {% endif %}
   </section>
 {% endblock %}

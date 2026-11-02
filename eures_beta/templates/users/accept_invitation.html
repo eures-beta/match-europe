@@ -1,0 +1,17 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "Employer invitation" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="accept-title">
+    <h1 id="accept-title">{% translate "Employer invitation" %}</h1>
+    {% if stage == "confirm" %}
+      <p>{% translate "Confirm this invitation to create your employer account and sign in on this device. Do not share your personal link." %}</p>
+      <form method="post" action="{% url 'employer_invitation_confirm' %}">
+        {% csrf_token %}
+        <button class="primary-action" type="submit">{% translate "Accept invitation and sign in" %}</button>
+      </form>
+    {% else %}
+      <p role="alert">{% translate "This invitation is invalid, expired or already used. Contact your adviser for help." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

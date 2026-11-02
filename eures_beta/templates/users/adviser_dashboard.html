@@ -1,0 +1,94 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="dashboard-title">
+    <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
+    <p><a class="primary-action"
+   href="{% url 'employer_invite' %}?lang={{ page_language }}">{% translate "Invite an employer" %}</a></p>
+    <h2>{% translate "Employer accounts" %}</h2>
+    <div class="account-table-scroll">
+      <table>
+        <caption>{% translate "Existing employer accounts" %}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{% translate "Email address" %}</th>
+            <th scope="col">{% translate "Status" %}</th>
+            <th scope="col">{% translate "Account created on" context "account summary" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for employer in employers %}
+            <tr>
+              <td>{{ employer.email }}</td>
+              <td>
+                {% if employer.is_active %}
+                  {% translate "Active account" %}
+                {% else %}
+                  {% translate "Inactive account" %}
+                {% endif %}
+              </td>
+              <td>
+                <time datetime="{{ employer.date_joined|date:'c' }}">{{ employer.date_joined|date:"SHORT_DATETIME_FORMAT" }}</time>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3">{% translate "No employer account yet." %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if employers.has_previous %}
+      <a href="?lang={{ page_language }}&amp;employers_page={{ employers.previous_page_number }}">{% translate "Previous accounts" %}</a>
+    {% endif %}
+    {% if employers.has_next %}
+      <a href="?lang={{ page_language }}&amp;employers_page={{ employers.next_page_number }}">{% translate "Next accounts" %}</a>
+    {% endif %}
+    <h2>{% translate "Employer invitations" %}</h2>
+    <div class="account-table-scroll">
+      <table>
+        <caption>{% translate "Invitations awaiting acceptance" %}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{% translate "Email address" %}</th>
+            <th scope="col">{% translate "Status" %}</th>
+            <th scope="col">{% translate "Invited on" %}</th>
+            <th scope="col">{% translate "Expires on" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for invitation in invitations %}
+            <tr>
+              <td>{{ invitation.email }}</td>
+              <td>
+                {% if invitation.expired %}
+                  {% translate "Expired invitation" %}
+                {% else %}
+                  {% translate "Invitation pending" %}
+                {% endif %}
+                {% if not invitation.email_sent_at %}— {% translate "Email not sent" %}{% endif %}
+              </td>
+              <td>
+                <time datetime="{{ invitation.created_at|date:'c' }}">{{ invitation.created_at|date:"SHORT_DATETIME_FORMAT" }}</time>
+              </td>
+              <td>
+                <time datetime="{{ invitation.expires_at|date:'c' }}">{{ invitation.expires_at|date:"SHORT_DATETIME_FORMAT" }}</time>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">{% translate "No pending invitation." %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if invitations.has_previous %}
+      <a href="?lang={{ page_language }}&amp;invitations_page={{ invitations.previous_page_number }}">{% translate "Previous invitations" %}</a>
+    {% endif %}
+    {% if invitations.has_next %}
+      <a href="?lang={{ page_language }}&amp;invitations_page={{ invitations.next_page_number }}">{% translate "Next invitations" %}</a>
+    {% endif %}
+  </section>
+{% endblock %}

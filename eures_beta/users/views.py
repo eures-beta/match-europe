@@ -42,6 +42,10 @@ def account(request):
 @require_GET
 def dashboard(request):
     with translation.override(selected_language(request)):
+        if request.user.kind == 'adviser':
+            from .invitation_views import adviser_dashboard
+
+            return adviser_dashboard(request)
         return render(request, 'users/dashboard.html')
 
 

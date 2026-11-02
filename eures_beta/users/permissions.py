@@ -5,12 +5,27 @@ from django.core.management.base import CommandError
 from django.db import transaction
 
 ACCOUNT_ADMIN_GROUP = 'account-admin'
+EMPLOYER_INVITER_GROUP = 'employer-inviters'
 
 
 def get_group_permissions():
-    from .models import User
+    from .models import User, EmployerInvitation
 
-    return {ACCOUNT_ADMIN_GROUP: {User: {'add', 'view'}}}
+    return {
+        ACCOUNT_ADMIN_GROUP: {User: {'add', 'view'}},
+        EMPLOYER_INVITER_GROUP: {EmployerInvitation: {'add', 'view'}},
+    }
+
+
+def can_manage_employers(user):
+    return bool(
+        user.is_authenticated
+        and user.is_active
+        and user.kind == 'adviser'
+        and user.has_perms(
+            ('users.add_employerinvitation', 'users.view_employerinvitation')
+        )
+    )
 
 
 def synchronize_permissions(database='default'):
@@ -54,7 +69,16 @@ def synchronize_permissions(database='default'):
                 .get_or_create(name=name)
             )
             group.permissions.set(permissions)
-            group.user_set.set(eligible)
+            members = (
+                eligible
+                if name == ACCOUNT_ADMIN_GROUP
+                else list(
+                    User.objects.using(database)
+                    .filter(kind=User.Kind.ADVISER, is_active=True)
+                    .values_list('pk', flat=True)
+                )
+            )
+            group.user_set.set(members)
             group_ids.append(group.pk)
 
         # User-administration grants have one source of truth. Do not disturb
@@ -63,7 +87,7 @@ def synchronize_permissions(database='default'):
             Permission.objects.using(database)
             .filter(
                 content_type__app_label=User._meta.app_label,
-                content_type__model=User._meta.model_name,
+                content_type__model__in=[User._meta.model_name, 'employerinvitation'],
             )
             .values_list('pk', flat=True)
         )

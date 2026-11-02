@@ -1,14 +1,54 @@
+import uuid
+from datetime import timedelta
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.functions import Lower
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 
 class LoginRateLimit(models.Model):
     key = models.CharField(max_length=40, primary_key=True)
     attempts = models.PositiveIntegerField(default=0)
     expires = models.DateTimeField(db_index=True)
+
+
+def invitation_expiry():
+    return timezone.now() + timedelta(seconds=settings.EMPLOYER_INVITATION_MAX_AGE)
+
+
+class EmployerInvitation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nonce = models.UUIDField(default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True)
+    language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
+    invited_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='sent_employer_invitations',
+    )
+    created_at = models.DateTimeField(default=timezone.now)
+    expires_at = models.DateTimeField(default=invitation_expiry)
+    accepted_at = models.DateTimeField(null=True, blank=True)
+    employer = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='employer_invitation',
+    )
+    email_sent_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(Lower('email'), name='users_invitation_email_ci')
+        ]
+
+    @property
+    def expired(self):
+        return self.expires_at <= timezone.now()
 
 
 class UserManager(BaseUserManager):
@@ -71,4 +111,14 @@ class User(AbstractUser):
             )
             if old.kind != self.kind:
                 raise ValidationError({'kind': _('The user kind cannot be changed.')})
-        return super().save(*args, **kwargs)
+        adding = self._state.adding
+        result = super().save(*args, **kwargs)
+        if adding and self.kind == self.Kind.ADVISER and self.is_active:
+            # Apply the versioned invitation role immediately to new advisers.
+            from django.contrib.auth.models import Group
+            from .permissions import EMPLOYER_INVITER_GROUP
+
+            self.groups.add(
+                *Group.objects.using(self._state.db).filter(name=EMPLOYER_INVITER_GROUP)
+            )
+        return result

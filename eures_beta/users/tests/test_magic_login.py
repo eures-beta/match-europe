@@ -150,7 +150,7 @@ class MagicLoginTests(TestCase):
 
     def test_expired_tampered_inactive_and_email_changed_tokens_are_rejected(self):
         token = get_token(self.user)
-        with patch('sesame.tokens_v2.time.time', return_value=time.time() + 901):
+        with patch('sesame.tokens_v2.time.time', return_value=time.time() + 3601):
             self.assertIsNone(get_user(token, update_last_login=False))
         self.assertIsNone(get_user(token + 'tampered', update_last_login=False))
         self.user.email = 'changed@example.invalid'

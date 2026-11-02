@@ -12,6 +12,29 @@
   margin-top: 0;
 }
 
+.account-table-scroll {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.account-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.account-table-scroll th,
+.account-table-scroll td {
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.account-table-scroll caption {
+  text-align: left;
+  padding-bottom: 12px;
+}
+
 .account-details {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);

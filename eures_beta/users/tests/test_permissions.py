@@ -182,7 +182,9 @@ class AccountAdministrationTests(TestCase):
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.has_usable_password())
-        self.assertFalse(user.groups.exists())
+        self.assertEqual(
+            list(user.groups.values_list('name', flat=True)), ['employer-inviters']
+        )
         self.assertFalse(user.user_permissions.exists())
 
     def test_add_form_has_no_role_privilege_or_password_controls(self):

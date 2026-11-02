@@ -24,8 +24,9 @@ et un conseiller staff. Aucun changement de schéma ni de droit métier.
 
 `/accounts/dashboard/` est le point d’arrivée commun après une connexion par
 lien magique, pour les employeurs, conseillers et comptes staff. La page affiche
-uniquement « Votre tableau de bord est en construction. » dans le layout commun.
-Elle ne liste ni offres ni employeurs et ne modifie pas les permissions métier.
+« Votre tableau de bord est en construction. » pour les employeurs. Pour les
+conseillers habilités, elle liste les comptes employeurs et les invitations en
+attente ; voir [les invitations](EMPLOYER_INVITATIONS.md).
 Elle exige une session active, refuse les écritures et n’est pas mise en cache.
 
 Un utilisateur déjà connecté qui ouvre la page de connexion retourne au tableau
