@@ -19,7 +19,7 @@ APPS_DIR = BASE_DIR / "eures_beta"
 # Demo access is opt-in. Existing preview environments explicitly set ME_SHARED_DEMO.
 DEMO_MODE = os.environ.get("ME_DEMO_MODE", os.environ.get("ME_SHARED_DEMO", "0")) == "1"
 SHARED_DEMO = DEMO_MODE and os.environ.get("ME_SHARED_DEMO", "0") == "1"
-LOGIN_URL = "/access/"
+LOGIN_URL = "/admin/login/"
 RUNTIME = APPS_DIR / ".runtime"
 MEDIA_ROOT = RUNTIME / "private"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 12 * 1024 * 1024
@@ -86,7 +86,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'eures_beta.views.interface',
             ],
         },
     },

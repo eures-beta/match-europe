@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.utils import timezone, translation
 
-from config.demo import ensure_demo
 from eures_beta.employers.employer_api import aglae
 from eures_beta.employers.models import EmployerImport
 from eures_beta.employers.offer_ingestion import ImportFailure
@@ -12,17 +11,6 @@ from eures_beta.employers.offer_ingestion import ImportFailure
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
 class SharedDemoTests(TestCase):
-    def test_fictional_seed_is_initialized_once_and_edits_survive_restart(self):
-        ensure_demo()
-        user = get_user_model().objects.get(username="admin@example.invalid")
-        profile = user.profile
-        profile.name = "Fictional review in progress"
-        profile.save()
-        ensure_demo()
-        profile.refresh_from_db()
-        self.assertEqual(profile.name, "Fictional review in progress")
-        self.assertEqual(get_user_model().objects.count(), 4)
-
     def test_remote_https_can_open_page_but_http_is_not_enabled(self):
         response = self.client.get(
             "/employer/pages/import-v2-fr.html",

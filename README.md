@@ -27,7 +27,6 @@ ME_LOCAL_REVIEW_ONLY=1
 make install-test
 make db-create
 make migrate
-make seed-demo
 make run
 ```
 

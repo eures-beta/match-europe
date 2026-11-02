@@ -6,20 +6,6 @@ from django.views.decorators.http import require_safe
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
-from eures_beta.accounts.access_control import identity
-
-
-def interface(request):
-    from eures_beta.demo import shared_notice
-
-    user = identity(request)
-    return {
-        'me_user': user,
-        'demo_mode': settings.DEMO_MODE,
-        'shared_demo_notice': shared_notice(),
-        'notifications': user.notifications.order_by('-created')[:8] if user else [],
-    }
-
 
 @never_cache
 @require_safe

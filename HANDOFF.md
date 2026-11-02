@@ -24,6 +24,17 @@ Note de reprise : une seule configuration Django existe désormais à la racine.
 Utiliser le Makefile et le README principal ; les anciens lanceurs autonomes
 mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
+## 2 novembre 2026 — retrait des parcours historiques `/access/`
+
+À la demande de dejafait : supprimer les quatre parcours fictifs, la connexion
+sans mot de passe et leur initialisation automatique, en conservant l’accueil
+public, le candidat à trois choix et le dépôt employeur trilingue. Migration
+ciblée des quatre identités réservées et de leur scénario, sans suppression des
+imports employeur actuels. Les migrations et modèles historiques restent pour
+la compatibilité des bases ; leurs anciennes routes n’existent plus.
+Voir [périmètre et effets sur les données](docs/LEGACY_PROTOTYPE_RETIREMENT.md).
+Cette PR ne supprime aucun compte ni aucune donnée sur un environnement distant.
+
 ## 30 octobre 2026 — navigation publique canonique
 
 Nettoyage transverse au-dessus du formatage JavaScript : les menus emploient les

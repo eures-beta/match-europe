@@ -1,7 +1,6 @@
 from django.urls import path
 from eures_beta.occupations.views import search_api
 from eures_beta.employers import (
-    views,
     employer_login,
     employer_workspace,
     employer_api,
@@ -55,5 +54,4 @@ urlpatterns = [
     path('api/imports/', employer_api.imports),
     path('api/imports/source/', employer_api.read_source),
     path('api/imports/<uuid:id>/', employer_api.imports),
-    path('imported-offers/<uuid:pk>/', views.imported_offer, name='imported_offer'),
 ]

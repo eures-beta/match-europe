@@ -25,10 +25,9 @@ class EntryPointTests(TestCase):
                 )
                 self.assertContains(response, f'<html lang="{language}"')
 
-    def test_role_access_remains_available(self):
+    def test_retired_role_access_is_unavailable(self):
         response = self.client.get("/access/")
-        self.assertTemplateUsed(response, "access.html")
-        self.assertContains(response, "bootstrap.min.css")
+        self.assertEqual(response.status_code, 404)
 
     def test_admin_requires_authentication(self):
         response = self.client.get(reverse("admin:index"))

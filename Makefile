@@ -105,15 +105,12 @@ dbshell: ## Ouvrir psql sur la base locale configurée (SQL interactif)
 collectstatic: ## Collecter les statiques dans staticfiles/
 	@$(MANAGE) collectstatic --noinput
 
-.PHONY: install-test test-local seed-demo serve db-create
+.PHONY: install-test test-local serve db-create
 install-test: ## Installer aussi les dépendances du diagnostic Push pour les tests
 	python3.14 -m venv .venv
 	.venv/bin/python -m pip install -r requirements/test.txt
 
 test-local: test ## Alias historique : tests via la configuration racine unique
-
-seed-demo: ## Initialiser les rôles fictifs manuellement (développement local)
-	@$(MANAGE) seed_demo
 
 serve: ## Tester le serveur WSGI sur loopback, avec un worker
 	@$(LOAD_ENV) "$(PYTHON)" -m gunicorn config.wsgi:application --bind "127.0.0.1:$(PORT)" --workers 1
