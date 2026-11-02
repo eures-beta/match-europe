@@ -1,3 +1,11 @@
+## 2 novembre 2026 — rafraîchissement de la PR utilisateurs sur la consolidation
+
+Rebase sur le main contenant la référence autonome c9034fd. Conservation du
+chargeur de tests historiques, isolation des vérifications de la consolidation
+avant le transfert des identités, et scénario de mise à niveau avec marqueur
+autonome. 217 tests PostgreSQL, 16 tests ciblés de migration, mise à niveau
+jetable et contrôles de qualité réussis. Aucun changement en production.
+
 ## 2 novembre 2026 — préparation du compte utilisateur unique
 
 PR de remplacement d’EmployerIdentity par users.User(AbstractUser), avec `kind`

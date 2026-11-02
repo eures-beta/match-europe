@@ -16,6 +16,7 @@ def main():
     from django.core.management import call_command
     from django.db import connections
     from django.db.migrations.executor import MigrationExecutor
+    from eures_beta.migration_history.testing import HistoricalMigrationExecutor
     from django.test.utils import override_settings
     from django.utils import timezone
     from eures_beta.users.management.commands.migrate import clear_migration_modules
@@ -40,7 +41,7 @@ def main():
         try:
             clear_migration_modules()
             with override_settings(AUTH_USER_MODEL='auth.User'):
-                executor = MigrationExecutor(database)
+                executor = HistoricalMigrationExecutor(database)
                 targets = [
                     node
                     for node in executor.loader.graph.leaf_nodes()
@@ -49,6 +50,8 @@ def main():
                 targets.append(('employers', '0001_initial'))
                 executor.migrate(targets)
                 state = executor.loader.project_state(targets).apps
+                consolidated = MigrationExecutor(database)
+                consolidated.migrate([('employers', '0001_autonomous_schema')])
                 person = (
                     state.get_model('employers', 'EmployerIdentity')
                     .objects.using('user_upgrade')

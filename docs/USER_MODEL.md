@@ -80,3 +80,13 @@ création concurrente entre vérification et suppression. Ce changement de sché
 est incompatible avec l’ancien code : prévoir une fenêtre de maintenance, et
 ne pas faire fonctionner simultanément anciennes et nouvelles instances pendant
 la bascule.
+
+## Compatibilité avec la consolidation autonome
+
+La migration utilisateur reste au-dessus de la référence
+`employers.0001_autonomous_schema`. Les tests de consolidation examinent cette
+référence avec ses modèles historiques ; ils ne supposent plus que
+EmployerIdentity soit encore un modèle actif après la transition utilisateur.
+Le scénario `make users-upgrade-test` prépare aussi le marqueur autonome avant
+de changer d’utilisateur Django. `make migrations-test` garde la couverture des
+historiques complets, partiels et du refus de supprimer des données hors scénario.
