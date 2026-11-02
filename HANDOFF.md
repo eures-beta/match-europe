@@ -42,6 +42,14 @@ mentionnés dans les notes historiques ci-dessous ont été supprimés.
 
 ## 2 novembre 2026 — retrait des parcours historiques `/access/`
 
+Second lot de la transition autonome : suppression complète de
+`eures_beta/migration_history`, des anciennes migrations de `candidates` et
+`documents`, de l'ancienne migration employeur et des tests de ces historiques.
+Le nom `employers.0001_autonomous_schema` et ses opérations restent identiques ;
+seul son attribut transitoire `replaces` est retiré. Les anciens labels sortent
+de `INSTALLED_APPS`. Le garde-fou bloque une base existante n'ayant pas appliqué
+le premier lot. Aucun déploiement effectué par cette PR.
+
 Lot distinct au sommet de la pile, demandé par dejafait : consolidation native
 des 36 migrations connectées en `employers.0001_autonomous_schema`. Sur une base
 neuve, seules les sept tables métier actuelles sont créées ; un historique
@@ -58,7 +66,7 @@ migrations restent identiques ; aucune nouvelle migration ni modification de
 données. Conserver `candidates`, `documents`, `employers` et `occupations`, qui
 servent le prototype actuel. Le déploiement est prévu après vérification du
 premier lot, sans fusion ni déploiement implicite de ce second lot.
-Voir [les archives de compatibilité](eures_beta/migration_history/README.md).
+Voir [la transition vers les migrations autonomes](docs/AUTONOMOUS_MIGRATIONS.md).
 
 À la demande de dejafait : supprimer les quatre parcours fictifs, la connexion
 sans mot de passe et leur initialisation automatique, en conservant l’accueil

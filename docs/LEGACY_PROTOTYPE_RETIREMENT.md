@@ -29,15 +29,11 @@ Après ce nettoyage, `accounts.0003` vérifie que les douze anciennes tables son
 vides. La présence d'autres données bloque leur suppression. Les migrations
 suivantes suppriment les modèles et tables Profile, AccessToken, Event,
 Candidate, Offer, Question, Match, Answer, Conversation, Message, Document et
-Notification. Les applications sans fonctionnalité actuelle gardent uniquement
-leur compatibilité de migrations et leurs tests historiques ; les anciennes
-migrations ne sont pas effacées.
-
-Les cinq paquets qui n'ont plus de fonctionnalité active (`accounts`, `offers`,
-`matching`, `conversations`, `notifications`) sont regroupés dans
-`eures_beta/migration_history/retired/`. Leurs labels Django restent identiques.
-Ce rangement, livré séparément du retrait, ne modifie ni schéma ni données.
-Voir [le rôle de ces archives](../eures_beta/migration_history/README.md).
+Notification. Ce nettoyage a été appliqué par les migrations historiques avant
+leur retrait du code. Les applications actuelles disposent maintenant d'une
+migration initiale autonome ; `migration_history` et les anciens labels de
+compatibilité sont supprimés dans un second déploiement.
+Voir [les deux étapes de transition](AUTONOMOUS_MIGRATIONS.md).
 
 Les modèles employeur actuels et les sessions Django sont conservés.
 
@@ -63,7 +59,9 @@ pas la même étape. Le PDF original n’est pas conservé par cet import.
 ## Vérifications
 
 `make test` couvre la disparition des routes même avec une ancienne session,
-les pages conservées en FR/EN/DE, les imports et accès employeur, et le nettoyage
-ciblé/idempotent des données. Les tests de migration historiques restent actifs.
-Les tests vérifient aussi la suppression des douze tables vides et le refus de
-supprimer une offre qui n'appartient pas au scénario fictif.
+les pages conservées en FR/EN/DE et les imports et accès employeur.
+`make migrations-test` vérifie une installation neuve sans anciennes tables,
+la conservation des données d'une base passée par la transition et le refus
+de la seconde version si le marqueur de la première étape est absent.
+Les tests historiques du nettoyage ont été exécutés dans le premier lot ;
+ils sont retirés avec les migrations auxquelles ils se rapportaient.

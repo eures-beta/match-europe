@@ -1,6 +1,4 @@
-"""Exercise the normal Django replacement loader on real PostgreSQL schemas."""
-
-from importlib import import_module
+"""The final schema supports fresh installs and databases transitioned earlier."""
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
@@ -13,7 +11,6 @@ from django.db.migrations.recorder import MigrationRecorder
 from django.test import TransactionTestCase
 from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
-
 from eures_beta.employers.models import (
     EmployerCompany,
     EmployerIdentity,
@@ -23,16 +20,9 @@ from eures_beta.employers.models import (
     EmployerSearchOperation,
     EmployerSearchEvent,
 )
-from eures_beta.migration_history.testing import (
-    HistoricalMigrationExecutor,
-    pre_retirement_targets,
-    restore_current_schema,
-)
 
 BASELINE = ('employers', '0001_autonomous_schema')
-BASELINE_CLASS = import_module(
-    'eures_beta.employers.migrations.' + BASELINE[1]
-).Migration
+
 CURRENT_MODELS = (
     EmployerCompany,
     EmployerIdentity,
@@ -42,6 +32,7 @@ CURRENT_MODELS = (
     EmployerSearchOperation,
     EmployerSearchEvent,
 )
+
 LEGACY_TABLES = (
     'journeys_profile',
     'journeys_accesstoken',
@@ -59,11 +50,6 @@ LEGACY_TABLES = (
 
 
 class AutonomousMigrationTests(TransactionTestCase):
-    def tearDown(self):
-        # Fixtures in deliberately incomplete historical schemas must not leak
-        # into the following test or Django's flush of current models.
-        restore_current_schema()
-
     def migrate_current(self):
         executor = MigrationExecutor(connection)
         executor.loader.check_consistent_history(connection)
@@ -77,13 +63,10 @@ class AutonomousMigrationTests(TransactionTestCase):
             self.assertIn(model._meta.db_table, tables)
 
     def test_fresh_install_creates_only_current_business_tables(self):
-        original = HistoricalMigrationExecutor(connection)
-        original.migrate([('journeys', None)])
-        original.recorder.record_unapplied(*BASELINE)
-        ContentType.objects.filter(
-            app_label__in={label for label, _ in BASELINE_CLASS.replaces}
-        ).delete()
-
+        executor = MigrationExecutor(connection)
+        executor.migrate([('employers', None)])
+        ContentType.objects.filter(app_label='employers').delete()
+        ContentType.objects.clear_cache()
         executor = MigrationExecutor(connection)
         executor.loader.check_consistent_history(connection)
         plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
@@ -107,7 +90,7 @@ class AutonomousMigrationTests(TransactionTestCase):
         self.assertFalse(get_user_model().objects.exists())
         self.assertFalse(EmployerImport.objects.exists())
 
-    def test_completed_history_records_squash_without_ddl_or_data_changes(self):
+    def test_transitioned_database_preserves_all_current_data_without_ddl(self):
         user = get_user_model().objects.create_user('operator@example.invalid')
         person = EmployerIdentity.objects.create(email='person@example.invalid')
         company = EmployerCompany.objects.create(name='Fictional workplace')
@@ -157,10 +140,9 @@ class AutonomousMigrationTests(TransactionTestCase):
         }
         saved_session = Session.objects.get(pk=session.session_key).session_data
         recorder = MigrationRecorder(connection)
-        self.assertTrue(
-            all(key in recorder.applied_migrations() for key in BASELINE_CLASS.replaces)
-        )
-        recorder.record_unapplied(*BASELINE)
+        self.assertIn(BASELINE, recorder.applied_migrations())
+        # Leftover records from the prior release are historical metadata only.
+        recorder.record_applied('journeys', '0001_initial')
 
         executor = MigrationExecutor(connection)
         executor.loader.check_consistent_history(connection)
@@ -187,67 +169,33 @@ class AutonomousMigrationTests(TransactionTestCase):
         )
         self.assertTrue(get_user_model().objects.filter(pk=user.pk).exists())
 
-    def test_partial_history_uses_original_cleanup_and_preserves_current_import(self):
-        original = HistoricalMigrationExecutor(connection)
-        original.migrate(pre_retirement_targets())
-        state = original.loader.project_state(pre_retirement_targets()).apps
-        users = {}
-        for role in ('adviser', 'employer', 'candidate', 'admin'):
-            users[role] = state.get_model('auth', 'User').objects.create(
-                username=f'{role}@example.invalid', password='!'
-            )
-            state.get_model('accounts', 'Profile').objects.create(
-                user_id=users[role].pk, role=role
-            )
-        candidate = state.get_model('candidates', 'Candidate').objects.create(
-            user_id=users['candidate'].pk
-        )
-        offer = state.get_model('offers', 'Offer').objects.create(
-            employer_id=users['employer'].pk, adviser_id=users['adviser'].pk
-        )
-        state.get_model('offers', 'Question').objects.create(
-            offer_id=offer.pk, text='Fictional question'
-        )
-        state.get_model('matching', 'Match').objects.create(
-            offer_id=offer.pk, candidate_id=candidate.pk
-        )
+    def test_cleanup_refuses_existing_database_without_transition_marker(self):
         draft = EmployerImport.objects.create(
-            adviser_id=users['adviser'].pk,
             session_key='fictional',
             email='contact@example.invalid',
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
-            data={'description': 'Preserved draft'},
+            data={'description': 'Preserve this draft'},
         )
-
-        executor = MigrationExecutor(connection)
-        executor.loader.check_consistent_history(connection)
-        self.assertNotIn(BASELINE, executor.loader.graph.nodes)
-        plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
-        self.assertIn(
-            ('accounts', '0002_remove_legacy_demo_accounts'),
-            [(m.app_label, m.name) for m, _ in plan],
-        )
-        executor.migrate(executor.loader.graph.leaf_nodes())
-        self.assert_no_legacy_tables()
-        self.assertFalse(get_user_model().objects.exists())
-        draft.refresh_from_db()
-        self.assertEqual(draft.data, {'description': 'Preserved draft'})
-        self.assertIsNone(draft.adviser_id)
-        self.assertIn(BASELINE, MigrationRecorder(connection).applied_migrations())
-
-    def test_partial_history_still_refuses_to_drop_non_scenario_data(self):
-        original = HistoricalMigrationExecutor(connection)
-        original.migrate(pre_retirement_targets())
-        state = original.loader.project_state(pre_retirement_targets()).apps
-        user = state.get_model('auth', 'User').objects.create(
-            username='other@example.invalid', password='!'
-        )
-        offer = state.get_model('offers', 'Offer').objects.create(
-            employer_id=user.pk, adviser_id=user.pk
-        )
-        with self.assertRaisesRegex(RuntimeError, 'refusing table removal'):
-            self.migrate_current()
-        self.assertTrue(
-            state.get_model('offers', 'Offer').objects.filter(pk=offer.pk).exists()
-        )
+        recorder = MigrationRecorder(connection)
+        recorder.record_unapplied(*BASELINE)
+        # Simulate an installation that only ran the pre-transition release.
+        recorder.record_applied('journeys', '0001_initial')
+        try:
+            with CaptureQueriesContext(connection) as queries:
+                with self.assertRaisesRegex(
+                    RuntimeError, 'Deploy the transition release'
+                ):
+                    self.migrate_current()
+            self.assertFalse(
+                any(
+                    q['sql'].lstrip().upper().startswith(('CREATE ', 'ALTER ', 'DROP '))
+                    for q in queries
+                )
+            )
+            draft.refresh_from_db()
+            self.assertEqual(draft.data, {'description': 'Preserve this draft'})
+            self.assertNotIn(BASELINE, recorder.applied_migrations())
+        finally:
+            # Restore the test fixture marker so Django can flush normally.
+            recorder.record_applied(*BASELINE)

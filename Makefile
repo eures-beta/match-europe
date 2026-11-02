@@ -98,7 +98,7 @@ migrations: ## Afficher l'état des migrations sans les appliquer
 
 .PHONY: migrations-test
 migrations-test: ## Tester les installations neuves et les transitions de migrations sur PostgreSQL local
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.migration_history eures_beta.employers.tests.test_autonomous_migrations eures_beta.employers.tests.test_migrations eures_beta.candidates.tests.test_migrations eures_beta.documents.tests.test_migrations --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations --noinput $(TEST_ARGS)
 
 
 superuser: ## Créer un administrateur local, interactivement

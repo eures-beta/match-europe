@@ -1,24 +1,22 @@
 # Organisation des tests
 
 `make test` découvre les tests sous `eures_beta` et `config` et exécute la suite
-PostgreSQL. `TEST_ARGS` transmet les options du lanceur Django ; le rôle local
-doit pouvoir créer une base de test.
+PostgreSQL. Chaque worktree utilise sa propre base locale de test ; le rôle doit
+pouvoir la créer. Les appels externes sont simulés.
 
-- Chaque application métier a son dossier `tests/` : comptes, employeurs,
-  candidats, offres, matching, conversations, documents et notifications.
-- `employers/tests/test_employer_*.py` : parcours employeur, établissements et accès.
-- `documents/tests/test_document_reader.py` : extraction des documents.
-- `employers/tests/test_push_test.py` : diagnostic Push, restreint au mode local.
-- `eures_beta/test_*.py` : entrées, organisation, journalisation, scénarios
-  transverses et traduction des pages.
-- `config/test_*.py` : santé, statiques, HTTPS et configuration partagée.
+- `employers/tests/` : imports, établissements, accès, données et recherche ;
+- `candidates/tests/` : accueil candidat et interactions simulées ;
+- `documents/tests/` : lecture et extraction des documents ;
+- `occupations/tests/` : catalogue métiers partagé ;
+- `eures_beta/test_*.py` : pages publiques, langues, navigation et cas transverses ;
+- `config/test_*.py` : santé, statiques, HTTPS, configuration et collecte des tests.
 
-Les tests des anciens parcours de `/access/` ont été retirés avec leur fixture
-partagée. `test_retired_prototype.py` vérifie leur absence et le maintien des
-pages actuelles ; `accounts/tests/test_retired_data.py` couvre le nettoyage ciblé
-des comptes fictifs et la conservation des imports. `employers/push_test.py`
-reste du code applicatif pour le diagnostic local, distinct des tests automatisés.
+`test_retired_prototype.py` vérifie l'absence des anciens parcours de `/access/`
+et le maintien des pages actuelles. Le diagnostic Push applicatif dans
+`employers/push_test.py` est distinct des tests automatisés.
 
-Les tests de migration vérifient sur PostgreSQL les valeurs, relations, tables
-et permissions dans les deux sens, y compris après déplacement de l’historique
-dans `migration_history`. Les appels externes sont simulés.
+`make migrations-test` exécute `employers/tests/test_autonomous_migrations.py` :
+création directe des seules tables actuelles, conservation des données, sessions
+et permissions après la transition, et refus du retrait des archives si la base
+n'a pas appliqué la première étape. Ces tests utilisent le chargeur Django normal.
+Les tests propres aux anciennes migrations ont été retirés avec ces fichiers.
