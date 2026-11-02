@@ -1,9 +1,9 @@
+from django.contrib.auth import get_user_model
 import json
 from unittest.mock import patch
 from django.test import Client, TestCase
 from eures_beta.employers.models import (
     EmployerCompany,
-    EmployerIdentity,
     EmployerImport,
     EmployerMembership,
 )
@@ -37,7 +37,7 @@ class OwnershipTests(TestCase):
             response.json()['login_url'],
             (
                 '/employer/connected/'
-                if client.session.get('employer_identity_id')
+                if client.session.get('_auth_user_id')
                 else '/employer/access/'
             ),
         )
@@ -46,13 +46,13 @@ class OwnershipTests(TestCase):
     def login(self, client, email):
         session = client.session
         if session.get('employer_verified_email') == email:
-            return EmployerIdentity.objects.get(email=email)
+            return get_user_model().objects.get(email=email)
         session['employer_email_sent_at'] = 0
         session.save()
         client.post('/employer/access/', {'email': email})
         link = client.session['employer_test_message']['link']
         client.post(link)
-        return EmployerIdentity.objects.get(email=email)
+        return get_user_model().objects.get(email=email)
 
     def attach(self):
         draft = self.create()
@@ -148,7 +148,7 @@ class OwnershipTests(TestCase):
         )
         row = EmployerImport.objects.get(pk=draft['id'])
         self.assertIsNone(row.company)
-        person = EmployerIdentity.objects.get()
+        person = get_user_model().objects.get()
         EmployerMembership.objects.create(company=company, person=person)
         self.client.post(
             '/employer/attach/', {'company': company.pk, 'import': 'ignored'}

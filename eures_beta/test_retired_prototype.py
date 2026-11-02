@@ -8,7 +8,7 @@ from django.urls import resolve, Resolver404
 class RetiredPrototypeTests(TestCase):
     def test_old_routes_are_absent_even_with_an_authenticated_or_draft_session(self):
         user = get_user_model().objects.create_user(
-            username='retired-test@example.invalid'
+            kind='adviser', email='retired-test@example.invalid'
         )
         self.client.force_login(user)
         session = self.client.session

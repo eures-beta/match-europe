@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 import json
 from copy import deepcopy
 from datetime import timedelta
@@ -8,7 +9,6 @@ from django.utils import timezone
 from django.urls import reverse
 from eures_beta.employers.models import (
     EmployerImport,
-    EmployerIdentity,
     EmployerMembership,
     EmployerCompany,
 )
@@ -25,7 +25,9 @@ from eures_beta.employers.offer_ingestion import empty_data
 )
 class WorkspaceTests(TestCase):
     def setUp(self):
-        self.person = EmployerIdentity.objects.create(email='rh1@fiction.invalid')
+        self.person = get_user_model().objects.create_user(
+            kind='employer', email='rh1@fiction.invalid'
+        )
         self.company = EmployerCompany.objects.create(name='First establishment')
         EmployerMembership.objects.create(company=self.company, person=self.person)
         self.other = EmployerCompany.objects.create(name='Other establishment')
@@ -34,8 +36,8 @@ class WorkspaceTests(TestCase):
         self.foreign = self.make_offer(self.other, title='Hidden foreign offer')
 
     def login(self, client, person):
+        client.force_login(person)
         session = client.session
-        session['employer_identity_id'] = person.pk
         session['employer_verified_email'] = person.email
         session.save()
 
@@ -96,7 +98,9 @@ class WorkspaceTests(TestCase):
         self.assertNotContains(page, self.offer.data['title'])
 
     def test_no_membership_empty_and_no_name_email_access(self):
-        outsider = EmployerIdentity.objects.create(email='contact@fiction.invalid')
+        outsider = get_user_model().objects.create_user(
+            kind='employer', email='contact@fiction.invalid'
+        )
         client = Client()
         self.login(client, outsider)
         self.assertContains(client.get('/employer/offers/'), 'Aucune offre')
@@ -245,7 +249,9 @@ class WorkspaceTests(TestCase):
         self.offer.refresh_from_db()
         self.assertEqual(self.offer.data, original)
         self.assertContains(self.client.get(self.url(offer=copy)), 'Copiée depuis')
-        colleague = EmployerIdentity.objects.create(email='rh2@fiction.invalid')
+        colleague = get_user_model().objects.create_user(
+            kind='employer', email='rh2@fiction.invalid'
+        )
         client = Client()
         self.login(client, colleague)
         self.assertEqual(client.get(self.url(offer=copy)).status_code, 404)
@@ -280,7 +286,9 @@ class WorkspaceTests(TestCase):
             self.client.get('/employer/offers/'), 'Private fictional draft'
         )
         self.assertEqual(self.client.get(self.url(offer=private)).status_code, 404)
-        colleague = EmployerIdentity.objects.create(email='rh2@fiction.invalid')
+        colleague = get_user_model().objects.create_user(
+            kind='employer', email='rh2@fiction.invalid'
+        )
         client = Client()
         self.login(client, colleague)
         EmployerMembership.objects.create(person=colleague, company=self.company)

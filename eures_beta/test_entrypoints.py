@@ -36,9 +36,9 @@ class EntryPointTests(TestCase):
     def test_native_admin_with_postgresql(self):
         self.assertEqual(connection.vendor, "postgresql")
         user = get_user_model().objects.create_superuser(
-            username="test-admin", password="fictional-test-password"
+            kind='adviser', email="test-admin", password="fictional-test-password"
         )
         self.client.force_login(user)
         response = self.client.get(reverse("admin:index"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, reverse("admin:auth_user_changelist"))
+        self.assertContains(response, reverse("admin:users_user_changelist"))

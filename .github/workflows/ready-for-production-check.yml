@@ -59,3 +59,5 @@ jobs:
         run: make check
       - name: Exécuter les tests PostgreSQL
         run: make test
+      - name: Vérifier la transition des utilisateurs sur une base locale jetable
+        run: make users-upgrade-test

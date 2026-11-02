@@ -26,7 +26,7 @@ class EmployerLoginTests(TestCase):
         self.assertEqual(
             other.session['employer_verified_email'], 'fiction@example.invalid'
         )
-        self.assertNotIn('_auth_user_id', other.session)
+        self.assertIn('_auth_user_id', other.session)
         self.client.post(url)
         self.assertNotIn('employer_verified_email', self.client.session)
         other.post('/employer/logout/')

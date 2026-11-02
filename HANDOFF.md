@@ -1,3 +1,15 @@
+## 2 novembre 2026 — préparation du compte utilisateur unique
+
+PR de remplacement d’EmployerIdentity par users.User(AbstractUser), avec `kind`
+conseiller/employeur obligatoire et immuable, e-mail unique sans casse et sessions
+Django. Les relations employeur sont transférées ; les comptes auth.User sans
+rôle connu bloquent la transition. Aucun changement d’accès public ni Brevo.
+Voir [la transition, les vérifications et la limite de retour arrière](docs/USER_MODEL.md).
+Travail sur branche dédiée, sans fusion ni écriture en production.
+Validation locale : 213 tests PostgreSQL, contrôles Django/migrations, Black,
+djLint, JavaScript et gettext réussis. Mise à niveau réelle dans une base locale
+jetable : garde-fous, conservation des données et relance des migrations vérifiés.
+
 ## 2 novembre 2026 — contenu de la page Projet
 
 Branche locale `codex/project-page` empilée sur `codex/directory-readmes` (#92,

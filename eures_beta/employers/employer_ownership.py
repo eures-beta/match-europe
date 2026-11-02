@@ -2,17 +2,16 @@
 
 from django.db.models import Q
 from eures_beta.employers.models import (
-    EmployerIdentity,
     EmployerImport,
     EmployerMembership,
 )
 
 
 def identity(request):
-    person_id = request.session.get('employer_identity_id')
-    if not person_id:
-        return None
-    return EmployerIdentity.objects.filter(pk=person_id).first()
+    user = request.user
+    if user.is_authenticated and user.is_active and user.kind == 'employer':
+        return user
+    return None
 
 
 def memberships(request):

@@ -15,3 +15,7 @@ commun et les tests de contenu trilingue dans `test_project.py`.
 
 Le journal public utilise `journal.py`, `templates/journal.html` et ses tests
 trilingues dans `test_journal.py`. Vérifier son contenu avec `make journal-test`.
+
+Les comptes conseiller et employeur partagent désormais [users/](users/), avec
+un seul modèle Django `User` et un champ `kind`. Voir [la transition et ses
+limites](../docs/USER_MODEL.md).
