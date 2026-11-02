@@ -597,3 +597,25 @@ manuel conservé. Aucun résultat fictif substitué à une erreur réseau.
 encadré contrasté avant le champ de recherche manuelle. Le message conserve son
 rôle d’alerte et est relié au champ par aria-describedby. Bloc masqué lorsqu’il
 est vide. Aucun changement de recherche, de sélection ou de sauvegarde.
+
+## 2 novembre 2026 — journal public, préparation locale
+
+Branche `codex/project-journal`, au-dessus de `codex/project-page` (#93).
+Le journal remplace l’écran d’attente de `/journal/` ; les entrées existantes
+des menus conservent cette route. Quinze entrées : treize historiques et deux
+jalons sur l’engagement des trois structures en septembre et l’arrivée des
+collègues début octobre. Priorité à leur accueil et prise en main du projet,
+sans campagne d’acquisition pendant cette période. Pas de bilan chiffré au
+2 novembre. Contenu gettext FR/EN/DE, cadre public et logos existants conservés.
+Sommaire avec ancres et cartes chronologiques, styles adaptés aux petits écrans.
+`make journal-test` vérifie les jalons, langues, liens et méthodes HTTP.
+Version et design validés par Eric le 2 novembre ; publication GitHub autorisée
+sous le titre « journal du projet », au sommet de la pile. Aucune fusion ni
+mise en production autorisée.
+
+Vérifications locales du 2 novembre : neuf tests ciblés réussis via
+`make journal-test`, contrôles Black, djLint, disposition des templates et
+traductions réussis. Rendu navigateur contrôlé à 1440 et 390 px sans débordement
+horizontal ; lien du sommaire vérifié. Ces tests de page ne nécessitent pas de
+connexion à une base ; aucune validation d’intégration PostgreSQL revendiquée.
+Base distante #93 vérifiée au commit `7c618603e45752c966dae6ac34cf0e43134d1263`.

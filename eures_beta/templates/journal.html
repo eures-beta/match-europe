@@ -1,0 +1,63 @@
+{% extends "public_base.html" %}
+{% load i18n static %}
+{% block page_title %}{% translate "Project journal" context "project journal" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <link rel="stylesheet" href="{% static 'journal.css' %}">
+  <div class="journal-page">
+    <header class="home-intro">
+      <p class="eyebrow">{% translate "Milestones and lessons learned" context "project journal" %}</p>
+      <h1>{% translate "Project journal" context "project journal" %}</h1>
+      <p class="lede">{% translate "From the first introductions to the involvement of field advisers, follow the milestones, lessons learned and choices shaping Match Europe." context "project journal" %}</p>
+    </header>
+    <div class="journal-layout">
+      <nav class="journal-summary surface-card"
+           aria-labelledby="journal-contents">
+        <h2 id="journal-contents">{% translate "On this page" context "project journal" %}</h2>
+        <ol>
+          {% for entry in entries %}
+            <li>
+              <a href="#{{ entry.id }}">
+                <span>{{ entry.date }}</span>
+                {{ entry.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ol>
+      </nav>
+      <div class="journal-timeline">
+        {% for entry in entries %}
+          <article class="journal-card surface-card"
+                   id="{{ entry.id }}"
+                   aria-labelledby="{{ entry.id }}-title">
+            <time datetime="{{ entry.datetime }}">{{ entry.date }}</time>
+            <h2 id="{{ entry.id }}-title">{{ entry.title }}</h2>
+            <section>
+              <h3>{% translate "What we observed" context "project journal" %}</h3>
+              <p>{{ entry.observed }}</p>
+            </section>
+            <section>
+              <h3>{% translate "What we decided" context "project journal" %}</h3>
+              <p>{{ entry.decided }}</p>
+            </section>
+            <section>
+              <h3>{% translate "What this changes" context "project journal" %}</h3>
+              {% if entry.changed_items %}
+                <ul>
+                  {% for item in entry.changed_items %}<li>{{ item }}</li>{% endfor %}
+                </ul>
+              {% else %}
+                <p>{{ entry.changed }}</p>
+              {% endif %}
+            </section>
+            <section class="journal-next">
+              <h3>{% translate "Next step" context "project journal" %}</h3>
+              <p>{{ entry.next }}</p>
+            </section>
+            <a class="journal-back"
+               href="#journal-contents">{% translate "Back to contents" context "project journal" %}</a>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

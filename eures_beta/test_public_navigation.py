@@ -39,13 +39,13 @@ class PublicNavigationTests(SimpleTestCase):
                     self.assertTemplateUsed(
                         response,
                         (
-                            'project.html'
-                            if route == 'project'
-                            else 'under_construction.html'
+                            {'project': 'project.html', 'journal': 'journal.html'}.get(
+                                route, 'under_construction.html'
+                            )
                         ),
                     )
                     self.assertTemplateUsed(response, 'public_base.html')
-                    if route == 'project':
+                    if route in ('project', 'journal'):
                         self.assertNotContains(response, notice)
                     else:
                         self.assertContains(response, notice)
