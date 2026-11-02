@@ -21,7 +21,8 @@ def information_page(request, section):
         'project': _('The project'),
         'journal': _('Project journal'),
     }
-    return _public_page(request, 'under_construction.html', {'title': titles[section]})
+    template = 'project.html' if section == 'project' else 'under_construction.html'
+    return _public_page(request, template, {'title': titles[section]})
 
 
 def _public_page(request, template, context=None):

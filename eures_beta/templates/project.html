@@ -1,0 +1,228 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "The project" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <div class="project-page">
+    <header class="home-intro">
+      <p class="eyebrow">{% translate "Institutional presentation" context "project page" %}</p>
+      <h1>{% translate "Match Europe" context "project page" %}</h1>
+      <p class="lede">{% translate "Connecting talent and jobs across a shared economic area" context "project page" %}</p>
+      <p>{% translate "Match Europe is a public cross-border introduction service. It relies on public employment services, explainable matching and human validation to make it easier for candidates and employers to connect across the same economic area." context "project page" %}</p>
+    </header>
+    <nav class="project-summary surface-card"
+         aria-labelledby="project-summary-title">
+      <h2 id="project-summary-title">{% translate "Contents" context "project page" %}</h2>
+      <ul>
+        <li><a href="#constat">{% translate "Observation" context "project page" %}</a></li>
+        <li><a href="#situation">{% translate "A practical situation" context "project page" %}</a></li>
+        <li><a href="#probleme-public">{% translate "The public challenge" context "project page" %}</a></li>
+        <li><a href="#acquis">{% translate "What the experiment validated" context "project page" %}</a></li>
+        <li><a href="#proposition">{% translate "Value proposition" context "project page" %}</a></li>
+        <li><a href="#fonctionnement">{% translate "How the service works" context "project page" %}</a></li>
+        <li><a href="#pilote">{% translate "A pilot across three sides" context "project page" %}</a></li>
+        <li><a href="#partenaires">{% translate "The role of partners" context "project page" %}</a></li>
+        <li><a href="#vivier">{% translate "Building the candidate pool" context "project page" %}</a></li>
+        <li><a href="#impasses">{% translate "Dead-end professional situations" context "project page" %}</a></li>
+        <li><a href="#confiance">{% translate "Conditions for trust" context "project page" %}</a></li>
+        <li><a href="#impact">{% translate "Measuring impact" context "project page" %}</a></li>
+        <li><a href="#methode">{% translate "The Startup d'Etat approach" context "project page" %}</a></li>
+        <li><a href="#partenaires-suite">{% translate "What we propose to partners" context "project page" %}</a></li>
+        <li><a href="#sources">{% translate "Sources and data still to be consolidated" context "project page" %}</a></li>
+      </ul>
+    </nav>
+    <section class="home-section" id="constat" aria-labelledby="constat-title">
+      <h2 id="constat-title">{% translate "Observation" context "project page" %}</h2>
+      <p>{% translate "The Greater Region already functions as a cross-border labour market: around 280,000 people cross a border every day for work. People with cross-border experience are looking for jobs, companies face recruitment difficulties, yet tools, vacancies and support remain largely organised at national level." context "project page" %}</p>
+      <p class="project-highlight">{% translate "The labour market already works across borders, but return-to-work pathways and introduction tools still do not fully reflect that reality." context "project page" %}</p>
+    </section>
+    <section class="home-section" id="situation" aria-labelledby="situation-title">
+      <h2 id="situation-title">{% translate "A practical situation" context "project page" %}</h2>
+      <p>{% translate "Sophie lives in Thionville and worked in Luxembourg for eight years. After a restructuring, she loses her job. Her experience could match needs in France, Luxembourg or Wallonia, but she does not always have the right channels to identify these opportunities and be introduced within a reassuring framework." context "project page" %}</p>
+      <p>{% translate "This example illustrates a typical situation. It does not refer to an identified real case." context "project page" %}</p>
+    </section>
+    <section class="home-section"
+             id="probleme-public"
+             aria-labelledby="probleme-public-title">
+      <h2 id="probleme-public-title">{% translate "The public challenge" context "project page" %}</h2>
+      <ul>
+        <li>{% translate "Identifying candidates who are genuinely interested in mobility." context "project page" %}</li>
+        <li>{% translate "Qualifying skills, constraints and expectations." context "project page" %}</li>
+        <li>{% translate "Understanding employer needs." context "project page" %}</li>
+        <li>{% translate "Building trust at the time of first contact." context "project page" %}</li>
+        <li>{% translate "Providing human support during introductions." context "project page" %}</li>
+        <li>{% translate "Coordinating public employment services." context "project page" %}</li>
+      </ul>
+    </section>
+    <section class="home-section" id="acquis" aria-labelledby="acquis-title">
+      <h2 id="acquis-title">{% translate "What the experiment validated" context "project page" %}</h2>
+      <ul>
+        <li>{% translate "Mobilising employers." context "project page" %}</li>
+        <li>{% translate "Collecting employer needs." context "project page" %}</li>
+        <li>{% translate "Identifying candidates." context "project page" %}</li>
+        <li>{% translate "Qualifying profiles." context "project page" %}</li>
+        <li>{% translate "Producing relevant matching proposals." context "project page" %}</li>
+        <li>{% translate "Organising first introductions." context "project page" %}</li>
+      </ul>
+      <p class="project-highlight">{% translate "The main obstacle is not matching. It is trust at the moment of first contact." context "project page" %}</p>
+    </section>
+    <section class="home-section"
+             id="proposition"
+             aria-labelledby="proposition-title">
+      <h2 id="proposition-title">{% translate "Value proposition" context "project page" %}</h2>
+      <div class="home-grid">
+        <article class="surface-card">
+          <h3>{% translate "Proximity of public employment services" context "project page" %}</h3>
+          <p>{% translate "Local teams present the service, explain how it works and help build trust." context "project page" %}</p>
+        </article>
+        <article class="surface-card">
+          <h3>{% translate "Explainable cross-border matching" context "project page" %}</h3>
+          <p>{% translate "Introductions may take into account occupation, key skills, languages, mobility and location, availability, working conditions, qualifications or authorisations, as well as salary expectations. Results must remain understandable and humanly validated." context "project page" %}</p>
+        </article>
+        <article class="surface-card">
+          <h3>{% translate "Human support" context "project page" %}</h3>
+          <p>{% translate "Technology facilitates introductions, but decisions and contacts remain human." context "project page" %}</p>
+        </article>
+      </div>
+    </section>
+    <section class="home-section"
+             id="fonctionnement"
+             aria-labelledby="fonctionnement-title">
+      <h2 id="fonctionnement-title">{% translate "How the service works" context "project page" %}</h2>
+      <ol>
+        <li>{% translate "Service presentation" context "project page" %}</li>
+        <li>{% translate "Registration and consent" context "project page" %}</li>
+        <li>{% translate "Qualification of the candidate or employer need" context "project page" %}</li>
+        <li>{% translate "Matching proposal" context "project page" %}</li>
+        <li>{% translate "Contact through an identified channel" context "project page" %}</li>
+        <li>{% translate "Introduction and follow-up" context "project page" %}</li>
+      </ol>
+    </section>
+    <section class="home-section" id="pilote" aria-labelledby="pilote-title">
+      <h2 id="pilote-title">{% translate "A pilot across three sides" context "project page" %}</h2>
+      <p>{% translate "The proposed pilot brings together France, Wallonia and Luxembourg. The aim is not immediate large-scale deployment, but gradual co-design in order to adapt the journey, clarify roles, progressively identify willing teams or territories, mobilise candidates, collect employer needs, test introductions and measure results." context "project page" %}</p>
+      <ul class="project-territories">
+        <li>{% translate "France" context "project page" %}</li>
+        <li>{% translate "Wallonia" context "project page" %}</li>
+        <li>{% translate "Luxembourg" context "project page" %}</li>
+      </ul>
+    </section>
+    <section class="home-section"
+             id="partenaires"
+             aria-labelledby="partenaires-title">
+      <h2 id="partenaires-title">{% translate "The role of partners" context "project page" %}</h2>
+      <p>{% translate "The first step sought is to identify, within each partner organisation, a contact person who could contribute to co-design." context "project page" %}</p>
+      <ul>
+        <li>{% translate "Clarify territorial needs." context "project page" %}</li>
+        <li>{% translate "Adapt candidate and employer journeys." context "project page" %}</li>
+        <li>{% translate "Define consent arrangements." context "project page" %}</li>
+        <li>{% translate "Identify available data and resources." context "project page" %}</li>
+        <li>{% translate "Prepare the gradual involvement of local teams." context "project page" %}</li>
+        <li>{% translate "Suggest shared indicators." context "project page" %}</li>
+        <li>{% translate "Analyse results." context "project page" %}</li>
+      </ul>
+    </section>
+    <section class="home-section" id="vivier" aria-labelledby="vivier-title">
+      <h2 id="vivier-title">{% translate "Building the candidate pool" context "project page" %}</h2>
+      <p>{% translate "An experimental horizon of around 300 qualified candidates informed about how the service works would provide enough diversity of profiles, help secure consent, produce more relevant introductions and improve responsiveness to employer needs." context "project page" %}</p>
+      <p>{% translate "This horizon is not a quota imposed on each partner." context "project page" %}</p>
+    </section>
+    <section class="home-section" id="impasses" aria-labelledby="impasses-title">
+      <h2 id="impasses-title">{% translate "Dead-end professional situations" context "project page" %}</h2>
+      <p>{% translate "The project may also help identify situations in which a plan focused on one labour market becomes durably difficult." context "project page" %}</p>
+      <ul>
+        <li>{% translate "Alert an adviser." context "project page" %}</li>
+        <li>{% translate "Propose a diagnostic review." context "project page" %}</li>
+        <li>{% translate "Identify training needs." context "project page" %}</li>
+        <li>{% translate "Suggest adjacent occupations." context "project page" %}</li>
+        <li>{% translate "Propose other geographical opportunities." context "project page" %}</li>
+        <li>{% translate "Avoid a job search that remains blocked over time." context "project page" %}</li>
+      </ul>
+      <p>{% translate "Any analysis must remain explainable, controlled, used as decision support and validated by a human." context "project page" %}</p>
+    </section>
+    <section class="home-section" id="confiance" aria-labelledby="confiance-title">
+      <h2 id="confiance-title">{% translate "Conditions for trust" context "project page" %}</h2>
+      <ul>
+        <li>{% translate "A clear institutional identity for the service." context "project page" %}</li>
+        <li>{% translate "Well-managed contact channels." context "project page" %}</li>
+        <li>{% translate "Explicit consent." context "project page" %}</li>
+        <li>{% translate "Appropriate data protection." context "project page" %}</li>
+        <li>{% translate "Defined authorisations." context "project page" %}</li>
+        <li>{% translate "Human validation of decisions and introductions." context "project page" %}</li>
+      </ul>
+      <p>{% translate "WhatsApp Business may be considered as a possible channel, without implying that it is already active." context "project page" %}</p>
+    </section>
+    <section class="home-section" id="methode" aria-labelledby="methode-title">
+      <h2 id="methode-title">{% translate "The Startup d'Etat approach" context "project page" %}</h2>
+      <ul>
+        <li>{% translate "Start from field realities." context "project page" %}</li>
+        <li>{% translate "Test quickly." context "project page" %}</li>
+        <li>{% translate "Progress through iterations." context "project page" %}</li>
+        <li>{% translate "Measure real impact." context "project page" %}</li>
+        <li>{% translate "Remain transparent." context "project page" %}</li>
+        <li>{% translate "Adjust or stop an unconvincing hypothesis." context "project page" %}</li>
+      </ul>
+    </section>
+    <section class="home-section" id="impact" aria-labelledby="impact-title">
+      <h2 id="impact-title">{% translate "Measuring impact" context "project page" %}</h2>
+      <div class="home-grid home-grid-two">
+        <article class="surface-card">
+          <h3>{% translate "Mobilisation" context "project page" %}</h3>
+          <ul>
+            <li>{% translate "Partners involved" context "project page" %}</li>
+            <li>{% translate "Contacts identified" context "project page" %}</li>
+            <li>{% translate "Local teams associated" context "project page" %}</li>
+            <li>{% translate "Candidates and employers informed" context "project page" %}</li>
+          </ul>
+        </article>
+        <article class="surface-card">
+          <h3>{% translate "Usage" context "project page" %}</h3>
+          <ul>
+            <li>{% translate "Registrations" context "project page" %}</li>
+            <li>{% translate "Qualified profiles" context "project page" %}</li>
+            <li>{% translate "Employer needs collected" context "project page" %}</li>
+            <li>{% translate "Response rate" context "project page" %}</li>
+          </ul>
+        </article>
+        <article class="surface-card">
+          <h3>{% translate "Results" context "project page" %}</h3>
+          <ul>
+            <li>{% translate "Matching proposals" context "project page" %}</li>
+            <li>{% translate "Introductions" context "project page" %}</li>
+            <li>{% translate "Interviews" context "project page" %}</li>
+            <li>{% translate "Hires" context "project page" %}</li>
+            <li>{% translate "Time between need and introduction" context "project page" %}</li>
+          </ul>
+        </article>
+        <article class="surface-card">
+          <h3>{% translate "Support" context "project page" %}</h3>
+          <ul>
+            <li>{% translate "Dead-end situations identified" context "project page" %}</li>
+            <li>{% translate "Diagnostic reviews" context "project page" %}</li>
+            <li>{% translate "Alternatives or reorientations proposed" context "project page" %}</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+    <section class="home-section"
+             id="partenaires-suite"
+             aria-labelledby="partenaires-suite-title">
+      <h2 id="partenaires-suite-title">{% translate "What we propose to partners" context "project page" %}</h2>
+      <p>{% translate "Examine together the conditions for a shared pilot, identify the contacts who could contribute to its design and gradually prepare the involvement of local teams." context "project page" %}</p>
+      <p>{% translate "Candidate and employer journeys remain the operational entry points already open in this first version." context "project page" %}</p>
+      <div class="landing-actions">
+        <a class="primary-action"
+           href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
+        <a class="secondary-action"
+           href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
+      </div>
+    </section>
+    <section class="home-section" id="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">{% translate "Sources and data still to be consolidated" context "project page" %}</h2>
+      <ul>
+        <li>{% translate "The figure of around 280,000 cross-border workers in the Greater Region is used here as a framing order of magnitude already referenced in the project." context "project page" %}</li>
+        <li>{% translate "Other contextual figures mentioned in working documents are not published in this version until they are consolidated, dated and verifiable." context "project page" %}</li>
+        <li>{% translate "This section is intended to be updated as data and publishable references are consolidated." context "project page" %}</li>
+      </ul>
+    </section>
+  </div>
+{% endblock %}

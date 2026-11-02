@@ -36,9 +36,19 @@ class PublicNavigationTests(SimpleTestCase):
                     override_settings(DEMO_MODE=False),
                 ):
                     response = self.client.get(reverse(route), {'lang': language})
-                    self.assertTemplateUsed(response, 'under_construction.html')
+                    self.assertTemplateUsed(
+                        response,
+                        (
+                            'project.html'
+                            if route == 'project'
+                            else 'under_construction.html'
+                        ),
+                    )
                     self.assertTemplateUsed(response, 'public_base.html')
-                    self.assertContains(response, notice)
+                    if route == 'project':
+                        self.assertNotContains(response, notice)
+                    else:
+                        self.assertContains(response, notice)
                     self.assertContains(response, f'<html lang="{language}">')
                     self.assertContains(response, f'href="/?lang={language}"')
                     self.assertContains(response, 'employer-partner-logos')
