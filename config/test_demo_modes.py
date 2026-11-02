@@ -9,9 +9,6 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import SimpleTestCase, TestCase, override_settings
 
-from eures_beta.candidates.models import Candidate
-from eures_beta.accounts.models import Profile
-
 
 class DemoSettingsTests(SimpleTestCase):
     def mode(self, **values):
@@ -56,15 +53,11 @@ class NonDemoTests(TestCase):
         user = get_user_model().objects.create_user(
             username="candidate@example.invalid"
         )
-        Profile.objects.create(user=user, role="candidate", verified=True)
-        Candidate.objects.create(user=user)
         self.client.force_login(user)
         self.assertEqual(self.client.get("/dashboard/").status_code, 404)
 
     def test_previous_draft_session_cannot_open_profile(self):
         user = get_user_model().objects.create_user(username="draft@example.invalid")
-        Profile.objects.create(user=user, role="candidate", verified=False)
-        Candidate.objects.create(user=user)
         session = self.client.session
         session["draft_user"] = user.pk
         session.save()

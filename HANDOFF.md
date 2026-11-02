@@ -30,10 +30,13 @@ mentionnés dans les notes historiques ci-dessous ont été supprimés.
 sans mot de passe et leur initialisation automatique, en conservant l’accueil
 public, le candidat à trois choix et le dépôt employeur trilingue. Migration
 ciblée des quatre identités réservées et de leur scénario, sans suppression des
-imports employeur actuels. Les migrations et modèles historiques restent pour
-la compatibilité des bases ; leurs anciennes routes n’existent plus.
+imports employeur actuels. Les douze anciens modèles et tables sont supprimés
+après vérification qu'aucune donnée hors scénario ne reste. Les migrations
+historiques restent pour la compatibilité des bases ; les anciennes routes
+n’existent plus.
 Voir [périmètre et effets sur les données](docs/LEGACY_PROTOTYPE_RETIREMENT.md).
-Cette PR ne supprime aucun compte ni aucune donnée sur un environnement distant.
+Aucune écriture directe en production : les migrations sont testées dans la
+base dédiée de la recette et s'appliqueront en production après fusion.
 
 ## 30 octobre 2026 — navigation publique canonique
 

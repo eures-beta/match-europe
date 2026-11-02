@@ -2,26 +2,10 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 10:51+0000\n"
+"POT-Creation-Date: 2026-11-02 11:00+0000\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: eures_beta/accounts/models.py:8
-msgid "Employer"
-msgstr "Employeur"
-
-#: eures_beta/accounts/models.py:9
-msgid "Candidate"
-msgstr "Candidat"
-
-#: eures_beta/accounts/models.py:10
-msgid "Adviser"
-msgstr "Conseiller"
-
-#: eures_beta/accounts/models.py:11
-msgid "Administrator"
-msgstr "Administrateur"
 
 #: eures_beta/candidates/templates/candidates/landing.html:8
 #: eures_beta/candidates/templates/candidates/landing.html:274
@@ -548,50 +532,6 @@ msgstr "Match Europe — notification de test"
 msgctxt "push diagnostic"
 msgid "The test works. Click to return to Match Europe."
 msgstr "Le test fonctionne. Cliquez pour revenir dans Match Europe."
-
-#: eures_beta/matching/models.py:9
-msgid "Suggested — adviser review"
-msgstr "Suggestion — à examiner par le conseiller"
-
-#: eures_beta/matching/models.py:10
-msgid "Offer proposed"
-msgstr "Offre proposée"
-
-#: eures_beta/matching/models.py:11
-msgid "Not interested"
-msgstr "Pas intéressé"
-
-#: eures_beta/matching/models.py:12
-msgid "Prequalification in progress"
-msgstr "Préqualification en cours"
-
-#: eures_beta/matching/models.py:13
-msgid "Awaiting adviser review"
-msgstr "En attente d’examen par le conseiller"
-
-#: eures_beta/matching/models.py:14
-msgid "Conversation opened"
-msgstr "Conversation ouverte"
-
-#: eures_beta/matching/models.py:15
-msgid "Clarification needed"
-msgstr "Précision nécessaire"
-
-#: eures_beta/offers/models.py:10
-msgid "Draft"
-msgstr "Brouillon"
-
-#: eures_beta/offers/models.py:11
-msgid "Awaiting email confirmation"
-msgstr "En attente de confirmation de l’e-mail"
-
-#: eures_beta/offers/models.py:12
-msgid "Validated"
-msgstr "Validée"
-
-#: eures_beta/offers/models.py:13
-msgid "Sent to matching — demonstration"
-msgstr "Transmise au matching — démonstration"
 
 #: eures_beta/templates/employer/condition_strings.html:3
 msgctxt "employer conditions"

@@ -1,3 +1,7 @@
+from eures_beta.migration_history.testing import (
+    pre_retirement_targets,
+    restore_current_schema,
+)
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
@@ -11,7 +15,7 @@ class PreservedModelMigrationTests(TransactionTestCase):
         return loader.project_state(list(loader.applied_migrations)).apps
 
     def test_rows_relations_and_permission_ids_survive_forward_and_reverse(self):
-        leaves = MigrationExecutor(connection).loader.graph.leaf_nodes()
+        leaves = pre_retirement_targets()
         old_targets = [('journeys', '0010_delete_notification'), ('documents', None)]
         try:
             old = self.migrate(old_targets)
@@ -91,4 +95,4 @@ class PreservedModelMigrationTests(TransactionTestCase):
             )
             self.assertEqual(set(connection.introspection.table_names()), tables)
         finally:
-            self.migrate(leaves)
+            restore_current_schema()

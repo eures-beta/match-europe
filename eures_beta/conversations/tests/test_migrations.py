@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
+from eures_beta.migration_history.testing import restore_current_schema
 
 
 class ConversationMigrationTests(TransactionTestCase):
@@ -131,4 +132,4 @@ class ConversationMigrationTests(TransactionTestCase):
                 .exists()
             )
         finally:
-            self.migrate(MigrationExecutor(connection).loader.graph.leaf_nodes())
+            restore_current_schema()

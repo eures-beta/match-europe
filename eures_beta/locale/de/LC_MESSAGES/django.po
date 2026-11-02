@@ -2,26 +2,10 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 10:51+0000\n"
+"POT-Creation-Date: 2026-11-02 11:00+0000\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: eures_beta/accounts/models.py:8
-msgid "Employer"
-msgstr "Arbeitgeber"
-
-#: eures_beta/accounts/models.py:9
-msgid "Candidate"
-msgstr "Bewerbende Person"
-
-#: eures_beta/accounts/models.py:10
-msgid "Adviser"
-msgstr "Beratungskraft"
-
-#: eures_beta/accounts/models.py:11
-msgid "Administrator"
-msgstr "Administration"
 
 #: eures_beta/candidates/templates/candidates/landing.html:8
 #: eures_beta/candidates/templates/candidates/landing.html:274
@@ -548,50 +532,6 @@ msgstr "Match Europe — Testbenachrichtigung"
 msgctxt "push diagnostic"
 msgid "The test works. Click to return to Match Europe."
 msgstr "Der Test funktioniert. Klicken Sie, um zu Match Europe zurückzukehren."
-
-#: eures_beta/matching/models.py:9
-msgid "Suggested — adviser review"
-msgstr "Vorschlag — Prüfung durch Beratungskraft"
-
-#: eures_beta/matching/models.py:10
-msgid "Offer proposed"
-msgstr "Stelle vorgeschlagen"
-
-#: eures_beta/matching/models.py:11
-msgid "Not interested"
-msgstr "Kein Interesse"
-
-#: eures_beta/matching/models.py:12
-msgid "Prequalification in progress"
-msgstr "Vorqualifizierung läuft"
-
-#: eures_beta/matching/models.py:13
-msgid "Awaiting adviser review"
-msgstr "Prüfung durch Beratungskraft ausstehend"
-
-#: eures_beta/matching/models.py:14
-msgid "Conversation opened"
-msgstr "Gespräch eröffnet"
-
-#: eures_beta/matching/models.py:15
-msgid "Clarification needed"
-msgstr "Klärung erforderlich"
-
-#: eures_beta/offers/models.py:10
-msgid "Draft"
-msgstr "Entwurf"
-
-#: eures_beta/offers/models.py:11
-msgid "Awaiting email confirmation"
-msgstr "E-Mail-Bestätigung ausstehend"
-
-#: eures_beta/offers/models.py:12
-msgid "Validated"
-msgstr "Bestätigt"
-
-#: eures_beta/offers/models.py:13
-msgid "Sent to matching — demonstration"
-msgstr "An Matching übermittelt — Demonstration"
 
 #: eures_beta/templates/employer/condition_strings.html:3
 msgctxt "employer conditions"

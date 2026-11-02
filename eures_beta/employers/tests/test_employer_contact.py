@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from eures_beta.accounts.models import Profile
 from eures_beta.employers.models import EmployerImport
 
 
@@ -24,12 +23,6 @@ class EmployerContactTests(TestCase):
             'unverified',
         ):
             user = User.objects.create_user(username=role + '@example.invalid')
-            Profile.objects.create(
-                user=user,
-                role='adviser' if role in ('other', 'unverified') else role,
-                verified=role != 'unverified',
-                name='Fictional ' + role,
-            )
             self.staff[role] = user
         self.contact = {
             'name': 'Fictional Contact',

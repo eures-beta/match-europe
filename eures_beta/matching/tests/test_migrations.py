@@ -1,3 +1,7 @@
+from eures_beta.migration_history.testing import (
+    pre_retirement_targets,
+    restore_current_schema,
+)
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
@@ -11,7 +15,7 @@ class DomainMigrationTests(TransactionTestCase):
         return loader.project_state(list(loader.applied_migrations)).apps
 
     def test_rows_relations_tables_and_permission_ids_survive_round_trip(self):
-        leaves = MigrationExecutor(connection).loader.graph.leaf_nodes()
+        leaves = pre_retirement_targets()
         before = [
             ('journeys', '0016_remove_employerimport_company_and_more'),
             ('matching', None),
@@ -87,4 +91,4 @@ class DomainMigrationTests(TransactionTestCase):
                     )
                 self.assertEqual(set(connection.introspection.table_names()), tables)
         finally:
-            self.migrate(leaves)
+            restore_current_schema()
