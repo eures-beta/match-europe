@@ -173,7 +173,7 @@ def confirm(request, token):
         if person is None:
             return page(request, 'invalid')
         request.session.cycle_key()
-        login(request, person, backend='django.contrib.auth.backends.ModelBackend')
+        login(request, person, backend='sesame.backends.ModelBackend')
         # Only the draft explicitly carried by this single-use link can be attached.
         request.session.pop('employer_pending_import', None)
         if link.pending_import_id:

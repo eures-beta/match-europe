@@ -17,3 +17,23 @@
   flex-direction: column;
   min-width: 0;
 }
+
+.site-header .employer-account-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  background: #d6e9ff;
+  color: #003566;
+  border: 1px solid #8cb8e8;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.site-header .employer-account-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}

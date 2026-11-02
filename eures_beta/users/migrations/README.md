@@ -8,6 +8,7 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 
 - [0001_initial.py](0001_initial.py) — Prépare et crée le compte unique après contrôle de l’ancienne table utilisateur.
 - [0002_kind_immutable.py](0002_kind_immutable.py) — Interdit le changement de kind par un déclencheur PostgreSQL.
+- [0003_loginratelimit.py](0003_loginratelimit.py) — Ajoute les compteurs temporaires des demandes de connexion, sans modifier les comptes existants.
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [README.md](README.md) — Présente ce dossier et son contenu.
 

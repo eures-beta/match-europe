@@ -11,7 +11,7 @@ class EmployerAuthTranslationTests(TestCase):
     def test_access_shell_is_shared_and_navigation_uses_the_selected_language(self):
         for language, label in (
             ('en', 'Sign in'),
-            ('fr', 'Me connecter'),
+            ('fr', 'Se connecter'),
             ('de', 'Anmelden'),
         ):
             with self.subTest(language=language):

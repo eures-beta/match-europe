@@ -168,3 +168,6 @@ registration-test: ## Vérifier la fermeture de la création autonome de comptes
 .PHONY: observability-test
 observability-test: ## Vérifier les mesures de requêtes, la confidentialité et les diagnostics de timeout
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.observability --noinput $(TEST_ARGS)
+.PHONY: login-test
+login-test: ## Tester les liens magiques, sessions, limites et inscriptions fermées
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.users.tests --noinput $(TEST_ARGS)

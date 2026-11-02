@@ -5,6 +5,12 @@ from django.db.models.functions import Lower
 from django.utils.translation import gettext_lazy as _
 
 
+class LoginRateLimit(models.Model):
+    key = models.CharField(max_length=40, primary_key=True)
+    attempts = models.PositiveIntegerField(default=0)
+    expires = models.DateTimeField(db_index=True)
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 

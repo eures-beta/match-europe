@@ -9,8 +9,4 @@
       status.textContent = status.dataset.selectionNotice;
     }),
   );
-  document.querySelector('[data-candidate-account]').addEventListener('click', () => {
-    status.hidden = false;
-    status.textContent = status.dataset.accountNotice;
-  });
 })();

@@ -143,3 +143,12 @@ champ `kind`, deux valeurs exclusives conseiller/employeur, e-mail unique sans
 distinction de casse et rôle obligatoire fixé à la création. Aucun Profile.
 EmployerIdentity est remplacé par ce compte commun ; les habilitations aux
 établissements restent distinctes. Voir [les migrations et limites](USER_MODEL.md).
+
+## 2 novembre 2026 — connexion publique sans mot de passe
+
+Demande de dejafait : bouton commun, comptes existants uniquement, lien magique et
+session de 30 jours d’inactivité. La PR dédiée utilise django-sesame, des liens
+de 15 minutes à usage unique et une confirmation POST. L’envoi SMTP reste
+désactivé en attente du raccordement e-mail ; la recette est visuelle à ce stade.
+Inscriptions fermées, invitations non implémentées. Voir [le fonctionnement
+et ses limites](MAGIC_LOGIN.md).

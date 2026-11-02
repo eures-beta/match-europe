@@ -127,7 +127,7 @@ class ConnectedEmployerTests(TestCase):
 
     def test_v2_connection_button_and_server_session_state(self):
         for lang, label in [
-            ('fr', 'Me connecter'),
+            ('fr', 'Se connecter'),
             ('en', 'Sign in'),
             ('de', 'Anmelden'),
         ]:
