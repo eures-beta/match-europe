@@ -7399,3 +7399,55 @@ msgstr "Anzahl der Datensätze anzeigen"
 
 msgid "Hide record counts"
 msgstr "Anzahl der Datensätze ausblenden"
+
+msgctxt "employer dashboard"
+msgid "Your offers"
+msgstr "Ihre Stellenangebote"
+
+msgctxt "employer dashboard"
+msgid "View your existing offers. Creating and editing offers is not available from this dashboard yet."
+msgstr "Sehen Sie Ihre bestehenden Stellenangebote ein. Das Erstellen und Bearbeiten von Stellenangeboten ist über diese Übersicht noch nicht möglich."
+
+msgctxt "employer dashboard"
+msgid "Offers you can view"
+msgstr "Einsehbare Stellenangebote"
+
+msgctxt "employer dashboard"
+msgid "Job title"
+msgstr "Stellenbezeichnung"
+
+msgctxt "employer dashboard"
+msgid "Establishment"
+msgstr "Betrieb"
+
+msgctxt "employer dashboard"
+msgid "Location"
+msgstr "Ort"
+
+msgctxt "employer dashboard"
+msgid "Last updated"
+msgstr "Zuletzt geändert"
+
+msgctxt "employer dashboard"
+msgid "Untitled offer"
+msgstr "Stellenangebot ohne Titel"
+
+msgctxt "employer dashboard"
+msgid "Not attached to an establishment"
+msgstr "Keinem Betrieb zugeordnet"
+
+msgctxt "employer dashboard"
+msgid "No offers to display yet."
+msgstr "Noch keine Stellenangebote vorhanden."
+
+msgctxt "employer dashboard"
+msgid "Offer pages"
+msgstr "Seiten der Stellenangebote"
+
+msgctxt "employer dashboard"
+msgid "Previous offers"
+msgstr "Vorherige Stellenangebote"
+
+msgctxt "employer dashboard"
+msgid "Next offers"
+msgstr "Weitere Stellenangebote"

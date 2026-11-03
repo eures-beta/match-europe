@@ -47,7 +47,9 @@ def dashboard(request):
             from .invitation_views import adviser_dashboard
 
             return adviser_dashboard(request)
-        return render(request, 'users/dashboard.html')
+        from eures_beta.employers.dashboard import employer_dashboard
+
+        return employer_dashboard(request)
 
 
 def email_ready():
