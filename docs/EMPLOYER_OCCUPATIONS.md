@@ -30,7 +30,7 @@ propositions locales. `mode=near` accepte des `excluded` répétés. Le garde co
 explicitement activé ; tailles, langues, modes et URI sont contrôlés côté serveur.
 Aucune nouvelle permission, aucun réseau ESCO à l’usage.
 
-Le JSON `EmployerImport.data.occupation` contient `title`, `language`, `version`,
+Le JSON `JobOffer.data.occupation` contient `title`, `language`, `version`,
 `uris`, `personal`, `jobs`. Le serveur reconstruit descriptions, codes et relations
 depuis le catalogue ; les libellés/codes du navigateur ne font pas autorité.
 L’objet suit les droits existants session/établissement et le contrôle de révision.

@@ -12,9 +12,9 @@ from django.test import TransactionTestCase
 from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 from eures_beta.employers.models import (
-    EmployerCompany,
-    EmployerMembership,
-    EmployerImport,
+    Company,
+    CompanyMembership,
+    JobOffer,
     EmployerEmailLink,
     EmployerSearchOperation,
     EmployerSearchEvent,
@@ -23,10 +23,10 @@ from eures_beta.employers.models import (
 BASELINE = ('employers', '0001_autonomous_schema')
 
 CURRENT_MODELS = (
-    EmployerCompany,
+    Company,
     get_user_model(),
-    EmployerMembership,
-    EmployerImport,
+    CompanyMembership,
+    JobOffer,
     EmployerEmailLink,
     EmployerSearchOperation,
     EmployerSearchEvent,
@@ -71,9 +71,9 @@ class AutonomousMigrationTests(TransactionTestCase):
         person = get_user_model().objects.create_user(
             'person@example.invalid', kind='employer'
         )
-        company = EmployerCompany.objects.create(name='Fictional workplace')
-        EmployerMembership.objects.create(company=company, person=person)
-        draft = EmployerImport.objects.create(
+        company = Company.objects.create(name='Fictional workplace')
+        CompanyMembership.objects.create(company=company, person=person)
+        draft = JobOffer.objects.create(
             company=company,
             created_by=person,
             adviser=user,
@@ -100,10 +100,10 @@ class AutonomousMigrationTests(TransactionTestCase):
         EmployerSearchEvent.objects.create(
             operation=operation, actor=person, state='started'
         )
-        content_type = ContentType.objects.get_for_model(EmployerImport)
+        content_type = ContentType.objects.get_for_model(JobOffer)
         permission, _ = Permission.objects.get_or_create(
             content_type=content_type,
-            codename='view_employerimport',
+            codename='view_joboffer',
             defaults={'name': 'Fictional permission'},
         )
         user.user_permissions.add(permission)

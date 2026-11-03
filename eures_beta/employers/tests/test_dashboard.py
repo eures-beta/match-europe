@@ -4,9 +4,9 @@ from django.urls import reverse
 from django.utils import timezone
 
 from eures_beta.employers.models import (
-    EmployerCompany,
-    EmployerImport,
-    EmployerMembership,
+    Company,
+    JobOffer,
+    CompanyMembership,
 )
 
 User = get_user_model()
@@ -20,14 +20,14 @@ class EmployerDashboardTests(TestCase):
         self.other = User.objects.create_user(
             email='other@example.invalid', kind='employer'
         )
-        self.company = EmployerCompany.objects.create(name='Shared fictional workspace')
-        self.member = EmployerMembership.objects.create(
+        self.company = Company.objects.create(name='Shared fictional workspace')
+        self.member = CompanyMembership.objects.create(
             person=self.employer, company=self.company
         )
         self.client.force_login(self.employer)
 
     def offer(self, title, **fields):
-        return EmployerImport.objects.create(
+        return JobOffer.objects.create(
             email=self.employer.email,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
@@ -38,7 +38,7 @@ class EmployerDashboardTests(TestCase):
     def test_only_active_workspaces_and_own_private_drafts_are_visible(self):
         shared = self.offer('Shared offer', company=self.company, created_by=self.other)
         own = self.offer('My private draft', created_by=self.employer)
-        other_company = EmployerCompany.objects.create(name='Private other workspace')
+        other_company = Company.objects.create(name='Private other workspace')
         self.offer(
             'Other company secret', company=other_company, created_by=self.employer
         )
@@ -60,7 +60,7 @@ class EmployerDashboardTests(TestCase):
         self.assertEqual(list(response.context['offers']), [own])
 
     def test_contact_email_and_query_parameters_do_not_grant_access(self):
-        company = EmployerCompany.objects.create(name='Unrelated workspace')
+        company = Company.objects.create(name='Unrelated workspace')
         self.offer(
             'Secret with matching contact', company=company, created_by=self.other
         )
@@ -85,7 +85,7 @@ class EmployerDashboardTests(TestCase):
 
     def test_read_only_dashboard_has_no_edit_links_and_rejects_writes(self):
         offer = self.offer('Existing offer', company=self.company)
-        before = EmployerImport.objects.values().get(pk=offer.pk)
+        before = JobOffer.objects.values().get(pk=offer.pk)
         response = self.client.get(reverse('dashboard'))
         self.assertIn('no-store', response['Cache-Control'])
         self.assertNotContains(response, str(offer.pk))
@@ -97,7 +97,7 @@ class EmployerDashboardTests(TestCase):
                 ).status_code,
                 405,
             )
-        self.assertEqual(before, EmployerImport.objects.values().get(pk=offer.pk))
+        self.assertEqual(before, JobOffer.objects.values().get(pk=offer.pk))
 
     def test_pagination_preserves_language_and_stable_order(self):
         offers = [self.offer(f'Offer {i}', company=self.company) for i in range(26)]

@@ -38,7 +38,7 @@ l’écrasement silencieux des corrections faites par deux collègues.
 
 Migration additive `0006` uniquement : identités, établissements, appartenances,
 références du propriétaire/créateur et brouillon porté par le lien. Le modèle
-`EmployerCompany` conserve son nom technique mais représente l’établissement.
+`Company` conserve son nom technique mais représente l’établissement.
 Aucune migration d’identification officielle ni de rapprochement des données.
 Les anciens imports non attribués conservent leur accès par session.
 
@@ -66,3 +66,29 @@ choix multiple obligatoire et absence de droits par homonymie. Contrôle Django 
 erreur, migrations cohérentes, traductions compilées et diff vérifié.
 Le parcours simplifié a aussi été contrôlé visuellement dans la recette locale
 intégrée ; ce contrôle ne vaut pas audit complet d’accessibilité ou de marque.
+## Renommage des modèles
+
+`Company`, `CompanyMembership` et `JobOffer` remplacent respectivement
+`EmployerCompany`, `EmployerMembership` et `EmployerImport`. Il s’agit des mêmes
+objets, sans nouveau champ, changement d’habilitation ou logique de publication.
+`Company` reste un espace employeur non vérifié juridiquement.
+
+La migration `0003_rename_employer_models` modifie l’état Django sans modifier
+les tables physiques `journeys_employercompany`, `journeys_employermembership`
+et `journeys_employerimport`. Les relations, identifiants, champs JSON et données
+existantes sont conservés, y compris les relations des trois autres modèles
+employeur. Les identifiants des ContentType et permissions restent identiques ;
+leurs noms et codenames sont adaptés en place pour préserver groupes, droits
+directs et journal admin. Un conflit de métadonnées bloque la migration plutôt
+que de fusionner ou supprimer silencieusement des données. Le retour arrière
+rétablit les anciens noms sans supprimer les objets.
+
+Les noms Python des modèles et les URLs admin générées changent ; adapter les
+imports et scripts externes éventuels. Les routes métier, champs `person`,
+`pending_import`, `created_imports` et autres noms de relations restent inchangés.
+Les migrations historiques et les tests qui construisent un ancien schéma
+conservent volontairement leurs noms historiques. Aucun alias Python permanent.
+
+Vérifications : `make migrations-test` teste la conservation des données et des
+droits dans les deux sens ; `make users-upgrade-test` vérifie la mise à niveau
+depuis l’ancien schéma utilisateur. Ne pas appliquer de renommage SQL manuel.

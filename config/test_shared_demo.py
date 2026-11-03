@@ -5,7 +5,7 @@ from django.test import Client, TestCase, override_settings
 from django.utils import timezone, translation
 
 from eures_beta.employers.employer_api import aglae
-from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.models import JobOffer
 from eures_beta.employers.offer_ingestion import ImportFailure
 
 
@@ -43,7 +43,7 @@ class SharedDemoTests(TestCase):
     def test_drafts_remain_owned_by_their_browser_session(self):
         session = self.client.session
         session.save()
-        draft = EmployerImport.objects.create(
+        draft = JobOffer.objects.create(
             session_key=session.session_key,
             email="fictional@example.invalid",
             source_kind="manual",

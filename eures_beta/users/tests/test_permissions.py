@@ -74,7 +74,7 @@ class VersionedPermissionTests(TestCase):
         self.adviser.groups.add(rogue)
         self.adviser.user_permissions.add(self.permission('add'))
         unrelated = Permission.objects.get(
-            content_type__app_label='employers', codename='view_employerimport'
+            content_type__app_label='employers', codename='view_joboffer'
         )
         rogue.permissions.add(unrelated)
         self.adviser.user_permissions.add(unrelated)

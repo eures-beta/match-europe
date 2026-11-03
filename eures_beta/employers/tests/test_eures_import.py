@@ -225,7 +225,7 @@ class EuresSourceReviewTests(TestCase):
     def test_public_import_prepares_a_review_without_saving_an_offer(
         self, fetch, target
     ):
-        from eures_beta.employers.models import EmployerImport
+        from eures_beta.employers.models import JobOffer
 
         fetch.return_value = (json.dumps(vacancy()), API)
         refused = self.client.post('/api/imports/source/', {'url': URL}, secure=True)
@@ -244,4 +244,4 @@ class EuresSourceReviewTests(TestCase):
         self.assertEqual(
             self.client.session['pending_offer_source']['data'], result['data']
         )
-        self.assertFalse(EmployerImport.objects.exists())
+        self.assertFalse(JobOffer.objects.exists())

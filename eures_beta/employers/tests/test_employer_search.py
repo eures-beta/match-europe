@@ -6,8 +6,8 @@ from unittest.mock import patch
 from django.db import close_old_connections
 from django.test import Client, TestCase, TransactionTestCase
 from eures_beta.employers.models import (
-    EmployerImport,
-    EmployerMembership,
+    JobOffer,
+    CompanyMembership,
     EmployerSearchOperation,
     EmployerSearchEvent,
 )
@@ -65,7 +65,7 @@ class SearchTests(SearchSetup, TestCase):
                 ).status_code,
                 302,
             )
-            copy = EmployerImport.objects.get(duplicated_from=self.offer)
+            copy = JobOffer.objects.get(duplicated_from=self.offer)
             self.assertIsNone(copy.search_started_at)
             self.assertFalse(copy.search_operations.exists())
             external.assert_not_called()
@@ -167,7 +167,7 @@ class SearchTests(SearchSetup, TestCase):
                 ).status_code,
                 404,
             )
-        EmployerMembership.objects.filter(person=self.person).update(active=False)
+        CompanyMembership.objects.filter(person=self.person).update(active=False)
         self.assertEqual(self.launch().status_code, 404)
         self.assertEqual(
             self.client.post(self.url('employer_search_check')).status_code, 404
@@ -175,7 +175,7 @@ class SearchTests(SearchSetup, TestCase):
         self.client.session.flush()
         anon = Client()
         self.assertEqual(self.launch(client=anon).status_code, 302)
-        EmployerMembership.objects.filter(person=self.person).update(active=True)
+        CompanyMembership.objects.filter(person=self.person).update(active=True)
         self.client = Client()
         self.login(self.client, self.person)
         for changes in (
@@ -207,7 +207,7 @@ class SearchConcurrencyTests(SearchSetup, TransactionTestCase):
         colleague = get_user_model().objects.create_user(
             kind='employer', email='rh2@fiction.invalid'
         )
-        EmployerMembership.objects.create(person=colleague, company=self.company)
+        CompanyMembership.objects.create(person=colleague, company=self.company)
         clients = [Client(), Client()]
         self.login(clients[0], self.person)
         self.login(clients[1], colleague)

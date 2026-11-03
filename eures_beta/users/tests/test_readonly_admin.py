@@ -14,9 +14,9 @@ from io import StringIO
 from eures_beta.users.models import User, EmployerInvitation, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.employers.models import (
-    EmployerCompany,
-    EmployerMembership,
-    EmployerImport,
+    Company,
+    CompanyMembership,
+    JobOffer,
     EmployerEmailLink,
     EmployerSearchOperation,
     EmployerSearchEvent,
@@ -34,11 +34,11 @@ class ReadOnlyAdminTests(TestCase):
         self.employer = User.objects.create_user(
             'employer@example.invalid', kind='employer'
         )
-        self.company = EmployerCompany.objects.create(name='Fictional company')
-        self.membership = EmployerMembership.objects.create(
+        self.company = Company.objects.create(name='Fictional company')
+        self.membership = CompanyMembership.objects.create(
             company=self.company, person=self.employer
         )
-        self.offer = EmployerImport.objects.create(
+        self.offer = JobOffer.objects.create(
             company=self.company,
             created_by=self.employer,
             session_key='never-show-session-key',

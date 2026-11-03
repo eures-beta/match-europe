@@ -5,9 +5,9 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 from datetime import timedelta
 from eures_beta.employers.models import (
-    EmployerCompany,
-    EmployerImport,
-    EmployerMembership,
+    Company,
+    JobOffer,
+    CompanyMembership,
 )
 from eures_beta.employers.tests.test_employer_ownership import OwnershipTests
 
@@ -39,9 +39,9 @@ class ConnectedEmployerTests(TestCase):
 
     def test_access_without_offer_and_languages(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
-        company = EmployerCompany.objects.create(name='Allowed establishment')
-        EmployerMembership.objects.create(person=person, company=company)
-        EmployerCompany.objects.create(name='Hidden establishment')
+        company = Company.objects.create(name='Allowed establishment')
+        CompanyMembership.objects.create(person=person, company=company)
+        Company.objects.create(name='Hidden establishment')
         for lang, label in [
             ('fr', 'Ajouter une offre'),
             ('en', 'Add an offer'),
@@ -51,7 +51,7 @@ class ConnectedEmployerTests(TestCase):
             self.assertContains(page, label)
             self.assertContains(page, company.name)
             self.assertNotContains(page, 'Hidden establishment')
-        self.assertEqual(EmployerImport.objects.count(), 0)
+        self.assertEqual(JobOffer.objects.count(), 0)
         self.assertRedirects(
             self.client.get('/employer/access/'), '/employer/connected/'
         )
@@ -60,14 +60,14 @@ class ConnectedEmployerTests(TestCase):
     @patch('eures_beta.employers.employer_api.geocode')
     def test_valid_session_and_distinct_contact(self, geo, api):
         person = self.login(self.client, 'rh1@entreprise.invalid')
-        company = EmployerCompany.objects.create(name='Allowed establishment')
-        EmployerMembership.objects.create(person=person, company=company)
+        company = Company.objects.create(name='Allowed establishment')
+        CompanyMembership.objects.create(person=person, company=company)
         key = self.client.session.session_key
         response = self.submit()
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json()['login_url'], '/accounts/dashboard/')
         self.assertEqual(key, self.client.session.session_key)
-        draft = EmployerImport.objects.get()
+        draft = JobOffer.objects.get()
         self.assertEqual(draft.created_by, person)
         self.assertEqual(draft.contact['email'], 'adviser@fiction.invalid')
         self.client.post('/employer/attach/', {'company': company.pk})
@@ -80,11 +80,11 @@ class ConnectedEmployerTests(TestCase):
     def test_multiple_establishments_and_forbidden_choice(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         companies = [
-            EmployerCompany.objects.create(name=name)
+            Company.objects.create(name=name)
             for name in ['First', 'Second', 'Forbidden']
         ]
         for company in companies[:2]:
-            EmployerMembership.objects.create(person=person, company=company)
+            CompanyMembership.objects.create(person=person, company=company)
         self.submit()
         self.assertContains(
             self.client.get('/employer/connected/'), 'id="establishment-choice"'
@@ -93,9 +93,9 @@ class ConnectedEmployerTests(TestCase):
             self.assertEqual(
                 self.client.post('/employer/attach/', payload).status_code, 404
             )
-            self.assertIsNone(EmployerImport.objects.get().company)
+            self.assertIsNone(JobOffer.objects.get().company)
         self.client.post('/employer/attach/', {'company': companies[1].pk})
-        self.assertEqual(EmployerImport.objects.get().company, companies[1])
+        self.assertEqual(JobOffer.objects.get().company, companies[1])
 
     def test_expired_session_cannot_create_a_draft(self):
         self.login(self.client, 'rh1@entreprise.invalid')
@@ -104,15 +104,15 @@ class ConnectedEmployerTests(TestCase):
         )
         response = self.submit()
         self.assertEqual(response.status_code, 403)
-        self.assertFalse(EmployerImport.objects.exists())
+        self.assertFalse(JobOffer.objects.exists())
 
     def test_no_membership_and_revocation(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(
             self.client.get('/employer/connected/'), 'Vous n’êtes encore'
         )
-        company = EmployerCompany.objects.create(name='Revoked')
-        EmployerMembership.objects.create(person=person, company=company, active=False)
+        company = Company.objects.create(name='Revoked')
+        CompanyMembership.objects.create(person=person, company=company, active=False)
         self.submit()
         self.assertEqual(
             self.client.post('/employer/attach/', {'company': company.pk}).status_code,
@@ -146,4 +146,4 @@ class ConnectedEmployerTests(TestCase):
         )
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.json()['error'], 'employer_account_required')
-        self.assertFalse(EmployerImport.objects.exists())
+        self.assertFalse(JobOffer.objects.exists())

@@ -6,8 +6,8 @@ from django.test import TestCase, Client
 from django.utils import timezone
 from eures_beta.employers.models import (
     EmployerEmailLink,
-    EmployerCompany,
-    EmployerMembership,
+    Company,
+    CompanyMembership,
 )
 
 
@@ -40,8 +40,8 @@ class ClosedRegistrationTests(TestCase):
             )
         self.assertEqual(get_user_model().objects.count(), 0)
         self.assertEqual(EmployerEmailLink.objects.count(), 0)
-        self.assertEqual(EmployerCompany.objects.count(), 0)
-        self.assertEqual(EmployerMembership.objects.count(), 0)
+        self.assertEqual(Company.objects.count(), 0)
+        self.assertEqual(CompanyMembership.objects.count(), 0)
 
     def test_previously_issued_link_cannot_create_a_user(self):
         token = 'fictional-old-connection-token'

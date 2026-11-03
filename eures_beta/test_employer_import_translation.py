@@ -5,7 +5,7 @@ from django.test import TestCase, override_settings
 
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
-class EmployerImportTranslationTests(TestCase):
+class JobOfferTranslationTests(TestCase):
     page = "import"
 
     def setUp(self):
@@ -53,5 +53,5 @@ class EmployerImportTranslationTests(TestCase):
                 self.assertNotIn('{%', html)
 
 
-class EmployerImportV2TranslationTests(EmployerImportTranslationTests):
+class JobOfferV2TranslationTests(JobOfferTranslationTests):
     page = "import-v2"

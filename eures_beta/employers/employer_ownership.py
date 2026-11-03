@@ -2,8 +2,8 @@
 
 from django.db.models import Q
 from eures_beta.employers.models import (
-    EmployerImport,
-    EmployerMembership,
+    JobOffer,
+    CompanyMembership,
 )
 
 
@@ -17,9 +17,9 @@ def identity(request):
 def memberships(request):
     person = identity(request)
     return (
-        EmployerMembership.objects.filter(person=person, active=True)
+        CompanyMembership.objects.filter(person=person, active=True)
         if person
-        else EmployerMembership.objects.none()
+        else CompanyMembership.objects.none()
     )
 
 
@@ -36,4 +36,4 @@ def accessible_imports(request):
             created_by__isnull=True,
             session_key=request.session.session_key,
         )
-    return EmployerImport.objects.filter(allowed)
+    return JobOffer.objects.filter(allowed)

@@ -3,7 +3,7 @@ from unittest.mock import patch
 from django.test import TestCase, SimpleTestCase, Client
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
-from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.models import JobOffer
 from eures_beta.employers.offer_ingestion import (
     parse_page,
     public_target,
@@ -336,7 +336,7 @@ class ImportFlowTests(TestCase):
         response = self.create()
         self.assertEqual(response.status_code, 201)
         obj = response.json()
-        self.assertTrue(EmployerImport.objects.filter(pk=obj['id']).exists())
+        self.assertTrue(JobOffer.objects.filter(pk=obj['id']).exists())
         self.assertEqual(
             self.client.get('/api/imports/' + obj['id'] + '/').status_code, 200
         )
@@ -368,7 +368,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(summary['stage'], 'review')
         self.assertEqual(summary['data']['title'], 'Original title')
         self.assertNotIn('id', summary)
-        self.assertEqual(EmployerImport.objects.count(), 0)
+        self.assertEqual(JobOffer.objects.count(), 0)
         payload = {
             'kind': 'pdf',
             'agreement': 'true',
@@ -398,7 +398,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(
             result.json()['data']['description'], 'Fictional manual offer.'
         )
-        self.assertEqual(EmployerImport.objects.count(), 0)
+        self.assertEqual(JobOffer.objects.count(), 0)
         self.assertEqual(
             self.client.post(
                 '/api/imports/source/',
@@ -423,7 +423,7 @@ class ImportFlowTests(TestCase):
         resumed = self.client.get('/api/imports/' + created['id'] + '/').json()
         self.assertEqual(resumed['data']['requirements'], req)
         self.assertEqual(
-            EmployerImport.objects.get(pk=created['id']).data['requirements'], req
+            JobOffer.objects.get(pk=created['id']).data['requirements'], req
         )
 
     def test_consent_required_before_reading(self):
@@ -496,7 +496,7 @@ class ImportFlowTests(TestCase):
             {'url': 'https://example.org/blocked', 'agreement': 'true'},
         )
         self.assertEqual(r.status_code, 400)
-        self.assertEqual(EmployerImport.objects.count(), 0)
+        self.assertEqual(JobOffer.objects.count(), 0)
 
     def test_preflight_cannot_be_reused_for_another_source(self):
         session = self.client.session
@@ -536,7 +536,7 @@ class ImportFlowTests(TestCase):
             },
         )
         self.assertEqual(first.status_code, 200)
-        self.assertEqual(EmployerImport.objects.count(), 0)
+        self.assertEqual(JobOffer.objects.count(), 0)
         payload = {
             'kind': 'pdf',
             'agreement': 'true',
@@ -571,7 +571,7 @@ class ImportFlowTests(TestCase):
         )
         response = self.client.post('/api/imports/source/', payload)
         self.assertEqual(response.json()['error'], 'unreadable')
-        self.assertEqual(EmployerImport.objects.count(), 0)
+        self.assertEqual(JobOffer.objects.count(), 0)
 
     @patch(
         'eures_beta.employers.employer_api.read_pdf',
@@ -640,9 +640,7 @@ class ImportFlowTests(TestCase):
     )
     def test_validation_sends_only_inactive_offer_and_questions(self, geo, api):
         obj = self.create().json()
-        EmployerImport.objects.filter(pk=obj['id']).update(
-            initial_sent_at=timezone.now()
-        )
+        JobOffer.objects.filter(pk=obj['id']).update(initial_sent_at=timezone.now())
         obj['data']['questions'] = [{'question': 'Available when?', 'mandatory': True}]
         api.side_effect = [
             {},
@@ -677,12 +675,10 @@ class ImportFlowTests(TestCase):
     def test_failed_sync_keeps_corrections_without_success(self, geo, api):
         obj = self.create().json()
         obj = self.update(obj, 'locate').json()
-        EmployerImport.objects.filter(pk=obj['id']).update(
-            initial_sent_at=timezone.now()
-        )
+        JobOffer.objects.filter(pk=obj['id']).update(initial_sent_at=timezone.now())
         r = self.update(obj, 'validate', confirmed=True, locationConfirmed=True)
         self.assertEqual(r.status_code, 502)
-        row = EmployerImport.objects.get(pk=obj['id'])
+        row = JobOffer.objects.get(pk=obj['id'])
         self.assertEqual(row.data['title'], 'Example role')
         self.assertIsNone(row.synced_at)
 

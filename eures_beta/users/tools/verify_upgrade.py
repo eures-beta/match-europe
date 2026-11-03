@@ -159,8 +159,8 @@ def main():
             )
             from eures_beta.users.models import User
             from eures_beta.employers.models import (
-                EmployerImport,
-                EmployerMembership,
+                JobOffer,
+                CompanyMembership,
                 EmployerSearchOperation,
                 EmployerSearchEvent,
             )
@@ -170,14 +170,11 @@ def main():
             )
             assert user.kind == 'employer' and not user.has_usable_password()
             assert (
-                EmployerMembership.objects.using('user_upgrade').get().person_id
+                CompanyMembership.objects.using('user_upgrade').get().person_id
                 == user.pk
             )
-            assert (
-                EmployerImport.objects.using('user_upgrade').get().created_by_id
-                == user.pk
-            )
-            assert EmployerImport.objects.using('user_upgrade').get().data == {
+            assert JobOffer.objects.using('user_upgrade').get().created_by_id == user.pk
+            assert JobOffer.objects.using('user_upgrade').get().data == {
                 'description': 'Preserved fictional offer'
             }
             assert (

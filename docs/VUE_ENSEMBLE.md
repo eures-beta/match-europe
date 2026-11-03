@@ -38,7 +38,7 @@ Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas q
 
 ## Organisation actuelle du code
 
-- `employers` : sept modèles, établissements, imports, accès et parcours employeur ;
+- `employers` : six modèles, dont `Company`, `CompanyMembership` et `JobOffer`, pour les espaces employeurs, leurs membres et leurs offres ;
 - `candidates` : accueil candidat et ses trois entrées simulées, sans modèle ;
 - `documents` : lecture et extraction PDF, sans ancien modèle de fichier stocké ;
 - `occupations` : catalogue métiers partagé ;
@@ -58,7 +58,7 @@ Les pages employeur consolidées utilisent les templates Django et les catalogue
 gettext plutôt que trois copies HTML par langue. Voir [les pages concernées et les limites restantes](EMPLOYER_TRANSLATIONS.md).
 
 - Le scénario de démonstration relie offre, candidat, préqualification, double accord et conversation à trois avec des données fictives.
-- Le parcours employeur d’import possède ses propres brouillons et objets `EmployerImport`. Leur affichage aux conseillers/admins ne les convertit pas en `Offer` et ne lance pas le matching.
+- Le parcours employeur d’import possède ses propres brouillons et objets `JobOffer`. Leur affichage aux conseillers/admins ne les convertit pas en `Offer` et ne lance pas le matching.
 - Le scénario initial simule les services externes. Le nouveau parcours employeur peut lire des sources publiques, géocoder et envoyer/relire une offre inactive dans AGLAE sandbox lorsque configuré. Ne pas résumer tous les parcours comme entièrement simulés.
 - E-mails réels, intégration complète, habilitations de production et conformité complète ne sont pas acquis.
 
