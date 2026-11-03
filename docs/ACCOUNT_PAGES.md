@@ -50,3 +50,11 @@ Aucun nouveau modèle, migration ou stockage métier. La route reste privée,
 GET uniquement et sans cache ; les sessions existantes restent inchangées.
 Le texte des offres est échappé, jamais interprété comme HTML.
 Tests : `make test` (dont `employers/tests/test_dashboard.py`).
+## Importer une offre depuis le tableau employeur
+
+Le tableau employeur propose le bouton « Importer mon offre d’emploi », identique
+à celui de la page publique employeur grâce au fragment commun
+`includes/employer_import_button.html`. Il reste visible avec ou sans offre et
+ouvre le parcours existant dans la langue courante. Les contrôles d’accès du
+parcours d’import restent inchangés. Le tableau conseiller n’est pas modifié.
+Le texte qui annonçait la création indisponible est remplacé en FR/EN/DE.
