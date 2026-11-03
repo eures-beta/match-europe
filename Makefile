@@ -217,3 +217,7 @@ candidate-run: ## Ouvrir la recette candidat locale sur le port 9031 (données f
 	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9031"
 candidate-test: ## Tester le questionnaire candidat sur PostgreSQL
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.candidates --noinput $(TEST_ARGS)
+
+.PHONY: occupations-ui-test
+occupations-ui-test: ## Tester la recherche métier du navigateur, ses erreurs et son délai limite
+	node --test eures_beta/occupations/test_picker.cjs
