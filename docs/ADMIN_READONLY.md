@@ -76,9 +76,13 @@ les interactions et leur mémorisation.
 
 Sur l’accueil de l’administration, « Afficher les nombres d’enregistrements »
 ajoute un total entre parenthèses à chaque modèle visible, y compris zéro.
-Le lien « Masquer » revient à l’affichage habituel. L’activation reste uniquement
-dans l’URL (`model_counts=1`), sans cookie, préférence persistante ou nouvelle
-donnée en base. Sans ce paramètre exact, aucun comptage supplémentaire.
+Le lien « Masquer » revient à l’affichage habituel. Le choix est mémorisé dans
+la session Django : `model_counts=1` active les compteurs et `model_counts=0`
+les désactive. Sans paramètre, le dernier choix de cette session est conservé ;
+les autres valeurs sont ignorées. Par défaut et après déconnexion, les compteurs
+sont désactivés. La préférence n’est pas partagée entre appareils ou sessions.
+Seul ce booléen est ajouté à la session existante en base, sans nouveau modèle,
+nouveau cookie ni modification des données métier.
 
 Chaque nombre est calculé avec le queryset du ModelAdmin et ses permissions :
 un administrateur limité aux conseillers voit seulement leur nombre, pas tous
