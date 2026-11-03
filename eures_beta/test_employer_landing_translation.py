@@ -40,7 +40,9 @@ class EmployerLandingTranslationTests(TestCase):
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, heading)
                 self.assertContains(response, skip)
-                self.assertContains(response, f'href="import-{language}.html"')
+                self.assertContains(
+                    response, f'href="/employer/pages/import-{language}.html"'
+                )
                 import_response = self.client.get(
                     f'/employer/pages/import-{language}.html', secure=True
                 )

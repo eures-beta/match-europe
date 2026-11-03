@@ -277,10 +277,7 @@
             <div class="kicker">{% translate "Employer journey" context "employer landing" %}</div>
             <h1>{% translate "Make recruitment easier through European mobility" context "employer landing" %}</h1>
             <p class="lede">{% translate "Already written your job offer? Import a PDF or add the link to your advert to prepare and save your recruitment needs." context "employer landing" %}</p>
-            <div class="landing-actions">
-              <a class="primary-action"
-                 href="import-{{ page_language }}.html">{% translate "Import my job offer" context "employer landing" %}</a>
-            </div>
+            <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
           </div>
           <section class="candidate-message">
             <h2>{% translate "Your offer is read, then checked with you" context "employer landing" %}</h2>

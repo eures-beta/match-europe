@@ -7405,8 +7405,8 @@ msgid "Your offers"
 msgstr "Vos offres"
 
 msgctxt "employer dashboard"
-msgid "View your existing offers. Creating and editing offers is not available from this dashboard yet."
-msgstr "Consultez vos offres existantes. La création et la modification d’offres ne sont pas encore disponibles depuis ce tableau de bord."
+msgid "View your existing offers or import a new one."
+msgstr "Consultez vos offres existantes ou importez-en une nouvelle."
 
 msgctxt "employer dashboard"
 msgid "Offers you can view"

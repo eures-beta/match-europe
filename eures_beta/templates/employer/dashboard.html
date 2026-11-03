@@ -4,7 +4,8 @@
   <section class="account-panel" aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
     <h2>{% translate "Your offers" context "employer dashboard" %}</h2>
-    <p>{% translate "View your existing offers. Creating and editing offers is not available from this dashboard yet." context "employer dashboard" %}</p>
+    <p>{% translate "View your existing offers or import a new one." context "employer dashboard" %}</p>
+    <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
     <div class="account-table-scroll">
       <table>
         <caption>{% translate "Offers you can view" context "employer dashboard" %}</caption>

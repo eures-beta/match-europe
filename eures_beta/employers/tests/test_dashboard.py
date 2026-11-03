@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -129,4 +129,39 @@ class EmployerDashboardTests(TestCase):
         self.client.force_login(adviser)
         self.assertTemplateUsed(
             self.client.get(reverse('dashboard')), 'users/adviser_dashboard.html'
+        )
+
+    @override_settings(SHARED_DEMO=True)
+    def test_import_button_matches_public_page_in_each_language_with_and_without_offers(
+        self,
+    ):
+        for populated in (False, True):
+            if populated:
+                self.offer('Existing offer', created_by=self.employer)
+            for language, label in (
+                ('fr', 'Importer mon offre d’emploi'),
+                ('en', 'Import my job offer'),
+                ('de', 'Mein Stellenangebot importieren'),
+            ):
+                with self.subTest(populated=populated, language=language):
+                    url = f'/employer/pages/import-{language}.html'
+                    button = f'<a class="primary-action" href="{url}">{label}</a>'
+                    dashboard = self.client.get(
+                        reverse('dashboard'), {'lang': language}
+                    )
+                    public = self.client.get(
+                        f'/employer/pages/{language}.html', secure=True
+                    )
+                    self.assertContains(dashboard, button, html=True)
+                    self.assertContains(public, button, html=True)
+                    self.assertEqual(self.client.get(url, secure=True).status_code, 200)
+                    self.assertNotContains(
+                        dashboard, 'Creating and editing offers is not available'
+                    )
+        adviser = User.objects.create_user(
+            'adviser-button@example.invalid', kind='adviser'
+        )
+        self.client.force_login(adviser)
+        self.assertNotContains(
+            self.client.get(reverse('dashboard')), 'class="landing-actions"'
         )

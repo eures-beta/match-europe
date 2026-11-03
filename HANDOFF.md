@@ -857,3 +857,8 @@ tables métier ; métadonnées et permissions renommées en conservant leurs IDs
 Test PostgreSQL d’aller-retour avec objets liés, données JSON, groupes, droits
 directs et journal admin. Aucun changement des six autres noms de modèles,
 des routes métier, des données de production ou déploiement dans cette tâche.
+## 3 novembre 2026 — accès à l’import depuis le tableau employeur
+
+Bouton d’import partagé avec la page publique employeur, langue conservée et
+visible même avec une liste vide. Texte contradictoire corrigé en FR/EN/DE.
+Aucune nouvelle permission, donnée, migration ou API ; parcours existant réutilisé.
