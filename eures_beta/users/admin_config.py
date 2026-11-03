@@ -6,7 +6,6 @@ class VersionedPermissionsAdminConfig(AdminConfig):
         super().ready()
         # Run after all admin modules, including Django auth, are registered.
         from django.contrib import admin
-        from django.contrib.auth.models import Group
+        from .admin import register_framework_models
 
-        if admin.site.is_registered(Group):
-            admin.site.unregister(Group)
+        register_framework_models(admin.site)

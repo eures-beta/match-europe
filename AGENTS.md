@@ -57,6 +57,16 @@
 
 ## Pull requests et collaboration en équipe
 
+### Administration Django en consultation
+
+- Les modèles enregistrés dans Django Admin sont en lecture seule, même pour
+  les superutilisateurs : pas de création, modification, suppression ni action
+  groupée. Ne pas réactiver ces opérations sans demande explicite.
+- Utiliser la base commune `users/admin_base.py`, préserver le masquage des
+  secrets et vérifier les endpoints directs avec `make admin-test`.
+- Tout nouveau modèle doit faire l'objet d'un enregistrement explicite et revu ;
+  les modèles sensibles peuvent ne montrer que leurs métadonnées.
+
 ### Création
 
 - Créer une branche dédiée au travail demandé, avec le préfixe `codex/` sauf

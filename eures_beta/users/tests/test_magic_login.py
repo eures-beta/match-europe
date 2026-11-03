@@ -308,13 +308,13 @@ class MagicLoginTests(TestCase):
             )
             self.assertEqual(mail.outbox[-1].subject, subject)
 
-    def test_admin_can_create_a_passwordless_account_but_cannot_set_a_password(self):
+    def test_read_only_admin_cannot_create_accounts_or_set_passwords(self):
         staff = get_user_model().objects.create_superuser(
             email='staff@example.invalid', kind='adviser'
         )
         self.client.force_login(staff)
         response = self.client.get('/admin/users/user/add/')
-        self.assertNotContains(response, 'type="password"')
+        self.assertEqual(response.status_code, 403)
         response = self.client.post(
             '/admin/users/user/add/',
             {
@@ -322,9 +322,13 @@ class MagicLoginTests(TestCase):
                 '_save': 'Save',
             },
         )
-        self.assertEqual(response.status_code, 302)
-        user = get_user_model().objects.get(email='invited-adviser@example.invalid')
-        self.assertEqual(user.kind, 'adviser')
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(
+            get_user_model()
+            .objects.filter(email='invited-adviser@example.invalid')
+            .exists()
+        )
+        user = self.user
         self.assertFalse(user.has_usable_password())
         # ModelAdmin has no password-change route; its catch-all treats it as an ID.
         password_url = f'/admin/users/user/{user.pk}/password/'

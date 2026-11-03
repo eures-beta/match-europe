@@ -101,6 +101,10 @@ migrations-test: ## Tester les installations neuves et les transitions de migrat
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations --noinput $(TEST_ARGS)
 
 .PHONY: permissions-sync permissions-test
+.PHONY: admin-test
+admin-test: ## Vérifier l'administration en lecture seule, ses droits et le masquage des secrets
+	@$(MANAGE) test eures_beta.users.tests.test_readonly_admin --noinput $(TEST_ARGS)
+
 permissions-sync: ## Réappliquer les groupes et droits administratifs versionnés à la base du .env
 	@$(MANAGE) sync_group_and_perms
 
