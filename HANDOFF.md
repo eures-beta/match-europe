@@ -829,3 +829,8 @@ doit rester désactivée. `make test-accounts-test` couvre les garde-fous et la 
 PR dédiée : nombres d’enregistrements à la demande, désactivés par défaut,
 entre parenthèses à côté des modèles accessibles. Querysets et permissions admin
 respectés ; aucune écriture en base ou préférence persistante. FR/EN/DE.
+## 3 novembre 2026 — navigation admin repliée par défaut
+
+Second commit de la PR des compteurs : navigation gauche initialisée fermée,
+bouton et mémorisation natifs Django conservés. Les préférences déjà explicites
+restent respectées. Aucun changement de l’affichage par défaut des filtres droits.

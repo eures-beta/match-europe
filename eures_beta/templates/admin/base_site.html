@@ -10,3 +10,10 @@
   {% include "includes/test_accounts_banner.html" %}
   {{ block.super }}
 {% endblock %}
+{% block extrahead %}
+  {% if not is_popup and is_nav_sidebar_enabled %}
+    {# Runs during parsing, before Django's deferred navigation script. #}
+    <script src="{% static 'admin/nav-sidebar-default.js' %}"></script>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}

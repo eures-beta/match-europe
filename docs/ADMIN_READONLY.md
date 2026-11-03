@@ -90,3 +90,7 @@ peuvent évoluer entre deux requêtes si des données sont créées en parallèl
 Vérification des droits, des comptes nuls et de l’absence de COUNT par défaut :
 `make test`. Les tests utilisent exclusivement PostgreSQL local et des données
 fictives.
+La navigation gauche est masquée par défaut en l’absence de préférence navigateur.
+Le bouton natif Django permet de la rouvrir et mémorise le choix. Un choix déjà
+enregistré reste respecté. Le comportement du panneau de filtres à droite reste
+inchangé : visible par défaut, avec son propre bouton et sa propre préférence.
