@@ -1,9 +1,9 @@
 from eures_beta.testing import assert_active_link
-from django.test import SimpleTestCase, override_settings
+from django.test import TestCase, override_settings
 
 
 @override_settings(SHARED_DEMO=True)
-class EmployerLandingTranslationTests(SimpleTestCase):
+class EmployerLandingTranslationTests(TestCase):
     def test_one_template_translates_content_navigation_and_accessibility_labels(self):
         examples = [
             (
@@ -44,10 +44,10 @@ class EmployerLandingTranslationTests(SimpleTestCase):
                 import_response = self.client.get(
                     f'/employer/pages/import-{language}.html', secure=True
                 )
-                self.assertContains(
-                    import_response, '/static/employer/occupation-picker.js'
+                self.assertTemplateUsed(import_response, 'employer/import_access.html')
+                self.assertNotContains(
+                    import_response, '/static/employer/review-steps.js'
                 )
-                self.assertContains(import_response, '/static/employer/review-steps.js')
                 self.assertContains(response, f'href="privacy-{language}.html"')
                 self.assertContains(
                     response, f'href="/accounts/login/?lang={language}"'

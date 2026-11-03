@@ -7,6 +7,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
 from .test_accounts import ACCOUNTS, enabled, fictional_database, prepared_user
 from .views import selected_language
+from .login_return import consume
 
 
 def require_test_environment():
@@ -39,7 +40,8 @@ def sign_in(request):
     if user is None:
         raise Http404
     language = selected_language(request)
+    destination = consume(request, settings.LOGIN_REDIRECT_URL)
     auth_login(request, user, backend='sesame.backends.ModelBackend')
     request.session['login_language'] = language
     request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-    return redirect('admin:index' if user.is_superuser else settings.LOGIN_REDIRECT_URL)
+    return redirect('admin:index' if user.is_superuser else destination)

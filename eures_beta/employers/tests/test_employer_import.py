@@ -211,6 +211,15 @@ class ReadingTests(SimpleTestCase):
 
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class ImportFlowTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="fiction@example.invalid", kind="employer"
+            )
+        )
+
     @patch('eures_beta.employers.employer_api.aglae')
     def test_occupation_choices_are_saved_reopened_and_validated_locally(self, api):
         from eures_beta.occupations.catalog import suggestions, catalog
@@ -249,7 +258,7 @@ class ImportFlowTests(TestCase):
                 reopened['data']['occupation']['rome_jobs'][0]['label'], 'forged'
             )
             self.assertEqual(reopened['data']['title'], data['title'])
-            self.assertEqual(Client().get(url).status_code, 404)
+            self.assertEqual(Client().get(url).status_code, 403)
             for bad in (
                 {**data['occupation'], 'uris': ['http://invalid.example/occupation']},
                 {**data['occupation'], 'version': '0.0'},
@@ -332,7 +341,7 @@ class ImportFlowTests(TestCase):
             self.client.get('/api/imports/' + obj['id'] + '/').status_code, 200
         )
         self.assertEqual(
-            Client().get('/api/imports/' + obj['id'] + '/').status_code, 404
+            Client().get('/api/imports/' + obj['id'] + '/').status_code, 403
         )
 
     @patch('eures_beta.employers.employer_api.aglae')
@@ -537,7 +546,7 @@ class ImportFlowTests(TestCase):
             'email': 'fiction@example.invalid',
             'sourceToken': first.json()['token'],
         }
-        self.assertEqual(Client().post('/api/imports/', payload).status_code, 400)
+        self.assertEqual(Client().post('/api/imports/', payload).status_code, 403)
         created = self.client.post('/api/imports/', payload)
         self.assertEqual(created.status_code, 201)
         self.assertEqual(created.json()['data']['description'], 'Fictional PDF text')

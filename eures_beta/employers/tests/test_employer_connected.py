@@ -65,7 +65,7 @@ class ConnectedEmployerTests(TestCase):
         key = self.client.session.session_key
         response = self.submit()
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json()['login_url'], '/employer/connected/')
+        self.assertEqual(response.json()['login_url'], '/accounts/dashboard/')
         self.assertEqual(key, self.client.session.session_key)
         draft = EmployerImport.objects.get()
         self.assertEqual(draft.created_by, person)
@@ -97,20 +97,14 @@ class ConnectedEmployerTests(TestCase):
         self.client.post('/employer/attach/', {'company': companies[1].pk})
         self.assertEqual(EmployerImport.objects.get().company, companies[1])
 
-    def test_expired_session_preserves_draft_without_rights(self):
-        person = self.login(self.client, 'rh1@entreprise.invalid')
+    def test_expired_session_cannot_create_a_draft(self):
+        self.login(self.client, 'rh1@entreprise.invalid')
         Session.objects.filter(session_key=self.client.session.session_key).update(
             expire_date=timezone.now() - timedelta(seconds=1)
         )
         response = self.submit()
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json()['login_url'], '/employer/access/')
-        draft = EmployerImport.objects.get()
-        self.assertIsNone(draft.created_by)
-        self.assertIsNone(draft.company)
-        self.login(self.client, person.email)
-        draft.refresh_from_db()
-        self.assertEqual(draft.created_by, person)
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(EmployerImport.objects.exists())
 
     def test_no_membership_and_revocation(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
@@ -140,7 +134,7 @@ class ConnectedEmployerTests(TestCase):
             self.client.get('/employer/connected/?lang=fr'), 'Mon espace employeur'
         )
         self.client.post('/employer/logout/')
-        self.assertContains(self.client.get(path), 'data-employer-connected="false"')
+        self.assertTemplateUsed(self.client.get(path), 'employer/import_access.html')
 
     def test_expired_document_session_explains_reread(self):
         self.login(self.client, 'rh1@entreprise.invalid')
@@ -150,6 +144,6 @@ class ConnectedEmployerTests(TestCase):
         response = self.client.post(
             '/api/imports/', {'kind': 'pdf', 'connectedSubmission': 'true'}
         )
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.json()['error'], 'session_expired')
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json()['error'], 'employer_account_required')
         self.assertFalse(EmployerImport.objects.exists())

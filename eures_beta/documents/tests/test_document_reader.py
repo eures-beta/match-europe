@@ -112,6 +112,15 @@ class DocumentFieldTests(SimpleTestCase):
 
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class MultipleImageTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="importer@example.invalid", kind="employer"
+            )
+        )
+
     @patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'})
     @patch('eures_beta.employers.employer_api.geocode')
     @patch('eures_beta.employers.employer_api.aglae')

@@ -6,6 +6,8 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [login_return.py](login_return.py) — Reprise de l’import après connexion, avec une liste fixe de destinations.
+
 - [Comptes fictifs](../../docs/TEST_ACCOUNTS.md) — Sélection explicite en local/recette uniquement.
 - [test_accounts.py](test_accounts.py) — Identités autorisées et garde-fous.
 - [test_account_views.py](test_account_views.py) — Sélecteur et connexion POST protégée.

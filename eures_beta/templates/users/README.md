@@ -8,6 +8,7 @@ Ces templates communs aux conseillers et employeurs utilisent gettext et le
 - [dashboard.html](dashboard.html) — Base commune des tableaux privés ; [tableau employeur](../employer/dashboard.html) pour les offres en lecture seule et tableau conseiller pour les invitations.
 - [login_email.txt](login_email.txt) — Message de connexion personnel envoyé par SMTP.
 - [README.md](README.md) — Présente ce dossier.
+- [Accès à l’import employeur](../../../docs/EMPLOYER_IMPORT_ACCESS.md) — Connexion obligatoire et reprise du parcours.
 - [test_accounts.html](test_accounts.html) — Choix d’un compte fictif, uniquement en local/recette explicitement activé.
 
 [Remonter au dossier parent](../).

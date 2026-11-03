@@ -20,6 +20,26 @@ from eures_beta.employers.models import (
 class OwnershipTests(TestCase):
     def create(self, client=None):
         client = client or self.client
+        # Existing unclaimed drafts are legacy fixtures, never created by the closed API.
+        if not client.session.get('_auth_user_id'):
+            from django.utils import timezone
+
+            session = client.session
+            session.save()
+            offer = EmployerImport.objects.create(
+                session_key=session.session_key,
+                email='contact@fiction.invalid',
+                preparation_agreed_at=timezone.now(),
+                source_kind='manual',
+                data={'description': 'Fictional role.'},
+                contact={
+                    'name': 'Fictional contact',
+                    'email': 'contact@fiction.invalid',
+                },
+            )
+            session['employer_pending_import'] = str(offer.pk)
+            session.save()
+            return {'id': str(offer.pk)}
         response = client.post(
             '/api/imports/',
             {
@@ -33,14 +53,7 @@ class OwnershipTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(
-            response.json()['login_url'],
-            (
-                '/employer/connected/'
-                if client.session.get('_auth_user_id')
-                else '/employer/access/'
-            ),
-        )
+        self.assertEqual(response.json()['login_url'], '/accounts/dashboard/')
         return response.json()
 
     def login(self, client, email):
@@ -109,7 +122,7 @@ class OwnershipTests(TestCase):
         draft, person, company = self.attach()
         url = '/api/imports/' + draft['id'] + '/'
         self.client.post('/employer/logout/')
-        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.get(url).status_code, 403)
         other = Client()
         self.assertEqual(self.login(other, person.email), person)
         self.assertEqual(other.get(url).status_code, 200)
@@ -133,7 +146,7 @@ class OwnershipTests(TestCase):
         other.post('/employer/attach/', {'name': 'Fictional company'})
         url = '/api/imports/' + draft['id'] + '/'
         self.assertEqual(other.get(url).status_code, 200)
-        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.get(url).status_code, 403)
         self.assertEqual(
             other.post('/employer/attach/', {'name': 'Duplicate'}).status_code, 404
         )

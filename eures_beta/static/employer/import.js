@@ -237,6 +237,7 @@ emailForm.addEventListener('submit', async (event) => {
     form.set('email', document.getElementById('work-email').value.trim());
     if (connectedSubmission) form.set('connectedSubmission', 'true');
     form.set('agreement', 'true');
+    form.set('language', document.documentElement.lang);
     form.set('data', JSON.stringify(window.meReview.collect()));
     const kind =
       previousStep === 'url-step' ? 'url' : previousStep === 'manual-step' ? 'manual' : 'pdf';

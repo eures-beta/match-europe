@@ -1,12 +1,12 @@
 import json
 import re
 
-from django.test import SimpleTestCase, Client, override_settings
+from django.test import TestCase, Client, override_settings
 from eures_beta.occupations.catalog import suggestions
 
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
-class OccupationSearchTests(SimpleTestCase):
+class OccupationSearchTests(TestCase):
     def test_reference_lookup_accepts_rome_and_esco_without_changing_offer_title(self):
         baker = suggestions('boulanger', 'fr')[0]
         for value in (
@@ -118,6 +118,13 @@ class OccupationSearchTests(SimpleTestCase):
         )
 
     def test_employer_page_translates_picker_and_renders_safe_json(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="importer@example.invalid", kind="employer"
+            )
+        )
         for lang, expected in [
             ('fr', 'Précisez le métier proposé'),
             ('en', 'Describe the job offered'),

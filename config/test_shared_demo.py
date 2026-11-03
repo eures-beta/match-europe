@@ -18,7 +18,7 @@ class SharedDemoTests(TestCase):
             REMOTE_ADDR="192.0.2.42",
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'data-employer-api="true"')
+        self.assertTemplateUsed(response, 'employer/import_access.html')
         self.assertEqual(
             self.client.get("/api/imports/", REMOTE_ADDR="192.0.2.42").status_code,
             404,
@@ -51,8 +51,8 @@ class SharedDemoTests(TestCase):
             preparation_agreed_at=timezone.now(),
         )
         path = f"/api/imports/{draft.pk}/"
-        self.assertEqual(self.client.get(path, secure=True).status_code, 200)
-        self.assertEqual(Client().get(path, secure=True).status_code, 404)
+        self.assertEqual(self.client.get(path, secure=True).status_code, 403)
+        self.assertEqual(Client().get(path, secure=True).status_code, 403)
 
     def test_shared_demo_never_reads_sandbox_key_or_calls_aglae(self):
         with (
@@ -65,6 +65,13 @@ class SharedDemoTests(TestCase):
             network.assert_not_called()
 
     def test_notice_is_available_in_each_interface_language(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="importer@example.invalid", kind="employer"
+            )
+        )
         from eures_beta.demo import shared_notice
 
         for language, expected, employer_status in [

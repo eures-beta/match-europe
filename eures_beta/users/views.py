@@ -26,6 +26,7 @@ from sesame.utils import get_query_string, get_user
 from .forms import LoginForm
 from .email_backend import real_email_allowed
 from .rate_limits import allow_request
+from .login_return import remember, consume, IMPORT_PATHS
 
 logger = logging.getLogger(__name__)
 
@@ -91,8 +92,9 @@ def page(request, stage, **context):
 @sensitive_post_parameters('email')
 @require_http_methods(['GET', 'POST'])
 def login(request):
+    remember(request)
     if request.user.is_authenticated:
-        return redirect(settings.LOGIN_REDIRECT_URL)
+        return redirect(consume(request, settings.LOGIN_REDIRECT_URL))
     with translation.override(selected_language(request)):
         form = LoginForm(request.POST if request.method == 'POST' else None)
         valid = request.method == 'POST' and form.is_valid()
@@ -114,6 +116,11 @@ def login(request):
                     + reverse('magic_confirm')
                     + get_query_string(user)
                 )
+                destination = request.session.get('login_return_path', '')
+                if destination in IMPORT_PATHS:
+                    from urllib.parse import urlencode
+
+                    link += '&' + urlencode({'next': destination})
                 with translation.override(language):
                     body = render_to_string('users/login_email.txt', {'link': link})
                     try:
@@ -136,6 +143,7 @@ def login(request):
 @require_http_methods(['GET', 'POST'])
 def confirm(request):
     if request.method == 'GET':
+        remember(request)
         if 'sesame' in request.GET:
             # Do not consume on GET: mail scanners must not log the user in.
             token = request.GET['sesame']
@@ -154,6 +162,7 @@ def confirm(request):
     user = get_user(token, update_last_login=False) if token else None
     if user is None:
         return page(request, 'invalid')
+    destination = consume(request, settings.LOGIN_REDIRECT_URL)
     with transaction.atomic():
         # Serialise token consumption with other logins for the same account.
         if not get_user_model().objects.select_for_update().filter(pk=user.pk).exists():
@@ -165,13 +174,18 @@ def confirm(request):
         # Switching accounts flushes the old session; retain the chosen language.
         request.session['login_language'] = language
         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-    return redirect(settings.LOGIN_REDIRECT_URL)
+    return redirect(destination)
 
 
 @never_cache
 @require_POST
 def logout(request):
+    destination = request.GET.get('next', '')
     auth_logout(request)
+    if destination in IMPORT_PATHS:
+        from urllib.parse import urlencode
+
+        return redirect(reverse('magic_login') + '?' + urlencode({'next': destination}))
     return redirect('home')
 
 

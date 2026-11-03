@@ -1,12 +1,21 @@
 from eures_beta.testing import assert_active_link, json_scripts
 import json
 
-from django.test import SimpleTestCase, override_settings
+from django.test import TestCase, override_settings
 
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
-class EmployerImportTranslationTests(SimpleTestCase):
+class EmployerImportTranslationTests(TestCase):
     page = "import"
+
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="translation@example.invalid", kind="employer"
+            )
+        )
 
     def test_import_form_and_browser_dictionaries_follow_the_url_language(self):
         for language, label in (

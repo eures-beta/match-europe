@@ -25,6 +25,13 @@ def sample():
 @patch.dict(os.environ, {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class PushDiagnosticTests(TestCase):
     def test_page_and_browser_messages_use_gettext_in_all_languages(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="importer@example.invalid", kind="employer"
+            )
+        )
         for language, heading in (
             ('fr', 'Test des notifications sur votre Mac'),
             ('en', 'Test notifications on your Mac'),

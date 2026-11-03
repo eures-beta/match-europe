@@ -1,9 +1,9 @@
 from django.apps import apps
 from django.conf import settings
-from django.test import SimpleTestCase, override_settings
+from django.test import TestCase, override_settings
 
 
-class UnifiedLayoutTests(SimpleTestCase):
+class UnifiedLayoutTests(TestCase):
     def test_only_current_applications_remain(self):
         for label in (
             'journeys',
@@ -30,6 +30,13 @@ class UnifiedLayoutTests(SimpleTestCase):
 
     @override_settings(SHARED_DEMO=True)
     def test_employer_pages_are_django_templates_and_sources_are_not_exposed(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="importer@example.invalid", kind="employer"
+            )
+        )
         for language in ("fr", "en", "de"):
             for prefix in ("", "import-", "import-v2-", "privacy-"):
                 page = prefix + language + ".html"
