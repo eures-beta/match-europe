@@ -809,3 +809,10 @@ The five permanent quality pillars for every user-facing feature are:
 5. **EURES / ELA brand compliance**
 
 **A feature missing any of these five pillars is not considered complete.**
+# E-mails réels
+
+- Tous les e-mails applicatifs passent par le backend Django protégé ; ne pas
+  le contourner avec SMTP direct ou une API de prestataire.
+- Local et recettes jetables n’envoient jamais d’e-mail réel. Ne jamais y définir
+  `DJANGO_ENVIRONMENT=production`. L’activation et les secrets SMTP sont réservés
+  à la production ; les tests emploient des transports simulés.

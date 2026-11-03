@@ -152,3 +152,8 @@ de 15 minutes à usage unique et une confirmation POST. L’envoi SMTP reste
 désactivé en attente du raccordement e-mail ; la recette est visuelle à ce stade.
 Inscriptions fermées, invitations non implémentées. Voir [le fonctionnement
 et ses limites](MAGIC_LOGIN.md).
+# E-mails réels
+
+Tous les e-mails Django passent par un backend SMTP exigeant production déclarée
+et activation explicite. Local et recettes ne doivent jamais être déclarés
+production. Secrets exclusivement dans la configuration privée ; tests simulés.

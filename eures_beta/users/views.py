@@ -24,6 +24,7 @@ from django.views.decorators.http import require_http_methods, require_POST, req
 from sesame.utils import get_query_string, get_user
 
 from .forms import LoginForm
+from .email_backend import real_email_allowed
 from .rate_limits import allow_request
 
 logger = logging.getLogger(__name__)
@@ -52,7 +53,8 @@ def dashboard(request):
 def email_ready():
     origin = urlsplit(settings.LOGIN_EMAIL_ORIGIN)
     return bool(
-        settings.LOGIN_EMAIL_ENABLED
+        real_email_allowed()
+        and settings.LOGIN_EMAIL_ENABLED
         and origin.scheme == 'https'
         and origin.hostname in settings.ALLOWED_HOSTS
         and not origin.username

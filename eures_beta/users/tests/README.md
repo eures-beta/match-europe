@@ -6,6 +6,8 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [test_email_backend.py](test_email_backend.py) — Vérifie le blocage SMTP local et en recette, et l’autorisation explicite en production sans envoi réel.
+
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [test_closed_registration.py](test_closed_registration.py) — Vérifie le refus de création de comptes depuis les formulaires et liens publics.
 - [test_users.py](test_users.py) — Vérifie les règles des comptes et l’authentification Django.
