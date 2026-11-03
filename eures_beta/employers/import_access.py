@@ -13,10 +13,13 @@ from eures_beta.users.login_return import IMPORT_PATHS
 
 def access_page(request, path):
     language = path.rsplit('-', 1)[-1].removesuffix('.html')
+    language = request.GET.get('lang', language)
     language = language if language in ('fr', 'en', 'de') else 'fr'
     destination = '/employer/pages/' + path
     if destination not in IMPORT_PATHS:
         destination = f'/employer/pages/import-{language}.html'
+    else:
+        destination = destination.rsplit('-', 1)[0] + '-' + language + '.html'
     request.session['login_return_path'] = destination
     with translation.override(language):
         return render(
