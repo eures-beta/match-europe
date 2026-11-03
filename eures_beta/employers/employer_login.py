@@ -19,9 +19,9 @@ from django.views.decorators.http import require_POST, require_http_methods, req
 
 from eures_beta.employers.models import (
     EmployerEmailLink,
-    EmployerCompany,
-    EmployerMembership,
-    EmployerImport,
+    Company,
+    CompanyMembership,
+    JobOffer,
 )
 from eures_beta.employers.employer_ownership import identity, memberships
 from eures_beta.employers.establishments import EstablishmentForm
@@ -79,7 +79,7 @@ def access(request):
         return redirect('employer_connected')
     pending_id = request.session.get('employer_pending_import')
     pending = (
-        EmployerImport.objects.filter(
+        JobOffer.objects.filter(
             pk=pending_id, company__isnull=True, session_key=request.session.session_key
         ).first()
         if pending_id
@@ -178,7 +178,7 @@ def confirm(request, token):
         request.session.pop('employer_pending_import', None)
         if link.pending_import_id:
             draft = (
-                EmployerImport.objects.select_for_update()
+                JobOffer.objects.select_for_update()
                 .filter(pk=link.pending_import_id, company__isnull=True)
                 .first()
             )
@@ -202,9 +202,9 @@ def connected(request):
     person = identity(request)
     if not person:
         return redirect('employer_access')
-    pending = EmployerImport.objects.filter(
-        company__isnull=True, created_by=person
-    ).order_by('-created')
+    pending = JobOffer.objects.filter(company__isnull=True, created_by=person).order_by(
+        '-created'
+    )
     requested = request.session.get('employer_claim_import')
     draft = (
         pending.filter(pk=requested).first() if requested else None
@@ -222,7 +222,7 @@ def connected_page(request, email, person, draft, establishment_form=None):
     return offer_home(
         request,
         email=email,
-        companies=EmployerCompany.objects.filter(memberships__in=memberships(request)),
+        companies=Company.objects.filter(memberships__in=memberships(request)),
         pending_import=request.session.get('employer_claim_import'),
         pending_title=(
             (draft.data.get('title') or draft.data.get('description', '')[:125])
@@ -260,7 +260,7 @@ def attach(request):
         raise Http404
     with transaction.atomic():
         draft = (
-            EmployerImport.objects.select_for_update()
+            JobOffer.objects.select_for_update()
             .filter(pk=pending_id, company__isnull=True, created_by=person)
             .first()
         )
@@ -287,8 +287,8 @@ def attach(request):
             form = EstablishmentForm(request.POST)
             if not form.is_valid():
                 return connected_page(request, person.email, person, draft, form)
-            company = EmployerCompany.objects.create(name=form.cleaned_data['name'])
-            EmployerMembership.objects.create(person=person, company=company)
+            company = Company.objects.create(name=form.cleaned_data['name'])
+            CompanyMembership.objects.create(person=person, company=company)
         draft.company = company
         draft.created_by = person
         # Session ownership must no longer provide an alternative access path.

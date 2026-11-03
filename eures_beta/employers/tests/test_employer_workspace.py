@@ -8,9 +8,9 @@ from django.test import Client, TestCase
 from django.utils import timezone
 from django.urls import reverse
 from eures_beta.employers.models import (
-    EmployerImport,
-    EmployerMembership,
-    EmployerCompany,
+    JobOffer,
+    CompanyMembership,
+    Company,
 )
 from eures_beta.employers.offer_ingestion import empty_data
 
@@ -28,9 +28,9 @@ class WorkspaceTests(TestCase):
         self.person = get_user_model().objects.create_user(
             kind='employer', email='rh1@fiction.invalid'
         )
-        self.company = EmployerCompany.objects.create(name='First establishment')
-        EmployerMembership.objects.create(company=self.company, person=self.person)
-        self.other = EmployerCompany.objects.create(name='Other establishment')
+        self.company = Company.objects.create(name='First establishment')
+        CompanyMembership.objects.create(company=self.company, person=self.person)
+        self.other = Company.objects.create(name='Other establishment')
         self.login(self.client, self.person)
         self.offer = self.make_offer(self.company, title='Fictional technician')
         self.foreign = self.make_offer(self.other, title='Hidden foreign offer')
@@ -49,7 +49,7 @@ class WorkspaceTests(TestCase):
             city='Metz',
             description='Fictional description',
         )
-        return EmployerImport.objects.create(
+        return JobOffer.objects.create(
             company=company,
             created_by=self.person,
             session_key='',
@@ -89,7 +89,7 @@ class WorkspaceTests(TestCase):
             ).status_code,
             404,
         )
-        EmployerMembership.objects.create(company=self.other, person=self.person)
+        CompanyMembership.objects.create(company=self.other, person=self.person)
         self.assertContains(
             self.client.get('/employer/offers/'), self.foreign.data['title']
         )
@@ -161,7 +161,7 @@ class WorkspaceTests(TestCase):
 
     def test_revoked_access_and_expired_session(self):
         values = self.payload()
-        EmployerMembership.objects.filter(person=self.person).update(active=False)
+        CompanyMembership.objects.filter(person=self.person).update(active=False)
         self.assertEqual(
             self.client.post(self.url('employer_offer_edit'), values).status_code, 404
         )
@@ -231,7 +231,7 @@ class WorkspaceTests(TestCase):
             self.url('employer_offer_duplicate'), {'revision': 1}
         )
         self.assertEqual(response.status_code, 302)
-        copy = EmployerImport.objects.get(duplicated_from=self.offer)
+        copy = JobOffer.objects.get(duplicated_from=self.offer)
         self.assertNotEqual(copy.pk, self.offer.pk)
         self.assertEqual(copy.company, self.company)
         self.assertEqual(copy.created_by, self.person)
@@ -255,7 +255,7 @@ class WorkspaceTests(TestCase):
         client = Client()
         self.login(client, colleague)
         self.assertEqual(client.get(self.url(offer=copy)).status_code, 404)
-        EmployerMembership.objects.create(person=colleague, company=self.company)
+        CompanyMembership.objects.create(person=colleague, company=self.company)
         self.assertEqual(client.get(self.url(offer=copy)).status_code, 200)
         geo.assert_not_called()
         external.assert_not_called()
@@ -270,9 +270,7 @@ class WorkspaceTests(TestCase):
             ).status_code,
             409,
         )
-        self.assertFalse(
-            EmployerImport.objects.filter(duplicated_from=self.offer).exists()
-        )
+        self.assertFalse(JobOffer.objects.filter(duplicated_from=self.offer).exists())
         client = Client(enforce_csrf_checks=True)
         self.login(client, self.person)
         for action in ('employer_offer_duplicate', 'employer_offer_edit'):
@@ -291,7 +289,7 @@ class WorkspaceTests(TestCase):
         )
         client = Client()
         self.login(client, colleague)
-        EmployerMembership.objects.create(person=colleague, company=self.company)
+        CompanyMembership.objects.create(person=colleague, company=self.company)
         self.assertNotContains(
             client.get('/employer/offers/'), 'Private fictional draft'
         )

@@ -4,32 +4,32 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from eures_beta.users.admin_base import ReadOnlyAdmin, json_display, redact
 from .models import (
-    EmployerCompany,
-    EmployerMembership,
-    EmployerImport,
+    Company,
+    CompanyMembership,
+    JobOffer,
     EmployerEmailLink,
     EmployerSearchOperation,
     EmployerSearchEvent,
 )
 
 
-@admin.register(EmployerCompany)
+@admin.register(Company)
 class CompanyAdmin(ReadOnlyAdmin):
     list_display = ('id', 'name', 'created')
     search_fields = ('name',)
     ordering = ('-created',)
 
 
-@admin.register(EmployerMembership)
-class MembershipAdmin(ReadOnlyAdmin):
+@admin.register(CompanyMembership)
+class CompanyMembershipAdmin(ReadOnlyAdmin):
     list_display = ('id', 'company', 'person', 'active', 'created')
     list_filter = ('active',)
     search_fields = ('company__name', 'person__email')
     list_select_related = ('company', 'person')
 
 
-@admin.register(EmployerImport)
-class ImportAdmin(ReadOnlyAdmin):
+@admin.register(JobOffer)
+class JobOfferAdmin(ReadOnlyAdmin):
     list_display = (
         'id',
         'company',

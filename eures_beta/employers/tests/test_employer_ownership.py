@@ -3,9 +3,9 @@ import json
 from unittest.mock import patch
 from django.test import Client, TestCase
 from eures_beta.employers.models import (
-    EmployerCompany,
-    EmployerImport,
-    EmployerMembership,
+    Company,
+    JobOffer,
+    CompanyMembership,
 )
 
 
@@ -26,7 +26,7 @@ class OwnershipTests(TestCase):
 
             session = client.session
             session.save()
-            offer = EmployerImport.objects.create(
+            offer = JobOffer.objects.create(
                 session_key=session.session_key,
                 email='contact@fiction.invalid',
                 preparation_agreed_at=timezone.now(),
@@ -79,7 +79,7 @@ class OwnershipTests(TestCase):
             self.client.post('/employer/attach/', {'name': 'Fictional company'}),
             '/employer/connected/',
         )
-        return draft, person, EmployerCompany.objects.get()
+        return draft, person, Company.objects.get()
 
     def test_shared_offer_revocation_and_outsider(self):
         draft, person, company = self.attach()
@@ -87,9 +87,7 @@ class OwnershipTests(TestCase):
         other = Client()
         colleague = self.login(other, 'second@fiction.invalid')
         self.assertEqual(other.get(url).status_code, 404)
-        membership = EmployerMembership.objects.create(
-            person=colleague, company=company
-        )
+        membership = CompanyMembership.objects.create(person=colleague, company=company)
         self.assertEqual(other.get(url).json()['id'], draft['id'])
         payload = {
             'action': 'contact',
@@ -113,7 +111,7 @@ class OwnershipTests(TestCase):
             ).status_code,
             404,
         )
-        row = EmployerImport.objects.get(pk=draft['id'])
+        row = JobOffer.objects.get(pk=draft['id'])
         self.assertEqual(row.created_by, person)
         self.assertEqual(row.company, company)
         self.assertEqual(row.session_key, '')
@@ -150,12 +148,12 @@ class OwnershipTests(TestCase):
         self.assertEqual(
             other.post('/employer/attach/', {'name': 'Duplicate'}).status_code, 404
         )
-        self.assertEqual(EmployerCompany.objects.count(), 1)
+        self.assertEqual(Company.objects.count(), 1)
 
     def test_cannot_select_an_unrelated_company_or_draft(self):
         draft = self.create()
         self.login(self.client, 'first@fiction.invalid')
-        company = EmployerCompany.objects.create(name='Unrelated')
+        company = Company.objects.create(name='Unrelated')
         self.assertEqual(
             self.client.post('/employer/attach/', {'company': company.pk}).status_code,
             404,
@@ -164,10 +162,10 @@ class OwnershipTests(TestCase):
             self.client.post('/employer/attach/', {'company': 'invalid'}).status_code,
             404,
         )
-        row = EmployerImport.objects.get(pk=draft['id'])
+        row = JobOffer.objects.get(pk=draft['id'])
         self.assertIsNone(row.company)
         person = get_user_model().objects.get()
-        EmployerMembership.objects.create(company=company, person=person)
+        CompanyMembership.objects.create(company=company, person=person)
         self.client.post(
             '/employer/attach/', {'company': company.pk, 'import': 'ignored'}
         )
@@ -179,7 +177,7 @@ class OwnershipTests(TestCase):
     def test_no_external_submission_and_no_automatic_membership(self, geo, api):
         self.create()
         self.login(self.client, 'first@fiction.invalid')
-        self.assertEqual(EmployerMembership.objects.count(), 0)
+        self.assertEqual(CompanyMembership.objects.count(), 0)
         geo.assert_not_called()
         api.assert_not_called()
 
@@ -227,12 +225,12 @@ class OwnershipTests(TestCase):
         self.assertContains(
             self.client.post('/employer/attach/', {'name': '  '}), 'Renseignez le nom'
         )
-        self.assertIsNone(EmployerImport.objects.get(pk=draft['id']).company)
+        self.assertIsNone(JobOffer.objects.get(pk=draft['id']).company)
         self.assertRedirects(
             self.client.post('/employer/attach/', {'name': 'Fictional establishment'}),
             '/employer/connected/',
         )
-        self.assertEqual(EmployerCompany.objects.get().name, 'Fictional establishment')
+        self.assertEqual(Company.objects.get().name, 'Fictional establishment')
 
     def test_existing_member_cannot_create_another_establishment(self):
         _, _, company = self.attach()
@@ -245,23 +243,23 @@ class OwnershipTests(TestCase):
         self.assertEqual(
             self.client.post('/employer/attach/', {'name': 'Another'}).status_code, 404
         )
-        self.assertEqual(EmployerCompany.objects.count(), 1)
-        self.assertIsNone(EmployerImport.objects.get(pk=draft['id']).company)
+        self.assertEqual(Company.objects.count(), 1)
+        self.assertIsNone(JobOffer.objects.get(pk=draft['id']).company)
         self.client.post('/employer/attach/', {'company': company.pk})
-        self.assertEqual(EmployerImport.objects.get(pk=draft['id']).company, company)
+        self.assertEqual(JobOffer.objects.get(pk=draft['id']).company, company)
 
     def test_multiple_memberships_require_explicit_choice(self):
         _, person, first = self.attach()
-        second = EmployerCompany.objects.create(name='Second establishment')
-        EmployerMembership.objects.create(person=person, company=second)
+        second = Company.objects.create(name='Second establishment')
+        CompanyMembership.objects.create(person=person, company=second)
         draft = self.create()
         self.login(self.client, 'first@fiction.invalid')
         screen = self.client.get('/employer/connected/')
         self.assertContains(screen, 'id="establishment-choice"')
         self.assertEqual(self.client.post('/employer/attach/', {}).status_code, 404)
-        self.assertIsNone(EmployerImport.objects.get(pk=draft['id']).company)
+        self.assertIsNone(JobOffer.objects.get(pk=draft['id']).company)
         self.client.post('/employer/attach/', {'company': second.pk})
-        self.assertEqual(EmployerImport.objects.get(pk=draft['id']).company, second)
+        self.assertEqual(JobOffer.objects.get(pk=draft['id']).company, second)
 
     def test_name_match_does_not_grant_access(self):
         draft, _, existing = self.attach()
@@ -269,11 +267,9 @@ class OwnershipTests(TestCase):
         self.create(other)
         outsider = self.login(other, 'outsider@fiction.invalid')
         other.post('/employer/attach/', {'name': existing.name})
-        self.assertEqual(EmployerCompany.objects.count(), 2)
+        self.assertEqual(Company.objects.count(), 2)
         self.assertFalse(
-            EmployerMembership.objects.filter(
-                company=existing, person=outsider
-            ).exists()
+            CompanyMembership.objects.filter(company=existing, person=outsider).exists()
         )
         self.assertEqual(
             other.get('/api/imports/' + draft['id'] + '/').status_code, 404

@@ -103,7 +103,7 @@ migrations: ## Afficher l'état des migrations sans les appliquer
 
 .PHONY: migrations-test
 migrations-test: ## Tester les installations neuves et les transitions de migrations sur PostgreSQL local
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations eures_beta.employers.tests.test_model_renames --noinput $(TEST_ARGS)
 
 .PHONY: permissions-sync permissions-test
 .PHONY: admin-test

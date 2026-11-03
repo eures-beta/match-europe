@@ -10,9 +10,9 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from eures_beta.employers.models import (
-    EmployerCompany,
-    EmployerImport,
-    EmployerMembership,
+    Company,
+    JobOffer,
+    CompanyMembership,
 )
 from eures_beta.users.test_accounts import ACCOUNTS, prepared_user
 
@@ -37,18 +37,18 @@ class TestAccountAccessTests(TestCase):
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
         self.assertEqual(User.objects.count(), 3)
-        self.assertEqual(EmployerCompany.objects.count(), 1)
-        self.assertEqual(EmployerMembership.objects.count(), 1)
-        self.assertEqual(EmployerImport.objects.count(), 2)
+        self.assertEqual(Company.objects.count(), 1)
+        self.assertEqual(CompanyMembership.objects.count(), 1)
+        self.assertEqual(JobOffer.objects.count(), 2)
         identities = list(User.objects.order_by('pk').values_list('pk', flat=True))
-        offer = EmployerImport.objects.first()
+        offer = JobOffer.objects.first()
         offer.data = {'description': 'An edit that must survive redeployment'}
         offer.save()
         self.seed()
         self.assertEqual(
             list(User.objects.order_by('pk').values_list('pk', flat=True)), identities
         )
-        self.assertEqual(EmployerImport.objects.count(), 2)
+        self.assertEqual(JobOffer.objects.count(), 2)
         offer.refresh_from_db()
         self.assertEqual(
             offer.data, {'description': 'An edit that must survive redeployment'}
@@ -63,7 +63,7 @@ class TestAccountAccessTests(TestCase):
         with self.assertRaises(CommandError):
             self.seed()
         self.assertEqual(list(User.objects.all()), [user])
-        self.assertFalse(EmployerImport.objects.exists())
+        self.assertFalse(JobOffer.objects.exists())
         self.assertEqual(self.client.get(reverse('test_accounts')).status_code, 404)
         response = self.client.post(
             reverse('test_account_sign_in'), {'account': 'admin'}

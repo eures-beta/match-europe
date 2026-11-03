@@ -6,7 +6,7 @@ User = get_user_model()
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.models import JobOffer
 
 
 @patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
@@ -49,7 +49,7 @@ class EmployerContactTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 201)
-        self.obj = EmployerImport.objects.get(pk=response.json()['id'])
+        self.obj = JobOffer.objects.get(pk=response.json()['id'])
         self.obj.adviser = self.staff['adviser']
         self.obj.save()
         self.url = f'/imported-offers/{self.obj.pk}/'
@@ -201,4 +201,4 @@ class EmployerContactTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 201)
-        self.assertIsNone(EmployerImport.objects.get(pk=response.json()['id']).adviser)
+        self.assertIsNone(JobOffer.objects.get(pk=response.json()['id']).adviser)

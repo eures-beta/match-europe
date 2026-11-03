@@ -182,3 +182,10 @@ Eric demande des précochages et la détection des incohérences. Reprise locale
 Tous les e-mails Django passent par un backend SMTP exigeant production déclarée
 et activation explicite. Local et recettes ne doivent jamais être déclarés
 production. Secrets exclusivement dans la configuration privée ; tests simulés.
+## Renommage des trois modèles employeur — 3 novembre 2026
+
+Choix validé par dejafait : `EmployerCompany` devient `Company`,
+`EmployerMembership` devient `CompanyMembership`, `EmployerImport` devient
+`JobOffer`. Les six autres modèles applicatifs ne sont pas renommés. Conserver
+les tables, données, relations, identifiants de types de contenu et de droits.
+Pas de changement de champs ni de comportement métier dans ce lot.

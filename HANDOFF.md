@@ -848,3 +848,12 @@ reprise après lien magique via chemins fixes, offre enregistrée au compte puis
 retour au tableau. Aucun nouveau modèle ni inscription automatique. Sources
 préparées liées au compte, création anonyme fermée ; voir
 [EMPLOYER_IMPORT_ACCESS](docs/EMPLOYER_IMPORT_ACCESS.md).
+
+## Renommage des modèles employeur — 3 novembre 2026
+
+PR dédiée sur main : `Company`, `CompanyMembership`, `JobOffer`, références
+runtime/admin/tests/documentation adaptées. Migration d’état sans DDL sur les
+tables métier ; métadonnées et permissions renommées en conservant leurs IDs.
+Test PostgreSQL d’aller-retour avec objets liés, données JSON, groupes, droits
+directs et journal admin. Aucun changement des six autres noms de modèles,
+des routes métier, des données de production ou déploiement dans cette tâche.

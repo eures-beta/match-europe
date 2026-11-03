@@ -7,7 +7,7 @@ from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from sesame.utils import get_query_string
 
-from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.models import JobOffer
 
 User = get_user_model()
 
@@ -67,7 +67,7 @@ class ImportAccessTests(TestCase):
                 self.client.get('/api/imports/', secure=True).status_code, 403
             )
         reader.assert_not_called()
-        self.assertFalse(EmployerImport.objects.exists())
+        self.assertFalse(JobOffer.objects.exists())
 
     def test_access_page_language_selector_updates_the_resume_destination(self):
         response = self.client.get(self.destination, {'lang': 'de'}, secure=True)
@@ -96,7 +96,7 @@ class ImportAccessTests(TestCase):
             secure=True,
         )
         self.assertEqual(response.status_code, 201)
-        offer = EmployerImport.objects.get()
+        offer = JobOffer.objects.get()
         self.assertEqual(offer.created_by, self.employer)
         self.assertEqual(offer.email, self.employer.email)
         self.assertEqual(offer.session_key, '')
@@ -218,7 +218,7 @@ class ImportAccessTests(TestCase):
             secure=True,
         )
         self.assertEqual(response.status_code, 400)
-        self.assertFalse(EmployerImport.objects.exists())
+        self.assertFalse(JobOffer.objects.exists())
 
     @patch('eures_beta.users.views.send_mail')
     @patch('eures_beta.users.views.email_ready', return_value=True)

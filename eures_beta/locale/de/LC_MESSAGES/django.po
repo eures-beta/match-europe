@@ -7469,3 +7469,18 @@ msgstr "Ihr aktuelles Konto ist kein Arbeitgeberkonto."
 
 msgid "Sign out and use an employer account"
 msgstr "Abmelden und ein Arbeitgeberkonto verwenden"
+
+msgid "Companies"
+msgstr "Unternehmen"
+
+msgid "Company membership"
+msgstr "Unternehmenszugehörigkeit"
+
+msgid "Company memberships"
+msgstr "Unternehmenszugehörigkeiten"
+
+msgid "Job offer"
+msgstr "Stellenangebot"
+
+msgid "Job offers"
+msgstr "Stellenangebote"

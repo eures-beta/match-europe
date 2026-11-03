@@ -19,7 +19,7 @@ from eures_beta.employers.employer_ownership import (
 )
 from eures_beta.employers.forms import EmployerContactForm
 from eures_beta.choices import MOBILITY
-from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.models import JobOffer
 from eures_beta.employers.offer_ingestion import ImportFailure
 
 
@@ -268,7 +268,7 @@ def offer_home(request, **attachment):
         if not selected.isdecimal() or int(selected) not in [c.pk for c in companies]:
             raise Http404
         rows = rows.filter(company_id=selected)
-    private = EmployerImport.objects.filter(
+    private = JobOffer.objects.filter(
         company__isnull=True, created_by=identity(request)
     ).order_by('-updated')
     attachment.pop('companies', None)
@@ -390,7 +390,7 @@ def duplicate(request, id):
             )
         # Explicit action, new UUID, no publication/search state or external identifier copied.
         data = clean_data(deepcopy(original.data))
-        copy = EmployerImport.objects.create(
+        copy = JobOffer.objects.create(
             company=original.company,
             created_by=identity(request),
             duplicated_from=original,
@@ -409,7 +409,7 @@ def duplicate(request, id):
 @require_POST
 def resume_attachment(request, id):
     offer = get_object_or_404(
-        EmployerImport, pk=id, company__isnull=True, created_by=identity(request)
+        JobOffer, pk=id, company__isnull=True, created_by=identity(request)
     )
     request.session['employer_claim_import'] = str(offer.pk)
     return redirect('employer_connected')

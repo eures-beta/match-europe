@@ -27,7 +27,7 @@ from django.views.decorators.cache import never_cache
 
 from eures_beta.demo_access import require_demo_access as demo_api
 
-from eures_beta.employers.models import EmployerImport
+from eures_beta.employers.models import JobOffer
 from eures_beta.employers.employer_ownership import accessible_imports, identity
 from eures_beta.employers.forms import EmployerContactForm
 from eures_beta.employers.import_access import access_page, employer_required
@@ -287,7 +287,7 @@ def imports(request, id=None):
             raise ImportFailure('invalid_email') from None
         if len(email) > 254 or request.POST.get('agreement') != 'true':
             raise ImportFailure('agreement_required')
-        if EmployerImport.objects.filter(created_by=person).count() >= 30:
+        if JobOffer.objects.filter(created_by=person).count() >= 30:
             raise ImportFailure('limit')
         try:
             contact = clean_contact(json.loads(request.POST.get('contact', '{}')))
@@ -338,7 +338,7 @@ def imports(request, id=None):
                     cleaned[key] = data[key]
             data = cleaned
         with stage('import_save'):
-            obj = EmployerImport.objects.create(
+            obj = JobOffer.objects.create(
                 created_by=person,
                 session_key='',
                 email=email,
@@ -802,7 +802,7 @@ def update_locked(request, obj, payload):
     if returned.get('id') != str(obj.id) or returned.get('active') is not False:
         return failure('sandbox_error', 502)
     with transaction.atomic():
-        current = EmployerImport.objects.select_for_update().get(pk=obj.pk)
+        current = JobOffer.objects.select_for_update().get(pk=obj.pk)
         if current.revision != obj.revision:
             return failure('conflict', 409)
         current.validated_at = current.synced_at = timezone.now()
