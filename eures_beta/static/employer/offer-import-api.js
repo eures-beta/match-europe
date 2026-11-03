@@ -24,6 +24,12 @@ window.offerImportAPI =
           } catch {
             throw Object.assign(new Error('network'), { code: 'network' });
           }
+          if (data.error === 'employer_account_required') {
+            const lang = ['fr', 'en', 'de'].includes(document.documentElement.lang)
+              ? document.documentElement.lang
+              : 'fr';
+            window.location.assign('/employer/pages/import-' + lang + '.html');
+          }
           if (data.id && data.revision)
             document.dispatchEvent(new CustomEvent('me-import-revision', { detail: data }));
           if (!response.ok)

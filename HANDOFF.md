@@ -841,3 +841,10 @@ restent respectées. Aucun changement de l’affichage par défaut des filtres d
 et les brouillons du compte, sans brouillons anonymes ni déduction par e-mail.
 Liste paginée FR/EN/DE, aucune action d’écriture ajoutée, modèles inchangés.
 Voir [ACCOUNT_PAGES](docs/ACCOUNT_PAGES.md) et les tests métier du tableau.
+# 2026-11-03 — Import employeur authentifié
+
+Pages d’import et API réservées au rôle employeur actif. Nouvelle page d’accès,
+reprise après lien magique via chemins fixes, offre enregistrée au compte puis
+retour au tableau. Aucun nouveau modèle ni inscription automatique. Sources
+préparées liées au compte, création anonyme fermée ; voir
+[EMPLOYER_IMPORT_ACCESS](docs/EMPLOYER_IMPORT_ACCESS.md).

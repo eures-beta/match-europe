@@ -7451,3 +7451,21 @@ msgstr "Vorherige Stellenangebote"
 msgctxt "employer dashboard"
 msgid "Next offers"
 msgstr "Weitere Stellenangebote"
+
+msgid "An employer account is required"
+msgstr "Ein Arbeitgeberkonto ist erforderlich"
+
+msgid "Importing a job offer is only available to employer accounts."
+msgstr "Das Importieren eines Stellenangebots ist nur für Arbeitgeberkonten verfügbar."
+
+msgid "If you do not have an employer account on Match Europe, contact one of our advisers."
+msgstr "Wenn Sie noch kein Arbeitgeberkonto bei Match Europe haben, wenden Sie sich an einen unserer Berater."
+
+msgid "Already have an employer account? Sign in to continue importing your offer."
+msgstr "Sie haben bereits ein Arbeitgeberkonto? Melden Sie sich an, um Ihr Stellenangebot weiter zu importieren."
+
+msgid "Your current account is not an employer account."
+msgstr "Ihr aktuelles Konto ist kein Arbeitgeberkonto."
+
+msgid "Sign out and use an employer account"
+msgstr "Abmelden und ein Arbeitgeberkonto verwenden"

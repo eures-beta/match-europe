@@ -1,9 +1,9 @@
-from django.test import SimpleTestCase, override_settings
+from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
 from eures_beta.testing import assert_active_link
 
 
-class PublicNavigationTests(SimpleTestCase):
+class PublicNavigationTests(TestCase):
     def test_legacy_redirects_preserve_language_and_reject_writes(self):
         for suffix, target in (
             ('home', 'home'),

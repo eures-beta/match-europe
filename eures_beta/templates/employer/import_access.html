@@ -1,0 +1,22 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "An employer account is required" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="import-access-title">
+    <h1 id="import-access-title">{% translate "An employer account is required" %}</h1>
+    <p>{% translate "Importing a job offer is only available to employer accounts." %}</p>
+    <p>{% translate "If you do not have an employer account on Match Europe, contact one of our advisers." %}</p>
+    <p>{% translate "Already have an employer account? Sign in to continue importing your offer." %}</p>
+    {% if user.is_authenticated %}
+      <p>{% translate "Your current account is not an employer account." %}</p>
+      <form method="post"
+            action="{% url 'magic_logout' %}?{{ import_login_query }}">
+        {% csrf_token %}
+        <button type="submit" class="primary-action">{% translate "Sign out and use an employer account" %}</button>
+      </form>
+    {% else %}
+      <a class="primary-action"
+         href="{% url 'magic_login' %}?{{ import_login_query }}">{% translate "Sign in" %}</a>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -35,6 +35,9 @@ class EmployerContactTests(TestCase):
             'function': 'Fictional recruiter',
         }
         self.owner = Client()
+        self.owner.force_login(
+            User.objects.create_user(email="workspace@example.invalid", kind="employer")
+        )
         response = self.owner.post(
             '/api/imports/',
             {
@@ -75,7 +78,7 @@ class EmployerContactTests(TestCase):
             'text',
         ):
             with self.subTest(contact=contact):
-                response = Client().post(
+                response = self.owner.post(
                     '/api/imports/',
                     {
                         'kind': 'manual',
@@ -115,6 +118,9 @@ class EmployerContactTests(TestCase):
             409,
         )
         other = Client()
+        other.force_login(
+            User.objects.create_user(email="outsider@example.invalid", kind="employer")
+        )
         self.assertEqual(
             other.post(
                 url,

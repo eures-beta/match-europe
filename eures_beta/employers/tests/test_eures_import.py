@@ -211,6 +211,15 @@ class EuresImportTests(SimpleTestCase):
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class EuresSourceReviewTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+
+        self.client.force_login(
+            get_user_model().objects.create_user(
+                email="importer@example.invalid", kind="employer"
+            )
+        )
+
     @patch('eures_beta.employers.offer_ingestion.public_target')
     @patch('eures_beta.employers.offer_ingestion.fetch_public')
     def test_public_import_prepares_a_review_without_saving_an_offer(

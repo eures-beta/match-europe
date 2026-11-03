@@ -1,4 +1,4 @@
-"""Loopback-only sandbox workflow. PostgreSQL drafts are session-owned; CSRF remains enabled."""
+"""Authenticated employer imports. Account ownership and CSRF are enforced server-side."""
 
 from eures_beta.observability.runtime import stage, timed_stage
 import json
@@ -30,6 +30,7 @@ from eures_beta.demo_access import require_demo_access as demo_api
 from eures_beta.employers.models import EmployerImport
 from eures_beta.employers.employer_ownership import accessible_imports, identity
 from eures_beta.employers.forms import EmployerContactForm
+from eures_beta.employers.import_access import access_page, employer_required
 from eures_beta.employers.offer_ingestion import (
     ImportFailure,
     empty_data,
@@ -62,6 +63,14 @@ def local_only(view):
 @demo_api
 @ensure_csrf_cookie
 def employer_page(request, path):
+    public_pages = (
+        'fr.html',
+        'en.html',
+        'de.html',
+        'privacy-fr.html',
+        'privacy-en.html',
+        'privacy-de.html',
+    )
     if getattr(settings, 'SHARED_DEMO', False) and path == 'push-test.html':
         raise Http404()
     base = settings.APPS_DIR / 'templates' / 'employer'
@@ -81,10 +90,12 @@ def employer_page(request, path):
         or candidate.suffix != '.html'
     ):
         raise Http404()
+    if path not in public_pages and not identity(request):
+        return access_page(request, path)
     if candidate.suffix == '.html':
         # Static build templates remain usable; served HTML activates the real same-origin API.
         person = identity(request)
-        authenticated = bool(person and request.session.get('employer_verified_email'))
+        authenticated = bool(person)
         body_tag = (
             '<body data-employer-api="true" data-employer-connected="'
             + ('true' if authenticated else 'false')
@@ -142,6 +153,7 @@ def body(request):
 
 
 @demo_api
+@employer_required
 def read_source(request):
     if request.method != 'POST':
         return failure('method', 405)
@@ -192,6 +204,7 @@ def read_source(request):
             raise ImportFailure('invalid_data')
         token = secrets.token_urlsafe(24)
         request.session['pending_offer_source'] = {
+            'owner_id': request.user.pk,
             'kind': kind,
             'token': token,
             'url': url,
@@ -224,11 +237,14 @@ def clean_contact(value):
 
 
 @demo_api
+@employer_required
 def imports(request, id=None):
     if request.method == 'GET':
         if not request.session.session_key:
             return failure('not_found', 404) if id else JsonResponse({'drafts': []})
-        qs = accessible_imports(request)
+        qs = accessible_imports(request).exclude(
+            company__isnull=True, created_by__isnull=True
+        )
         if id:
             obj = qs.filter(pk=id).first()
             if not obj:
@@ -253,46 +269,25 @@ def imports(request, id=None):
         if not request.session.session_key:
             request.session.create()
         if id:
-            obj = accessible_imports(request).filter(pk=id).first()
+            obj = (
+                accessible_imports(request)
+                .exclude(company__isnull=True, created_by__isnull=True)
+                .filter(pk=id)
+                .first()
+            )
             if not obj:
                 return failure('not_found', 404)
             payload = body(request)
             return update(request, obj, payload)
-        person = (
-            identity(request)
-            if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1'
-            else None
-        )
-        if not request.session.get('employer_verified_email'):
-            person = None
-        if not request.session.session_key:
-            request.session.create()
-        if (
-            not person
-            and request.POST.get('connectedSubmission') == 'true'
-            and request.POST.get('kind') in ('pdf', 'url')
-            and not request.session.get('pending_offer_source')
-        ):
-            return failure('session_expired', 401)
-        email = person.email if person else request.POST.get('email', '').strip()
-        # An expired connected form can still preserve its explicit contact and draft.
-        if not person and request.POST.get('connectedSubmission') == 'true':
-            try:
-                email = json.loads(request.POST.get('contact', '{}')).get('email', '')
-            except (ValueError, AttributeError):
-                raise ImportFailure('invalid_contact') from None
+        person = identity(request)
+        email = person.email
         try:
             validate_email(email)
         except ValidationError:
             raise ImportFailure('invalid_email') from None
         if len(email) > 254 or request.POST.get('agreement') != 'true':
             raise ImportFailure('agreement_required')
-        if (
-            EmployerImport.objects.filter(
-                session_key=request.session.session_key
-            ).count()
-            >= 30
-        ):
+        if EmployerImport.objects.filter(created_by=person).count() >= 30:
             raise ImportFailure('limit')
         try:
             contact = clean_contact(json.loads(request.POST.get('contact', '{}')))
@@ -304,7 +299,8 @@ def imports(request, id=None):
             source = request.POST.get('url', '').strip()
             pending = request.session.get('pending_offer_source', {})
             if (
-                pending.get('kind', 'url') != 'url'
+                pending.get('owner_id') != person.pk
+                or pending.get('kind', 'url') != 'url'
                 or pending.get('token') != request.POST.get('sourceToken')
                 or pending.get('url') != source
                 or time.time() - pending.get('at', 0) > 900
@@ -315,7 +311,8 @@ def imports(request, id=None):
         elif kind == 'pdf':
             pending = request.session.get('pending_offer_source', {})
             if (
-                pending.get('kind') != 'pdf'
+                pending.get('owner_id') != person.pk
+                or pending.get('kind') != 'pdf'
                 or pending.get('token') != request.POST.get('sourceToken')
                 or time.time() - pending.get('at', 0) > 900
             ):
@@ -343,7 +340,7 @@ def imports(request, id=None):
         with stage('import_save'):
             obj = EmployerImport.objects.create(
                 created_by=person,
-                session_key='' if person else request.session.session_key,
+                session_key='',
                 email=email,
                 contact=contact,
                 preparation_agreed_at=timezone.now(),
@@ -351,24 +348,14 @@ def imports(request, id=None):
                 source_url=source,
                 data=data,
             )
-        if person:
-            request.session['employer_claim_import'] = str(obj.pk)
-        else:
-            request.session['employer_pending_import'] = str(obj.pk)
+        request.session['employer_claim_import'] = str(obj.pk)
         if kind in ('url', 'pdf'):
             request.session.pop('pending_offer_source', None)
-        if os.environ.get('ME_EMPLOYER_EMAIL_LOCAL') == '1':
-            # This ownership rehearsal must never trigger an external submission.
-            return JsonResponse(
-                {
-                    **serialize(obj),
-                    'login_url': (
-                        '/employer/connected/' if person else '/employer/access/'
-                    ),
-                },
-                status=201,
-            )
-        return initial_send(obj, created=True)
+        language = request.POST.get('language', '')
+        destination = '/accounts/dashboard/'
+        if language in ('fr', 'en', 'de'):
+            destination += '?' + urlencode({'lang': language})
+        return JsonResponse({**serialize(obj), 'login_url': destination}, status=201)
     except ImportFailure as exc:
         return failure(exc.code)
 

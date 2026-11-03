@@ -132,7 +132,7 @@ class ClosedRegistrationTests(TestCase):
                 ),
             },
         )
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 403)
         self.assertFalse(get_user_model().objects.exists())
 
     def test_ordinary_accounts_cannot_create_users_in_admin(self):
