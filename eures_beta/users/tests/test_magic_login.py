@@ -24,6 +24,8 @@ from eures_beta.users.models import LoginRateLimit
     DEFAULT_FROM_EMAIL='no-reply@example.invalid',
     LOGIN_EMAIL_ORIGIN='https://testserver',
     LOGIN_EMAIL_ENABLED=True,
+    DJANGO_ENVIRONMENT='production',
+    EMAIL_DELIVERY_ENABLED=True,
 )
 class MagicLoginTests(TestCase):
     def test_https_browser_can_confirm_without_disabling_csrf_or_leaking_token(self):

@@ -77,3 +77,29 @@ Utiliser `make check`, `make format-check`, `make format-html-check`,
 En recette, ouvrir les onglets publics puis le bouton de connexion, changer de
 langue et vérifier le message d’inscription sur invitation et l’envoi désactivé.
 L’envoi réel ne sera validé qu’après configuration privée du prestataire.
+
+## Transport réservé à la production
+
+Tous les e-mails Django passent par `ProductionEmailBackend`. Par défaut,
+`DJANGO_ENVIRONMENT=local` et `EMAIL_DELIVERY_ENABLED=0` interdisent toute connexion
+SMTP. Les recettes jetables restent dans ce mode sans envoi, même si des
+identifiants SMTP leur étaient ajoutés par erreur. Une valeur d’environnement
+inconnue est également bloquée. Ne jamais déclarer une recette « production ».
+
+Seule la production reçoit `DJANGO_ENVIRONMENT=production` et, lors de
+l’activation explicite, `EMAIL_DELIVERY_ENABLED=1`. Les liens de connexion et
+invitations nécessitent aussi `LOGIN_EMAIL_ENABLED=1` et leur configuration
+existante. Ces indicateurs sont de la configuration de déploiement : aucune
+détection à partir du mode démo ou de DEBUG, communs à plusieurs environnements.
+
+Le backend refuse un envoi interdit avec une erreur de configuration, avant
+d’ouvrir SMTP, y compris avec une connexion déjà fournie. Les vues affichent
+l’état « envoi indisponible ». Les tests utilisent des transports simulés et
+n’envoient aucun e-mail réel. Une liste blanche d’équipe n’est pas implémentée.
+
+Pour Brevo, utiliser le SMTP Django standard : serveur `smtp-relay.brevo.com`,
+port 587 avec STARTTLS (`EMAIL_USE_TLS=1`, `EMAIL_USE_SSL=0`), identifiant SMTP
+dans `EMAIL_HOST_USER`, clé SMTP dans `EMAIL_HOST_PASSWORD`, expéditeur validé
+dans `DEFAULT_FROM_EMAIL`. Une clé API Brevo n’est pas nécessaire. Les secrets
+restent dans les variables privées de l’application de production, jamais dans
+le code, les PR, les journaux ou les recettes.

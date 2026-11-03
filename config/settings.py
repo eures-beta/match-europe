@@ -35,7 +35,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # A fixed, trusted origin prevents Host-header poisoning of emailed links.
 LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
 LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
+EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
+EMAIL_BACKEND = 'eures_beta.users.email_backend.ProductionEmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', '1') == '1'

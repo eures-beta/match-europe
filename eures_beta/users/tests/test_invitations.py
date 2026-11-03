@@ -26,6 +26,8 @@ from eures_beta.users.permissions import EMPLOYER_INVITER_GROUP
 @override_settings(
     EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
     LOGIN_EMAIL_ENABLED=False,
+    DJANGO_ENVIRONMENT='production',
+    EMAIL_DELIVERY_ENABLED=True,
     LOGIN_EMAIL_ORIGIN='https://testserver',
     EMAIL_HOST='smtp.example.invalid',
     DEFAULT_FROM_EMAIL='sender@example.invalid',

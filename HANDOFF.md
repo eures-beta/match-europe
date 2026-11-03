@@ -755,3 +755,9 @@ annoncée en construction en FR/EN/DE, sans liste métier ni nouveaux droits.
 La page de connexion redirige aussi une session déjà ouverte vers ce tableau.
 Validation locale : 267 tests PostgreSQL passent, dont le parcours HTTPS/CSRF
 pour employeur, conseiller et conseiller staff.
+# E-mails réservés à la production
+
+Backend SMTP commun exigeant `DJANGO_ENVIRONMENT=production` et
+`EMAIL_DELIVERY_ENABLED=1`. Local et recettes restent sans envoi par défaut.
+PR indépendante du parcours candidat. Tests sans e-mail réel ; configuration
+du prestataire exclusivement privée. Voir [connexion](docs/MAGIC_LOGIN.md).

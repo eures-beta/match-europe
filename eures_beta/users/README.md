@@ -6,6 +6,8 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [email_backend.py](email_backend.py) — Interdit les connexions SMTP hors production explicitement activée.
+
 - [Invitations employeurs](../../../docs/EMPLOYER_INVITATIONS.md) — Tableau conseiller, invitation de sept jours et simulation privée des e-mails.
 - [invitations.py](invitations.py) — Création explicite, jetons signés et limites.
 - [invitation_views.py](invitation_views.py) — Vues conseiller et acceptation publique protégée.
