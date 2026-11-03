@@ -7366,3 +7366,30 @@ msgstr "Filter anzeigen"
 
 msgid "Hide filters"
 msgstr "Filter ausblenden"
+
+msgid "Test adviser"
+msgstr "Testberater"
+
+msgid "Test employer"
+msgstr "Testarbeitgeber"
+
+msgid "Test superadministrator"
+msgstr "Test-Superadministrator"
+
+msgid "Test environment"
+msgstr "Testumgebung"
+
+msgid "Test environment — fictional data only. Do not enter real personal data."
+msgstr "Testumgebung — nur fiktive Daten. Geben Sie keine echten personenbezogenen Daten ein."
+
+msgid "Choose or switch test account"
+msgstr "Testkonto auswählen oder wechseln"
+
+msgid "Choose a test account"
+msgstr "Testkonto auswählen"
+
+msgid "These shared accounts contain fictional data. Anyone testing this environment can access them. Changes disappear when the test environment is deleted."
+msgstr "Diese gemeinsamen Konten enthalten fiktive Daten. Alle Personen, die diese Umgebung testen, können darauf zugreifen. Änderungen verschwinden, wenn die Testumgebung gelöscht wird."
+
+msgid "No test accounts are available yet."
+msgstr "Es sind noch keine Testkonten verfügbar."

@@ -6,6 +6,8 @@ Voir [la documentation de transition](../../../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [seed_test_accounts.py](seed_test_accounts.py) — Prépare les comptes et offres fictifs sans réinitialisation ; `make test-accounts-seed`.
+
 - [invitation_email.py](invitation_email.py) — Simulation privée d'une invitation existante, sans envoi.
 - [login_email.py](login_email.py) — Simulation privée d'une connexion pour un compte actif existant, sans envoi.
 

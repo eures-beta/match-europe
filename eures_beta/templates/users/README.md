@@ -8,5 +8,6 @@ Ces templates communs aux conseillers et employeurs utilisent gettext et le
 - [dashboard.html](dashboard.html) — Tableau de bord privé commun, annoncé en construction.
 - [login_email.txt](login_email.txt) — Message de connexion personnel envoyé par SMTP.
 - [README.md](README.md) — Présente ce dossier.
+- [test_accounts.html](test_accounts.html) — Choix d’un compte fictif, uniquement en local/recette explicitement activé.
 
 [Remonter au dossier parent](../).

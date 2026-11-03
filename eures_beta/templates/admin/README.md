@@ -6,5 +6,6 @@ Ces surcharges ciblées prolongent les templates Django standards.
 - [index.html](index.html) — Retire les messages historiques potentiellement sensibles de l’accueil de consultation.
 - [read_only_change_form.html](read_only_change_form.html) — Présente les objets en lecture seule.
 - [README.md](README.md) — Présente les surcharges de ce dossier.
+- [base_site.html](base_site.html) — Conserve le bandeau de test et le changement de compte dans l’administration.
 
 [Dossier parent](../).

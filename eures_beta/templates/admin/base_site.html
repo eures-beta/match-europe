@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block extrastyle %}
+  {{ block.super }}
+  {% if test_accounts_enabled %}
+    <link rel="stylesheet" href="{% static 'users/test_accounts.css' %}">
+  {% endif %}
+{% endblock %}
+{% block header %}
+  {% include "includes/test_accounts_banner.html" %}
+  {{ block.super }}
+{% endblock %}

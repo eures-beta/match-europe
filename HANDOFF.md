@@ -818,3 +818,8 @@ PR dédiée au-dessus de l’admin en lecture seule : bouton afficher/masquer le
 panneau de filtres, préférence navigateur mémorisée, FR/EN/DE. Les filtres actifs
 et permissions sont conservés ; sans JavaScript le panneau reste visible.
 Pas de modification responsive, des adresses e-mail ou de la barre gauche.
+# 2026-11-03 — Comptes fictifs en local/recette
+
+Sélecteur traduit et peuplement idempotent : voir [TEST_ACCOUNTS](docs/TEST_ACCOUNTS.md).
+Trois rôles fixes et deux offres ; aucun modèle/migration nouveau. La production
+doit rester désactivée. `make test-accounts-test` couvre les garde-fous et la CSRF.
