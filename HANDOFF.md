@@ -812,3 +812,9 @@ Backend SMTP commun exigeant `DJANGO_ENVIRONMENT=production` et
 `EMAIL_DELIVERY_ENABLED=1`. Local et recettes restent sans envoi par défaut.
 PR indépendante du parcours candidat. Tests sans e-mail réel ; configuration
 du prestataire exclusivement privée. Voir [connexion](docs/MAGIC_LOGIN.md).
+## 3 novembre 2026 — filtres de l’administration
+
+PR dédiée au-dessus de l’admin en lecture seule : bouton afficher/masquer le
+panneau de filtres, préférence navigateur mémorisée, FR/EN/DE. Les filtres actifs
+et permissions sont conservés ; sans JavaScript le panneau reste visible.
+Pas de modification responsive, des adresses e-mail ou de la barre gauche.

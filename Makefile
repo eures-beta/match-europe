@@ -13,8 +13,13 @@ format-js-check: ## Vérifier le format JavaScript sans modifier les sources
 	./node_modules/.bin/prettier --check 'eures_beta/**/*.{js,cjs,mjs}'
 
 check-js: ## Vérifier la syntaxe de chaque source JavaScript
+	$(MAKE) admin-filter-test
 	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}'
 	find eures_beta -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
+
+.PHONY: admin-filter-test
+admin-filter-test: ## Tester le bouton des filtres admin et sa mémorisation, sans navigateur ni réseau
+	node --test eures_beta/users/tests/admin_filters.test.cjs
 # Outillage isolé des dépendances de l'application et des identifiants personnels.
 QUALITY_PYTHON ?= .venv-quality/bin/python
 

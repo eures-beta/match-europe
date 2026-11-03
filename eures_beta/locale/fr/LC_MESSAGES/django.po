@@ -7361,3 +7361,8 @@ msgstr "Réponse externe"
 
 msgid "Source URL"
 msgstr "URL source"
+msgid "Show filters"
+msgstr "Afficher les filtres"
+
+msgid "Hide filters"
+msgstr "Masquer les filtres"
