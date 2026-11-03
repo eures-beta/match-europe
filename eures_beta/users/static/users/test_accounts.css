@@ -1,0 +1,23 @@
+.test-accounts-banner {
+  background: #a51d28;
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 24px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.test-accounts-banner a,
+.test-accounts-banner a:visited {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.test-accounts-banner a:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}

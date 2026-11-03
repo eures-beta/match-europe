@@ -1,0 +1,23 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "Choose a test account" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="test-accounts-title">
+    <h1 id="test-accounts-title">{% translate "Choose a test account" %}</h1>
+    <p>{% translate "These shared accounts contain fictional data. Anyone testing this environment can access them. Changes disappear when the test environment is deleted." %}</p>
+    {% for account in accounts %}
+      <form method="post"
+            action="{% url 'test_account_sign_in' %}?lang={{ page_language }}">
+        {% csrf_token %}
+        <input type="hidden" name="account" value="{{ account.key }}">
+        <p>
+          <button type="submit" class="primary-action">{{ account.label }}</button>
+          <br>
+          {{ account.email }}
+        </p>
+      </form>
+    {% empty %}
+      <p role="status">{% translate "No test accounts are available yet." %}</p>
+    {% endfor %}
+  </section>
+{% endblock %}

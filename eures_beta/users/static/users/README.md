@@ -6,3 +6,8 @@ Ces ressources complètent le layout public commun, sans changer les logos parte
 - [README.md](README.md) — Présente ce dossier.
 
 [Remonter au dossier parent](../).
+# Bandeau des comptes fictifs
+
+[test_accounts.css](test_accounts.css) présente le bandeau permanent avec contraste
+élevé, liens soulignés et focus visible. Chargé uniquement en environnement de
+test explicitement activé ; aucun JavaScript nécessaire.

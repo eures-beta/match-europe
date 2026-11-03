@@ -5,6 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if test_accounts_enabled %}
+      <link rel="stylesheet" href="{% static 'users/test_accounts.css' %}">
+    {% endif %}
     <title>{% block page_title %}Match Europe — {% translate "Home" context "employer landing" %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/employer/site.css">
     <style>
@@ -198,6 +201,7 @@
     {% block extra_head %}{% endblock %}
   </head>
   <body>
+    {% include "includes/test_accounts_banner.html" %}
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
     {% if shared_demo_notice %}<p class="demo-notice">{{ shared_demo_notice }}</p>{% endif %}
     <header class="site-header">

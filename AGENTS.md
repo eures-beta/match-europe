@@ -821,6 +821,11 @@ The five permanent quality pillars for every user-facing feature are:
 **A feature missing any of these five pillars is not considered complete.**
 # E-mails réels
 
+- L’identification instantanée des comptes fictifs est réservée à `local` et
+  `preview`, avec `TEST_ACCOUNTS_ENABLED=1` et les e-mails réels désactivés.
+  Ne jamais l’activer en production ni la déduire des anciens réglages de démo.
+  Voir [les protections et le peuplement idempotent](docs/TEST_ACCOUNTS.md).
+
 - Tous les e-mails applicatifs passent par le backend Django protégé ; ne pas
   le contourner avec SMTP direct ou une API de prestataire.
 - Local et recettes jetables n’envoient jamais d’e-mail réel. Ne jamais y définir
