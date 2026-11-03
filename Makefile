@@ -19,7 +19,7 @@ check-js: ## Vérifier la syntaxe de chaque source JavaScript
 
 .PHONY: admin-filter-test
 admin-filter-test: ## Tester le bouton des filtres admin et sa mémorisation, sans navigateur ni réseau
-	node --test eures_beta/users/tests/admin_filters.test.cjs
+	node --test eures_beta/users/tests/admin_filters.test.cjs eures_beta/users/tests/admin_navigation.test.cjs
 # Outillage isolé des dépendances de l'application et des identifiants personnels.
 QUALITY_PYTHON ?= .venv-quality/bin/python
 

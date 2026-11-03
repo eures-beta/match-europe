@@ -24,3 +24,4 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 - [README.md](README.md) — Présente ce dossier et son contenu.
 
 [Remonter au dossier parent](../).
+- [admin_navigation.test.cjs](admin_navigation.test.cjs) — Vérifie la navigation masquée par défaut et la conservation des préférences explicites.

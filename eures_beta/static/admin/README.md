@@ -7,3 +7,4 @@ Ces ressources complètent Django Admin sans modifier ses permissions.
 - [README.md](README.md) — Présente les ressources de ce dossier.
 
 [Dossier parent](../).
+- [nav-sidebar-default.js](nav-sidebar-default.js) — Initialise la navigation Django repliée en l’absence de choix mémorisé, sans toucher aux filtres.

@@ -9,3 +9,4 @@ Ces surcharges ciblées prolongent les templates Django standards.
 - [base_site.html](base_site.html) — Conserve le bandeau de test et le changement de compte dans l’administration.
 
 [Dossier parent](../).
+- [base_site.html](base_site.html) — Charge le réglage de navigation repliée avant l’initialisation native Django.

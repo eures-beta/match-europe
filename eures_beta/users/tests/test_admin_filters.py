@@ -29,6 +29,7 @@ class AdminFilterToggleTests(TestCase):
                 self.assertContains(response, f'data-hide-label="{hide}"')
                 self.assertTrue(response.context['cl'].has_active_filters)
                 self.assertContains(response, 'admin/filter-toggle.js')
+                self.assertContains(response, 'admin/nav-sidebar-default.js')
 
     def test_lists_without_filters_do_not_offer_an_empty_control(self):
         response = self.client.get(reverse('admin:contenttypes_contenttype_changelist'))
