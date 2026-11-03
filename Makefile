@@ -42,6 +42,13 @@ CATALOG_DIR ?= eures_beta/occupations/data
 CATALOG_REPORT ?= .runtime/catalog-validation.json
 
 .PHONY: occupations-build occupations-validate occupations-test
+.PHONY: occupations-performance-test
+.PHONY: occupations-benchmark
+occupations-benchmark: ## Mesurer hors ligne le nettoyage et la recherche sur des intitulés fictifs (délai limité)
+	$(PYTHON) -m eures_beta.occupations.tools.benchmark_search
+
+occupations-performance-test: ## Vérifier que les intitulés mal formés ne bloquent pas la recherche (processus isolé)
+	@$(MANAGE) test eures_beta.occupations.tests.test_search_performance --noinput $(TEST_ARGS)
 occupations-build: ## Construire un catalogue en staging depuis les archives locales (sans réseau)
 	$(PYTHON) -m eures_beta.occupations.tools.build_catalog --esco-dir "$(CATALOG_SOURCES)" --mapping "$(CATALOG_SOURCES)/esco-rome-other.csv" --rome "$(CATALOG_SOURCES)/rome-oct2026.xlsx" --output "$(CATALOG_OUTPUT)"
 
