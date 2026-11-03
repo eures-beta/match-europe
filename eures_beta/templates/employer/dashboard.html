@@ -1,0 +1,60 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="dashboard-title">
+    <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
+    <h2>{% translate "Your offers" context "employer dashboard" %}</h2>
+    <p>{% translate "View your existing offers. Creating and editing offers is not available from this dashboard yet." context "employer dashboard" %}</p>
+    <div class="account-table-scroll">
+      <table>
+        <caption>{% translate "Offers you can view" context "employer dashboard" %}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{% translate "Job title" context "employer dashboard" %}</th>
+            <th scope="col">{% translate "Establishment" context "employer dashboard" %}</th>
+            <th scope="col">{% translate "Location" context "employer dashboard" %}</th>
+            <th scope="col">{% translate "Last updated" context "employer dashboard" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for offer in offers %}
+            <tr>
+              <td>
+                {% if offer.data.title %}
+                  {{ offer.data.title }}
+                {% else %}
+                  {% translate "Untitled offer" context "employer dashboard" %}
+                {% endif %}
+              </td>
+              <td>
+                {% if offer.company %}
+                  {{ offer.company.name }}
+                {% else %}
+                  {% translate "Not attached to an establishment" context "employer dashboard" %}
+                {% endif %}
+              </td>
+              <td>{{ offer.data.city|default:"—" }}</td>
+              <td>
+                <time datetime="{{ offer.updated|date:'c' }}">{{ offer.updated|date:"SHORT_DATETIME_FORMAT" }}</time>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">{% translate "No offers to display yet." context "employer dashboard" %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if offers.has_other_pages %}
+      <nav aria-label="{% translate 'Offer pages' context 'employer dashboard' %}">
+        {% if offers.has_previous %}
+          <a href="?lang={{ page_language }}&amp;offers_page={{ offers.previous_page_number }}">{% translate "Previous offers" context "employer dashboard" %}</a>
+        {% endif %}
+        {% if offers.has_next %}
+          <a href="?lang={{ page_language }}&amp;offers_page={{ offers.next_page_number }}">{% translate "Next offers" context "employer dashboard" %}</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -22,7 +22,7 @@ class DashboardTests(TestCase):
         user.save(update_fields=['is_active'])
         self.assertEqual(self.client.get(reverse('dashboard')).status_code, 302)
 
-    def test_both_roles_get_the_same_translated_placeholder_without_other_user_data(
+    def test_both_roles_get_their_translated_dashboard_without_other_user_data(
         self,
     ):
         other = get_user_model().objects.create_user(
@@ -34,9 +34,9 @@ class DashboardTests(TestCase):
             )
             self.client.force_login(user)
             for language, title, notice in (
-                ('fr', 'Tableau de bord', 'Votre tableau de bord est en construction.'),
-                ('en', 'Dashboard', 'Your dashboard is under construction.'),
-                ('de', 'Übersicht', 'Ihre Übersicht befindet sich im Aufbau.'),
+                ('fr', 'Tableau de bord', 'Vos offres'),
+                ('en', 'Dashboard', 'Your offers'),
+                ('de', 'Übersicht', 'Ihre Stellenangebote'),
             ):
                 response = self.client.get(reverse('dashboard'), {'lang': language})
                 self.assertContains(response, title)

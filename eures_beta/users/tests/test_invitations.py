@@ -63,7 +63,7 @@ class InvitationTests(TestCase):
         self.assertEqual(list(page.context['employers']), [self.employer])
         self.client.force_login(self.employer)
         page = self.client.get(reverse('dashboard'), {'lang': 'en'})
-        self.assertContains(page, 'Your dashboard is under construction.')
+        self.assertContains(page, 'Your offers')
         self.assertNotContains(page, invitation.email)
         self.assertNotContains(page, 'Invite an employer')
 
@@ -244,7 +244,7 @@ class InvitationTests(TestCase):
             {'kind': 'adviser', 'is_staff': 'on'},
             follow=True,
         )
-        self.assertContains(response, 'Your dashboard is under construction.')
+        self.assertContains(response, 'Your offers')
         user = User.objects.get(email=invitation.email)
         self.assertEqual(user.kind, 'employer')
         self.assertTrue(user.is_active)

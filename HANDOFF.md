@@ -834,3 +834,10 @@ respectés ; aucune écriture en base ou préférence persistante. FR/EN/DE.
 Second commit de la PR des compteurs : navigation gauche initialisée fermée,
 bouton et mémorisation natifs Django conservés. Les préférences déjà explicites
 restent respectées. Aucun changement de l’affichage par défaut des filtres droits.
+
+# 2026-11-03 — Tableau employeur en consultation
+
+`employers/dashboard.py` affiche les offres accessibles via les adhésions actives
+et les brouillons du compte, sans brouillons anonymes ni déduction par e-mail.
+Liste paginée FR/EN/DE, aucune action d’écriture ajoutée, modèles inchangés.
+Voir [ACCOUNT_PAGES](docs/ACCOUNT_PAGES.md) et les tests métier du tableau.

@@ -32,3 +32,21 @@ Elle exige une session active, refuse les écritures et n’est pas mise en cach
 Un utilisateur déjà connecté qui ouvre la page de connexion retourne au tableau
 de bord. Les paramètres `next` ne changent pas la destination après consommation
 du lien magique. Les anciens essais employeur locaux restent séparés.
+# Tableau employeur : offres en lecture seule
+
+Le tableau connecté affiche les offres des établissements dont l’employeur est
+membre actif et ses brouillons privés explicitement rattachés à son compte.
+Les brouillons anonymes du navigateur sont exclus. Le contact d’une offre et
+les paramètres d’URL ne donnent aucun droit supplémentaire ; une adhésion
+révoquée retire immédiatement les offres de l’établissement.
+
+La liste présente intitulé, établissement, lieu et dernière modification,
+25 offres par page, les plus récemment modifiées en premier. Aucun bouton de
+création, modification, duplication ou lancement de recherche n’est ajouté.
+Ce changement concerne uniquement le tableau ; les autres parcours employeur
+conservent leurs propres règles d’accès. Le tableau conseiller est inchangé.
+
+Aucun nouveau modèle, migration ou stockage métier. La route reste privée,
+GET uniquement et sans cache ; les sessions existantes restent inchangées.
+Le texte des offres est échappé, jamais interprété comme HTML.
+Tests : `make test` (dont `employers/tests/test_dashboard.py`).

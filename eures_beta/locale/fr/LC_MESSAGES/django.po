@@ -7399,3 +7399,55 @@ msgstr "Afficher les nombres d’enregistrements"
 
 msgid "Hide record counts"
 msgstr "Masquer les nombres d’enregistrements"
+
+msgctxt "employer dashboard"
+msgid "Your offers"
+msgstr "Vos offres"
+
+msgctxt "employer dashboard"
+msgid "View your existing offers. Creating and editing offers is not available from this dashboard yet."
+msgstr "Consultez vos offres existantes. La création et la modification d’offres ne sont pas encore disponibles depuis ce tableau de bord."
+
+msgctxt "employer dashboard"
+msgid "Offers you can view"
+msgstr "Offres consultables"
+
+msgctxt "employer dashboard"
+msgid "Job title"
+msgstr "Intitulé du poste"
+
+msgctxt "employer dashboard"
+msgid "Establishment"
+msgstr "Établissement"
+
+msgctxt "employer dashboard"
+msgid "Location"
+msgstr "Lieu"
+
+msgctxt "employer dashboard"
+msgid "Last updated"
+msgstr "Dernière modification"
+
+msgctxt "employer dashboard"
+msgid "Untitled offer"
+msgstr "Offre sans intitulé"
+
+msgctxt "employer dashboard"
+msgid "Not attached to an establishment"
+msgstr "Non rattachée à un établissement"
+
+msgctxt "employer dashboard"
+msgid "No offers to display yet."
+msgstr "Aucune offre à afficher pour le moment."
+
+msgctxt "employer dashboard"
+msgid "Offer pages"
+msgstr "Pages des offres"
+
+msgctxt "employer dashboard"
+msgid "Previous offers"
+msgstr "Offres précédentes"
+
+msgctxt "employer dashboard"
+msgid "Next offers"
+msgstr "Offres suivantes"
