@@ -862,3 +862,15 @@ des routes métier, des données de production ou déploiement dans cette tâche
 Bouton d’import partagé avec la page publique employeur, langue conservée et
 visible même avec une liste vide. Texte contradictoire corrigé en FR/EN/DE.
 Aucune nouvelle permission, donnée, migration ou API ; parcours existant réutilisé.
+
+## 3 novembre 2026 — recherche métier : attente bornée et repli manuel
+
+Le navigateur pouvait rester sur « Finding descriptions… » sans délai limite,
+avec la description personnelle cachée même après une erreur HTTP. Deux tests
+JavaScript sur le module réel reproduisent ces défauts avant correctif ; le cas
+nominal reste couvert. Attente bornée à 15 s, réponse JSON incluse, reprise et
+saisie manuelle accessibles sans inventer de référence métier. L’API de production
+répondait à un contrôle ponctuel : cause réseau exacte de l’onglet bloqué non
+établie. Aucun changement de modèle, de données métier ni de permissions.
+Validation : 354 tests PostgreSQL et trois tests JavaScript réussis, contrôles
+Django/migrations, Python, HTML, JavaScript et traductions réussis.
