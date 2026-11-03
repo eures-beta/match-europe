@@ -178,6 +178,7 @@ class ImportAccessTests(TestCase):
         self.assertTrue(
             response['Location'].startswith(reverse('magic_login') + '?next=')
         )
+        self.assertIn('lang=fr', response['Location'])
         self.assertNotIn('_auth_user_id', self.client.session)
         self.assertEqual(User.objects.count(), 2)
 
