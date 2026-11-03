@@ -178,6 +178,10 @@
     status.className = '';
     error.textContent = '';
     retry.hidden = true;
+    // Keep an escape route available even while the network request is pending.
+    manual(t.manualHelp);
+    custom.hidden = false;
+    let deadline;
     try {
       const context = useContext
         ? [
@@ -192,15 +196,25 @@
           .split('; ')
           .find((value) => value.startsWith('csrftoken='))
           ?.split('=')[1] || '';
-      const response = await fetch('/api/occupations/', {
+      const pending = fetch('/api/occupations/', {
         method: 'POST',
         credentials: 'same-origin',
         signal: controller.signal,
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
         body: JSON.stringify({ q, lang, mode, excluded: offered, context, independent: true }),
       });
-      if (!response.ok) throw new Error('catalogue');
-      const result = await response.json();
+      const result = await Promise.race([
+        pending.then(async (response) => {
+          if (!response.ok) throw new Error('catalogue');
+          return response.json();
+        }),
+        new Promise((_, reject) => {
+          deadline = setTimeout(() => {
+            reject(new Error('catalogue timeout'));
+            if (request === serial) controller.abort();
+          }, 15000);
+        }),
+      ]);
       if (request !== serial || title.value.trim() !== boundTitle) return;
       version = result.version;
       searchedTitle = boundTitle;
@@ -238,7 +252,10 @@
         status.textContent = '';
         error.textContent = t.searchFailed;
         retry.hidden = false;
+        custom.hidden = false;
       }
+    } finally {
+      clearTimeout(deadline);
     }
   }
   function schedule(mode) {
