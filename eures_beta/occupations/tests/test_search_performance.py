@@ -41,6 +41,17 @@ for title in titles:
     for language in ('fr', 'en', 'de'):
         suggestions(title, language)
     rome_suggestions(title)
+import os, django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+django.setup()
+from django.test import Client, override_settings
+with override_settings(DEMO_MODE=True, SHARED_DEMO=True, ALLOWED_HOSTS=['testserver']):
+    for title in titles:
+        for language in ('fr', 'en', 'de'):
+            response = Client().post('/api/occupations/', json.dumps({'q':title, 'lang':language, 'independent':True}), content_type='application/json', secure=True)
+            assert response.status_code == 200, response.status_code
+            assert response.json()['results'] == []
+            assert response.json()['rome_results'] == []
 '''
         try:
             result = subprocess.run(

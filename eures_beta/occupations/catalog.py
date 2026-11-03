@@ -95,7 +95,19 @@ def references(value, language):
 
 def search_title(value):
     """Ignore recruitment annotations for lookup only; keep the stored title intact."""
-    value = re.sub(r'\((?:[mfw dhx]+[/·, -]*){2,}\)', ' ', value, flags=re.I)
+
+    def annotation(match):
+        text = match.group()[1:-1].casefold()
+        # Preserve the old annotation grammar without nested quantifiers. Spaces
+        # count as base characters in that grammar; other parenthetical text stays.
+        base = 'mfw dhx'
+        if text and text[0] in base and sum(char in base for char in text) >= 2:
+            return ' '
+        return match.group()
+
+    # One non-overlapping character-class scan. An absent ')' or an invalid
+    # character cannot trigger exponential backtracking and monopolize the GIL.
+    value = re.sub(r'\([mfw dhx/·, -]*\)', annotation, value, flags=re.I)
     value = re.split(
         r'\s*[-–—|,]\s*(?=(?:CDI|CDD|full[ -]time|part[ -]time|\d+\s*h)\b)',
         value,
