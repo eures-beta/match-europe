@@ -1,3 +1,12 @@
+## 3 novembre 2026 — consultation de tous les modèles dans Django Admin
+
+PR dédiée depuis main : neuf modèles applicatifs et cinq modèles techniques
+consultables par les superadministrateurs. Administration entièrement en lecture
+seule, y compris les comptes ; création de conseiller par admin retirée.
+Invitations employeurs hors admin inchangées. Secrets exclus, sessions et journal
+limités à leurs métadonnées. Aucune migration ou donnée de production modifiée.
+Voir docs/ADMIN_READONLY.md et `make admin-test`.
+
 ## 2 novembre 2026 — invitations employeurs (nouvelle PR)
 
 Conseillers : liste paginée des employeurs et invitations, création d'invitations

@@ -5,17 +5,16 @@ donne aucun droit sur les modèles. Les superutilisateurs constituent l'exceptio
 native de Django et contournent les vérifications de permissions.
 
 La politique de `eures_beta/users/permissions.py` donne au groupe `account-admin`
-uniquement `users.add_user` et `users.view_user`. Ses membres sont les conseillers
+uniquement `users.view_user`. Ses membres sont les conseillers
 actifs avec `is_staff=True`. Les identités et les indicateurs individuels restent
 des données en base ; aucune liste nominative n'est versionnée.
 
-Ces administrateurs peuvent consulter les conseillers et créer un conseiller
-ordinaire : actif, sans accès administratif, sans statut superutilisateur et avec
-un mot de passe inutilisable. Ils ne peuvent ni modifier ni supprimer un compte,
-ni attribuer des droits. Les employeurs ne sont pas visibles dans cette liste.
-Les groupes et les champs de privilèges ne sont pas modifiables dans cette UI.
-Le formulaire de création utilise un `ModelAdmin` restreint : le `UserAdmin`
-standard exige aussi le droit de modification, trop large pour ce besoin.
+Ces administrateurs peuvent consulter les conseillers. Les superadministrateurs
+peuvent consulter tous les comptes et les autres modèles. Toute l'administration
+est désormais en lecture seule : aucune création, modification, suppression ou
+action groupée, même pour un superutilisateur. Cela remplace le formulaire de
+création de conseillers introduit précédemment. Le parcours d'invitation employeur
+hors administration reste inchangé. Voir [le périmètre de consultation](ADMIN_READONLY.md).
 
 ## Réconciliation
 

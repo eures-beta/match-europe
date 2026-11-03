@@ -7346,3 +7346,18 @@ msgstr "Welche Sprachen können Sie verwenden?"
 #: eures_beta/candidates/templates/candidates/language_strings.html:4
 msgid "Add your languages and choose a level for each. The descriptions help you assess yourself; they are not a language test."
 msgstr "Fügen Sie Ihre Sprachen hinzu und wählen Sie jeweils ein Niveau. Die Beschreibungen helfen bei der Selbsteinschätzung; dies ist kein Sprachtest."
+
+msgid "Session reference"
+msgstr "Sitzungsreferenz"
+
+msgid "Data"
+msgstr "Daten"
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "External response"
+msgstr "Externe Antwort"
+
+msgid "Source URL"
+msgstr "Quell-URL"

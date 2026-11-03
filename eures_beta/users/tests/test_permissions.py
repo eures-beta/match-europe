@@ -46,7 +46,7 @@ class VersionedPermissionTests(TestCase):
         identity = group.pk
         self.assertEqual(
             set(group.permissions.values_list('codename', flat=True)),
-            {'add_user', 'view_user'},
+            {'view_user'},
         )
         self.assertEqual(
             list(group.user_set.values_list('pk', flat=True)), [self.staff.pk]
@@ -54,7 +54,7 @@ class VersionedPermissionTests(TestCase):
         self.sync()
         self.assertEqual(Group.objects.get(name=ACCOUNT_ADMIN_GROUP).pk, identity)
         user = User.objects.get(pk=self.staff.pk)
-        self.assertTrue(user.has_perm('users.add_user'))
+        self.assertFalse(user.has_perm('users.add_user'))
         self.assertTrue(user.has_perm('users.view_user'))
         self.assertFalse(user.has_perm('users.change_user'))
         self.assertFalse(user.has_perm('users.delete_user'))
@@ -81,7 +81,7 @@ class VersionedPermissionTests(TestCase):
         self.sync()
         self.assertEqual(
             set(group.permissions.values_list('codename', flat=True)),
-            {'add_user', 'view_user'},
+            {'view_user'},
         )
         self.assertEqual(
             list(group.user_set.values_list('pk', flat=True)), [self.staff.pk]
@@ -126,7 +126,7 @@ class VersionedPermissionTests(TestCase):
         group = Group.objects.get(name=ACCOUNT_ADMIN_GROUP)
         group.permissions.clear()
         call_command('migrate', interactive=False, verbosity=0, stdout=StringIO())
-        self.assertEqual(group.permissions.count(), 2)
+        self.assertEqual(group.permissions.count(), 1)
         with patch('eures_beta.users.management.commands.migrate.call_command') as sync:
             call_command(
                 'migrate', plan=True, interactive=False, verbosity=0, stdout=StringIO()
@@ -155,7 +155,7 @@ class AccountAdministrationTests(TestCase):
         call_command('sync_group_and_perms', stdout=StringIO())
         self.client.force_login(self.manager)
 
-    def test_manager_can_create_only_an_ordinary_adviser_despite_forged_fields(self):
+    def test_read_only_admin_rejects_creation_despite_forged_fields(self):
         group = Group.objects.get(name=ACCOUNT_ADMIN_GROUP)
         permission = group.permissions.first()
         response = self.client.post(
@@ -174,24 +174,14 @@ class AccountAdministrationTests(TestCase):
                 'password2': 'fictional-password',
             },
         )
-        self.assertEqual(response.status_code, 302)
-        user = User.objects.get(email='new-adviser@example.invalid')
-        self.assertEqual(user.kind, 'adviser')
-        self.assertEqual(user.first_name, 'Fictional')
-        self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
-        self.assertFalse(user.has_usable_password())
-        self.assertEqual(
-            list(user.groups.values_list('name', flat=True)), ['employer-inviters']
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(
+            User.objects.filter(email='new-adviser@example.invalid').exists()
         )
-        self.assertFalse(user.user_permissions.exists())
 
-    def test_add_form_has_no_role_privilege_or_password_controls(self):
+    def test_add_form_is_not_available(self):
         response = self.client.get(reverse('admin:users_user_add'))
-        self.assertEqual(response.status_code, 200)
-        fields = set(response.context['adminform'].form.fields)
-        self.assertEqual(fields, {'email', 'first_name', 'last_name'})
+        self.assertEqual(response.status_code, 403)
 
     def test_ordinary_adviser_and_staff_employer_cannot_add_users(self):
         for user in (self.adviser, self.employer):
@@ -233,13 +223,16 @@ class AccountAdministrationTests(TestCase):
             403,
         )
         self.assertTrue(User.objects.filter(pk=self.adviser.pk).exists())
-        self.assertFalse(admin.site.is_registered(Group))
+        self.assertTrue(admin.site.is_registered(Group))
+        self.assertEqual(
+            self.client.get(reverse('admin:auth_group_changelist')).status_code, 403
+        )
 
     def test_duplicate_email_is_rejected_without_a_second_account(self):
         response = self.client.post(
             reverse('admin:users_user_add'), {'email': self.adviser.email.upper()}
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
         self.assertEqual(
             User.objects.filter(email__iexact=self.adviser.email).count(), 1
         )

@@ -12,7 +12,7 @@ def get_group_permissions():
     from .models import User, EmployerInvitation
 
     return {
-        ACCOUNT_ADMIN_GROUP: {User: {'add', 'view'}},
+        ACCOUNT_ADMIN_GROUP: {User: {'view'}},
         EMPLOYER_INVITER_GROUP: {EmployerInvitation: {'add', 'view'}},
     }
 
