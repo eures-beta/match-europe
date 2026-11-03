@@ -1,3 +1,19 @@
 {% extends "admin/index.html" %}
+{% load i18n admin_model_counts %}
 {# Read-only inspection: historical action messages may contain sensitive values. #}
 {% block sidebar %}{% endblock %}
+{% block content %}
+  <div id="content-main">
+    {% if app_list %}
+      <p>
+        {% if request.GET.model_counts == "1" %}
+          <a href="{% querystring model_counts=None %}">{% translate "Hide record counts" %}</a>
+        {% else %}
+          <a href="{% querystring model_counts='1' %}">{% translate "Show record counts" %}</a>
+        {% endif %}
+      </p>
+    {% endif %}
+    {% with_model_counts app_list request as counted_app_list %}
+    {% include "admin/app_list.html" with app_list=counted_app_list show_changelinks=True %}
+  </div>
+{% endblock %}

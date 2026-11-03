@@ -72,3 +72,21 @@ de navigation, des e-mails, des permissions ou du comportement selon la largeur.
 
 Vérifications : `make test` pour les pages et traductions, `make check-js` pour
 les interactions et leur mémorisation.
+## Nombres d’enregistrements à la demande
+
+Sur l’accueil de l’administration, « Afficher les nombres d’enregistrements »
+ajoute un total entre parenthèses à chaque modèle visible, y compris zéro.
+Le lien « Masquer » revient à l’affichage habituel. L’activation reste uniquement
+dans l’URL (`model_counts=1`), sans cookie, préférence persistante ou nouvelle
+donnée en base. Sans ce paramètre exact, aucun comptage supplémentaire.
+
+Chaque nombre est calculé avec le queryset du ModelAdmin et ses permissions :
+un administrateur limité aux conseillers voit seulement leur nombre, pas tous
+les comptes. Les modèles interdits ne sont pas comptés. Le panneau de navigation
+n’est pas enrichi de compteurs. Lorsque l’option est activée, une requête COUNT
+par modèle visible est nécessaire ; les résultats ne sont pas mis en cache et
+peuvent évoluer entre deux requêtes si des données sont créées en parallèle.
+
+Vérification des droits, des comptes nuls et de l’absence de COUNT par défaut :
+`make test`. Les tests utilisent exclusivement PostgreSQL local et des données
+fictives.

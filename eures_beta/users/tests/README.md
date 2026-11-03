@@ -8,6 +8,8 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 
 - [test_test_accounts.py](test_test_accounts.py) — Peuplement idempotent, rôles, langues, CSRF et refus hors environnement fictif ; `make test-accounts-test`.
 
+- [test_admin_model_counts.py](test_admin_model_counts.py) — Vérifie les nombres à la demande, les droits et l’absence de comptage par défaut.
+
 - [test_admin_filters.py](test_admin_filters.py) — Vérifie le bouton traduit, les filtres actifs et les listes sans filtres.
 - [admin_filters.test.cjs](admin_filters.test.cjs) — Vérifie le masquage, la restauration et le fonctionnement sans stockage navigateur ; exécuté par `make check-js`.
 
