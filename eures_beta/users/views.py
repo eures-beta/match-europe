@@ -185,7 +185,16 @@ def logout(request):
     if destination in IMPORT_PATHS:
         from urllib.parse import urlencode
 
-        return redirect(reverse('magic_login') + '?' + urlencode({'next': destination}))
+        return redirect(
+            reverse('magic_login')
+            + '?'
+            + urlencode(
+                {
+                    'next': destination,
+                    'lang': destination.rsplit('-', 1)[-1].removesuffix('.html'),
+                }
+            )
+        )
     return redirect('home')
 
 
