@@ -30,7 +30,7 @@ class AdminModelCountsTests(TestCase):
             self.assertContains(response, 'Show record counts')
             self.assertFalse(any('COUNT(' in query['sql'].upper() for query in queries))
 
-    def test_requested_counts_include_zero_and_do_not_persist(self):
+    def test_requested_counts_include_zero_and_persist_until_disabled(self):
         response = self.client.get(reverse('admin:index'), {'model_counts': '1'})
         self.assertContains(response, 'Hide record counts')
         self.assertContains(response, 'Users (3)')
@@ -41,8 +41,34 @@ class AdminModelCountsTests(TestCase):
                 self.assertNotIn(' (', str(model['name']))
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(reverse('admin:index'))
+        self.assertContains(response, 'Hide record counts')
+        self.assertContains(response, 'Users (3)')
+        self.assertTrue(any('COUNT(' in query['sql'].upper() for query in queries))
+        self.client.get(reverse('admin:index'), {'model_counts': '0'})
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse('admin:index'))
         self.assertContains(response, 'Show record counts')
         self.assertFalse(any('COUNT(' in query['sql'].upper() for query in queries))
+
+    def test_preference_is_private_to_session_and_cleared_on_logout(self):
+        from django.test import Client
+
+        self.client.get(reverse('admin:index'), {'model_counts': '1'})
+        other = Client()
+        other.force_login(self.superuser)
+        self.assertContains(other.get(reverse('admin:index')), 'Show record counts')
+        self.client.logout()
+        self.client.force_login(self.superuser)
+        self.assertContains(
+            self.client.get(reverse('admin:index')), 'Show record counts'
+        )
+
+    def test_unrecognized_parameter_preserves_existing_choice(self):
+        self.client.get(reverse('admin:index'), {'model_counts': '1'})
+        self.assertContains(
+            self.client.get(reverse('admin:index'), {'model_counts': 'true'}),
+            'Hide record counts',
+        )
 
     def test_staff_counts_only_the_queryset_they_can_view(self):
         self.staff.user_permissions.add(
@@ -81,7 +107,9 @@ class AdminModelCountsTests(TestCase):
         ):
             with self.subTest(language=language):
                 self.client.cookies['django_language'] = language
-                self.assertContains(self.client.get(reverse('admin:index')), show)
+                self.assertContains(
+                    self.client.get(reverse('admin:index'), {'model_counts': '0'}), show
+                )
                 self.assertContains(
                     self.client.get(reverse('admin:index'), {'model_counts': '1'}), hide
                 )

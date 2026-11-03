@@ -8,8 +8,19 @@ register = template.Library()
 
 
 @register.simple_tag
+def model_counts_enabled(request):
+    selected = request.GET.get('model_counts')
+    if selected in ('0', '1'):
+        enabled = selected == '1'
+        if request.session.get('admin_model_counts', False) != enabled:
+            request.session['admin_model_counts'] = enabled
+        return enabled
+    return request.session.get('admin_model_counts', False) is True
+
+
+@register.simple_tag
 def with_model_counts(app_list, request):
-    if request.GET.get('model_counts') != '1':
+    if not model_counts_enabled(request):
         return app_list
     counted_apps = []
     for app in app_list:

@@ -5,9 +5,10 @@
 {% block content %}
   <div id="content-main">
     {% if app_list %}
+      {% model_counts_enabled request as show_model_counts %}
       <p>
-        {% if request.GET.model_counts == "1" %}
-          <a href="{% querystring model_counts=None %}">{% translate "Hide record counts" %}</a>
+        {% if show_model_counts %}
+          <a href="{% querystring model_counts='0' %}">{% translate "Hide record counts" %}</a>
         {% else %}
           <a href="{% querystring model_counts='1' %}">{% translate "Show record counts" %}</a>
         {% endif %}
