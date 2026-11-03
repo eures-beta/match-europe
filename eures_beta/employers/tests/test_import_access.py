@@ -69,6 +69,14 @@ class ImportAccessTests(TestCase):
         reader.assert_not_called()
         self.assertFalse(EmployerImport.objects.exists())
 
+    def test_access_page_language_selector_updates_the_resume_destination(self):
+        response = self.client.get(self.destination, {'lang': 'de'}, secure=True)
+        self.assertContains(response, 'Ein Arbeitgeberkonto ist erforderlich')
+        self.assertContains(response, '<html lang="de">')
+        self.assertEqual(
+            self.client.session['login_return_path'], '/employer/pages/import-de.html'
+        )
+
     @patch('eures_beta.employers.employer_api.aglae')
     def test_saved_offer_is_owned_by_authenticated_account_not_submitted_email(
         self, external
