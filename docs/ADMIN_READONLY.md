@@ -61,3 +61,14 @@ make check
 
 Les tests couvrent les listes et fiches, tous les endpoints de mutation, les
 actions forgées, les rôles non autorisés, les secrets et l'échappement HTML.
+## Afficher ou masquer les filtres
+
+Un bouton sur les listes avec filtres masque ou réaffiche leur panneau, en
+conservant les filtres actifs. Le choix est mémorisé pour les listes de cette
+administration dans le navigateur (`localStorage`, un booléen sans donnée métier).
+Si le stockage est indisponible, le bouton reste utilisable sur la page courante.
+Sans JavaScript, les filtres restent visibles. Aucune modification de la barre
+de navigation, des e-mails, des permissions ou du comportement selon la largeur.
+
+Vérifications : `make test` pour les pages et traductions, `make check-js` pour
+les interactions et leur mémorisation.

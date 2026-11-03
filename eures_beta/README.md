@@ -22,3 +22,4 @@ limites](../docs/USER_MODEL.md).
 
 Le paquet [observability/](observability/) mesure les requêtes et étapes coûteuses
 sans conserver leur contenu. Voir [les champs, réglages et limites](../docs/OBSERVABILITY.md).
+- [Ressources de l’administration](static/admin/) — Bouton de masquage des filtres et préférence locale du navigateur.

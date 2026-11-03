@@ -1,0 +1,22 @@
+{% extends "admin/change_list.html" %}
+{% load i18n static %}
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/filter-toggle.css' %}">
+{% endblock %}
+{% block extrahead %}
+  {{ block.super }}
+  <script src="{% static 'admin/filter-toggle.js' %}" defer></script>
+{% endblock %}
+{% block search %}
+  {{ block.super }}
+  {% if cl.has_filters %}
+    <button id="admin-filter-toggle"
+            type="button"
+            aria-controls="changelist-filter"
+            aria-expanded="true"
+            data-show-label="{% translate 'Show filters' %}"
+            data-hide-label="{% translate 'Hide filters' %}"
+            hidden>{% translate "Hide filters" %}</button>
+  {% endif %}
+{% endblock %}
