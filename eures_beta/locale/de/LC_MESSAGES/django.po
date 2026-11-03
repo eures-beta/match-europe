@@ -7393,3 +7393,9 @@ msgstr "Diese gemeinsamen Konten enthalten fiktive Daten. Alle Personen, die die
 
 msgid "No test accounts are available yet."
 msgstr "Es sind noch keine Testkonten verfügbar."
+
+msgid "Show record counts"
+msgstr "Anzahl der Datensätze anzeigen"
+
+msgid "Hide record counts"
+msgstr "Anzahl der Datensätze ausblenden"

@@ -10,6 +10,8 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [test_accounts.py](test_accounts.py) — Identités autorisées et garde-fous.
 - [test_account_views.py](test_account_views.py) — Sélecteur et connexion POST protégée.
 
+- [templatetags/](templatetags/) — Balises de présentation de l’administration, dont les compteurs de modèles à la demande.
+
 - [Administration en lecture seule](../../../docs/ADMIN_READONLY.md) — Modèles consultables, rôles et secrets masqués.
 - [admin_base.py](admin_base.py) — Protection commune contre les écritures et affichage sûr des données structurées.
 

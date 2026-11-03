@@ -7393,3 +7393,9 @@ msgstr "Ces comptes partagés contiennent des données fictives. Toute personne 
 
 msgid "No test accounts are available yet."
 msgstr "Aucun compte de test disponible pour le moment."
+
+msgid "Show record counts"
+msgstr "Afficher les nombres d’enregistrements"
+
+msgid "Hide record counts"
+msgstr "Masquer les nombres d’enregistrements"

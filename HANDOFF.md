@@ -823,3 +823,9 @@ Pas de modification responsive, des adresses e-mail ou de la barre gauche.
 Sélecteur traduit et peuplement idempotent : voir [TEST_ACCOUNTS](docs/TEST_ACCOUNTS.md).
 Trois rôles fixes et deux offres ; aucun modèle/migration nouveau. La production
 doit rester désactivée. `make test-accounts-test` couvre les garde-fous et la CSRF.
+
+## 3 novembre 2026 — compteurs de modèles sur l’accueil admin
+
+PR dédiée : nombres d’enregistrements à la demande, désactivés par défaut,
+entre parenthèses à côté des modèles accessibles. Querysets et permissions admin
+respectés ; aucune écriture en base ou préférence persistante. FR/EN/DE.
