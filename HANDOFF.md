@@ -874,3 +874,11 @@ répondait à un contrôle ponctuel : cause réseau exacte de l’onglet bloqué
 établie. Aucun changement de modèle, de données métier ni de permissions.
 Validation : 354 tests PostgreSQL et trois tests JavaScript réussis, contrôles
 Django/migrations, Python, HTML, JavaScript et traductions réussis.
+
+# 2026-11-03 — Performance du nettoyage des intitulés métiers
+
+Défaut exponentiel reproduit dans `occupations.catalog.search_title` sur une
+parenthèse mal formée courte. Test isolé rouge puis correctif sans quantificateurs
+imbriqués ; classements, données et intitulés stockés conservés. Mesures et limites
+dans [OCCUPATION_SEARCH_PERFORMANCE](docs/OCCUPATION_SEARCH_PERFORMANCE.md).
+Commandes : `make occupations-performance-test`, `make occupations-benchmark`.
