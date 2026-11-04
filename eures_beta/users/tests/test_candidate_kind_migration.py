@@ -15,7 +15,8 @@ class CandidateKindMigrationTests(TransactionTestCase):
         return executor.loader.project_state([target]).apps.get_model('users', 'User')
 
     def tearDown(self):
-        self.migrate(AFTER)
+        executor = MigrationExecutor(connection)
+        executor.migrate(executor.loader.graph.leaf_nodes())
         super().tearDown()
 
     def test_upgrade_preserves_accounts_and_database_guards(self):

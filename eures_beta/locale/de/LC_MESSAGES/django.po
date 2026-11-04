@@ -7488,3 +7488,23 @@ msgstr "Stellenangebote"
 #: eures_beta/users/models.py
 msgid "Candidate"
 msgstr "Kandidat"
+
+#: eures_beta/candidates/models.py
+msgid "Candidate profile"
+msgstr "Bewerberprofil"
+
+#: eures_beta/candidates/models.py
+msgid "Candidate profiles"
+msgstr "Bewerberprofile"
+
+#: eures_beta/candidates/models.py
+msgid "Created at"
+msgstr "Erstellt am"
+
+#: eures_beta/candidates/models.py
+msgid "Updated at"
+msgstr "Aktualisiert am"
+
+#: eures_beta/candidates/models.py
+msgid "A candidate account is required."
+msgstr "Ein Bewerberkonto ist erforderlich."
