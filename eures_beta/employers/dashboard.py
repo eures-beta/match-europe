@@ -17,5 +17,9 @@ def employer_dashboard(request):
     return render(
         request,
         'employer/dashboard.html',
-        {'offers': Paginator(offers, 25).get_page(request.GET.get('offers_page'))},
+        {
+            'offers': Paginator(offers, 25).get_page(request.GET.get('offers_page')),
+            # Shown once, right after an invitation has created the account.
+            'welcome': request.session.pop('employer_welcome', False),
+        },
     )

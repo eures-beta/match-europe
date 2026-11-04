@@ -96,10 +96,17 @@ def employer_page(request, path):
         # Static build templates remain usable; served HTML activates the real same-origin API.
         person = identity(request)
         authenticated = bool(person)
+        # The account email pre-fills the adviser contact (WCAG 3.3.7, redundant entry).
         body_tag = (
             '<body data-employer-api="true" data-employer-connected="'
             + ('true' if authenticated else 'false')
-            + '">'
+            + '"'
+            + (
+                ' data-employer-email="' + escape(person.email, quote=True) + '"'
+                if authenticated
+                else ''
+            )
+            + '>'
         )
         language = Path(path).stem.rsplit('-', 1)[-1]
         if path == 'push-test.html':

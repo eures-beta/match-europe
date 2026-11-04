@@ -98,7 +98,13 @@ class MagicLoginTests(TestCase):
                     self.assertContains(response, '/accounts/login/?lang=' + lang)
                     self.assertContains(response, label)
         response = self.client.get('/accounts/login/?lang=en')
-        self.assertContains(response, 'by invitation only')
+        self.assertContains(
+            response, 'Employer accounts are created by an EURES adviser.'
+        )
+        self.assertContains(
+            response,
+            'href="https://europa.eu/eures/portal/um/search-for-advisers?lang=en"',
+        )
         self.assertNotContains(response, 'type="password"')
 
     def test_no_signup_or_account_enumeration(self):

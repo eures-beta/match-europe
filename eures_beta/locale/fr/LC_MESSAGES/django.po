@@ -7508,3 +7508,63 @@ msgstr "Modifié le"
 #: eures_beta/candidates/models.py
 msgid "A candidate account is required."
 msgstr "Un compte candidat est requis."
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Step %(step)s of 4: %(title)s"
+msgstr "Étape %(step)s sur 4 : %(title)s"
+
+msgid "There is %(counter)s error to correct"
+msgid_plural "There are %(counter)s errors to correct"
+msgstr[0] "%(counter)s erreur à corriger"
+msgstr[1] "%(counter)s erreurs à corriger"
+
+msgid "Edit: %(section)s"
+msgstr "Modifier : %(section)s"
+
+msgid "Save and return to the review"
+msgstr "Enregistrer et revenir au récapitulatif"
+
+msgid "Your draft stays available while you use it, and for 30 minutes after your last action. It is private to this session. This is not a permanent save."
+msgstr "Votre brouillon reste disponible tant que vous l’utilisez, et 30 minutes après votre dernière action. Il est privé à cette session. Ce n’est pas une sauvegarde durable."
+
+msgid "Your draft will expire in 2 minutes without activity."
+msgstr "Sans activité, votre brouillon expirera dans 2 minutes."
+
+msgid "Your draft is kept for 30 more minutes."
+msgstr "Votre brouillon est conservé 30 minutes de plus."
+
+msgid "The draft could not be extended. Continue to the next step to keep your answers."
+msgstr "Le brouillon n’a pas pu être prolongé. Passez à l’étape suivante pour conserver vos réponses."
+
+msgid "Keep my draft for 30 more minutes"
+msgstr "Garder mon brouillon 30 minutes de plus"
+
+msgctxt "employer dashboard"
+msgid "Your employer account has been created. Welcome to Match Europe."
+msgstr "Votre compte employeur est créé. Bienvenue sur Match Europe."
+
+msgctxt "employer dashboard"
+msgid "First step: add your job offer. Match Europe reads it, then you check and complete the information."
+msgstr "Première étape : ajoutez votre offre d’emploi. Match Europe la lit, puis vous vérifiez et complétez les informations."
+
+msgctxt "employer dashboard"
+msgid "Add your offer as a PDF, a link or text."
+msgstr "Ajoutez votre offre au format PDF, par lien ou en texte."
+
+msgctxt "employer dashboard"
+msgid "Check the information and answer any additional questions."
+msgstr "Vérifiez les informations reprises et répondez aux éventuelles questions complémentaires."
+
+msgctxt "employer dashboard"
+msgid "Prepare your questions for candidates and save your offer."
+msgstr "Préparez vos questions pour les candidats et enregistrez votre offre."
+
+msgctxt "employer invitation help"
+msgid "Employer accounts are created by an EURES adviser. Don't have an invitation yet? An adviser in your country can invite you."
+msgstr "Les comptes employeurs sont créés par un conseiller EURES. Vous n’avez pas encore d’invitation ? Un conseiller de votre pays peut vous inviter."
+
+msgctxt "employer invitation help"
+msgid "Find an EURES adviser (EURES portal)"
+msgstr "Trouver un conseiller EURES (portail EURES)"

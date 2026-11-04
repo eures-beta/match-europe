@@ -272,3 +272,50 @@
   if (rows.length) render(selected());
   else status.textContent = t.startTyping;
 })();
+
+// Error summary focus and draft expiry warning (WCAG 3.3.1, 2.2.1).
+(() => {
+  const summary = document.getElementById('journey-error-summary');
+  if (summary) {
+    summary.focus();
+    summary.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const target = document.getElementById(link.getAttribute('href').slice(1));
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ block: 'center' });
+        target.focus();
+      });
+    });
+  }
+  const timeout = document.getElementById('journey-timeout');
+  const extend = document.getElementById('journey-timeout-extend');
+  const status = document.getElementById('journey-timeout-status');
+  if (!timeout || !extend) return;
+  const seconds = Number(timeout.dataset.seconds);
+  const warning = Number(timeout.dataset.warningSeconds);
+  if (!seconds || !warning || warning >= seconds) return;
+  let timer;
+  const schedule = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timeout.hidden = false;
+      extend.focus();
+    }, (seconds - warning) * 1000);
+  };
+  extend.addEventListener('click', async () => {
+    extend.disabled = true;
+    try {
+      const response = await fetch(window.location.href, { credentials: 'same-origin' });
+      if (!response.ok) throw new Error(String(response.status));
+      timeout.hidden = true;
+      status.textContent = extend.dataset.done || '';
+      schedule();
+    } catch {
+      status.textContent = extend.dataset.failed || '';
+    } finally {
+      extend.disabled = false;
+    }
+  });
+  schedule();
+})();

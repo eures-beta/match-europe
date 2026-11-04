@@ -16,7 +16,12 @@ from django.views.decorators.http import require_http_methods
 from eures_beta.demo_access import require_demo_access
 
 KEY = 'candidate_journey'
+# Inactivity delay: each request on the journey restarts it (WCAG 2.2.1).
 TTL = 1800
+# The page warns this many seconds before expiry and offers to extend.
+TTL_WARNING = 120
+# Fields that become mandatory only through a form rule, marked as required.
+CONDITIONALLY_REQUIRED = {'occupation_references', 'commute_time', 'transport_modes'}
 
 
 def text_field(label, required=False, rows=3, help_text=''):
@@ -475,10 +480,14 @@ class ConditionsForm(GuidedForm):
 
 class ContactForm(forms.Form):
     display_name = forms.CharField(
-        label=_('Name to display (fictional)'), max_length=150
+        label=_('Name to display (fictional)'),
+        max_length=150,
+        widget=forms.TextInput(attrs={'autocomplete': 'name'}),
     )
     contact_email = forms.EmailField(
-        label=_('Email (fictional, optional)'), required=False
+        label=_('Email (fictional, optional)'),
+        required=False,
+        widget=forms.EmailInput(attrs={'autocomplete': 'email'}),
     )
     reviewed = forms.BooleanField(label=_('I have reviewed this fictional profile.'))
 
@@ -508,12 +517,15 @@ def workflow(request, language):
         return redirect(f'/candidate/prepare/?step={step}&lang={language}')
 
     draft = request.session.get(KEY)
-    expired = bool(draft and not 0 <= time.time() - draft.get('created_at', 0) < TTL)
+    now = time.time()
+    last_activity = (draft or {}).get('touched_at', (draft or {}).get('created_at', 0))
+    expired = bool(draft and not 0 <= now - last_activity < TTL)
     if expired:
         request.session.pop(KEY, None)
         draft = None
     if draft:
         upgrade_language_answers(draft['data'])
+        draft['touched_at'] = now
         request.session[KEY] = draft
     if draft and draft.get('schema') != SCHEMA:
         # Keep project answers, discard all removed career/CV fields and invalidate old forms.
@@ -544,7 +556,8 @@ def workflow(request, language):
             return go(1)
         draft = {
             'schema': SCHEMA,
-            'created_at': time.time(),
+            'created_at': now,
+            'touched_at': now,
             'token': secrets.token_urlsafe(24),
             'data': {},
             'unlocked': 1,
@@ -591,6 +604,12 @@ def workflow(request, language):
         draft['confirmed'] = step == 4
         draft['unlocked'] = max(draft['unlocked'], min(step + 1, 4))
         request.session[KEY] = draft
+        if (
+            step < 4
+            and draft['unlocked'] >= 4
+            and request.POST.get('return') == 'review'
+        ):
+            return go(4)
         return go(min(step + 1, 4))
     if action == 'search':
         form.errors.clear()
@@ -663,11 +682,48 @@ def workflow(request, language):
                     value = dict(field.choices).get(value, value)
                 fields.append((name, field.label, value))
             summary.append({'step': number, 'title': TITLES[number], 'fields': fields})
+    error_summary = []
+    if form.is_bound and action != 'search':
+        # Same order as the fields on the page, form-wide errors first.
+        order = ['__all__', *form.fields]
+        for name, messages in sorted(
+            form.errors.items(), key=lambda item: order.index(item[0])
+        ):
+            if name == '__all__':
+                error_summary += [
+                    {'label': '', 'message': m, 'anchor': ''} for m in messages
+                ]
+                continue
+            bound = form[name]
+            widget = bound.field.widget
+            if name == 'occupation_references':
+                anchor = 'id_occupation_query'
+            elif name == 'language_skills':
+                anchor = 'candidate-language-field'
+            elif getattr(widget, 'allow_multiple_selected', False) or (
+                getattr(widget, 'input_type', None) == 'radio'
+            ):
+                anchor = bound.auto_id + '_0'
+            else:
+                anchor = bound.auto_id
+            error_summary += [
+                {'label': bound.label, 'message': m, 'anchor': anchor} for m in messages
+            ]
+    return_to_review = (
+        step < 4
+        and draft['unlocked'] >= 4
+        and (request.GET.get('return') or request.POST.get('return')) == 'review'
+    )
     return render(
         request,
         'candidates/journey.html',
         {
             'form': form,
+            'error_summary': error_summary,
+            'return_to_review': return_to_review,
+            'conditionally_required': CONDITIONALLY_REQUIRED,
+            'draft_seconds': TTL,
+            'draft_warning_seconds': TTL_WARNING,
             'schedule_suggestions': (
                 suggested_conditions(
                     form.cleaned_data

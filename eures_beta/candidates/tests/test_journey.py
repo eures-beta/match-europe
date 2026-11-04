@@ -260,7 +260,11 @@ class CandidateJourneyTests(TestCase):
         self.assertNotIn(KEY, self.client.session)
         self.get()
         session = self.client.session
-        session[KEY] = {**session[KEY], 'created_at': time.time() - 1801}
+        session[KEY] = {
+            **session[KEY],
+            'created_at': time.time() - 1801,
+            'touched_at': time.time() - 1801,
+        }
         expired_token = session[KEY]['token']
         session.save()
         self.assertNotEqual(self.get().context['draft']['token'], expired_token)
@@ -415,3 +419,128 @@ class CandidateJourneyTests(TestCase):
         response = self.post(3, condition_overrides=json.dumps(['physical']))
         self.assertEqual(response.status_code, 200)
         self.assertIn('condition_overrides', response.context['form'].errors)
+
+
+@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
+class CandidateJourneyAccessibilityTests(TestCase):
+    """Fixes from the 4 November 2026 accessibility and fluency review."""
+
+    get = CandidateJourneyTests.get
+    post = CandidateJourneyTests.post
+    advance = CandidateJourneyTests.advance
+
+    def reach_review(self):
+        self.advance()
+        self.post(3)
+        return self.get(4)
+
+    def test_page_title_names_each_step_and_errors(self):
+        self.get()
+        self.assertContains(
+            self.get(1, lang='fr'),
+            '<title>Étape 1 sur 4 : Mon projet — Parcours candidat — Match Europe</title>',
+        )
+        response = self.post(1, desired_countries=[])
+        self.assertContains(response, '<title>Erreur — Étape 1 sur 4 : Mon projet')
+        self.assertContains(
+            self.get(1, lang='de'), '<title>Schritt 1 von 4: Mein Vorhaben'
+        )
+
+    def test_error_summary_lists_and_links_each_error(self):
+        self.get()
+        response = self.post(1, desired_countries=[])
+        self.assertContains(response, 'id="journey-error-summary"')
+        self.assertContains(response, '2 erreurs à corriger')
+        self.assertContains(response, 'href="#id_occupation_query"')
+        self.assertContains(response, 'href="#id_desired_countries_0"')
+        self.assertContains(response, 'aria-describedby="id_desired_countries_error"')
+        self.assertContains(response, 'id="id_desired_countries_error"')
+        page = response.content.decode()
+        self.assertLess(
+            page.index('href="#id_occupation_query"'),
+            page.index('href="#id_desired_countries_0"'),
+        )
+        self.assertNotContains(self.get(1), 'id="journey-error-summary"')
+
+    def test_search_does_not_show_error_summary(self):
+        self.get()
+        response = self.post(
+            1, action='search', occupation_query='zz', desired_countries=[]
+        )
+        self.assertNotContains(response, 'id="journey-error-summary"')
+
+    def test_conditionally_required_questions_are_marked(self):
+        self.get()
+        self.assertContains(
+            self.get(1), 'Les métiers que je souhaite exercer (obligatoire)'
+        )
+        self.post(1, occupation_references=['rome:D1102'])
+        page = self.get(2).content.decode()
+        for label in (
+            'Temps de trajet maximum à l’aller (obligatoire)',
+            'Comment pourriez-vous vous rendre au travail ? (obligatoire)',
+        ):
+            self.assertIn(label, page)
+
+    def test_contact_fields_identify_their_purpose(self):
+        page = self.reach_review()
+        self.assertContains(page, 'autocomplete="name"')
+        self.assertContains(page, 'autocomplete="email"')
+
+    def test_draft_expiry_counts_from_last_activity(self):
+        self.get()
+        session = self.client.session
+        token = session[KEY]['token']
+        session[KEY] = {
+            **session[KEY],
+            'created_at': time.time() - 3600,
+            'touched_at': time.time() - 60,
+        }
+        session.save()
+        response = self.get()
+        self.assertEqual(response.context['draft']['token'], token)
+        self.assertFalse(response.context['expired'])
+        self.assertGreater(self.client.session[KEY]['touched_at'], time.time() - 5)
+
+    def test_expiry_warning_offers_to_extend(self):
+        response = self.get()
+        self.assertContains(response, 'id="journey-timeout"')
+        self.assertContains(response, 'data-seconds="1800"')
+        self.assertContains(response, 'data-warning-seconds="120"')
+        self.assertContains(response, 'Garder mon brouillon 30 minutes de plus')
+
+    def test_editing_from_review_returns_to_review(self):
+        page = self.reach_review()
+        self.assertContains(page, '?step=1&amp;lang=fr&amp;return=review')
+        self.assertContains(page, 'Modifier : Mon projet')
+        self.assertNotContains(page, 'Modifier cette rubrique')
+        edit = self.get(1, lang='fr', **{'return': 'review'})
+        self.assertContains(edit, 'name="return" value="review"')
+        self.assertContains(edit, 'Enregistrer et revenir au récapitulatif')
+        response = self.post(
+            1, occupation_references=['rome:D1102'], **{'return': 'review'}
+        )
+        self.assertRedirects(
+            response,
+            '/candidate/prepare/?step=4&lang=fr',
+            fetch_redirect_response=False,
+        )
+        response = self.post(1, occupation_references=['rome:D1102'])
+        self.assertRedirects(
+            response,
+            '/candidate/prepare/?step=2&lang=fr',
+            fetch_redirect_response=False,
+        )
+
+    def test_return_to_review_ignored_before_review_is_unlocked(self):
+        self.get()
+        edit = self.get(1, **{'return': 'review'})
+        self.assertNotContains(edit, 'name="return" value="review"')
+        response = self.post(
+            1, occupation_references=['rome:D1102'], **{'return': 'review'}
+        )
+        self.assertRedirects(
+            response,
+            '/candidate/prepare/?step=2&lang=fr',
+            fetch_redirect_response=False,
+        )

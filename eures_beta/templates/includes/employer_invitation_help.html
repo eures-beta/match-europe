@@ -1,0 +1,11 @@
+{% load i18n %}
+<div class="employer-invitation-help">
+  <p>{% translate "Employer accounts are created by an EURES adviser. Don't have an invitation yet? An adviser in your country can invite you." context "employer invitation help" %}</p>
+  {% if employer_adviser_contact_url %}
+    <p>
+      <a class="nav-pill"
+         href="{{ employer_adviser_contact_url }}"
+         rel="noopener">{% translate "Find an EURES adviser (EURES portal)" context "employer invitation help" %}</a>
+    </p>
+  {% endif %}
+</div>

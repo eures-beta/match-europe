@@ -1,5 +1,6 @@
 {% extends "candidates/landing.html" %}
 {% load i18n %}
+{% block page_title %}{% if error_summary %}{% translate "Error" %} — {% endif %}{% blocktranslate with title=title %}Step {{ step }} of 4: {{ title }}{% endblocktranslate %} — {% translate "Candidate journey" context "candidate landing" %} — Match Europe{% endblock %}
 {% block candidate_content %}
   <main id="main-content" class="section candidate-journey">
     <div class="shell">
@@ -17,6 +18,27 @@
         <article class="surface-card journey-form">
           <p class="kicker">{% blocktranslate %}Step {{ step }} of 4{% endblocktranslate %}</p>
           <h1>{{ title }}</h1>
+          {% if error_summary %}
+            <div class="journey-errors"
+                 id="journey-error-summary"
+                 tabindex="-1"
+                 aria-labelledby="journey-error-title">
+              <h2 id="journey-error-title">
+                {% blocktranslate count counter=error_summary|length %}There is {{ counter }} error to correct{% plural %}There are {{ counter }} errors to correct{% endblocktranslate %}
+              </h2>
+              <ul>
+                {% for error in error_summary %}
+                  <li>
+                    {% if error.anchor %}
+                      <a href="#{{ error.anchor }}">{% if error.label %}{{ error.label }} : {% endif %}{{ error.message }}</a>
+                    {% else %}
+                      {{ error.message }}
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
           {% if expired %}
             <p role="status">{% translate "Your previous draft expired. Start again." %}</p>
           {% endif %}
@@ -33,7 +55,7 @@
             {% for group in summary %}
               <section class="review-group">
                 <h2>{{ group.title }}</h2>
-                <a href="?step={{ group.step }}&amp;lang={{ page_language }}">{% translate "Edit this section" %}</a>
+                <a href="?step={{ group.step }}&amp;lang={{ page_language }}&amp;return=review">{% blocktranslate with section=group.title %}Edit: {{ section }}{% endblocktranslate %}</a>
                 <dl>
                   {% for name, label, value in group.fields %}
                     <dt>{{ label }}</dt>
@@ -61,13 +83,14 @@
           <form method="post" novalidate>
             {% csrf_token %}
             <input type="hidden" name="token" value="{{ draft.token }}">
-            {% if form.errors %}<div class="journey-errors" role="alert"><p>{% translate "Please check the fields below." %}</p>{{ form.non_field_errors }}</div>{% endif %}
+            {% if return_to_review %}<input type="hidden" name="return" value="review">{% endif %}
             {% for field in form %}
               {% if field.name == "schedule_strict" %}
               {% elif field.is_hidden and field.name != "language_skills" %}
                 {{ field }}{{ field.errors }}
               {% elif field.name == "language_skills" %}
-                <div class="candidate-language-field journey-field">
+                <div class="candidate-language-field journey-field"
+                     id="candidate-language-field">
                   {{ field }}
                   {{ field.errors }}
                   {% if language_notes %}
@@ -89,8 +112,9 @@
               {% elif field.name|slice:":9" == "schedule_" and field.name != "schedule_preference" %}
               {% elif field.name == "occupation_references" %}
                 <fieldset class="journey-field occupation-candidate"
-                          data-field="occupation_references">
-                  <legend>{{ field.label }}</legend>
+                          data-field="occupation_references"
+                          {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
+                  <legend>{{ field.label }} ({% translate "required" %})</legend>
                   <p>{% translate "Two independent catalogues. Choose jobs you want; selecting ROME does not select ESCO." %}</p>
                   <div id="candidate-search-status" role="status" aria-live="polite">
                     {% if search_performed and not reference_rows %}
@@ -111,8 +135,10 @@
                   {{ field.errors }}
                 </fieldset>
               {% elif field.field.widget.allow_multiple_selected or field.field.widget.input_type == "radio" %}
-                <fieldset class="journey-field guided-choice" data-field="{{ field.name }}">
-                  <legend>{{ field.label }}{% if field.field.required %} ({% translate "required" %}){% endif %}</legend>
+                <fieldset class="journey-field guided-choice"
+                          data-field="{{ field.name }}"
+                          {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
+                  <legend>{{ field.label }}{% if field.field.required or field.name in conditionally_required %} ({% translate "required" %}){% endif %}</legend>
                   <div class="choice-options">
                     {% for option in field %}
                       <label>{{ option.tag }} <span>{{ option.choice_label }}</span></label>
@@ -175,6 +201,8 @@
                       value="{% if step == 4 %}finish{% else %}continue{% endif %}">
                 {% if step == 4 %}
                   {% translate "Confirm my demonstration profile" %}
+                {% elif return_to_review %}
+                  {% translate "Save and return to the review" %}
                 {% else %}
                   {% translate "Continue" %}
                 {% endif %}
@@ -185,7 +213,7 @@
         <aside class="surface-card journey-aside">
           <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
           <p>{% translate "Your answers describe your current project. You can change them before confirming." %}</p>
-          <p>{% translate "Your draft is available for 30 minutes from the start. It is private to this session. This is not a permanent save." %}</p>
+          <p>{% translate "Your draft stays available while you use it, and for 30 minutes after your last action. It is private to this session. This is not a permanent save." %}</p>
           <p>{% translate "Any future introduction to an employer will require a separate agreement." %}</p>
           <form method="post">
             {% csrf_token %}
@@ -197,6 +225,23 @@
       </div>
     </div>
   </main>
+  <div class="journey-timeout"
+       id="journey-timeout"
+       role="alert"
+       hidden
+       data-seconds="{{ draft_seconds }}"
+       data-warning-seconds="{{ draft_warning_seconds }}">
+    <p>{% translate "Your draft will expire in 2 minutes without activity." %}</p>
+    <button type="button"
+            class="primary-action"
+            id="journey-timeout-extend"
+            data-done="{% translate 'Your draft is kept for 30 more minutes.' %}"
+            data-failed="{% translate 'The draft could not be extended. Continue to the next step to keep your answers.' %}">{% translate "Keep my draft for 30 more minutes" %}</button>
+  </div>
+  <p class="journey-timeout-status"
+     id="journey-timeout-status"
+     role="status"
+     aria-live="polite"></p>
   {% if step == 1 %}
     {% include "employer/occupation_strings.html" %}
     {{ reference_rows|json_script:"candidate-reference-rows" }}

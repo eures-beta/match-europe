@@ -146,6 +146,7 @@ def confirm(request):
             invitation.save(update_fields=['accepted_at', 'employer'])
             auth_login(request, employer, backend='sesame.backends.ModelBackend')
             request.session['login_language'] = language
+            request.session['employer_welcome'] = True
             request.session.set_expiry(settings.SESSION_COOKIE_AGE)
     except IntegrityError:
         return confirmation_page(request, 'invalid')

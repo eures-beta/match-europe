@@ -3,8 +3,24 @@
 {% block public_content %}
   <section class="account-panel" aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
+    {% if welcome %}
+      <div class="account-welcome" role="status">
+        <p>
+          <strong>{% translate "Your employer account has been created. Welcome to Match Europe." context "employer dashboard" %}</strong>
+        </p>
+      </div>
+    {% endif %}
     <h2>{% translate "Your offers" context "employer dashboard" %}</h2>
-    <p>{% translate "View your existing offers or import a new one." context "employer dashboard" %}</p>
+    {% if offers.paginator.count %}
+      <p>{% translate "View your existing offers or import a new one." context "employer dashboard" %}</p>
+    {% else %}
+      <p>{% translate "First step: add your job offer. Match Europe reads it, then you check and complete the information." context "employer dashboard" %}</p>
+      <ol>
+        <li>{% translate "Add your offer as a PDF, a link or text." context "employer dashboard" %}</li>
+        <li>{% translate "Check the information and answer any additional questions." context "employer dashboard" %}</li>
+        <li>{% translate "Prepare your questions for candidates and save your offer." context "employer dashboard" %}</li>
+      </ol>
+    {% endif %}
     <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
     <div class="account-table-scroll">
       <table>

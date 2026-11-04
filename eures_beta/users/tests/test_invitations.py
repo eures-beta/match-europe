@@ -272,6 +272,18 @@ class InvitationTests(TestCase):
         self.assertNotIn('_auth_user_id', second.session)
         self.assertEqual(User.objects.filter(email=invitation.email).count(), 1)
 
+    def test_new_employer_is_welcomed_once_with_guided_first_step(self):
+        invitation = self.create()
+        browser = Client()
+        self.open_link(browser, invitation)
+        page = browser.post(reverse('employer_invitation_confirm'), follow=True)
+        self.assertContains(page, 'Your employer account has been created.')
+        self.assertContains(page, 'First step: add your job offer.')
+        self.assertContains(page, 'role="status"')
+        again = browser.get(reverse('dashboard'), {'lang': 'en'})
+        self.assertNotContains(again, 'Your employer account has been created.')
+        self.assertContains(again, 'First step: add your job offer.')
+
     def test_expired_tampered_and_missing_links_never_create_accounts(self):
         invitation = self.create()
         old_token = invitation_token(invitation)
