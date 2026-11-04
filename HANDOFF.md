@@ -917,3 +917,18 @@ parenthèse mal formée courte. Test isolé rouge puis correctif sans quantifica
 imbriqués ; classements, données et intitulés stockés conservés. Mesures et limites
 dans [OCCUPATION_SEARCH_PERFORMANCE](docs/OCCUPATION_SEARCH_PERFORMANCE.md).
 Commandes : `make occupations-performance-test`, `make occupations-benchmark`.
+# 4 novembre 2026 — stockage structuré candidat
+
+Préparation au-dessus de la PR #127 (`4892caa`) : modèle `CandidateProfile`,
+migration `candidates.0001_initial`, fiche unique par compte candidat,
+contrôle de rôle applicatif/PostgreSQL et administration limitée aux métadonnées.
+Le questionnaire conserve son brouillon de session et ne crée aucune fiche.
+Voir [contrat, champs et limites](docs/CANDIDATE_PROFILE_STORAGE.md).
+
+Validation effectuée dans un worktree et une base locale dédiés : 373 tests
+PostgreSQL réussis, migration neuve appliquée, aller/retour testé, contrôles
+Django/migrations, format Python et traductions réussis. Les tests de migration
+du rôle restaurent désormais aussi leurs migrations dépendantes.
+Les choix de conservation et le raccordement avec vérification email restent
+à traiter avant toute collecte réelle. Aucun déploiement ni fusion effectué.
+

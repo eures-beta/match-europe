@@ -49,7 +49,9 @@ Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas q
 ## Organisation actuelle du code
 
 - `employers` : six modèles, dont `Company`, `CompanyMembership` et `JobOffer`, pour les espaces employeurs, leurs membres et leurs offres ;
-- `candidates` : accueil candidat et ses trois entrées simulées, sans modèle ;
+- `candidates` : questionnaire et modèle `CandidateProfile` pour ses réponses
+  durables ; le parcours de démonstration reste en session, sans raccordement
+  à ce stockage. Voir [le périmètre du modèle](CANDIDATE_PROFILE_STORAGE.md) ;
 - `documents` : lecture et extraction PDF, sans ancien modèle de fichier stocké ;
 - `occupations` : catalogue métiers partagé ;
 - ressources et vues publiques communes directement dans `eures_beta`.
