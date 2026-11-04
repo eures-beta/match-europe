@@ -1,5 +1,14 @@
 # EURES beta / Match Europe — décisions communes
 
+## 4 novembre 2026 — préparation du stockage candidat
+
+Demande d'Eric : préparer, après la PR #127, la table enregistrant les réponses
+saisies par le candidat. Modèle préparé : une fiche par compte candidat,
+réponses structurées, email conservé dans le compte. Ce lot n'active pas la
+collecte durable depuis le questionnaire. Le raccordement, la vérification
+email et les modalités de conservation restent des étapes suivantes.
+Voir [le contrat de stockage](CANDIDATE_PROFILE_STORAGE.md).
+
 Initialisation : 16 octobre 2026. Sources : échange d’organisation avec Eric, AGENTS.md et documentation existante. Ce registre ne transforme pas une hypothèse en décision et n’atteste pas l’état des déploiements.
 
 ## 4 novembre 2026 — socle candidat et conservation des réponses
