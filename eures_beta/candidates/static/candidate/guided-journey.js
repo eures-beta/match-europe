@@ -298,10 +298,13 @@
   let timer;
   const schedule = () => {
     clearTimeout(timer);
-    timer = setTimeout(() => {
-      timeout.hidden = false;
-      extend.focus();
-    }, (seconds - warning) * 1000);
+    timer = setTimeout(
+      () => {
+        timeout.hidden = false;
+        extend.focus();
+      },
+      (seconds - warning) * 1000,
+    );
   };
   extend.addEventListener('click', async () => {
     extend.disabled = true;
