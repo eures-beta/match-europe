@@ -38,6 +38,11 @@ LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
+# Public page where an employer without an invitation can find an EURES adviser.
+EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
+    'ME_EMPLOYER_ADVISER_CONTACT_URL',
+    'https://europa.eu/eures/portal/um/search-for-advisers',
+)
 if TEST_ACCOUNTS_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
 ):
@@ -121,6 +126,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'eures_beta.users.test_accounts.context',
+                'eures_beta.employers.contact.context',
             ],
         },
     },

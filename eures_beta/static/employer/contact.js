@@ -57,6 +57,9 @@
   document.getElementById('work-email').addEventListener('input', (event) => {
     if (!customEmail) document.getElementById('initial-contact-email').value = event.target.value;
   });
+  // A signed-in employer does not retype the account email; it stays editable.
+  const accountEmail = document.body.dataset.employerEmail;
+  if (accountEmail) document.getElementById('initial-contact-email').value = accountEmail;
   const editor = document.createElement('form');
   editor.id = 'contact-editor';
   editor.className = 'alt-panel';

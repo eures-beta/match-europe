@@ -7508,3 +7508,63 @@ msgstr "Aktualisiert am"
 #: eures_beta/candidates/models.py
 msgid "A candidate account is required."
 msgstr "Ein Bewerberkonto ist erforderlich."
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "Step %(step)s of 4: %(title)s"
+msgstr "Schritt %(step)s von 4: %(title)s"
+
+msgid "There is %(counter)s error to correct"
+msgid_plural "There are %(counter)s errors to correct"
+msgstr[0] "%(counter)s Fehler zu korrigieren"
+msgstr[1] "%(counter)s Fehler zu korrigieren"
+
+msgid "Edit: %(section)s"
+msgstr "Bearbeiten: %(section)s"
+
+msgid "Save and return to the review"
+msgstr "Speichern und zur Übersicht zurückkehren"
+
+msgid "Your draft stays available while you use it, and for 30 minutes after your last action. It is private to this session. This is not a permanent save."
+msgstr "Ihr Entwurf bleibt verfügbar, solange Sie ihn nutzen, und 30 Minuten nach Ihrer letzten Aktion. Er ist privat für diese Sitzung. Es handelt sich nicht um eine dauerhafte Speicherung."
+
+msgid "Your draft will expire in 2 minutes without activity."
+msgstr "Ohne Aktivität läuft Ihr Entwurf in 2 Minuten ab."
+
+msgid "Your draft is kept for 30 more minutes."
+msgstr "Ihr Entwurf bleibt weitere 30 Minuten erhalten."
+
+msgid "The draft could not be extended. Continue to the next step to keep your answers."
+msgstr "Der Entwurf konnte nicht verlängert werden. Gehen Sie zum nächsten Schritt, um Ihre Antworten zu behalten."
+
+msgid "Keep my draft for 30 more minutes"
+msgstr "Meinen Entwurf 30 Minuten länger behalten"
+
+msgctxt "employer dashboard"
+msgid "Your employer account has been created. Welcome to Match Europe."
+msgstr "Ihr Arbeitgeberkonto wurde erstellt. Willkommen bei Match Europe."
+
+msgctxt "employer dashboard"
+msgid "First step: add your job offer. Match Europe reads it, then you check and complete the information."
+msgstr "Erster Schritt: Fügen Sie Ihr Stellenangebot hinzu. Match Europe liest es, danach prüfen und ergänzen Sie die Angaben."
+
+msgctxt "employer dashboard"
+msgid "Add your offer as a PDF, a link or text."
+msgstr "Fügen Sie Ihr Angebot als PDF, Link oder Text hinzu."
+
+msgctxt "employer dashboard"
+msgid "Check the information and answer any additional questions."
+msgstr "Prüfen Sie die übernommenen Angaben und beantworten Sie mögliche Rückfragen."
+
+msgctxt "employer dashboard"
+msgid "Prepare your questions for candidates and save your offer."
+msgstr "Bereiten Sie Ihre Fragen an Bewerbende vor und speichern Sie Ihr Angebot."
+
+msgctxt "employer invitation help"
+msgid "Employer accounts are created by an EURES adviser. Don't have an invitation yet? An adviser in your country can invite you."
+msgstr "Arbeitgeberkonten werden von einer EURES-Beraterin oder einem EURES-Berater erstellt. Sie haben noch keine Einladung? Eine Beratung in Ihrem Land kann Sie einladen."
+
+msgctxt "employer invitation help"
+msgid "Find an EURES adviser (EURES portal)"
+msgstr "EURES-Beratung finden (EURES-Portal)"
