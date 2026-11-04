@@ -1,5 +1,15 @@
 # EURES beta / Match Europe — vue d’ensemble
 
+## 4 novembre 2026 — premier lot candidat
+
+Le modèle `users.User` accepte désormais `kind=candidate`. Son ajout ne crée
+pas encore de profil persistant : le questionnaire reste temporaire en session.
+Le candidat ne reçoit aucun droit employeur ou conseiller. Voir
+[le périmètre et la migration](USER_MODEL.md).
+Le stockage futur des réponses utilisera des champs et tables dédiés, selon
+le choix d’Eric ; la création du compte à la fin du questionnaire et la
+vérification par email restent à développer.
+
 ## 2 novembre 2026 — retrait du premier prototype
 
 Les quatre parcours de `/access/` sont retirés, avec leurs connexions fictives,

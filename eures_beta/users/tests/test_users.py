@@ -30,7 +30,7 @@ class UserTests(TestCase):
             )
 
     def test_kind_is_required_and_limited_even_without_model_validation(self):
-        for kind in ('', 'candidate', 'admin'):
+        for kind in ('', 'admin', 'unknown'):
             with (
                 self.subTest(kind=kind),
                 self.assertRaises(IntegrityError),
@@ -41,6 +41,78 @@ class UserTests(TestCase):
                 )
         with self.assertRaises(TypeError):
             User.objects.create_user(email='missing@example.invalid')
+
+    def test_candidate_is_supported_by_manager_and_database_without_privileges(self):
+        user = User.objects.create_user(
+            email='Candidate@Example.invalid', kind='candidate'
+        )
+        self.assertEqual(user.email, 'candidate@example.invalid')
+        self.assertFalse(user.has_usable_password())
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.groups.exists())
+        self.assertFalse(user.user_permissions.exists())
+        User.objects.bulk_create(
+            [User(email='direct-candidate@example.invalid', kind='candidate')]
+        )
+        self.assertEqual(User.objects.filter(kind='candidate').count(), 2)
+
+    def test_candidate_kind_cannot_change_or_replace_an_existing_kind(self):
+        candidate = User.objects.create_user(
+            email='candidate@example.invalid', kind='candidate'
+        )
+        employer = User.objects.create_user(
+            email='employer@example.invalid', kind='employer'
+        )
+        for user, target in ((candidate, 'employer'), (employer, 'candidate')):
+            with self.subTest(source=user.kind, target=target):
+                user.kind = target
+                with self.assertRaises(ValidationError):
+                    user.save()
+                with self.assertRaises(IntegrityError), transaction.atomic():
+                    User.objects.filter(pk=user.pk).update(kind=target)
+                user.refresh_from_db()
+                self.assertNotEqual(user.kind, target)
+
+    def test_candidate_cannot_use_employer_workspace_or_adviser_invitations(self):
+        from django.test import RequestFactory
+        from eures_beta.employers.employer_ownership import identity
+
+        user = User.objects.create_user(
+            email='candidate@example.invalid', kind='candidate'
+        )
+        request = RequestFactory().get('/')
+        request.user = user
+        self.assertIsNone(identity(request))
+        self.client.force_login(user)
+        self.assertEqual(
+            self.client.get('/accounts/employers/invite/').status_code, 403
+        )
+
+    def test_candidate_dashboard_does_not_enter_employer_workspace(self):
+        from unittest.mock import patch
+
+        user = User.objects.create_user(
+            email='candidate@example.invalid', kind='candidate'
+        )
+        self.client.force_login(user)
+        with patch('eures_beta.employers.dashboard.employer_dashboard') as employer:
+            response = self.client.get('/accounts/dashboard/')
+        employer.assert_not_called()
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/dashboard.html')
+        self.assertNotContains(response, '/accounts/employers/invite/')
+
+    def test_candidate_label_is_translated(self):
+        from django.utils.translation import override
+
+        for language, label in [
+            ('fr', 'Candidat'),
+            ('en', 'Candidate'),
+            ('de', 'Kandidat'),
+        ]:
+            with self.subTest(language=language), override(language):
+                self.assertEqual(str(User.Kind.CANDIDATE.label), label)
 
     def test_kind_is_immutable_for_save_and_bulk_update(self):
         user = User.objects.create_user(email='role@example.invalid', kind='employer')

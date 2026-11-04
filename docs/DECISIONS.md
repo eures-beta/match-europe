@@ -2,6 +2,21 @@
 
 Initialisation : 16 octobre 2026. Sources : échange d’organisation avec Eric, AGENTS.md et documentation existante. Ce registre ne transforme pas une hypothèse en décision et n’atteste pas l’état des déploiements.
 
+## 4 novembre 2026 — socle candidat et conservation des réponses
+
+Eric autorise un travail par étapes : ajouter `candidate` à `User.Kind`, puis
+créer le modèle des réponses. Il choisit des champs et tables dédiés pour
+faciliter le futur matching, plutôt qu’un questionnaire conservé uniquement
+dans un JSON versionné. La structure détaillée reste à implémenter.
+
+Le parcours cible est ouvert sans connexion jusqu’à la fin du questionnaire :
+le candidat indique alors son email, un compte est créé et un email lui est
+envoyé. Cette décision remplace la proposition d’invitation préalable par un
+conseiller ; elle n’ouvre pas les inscriptions employeurs ou conseillers.
+La sauvegarde métier, la vérification email et le matching constituent des
+étapes distinctes. Le premier lot technique ajoute seulement le rôle et sa
+migration, sans collecte durable, compte public ni envoi supplémentaire.
+
 ## Choix validés et règles existantes
 
 | Référence | Décision ou contrainte | Source |

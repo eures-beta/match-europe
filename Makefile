@@ -219,6 +219,10 @@ invitation-email: ## Simuler un email privé contenant un lien secret (INVITATIO
 login-test: ## Tester les liens magiques, sessions, limites et inscriptions fermées
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.users.tests --noinput $(TEST_ARGS)
 
+.PHONY: user-kind-test
+user-kind-test: ## Tester les rôles, la migration candidat et la fermeture des inscriptions
+	@$(MANAGE) test eures_beta.users.tests.test_users eures_beta.users.tests.test_candidate_kind_migration eures_beta.users.tests.test_closed_registration --noinput $(TEST_ARGS)
+
 .PHONY: candidate-run candidate-test
 candidate-run: ## Ouvrir la recette candidat locale sur le port 9031 (données fictives)
 	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9031"
