@@ -77,6 +77,7 @@ class User(AbstractUser):
     class Kind(models.TextChoices):
         ADVISER = 'adviser', _('Adviser')
         EMPLOYER = 'employer', _('Employer')
+        CANDIDATE = 'candidate', _('Candidate')
 
     username = None
     email = models.EmailField(unique=True)
@@ -91,7 +92,7 @@ class User(AbstractUser):
                 Lower('email'), name='users_email_case_insensitive'
             ),
             models.CheckConstraint(
-                condition=models.Q(kind__in=['adviser', 'employer']),
+                condition=models.Q(kind__in=['adviser', 'employer', 'candidate']),
                 name='users_valid_kind',
             ),
             models.CheckConstraint(

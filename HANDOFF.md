@@ -7,6 +7,32 @@ avant suppression. Sources, éditions et identifiants conservés ; manifeste v2.
 Le chargeur conserve son interface et contrôle les quatre empreintes. L’outil de
 reconstruction produit le même format. Aucun modèle ni migration modifié.
 
+## 4 novembre 2026 — premier lot des comptes candidats
+
+Branche `codex/candidate-account-kind` depuis `origin/main` (`070038d`), vérifié
+sur GitHub : aucune PR de livraison ouverte, seule #126 de recette jetable.
+Ajout de `User.Kind.CANDIDATE` et migration `users.0005_candidate_kind` pour
+étendre la contrainte PostgreSQL. Rôle immuable et email unique conservés,
+aucun privilège supplémentaire. Le tableau de bord candidat utilise la page
+générique existante sans entrer dans l’espace employeur. FR/EN/DE couverts.
+
+Validation du lot : `make user-kind-test` (21 tests PostgreSQL réussis), puis
+`make test` (364 tests PostgreSQL réussis), `make check`, `make format-check`,
+`make translations-check` et `git diff --check`. Migration depuis `users.0004`
+testée avec conservation intégrale des comptes conseiller/employeur, rejet
+des rôles invalides, unicité email et immuabilité SQL. Retour à `0004` testé
+après retrait du seul candidat fictif ; aucun effacement automatique prévu.
+La première suite complète a échoué sur l’observabilité après désactivation
+locale de l’échantillonnage ; réglages locaux rétablis, suite complète réussie.
+Worktree et base de test locaux dédiés ; aucune donnée réelle modifiée.
+
+Choix d’Eric confirmé pendant le travail : champs et tables dédiés pour les
+réponses utiles au matching. Prochain lot : profil courant lié au compte,
+réponses structurées et validations partagées avec le questionnaire. Puis
+dépôt anonyme, création du compte en fin de parcours et vérification email.
+Ce premier lot ne crée ni profil persistant ni compte depuis une page publique.
+Aucun push, PR nouvelle, fusion, déploiement ou email réel.
+
 ## 3 novembre 2026 — consultation de tous les modèles dans Django Admin
 
 PR dédiée depuis main : neuf modèles applicatifs et cinq modèles techniques

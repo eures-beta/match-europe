@@ -21,7 +21,7 @@ from eures_beta.employers.models import (
 )
 class ClosedRegistrationTests(TestCase):
     def test_unknown_email_and_submitted_kind_never_create_user_or_link(self):
-        for kind in ('employer', 'adviser'):
+        for kind in ('employer', 'adviser', 'candidate'):
             with self.subTest(kind=kind):
                 client = Client()
                 response = client.post(
@@ -78,6 +78,7 @@ class ClosedRegistrationTests(TestCase):
     def test_adviser_and_inactive_account_cannot_use_employer_login(self):
         for email, kind, active in [
             ('adviser@example.invalid', 'adviser', True),
+            ('candidate@example.invalid', 'candidate', True),
             ('inactive@example.invalid', 'employer', False),
         ]:
             get_user_model().objects.create_user(
@@ -136,7 +137,7 @@ class ClosedRegistrationTests(TestCase):
         self.assertFalse(get_user_model().objects.exists())
 
     def test_ordinary_accounts_cannot_create_users_in_admin(self):
-        for kind in ('adviser', 'employer'):
+        for kind in ('adviser', 'employer', 'candidate'):
             user = get_user_model().objects.create_user(
                 email=kind + '@example.invalid', kind=kind
             )

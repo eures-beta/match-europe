@@ -6,13 +6,35 @@ mots de passe, sessions, groupes, permissions et de l’administration.
 `AUTH_USER_MODEL` désigne `users.User` ; il n’y a pas de modèle Profile.
 
 L’e-mail remplace le nom d’utilisateur pour la connexion. Le champ obligatoire
-`kind` vaut `adviser` (conseiller) ou `employer` (employeur). Il n’a pas de valeur
+`kind` vaut `adviser` (conseiller), `employer` (employeur) ou `candidate`
+(candidat). Il n’a pas de valeur
 par défaut. `is_staff` et `is_superuser` restent des privilèges techniques, pas
 des rôles supplémentaires. Le rôle est immuable après création, dans le modèle
 et par un déclencheur PostgreSQL qui protège également les mises à jour directes.
 Une contrainte PostgreSQL impose l’unicité de l’e-mail sans distinction de casse.
 Le gestionnaire normalise les adresses et crée un mot de passe inutilisable
 lorsqu’aucun mot de passe n’est fourni.
+
+## 4 novembre 2026 — socle des comptes candidats
+
+Le premier lot ajoute `candidate` aux choix et à la contrainte PostgreSQL
+`users_valid_kind` (migration `users.0005_candidate_kind`). Il conserve le
+déclencheur d’immuabilité, l’unicité de l’email et les privilèges techniques
+séparés. Le tableau de bord candidat utilise la page générique existante ; il
+ne passe pas par l’espace employeur. Les invitations conseillers et les accès
+employeurs restent refusés aux candidats.
+
+Ce lot ne crée aucun compte depuis une page publique et ne change pas les
+liens de connexion existants. Le futur parcours candidat autorisé par Eric
+permettra de remplir le questionnaire sans connexion, puis de créer le compte
+en fin de parcours et de vérifier l’adresse par email. Son implémentation est
+distincte de la connexion habituelle des comptes existants.
+
+Tester le rôle, les protections et la transition depuis `users.0004` avec
+`make user-kind-test`, puis les interactions avec `make test`.
+La migration inverse n’est applicable que si aucun compte candidat ne subsiste :
+la contrainte précédente refuse cette valeur. Aucun compte n’est supprimé ou
+converti automatiquement pour permettre un retour arrière.
 
 ## Remplacement d’EmployerIdentity
 
