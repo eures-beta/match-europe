@@ -7484,3 +7484,7 @@ msgstr "Stellenangebot"
 
 msgid "Job offers"
 msgstr "Stellenangebote"
+
+#: eures_beta/users/models.py
+msgid "Candidate"
+msgstr "Kandidat"
