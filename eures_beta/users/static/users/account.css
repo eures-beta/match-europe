@@ -64,3 +64,15 @@
     margin-bottom: 16px;
   }
 }
+
+.account-welcome {
+  margin: 16px 0 24px;
+  padding: 14px 18px;
+  border-left: 4px solid #15803d;
+  border-radius: 6px;
+  background: #f0fdf4;
+}
+
+.account-welcome p {
+  margin: 0;
+}

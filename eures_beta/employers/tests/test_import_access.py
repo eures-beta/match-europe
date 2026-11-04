@@ -235,3 +235,45 @@ class ImportAccessTests(TestCase):
         self.assertIn(
             'next=%2Femployer%2Fpages%2Fimport-fr.html', send.call_args.args[1]
         )
+
+    def test_invitation_help_points_to_an_eures_adviser(self):
+        notices = {
+            'fr': 'Les comptes employeurs sont créés par un conseiller EURES.',
+            'en': 'Employer accounts are created by an EURES adviser.',
+            'de': 'Arbeitgeberkonten werden von einer EURES-Beraterin',
+        }
+        for language, notice in notices.items():
+            link = (
+                'https://europa.eu/eures/portal/um/search-for-advisers?lang=' + language
+            )
+            for path in (
+                f'/employer/pages/{language}.html',
+                f'/employer/pages/import-{language}.html',
+                f'/accounts/login/?lang={language}',
+            ):
+                with self.subTest(path=path):
+                    page = self.client.get(path, secure=True)
+                    self.assertContains(page, notice)
+                    self.assertContains(page, 'href="' + link + '"')
+        self.client.force_login(self.employer)
+        self.assertNotContains(
+            self.client.get('/employer/pages/fr.html', secure=True),
+            'employer-invitation-help',
+        )
+
+    @override_settings(
+        EMPLOYER_ADVISER_CONTACT_URL='https://contact.example.invalid/?x=1'
+    )
+    def test_configured_adviser_contact_is_used_as_is(self):
+        page = self.client.get('/employer/pages/import-en.html', secure=True)
+        self.assertContains(page, 'href="https://contact.example.invalid/?x=1"')
+
+    def test_signed_in_employer_contact_email_is_prefilled(self):
+        self.client.force_login(self.employer)
+        page = self.client.get(self.destination, secure=True)
+        self.assertContains(page, 'data-employer-email="employer@example.invalid"')
+        self.client.logout()
+        self.assertNotContains(
+            self.client.get('/employer/pages/fr.html', secure=True),
+            'data-employer-email',
+        )

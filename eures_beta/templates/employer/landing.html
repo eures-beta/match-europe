@@ -278,6 +278,9 @@
             <h1>{% translate "Make recruitment easier through European mobility" context "employer landing" %}</h1>
             <p class="lede">{% translate "Already written your job offer? Import a PDF or add the link to your advert to prepare and save your recruitment needs." context "employer landing" %}</p>
             <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
+            {% if not user.is_authenticated or user.kind != "employer" %}
+              {% include "includes/employer_invitation_help.html" %}
+            {% endif %}
           </div>
           <section class="candidate-message">
             <h2>{% translate "Your offer is read, then checked with you" context "employer landing" %}</h2>

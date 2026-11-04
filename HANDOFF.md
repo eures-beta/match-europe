@@ -21,6 +21,21 @@ avant suppression. Sources, éditions et identifiants conservés ; manifeste v2.
 Le chargeur conserve son interface et contrôle les quatre empreintes. L’outil de
 reconstruction produit le même format. Aucun modèle ni migration modifié.
 
+## 4 novembre 2026 — fluidité et accessibilité : inscription entreprises et parcours candidat
+
+PR empilée sur #128, titre fourni par l’utilisateur. Revue navigateur, données fictives.
+Candidats : titre de page par étape (« Erreur — » si besoin) ; récapitulatif d’erreurs
+avec liens, focus et ordre de la page ; mentions « obligatoire » des questions
+conditionnelles ; `autocomplete` nom/e-mail ; brouillon de 30 min glissant (dernière
+action) avec avertissement 2 min avant et bouton de prolongation ; « Modifier : <rubrique> »
+qui ramène au récapitulatif. Entreprises : invitation annoncée dès l’accueil et sur
+l’accès et la connexion, avec lien « Trouver un conseiller EURES » (`ME_EMPLOYER_ADVISER_CONTACT_URL`,
+portail EURES par défaut) ; message unique « compte créé » et première étape guidée sur
+le tableau de bord ; e-mail du contact pré-rempli avec celui du compte connecté.
+Aucune migration, aucune règle de création de compte modifiée. Pas d’audit RGAA complet :
+lecteur d’écran et zoom restent à tester. 2 échecs préexistants dans l’import employeur
+(`test_employer_contact`, `test_employer_import`), présents avant cette PR.
+
 ## 4 novembre 2026 — premier lot des comptes candidats
 
 Branche `codex/candidate-account-kind` depuis `origin/main` (`070038d`), vérifié
