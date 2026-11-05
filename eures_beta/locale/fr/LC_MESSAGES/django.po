@@ -4234,8 +4234,8 @@ msgstr "Fonction dans l’entreprise (facultatif)"
 
 #: eures_beta/templates/employer/import.html:1613
 msgctxt "employer import"
-msgid "These contact details can be viewed by the adviser responsible for your offer and administrators. They are not shown to candidates or added to the offer data sent to AGLAE."
-msgstr "Ces coordonnées sont consultables par le conseiller chargé de votre offre et les administrateurs. Elles ne sont pas affichées aux candidats ni ajoutées aux données de l’offre transmises à AGLAE."
+msgid "These contact details can be viewed by the adviser responsible for your offer and administrators. They are not shown to candidates."
+msgstr "Ces coordonnées sont consultables par le conseiller chargé de votre offre et les administrateurs. Elles ne sont pas affichées aux candidats."
 
 #: eures_beta/templates/employer/import.html:1614
 msgctxt "employer import"
@@ -4900,8 +4900,8 @@ msgstr "Contact entreprise dans l’essai local"
 
 #: eures_beta/templates/employer/privacy.html:61
 msgctxt "employer privacy"
-msgid "The contact name and email, plus the optional phone and role, are stored with the local draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates, added to offer data sent to AGLAE or included in the offer export. Retention and the production notice remain to be defined; this historical copy does not validate the new journey."
-msgstr "Le nom et l’email du contact, ainsi que le téléphone et la fonction si vous les renseignez, sont conservés avec le brouillon local pour permettre au conseiller de vous recontacter. L’employeur peut les consulter et les corriger dans ce navigateur. Le conseiller affecté à l’offre et les administrateurs peuvent les consulter dans leurs espaces. Ces champs ne sont pas affichés aux candidats, ajoutés aux données d’offre envoyées à AGLAE ni inclus dans l’export de la fiche. La durée de conservation et la notice de production restent à définir ; cette copie historique ne valide pas le nouveau parcours."
+msgid "The contact name and email, plus the optional phone and role, are stored with the local draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates or included in the offer export. Retention and the production notice remain to be defined; this historical copy does not validate the new journey."
+msgstr "Le nom et l’email du contact, ainsi que le téléphone et la fonction si vous les renseignez, sont conservés avec le brouillon local pour permettre au conseiller de vous recontacter. L’employeur peut les consulter et les corriger dans ce navigateur. Le conseiller affecté à l’offre et les administrateurs peuvent les consulter dans leurs espaces. Ces champs ne sont pas affichés aux candidats ni inclus dans l’export de la fiche. La durée de conservation et la notice de production restent à définir ; cette copie historique ne valide pas le nouveau parcours."
 
 #: eures_beta/templates/employer/privacy.html:68
 msgctxt "employer privacy"

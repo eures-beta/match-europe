@@ -4234,8 +4234,8 @@ msgstr "Funktion im Unternehmen (optional)"
 
 #: eures_beta/templates/employer/import.html:1613
 msgctxt "employer import"
-msgid "These contact details can be viewed by the adviser responsible for your offer and administrators. They are not shown to candidates or added to the offer data sent to AGLAE."
-msgstr "Diese Kontaktdaten sind für die zuständige Beratungsperson und Administratoren einsehbar. Sie werden Bewerbenden nicht angezeigt und nicht zu den an AGLAE übermittelten Stellendaten hinzugefügt."
+msgid "These contact details can be viewed by the adviser responsible for your offer and administrators. They are not shown to candidates."
+msgstr "Diese Kontaktdaten sind für die zuständige Beratungsperson und Administratoren einsehbar. Sie werden Bewerbenden nicht angezeigt."
 
 #: eures_beta/templates/employer/import.html:1614
 msgctxt "employer import"
@@ -4900,8 +4900,8 @@ msgstr "Unternehmenskontakt im lokalen Test"
 
 #: eures_beta/templates/employer/privacy.html:61
 msgctxt "employer privacy"
-msgid "The contact name and email, plus the optional phone and role, are stored with the local draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates, added to offer data sent to AGLAE or included in the offer export. Retention and the production notice remain to be defined; this historical copy does not validate the new journey."
-msgstr "Name und E-Mail sowie optional Telefon und Funktion werden mit dem lokalen Entwurf gespeichert, damit die Beratungsperson Sie kontaktieren kann. Der Arbeitgeber kann sie in diesem Browser einsehen und ändern. Die zuständige Beratungsperson und Administratoren können sie in ihren Bereichen einsehen. Diese Felder werden Bewerbenden nicht angezeigt, nicht zu den an AGLAE übermittelten Stellendaten hinzugefügt und nicht in den Angebotsexport aufgenommen. Aufbewahrung und Datenschutzhinweise für den Produktivbetrieb sind noch festzulegen; diese historische Kopie bestätigt den neuen Ablauf nicht."
+msgid "The contact name and email, plus the optional phone and role, are stored with the local draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates or included in the offer export. Retention and the production notice remain to be defined; this historical copy does not validate the new journey."
+msgstr "Name und E-Mail sowie optional Telefon und Funktion werden mit dem lokalen Entwurf gespeichert, damit die Beratungsperson Sie kontaktieren kann. Der Arbeitgeber kann sie in diesem Browser einsehen und ändern. Die zuständige Beratungsperson und Administratoren können sie in ihren Bereichen einsehen. Diese Felder werden Bewerbenden nicht angezeigt und nicht in den Angebotsexport aufgenommen. Aufbewahrung und Datenschutzhinweise für den Produktivbetrieb sind noch festzulegen; diese historische Kopie bestätigt den neuen Ablauf nicht."
 
 #: eures_beta/templates/employer/privacy.html:68
 msgctxt "employer privacy"
