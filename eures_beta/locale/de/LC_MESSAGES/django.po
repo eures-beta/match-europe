@@ -7672,4 +7672,3 @@ msgstr "Kategorie"
 msgctxt "data protection table"
 msgid "Retention period"
 msgstr "Aufbewahrungsdauer"
-
