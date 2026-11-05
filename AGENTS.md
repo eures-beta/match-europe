@@ -41,6 +41,13 @@
 
 ## Création des comptes
 
+- Le parcours candidat explicite peut préparer un compte et un profil uniquement
+  après vérification d'un lien et confirmation POST. Le premier lot est un essai
+  opt-in (`CANDIDATE_REGISTRATION_ENABLED`), local/recette, adresses `.invalid`
+  uniquement et sans email réel ; son activation en production est interdite.
+  Il ne modifie pas les routes de connexion ni les comptes existants. Voir
+  `docs/CANDIDATE_EMAIL_REGISTRATION.md` pour les limites avant ouverture réelle.
+
 - La création autonome de comptes est fermée, pour les conseillers comme pour
   les employeurs. Un formulaire public, une adresse de contact ou la validation
   d’un lien de connexion ne doit jamais créer implicitement un utilisateur.

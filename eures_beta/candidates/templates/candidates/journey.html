@@ -4,7 +4,9 @@
 {% block candidate_content %}
   <main id="main-content" class="section candidate-journey">
     <div class="shell">
-      <p class="candidate-highlight">{% translate "Local demonstration — use fictional information only. No account is created and nothing is sent to an adviser or employer." %}</p>
+      {% if not registration_trial %}
+        <p class="candidate-highlight">{% translate "Local demonstration — use fictional information only. No account is created and nothing is sent to an adviser or employer." %}</p>
+      {% endif %}
       <nav aria-label="{% translate 'Your progress' %}">
         <ol class="journey-progress">
           {% for item in steps %}
@@ -78,9 +80,14 @@
                 </dl>
               </section>
             {% endfor %}
-            <p>{% translate "In the future, contact details will allow you to retrieve your profile. In this demonstration, use a fictional name and leave the email empty if you prefer." %}</p>
+            {% if not registration_trial %}
+              <p>{% translate "In the future, contact details will allow you to retrieve your profile. In this demonstration, use a fictional name and leave the email empty if you prefer." %}</p>
+            {% endif %}
           {% endif %}
           <form method="post" novalidate>
+            {% if step == 4 and registration_trial %}
+              <p><a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Read the data protection notice" context "employer import" %}</a></p>
+            {% endif %}
             {% csrf_token %}
             <input type="hidden" name="token" value="{{ draft.token }}">
             {% if return_to_review %}<input type="hidden" name="return" value="review">{% endif %}
@@ -200,7 +207,15 @@
                       name="action"
                       value="{% if step == 4 %}finish{% else %}continue{% endif %}">
                 {% if step == 4 %}
-                  {% translate "Confirm my demonstration profile" %}
+                  {% if registration_trial %}
+                    {% if draft.editing_user %}
+                      {% translate "Save my profile" %}
+                    {% else %}
+                      {% translate "Verify my email and save my profile" %}
+                    {% endif %}
+                  {% else %}
+                    {% translate "Confirm my demonstration profile" %}
+                  {% endif %}
                 {% elif return_to_review %}
                   {% translate "Save and return to the review" %}
                 {% else %}

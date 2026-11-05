@@ -1,11 +1,40 @@
 """Durable candidate answers, separate from the anonymous session rehearsal."""
 
 import uuid
+from datetime import timedelta
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.functions import Lower
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+
+
+def registration_expiry():
+    return timezone.now() + timedelta(seconds=settings.CANDIDATE_REGISTRATION_MAX_AGE)
+
+
+class CandidateRegistration(models.Model):
+    """Short-lived answers awaiting possession of an email address; never an account."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nonce = models.UUIDField(default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True)
+    language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
+    answers = models.JSONField(default=dict)
+    created_at = models.DateTimeField(default=timezone.now)
+    expires_at = models.DateTimeField(default=registration_expiry, db_index=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                Lower('email'), name='candidate_registration_email_ci'
+            )
+        ]
+
+    def __str__(self):
+        return str(self.pk)
 
 
 class CandidateProfile(models.Model):
@@ -19,6 +48,9 @@ class CandidateProfile(models.Model):
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
     display_name = models.CharField(max_length=150)
     language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
+    email_verified_at = models.DateTimeField(null=True, blank=True)
+    notice_read_at = models.DateTimeField(null=True, blank=True)
+    notice_version = models.CharField(max_length=32, blank=True)
     desired_occupations = models.CharField(max_length=500, blank=True)
     occupation_references = models.JSONField(default=list, blank=True)
     desired_countries = models.JSONField(default=list)
