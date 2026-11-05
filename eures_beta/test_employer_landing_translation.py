@@ -50,7 +50,7 @@ class EmployerLandingTranslationTests(TestCase):
                 self.assertNotContains(
                     import_response, '/static/employer/review-steps.js'
                 )
-                self.assertContains(response, f'href="privacy-{language}.html"')
+                self.assertContains(response, f'href="/privacy/?lang={language}"')
                 self.assertContains(
                     response, f'href="/accounts/login/?lang={language}"'
                 )

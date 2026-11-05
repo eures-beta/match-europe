@@ -13,6 +13,7 @@ urlpatterns = [
     # Old tabs/bookmarks still contain these relative language links after deployment.
     path('previews/employer-landing/<path:path>', legacy_employer_page),
     path("health/", health, name="health"),
+    path('privacy/', views.information_page, {'section': 'privacy'}, name='privacy'),
     path('admin/login/', user_views.admin_login),
     path('admin/password_change/', user_views.password_disabled),
     path('admin/password_change/done/', user_views.password_disabled),

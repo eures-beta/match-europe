@@ -1,0 +1,43 @@
+{% extends "public_base.html" %}
+{% load static %}
+{% block extra_styles %}
+  <link rel="stylesheet" href="{% static 'data-protection.css' %}">
+{% endblock %}
+{% block page_title %}{{ notice.TITLE }} — Match Europe{% endblock %}
+{% block public_content %}
+  <header class="home-intro">
+    <h1>{{ notice.TITLE }}</h1>
+    <p class="lede">{{ notice.INTRO }}</p>
+  </header>
+  {% for title, text in notice.SECTIONS %}
+    <section class="home-section">
+      <h2>{{ title }}</h2>
+      <p>{{ text }}</p>
+    </section>
+  {% endfor %}
+  <section class="home-section" aria-labelledby="retention-title">
+    <h2 id="retention-title">{{ notice.RETENTION_TITLE }}</h2>
+    <dl class="data-retention">
+      {% for category, duration in notice.RETENTION_ROWS %}
+        <dt><strong>{{ category }}</strong></dt>
+        <dd>
+          {{ duration }}
+        </dd>
+      {% endfor %}
+    </dl>
+    <p>{{ notice.LIMITS }}</p>
+  </section>
+  <section class="home-section">
+    <h2>{{ notice.DRAFT_TITLE }}</h2>
+    <p>{{ notice.DRAFT_TEXT }}</p>
+  </section>
+  <section class="home-section">
+    <h2>{{ notice.SCOPE_TITLE }}</h2>
+    <p>{{ notice.SCOPE_TEXT }}</p>
+  </section>
+  <section class="home-section">
+    <h2>{{ notice.RIGHTS_TITLE }}</h2>
+    <p>{{ notice.RIGHTS_TEXT }} <a href="mailto:eric.barthelemy@francetravail.fr">eric.barthelemy@francetravail.fr</a></p>
+    <p><a href="/employer/pages/privacy-{{ page_language }}.html">{{ notice.EARLIER_NOTICE }}</a></p>
+  </section>
+{% endblock %}

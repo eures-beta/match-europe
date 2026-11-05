@@ -316,7 +316,7 @@
         <nav aria-label="{% translate "Useful links" context "candidate shell" %}">
           <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "candidate shell" %}</a>
           <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "candidate shell" %}</a>
-          <a href="/employer/pages/privacy-{{ page_language }}.html">{% translate "Data protection" context "candidate shell" %}</a>
+          <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "candidate shell" %}</a>
         </nav>
       </div>
     </footer>
