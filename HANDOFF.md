@@ -991,3 +991,15 @@ la transition complète et sa répétition passent après correction.
 Voir `docs/STACK_VALIDATION_20261105.md` pour les limites et la recette manuelle
 restante. Aucune fusion ni opération de production.
 
+# 5 novembre 2026 — notice commune de protection des données
+
+Reprise dans Django du cadre Flask : page publique FR/EN/DE `/privacy/`,
+durées candidats/employeurs 12 mois, rapprochements 24 mois, invitations sans
+réponse et journaux 6 mois, statistiques agrégées/anonymisées seulement pour
+une conservation plus longue. Liens depuis les parcours publics, candidats et
+employeurs, imports et accès employeur. Notice antérieure conservée et reliée.
+Distinction entre brouillon temporaire (30 minutes sans activité), profil durable
+et purge technique. Aucun modèle, migration, collecte réelle ou effacement
+automatique ajouté. Voir `docs/DATA_PROTECTION.md` pour la provenance et les
+points à préciser lors du raccordement P1. Aucune fusion effectuée par l'agent.
+

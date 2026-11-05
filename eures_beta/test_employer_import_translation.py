@@ -37,7 +37,7 @@ class JobOfferTranslationTests(TestCase):
                 self.assertNotContains(response, 'Geteilte Demonstration')
                 self.assertTemplateUsed(response, f'employer/{self.page}.html')
                 self.assertContains(response, f'<html lang="{language}">')
-                self.assertContains(response, f'href="privacy-{language}.html"')
+                self.assertContains(response, f'href="/privacy/?lang={language}"')
                 assert_active_link(self, response, f'{self.page}-{language}.html')
                 html = response.content.decode()
                 scripts = json_scripts(response)

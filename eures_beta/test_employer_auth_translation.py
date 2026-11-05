@@ -25,7 +25,5 @@ class EmployerAuthTranslationTests(TestCase):
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, label)
                 self.assertContains(response, f'href="/employer/pages/{language}.html"')
-                self.assertContains(
-                    response, f'href="/employer/pages/privacy-{language}.html"'
-                )
+                self.assertContains(response, f'href="/privacy/?lang={language}"')
                 assert_active_link(self, response, f'/employer/access/?lang={language}')

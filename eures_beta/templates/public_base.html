@@ -199,6 +199,7 @@
     <link rel="stylesheet" href="{% static 'home.css' %}">
     <link rel="stylesheet" href="/static/public-brand.css">
     {% block extra_head %}{% endblock %}
+    {% block extra_styles %}{% endblock %}
   </head>
   <body>
     {% include "includes/test_accounts_banner.html" %}
@@ -285,7 +286,7 @@
     <footer class="employer-page-footer">
       <div class="shell employer-page-footer-inner">
         <p>{% translate "The Match Europe experiment supports professional mobility and recruitment in the Greater Region." context "public home" %}</p>
-        <a href="/employer/pages/privacy-{{ page_language }}.html">{% translate "Data protection" context "employer landing" %}</a>
+        <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer landing" %}</a>
       </div>
     </footer>
   </body>

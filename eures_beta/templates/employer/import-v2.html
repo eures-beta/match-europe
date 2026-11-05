@@ -1213,7 +1213,7 @@
                    aria-describedby="email-help">
             <p id="email-help" class="mini-note">{% translate "Use a fictional address for this demonstration. No email is sent." context "employer import-v2" %}</p>
             <p>
-              <a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import-v2" %}</a>
+              <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer import-v2" %}</a>
             </p>
             <div class="landing-actions">
               <button type="submit"
@@ -1620,7 +1620,7 @@
               <h2>{% translate "Use of your information" context "employer import-v2" %}</h2>
               <p>{% translate "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human." context "employer import-v2" %}</p>
               <p>{% translate "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" %}</p>
-              <a href="privacy-{{ page_language }}.html">{% translate "Read the data protection notice" context "employer import-v2" %}</a>
+              <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Read the data protection notice" context "employer import-v2" %}</a>
             </section>
             <label class="review-check review-confirm">
               <input type="checkbox" id="review-confirm">
@@ -1920,7 +1920,7 @@
         <nav aria-label="{% translate "Useful links" context "employer import-v2" %}">
           <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer import-v2" %}</a>
           <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer import-v2" %}</a>
-          <a href="privacy-{{ page_language }}.html">{% translate "Data protection" context "employer import-v2" %}</a>
+          <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer import-v2" %}</a>
         </nav>
       </div>
     </footer>

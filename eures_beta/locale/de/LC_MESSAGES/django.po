@@ -7568,3 +7568,99 @@ msgstr "Arbeitgeberkonten werden von einer EURES-Beraterin oder einem EURES-Bera
 msgctxt "employer invitation help"
 msgid "Find an EURES adviser (EURES portal)"
 msgstr "EURES-Beratung finden (EURES-Portal)"
+
+#: eures_beta/data_protection.py
+msgid "Data protection and retention"
+msgstr "Datenschutz und Aufbewahrung"
+
+#: eures_beta/data_protection.py
+msgid "This notice carries forward the information and retention periods defined for the Match Europe experiment."
+msgstr "Diese Hinweise übernehmen die Informationen und Aufbewahrungsfristen des Match-Europe-Experiments."
+
+#: eures_beta/data_protection.py
+msgid "Use of your data"
+msgstr "Verwendung Ihrer Daten"
+
+#: eures_beta/data_protection.py
+msgid "Your answers help describe your professional project or recruitment needs and organise introductions with human support. Public indicators must be aggregated and anonymised."
+msgstr "Ihre Antworten helfen, Ihr berufliches Vorhaben oder Ihren Personalbedarf zu beschreiben und Kontakte mit menschlicher Begleitung zu organisieren. Öffentliche Kennzahlen müssen aggregiert und anonymisiert sein."
+
+#: eures_beta/data_protection.py
+msgid "Access and introductions"
+msgstr "Zugriff und Kontaktanbahnung"
+
+#: eures_beta/data_protection.py
+msgid "Access is restricted to authorised teams and technical services needed for the stated purpose. An employer receives only the information needed for a relevant introduction, after the required human validation and agreements. Personal data is not published."
+msgstr "Der Zugriff ist auf befugte Teams und für den genannten Zweck erforderliche technische Dienste beschränkt. Arbeitgeber erhalten nur die für eine passende Kontaktanbahnung nötigen Informationen, nach den erforderlichen menschlichen Prüfungen und Zustimmungen. Personenbezogene Daten werden nicht veröffentlicht."
+
+#: eures_beta/data_protection.py
+msgid "Retention periods"
+msgstr "Aufbewahrungsfristen"
+
+#: eures_beta/data_protection.py
+msgid "12 months after the last useful contact."
+msgstr "12 Monate nach dem letzten zweckdienlichen Kontakt."
+
+#: eures_beta/data_protection.py
+msgid "Employer needs"
+msgstr "Arbeitgeberbedarfe"
+
+#: eures_beta/data_protection.py
+msgid "12 months after the need is closed or the last useful exchange."
+msgstr "12 Monate nach Abschluss des Bedarfs oder dem letzten zweckdienlichen Austausch."
+
+#: eures_beta/data_protection.py
+msgid "Matching records"
+msgstr "Matching-Datensätze"
+
+#: eures_beta/data_protection.py
+msgid "24 months for operational follow-up and decision traceability."
+msgstr "24 Monate für die operative Begleitung und die Nachvollziehbarkeit von Entscheidungen."
+
+#: eures_beta/data_protection.py
+msgid "Unanswered invitations"
+msgstr "Unbeantwortete Einladungen"
+
+#: eures_beta/data_protection.py
+msgid "6 months."
+msgstr "6 Monate."
+
+#: eures_beta/data_protection.py
+msgid "Administration and security logs"
+msgstr "Administrations- und Sicherheitsprotokolle"
+
+#: eures_beta/data_protection.py
+msgid "Aggregated public statistics"
+msgstr "Aggregierte öffentliche Statistiken"
+
+#: eures_beta/data_protection.py
+msgid "Longer retention is possible only for aggregated and anonymised statistics."
+msgstr "Eine längere Aufbewahrung ist nur für aggregierte und anonymisierte Statistiken möglich."
+
+#: eures_beta/data_protection.py
+msgid "Temporary questionnaire drafts"
+msgstr "Vorübergehende Fragebogenentwürfe"
+
+#: eures_beta/data_protection.py
+msgid "The candidate draft expires after 30 minutes without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
+msgstr "Der Bewerberentwurf läuft nach 30 Minuten ohne Aktivität ab. Dieser vorübergehende Entwurf ist von einem dauerhaft gespeicherten Profil getrennt. Der Ablauf wird bei der Rückkehr zum Fragebogen geprüft; er garantiert keine sofortige Löschung aus technischen Speichern oder Sicherungskopien."
+
+#: eures_beta/data_protection.py
+msgid "Current scope"
+msgstr "Aktueller Umfang"
+
+#: eures_beta/data_protection.py
+msgid "The candidate questionnaire is currently a trial with fictional data: confirming it does not create an account or permanently register a profile. Matching and automatic introductions are not activated by this notice."
+msgstr "Der Bewerberfragebogen ist derzeit ein Versuch mit fiktiven Daten: Die Bestätigung erstellt weder ein Konto noch ein dauerhaft gespeichertes Profil. Diese Hinweise aktivieren weder Matching noch automatische Kontaktanbahnung."
+
+#: eures_beta/data_protection.py
+msgid "These are the retention rules carried forward from the experiment. Automatic deletion according to these periods is not yet implemented in this version. Detailed information about the responsible organisation, the legal basis and deletion arrangements must be completed before collecting real candidate profiles."
+msgstr "Diese Aufbewahrungsregeln stammen aus dem Experiment. Eine automatische Löschung nach diesen Fristen ist in dieser Version noch nicht umgesetzt. Detaillierte Angaben zur verantwortlichen Organisation, zur Rechtsgrundlage und zum Löschverfahren müssen vor der Erhebung echter Bewerberprofile ergänzt werden."
+
+#: eures_beta/data_protection.py
+msgid "You can request access, correction or deletion of your data and ask the project team about its use. Contact the team:"
+msgstr "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten beantragen und das Projektteam zur Verwendung befragen. Kontaktieren Sie das Team:"
+
+#: eures_beta/data_protection.py
+msgid "Earlier employer notice"
+msgstr "Frühere Arbeitgeberhinweise"

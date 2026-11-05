@@ -1107,7 +1107,7 @@
         <nav aria-label="{% translate "Useful links" context "employer auth-shell" %}">
           <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
           <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
-          <a href="/employer/pages/privacy-{{ page_language }}.html">{% translate "Data protection" context "employer auth-shell" %}</a>
+          <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer auth-shell" %}</a>
         </nav>
       </div>
     </footer>
