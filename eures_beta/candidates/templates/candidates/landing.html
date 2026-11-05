@@ -198,8 +198,13 @@
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "candidate shell" %}</a>
-    <p class="demo-notice"
-       id="demo-notice">{% translate "Demonstration — candidate welcome. No data is transmitted." context "candidate landing" %}</p>
+    <p class="demo-notice" id="demo-notice">
+      {% if registration_trial %}
+        {% translate "Candidate registration trial — fictional data only. No real email is sent." %}
+      {% else %}
+        {% translate "Demonstration — candidate welcome. No data is transmitted." context "candidate landing" %}
+      {% endif %}
+    </p>
     <header class="site-header">
       <div class="shell">
         {% include "includes/public_brand.html" %}
