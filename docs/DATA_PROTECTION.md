@@ -14,10 +14,10 @@ et blocs de contact. Sur mobile, les cartes s'empilent et les deux colonnes du
 tableau restent lisibles sans largeur minimale imposée. Les informations et
 limites du nouveau parcours sont conservées.
 
-La notice employeur antérieure du 3 août reste accessible depuis cette page
-pour ne pas supprimer les informations spécifiques déjà travaillées. Son
-avertissement historique et son absence de validation pour le parcours actuel
-restent visibles ; elle renvoie aussi vers la nouvelle page commune.
+La page commune ne propose pas de lien vers la notice employeur antérieure du
+3 août, retiré à la demande d'Eric. L'ancienne route est conservée pour les
+anciens liens ; elle renvoie vers la page commune et conserve son avertissement
+historique.
 Le contact professionnel repris est celui déjà présent dans la coque du projet.
 
 ## Durées de référence héritées de Flask

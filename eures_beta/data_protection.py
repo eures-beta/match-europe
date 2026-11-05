@@ -55,4 +55,3 @@ RIGHTS_TITLE = pgettext_lazy('employer privacy', 'Your rights and contact')
 RIGHTS_TEXT = _(
     "You can request access, correction or deletion of your data and ask the project team about its use. Contact the team:"
 )
-EARLIER_NOTICE = _("Earlier employer notice")
