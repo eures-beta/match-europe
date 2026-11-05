@@ -1003,3 +1003,10 @@ et purge technique. Aucun modèle, migration, collecte réelle ou effacement
 automatique ajouté. Voir `docs/DATA_PROTECTION.md` pour la provenance et les
 points à préciser lors du raccordement P1. Aucune fusion effectuée par l'agent.
 
+## 5 novembre 2026 — mentions visibles du prestataire
+
+Retrait demandé par Eric des deux mentions du prestataire dans les textes du
+contact et de la notice historique employeur, en FR/EN/DE. Modification de
+libellés uniquement, sans changement des intégrations, droits ou données.
+Validation : 147 tests PostgreSQL employeur réussis, catalogues vérifiés et
+compilés. Aucune fusion ni opération de déploiement.
