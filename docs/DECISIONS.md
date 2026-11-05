@@ -17,6 +17,16 @@ ne sont pas encore disponibles. Enregistrer une offre ne lance pas de matching.
 L’accord du candidat et de l’employeur reste nécessaire à la mise en relation.
 Cette validation éditoriale n’autorise ni ouverture de droits, ni fusion, ni déploiement.
 
+## 5 novembre 2026 — pratiques de réponse par compte employeur
+
+Eric valide deux questions sur la réponse aux candidatures et le délai habituel.
+Les réponses sont propres à chaque compte employeur : deux collègues du même
+établissement peuvent avoir des pratiques différentes. Après une première
+sauvegarde, afficher le récapitulatif et « Modifier mes réponses », avec champs
+préremplis et annulation. Les futures échéances devront conserver la règle
+applicable à la candidature, sans effet rétroactif des modifications.
+Voir [le périmètre local et le stockage](EMPLOYER_RESPONSE_PRACTICE.md).
+
 ## 4 novembre 2026 — préparation du stockage candidat
 
 Demande d'Eric : préparer, après la PR #127, la table enregistrant les réponses

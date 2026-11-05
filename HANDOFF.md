@@ -38,6 +38,34 @@ avant suppression. Sources, éditions et identifiants conservés ; manifeste v2.
 Le chargeur conserve son interface et contrôle les quatre empreintes. L’outil de
 reconstruction produit le même format. Aucun modèle ni migration modifié.
 
+## 5 novembre 2026 — réponses aux candidatures par compte employeur
+
+Branche locale `codex/employer-response-time` créée depuis le sommet GitHub
+vérifié #132 (`7475889`), les PR de livraison #127 à #132 étant ouvertes et
+l'essai #126 exclu. Deux questions à l'étape contact dans les deux variantes
+d'import, FR/EN/DE. Nouvelle table `EmployerResponsePractice`, une fiche par
+compte employeur ; deux collègues du même établissement restent indépendants.
+Après enregistrement : récapitulatif, CTA « Modifier mes réponses », champs
+préremplis et annulation. API privée avec CSRF, révision et transaction ;
+administration en lecture seule. Pas de changement des données des offres.
+Voir [le contrat et les limites](docs/EMPLOYER_RESPONSE_PRACTICE.md).
+
+Validation locale du lot : 419 tests PostgreSQL réussis, dont huit tests ciblés
+sur ces réponses et les scénarios de lecture seule administrative étendus.
+Migration additive appliquée sur base locale vide, contrôles Django/migrations,
+Black, djLint, structure HTML, syntaxe/format JavaScript et traductions réussis.
+Recette navigateur sur 9036 : première déclaration enregistrée, récapitulatif,
+modification préremplie, annulation sans perte et reprise après rechargement
+vérifiés. Compte et offre fictifs uniquement. Contrôle visuel à la largeur
+courante du navigateur ; pas d'audit exhaustif lecteur d'écran/WCAG.
+Les tests de migration de renommage restaurent maintenant toutes les feuilles
+pour ne pas laisser la nouvelle table absente dans les tests suivants.
+
+Les futures relances ne sont pas implémentées : réception, responsable, première
+réponse et règle de délai par candidature restent à raccorder. Aucun seuil
+numérique inventé pour « plus d'un mois » ou « variable ». Aucun push, fusion,
+déploiement ni email réel. Serveur local : `make employer-response-run`.
+
 ## 4 novembre 2026 — fluidité et accessibilité : inscription entreprises et parcours candidat
 
 PR empilée sur #128, titre fourni par l’utilisateur. Revue navigateur, données fictives.
