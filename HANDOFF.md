@@ -1027,3 +1027,17 @@ contact et de la notice historique employeur, en FR/EN/DE. Modification de
 libellés uniquement, sans changement des intégrations, droits ou données.
 Validation : 147 tests PostgreSQL employeur réussis, catalogues vérifiés et
 compilés. Aucune fusion ni opération de déploiement.
+
+# 5 novembre 2026 — P1 : confirmation candidat et profil enregistré
+
+Premier lot opt-in local/recette, uniquement données fictives et adresses
+`.invalid`, sans email réel. Le questionnaire prépare une demande valable une
+heure ; confirmation GET non consommatrice puis POST protégé, compte et profil
+créés atomiquement, demande supprimée, session connectée. Consultation et
+modification réservées au candidat propriétaire, comptes et profils existants
+jamais écrasés. Migrations candidates 0002/0003 additives, dates de vérification
+email et lecture déclarée de la notice sans reprise rétroactive.
+Simulation email par commande privée et nettoyage des demandes expirées,
+comptage sans effacement par défaut. Pas de purge planifiée ni ouverture réelle.
+Voir `docs/CANDIDATE_EMAIL_REGISTRATION.md`. Fusion réservée à dejafait.
+

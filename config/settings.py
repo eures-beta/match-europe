@@ -37,6 +37,18 @@ LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
 LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
+CANDIDATE_REGISTRATION_ENABLED = (
+    os.environ.get('CANDIDATE_REGISTRATION_ENABLED', '0') == '1'
+)
+CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
+if CANDIDATE_REGISTRATION_ENABLED and (
+    DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
+):
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        'Candidate registration trials require local/preview and disabled real email.'
+    )
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
 # Public page where an employer without an invitation can find an EURES adviser.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
