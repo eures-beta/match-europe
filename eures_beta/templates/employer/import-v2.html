@@ -1202,6 +1202,7 @@
         <section id="email-step" data-step class="surface-card import-card" hidden>
           <h1 tabindex="-1">{% translate "Save your offer" context "employer import-v2" %}</h1>
           <p class="lede">{% translate "Your offer is ready. Enter your email and company contact to save it and return to it later." context "employer import-v2" %}</p>
+          {% include "employer/response_practice.html" %}
           <form id="email-form">
             <label for="work-email">{% translate "Your work email" context "employer import-v2" %}</label>
             <input id="work-email"

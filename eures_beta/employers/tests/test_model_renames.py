@@ -32,7 +32,9 @@ class ModelRenameMigrationTests(TransactionTestCase):
         return executor.loader.project_state([target]).apps
 
     def tearDown(self):
-        self.migrate(AFTER)
+        executor = MigrationExecutor(connection)
+        executor.migrate(executor.loader.graph.leaf_nodes())
+        ContentType.objects.clear_cache()
         super().tearDown()
 
     def snapshot(self):

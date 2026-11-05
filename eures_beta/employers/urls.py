@@ -6,9 +6,15 @@ from eures_beta.employers import (
     employer_api,
     push_test,
     employer_search,
+    response_practice_views,
 )
 
 urlpatterns = [
+    path(
+        'api/employer/response-practice/',
+        response_practice_views.response_practice,
+        name='employer_response_practice',
+    ),
     path('api/occupations/', search_api, name='occupation_search'),
     path(
         'employer/offers/<uuid:id>/search/',

@@ -7748,3 +7748,122 @@ msgstr "Der Dienst befindet sich im Aufbau. Das Speichern Ihres Stellenangebots 
 msgctxt "public positioning"
 msgid "A match remains a suggestion. An introduction requires your agreement and the candidate’s."
 msgstr "Eine Übereinstimmung bleibt ein Vorschlag. Eine Kontaktvermittlung setzt Ihre Zustimmung und die der Bewerberin oder des Bewerbers voraus."
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Yes, all applications"
+msgstr "Ja, auf alle Bewerbungen"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "No, only applicants selected for the next recruitment stage"
+msgstr "Nein, nur den Personen, die für die nächste Auswahlrunde berücksichtigt werden"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "It depends on the recruitment"
+msgstr "Das hängt vom jeweiligen Einstellungsverfahren ab"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Less than one week"
+msgstr "Weniger als eine Woche"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Between 1 and 2 weeks"
+msgstr "Zwischen 1 und 2 Wochen"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "More than 2 weeks and up to 1 month"
+msgstr "Mehr als 2 Wochen und bis zu 1 Monat"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "More than one month"
+msgstr "Mehr als einen Monat"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "The timeframe varies too much to estimate"
+msgstr "Die Dauer variiert zu stark für eine Schätzung"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Do you reply to all applications received?"
+msgstr "Antworten Sie auf alle eingegangenen Bewerbungen?"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Do not count automatic acknowledgements."
+msgstr "Automatische Eingangsbestätigungen zählen nicht dazu."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "How long do you usually take to send a first reply?"
+msgstr "Wie lange dauert es normalerweise, bis Sie eine erste Antwort geben?"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Count from receipt of the application, excluding automatic acknowledgements. If you do not reply to everyone, indicate the timeframe for the people you contact."
+msgstr "Ab Eingang der Bewerbung, ohne automatische Eingangsbestätigungen. Wenn Sie nicht allen antworten, geben Sie die Dauer für die Personen an, die Sie kontaktieren."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Application response coverage"
+msgstr "Antwortpraxis bei Bewerbungen"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Usual first reply timeframe"
+msgstr "Übliche Dauer bis zur ersten Antwort"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "An employer account is required."
+msgstr "Ein Arbeitgeberkonto ist erforderlich."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Employer response practice"
+msgstr "Antwortpraxis eines Arbeitgebers"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Employer response practices"
+msgstr "Antwortpraxis der Arbeitgeber"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Replies to applications"
+msgstr "Antworten auf Bewerbungen"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "These answers belong to your account. They will be reused for your next offers; your colleagues keep their own answers."
+msgstr "Diese Antworten gehören zu Ihrem Konto und werden für Ihre nächsten Stellenangebote wiederverwendet. Ihre Kolleginnen und Kollegen behalten ihre eigenen Antworten."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Change my answers"
+msgstr "Meine Antworten ändern"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Save my answers"
+msgstr "Meine Antworten speichern"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Your answers have been saved for your next offers."
+msgstr "Ihre Antworten wurden für Ihre nächsten Stellenangebote gespeichert."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Unable to save your answers. Please try again."
+msgstr "Ihre Antworten konnten nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Your answers changed in another tab. Reload the page before editing them."
+msgstr "Ihre Antworten wurden in einem anderen Tab geändert. Laden Sie die Seite neu, bevor Sie sie bearbeiten."
