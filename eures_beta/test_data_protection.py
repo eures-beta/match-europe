@@ -47,7 +47,7 @@ class DataProtectionTests(SimpleTestCase):
                 self.assertContains(response, '6 ')
                 self.assertContains(response, '30 ')
                 self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
-                self.assertContains(
+                self.assertNotContains(
                     response, f'/employer/pages/privacy-{language}.html'
                 )
                 for target in ('fr', 'en', 'de'):
