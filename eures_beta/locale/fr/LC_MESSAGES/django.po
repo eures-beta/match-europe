@@ -7664,3 +7664,12 @@ msgstr "Vous pouvez demander l’accès, la rectification ou l’effacement de v
 #: eures_beta/data_protection.py
 msgid "Earlier employer notice"
 msgstr "Notice employeur antérieure"
+
+msgctxt "data protection table"
+msgid "Category"
+msgstr "Catégorie"
+
+msgctxt "data protection table"
+msgid "Retention period"
+msgstr "Durée de conservation"
+

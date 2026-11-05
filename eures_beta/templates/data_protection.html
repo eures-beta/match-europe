@@ -1,43 +1,67 @@
 {% extends "public_base.html" %}
-{% load static %}
+{% load i18n static %}
 {% block extra_styles %}
   <link rel="stylesheet" href="{% static 'data-protection.css' %}">
 {% endblock %}
 {% block page_title %}{{ notice.TITLE }} — Match Europe{% endblock %}
 {% block public_content %}
-  <header class="home-intro">
-    <h1>{{ notice.TITLE }}</h1>
-    <p class="lede">{{ notice.INTRO }}</p>
-  </header>
-  {% for title, text in notice.SECTIONS %}
-    <section class="home-section">
-      <h2>{{ title }}</h2>
-      <p>{{ text }}</p>
+  <div class="data-protection">
+    <section class="hero hero-grid" aria-labelledby="privacy-title">
+      <header class="hero-card">
+        <div class="eyebrow">{% translate "Data protection" context "employer privacy" %}</div>
+        <h1 id="privacy-title">{{ notice.TITLE }}</h1>
+        <p class="lede">{{ notice.INTRO }}</p>
+      </header>
+      <aside class="story-card" aria-labelledby="scope-title">
+        <h2 id="scope-title">{{ notice.SCOPE_TITLE }}</h2>
+        <p>{{ notice.SCOPE_TEXT }}</p>
+      </aside>
     </section>
-  {% endfor %}
-  <section class="home-section" aria-labelledby="retention-title">
-    <h2 id="retention-title">{{ notice.RETENTION_TITLE }}</h2>
-    <dl class="data-retention">
-      {% for category, duration in notice.RETENTION_ROWS %}
-        <dt><strong>{{ category }}</strong></dt>
-        <dd>
-          {{ duration }}
-        </dd>
+    <div class="section tracks-grid">
+      {% for title, text in notice.SECTIONS %}
+        <section class="surface-card">
+          <h2>{{ title }}</h2>
+          <p>{{ text }}</p>
+        </section>
       {% endfor %}
-    </dl>
-    <p>{{ notice.LIMITS }}</p>
-  </section>
-  <section class="home-section">
-    <h2>{{ notice.DRAFT_TITLE }}</h2>
-    <p>{{ notice.DRAFT_TEXT }}</p>
-  </section>
-  <section class="home-section">
-    <h2>{{ notice.SCOPE_TITLE }}</h2>
-    <p>{{ notice.SCOPE_TEXT }}</p>
-  </section>
-  <section class="home-section">
-    <h2>{{ notice.RIGHTS_TITLE }}</h2>
-    <p>{{ notice.RIGHTS_TEXT }} <a href="mailto:eric.barthelemy@francetravail.fr">eric.barthelemy@francetravail.fr</a></p>
-    <p><a href="/employer/pages/privacy-{{ page_language }}.html">{{ notice.EARLIER_NOTICE }}</a></p>
-  </section>
+    </div>
+    <section class="section" aria-labelledby="retention-title">
+      <div class="panel">
+        <h2 id="retention-title">{{ notice.RETENTION_TITLE }}</h2>
+      </div>
+      <div class="table-wrap">
+        <table class="stats-table">
+          <caption class="sr-only">{{ notice.RETENTION_TITLE }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{% translate "Category" context "data protection table" %}</th>
+              <th scope="col">{% translate "Retention period" context "data protection table" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category, duration in notice.RETENTION_ROWS %}
+              <tr>
+                <th scope="row">{{ category }}</th>
+                <td>{{ duration }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="panel retention-note">
+        <p>{{ notice.LIMITS }}</p>
+      </div>
+    </section>
+    <div class="section tracks-grid">
+      <section class="surface-card">
+        <h2>{{ notice.DRAFT_TITLE }}</h2>
+        <p>{{ notice.DRAFT_TEXT }}</p>
+      </section>
+      <section class="surface-card rights-card">
+        <h2>{{ notice.RIGHTS_TITLE }}</h2>
+        <p>{{ notice.RIGHTS_TEXT }} <a href="mailto:eric.barthelemy@francetravail.fr">eric.barthelemy@francetravail.fr</a></p>
+        <p><a href="/employer/pages/privacy-{{ page_language }}.html">{{ notice.EARLIER_NOTICE }}</a></p>
+      </section>
+    </div>
+  </div>
 {% endblock %}

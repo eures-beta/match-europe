@@ -42,7 +42,7 @@ class DataProtectionTests(SimpleTestCase):
                     }[language],
                 )
                 self.assertContains(response, f'<html lang="{language}">')
-                self.assertContains(response, '<dt>', count=6)
+                self.assertContains(response, '<th scope="row">', count=6)
                 self.assertContains(response, '24 ')
                 self.assertContains(response, '6 ')
                 self.assertContains(response, '30 ')
