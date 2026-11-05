@@ -5,7 +5,7 @@ import time
 from django import forms
 from decimal import Decimal
 from datetime import date
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
@@ -551,6 +551,15 @@ def workflow(request, language):
         return HttpResponseBadRequest()
     if step not in FORMS:
         return HttpResponseBadRequest()
+    action = request.POST.get('action') if request.method == 'POST' else None
+    if action == 'extend':
+        if not draft:
+            return JsonResponse({'extended': False}, status=409)
+        if request.FILES or not secrets.compare_digest(
+            request.POST.get('token', ''), draft['token']
+        ):
+            return HttpResponseBadRequest()
+        return JsonResponse({'extended': True, 'seconds': TTL})
     if not draft:
         if request.method == 'POST':
             return go(1)
@@ -567,7 +576,6 @@ def workflow(request, language):
         return go(1)
     if step > draft['unlocked']:
         return go(draft['unlocked'])
-    action = request.POST.get('action') if request.method == 'POST' else None
     if request.method == 'POST':
         if request.FILES or not secrets.compare_digest(
             request.POST.get('token', ''), draft['token']

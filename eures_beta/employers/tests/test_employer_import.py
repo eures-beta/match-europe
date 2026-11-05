@@ -209,7 +209,7 @@ class ReadingTests(SimpleTestCase):
         self.assertNotIn('secret_script', d['description'])
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
+@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1', 'ME_LOCAL_REVIEW_ONLY': '0'})
 class ImportFlowTests(TestCase):
     def setUp(self):
         from django.contrib.auth import get_user_model

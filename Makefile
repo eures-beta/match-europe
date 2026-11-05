@@ -14,6 +14,7 @@ format-js-check: ## Vérifier le format JavaScript sans modifier les sources
 
 check-js: ## Vérifier la syntaxe de chaque source JavaScript
 	$(MAKE) admin-filter-test
+	$(MAKE) candidate-ui-test
 	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}'
 	find eures_beta -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
 
@@ -245,6 +246,10 @@ candidate-run: ## Ouvrir la recette candidat locale sur le port 9031 (données f
 	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9031"
 candidate-test: ## Tester le questionnaire candidat sur PostgreSQL
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.candidates --noinput $(TEST_ARGS)
+
+.PHONY: candidate-ui-test
+candidate-ui-test: ## Vérifier la prolongation du brouillon candidat sans navigateur ni réseau
+	node --test eures_beta/candidates/tests/journey_timeout.test.cjs
 
 .PHONY: occupations-ui-test
 occupations-ui-test: ## Tester la recherche métier du navigateur, ses erreurs et son délai limite

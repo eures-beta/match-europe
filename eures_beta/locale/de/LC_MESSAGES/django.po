@@ -7535,8 +7535,8 @@ msgstr "Ohne Aktivität läuft Ihr Entwurf in 2 Minuten ab."
 msgid "Your draft is kept for 30 more minutes."
 msgstr "Ihr Entwurf bleibt weitere 30 Minuten erhalten."
 
-msgid "The draft could not be extended. Continue to the next step to keep your answers."
-msgstr "Der Entwurf konnte nicht verlängert werden. Gehen Sie zum nächsten Schritt, um Ihre Antworten zu behalten."
+msgid "The draft could not be extended. Keep this page open and copy your answers before trying again."
+msgstr "Der Entwurf konnte nicht verlängert werden. Lassen Sie diese Seite geöffnet und kopieren Sie Ihre Antworten, bevor Sie es erneut versuchen."
 
 msgid "Keep my draft for 30 more minutes"
 msgstr "Meinen Entwurf 30 Minuten länger behalten"

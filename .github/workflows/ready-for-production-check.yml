@@ -3,8 +3,8 @@ name: Vérification de main avant déploiement
 on:
   push:
     branches: [main]
+  # Stacked delivery PRs must run the same PostgreSQL checks before reaching main.
   pull_request:
-    branches: [main]
 
 permissions:
   contents: read

@@ -7535,8 +7535,8 @@ msgstr "Sans activité, votre brouillon expirera dans 2 minutes."
 msgid "Your draft is kept for 30 more minutes."
 msgstr "Votre brouillon est conservé 30 minutes de plus."
 
-msgid "The draft could not be extended. Continue to the next step to keep your answers."
-msgstr "Le brouillon n’a pas pu être prolongé. Passez à l’étape suivante pour conserver vos réponses."
+msgid "The draft could not be extended. Keep this page open and copy your answers before trying again."
+msgstr "Le brouillon n’a pas pu être prolongé. Gardez cette page ouverte et copiez vos réponses avant de réessayer."
 
 msgid "Keep my draft for 30 more minutes"
 msgstr "Garder mon brouillon 30 minutes de plus"

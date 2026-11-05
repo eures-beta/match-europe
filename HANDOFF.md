@@ -974,3 +974,20 @@ retrait du seul correctif. Aucun ancien modèle ni compte fictif restauré.
 Validation locale : 376 tests PostgreSQL, transition utilisateurs, contrôles
 Django/migrations, Python, HTML, JavaScript et traductions réussis.
 
+# 5 novembre 2026 — validation de la pile #127 / #128 / #129
+
+Revue isolée au-dessus de #129 : 386 tests réussis avant correction. Les deux
+échecs signalés sont reproductibles avec `ME_LOCAL_REVIEW_ONLY=1` hérité ; les
+tests d'intégration fixent maintenant leur mode explicitement. Correction
+supplémentaire : prolongation du brouillon candidat par POST protégé et
+confirmation JSON explicite, refus après expiration, message d'échec FR/EN/DE
+sans promesse de conservation. Trois tests serveur et quatre tests JavaScript
+ajoutés ; 389 tests PostgreSQL passent, y compris avec ce réglage local hérité.
+Migrations sur base vide et contrôles qualité réussis. Workflow PostgreSQL
+étendu aux PR empilées ; aucun résultat distant revendiqué pour ce changement.
+Le diagnostic `make users-upgrade-test` exclut désormais de sa reconstruction
+historique les migrations dépendant du compte actuel, dont le profil candidat ;
+la transition complète et sa répétition passent après correction.
+Voir `docs/STACK_VALIDATION_20261105.md` pour les limites et la recette manuelle
+restante. Aucune fusion ni opération de production.
+
