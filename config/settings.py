@@ -40,6 +40,18 @@ EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '1') == '1'
 ALBERT_API_KEY = os.environ.get('ALBERT_API_KEY', '')
 ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'mistral-small-3-2-24b-instruct-2506')
+CANDIDATE_REGISTRATION_ENABLED = (
+    os.environ.get('CANDIDATE_REGISTRATION_ENABLED', '0') == '1'
+)
+CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
+if CANDIDATE_REGISTRATION_ENABLED and (
+    DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
+):
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        'Candidate registration trials require local/preview and disabled real email.'
+    )
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
 # Team contact for employers requesting a Match Europe invitation.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(

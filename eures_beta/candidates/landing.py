@@ -14,4 +14,8 @@ def landing(request):
     if language not in ('fr', 'en', 'de'):
         language = 'fr'
     with translation.override(language):
-        return render(request, 'candidates/landing.html')
+        from .registration import enabled
+
+        return render(
+            request, 'candidates/landing.html', {'registration_trial': enabled()}
+        )
