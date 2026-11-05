@@ -309,8 +309,21 @@
   extend.addEventListener('click', async () => {
     extend.disabled = true;
     try {
-      const response = await fetch(window.location.href, { credentials: 'same-origin' });
+      const form = document.querySelector('form input[name="token"]').form;
+      const response = await fetch(window.location.href, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'X-CSRFToken': form.querySelector('[name="csrfmiddlewaretoken"]').value,
+        },
+        body: new URLSearchParams({
+          action: 'extend',
+          token: form.querySelector('[name="token"]').value,
+        }),
+      });
       if (!response.ok) throw new Error(String(response.status));
+      const result = await response.json();
+      if (result.extended !== true) throw new Error('not_extended');
       timeout.hidden = true;
       status.textContent = extend.dataset.done || '';
       schedule();

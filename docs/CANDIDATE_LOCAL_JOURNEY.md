@@ -33,6 +33,15 @@ Lors de la reprise d’un ancien brouillon, texte CV, sources d’extraction et 
 
 ### Limites
 
+La prolongation du brouillon utilise un POST protégé par CSRF et le jeton du
+brouillon courant. Le navigateur annonce la réussite seulement après une
+confirmation JSON explicite du serveur. Un brouillon expiré ou absent reçoit
+un refus (409), sans recréer un brouillon ni annoncer une conservation fictive.
+Les réponses déjà enregistrées en session sont conservées à l'identique ; les
+champs en cours de saisie restent dans le formulaire du navigateur jusqu'à
+leur validation. `make candidate-ui-test` vérifie ces annonces, y compris une
+réponse HTML ou dépourvue de confirmation.
+
 FR/EN/DE, contrôles serveur des réponses conditionnelles, des choix incompatibles, des créneaux et des montants. Notice et politique de conservation à finaliser avant toute collecte réelle. Coque et logos conservés ; aucun audit complet WCAG ni certification graphique. Aucun push, fusion, publication ou déploiement.
 
 Validation de cette version : 232 tests PostgreSQL réussis, dont 18 tests ciblés candidat. Contrôles Django/migrations, traductions FR/DE, syntaxe JavaScript et formatage des templates réussis. Accueil simplifié vérifié dans le navigateur.

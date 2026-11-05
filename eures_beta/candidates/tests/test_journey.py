@@ -546,3 +546,39 @@ class CandidateJourneyAccessibilityTests(TestCase):
             '/candidate/prepare/?step=2&lang=fr',
             fetch_redirect_response=False,
         )
+
+    def test_extend_keeps_the_existing_draft_and_answers(self):
+        self.advance()
+        before = self.client.session[KEY]
+        response = self.post(3, action='extend')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'extended': True, 'seconds': 1800})
+        after = self.client.session[KEY]
+        for name in ('token', 'data', 'unlocked', 'created_at'):
+            self.assertEqual(after[name], before[name])
+        self.assertGreaterEqual(after['touched_at'], before['touched_at'])
+
+    def test_extend_refuses_expired_or_missing_draft(self):
+        self.advance()
+        session = self.client.session
+        session[KEY]['touched_at'] = time.time() - 1801
+        session.save()
+        response = self.post(3, action='extend')
+        self.assertEqual(response.status_code, 409)
+        self.assertNotIn(KEY, self.client.session)
+        self.assertEqual(self.post(1, action='extend').status_code, 409)
+        self.assertNotIn(KEY, self.client.session)
+
+    def test_extend_requires_the_current_draft_token_and_csrf(self):
+        self.get()
+        self.assertEqual(self.post(action='extend', token='wrong').status_code, 400)
+        client = Client(enforce_csrf_checks=True)
+        client.cookies = self.client.cookies
+        self.assertEqual(
+            client.post(
+                '/candidate/prepare/?lang=fr',
+                {'action': 'extend', 'token': self.client.session[KEY]['token']},
+                secure=True,
+            ).status_code,
+            403,
+        )
