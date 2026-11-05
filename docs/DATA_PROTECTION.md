@@ -8,6 +8,12 @@ du code Flask `eures-beta/match-europe-flask`, commit `a95d962`, dans
 Django et la coque publique existante. Les liens candidat, employeur, import
 et connexion employeur pointent vers cette page commune.
 
+À la demande d'Eric, la présentation reprend les composants du Flask : carte
+de titre et encart latéral, cartes thématiques en colonnes, tableau des durées
+et blocs de contact. Sur mobile, les cartes s'empilent et les deux colonnes du
+tableau restent lisibles sans largeur minimale imposée. Les informations et
+limites du nouveau parcours sont conservées.
+
 La notice employeur antérieure du 3 août reste accessible depuis cette page
 pour ne pas supprimer les informations spécifiques déjà travaillées. Son
 avertissement historique et son absence de validation pour le parcours actuel

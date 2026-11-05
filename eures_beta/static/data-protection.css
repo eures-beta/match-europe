@@ -1,8 +1,31 @@
-.data-retention dt {
-  margin-top: 1.25rem;
+.data-protection .stats-table {
+  min-width: 0;
+  table-layout: fixed;
 }
 
-.data-retention dd {
-  margin: 0.5rem 0 1.25rem;
+.data-protection .stats-table th,
+.data-protection .stats-table td {
+  overflow-wrap: anywhere;
+  vertical-align: top;
   line-height: 1.6;
+}
+
+.data-protection .stats-table th:first-child {
+  width: 38%;
+}
+
+.data-protection .retention-note,
+.data-protection .rights-card p + p {
+  margin-top: 1rem;
+}
+
+.data-protection a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .data-protection .stats-table th,
+  .data-protection .stats-table td {
+    padding: 0.75rem;
+  }
 }

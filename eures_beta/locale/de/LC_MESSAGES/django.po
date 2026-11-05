@@ -7664,3 +7664,12 @@ msgstr "Sie können Auskunft, Berichtigung oder Löschung Ihrer Daten beantragen
 #: eures_beta/data_protection.py
 msgid "Earlier employer notice"
 msgstr "Frühere Arbeitgeberhinweise"
+
+msgctxt "data protection table"
+msgid "Category"
+msgstr "Kategorie"
+
+msgctxt "data protection table"
+msgid "Retention period"
+msgstr "Aufbewahrungsdauer"
+
