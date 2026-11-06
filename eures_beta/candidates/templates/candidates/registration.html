@@ -6,7 +6,10 @@
     <h1>{% translate "Candidate profile confirmation" %}</h1>
     {% if stage == "requested" %}
       <p role="status">{% translate "If this address can be registered, a confirmation has been prepared. If you already have an account, sign in to access it. No existing profile has been replaced." %}</p>
-      <p>{% translate "This trial sends no real email. A confirmation request lasts one hour; its temporary answers are removed after confirmation or during expiry cleanup." %}</p>
+      <p>{% translate "A confirmation request lasts one hour. Confirm your email to create your account and save your profile." %}</p>
+      {% if not email_delivery_available %}
+        <p role="status">{% translate "Email delivery is currently unavailable." %}</p>
+      {% endif %}
       <a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>
     {% elif stage == "confirm" %}
       <p><strong>{% translate "Name to display" %}</strong> : {{ pending_name }}</p>

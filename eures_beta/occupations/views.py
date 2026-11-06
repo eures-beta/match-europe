@@ -1,11 +1,11 @@
-"""Local reference search for the prototype, behind the shared demo access gate."""
+"""Public read-only reference search used by candidate and employer forms."""
 
 import json
 import re
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from eures_beta.demo_access import require_demo_access
+from django.views.decorators.cache import never_cache
 from .catalog import (
     catalog,
     occupation_index,
@@ -16,7 +16,7 @@ from .catalog import (
 )
 
 
-@require_demo_access
+@never_cache
 @require_http_methods(['GET', 'POST'])
 def search_api(request):
     if request.method == 'POST':

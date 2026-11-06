@@ -1048,3 +1048,17 @@ Simulation email par commande privée et nettoyage des demandes expirées,
 comptage sans effacement par défaut. Pas de purge planifiée ni ouverture réelle.
 Voir `docs/CANDIDATE_EMAIL_REGISTRATION.md`. Fusion réservée à dejafait.
 
+
+
+## 2026-11-06 — ouverture du parcours candidat (#132)
+
+À la demande explicite de dejafait, suppression des restrictions propres à
+l’environnement et aux adresses fictives. Le questionnaire, la confirmation
+et le profil fonctionnent partout ; les e-mails suivent le backend protégé
+commun (production configurée seulement, simulation privée ailleurs).
+La recherche publique en lecture seule du catalogue métiers, utilisée par le
+questionnaire JavaScript, ne dépend plus non plus du mode démo.
+Les vérifications de lien, POST/CSRF et propriété restent en place.
+Cette décision remplace le périmètre d’essai limité décrit antérieurement.
+Aucun changement de modèle ou migration supplémentaire : la séparation entre
+demande temporaire et profil confirmé reste à discuter avant une refonte.

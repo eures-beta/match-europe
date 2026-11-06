@@ -6,23 +6,26 @@ Lot empilé sur #131. À la demande d'Eric, les quatre étapes du questionnaire
 peuvent préparer un compte et une fiche après confirmation d'e-mail, puis
 permettre au candidat de consulter et modifier ses propres réponses.
 
-Ce premier lot est **un essai local/recette avec données fictives**. Le réglage
-`CANDIDATE_REGISTRATION_ENABLED=0` est désactivé par défaut. L'activation exige
-`DJANGO_ENVIRONMENT=local` ou `preview` et les emails réels désactivés, en plus
-des protections d'accès de démonstration. Un démarrage en production avec ce
-réglage activé est refusé. Les nouvelles routes répondent 404 hors essai.
-Les adresses doivent se terminer par `.invalid` ; aucun transport e-mail n'est
-appelé. L'autorisation de ce lot ne vaut pas ouverture aux données réelles.
+Le parcours est disponible dans tous les environnements, sans interrupteur
+candidat ni restriction aux adresses fictives. L’ouverture en production a été
+explicitement autorisée par dejafait. Les protections de confirmation et de
+propriété restent identiques partout.
+
+L’envoi suit le backend Django protégé commun à la connexion et aux invitations :
+e-mails réels uniquement en production correctement configurée. En local et en
+recette, l’opérateur récupère le message par la commande privée ; aucun e-mail
+réel n’est transmis. Une indisponibilité du transport ne rend pas les liens publics.
 
 ## Parcours
 
 1. Questionnaire anonyme en quatre étapes, ESCO/ROME toujours indépendants.
-2. Dernière étape : nom d'affichage, email fictif obligatoire, relecture et lien
+2. Dernière étape : nom d'affichage, email obligatoire, relecture et lien
    vers la notice. La case constate une lecture, pas une nouvelle base juridique.
 3. Revalidation serveur de toutes les étapes ; seuls les champs du profil sont
    conservés dans une demande temporaire. Aucun compte n'existe à ce stade.
    Le brouillon de session est retiré après la demande.
-4. L'opérateur simule l'email en privé. Le lien signé contient un identifiant et
+4. Le transport protégé envoie l’e-mail lorsqu’il est configuré ; sinon,
+   l’opérateur le simule en privé. Le lien signé contient un identifiant et
    un nonce, jamais les réponses ou l'adresse email. GET mémorise le lien dans
    la session et redirige vers une URL propre ; il ne crée rien.
 5. Confirmation POST avec CSRF : verrou PostgreSQL, compte candidat et fiche
@@ -44,7 +47,7 @@ Les limites PostgreSQL communes par adresse et IP s'appliquent aux soumissions.
 
 - `candidates.CandidateRegistration` : UUID, nonce, email normalisé, langue,
   réponses validées, création et échéance. Migration additive `0002`.
-- Délai d'essai retenu : **une heure**, contrôlé à la fois par signature et date
+- Délai de confirmation : **une heure**, contrôlé à la fois par signature et date
   stockée. Ce délai ne concerne pas les invitations employeurs ni les profils.
 - Après confirmation, les réponses temporaires disparaissent de la demande.
   Les demandes expirées sont effacées lors d'une nouvelle demande ou par la
@@ -62,27 +65,29 @@ Les limites PostgreSQL communes par adresse et IP s'appliquent aux soumissions.
 Les 12 mois après dernier contact utile restent la règle de référence pour le
 profil confirmé, issue de Flask et de la notice commune. Ce lot n'implémente pas
 sa purge automatique et ne prétend pas que `updated_at` est un dernier contact
-utile. Avant ouverture réelle : définir ce jalon, implémenter la suppression et
-les sauvegardes, compléter les mentions juridiques, planifier et superviser les
-nettoyages, puis raccorder un transport de production protégé dans un autre lot.
+utile. Ces limites restent à traiter séparément : définir ce jalon, implémenter la
+suppression, compléter les mentions juridiques et superviser les nettoyages.
+Le raccordement au transport de production commun est désormais inclus.
 
 ## Essayer et vérifier
 
 - `make install-test` et `make install-quality` pour ce worktree ; `.env` et
   PostgreSQL dédiés, puis `make migrate`.
-- `make candidate-registration-run` ouvre l'essai sur le port 9035 :
+- `make candidate-registration-run` démarre le serveur local sur le port 9035 :
   `/candidate/prepare/?lang=fr` (EN/DE disponibles).
 - À la fin du questionnaire, `make candidate-email EMAIL=personne@example.invalid
   ORIGIN=http://127.0.0.1:9035` imprime un email simulé privé. La commande ne
   transmet rien. Ne pas publier sa sortie : le lien autorise une connexion.
 - `make candidate-registration-cleanup` compte sans effacer ;
   `make candidate-registration-cleanup CLEANUP_ARGS=--apply` efface uniquement
-  les demandes fictives expirées, jamais les profils ou comptes.
+  les demandes expirées, jamais les profils ou comptes.
 - `make candidate-registration-test` : création atomique, POST/CSRF, expiration,
   rejeu, conflit de compte et de demande, droits, édition, traduction, nettoyage,
   simulation email et confirmation concurrente PostgreSQL.
 - `make candidate-test`, `make test`, `make check`, `make users-upgrade-test`,
   `make format-check`, `make format-html-check`, `make translations-check`.
 
-Aucun e-mail réel, appel de matching, partage conseiller/employeur ou fusion
-n'est déclenché. Les fusions restent à dejafait.
+La validation automatisée utilise uniquement des données fictives et des
+transports simulés. Aucun appel de matching ni partage conseiller/employeur
+n’est ajouté. Aucune fusion ou modification de base de production n’a été
+effectuée pour cette ouverture du code.
