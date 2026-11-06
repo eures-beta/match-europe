@@ -45,7 +45,10 @@ def main():
                 targets = [
                     node
                     for node in executor.loader.graph.leaf_nodes()
-                    if node[0] not in ('users', 'employers')
+                    # Business apps added later can depend on the custom User.
+                    # The legacy fixture must contain only the historical auth
+                    # schema and the pre-transition employer schema.
+                    if node[0] in ('auth', 'contenttypes', 'sessions', 'admin')
                 ]
                 targets.append(('employers', '0001_autonomous_schema'))
                 executor.migrate(targets)
