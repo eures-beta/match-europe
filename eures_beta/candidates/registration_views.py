@@ -17,6 +17,9 @@ from eures_beta.users.models import User
 from eures_beta.users.views import selected_language, email_ready
 from . import registration
 from .models import CandidateProfile
+from django import forms
+from django.views.decorators.debug import sensitive_post_parameters
+from .skill_choices import FIELDS
 
 
 def page(request, stage, **context):
@@ -192,6 +195,12 @@ def answer_groups(answers, language):
         )
         rows = []
         for name, field in form.fields.items():
+            if name == 'skill_catalogue_version':
+                continue
+            if name in FIELDS and answers.get('project_mode') != 'open':
+                continue
+            if name in ('occupation_references', 'desired_occupations') and answers.get('project_mode') == 'open':
+                continue
             if name not in answers or answers[name] in ('', None, [], {}):
                 continue
             value = answers[name]

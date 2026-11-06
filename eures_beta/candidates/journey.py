@@ -15,6 +15,7 @@ from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from .schedule_rules import DERIVED, suggested_conditions, inconsistent_conditions
 from .language_choices import LanguageSkillsField, upgrade_language_answers
 from .occupation_choices import resolve_reference, search_occupations
+from . import skill_choices
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
 
@@ -24,7 +25,7 @@ TTL = 2 * 60 * 60
 # The page warns this many seconds before expiry and offers to extend.
 TTL_WARNING = 120
 # Fields that become mandatory only through a form rule, marked as required.
-CONDITIONALLY_REQUIRED = {'occupation_references', 'commute_time', 'transport_modes'}
+CONDITIONALLY_REQUIRED = {'commute_time', 'transport_modes'}
 
 
 def text_field(label, required=False, rows=3, help_text=''):
@@ -76,6 +77,20 @@ class GuidedForm(forms.Form):
 
 
 class ProjectForm(GuidedForm):
+    project_mode = single(
+        _('My professional project'),
+        [
+            ('occupation', _('I have one or more occupations in mind')),
+            ('open', _('I am open to different occupations')),
+        ],
+    )
+    project_mode.initial = 'occupation'
+    acquired_skills = skill_choices.selection_field(_('Skills I can use'))
+    learning_activities = skill_choices.selection_field(_('Activities I want to learn'))
+    professional_behaviours = skill_choices.selection_field(
+        _('My professional behaviours')
+    )
+    skill_catalogue_version = forms.CharField(required=False, widget=forms.HiddenInput)
     occupation_query = forms.CharField(
         label=_('Search for an occupation'),
         max_length=150,
@@ -111,8 +126,13 @@ class ProjectForm(GuidedForm):
     exclusive = {'desired_countries': ('discuss',)}
     other_details = {'desired_countries': 'desired_locations'}
 
-    def __init__(self, *args, language='fr', **kwargs):
+    def __init__(self, *args, language='fr', partial=False, **kwargs):
         super().__init__(*args, **kwargs)
+        self.partial = partial
+        if partial:
+            for field in self.fields.values():
+                field.required = False
+        skill_choices.configure(self, language)
         selected = (
             (
                 self.data.getlist('occupation_references')
@@ -146,11 +166,17 @@ class ProjectForm(GuidedForm):
         selected = data.get('occupation_references', [])
         if len(selected) > 10:
             self.add_error('occupation_references', _('Select up to ten occupations.'))
-        if not selected and not data.get('desired_occupations'):
+        if (
+            not self.partial
+            and data.get('project_mode') != 'open'
+            and not selected
+            and not data.get('desired_occupations')
+        ):
             self.add_error(
                 'occupation_references',
                 _('Select an ESCO or ROME occupation, or enter your own job title.'),
             )
+        skill_choices.clean_selection(self, data, partial=self.partial)
         return data
 
 
@@ -562,6 +588,10 @@ def workflow(request, language):
     if step not in FORMS:
         return HttpResponseBadRequest()
     action = request.POST.get('action') if request.method == 'POST' else None
+    if request.method == 'POST' and 'target_language' in request.POST:
+        if step != 1 or request.POST['target_language'] not in ('fr', 'en', 'de'):
+            return HttpResponseBadRequest()
+        action = 'language'
     if action == 'extend':
         if not draft:
             return JsonResponse({'extended': False}, status=409)
@@ -595,7 +625,7 @@ def workflow(request, language):
             request.session.pop(KEY, None)
             return redirect('/candidate/?lang=' + language)
         allowed_actions = (
-            ('search', 'continue')
+            ('search', 'continue', 'language')
             if step == 1
             else ('finish',) if step == 4 else ('continue',)
         )
@@ -613,11 +643,27 @@ def workflow(request, language):
     form = form_class(
         request.POST if request.method == 'POST' else None,
         initial=initial,
-        **({'language': language} if step == 1 else {}),
+        **(
+            {'language': language, 'partial': action == 'language'} if step == 1 else {}
+        ),
     )
     if step == 4 and draft.get('editing_user'):
         form.fields['contact_email'].disabled = True
-    if request.method == 'POST' and action != 'search' and form.is_valid():
+    if action == 'language' and form.is_valid():
+        # Keep incomplete choices across languages without unlocking registration.
+        complete = ProjectForm(form.cleaned_data, language=language)
+        if not complete.is_valid():
+            draft['unlocked'] = 1
+        draft['data'].update(form.cleaned_data)
+        request.session[KEY] = draft
+        return redirect(
+            f"/candidate/prepare/?step=1&lang={request.POST['target_language']}"
+        )
+    if (
+        request.method == 'POST'
+        and action not in ('search', 'language')
+        and form.is_valid()
+    ):
         draft['data'].update(
             {
                 name: str(value) if isinstance(value, (Decimal, date)) else value
@@ -669,12 +715,26 @@ def workflow(request, language):
     if step == 4:
         for number in (1, 2, 3):
             fields = []
-            for name, field in FORMS[number]().fields.items():
+            review_form = FORMS[number](
+                **({'language': language} if number == 1 else {})
+            )
+            for name, field in review_form.fields.items():
                 value = draft['data'].get(name, '')
                 if name in (
                     'occupation_query',
+                    'skill_catalogue_version',
                     'condition_overrides',
                     'auto_conditions',
+                ):
+                    continue
+                if (
+                    name in skill_choices.FIELDS
+                    and draft['data'].get('project_mode') != 'open'
+                ):
+                    continue
+                if (
+                    name in ('occupation_references', 'desired_occupations')
+                    and draft['data'].get('project_mode') == 'open'
                 ):
                     continue
                 if (
@@ -748,7 +808,9 @@ def workflow(request, language):
                 continue
             bound = form[name]
             widget = bound.field.widget
-            if name == 'occupation_references':
+            if name in skill_choices.FIELDS:
+                anchor = 'section_' + name
+            elif name == 'occupation_references':
                 anchor = 'id_occupation_query'
             elif name == 'language_skills':
                 anchor = 'candidate-language-field'
@@ -771,6 +833,10 @@ def workflow(request, language):
         'candidates/journey.html',
         {
             'form': form,
+            'skill_sections': (
+                skill_choices.sections(form, language) if step == 1 else []
+            ),
+            'skill_field_names': skill_choices.FIELDS,
             'error_summary': error_summary,
             'return_to_review': return_to_review,
             'conditionally_required': CONDITIONALLY_REQUIRED,

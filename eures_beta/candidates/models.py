@@ -28,6 +28,18 @@ class CandidateProfile(models.Model):
     email_verified_at = models.DateTimeField(null=True, blank=True)
     notice_read_at = models.DateTimeField(null=True, blank=True)
     notice_version = models.CharField(max_length=32, blank=True)
+    project_mode = models.CharField(
+        max_length=16,
+        default='occupation',
+        choices=[
+            ('occupation', _('I have one or more occupations in mind')),
+            ('open', _('I am open to different occupations')),
+        ],
+    )
+    acquired_skills = models.JSONField(default=list, blank=True)
+    learning_activities = models.JSONField(default=list, blank=True)
+    professional_behaviours = models.JSONField(default=list, blank=True)
+    skill_catalogue_version = models.CharField(max_length=64, blank=True)
     desired_occupations = models.CharField(max_length=500, blank=True)
     occupation_references = models.JSONField(default=list, blank=True)
     desired_countries = models.JSONField(default=list)
