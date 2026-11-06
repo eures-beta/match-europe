@@ -1132,3 +1132,11 @@ sans envoi de champs corrigés ; un test couvre ce chemin direct. Les traduction
 compilées ont été régénérées après résolution des conflits. La configuration
 privée doit encore raccorder le secret pour une recette Albert distante ; aucune
 activation d’IA de production ni fusion n’est réalisée.
+
+### Correction CI des tests Albert
+
+Le premier contrôle GitHub de #146 a révélé une dépendance implicite des tests
+Albert à l’option locale d’accès au prototype. Les tests déclarent désormais
+explicitement `ME_EMPLOYER_DEV_ACCESS=1` et `SHARED_DEMO=False`. Aucune règle
+d’accès applicative n’est modifiée. 450 tests PostgreSQL passent aussi sans
+options locales implicites ; nouvelle validation GitHub demandée après push.
