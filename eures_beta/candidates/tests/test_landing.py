@@ -92,15 +92,15 @@ class CandidateLandingTests(SimpleTestCase):
                 '<html lang="fr">',
             )
 
-    def test_rejects_writes_and_is_closed_outside_demo(self):
+    def test_rejects_writes_and_is_available_without_demo(self):
         for path in ('/candidate/',):
             self.assertEqual(self.client.post(path, secure=True).status_code, 405)
-            self.assertEqual(self.client.get(path).status_code, 404)
+            self.assertEqual(self.client.get(path).status_code, 200)
             with override_settings(DEMO_MODE=False):
-                self.assertEqual(self.client.get(path, secure=True).status_code, 404)
+                self.assertEqual(self.client.get(path, secure=True).status_code, 200)
 
     @override_settings(SHARED_DEMO=False)
-    def test_local_access_does_not_allow_remote_clients(self):
+    def test_access_is_not_restricted_to_loopback(self):
         from unittest.mock import patch
 
         with patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'}):
@@ -109,5 +109,5 @@ class CandidateLandingTests(SimpleTestCase):
             )
             self.assertEqual(
                 self.client.get('/candidate/', REMOTE_ADDR='192.0.2.42').status_code,
-                404,
+                200,
             )

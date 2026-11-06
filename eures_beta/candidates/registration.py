@@ -1,17 +1,18 @@
-"""Explicit candidate signup trial; login for existing accounts remains separate."""
+"""Verified candidate signup; login for existing accounts remains separate."""
 
 import json
+import logging
 import uuid
 from urllib.parse import urlencode
 
 from django.conf import settings
 from django.core import signing
+from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.forms.models import model_to_dict
-from django.http import Http404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone, translation
@@ -22,19 +23,7 @@ from eures_beta.users.models import User
 from .models import CandidateProfile, CandidateRegistration
 
 SALT = 'candidates.registration.v1'
-
-
-def enabled():
-    return (
-        settings.CANDIDATE_REGISTRATION_ENABLED
-        and settings.DJANGO_ENVIRONMENT in ('local', 'preview')
-        and not settings.EMAIL_DELIVERY_ENABLED
-    )
-
-
-def require_trial():
-    if not enabled():
-        raise Http404()
+logger = logging.getLogger(__name__)
 
 
 def validated_answers(data, language):
@@ -89,11 +78,8 @@ def find_registration(token, *, lock=False):
 
 @transaction.atomic
 def create_request(email, data, language):
-    require_trial()
     email = email.strip().lower()
     validate_email(email)
-    if not email.endswith('.invalid'):
-        raise ValidationError('Fictional addresses only.')
     answers = validated_answers(data, language)
     CandidateRegistration.objects.filter(expires_at__lte=timezone.now()).delete()
     existing = User.objects.filter(email__iexact=email).first()
@@ -114,7 +100,6 @@ def create_request(email, data, language):
 
 @transaction.atomic
 def confirm_registration(token):
-    require_trial()
     pending = find_registration(token, lock=True)
     if pending is None:
         return None
@@ -144,8 +129,7 @@ def confirm_registration(token):
     return user
 
 
-def simulated_email(pending, origin):
-    require_trial()
+def confirmation_message(pending, origin):
     if pending.expires_at <= timezone.now():
         raise ValidationError('Expired request.')
     link = (
@@ -161,6 +145,25 @@ def simulated_email(pending, origin):
         )
 
 
+def send_confirmation(pending):
+    # Same protected Django delivery policy as sign-in and employer invitations.
+    # No candidate-specific environment switch and no transport bypass.
+    from eures_beta.users.views import email_ready
+
+    if pending is None or not email_ready():
+        return False
+    try:
+        subject, body = confirmation_message(pending, settings.LOGIN_EMAIL_ORIGIN)
+        return bool(
+            send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [pending.email])
+        )
+    except Exception:
+        logger.error(
+            'Candidate confirmation email delivery failed; inspect the mail service privately.'
+        )
+        return False
+
+
 def profile_answers(profile):
     excluded = {'id', 'user', 'created_at', 'updated_at', 'language'}
     data = model_to_dict(profile, exclude=excluded)
@@ -169,7 +172,6 @@ def profile_answers(profile):
 
 @transaction.atomic
 def update_profile(user, data, language):
-    require_trial()
     if (
         not user.is_authenticated
         or not user.is_active

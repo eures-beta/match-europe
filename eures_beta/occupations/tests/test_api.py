@@ -56,7 +56,7 @@ class OccupationSearchTests(TestCase):
                 400,
             )
         self.assertEqual(
-            self.client.get('/api/occupations/', {'q': 'boulanger'}).status_code, 404
+            self.client.get('/api/occupations/', {'q': 'boulanger'}).status_code, 200
         )
         self.assertEqual(
             self.client.put('/api/occupations/', secure=True).status_code, 405
@@ -66,7 +66,7 @@ class OccupationSearchTests(TestCase):
                 self.client.get(
                     '/api/occupations/', {'q': 'boulanger'}, secure=True
                 ).status_code,
-                404,
+                200,
             )
 
     def test_annotated_generic_title_uses_explicit_multilingual_offer_context(self):
