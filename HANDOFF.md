@@ -38,6 +38,10 @@ avant suppression. Sources, éditions et identifiants conservés ; manifeste v2.
 Le chargeur conserve son interface et contrôle les quatre empreintes. L’outil de
 reconstruction produit le même format. Aucun modèle ni migration modifié.
 
+## 6 novembre 2026 — prototype local Albert employeur
+
+Branche locale au-dessus du sommet GitHub vérifié de la pile de livraison. Lecture PDF/OCR locale puis structuration Albert ou texte collé, extraits vérifiés, repli manuel et notice FR/EN/DE. Recherches ESCO/ROME séparées ; métier central pour la requête initiale et classement contextuel ROME. Aucun modèle ni migration. Essai réel PDF effectué et contrôles automatisés sans réseau ajoutés. Voir [périmètre, validations et limites](docs/ALBERT_IMPORT.md). Eric doit tester localement avant tout push/PR. Aucune publication ni recette distante effectuée.
+
 ## 5 novembre 2026 — réponses aux candidatures par compte employeur
 
 Branche locale `codex/employer-response-time` créée depuis le sommet GitHub
@@ -1090,3 +1094,21 @@ Le contact par défaut est désormais celui du bandeau existant : Eric Barthél�
 L’encart FR/EN/DE dirige vers son email et non vers l’annuaire général EURES.
 La destination configurable est conservée sans ajout automatique de langue.
 Aucune modification des droits, modèles ou données.
+
+## 6 novembre 2026 — correction des six contrôles du bouton employeur
+
+À la demande d’Eric, le test du tableau employeur distingue le libellé
+« Importer mon offre d’emploi » de celui de la page publique « Décrire mon besoin
+de recrutement », tout en contrôlant leur destination commune. Six combinaisons
+FR/EN/DE avec et sans offre, accès au parcours et absence du bouton employeur
+pour le conseiller restent vérifiés. Aucun changement de comportement ou de
+texte public. Dernière suite complète : 436 tests PostgreSQL réussis, format
+Python et diff vérifiés. Travail local uniquement, sans push ni PR.
+
+## Publication Albert au sommet de la pile — 6 novembre 2026
+
+Eric autorise la publication après les essais locaux. La branche est réempilée
+sur la PR #144, qui harmonise déjà le bouton partagé et son test ; cette version
+est conservée. Les 436 tests précédents concernent le socle local avant cette
+actualisation ; la validation sur la nouvelle base est distincte. Aucune fusion
+ni activation de production autorisée.

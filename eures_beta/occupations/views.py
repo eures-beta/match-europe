@@ -75,7 +75,7 @@ def search_api(request):
             )
         )
     )
-    rome_rows = rome_suggestions(query) if independent else []
+    rome_rows = rome_suggestions(query, context) if independent else []
     if independent and re.fullmatch(
         r'(?:ROME\s*[:—-]?\s*)?[A-Z]\d{4}', query.strip(), re.I
     ):

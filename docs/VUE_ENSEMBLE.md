@@ -1,5 +1,9 @@
 # EURES beta / Match Europe — vue d’ensemble
 
+## 6 novembre 2026 — essai Albert pour les offres employeurs
+
+Essai opt-in local/recette de structuration du texte PDF ou collé par Albert, suivi de recherches ESCO/ROME indépendantes et de la relecture employeur. Désactivé par défaut, interdit en production. Aucun changement candidat ni matching. Voir [périmètre et limites](ALBERT_IMPORT.md).
+
 ## 5 novembre 2026 — réponses habituelles des employeurs
 
 Le parcours employeur conserve les pratiques de réponse dans une fiche dédiée

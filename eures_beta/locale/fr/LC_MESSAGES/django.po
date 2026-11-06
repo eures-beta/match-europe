@@ -7957,3 +7957,23 @@ msgstr "Impossible d’enregistrer vos réponses. Veuillez réessayer."
 #: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
 msgid "Your answers changed in another tab. Reload the page before editing them."
 msgstr "Vos réponses ont changé dans un autre onglet. Rechargez la page avant de les modifier."
+
+msgctxt "employer albert"
+msgid "Prepared with Albert AI (DINUM) from your offer text. Check every field before saving."
+msgstr "Préparation par Albert, IA de la DINUM, à partir du texte de votre offre. Vérifiez chaque champ avant enregistrement."
+
+msgctxt "employer albert"
+msgid "Albert could not prepare this offer. The source text is preserved below; complete the fields manually or try again."
+msgstr "Albert n’a pas pu préparer cette offre. Le texte source est conservé ci-dessous ; complétez les champs manuellement ou réessayez."
+
+msgctxt "employer albert"
+msgid "By continuing, you request AI-assisted preparation by Albert (DINUM). The text of your document or pasted offer is sent to Albert. Check the proposed information before saving. No publication or candidate search will be started."
+msgstr "En continuant, vous demandez une préparation assistée par Albert, IA de la DINUM. Le texte de votre document ou de votre annonce collée est transmis à Albert. Vérifiez les informations proposées avant enregistrement. Aucune publication ni recherche de candidats ne sera lancée."
+
+msgctxt "employer albert"
+msgid "Albert prepared this offer, but some passages could not be verified and were left blank. Compare with the source text and complete the fields."
+msgstr "Albert a préparé cette offre, mais certains passages non vérifiables ont été laissés vides. Comparez avec le texte source et complétez les champs."
+
+msgctxt "employer albert"
+msgid "View the source text to check the extracted information"
+msgstr "Voir le texte source pour vérifier les informations extraites"

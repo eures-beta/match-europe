@@ -113,7 +113,9 @@ def employer_page(request, path):
             language = request.GET.get('lang', request.LANGUAGE_CODE)
         language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         with translation.override(language):
-            context = {'signed_in': authenticated}
+            from .albert import enabled as albert_enabled
+
+            context = {'signed_in': authenticated, 'albert_import': albert_enabled()}
             if authenticated and template_name in ('import.html', 'import-v2.html'):
                 from .response_practice_views import page_context
 
@@ -171,6 +173,9 @@ def read_source(request):
     if request.POST.get('agreement') != 'true':
         return failure('agreement_required')
     try:
+        from .albert import enabled as albert_enabled, prepare as albert_prepare
+
+        use_albert = albert_enabled()
         url = request.POST.get('url', '').strip()
         kind = request.POST.get('kind', 'url')
         if kind == 'pdf':
@@ -187,10 +192,17 @@ def read_source(request):
                 for upload in uploads
             ):
                 raise ImportFailure('invalid')
+            reader_options = {'include_text': True} if use_albert else {}
             documents = (
-                [read_pdf(upload, split_sections=False) for upload in uploads]
+                [
+                    read_pdf(upload, split_sections=False, **reader_options)
+                    for upload in uploads
+                ]
                 if len(uploads) > 1
-                else [read_pdf(uploads[0])]
+                else [read_pdf(uploads[0], **reader_options)]
+            )
+            source_text = '\n'.join(
+                document.pop('_sourceText', '') for document in documents
             )
             data = documents[0]
             if len(documents) > 1:
@@ -210,9 +222,14 @@ def read_source(request):
             data = empty_data()
             data['description'] = text
             data['extraction'] = 'manual'
+            source_text = text
             final = ''
         else:
             raise ImportFailure('invalid_data')
+        if use_albert and kind in ('pdf', 'manual'):
+            if not source_text.strip() or len(source_text) > 16000:
+                raise ImportFailure('large')
+            data = albert_prepare(source_text)
         token = secrets.token_urlsafe(24)
         request.session['pending_offer_source'] = {
             'owner_id': request.user.pk,
@@ -333,9 +350,18 @@ def imports(request, id=None):
             text = request.POST.get('text', '').strip()
             if not text or len(text) > 16000:
                 raise ImportFailure('invalid_data')
-            data = empty_data()
-            data['description'] = text
-            data['extraction'] = 'manual'
+            pending = request.session.get('pending_offer_source', {})
+            if (
+                pending.get('kind') == 'manual'
+                and pending.get('owner_id') == person.pk
+                and pending.get('token') == request.POST.get('sourceToken')
+                and time.time() - pending.get('at', 0) <= 900
+            ):
+                data = pending['data']
+            else:
+                data = empty_data()
+                data['description'] = text
+                data['extraction'] = 'manual'
         else:
             raise ImportFailure('invalid_data')
         if 'data' in request.POST:
@@ -360,7 +386,7 @@ def imports(request, id=None):
                 data=data,
             )
         request.session['employer_claim_import'] = str(obj.pk)
-        if kind in ('url', 'pdf'):
+        if kind in ('url', 'pdf', 'manual'):
             request.session.pop('pending_offer_source', None)
         language = request.POST.get('language', '')
         destination = '/accounts/dashboard/'

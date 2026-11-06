@@ -1,5 +1,9 @@
 # EURES beta / Match Europe — décisions communes
 
+## 6 novembre 2026 — évaluer Albert localement avant publication
+
+Eric autorise une intégration locale limitée aux offres employeurs, une clé locale distincte et une évaluation des résultats. Il demande de tester personnellement le parcours avant tout push ou création de PR ; la recette jetable viendra après son accord. Les codes proposés restent issus des catalogues officiels, avec validation humaine. Voir [le contrat](ALBERT_IMPORT.md).
+
 ## 6 novembre 2026 — accroches publiques validées écran par écran
 
 Eric valide successivement l’accueil, la page candidat et la page employeur.
