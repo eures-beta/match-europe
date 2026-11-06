@@ -1071,3 +1071,9 @@ Le contact par défaut est désormais celui du bandeau existant : Eric Barthél�
 L’encart FR/EN/DE dirige vers son email et non vers l’annuaire général EURES.
 La destination configurable est conservée sans ajout automatique de langue.
 Aucune modification des droits, modèles ou données.
+
+## 6 novembre 2026 — textes de la notice dans le template
+
+Suppression du module data_protection.py : textes et tableau repris sans changement
+dans le template avec gettext. La vue transmet seulement le booléen d’activation
+du parcours candidat ; routes et structure des vues inchangées.

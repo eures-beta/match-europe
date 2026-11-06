@@ -32,7 +32,8 @@ Le contact professionnel repris est celui déjà présent dans la coque du proje
 | Statistiques publiques | Plus longtemps seulement si agrégées et anonymisées |
 
 Ces règles sont des contenus d'information, centralisés dans
-`eures_beta/data_protection.py`. Ce lot ne constitue pas leur exécution
+le template `eures_beta/templates/data_protection.html`, avec les balises gettext
+Django. Ce lot ne constitue pas leur exécution
 automatique ni une validation juridique. Il ne crée ni compte ni profil,
 aucun modèle ni migration et n'efface aucune donnée.
 
