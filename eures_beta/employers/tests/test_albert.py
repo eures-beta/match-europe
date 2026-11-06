@@ -139,7 +139,8 @@ class ValidationTests(SimpleTestCase):
         self.assertEqual(rome_suggestions('I1304', 'ascenseurs')[0]['code'], 'I1304')
 
 
-@override_settings(**ENABLED, DEMO_MODE=True)
+@override_settings(**ENABLED, DEMO_MODE=True, SHARED_DEMO=False)
+@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class EndpointTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
