@@ -90,9 +90,9 @@ class PublicNavigationTests(TestCase):
         self.assertEqual(resolve(reverse('home')).url_name, 'home')
 
     @override_settings(DEMO_MODE=False)
-    def test_legacy_candidate_redirect_does_not_open_the_protected_journey(self):
+    def test_legacy_candidate_redirect_opens_the_public_candidate_landing(self):
         response = self.client.get(
             reverse('legacy_candidate'), secure=True, follow=True
         )
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.redirect_chain, [(reverse('candidate_landing'), 301)])

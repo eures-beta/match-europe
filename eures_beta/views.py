@@ -18,18 +18,13 @@ def home(request):
 def information_page(request, section):
     if section == 'privacy':
         from eures_beta import data_protection
-        from eures_beta.candidates.registration import enabled
 
         return _public_page(
             request,
             'data_protection.html',
             {
                 'notice': data_protection,
-                'scope_text': (
-                    data_protection.REGISTRATION_SCOPE
-                    if enabled()
-                    else data_protection.SCOPE_TEXT
-                ),
+                'scope_text': data_protection.SCOPE_TEXT,
             },
         )
     titles = {

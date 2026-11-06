@@ -7828,3 +7828,12 @@ msgstr "Mein Profil bearbeiten"
 #: candidate registration
 msgid "In the enabled registration trial, fictional answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. No real email is sent; expired requests are removed by cleanup, not necessarily at the exact expiry time."
 msgstr "Im aktivierten Registrierungstest warten fiktive Antworten eine Stunde auf die E-Mail-Bestätigung. Die Bestätigung erstellt ein Bewerberkonto und speichert das Profil. Bestehende Konten werden niemals ersetzt. Es wird keine echte E-Mail versendet; abgelaufene Anfragen werden bei der Bereinigung gelöscht, nicht unbedingt genau zum Ablaufzeitpunkt."
+
+msgid "A confirmation request lasts one hour. Confirm your email to create your account and save your profile."
+msgstr "Eine Bestätigungsanfrage ist eine Stunde gültig. Bestätigen Sie Ihre E-Mail-Adresse, um Ihr Konto zu erstellen und Ihr Profil zu speichern."
+
+msgid "Email delivery is currently unavailable."
+msgstr "Der E-Mail-Versand ist derzeit nicht verfügbar."
+
+msgid "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
+msgstr "Ihre Antworten warten eine Stunde auf die E-Mail-Bestätigung. Die Bestätigung erstellt ein Bewerberkonto und speichert das Profil. Bestehende Konten werden nie ersetzt. Abgelaufene Anfragen werden bei der Bereinigung gelöscht, nicht unbedingt genau beim Ablauf. Dieser Hinweis aktiviert weder Matching noch automatische Kontaktvermittlung."

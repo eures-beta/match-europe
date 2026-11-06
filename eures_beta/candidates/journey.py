@@ -16,7 +16,7 @@ from .schedule_rules import DERIVED, suggested_conditions, inconsistent_conditio
 from .language_choices import LanguageSkillsField, upgrade_language_answers
 from .occupation_choices import resolve_reference, search_occupations
 from django.views.decorators.http import require_http_methods
-from eures_beta.demo_access import require_demo_access
+from django.views.decorators.cache import never_cache
 
 KEY = 'candidate_journey'
 # Inactivity delay: each request on the journey restarts it (WCAG 2.2.1).
@@ -483,27 +483,12 @@ class ConditionsForm(GuidedForm):
 
 class ContactForm(forms.Form):
     display_name = forms.CharField(
-        label=_('Name to display (fictional)'),
-        max_length=150,
-        widget=forms.TextInput(attrs={'autocomplete': 'name'}),
-    )
-    contact_email = forms.EmailField(
-        label=_('Email (fictional, optional)'),
-        required=False,
-        widget=forms.EmailInput(attrs={'autocomplete': 'email'}),
-    )
-    reviewed = forms.BooleanField(label=_('I have reviewed this fictional profile.'))
-
-
-class RegistrationForm(ContactForm):
-    display_name = forms.CharField(
         label=_('Name to display'),
         max_length=150,
         widget=forms.TextInput(attrs={'autocomplete': 'name'}),
     )
     contact_email = forms.EmailField(
         label=_('Email for confirmation'),
-        help_text=_('Use a fictional address ending in .invalid.'),
         widget=forms.EmailInput(attrs={'autocomplete': 'email'}),
     )
     reviewed = forms.BooleanField(
@@ -511,12 +496,7 @@ class RegistrationForm(ContactForm):
     )
 
     def clean_contact_email(self):
-        email = self.cleaned_data['contact_email'].strip().lower()
-        if not email.endswith('.invalid'):
-            raise forms.ValidationError(
-                _('Use a fictional address ending in .invalid.')
-            )
-        return email
+        return self.cleaned_data['contact_email'].strip().lower()
 
 
 FORMS = {1: ProjectForm, 2: MobilityForm, 3: ConditionsForm, 4: ContactForm}
@@ -529,7 +509,7 @@ TITLES = {
 SCHEMA = 2
 
 
-@require_demo_access
+@never_cache
 @sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
 def journey(request):
@@ -542,8 +522,6 @@ def journey(request):
 
 def workflow(request, language):
     from . import registration
-
-    registration_enabled = registration.enabled()
 
     def go(step):
         return redirect(f'/candidate/prepare/?step={step}&lang={language}')
@@ -623,7 +601,7 @@ def workflow(request, language):
         )
         if action not in allowed_actions:
             return HttpResponseBadRequest()
-    form_class = RegistrationForm if step == 4 and registration_enabled else FORMS[step]
+    form_class = FORMS[step]
     initial = draft['data']
     if step == 4 and draft.get('editing_user'):
         if (
@@ -652,7 +630,7 @@ def workflow(request, language):
             and form.cleaned_data['language_skills']['status'] != 'unspecified'
         ):
             draft['data'].pop('language_notes', None)
-        if step == 4 and registration_enabled:
+        if step == 4:
             if draft.get('editing_user'):
                 registration.update_profile(request.user, draft['data'], language)
                 destination = 'candidate_profile'
@@ -661,16 +639,17 @@ def workflow(request, language):
 
                 if allow_request(request, form.cleaned_data['contact_email']):
                     try:
-                        registration.create_request(
+                        pending = registration.create_request(
                             form.cleaned_data['contact_email'], draft['data'], language
                         )
                     except IntegrityError:
                         # A simultaneous request for this address has the same generic outcome.
                         pass
+                    else:
+                        registration.send_confirmation(pending)
                 destination = 'candidate_registration_requested'
             request.session.pop(KEY, None)
             return redirect(destination)
-        draft['confirmed'] = step == 4
         draft['unlocked'] = max(draft['unlocked'], min(step + 1, 4))
         request.session[KEY] = draft
         if (
@@ -788,7 +767,6 @@ def workflow(request, language):
         'candidates/journey.html',
         {
             'form': form,
-            'registration_trial': registration_enabled,
             'error_summary': error_summary,
             'return_to_review': return_to_review,
             'conditionally_required': CONDITIONALLY_REQUIRED,

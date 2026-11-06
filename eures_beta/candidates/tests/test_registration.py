@@ -38,7 +38,6 @@ def answers(**changes):
 
 
 @override_settings(
-    CANDIDATE_REGISTRATION_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     DEMO_MODE=True,
@@ -183,8 +182,9 @@ class CandidateRegistrationTests(TestCase):
         pending = registration.create_request('fiction@example.invalid', data, 'fr')
         self.assertNotIn('cv_text', pending.answers)
         self.assertNotIn('token', pending.answers)
-        with self.assertRaises(ValidationError):
-            registration.create_request('real@example.com', answers(), 'fr')
+        self.assertIsNotNone(
+            registration.create_request('candidate@example.test', answers(), 'fr')
+        )
 
     def test_pending_admin_only_exposes_metadata(self):
         from django.contrib import admin
@@ -297,21 +297,72 @@ class CandidateRegistrationTests(TestCase):
         self.assertNotContains(response, registration.token_for(pending))
         self.assertNotContains(response, pending.email)
 
-    def test_feature_off_and_production_refuse_all_new_endpoints(self):
-        for settings in (
-            {'CANDIDATE_REGISTRATION_ENABLED': False},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'EMAIL_DELIVERY_ENABLED': True},
+    def test_registration_and_confirmation_work_in_every_environment(self):
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment, DEMO_MODE=False, SHARED_DEMO=False
+                ),
+            ):
+                self.client = Client()
+                self.assertEqual(
+                    self.client.get('/candidate/', secure=True).status_code, 200
+                )
+                self.assertEqual(
+                    self.client.get('/candidate/prepare/', secure=True).status_code, 200
+                )
+                pending = self.pending(f'{environment}@example.test')
+                self.open_link(pending)
+                self.assertEqual(self.confirm().status_code, 302)
+                self.assertEqual(
+                    self.client.get(
+                        reverse('candidate_profile'), secure=True
+                    ).status_code,
+                    200,
+                )
+                self.assertTrue(
+                    User.objects.filter(email=pending.email, kind='candidate').exists()
+                )
+
+    def test_confirmation_delivery_uses_protected_shared_policy(self):
+        pending = self.pending()
+        with patch('eures_beta.candidates.registration.send_mail') as send:
+            for environment in ('local', 'preview'):
+                with override_settings(DJANGO_ENVIRONMENT=environment):
+                    self.assertFalse(registration.send_confirmation(pending))
+            send.assert_not_called()
+        with override_settings(
+            DJANGO_ENVIRONMENT='production',
+            EMAIL_DELIVERY_ENABLED=True,
+            LOGIN_EMAIL_ENABLED=True,
+            LOGIN_EMAIL_ORIGIN='https://testserver',
+            ALLOWED_HOSTS=['testserver'],
+            EMAIL_HOST='smtp.example.invalid',
+            DEFAULT_FROM_EMAIL='noreply@example.invalid',
+            EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
         ):
-            with override_settings(**settings):
-                for name in (
-                    'candidate_registration_requested',
-                    'candidate_registration_confirm',
-                    'candidate_profile',
-                ):
-                    self.assertEqual(
-                        self.client.get(reverse(name), secure=True).status_code, 404
-                    )
+            from django.core import mail
+
+            self.assertTrue(registration.send_confirmation(pending))
+            self.assertEqual(mail.outbox[-1].to, [pending.email])
+            self.assertIn(
+                'https://testserver/candidate/registration/confirm/?token=',
+                mail.outbox[-1].body,
+            )
+            self.assertEqual(User.objects.count(), 0)
+            with patch(
+                'eures_beta.candidates.registration.send_mail',
+                side_effect=RuntimeError(pending.email),
+            ):
+                with self.assertLogs(
+                    'eures_beta.candidates.registration', level='ERROR'
+                ) as logs:
+                    self.assertFalse(registration.send_confirmation(pending))
+                self.assertNotIn(pending.email, ''.join(logs.output))
+                self.assertTrue(
+                    CandidateRegistration.objects.filter(pk=pending.pk).exists()
+                )
 
     def test_questionnaire_submits_to_pending_instead_of_creating_an_account(self):
         self.client.get('/candidate/prepare/?lang=fr', secure=True)
@@ -370,7 +421,7 @@ class CandidateRegistrationTests(TestCase):
                 self.assertContains(response, f'<html lang="{language}">')
         with override_settings(DEBUG=True, ALLOWED_HOSTS=['127.0.0.1']):
             pending = registration.create_request('de@example.invalid', answers(), 'de')
-            subject, _body = registration.simulated_email(
+            subject, _body = registration.confirmation_message(
                 pending, 'http://127.0.0.1:9035'
             )
             self.assertEqual(subject, 'Bestätigen Sie Ihr Bewerberprofil')
@@ -392,7 +443,6 @@ class CandidateRegistrationTests(TestCase):
 
 
 @override_settings(
-    CANDIDATE_REGISTRATION_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
 )

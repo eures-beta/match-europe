@@ -46,11 +46,6 @@ class CandidateJourneyTests(TestCase):
         self.advance()
         self.post(3)
         self.assertContains(self.get(4), 'ROME D1102')
-        self.assertEqual(
-            self.post(4, display_name='Personne fictive', reviewed='on').status_code,
-            302,
-        )
-        self.assertTrue(self.client.session[KEY]['confirmed'])
         for step in range(1, 5):
             response = self.get(step)
             for forbidden in (
@@ -64,6 +59,16 @@ class CandidateJourneyTests(TestCase):
                 self.assertNotContains(response, forbidden)
             # CSRF values may contain "CV"; only visible text is relevant here.
             self.assertNotIn('CV', strip_tags(response.content.decode()))
+        self.assertEqual(
+            self.post(
+                4,
+                display_name='Personne fictive',
+                contact_email='candidate@example.invalid',
+                reviewed='on',
+            ).status_code,
+            302,
+        )
+        self.assertNotIn(KEY, self.client.session)
         self.assertEqual(
             self.client.get('/candidate/import/', secure=True).status_code, 404
         )
@@ -236,9 +241,9 @@ class CandidateJourneyTests(TestCase):
         self.assertEqual(self.client.session[KEY]['data']['salary_amount'], '2300.50')
 
     def test_access_csrf_and_token(self):
-        self.assertEqual(self.client.get('/candidate/prepare/').status_code, 404)
+        self.assertEqual(self.client.get('/candidate/prepare/').status_code, 200)
         with override_settings(DEMO_MODE=False):
-            self.assertEqual(self.get().status_code, 404)
+            self.assertEqual(self.get().status_code, 200)
         client = Client(enforce_csrf_checks=True)
         self.assertEqual(
             client.post('/candidate/prepare/', {}, secure=True).status_code, 403
