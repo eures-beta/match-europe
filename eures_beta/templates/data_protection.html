@@ -3,35 +3,37 @@
 {% block extra_styles %}
   <link rel="stylesheet" href="{% static 'data-protection.css' %}">
 {% endblock %}
-{% block page_title %}{{ notice.TITLE }} — Match Europe{% endblock %}
+{% block page_title %}{% translate "Data protection and retention" %} — Match Europe{% endblock %}
 {% block public_content %}
   <div class="data-protection">
     <section class="hero hero-grid" aria-labelledby="privacy-title">
       <header class="hero-card">
         <div class="eyebrow">{% translate "Data protection" context "employer privacy" %}</div>
-        <h1 id="privacy-title">{{ notice.TITLE }}</h1>
-        <p class="lede">{{ notice.INTRO }}</p>
+        <h1 id="privacy-title">{% translate "Data protection and retention" %}</h1>
+        <p class="lede">{% translate "This notice carries forward the information and retention periods defined for the Match Europe experiment." %}</p>
       </header>
       <aside class="story-card" aria-labelledby="scope-title">
-        <h2 id="scope-title">{{ notice.SCOPE_TITLE }}</h2>
-        <p>{{ scope_text }}</p>
+        <h2 id="scope-title">{% translate "Current scope" %}</h2>
+        <p>{% translate "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice." %}</p>
       </aside>
     </section>
     <div class="section tracks-grid">
-      {% for title, text in notice.SECTIONS %}
-        <section class="surface-card">
-          <h2>{{ title }}</h2>
-          <p>{{ text }}</p>
-        </section>
-      {% endfor %}
+      <section class="surface-card">
+        <h2>{% translate "Use of your data" %}</h2>
+        <p>{% translate "Your answers help describe your professional project or recruitment needs and organise introductions with human support. Public indicators must be aggregated and anonymised." %}</p>
+      </section>
+      <section class="surface-card">
+        <h2>{% translate "Access and introductions" %}</h2>
+        <p>{% translate "Access is restricted to authorised teams and technical services needed for the stated purpose. An employer receives only the information needed for a relevant introduction, after the required human validation and agreements. Personal data is not published." %}</p>
+      </section>
     </div>
     <section class="section" aria-labelledby="retention-title">
       <div class="panel">
-        <h2 id="retention-title">{{ notice.RETENTION_TITLE }}</h2>
+        <h2 id="retention-title">{% translate "Retention periods" %}</h2>
       </div>
       <div class="table-wrap">
         <table class="stats-table">
-          <caption class="sr-only">{{ notice.RETENTION_TITLE }}</caption>
+          <caption class="sr-only">{% translate "Retention periods" %}</caption>
           <thead>
             <tr>
               <th scope="col">{% translate "Category" context "data protection table" %}</th>
@@ -39,27 +41,45 @@
             </tr>
           </thead>
           <tbody>
-            {% for category, duration in notice.RETENTION_ROWS %}
-              <tr>
-                <th scope="row">{{ category }}</th>
-                <td>{{ duration }}</td>
-              </tr>
-            {% endfor %}
+            <tr>
+              <th scope="row">{% translate "Candidate profiles" %}</th>
+              <td>{% translate "12 months after the last useful contact." %}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% translate "Employer needs" %}</th>
+              <td>{% translate "12 months after the need is closed or the last useful exchange." %}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% translate "Matching records" %}</th>
+              <td>{% translate "24 months for operational follow-up and decision traceability." %}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% translate "Unanswered invitations" %}</th>
+              <td>{% translate "6 months." %}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% translate "Administration and security logs" %}</th>
+              <td>{% translate "6 months." %}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% translate "Aggregated public statistics" %}</th>
+              <td>{% translate "Longer retention is possible only for aggregated and anonymised statistics." %}</td>
+            </tr>
           </tbody>
         </table>
       </div>
       <div class="panel retention-note">
-        <p>{{ notice.LIMITS }}</p>
+        <p>{% translate "These are the retention rules carried forward from the experiment. Automatic deletion according to these periods is not yet implemented in this version. Detailed information about the responsible organisation, the legal basis and deletion arrangements must be completed before collecting real candidate profiles." %}</p>
       </div>
     </section>
     <div class="section tracks-grid">
       <section class="surface-card">
-        <h2>{{ notice.DRAFT_TITLE }}</h2>
-        <p>{{ notice.DRAFT_TEXT }}</p>
+        <h2>{% translate "Temporary questionnaire drafts" %}</h2>
+        <p>{% translate "The candidate draft expires after 30 minutes without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups." %}</p>
       </section>
       <section class="surface-card rights-card">
-        <h2>{{ notice.RIGHTS_TITLE }}</h2>
-        <p>{{ notice.RIGHTS_TEXT }} <a href="mailto:eric.barthelemy@francetravail.fr">eric.barthelemy@francetravail.fr</a></p>
+        <h2>{% translate "Your rights and contact" context "employer privacy" %}</h2>
+        <p>{% translate "You can request access, correction or deletion of your data and ask the project team about its use. Contact the team:" %} <a href="mailto:eric.barthelemy@francetravail.fr">eric.barthelemy@francetravail.fr</a></p>
       </section>
     </div>
   </div>

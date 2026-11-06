@@ -1132,3 +1132,21 @@ Albert à l’option locale d’accès au prototype. Les tests déclarent désor
 explicitement `ME_EMPLOYER_DEV_ACCESS=1` et `SHARED_DEMO=False`. Aucune règle
 d’accès applicative n’est modifiée. 450 tests PostgreSQL passent aussi sans
 options locales implicites ; nouvelle validation GitHub demandée après push.
+
+## 6 novembre 2026 — textes de la notice dans le template
+
+Suppression du module data_protection.py : textes et tableau repris dans le
+template avec gettext ; routes et structure des vues inchangées.
+
+La PR #132 est isolée de la pile à la demande de dejafait. La notice ne doit donc
+pas importer son module d'inscription, ni annoncer un enregistrement candidat
+absent de cette branche. Les tests de notice ont reproduit l'import manquant
+avant suppression de ce couplage ; le texte reste celui du questionnaire en
+session sans création de compte. Le code et la branche #132 ne sont pas modifiés.
+
+## 6 novembre 2026 — notice rebasée sur l’inscription candidat
+
+La pile inclut désormais l’ouverture du parcours candidat de #132. La suppression
+du module de textes conserve la notice actualisée : confirmation email puis
+compte et profil. Elle ne rétablit pas l’ancien texte limité aux données fictives.
+Un test de régression couvre cette information ; aucun droit ni stockage changé.
