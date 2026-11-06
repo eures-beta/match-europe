@@ -57,3 +57,15 @@ Aucune migration, aucune donnée nouvelle, aucun changement de droits d’accès
 Si des blocages persistent, profiler séparément le chargement concurrent des
 catalogues et les recherches approximatives ; ce correctif ne prétend pas
 expliquer tous les problèmes de ressources d’une instance.
+
+## 6 novembre 2026 — séparer le garde-fou et le démarrage à froid
+
+Le délai de cinq secondes couvrait auparavant le nettoyage, le chargement des
+catalogues, Django et neuf requêtes HTTP. Un dépassement intermittent a été
+observé pendant la validation de la pile actualisée. Le nettoyage des trois
+intitulés mal formés garde son processus isolé et sa borne de cinq secondes.
+Un second test conserve toutes les recherches et vérifications HTTP, avec une
+borne de vingt secondes incluant le démarrage à froid. Les assertions de
+normalisation, de réponse et d’absence de faux résultats sont conservées.
+Cette séparation ne modifie aucun délai de l’application ou du navigateur et
+ne constitue pas un nouvel engagement de latence pour le service.

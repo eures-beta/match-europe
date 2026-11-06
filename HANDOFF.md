@@ -1112,3 +1112,15 @@ sur la PR #144, qui harmonise déjà le bouton partagé et son test ; cette vers
 est conservée. Les 436 tests précédents concernent le socle local avant cette
 actualisation ; la validation sur la nouvelle base est distincte. Aucune fusion
 ni activation de production autorisée.
+
+### Validation de publication Albert sur la PR #144
+
+450 tests PostgreSQL réussis après réempilement, migrations sur une base locale
+vierge et contrôles Django/migrations, Black, templates, JavaScript et traductions
+réussis. La borne de cinq secondes reste dédiée à la regex ; le scénario complet
+avec catalogues à froid et Django possède une borne séparée de vingt secondes.
+Le texte source et les preuves temporaires sont exclus de l’offre durable même
+sans envoi de champs corrigés ; un test couvre ce chemin direct. Les traductions
+compilées ont été régénérées après résolution des conflits. La configuration
+privée doit encore raccorder le secret pour une recette Albert distante ; aucune
+activation d’IA de production ni fusion n’est réalisée.
