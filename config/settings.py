@@ -39,10 +39,10 @@ DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
-# Public page where an employer without an invitation can find an EURES adviser.
+# Team contact for employers requesting a Match Europe invitation.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
     'ME_EMPLOYER_ADVISER_CONTACT_URL',
-    'https://europa.eu/eures/portal/um/search-for-advisers',
+    'mailto:eric.barthelemy@francetravail.fr',
 )
 if TEST_ACCOUNTS_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
