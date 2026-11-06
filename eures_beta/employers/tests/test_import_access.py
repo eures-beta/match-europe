@@ -237,15 +237,8 @@ class ImportAccessTests(TestCase):
         )
 
     def test_invitation_help_points_to_an_eures_adviser(self):
-        notices = {
-            'fr': 'Les comptes employeurs sont créés par un conseiller EURES.',
-            'en': 'Employer accounts are created by an EURES adviser.',
-            'de': 'Arbeitgeberkonten werden von einer EURES-Beraterin',
-        }
-        for language, notice in notices.items():
-            link = (
-                'https://europa.eu/eures/portal/um/search-for-advisers?lang=' + language
-            )
+        for language in ('fr', 'en', 'de'):
+            link = 'mailto:eric.barthelemy@francetravail.fr'
             for path in (
                 f'/employer/pages/{language}.html',
                 f'/employer/pages/import-{language}.html',
@@ -253,7 +246,8 @@ class ImportAccessTests(TestCase):
             ):
                 with self.subTest(path=path):
                     page = self.client.get(path, secure=True)
-                    self.assertContains(page, notice)
+                    self.assertContains(page, 'Eric Barthélémy')
+                    self.assertNotContains(page, 'search-for-advisers')
                     self.assertContains(page, 'href="' + link + '"')
         self.client.force_login(self.employer)
         self.assertNotContains(

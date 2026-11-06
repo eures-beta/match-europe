@@ -7562,12 +7562,12 @@ msgid "Prepare your questions for candidates and save your offer."
 msgstr "Préparez vos questions pour les candidats et enregistrez votre offre."
 
 msgctxt "employer invitation help"
-msgid "Employer accounts are created by an EURES adviser. Don't have an invitation yet? An adviser in your country can invite you."
-msgstr "Les comptes employeurs sont créés par un conseiller EURES. Vous n’avez pas encore d’invitation ? Un conseiller de votre pays peut vous inviter."
+msgid "Employer accounts are created by our Match Europe advisers. To request an invitation, contact Eric Barthélémy."
+msgstr "Les comptes employeurs sont créés par nos conseillers Match Europe. Pour demander une invitation, contactez Eric Barthélémy."
 
 msgctxt "employer invitation help"
-msgid "Find an EURES adviser (EURES portal)"
-msgstr "Trouver un conseiller EURES (portail EURES)"
+msgid "Contact Eric Barthélémy"
+msgstr "Contacter Eric Barthélémy"
 
 #: eures_beta/data_protection.py
 msgid "Data protection and retention"
