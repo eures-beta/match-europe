@@ -1,0 +1,874 @@
+{
+  "metadata": {
+    "escoVersion": "1.2.1",
+    "preparedAt": "2026-11-06T17:19:38.445742+00:00",
+    "languages": [
+      "fr",
+      "en",
+      "de"
+    ],
+    "status": "review_pilot_not_deployed",
+    "sources": [
+      {
+        "name": "ESCO fr",
+        "version": "1.2.1",
+        "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20fr%20-%20csv.zip",
+        "sha256": "84fe49774fad90bdfd27d080440ffb1fdef1fbd62939f6436d2fc21f4d58d4e8",
+        "occupationCount": 3039,
+        "sha256Verified": true,
+        "originalRetrievalDateAccordingToManifest": "2026-10-29"
+      },
+      {
+        "name": "ESCO en",
+        "version": "1.2.1",
+        "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20en%20-%20csv.zip",
+        "sha256": "f9761b0b52be1828b38a3e5e0ae59a93a7b0ce358bc800f52f57a8b002adeb3e",
+        "occupationCount": 3039,
+        "sha256Verified": true,
+        "originalRetrievalDateAccordingToManifest": "2026-10-29"
+      },
+      {
+        "name": "ESCO de",
+        "version": "1.2.1",
+        "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20de%20-%20csv.zip",
+        "sha256": "a4d12661e9d4208e7e4583b6a2268d0a8c6d31618f7df2d46e90831d95e06d51",
+        "occupationCount": 3039,
+        "sha256Verified": true,
+        "originalRetrievalDateAccordingToManifest": "2026-10-29"
+      }
+    ],
+    "attribution": "This document uses the ESCO classification of the European Commission. Extraits des libellés officiels ; sélection, ordre et rubriques du pilote proposés par Oly pour Match Europe.",
+    "reuseConditions": {
+      "basis": "Commission Decision 2011/833/EU; attribution ESCO",
+      "reference": "https://esco.ec.europa.eu/en/about-esco/faq?page=1",
+      "note": "Aucune licence CC-BY spécifique aux archives n’est inventée."
+    },
+    "verification": "Archives locales contrôlées par SHA-256 contre le manifeste existant ; pas de nouveau téléchargement ni de vérification du contenu en production.",
+    "editorialBoundary": "Les concepts et libellés FR/EN/DE et les relations essential/optional proviennent d’ESCO. Le choix des suggestions, leur ordre et la rubrique savoir-être sont éditoriaux. Une suggestion sans lien métier officiel conserve un relationType nul. Aucun nouveau lien officiel n’est inventé."
+  },
+  "sourceCatalogueFile": "skills_pilot_sources.json",
+  "selectionRules": {
+    "status": "proposal_to_test",
+    "keySkillsMax": 5,
+    "behavioursMax": 3,
+    "minimum": 0,
+    "preselected": false,
+    "sharedCatalogueForBothRoles": true,
+    "notSelectedMeans": "not_prioritised_or_not_declared_not_absent",
+    "otherText": "optional_not_mapped_automatically",
+    "noScore": true
+  },
+  "promptsFr": {
+    "employer": "Quelles compétences et quels savoir-être sont prioritaires pour ce poste ?",
+    "candidate": "Quelles compétences et quels savoir-être savez-vous mobiliser et souhaitez-vous mettre en avant ?"
+  },
+  "cards": [
+    {
+      "id": "nettoyage",
+      "displayTitleFr": "Agent / agente de nettoyage — ménage à domicile",
+      "scopeFr": "Hypothèse du pilote : ménage chez des particuliers, d’après la précision « femme de ménage ». Le nettoyage de bureaux et locaux est une variante distincte documentée ci-dessous.",
+      "occupation": {
+        "uri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+        "labels": {
+          "fr": "aide ménager à domicile/aide ménagère à domicile",
+          "en": "domestic cleaner",
+          "de": "Reinigungskraft in Privathaushalt"
+        },
+        "descriptions": {
+          "fr": "Les aides ménagers à domicile effectuent toutes les activités de nettoyage nécessaires pour nettoyer les maisons de leurs clients. Ils aspirent et nettoient les sols, font la vaisselle, lavent le ligne, époussettent, récurent et lustrent les surfaces, et désinfectent les équipements et matériaux.",
+          "en": "Domestic cleaners perform all necessary cleaning activities in order to clean their clients' houses. They vacuum and sweep floors, wash dishes, launder clothes, dust, scrub and polish surfaces and disinfect equipment and materials.",
+          "de": "Reinigungskräfte in Privathaushalten führen alle erforderlichen Reinigungsarbeiten durch, um die Häuser ihrer Kunden zu reinigen. Sie saugen und wischen Fußböden, spülen Geschirr, waschen Kleidung, übernehmen das Abstauben, Schrubben und Polieren von Oberflächen und das Desinfizieren von Geräten und Materialien."
+        }
+      },
+      "keySkills": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/644617c8-fbe6-4755-b7f2-c3a623641e5b",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/6ff01827-907d-43d8-b6e4-7162c1cf0aca",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/58a15a33-2b41-4a7e-bb8a-777328b5d82a",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/329d7233-7231-4082-8ca4-0b5e295785aa",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/d05ae693-dc7d-4073-8806-2782f117c24a",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/51a26193-9abe-4bce-9108-f50835be1c35",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/7b4bc709-5888-4f78-bbaf-fb760d4e2e4b",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/110d7aa3-e44e-4cce-a927-8d4de615f3d9",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        }
+      ],
+      "behaviours": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/c29aa9d2-4da8-4bdd-831c-8d4a2fb51730",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/e37d64dc-0f05-4ee8-b065-bf76f70d8f5c",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/d9013e0e-e937-43d5-ab71-0e917ee882b8",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        }
+      ]
+    },
+    {
+      "id": "espaces-verts",
+      "displayTitleFr": "Agent / agente d’entretien des espaces verts",
+      "scopeFr": "Entretien courant ; les travaux spécialisés, produits phytosanitaires, terrains de golf et conception ne sont pas proposés dans la sélection initiale.",
+      "occupation": {
+        "uri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+        "labels": {
+          "fr": "agent d’entretien des espaces verts/agente d’entretien des espaces verts",
+          "en": "groundsman/groundswoman",
+          "de": "Rasenpfleger/Rasenpflegerin"
+        },
+        "descriptions": {
+          "fr": "Les agents/agentes d’entretien des espaces verts fournissent des services d’entretien des espaces verts pour les ménages privés et les entreprises industrielles et commerciales, ainsi que les établissements scolaires, les établissements hôteliers, les jardins botaniques, les terrains de golf, les parcs et les terrains de sport.",
+          "en": "Groundsmen/groundswomen provide landscape and lawn services and maintain grounds for private households, commercial and public facilities, schools, hotels, botanical gardens, golf courses, parks and athletic fields.",
+          "de": "Rasenpfleger bieten Leistungen im Zusammenhang mit der Landschafts- und Rasenpflege an und erbringen diese für private Haushalte, gewerbliche und öffentliche Einrichtungen, Schulen, Hotels, botanische Gärten, Golfplätze, Parks und Sportplätze."
+        }
+      },
+      "keySkills": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/351122a2-44f7-41db-ba8b-425136d5fb87",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/f4b4accf-11b2-45bc-b47d-95f7cf9c569c",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/51097602-8e4e-4830-8f35-d77afc713fc0",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/94a1b3c5-2a95-4703-8559-973bc6d14747",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/8ce4a4af-969b-4d1c-8bfe-891cff82f913",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/7b3717e4-e963-44e0-b94f-1088a7242da0",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/17fa5b53-fd59-49eb-8763-29255a185d26",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/8a1942a8-bebd-4cc5-bdff-fe215aaa3de5",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        }
+      ],
+      "behaviours": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/c29aa9d2-4da8-4bdd-831c-8d4a2fb51730",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/49de9958-2aa4-4eef-a89d-fe5d5bcd28c4",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        }
+      ]
+    },
+    {
+      "id": "restauration",
+      "displayTitleFr": "Serveur / serveuse en restaurant",
+      "scopeFr": "Service à table ; langues et disponibilité horaire seront traitées séparément, sans être déduites du métier.",
+      "occupation": {
+        "uri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+        "labels": {
+          "fr": "serveur/serveuse",
+          "en": "waiter/waitress",
+          "de": "Kellner/Kellnerin"
+        },
+        "descriptions": {
+          "fr": "Les serveurs/serveuses servent les plats et les boissons commandées par les clients. Ils/Elles travaillent généralement dans les restaurants, les bars et les hôtels. Ils/Elles préparent les tables, servent les plats et les boissons et encaissent les paiements.",
+          "en": "Waiters/waitresses supply guests with food and drinks as requested. Waiters/waitresses usually work in restaurants, bars and hotels. This involves the preparation of tables, serving food or beverages and taking payments.",
+          "de": "Kellner bringen Gästen die gewünschten Speisen und Getränke. Sie arbeiten in der Regel in Restaurants, Bars und Hotels. Zu ihrer Arbeit gehört das Eindecken der Tische, das Servieren von Speisen und Getränken sowie die Entgegennahme der Bezahlung."
+        }
+      },
+      "keySkills": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/c011d9ef-b3f1-4f48-8d1b-9cdd288a4f55",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/99b95aca-221d-415c-9de5-564e1a273701",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/b7553d1b-31b4-42e6-b6be-2a90189ef7d6",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/704bed2c-737a-4585-b840-1d28bbcab9b4",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/42a6eff0-e9d9-423d-877b-e48fe91ff26f",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/beeaddc7-fe69-4b97-a286-0bd595432eb9",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/bdcac0c8-b77a-4640-9eaf-c0cf3efd1e23",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/ea4a7e5e-923d-4a15-ad55-362a3ff41641",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        }
+      ],
+      "behaviours": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": false
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/7a147904-22b3-498a-b4d9-7bceeb86b45d",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        }
+      ]
+    },
+    {
+      "id": "securite",
+      "displayTitleFr": "Agent / agente de sécurité",
+      "scopeFr": "Surveillance générale, sans spécialisation cynophile, aéroportuaire ou incendie. Les compétences ESCO ne constituent pas une autorisation d’exercer ; titres et autorisations sont à vérifier selon le pays et la mission, séparément des choix limités.",
+      "occupation": {
+        "uri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+        "labels": {
+          "fr": "agent de sécurité/agente de sécurité",
+          "en": "security guard",
+          "de": "Fachkraft Schutz- und Sicherheit"
+        },
+        "descriptions": {
+          "fr": "Les agents/agentes de sécurité surveillent les installations, signalent les incidents et protègent les personnes, les bâtiments et les biens. Ils/Elles veillent à la sécurité en patrouillant les installations, en contrôlant l’accès aux entrées et en surveillant des systèmes d’enregistrement vidéo et d’alarme, en demandant l’identité des personnes suspectes et en signalant toute infraction ou activité illégale.",
+          "en": "Security guards observe, detect irregularities and protect people, buildings and assets. They maintain security at all times by patrolling designated property areas, controlling access at entrances, watching alarm and video recording systems, asking suspicious individuals for identification and reporting infractions and law breaching activities.",
+          "de": "Fachkräfte Schutz und Sicherheit führen Überwachungstätigkeiten durch, stellen Unregelmäßigkeiten fest und schützen Personen, Gebäude und Vermögenswerte. Sie halten zu jeder Zeit die Sicherheit aufrecht, indem sie in festgelegten Bereichen von Gebäuden und Grundstücken patrouillieren, den Zugang an den Eingangsbereichen kontrollieren, Alarm- und Videoaufzeichnungssysteme überwachen, verdächtige Einzelpersonen zur Identifizierung auffordern und Verstöße gegen Regeln und Gesetze melden."
+        }
+      },
+      "keySkills": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/e95dc989-ae49-49c6-bfc4-9aef35e92f35",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/f13bcfba-84b9-44a0-974f-a3d5b470ea9a",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/ae699de1-0746-4fe2-86f0-17770db7790d",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/65c4ee04-319d-417c-8f45-8594408d0d24",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a4fd17bf-6309-47c5-b7fa-ae5560673acf",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/f6c12779-bd4c-4908-a766-dd0db556c63b",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/0256f6b0-f4a9-4c5e-9cfd-96d58a2a70fe",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/ea9c2308-cdd0-409f-b512-384a4fd83677",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        }
+      ],
+      "behaviours": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/f83c245f-4aa9-484f-8fd2-4ad65dd82ae5",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": false
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/7a147904-22b3-498a-b4d9-7bceeb86b45d",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/e37d64dc-0f05-4ee8-b065-bf76f70d8f5c",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        }
+      ]
+    },
+    {
+      "id": "agroalimentaire",
+      "displayTitleFr": "Agent / agente de production agroalimentaire",
+      "scopeFr": "Opérations de fabrication et de conditionnement ; aucune équivalence avec conducteur de ligne ou responsable de production n’est créée.",
+      "occupation": {
+        "uri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+        "labels": {
+          "fr": "opérateur de fabrication de produits alimentaires/opératrice de fabrication de produits alimentaires",
+          "en": "food production operator",
+          "de": "Lebensmittelproduktionsmitarbeiter/Lebensmittelproduktionsmitarbeiterin"
+        },
+        "descriptions": {
+          "fr": "Les opérateurs de fabrication de produits alimentaires exécutent une ou plusieurs tâches à différents stades du processus de production de denrées alimentaires. Ils effectuent diverses opérations et processus de fabrication de denrées alimentaires et de boissons, procèdent aux opérations d’emballage, assurent le fonctionnement manuel ou automatique de machines, suivent des procédures déterminées et respectent les réglementations en matière de sécurité alimentaire.",
+          "en": "Food production operators supply and perform one or more tasks in different stages of the food production process. They perform manufacturing operations and processes to foods and beverages, perform packaging, operate machines manually or automatically, follow predetermined procedures, and take food safety regulations on board.",
+          "de": "Lebensmittelproduktionsmitarbeiter führen eine oder mehrere Aufgaben in verschiedenen Phasen des Lebensmittelherstellungsprozesses aus. Sie führen Verfahren und Prozesse zur Herstellung von Lebensmitteln und Getränken durch, nehmen die Verpackung vor, bedienen Maschinen manuell oder automatisch, verfolgen vorab festgelegte Verfahren und halten die Vorschriften für die Lebensmittelsicherheit ein."
+        }
+      },
+      "keySkills": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/680f271f-4a7e-410a-aaaf-4f42c8f48251",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a0d96ce8-aeeb-4ffb-bd78-21c0598179ff",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a34f4fd4-1aff-4941-82d5-542ac94f81c3",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/5d05068e-7ae7-4ff6-8fa3-e35ea03b48b1",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/01fec851-b5f4-419b-940a-3b4c835adfa8",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/6fcf2fc7-7b74-42e5-845f-f5854fd44f37",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "optional"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/5521fcf8-80fa-489b-af18-a69823b85702",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/c8f14c32-7f24-41bb-9e8f-b24d6fd3ca86",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        }
+      ],
+      "behaviours": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/49de9958-2aa4-4eef-a89d-fe5d5bcd28c4",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": false
+        }
+      ]
+    },
+    {
+      "id": "pret-a-porter",
+      "displayTitleFr": "Vendeur / vendeuse en prêt-à-porter",
+      "scopeFr": "Vente de vêtements en boutique ; pas de responsabilité de magasin ni de retouches supposée.",
+      "occupation": {
+        "uri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+        "labels": {
+          "fr": "vendeur en boutique de vêtements/vendeuse en boutique de vêtements",
+          "en": "clothing specialised seller",
+          "de": "Fachverkäufer für Bekleidung/Fachverkäuferin für Bekleidung"
+        },
+        "descriptions": {
+          "fr": "Les vendeurs/vendeuses en boutique de vêtements vendent des vêtements dans des magasins spécialisés.",
+          "en": "Clothing specialised sellers sell clothes in specialised shops.",
+          "de": "Fachverkäufer für Bekleidung verkaufen in Fachgeschäften Bekleidung."
+        }
+      },
+      "keySkills": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/68698869-c13c-4563-adc7-118b7644f45d",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/2b69525c-731c-4813-99a7-673fa5679d32",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/25b746af-fb4e-41fc-9975-a74d73627cfe",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/cd76316c-23e5-449a-a0c4-598bf7ee1a5a",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/0cb013af-6dd9-4fb2-b34e-63dda1a5cf82",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/7e9daad3-8604-4839-af9b-dc6f8db3ef68",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/77a11321-754a-41de-b9e4-80d747f528db",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a6d697d1-80ba-4175-82d4-43440ed04270",
+          "occupationRelation": {
+            "origin": "ESCO 1.2.1 occupationSkillRelations",
+            "type": "essential"
+          },
+          "displayCategoryOrigin": "editorial_selection"
+        }
+      ],
+      "behaviours": [
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": false
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/001115fb-569f-4ee6-8381-c6807ef2527f",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        },
+        {
+          "skillUri": "http://data.europa.eu/esco/skill/77b636e8-fab3-41a8-8022-1e0a354059dc",
+          "occupationRelation": {
+            "origin": "editorial_suggestion_not_official_occupation_relation",
+            "type": null
+          },
+          "displayCategoryOrigin": "editorial_savoir_etre_not_an_esco_skill_type",
+          "inOfficialTransversalCollection": true
+        }
+      ]
+    }
+  ],
+  "cleaningAlternative": {
+    "id": "nettoyage-locaux-alternative",
+    "occupation": {
+      "uri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "labels": {
+        "fr": "agent d'entretien d'immeubles/agente d'entretien d'immeubles",
+        "en": "building cleaner",
+        "de": "Gebäudereiniger Innenreinigung/Gebäudereinigerin Innenreinigung"
+      },
+      "descriptions": {
+        "fr": "Les agents d'entretien d'immeubles maintiennent la propreté et la fonctionnalité générale de différents types de bâtiments, tels que des bureaux, des hôpitaux et des institutions publiques. Ils effectuent des tâches de nettoyage, comme balayer, aspirer et nettoyer les sols, vider les poubelles et vérifier les systèmes de sécurité, les serrures et les fenêtres. Ils contrôlent les systèmes de climatisation et informent les personnes concernées en cas de panne ou de problème.",
+        "en": "Building cleaners maintain the cleanliness and overall functionality of various types of buildings such as offices, hospitals and public institutions. They perform cleaning duties like sweeping, vacuuming and mopping floors, empty trash and check security systems, locks and windows. Building cleaners check air conditioning systems and notify the appropriate persons in case of malfunctions or problems.",
+        "de": "Gebäudereiniger Innenreinigung bewahren die Sauberkeit und die Gesamtfunktionen verschiedener Gebäudetypen, wie Büros, Krankenhäuser und öffentlicher Einrichtungen. Sie führen Reinigungsarbeiten durch, wie Kehren, Saugen und Wischen von Fußböden, Leeren von Mülleimern und Kontrolle von Sicherheitssystemen, Schlössern und Fenstern. Gebäudereiniger Innenreinigung prüfen Klimaanlagen und unterrichten die entsprechenden Personen bei Funktionsstörungen oder Problemen."
+      }
+    },
+    "scopeFr": "Alternative si le poste concerne bureaux et locaux professionnels. Ce concept inclut aussi des activités d’entretien technique ; ne pas les ajouter automatiquement au formulaire.",
+    "keySkills": [
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/a2cd3b30-2d6c-473e-a5d4-4e7cb576babe",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/58a15a33-2b41-4a7e-bb8a-777328b5d82a",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "optional"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/329d7233-7231-4082-8ca4-0b5e295785aa",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/6ff01827-907d-43d8-b6e4-7162c1cf0aca",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/d05ae693-dc7d-4073-8806-2782f117c24a",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/51a26193-9abe-4bce-9108-f50835be1c35",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/110d7aa3-e44e-4cce-a927-8d4de615f3d9",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      },
+      {
+        "skillUri": "http://data.europa.eu/esco/skill/2ed98048-bf2f-47e5-a0de-fd23d6abe2f6",
+        "occupationRelation": {
+          "origin": "ESCO 1.2.1 occupationSkillRelations",
+          "type": "essential"
+        }
+      }
+    ]
+  }
+}

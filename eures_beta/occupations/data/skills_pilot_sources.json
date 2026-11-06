@@ -1,0 +1,2422 @@
+{
+  "metadata": {
+    "escoVersion": "1.2.1",
+    "preparedAt": "2026-11-06T17:19:38.445742+00:00",
+    "languages": [
+      "fr",
+      "en",
+      "de"
+    ],
+    "status": "review_pilot_not_deployed",
+    "sources": [
+      {
+        "name": "ESCO fr",
+        "version": "1.2.1",
+        "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20fr%20-%20csv.zip",
+        "sha256": "84fe49774fad90bdfd27d080440ffb1fdef1fbd62939f6436d2fc21f4d58d4e8",
+        "occupationCount": 3039,
+        "sha256Verified": true,
+        "originalRetrievalDateAccordingToManifest": "2026-10-29"
+      },
+      {
+        "name": "ESCO en",
+        "version": "1.2.1",
+        "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20en%20-%20csv.zip",
+        "sha256": "f9761b0b52be1828b38a3e5e0ae59a93a7b0ce358bc800f52f57a8b002adeb3e",
+        "occupationCount": 3039,
+        "sha256Verified": true,
+        "originalRetrievalDateAccordingToManifest": "2026-10-29"
+      },
+      {
+        "name": "ESCO de",
+        "version": "1.2.1",
+        "url": "https://ec.europa.eu/esco/download/ESCO%20dataset%20-%20v1.2.1%20-%20classification%20-%20de%20-%20csv.zip",
+        "sha256": "a4d12661e9d4208e7e4583b6a2268d0a8c6d31618f7df2d46e90831d95e06d51",
+        "occupationCount": 3039,
+        "sha256Verified": true,
+        "originalRetrievalDateAccordingToManifest": "2026-10-29"
+      }
+    ],
+    "attribution": "This document uses the ESCO classification of the European Commission. Extraits des libellés officiels ; sélection, ordre et rubriques du pilote proposés par Oly pour Match Europe.",
+    "reuseConditions": {
+      "basis": "Commission Decision 2011/833/EU; attribution ESCO",
+      "reference": "https://esco.ec.europa.eu/en/about-esco/faq?page=1",
+      "note": "Aucune licence CC-BY spécifique aux archives n’est inventée."
+    },
+    "verification": "Archives locales contrôlées par SHA-256 contre le manifeste existant ; pas de nouveau téléchargement ni de vérification du contenu en production.",
+    "editorialBoundary": "Les concepts et libellés FR/EN/DE et les relations essential/optional proviennent d’ESCO. Le choix des suggestions, leur ordre et la rubrique savoir-être sont éditoriaux. Une suggestion sans lien métier officiel conserve un relationType nul. Aucun nouveau lien officiel n’est inventé."
+  },
+  "occupations": [
+    {
+      "uri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "labels": {
+        "fr": "vendeur en boutique de vêtements/vendeuse en boutique de vêtements",
+        "en": "clothing specialised seller",
+        "de": "Fachverkäufer für Bekleidung/Fachverkäuferin für Bekleidung"
+      },
+      "descriptions": {
+        "fr": "Les vendeurs/vendeuses en boutique de vêtements vendent des vêtements dans des magasins spécialisés.",
+        "en": "Clothing specialised sellers sell clothes in specialised shops.",
+        "de": "Fachverkäufer für Bekleidung verkaufen in Fachgeschäften Bekleidung."
+      }
+    },
+    {
+      "uri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "labels": {
+        "fr": "agent d'entretien d'immeubles/agente d'entretien d'immeubles",
+        "en": "building cleaner",
+        "de": "Gebäudereiniger Innenreinigung/Gebäudereinigerin Innenreinigung"
+      },
+      "descriptions": {
+        "fr": "Les agents d'entretien d'immeubles maintiennent la propreté et la fonctionnalité générale de différents types de bâtiments, tels que des bureaux, des hôpitaux et des institutions publiques. Ils effectuent des tâches de nettoyage, comme balayer, aspirer et nettoyer les sols, vider les poubelles et vérifier les systèmes de sécurité, les serrures et les fenêtres. Ils contrôlent les systèmes de climatisation et informent les personnes concernées en cas de panne ou de problème.",
+        "en": "Building cleaners maintain the cleanliness and overall functionality of various types of buildings such as offices, hospitals and public institutions. They perform cleaning duties like sweeping, vacuuming and mopping floors, empty trash and check security systems, locks and windows. Building cleaners check air conditioning systems and notify the appropriate persons in case of malfunctions or problems.",
+        "de": "Gebäudereiniger Innenreinigung bewahren die Sauberkeit und die Gesamtfunktionen verschiedener Gebäudetypen, wie Büros, Krankenhäuser und öffentlicher Einrichtungen. Sie führen Reinigungsarbeiten durch, wie Kehren, Saugen und Wischen von Fußböden, Leeren von Mülleimern und Kontrolle von Sicherheitssystemen, Schlössern und Fenstern. Gebäudereiniger Innenreinigung prüfen Klimaanlagen und unterrichten die entsprechenden Personen bei Funktionsstörungen oder Problemen."
+      }
+    },
+    {
+      "uri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "labels": {
+        "fr": "agent de sécurité/agente de sécurité",
+        "en": "security guard",
+        "de": "Fachkraft Schutz- und Sicherheit"
+      },
+      "descriptions": {
+        "fr": "Les agents/agentes de sécurité surveillent les installations, signalent les incidents et protègent les personnes, les bâtiments et les biens. Ils/Elles veillent à la sécurité en patrouillant les installations, en contrôlant l’accès aux entrées et en surveillant des systèmes d’enregistrement vidéo et d’alarme, en demandant l’identité des personnes suspectes et en signalant toute infraction ou activité illégale.",
+        "en": "Security guards observe, detect irregularities and protect people, buildings and assets. They maintain security at all times by patrolling designated property areas, controlling access at entrances, watching alarm and video recording systems, asking suspicious individuals for identification and reporting infractions and law breaching activities.",
+        "de": "Fachkräfte Schutz und Sicherheit führen Überwachungstätigkeiten durch, stellen Unregelmäßigkeiten fest und schützen Personen, Gebäude und Vermögenswerte. Sie halten zu jeder Zeit die Sicherheit aufrecht, indem sie in festgelegten Bereichen von Gebäuden und Grundstücken patrouillieren, den Zugang an den Eingangsbereichen kontrollieren, Alarm- und Videoaufzeichnungssysteme überwachen, verdächtige Einzelpersonen zur Identifizierung auffordern und Verstöße gegen Regeln und Gesetze melden."
+      }
+    },
+    {
+      "uri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "labels": {
+        "fr": "agent d’entretien des espaces verts/agente d’entretien des espaces verts",
+        "en": "groundsman/groundswoman",
+        "de": "Rasenpfleger/Rasenpflegerin"
+      },
+      "descriptions": {
+        "fr": "Les agents/agentes d’entretien des espaces verts fournissent des services d’entretien des espaces verts pour les ménages privés et les entreprises industrielles et commerciales, ainsi que les établissements scolaires, les établissements hôteliers, les jardins botaniques, les terrains de golf, les parcs et les terrains de sport.",
+        "en": "Groundsmen/groundswomen provide landscape and lawn services and maintain grounds for private households, commercial and public facilities, schools, hotels, botanical gardens, golf courses, parks and athletic fields.",
+        "de": "Rasenpfleger bieten Leistungen im Zusammenhang mit der Landschafts- und Rasenpflege an und erbringen diese für private Haushalte, gewerbliche und öffentliche Einrichtungen, Schulen, Hotels, botanische Gärten, Golfplätze, Parks und Sportplätze."
+      }
+    },
+    {
+      "uri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "labels": {
+        "fr": "aide ménager à domicile/aide ménagère à domicile",
+        "en": "domestic cleaner",
+        "de": "Reinigungskraft in Privathaushalt"
+      },
+      "descriptions": {
+        "fr": "Les aides ménagers à domicile effectuent toutes les activités de nettoyage nécessaires pour nettoyer les maisons de leurs clients. Ils aspirent et nettoient les sols, font la vaisselle, lavent le ligne, époussettent, récurent et lustrent les surfaces, et désinfectent les équipements et matériaux.",
+        "en": "Domestic cleaners perform all necessary cleaning activities in order to clean their clients' houses. They vacuum and sweep floors, wash dishes, launder clothes, dust, scrub and polish surfaces and disinfect equipment and materials.",
+        "de": "Reinigungskräfte in Privathaushalten führen alle erforderlichen Reinigungsarbeiten durch, um die Häuser ihrer Kunden zu reinigen. Sie saugen und wischen Fußböden, spülen Geschirr, waschen Kleidung, übernehmen das Abstauben, Schrubben und Polieren von Oberflächen und das Desinfizieren von Geräten und Materialien."
+      }
+    },
+    {
+      "uri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "labels": {
+        "fr": "serveur/serveuse",
+        "en": "waiter/waitress",
+        "de": "Kellner/Kellnerin"
+      },
+      "descriptions": {
+        "fr": "Les serveurs/serveuses servent les plats et les boissons commandées par les clients. Ils/Elles travaillent généralement dans les restaurants, les bars et les hôtels. Ils/Elles préparent les tables, servent les plats et les boissons et encaissent les paiements.",
+        "en": "Waiters/waitresses supply guests with food and drinks as requested. Waiters/waitresses usually work in restaurants, bars and hotels. This involves the preparation of tables, serving food or beverages and taking payments.",
+        "de": "Kellner bringen Gästen die gewünschten Speisen und Getränke. Sie arbeiten in der Regel in Restaurants, Bars und Hotels. Zu ihrer Arbeit gehört das Eindecken der Tische, das Servieren von Speisen und Getränken sowie die Entgegennahme der Bezahlung."
+      }
+    },
+    {
+      "uri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "labels": {
+        "fr": "opérateur de fabrication de produits alimentaires/opératrice de fabrication de produits alimentaires",
+        "en": "food production operator",
+        "de": "Lebensmittelproduktionsmitarbeiter/Lebensmittelproduktionsmitarbeiterin"
+      },
+      "descriptions": {
+        "fr": "Les opérateurs de fabrication de produits alimentaires exécutent une ou plusieurs tâches à différents stades du processus de production de denrées alimentaires. Ils effectuent diverses opérations et processus de fabrication de denrées alimentaires et de boissons, procèdent aux opérations d’emballage, assurent le fonctionnement manuel ou automatique de machines, suivent des procédures déterminées et respectent les réglementations en matière de sécurité alimentaire.",
+        "en": "Food production operators supply and perform one or more tasks in different stages of the food production process. They perform manufacturing operations and processes to foods and beverages, perform packaging, operate machines manually or automatically, follow predetermined procedures, and take food safety regulations on board.",
+        "de": "Lebensmittelproduktionsmitarbeiter führen eine oder mehrere Aufgaben in verschiedenen Phasen des Lebensmittelherstellungsprozesses aus. Sie führen Verfahren und Prozesse zur Herstellung von Lebensmitteln und Getränken durch, nehmen die Verpackung vor, bedienen Maschinen manuell oder automatisch, verfolgen vorab festgelegte Verfahren und halten die Vorschriften für die Lebensmittelsicherheit ein."
+      }
+    }
+  ],
+  "skills": [
+    {
+      "uri": "http://data.europa.eu/esco/skill/001115fb-569f-4ee6-8381-c6807ef2527f",
+      "labels": {
+        "fr": "faire preuve d’initiative",
+        "en": "show initiative",
+        "de": "Initiative zeigen"
+      },
+      "descriptions": {
+        "fr": "Être proactif et prendre les premières mesures d’une action sans attendre de savoir ce que les autres disent ou font.\n  ",
+        "en": "Be proactive and take the first step in an action without waiting for what others say or do.",
+        "de": "Proaktiv sein und den ersten Schritt unternehmen, ohne darauf zu warten, was Andere sagen oder tun.\n\t"
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "initiate action",
+          "be a driving force",
+          "give impetus",
+          "take the initiative",
+          "show sense of initiative",
+          "show active initiative",
+          "demonstrate sense of initiative"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/01fec851-b5f4-419b-940a-3b4c835adfa8",
+      "labels": {
+        "fr": "utiliser des machines de conditionnement",
+        "en": "tend packaging machines",
+        "de": "Verpackungsmaschinen bedienen"
+      },
+      "descriptions": {
+        "fr": "Utiliser des machines de conditionnement , telles que les machines de remplissage, d’étiquetage et de scellage. Stocker et trier les produits à traiter selon les spécifications. Réapprovisionner les fournitures d’emballage en fonction des besoins, telles que les boîtes, les cartons, le papier d’emballage, les feuilles de plastique, la colle, l’encre ou les étiquettes.",
+        "en": "Tend packaging machines such as filling, labelling, and sealing machines. Stock and sort products to be processed according to specifications. Replenish packaging supplies as required, such as boxes, cartons, wrapping paper, plastic sheet, glue, ink, or labels.",
+        "de": "Bedienen von Verpackungsmaschinen wie Füll-, Etikettierungs- und Verschließmaschinen. Erfassen der Bestände und Sortieren der Produkte, die gemäß Spezifikationen verarbeitet werden sollen. Auffüllen der erforderlichen Verpackungsmaterialien wie Kisten, Kartons, Packpapier, Plastikfolien, Klebstoff, Tinte oder Etiketten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "watch packaging machines",
+          "mind packaging machines",
+          "tend packaging machinery",
+          "take care of packaging machines",
+          "look after packaging machines",
+          "tend a packaging machines"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/0256f6b0-f4a9-4c5e-9cfd-96d58a2a70fe",
+      "labels": {
+        "fr": "utiliser un équipement radio",
+        "en": "operate radio equipment",
+        "de": "Funkgeräte bedienen"
+      },
+      "descriptions": {
+        "fr": "Installer et utiliser des appareils radio et des accessoires, tels que des consoles de diffusion, des amplificateurs et des microphones. Comprendre les bases du langage de l’opérateur radio et, si nécessaire, fournir des instructions afin de manipuler correctement l’équipement radio.",
+        "en": "Set up and operate radio devices and accessories, such as broadcast consoles, amplifiers, and microphones. Understand the basics of radio operator language and, when necessary, provide instruction in handling radio equipment correctly.",
+        "de": "Einrichten und Betreiben von Funkgeräten und -zubehör wie Rundfunkkonsolen, Verstärker und Mikrofone. Verstehen der Grundlagen der Funkersprache und bei Bedarf Erteilen von Anweisungen zur korrekten Bedienung von Funkgeräten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "set up and maintain radio equipment",
+          "oversee the use of radio equipment",
+          "utilise radio equipment",
+          "facilitate use of radio equipment",
+          "oversee the use of radio devices",
+          "set up and maintain radio devices",
+          "utilise radio devices",
+          "use radio equipment",
+          "use radio devices",
+          "operate radio devices",
+          "facilitate use of radio devices"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/0cb013af-6dd9-4fb2-b34e-63dda1a5cf82",
+      "labels": {
+        "fr": "utiliser une caisse enregistreuse",
+        "en": "operate cash register",
+        "de": "Registrierkasse bedienen"
+      },
+      "descriptions": {
+        "fr": "Enregistrer et traiter les transactions en espèces en utilisant le registre des points de vente.",
+        "en": "Register and handle cash transactions by using point of sale register.",
+        "de": "Erfassen und Abwickeln von Bargeldtransaktionen über die Registrierkasse an der Verkaufsstelle."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "run a cash point",
+          "process a cash point",
+          "operate cash point",
+          "operating a cash register",
+          "conduct a cash register",
+          "perform cash register",
+          "undertake cash register",
+          "run a cash register",
+          "operating cash registers",
+          "operate a cash register"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/110d7aa3-e44e-4cce-a927-8d4de615f3d9",
+      "labels": {
+        "fr": "trier les déchets",
+        "en": "sort waste",
+        "de": "Abfall sortieren"
+      },
+      "descriptions": {
+        "fr": "Trier manuellement ou automatiquement les déchets en les séparant en différents éléments.",
+        "en": "Manually or automatically sort waste by separating it into its different elements.",
+        "de": "Manuelles oder automatisches Sortieren von Abfall durch Trennen des Abfalls in die verschiedenen Materialien."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "sort refuse",
+          "sort rubbish",
+          "organise waste",
+          "arrange waste",
+          "conduct activities to separate waste",
+          "separate waste into different categories",
+          "categorise waste",
+          "organise refuse",
+          "perform waste separation activities",
+          "sort garbage",
+          "perform activities to separate waste",
+          "group waste according to characteristics"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/17fa5b53-fd59-49eb-8763-29255a185d26",
+      "labels": {
+        "fr": "préparer le sol",
+        "en": "prepare the ground",
+        "de": "Boden präparieren"
+      },
+      "descriptions": {
+        "fr": "Préparer le sol pour la pose de pelouse ou l’ensemencement en dégageant la zone et en choisissant la terre, la profondeur du sol et les engrais appropriés.",
+        "en": "Prepare the ground for laying turf or seeding by clearing the area, choosing the optimal soil, choosing the ground deepness and the appropriate fertilisers.",
+        "de": "Den Boden für die Verlegung von Rasen oder zur Aussaat präparieren, indem der optimale Boden, die Bodentiefe und die geeigneten Düngemittel ausgewählt werden."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "clear land for turf laying",
+          "land clearing for turf laying",
+          "land preparing for turf laying",
+          "prepare land for turf laying",
+          "clear site for turf laying",
+          "ground preparing",
+          "preparing the ground for turf",
+          "ground preparing for turf",
+          "ground clearing for turfing",
+          "prepare the ground for turf",
+          "preparing the ground",
+          "clear ground for turfing",
+          "clearing ground for turfing"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/25b746af-fb4e-41fc-9975-a74d73627cfe",
+      "labels": {
+        "fr": "recommander des vêtements selon les mensurations de clients",
+        "en": "recommend clothing according to customer's measurements",
+        "de": "den Maßen der Kunden und Kundinnen entsprechend Kleidungsstücke empfehlen"
+      },
+      "descriptions": {
+        "fr": "Recommander des articles d’habillement et prodiguer aux clients des conseils concernant ces articles, en fonction de leurs mensurations et de leur taille de vêtements.",
+        "en": "Recommend and provide advice on clothing items to customers in accordance to their measurements and size for clothes.",
+        "de": "Empfehlung und Beratung zu Bekleidungsartikeln für Kunden entsprechend ihrer Maße und Konfektionsgröße."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "recommend clothing according to a customer's measurements",
+          "recommend clothing according to a customer's measurement",
+          "advocate clothing according to customer's measurements",
+          "endorse clothing according to customer's measurements",
+          "recommending clothing according to customer's measurements",
+          "suggest clothing according to customer's measurements",
+          "propose clothing according to customer's measurements"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/2b69525c-731c-4813-99a7-673fa5679d32",
+      "labels": {
+        "fr": "conseiller des clients sur le choix de produits",
+        "en": "provide customer guidance on product selection",
+        "de": "Kunden und Kundinnen Orientierung bei der Produktauswahl bieten"
+      },
+      "descriptions": {
+        "fr": "Fournir des conseils et une assistance adéquats afin que les clients trouvent exactement les marchandises et les services qu’ils recherchent. Discuter du choix et de la disponibilité des produits.",
+        "en": "Provide suitable advice and assistance so that customers find the exact goods and services they were looking for. Discuss product selection and availability.",
+        "de": "Angemessene Beratung und Unterstützung für Kunden, damit sie genau die Waren und Dienstleistungen erhalten, die sie suchen. Erörterung der Produktauswahl und -verfügbarkeit."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "providing customer guidance on product selection",
+          "administer customer guidance on product selection",
+          "provide customers with guidance on product selection",
+          "furnish customer guidance on product selection",
+          "arrange customer guidance on product selection",
+          "contribute customer guidance on product selection",
+          "provide a customer guidance on product selection"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/2ed98048-bf2f-47e5-a0de-fd23d6abe2f6",
+      "labels": {
+        "fr": "utiliser une machine de nettoyage des sols",
+        "en": "operate floor cleaning equipment",
+        "de": "Bodenreinigungsgeräte bedienen"
+      },
+      "descriptions": {
+        "fr": "Mettre en place, entretenir et utiliser une machine rotative, un aspirateur-nettoyeur, des autolaveuses à conducteur accompagnant ainsi que d’autres machines de traitement des sols pour nettoyer des tapis et des sols durs.",
+        "en": "Set up, maintain and operate roto, extractor and walk behind scrubbers and other floor care equipment to clean carpets and scrub hard floors.",
+        "de": "Aufstellen, Pflegen und Bedienen von Einscheibenmaschinen, Abziehvorrichtungen und Gehen hinter Schrubbern und anderen Bodenpflegegeräten, um Teppichböden zu reinigen und harte Böden zu schrubben."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "utilize floor cleaning equipment",
+          "operate cleaning equipment for floors",
+          "run floor cleaning equipment",
+          "use floor cleaning equipment",
+          "operating floor cleaning equipment"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/329d7233-7231-4082-8ca4-0b5e295785aa",
+      "labels": {
+        "fr": "dépoussiérer",
+        "en": "remove dust",
+        "de": "Staub entfernen"
+      },
+      "descriptions": {
+        "fr": "Ôter la poussière du mobilier, des stores et des appuis de fenêtre à l’aide de chiffons à poussière spécialisés ou d’articles de nettoyage manuel.\n\t",
+        "en": "Remove dust from furniture, blinds and windowsills using specialised dust cloths or hand-cleaning items.",
+        "de": "Entfernen von Staub von Möbeln, Jalousien und Fensterbänken, wobei spezielle Staubtücher oder Handreinigungsartikel verwendet werden.\n\t"
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "performing dusting activities",
+          "dust",
+          "perform dusting activities",
+          "perform dusting activity"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/351122a2-44f7-41db-ba8b-425136d5fb87",
+      "labels": {
+        "fr": "entretenir des terrains engazonnés",
+        "en": "maintain turf and grass",
+        "de": "Rasen instand halten"
+      },
+      "descriptions": {
+        "fr": "Mettre en place et entretenir des gazons fins, des champs gazonnés et des surfaces synthétiques pour les manifestations sportives. Veiller à ce que les terrains de la propriété aient un aspect agréable.",
+        "en": "Establish and maintain fine turf, grassed fields, and synthetic surfaces for sports events. Ensure a pleasant appearance of the property grounds.",
+        "de": "Aufbringen und Instandhalten von Feintorf, Rasenflächen und synthetischen Oberflächen für Sportveranstaltungen. Sicherstellen eines ansprechenden Aussehens des Grundstücks."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "maintain grass",
+          "establish turf and grass",
+          "turf and grass maintaining",
+          "establishing turf",
+          "establishing grass",
+          "establish turf",
+          "maintaining turf",
+          "turf and grass establishing",
+          "establishing turf and grass",
+          "maintain turf",
+          "maintaining grass",
+          "maintaining turf and grass",
+          "establish grass"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/42a6eff0-e9d9-423d-877b-e48fe91ff26f",
+      "labels": {
+        "fr": "servir des plats à table",
+        "en": "serve food in table service",
+        "de": "Essen am Tisch servieren"
+      },
+      "descriptions": {
+        "fr": "Servir des plats à la table tout en maintenant des normes élevées en matière de service à la clientèle et de sécurité alimentaire.",
+        "en": "Provide food at the table whilst maintaining high level of customer service and food safety standards.",
+        "de": "Servieren von Nahrungsmitteln bei Tisch unter Wahrung eines hohen Niveaus an Kundenservice und Einhaltung der Normen für die Lebensmittelsicherheit."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [
+          "procéder au service à la table",
+          "fournir un service à la table aux clients",
+          "fournir un service à la table",
+          "servir les clients à la table"
+        ],
+        "en": [
+          "serve food throughout table service",
+          "serve food",
+          "serve food during table service"
+        ],
+        "de": [
+          "Speisen zu Tisch bringen",
+          "Speisen am Tisch servieren"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/49de9958-2aa4-4eef-a89d-fe5d5bcd28c4",
+      "labels": {
+        "fr": "s'adapter au changement",
+        "en": "adapt to change",
+        "de": "sich an Veränderungen anpassen"
+      },
+      "descriptions": {
+        "fr": "Modifier son attitude ou son comportement pour s’adapter aux changements sur le lieu de travail.",
+        "en": "Alter one's attitude or behaviour to accommodate modifications in the workplace.",
+        "de": "Ändern der Haltung oder des Verhaltens, um sich an veränderte Bedingungen am Arbeitsplatz anzupassen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [
+          "s'adapter aux changements"
+        ],
+        "en": [
+          "openness to change",
+          "be open to change",
+          "revise plans to deal with changes",
+          "adapt to changes",
+          "be flexible",
+          "show willingness to change",
+          "adapting to change",
+          "demonstrate flexibility",
+          "adjust to change",
+          "conform to change",
+          "assimilate to change"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/51097602-8e4e-4830-8f35-d77afc713fc0",
+      "labels": {
+        "fr": "tailler des haies et des arbres",
+        "en": "prune hedges and trees",
+        "de": "Hecken und Bäume beschneiden"
+      },
+      "descriptions": {
+        "fr": "Couper et tailler des arbres et des haies dans des formes décoratives, en tenant compte des aspects botaniques et esthétiques.",
+        "en": "Cut and prune trees and hedges in ornemental forms, considering botanical and esthetical aspects.",
+        "de": "Schneiden von Bäumen und Hecken in ornamentale Formen unter Berücksichtigung von botanischen und ästhetischen Aspekten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "hedges and trees cutting",
+          "hedges and trees pruning",
+          "cutting hedges and trees",
+          "pruning hedges and trees",
+          "hedge and tree cutting",
+          "hedge and tree pruning",
+          "cut hedges and trees",
+          "pruning of hedges and trees",
+          "cutting of hedges and trees"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/51a26193-9abe-4bce-9108-f50835be1c35",
+      "labels": {
+        "fr": "manipuler les agents de nettoyage chimique",
+        "en": "handle chemical cleaning agents",
+        "de": "Mit chemischen Reinigungsmitteln umgehen"
+      },
+      "descriptions": {
+        "fr": "S'assurer que la manipulation, le stockage, la gestion et l’élimination des produits chimiques de nettoyage sont réalisés conformément à la réglementation.",
+        "en": "Ensure proper handling, storage, management and disposal of cleaning chemicals (CIP) in accordance with regulations.",
+        "de": "Gewährleisten einer ordnungsgemäßen Handhabung, Lagerung, Verwaltung und Entsorgung von chemischen Reinigungsmitteln gemäß den Vorschriften.\n\t"
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [
+          "employer des produits chimiques pour nettoyer sur place",
+          "manipuler les produits chimiques pour nettoyer sur place",
+          "administrer des produits chimiques pour nettoyer sur place",
+          "manipuler des produits chimiques pour nettoyer un endroit",
+          "utiliser des produits chimiques pour nettoyer sur place",
+          "manipuler des produits chimiques pour nettoyer dans un endroit",
+          "utiliser des produits chimiques de nettoyage",
+          "employer des produits chimiques pour nettoyer en place",
+          "avoir recours à des produits chimiques de nettoyage",
+          "administrer des produits chimiques pour nettoyer en place",
+          "utiliser des produits chimiques pour nettoyer en place",
+          "manipuler des produits chimiques pour nettoyer en place",
+          "gérer des produits chimiques de nettoyage"
+        ],
+        "en": [
+          "handle chemicals for clean in place",
+          "handle chemicals for clean in a place",
+          "employ chemicals for clean in place",
+          "ensure the safekeeping of cleaning chemicals",
+          "handle chemical agents when cleaning",
+          "use chemicals for clean in place",
+          "administer chemicals for clean in place",
+          "ensure the safekeeping of hazardous chemicals and cleaning materials",
+          "handle cleaning chemical agents",
+          "utilise chemicals for clean in place"
+        ],
+        "de": [
+          "Chemikalien zur Reinigung an Ort und Stelle einsetzen",
+          "chemische Reinigungsmittel benutzen",
+          "Reinigungschemikalien handhaben",
+          "chemische Reiniger nutzen",
+          "chemische Reinigungsmittel handhaben",
+          "chemische Reinigungsmittel nutzen",
+          "mit chemischen Reinigern arbeiten"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/5521fcf8-80fa-489b-af18-a69823b85702",
+      "labels": {
+        "fr": "nettoyer des machines utilisées pour la production d’aliments et de boissons",
+        "en": "clean food and beverage machinery",
+        "de": "Maschinen zur Lebensmittel- und Getränkeverarbeitung säubern"
+      },
+      "descriptions": {
+        "fr": "Nettoyer des machines utilisées pour des processus de production d’aliments ou de boissons. Préparer les solutions appropriées pour le nettoyage. Préparer toutes les pièces et veiller à ce qu’elles soient suffisamment propres pour éviter tout écart ou erreur dans le processus de production.",
+        "en": "Clean machinery used for food or beverage production processes. Prepare the appropriate solutions for cleaning. Prepare all parts and assure that they are clean enough to avoid deviation or errors in the production process.",
+        "de": "Reinigen von Maschinen, die für die Herstellung von Lebensmitteln oder Getränken eingesetzt werden. Zusammenstellen der geeigneten Reinigungslösungen. Bearbeiten aller Maschinenkomponenten und Sicherstellen, dass sie sauber genug sind, um Abweichungen oder Fehler im Produktionsprozess zu verhindern."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "cleanse food and beverage machinery",
+          "wash food and beverage machinery",
+          "clean food and beverage machines",
+          "clean food and beverage machine",
+          "tidy food and beverage machinery",
+          "clear food and beverage machinery"
+        ],
+        "de": [
+          "Maschinen zur Lebensmittel- und Getränkeverarbeitung reinigen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/58a15a33-2b41-4a7e-bb8a-777328b5d82a",
+      "labels": {
+        "fr": "nettoyer des installations sanitaires",
+        "en": "clean toilet facilities",
+        "de": "Toilettenanlagen reinigen"
+      },
+      "descriptions": {
+        "fr": "Nettoyer des toilettes et laver des éviers, des miroirs et des meubles de la cabine selon les normes requises, en prêtant une attention particulière aux détails.\n\t",
+        "en": "Clean the toilets and wipe the sinks, mirrors and cubicle furniture according to the required standards, providing special attention to details.",
+        "de": "Reinigen der Toiletten und Wischen von Waschbecken, Spiegeln und Mobiliar entsprechend den geforderten Standards und unter besonderer Berücksichtigung von Details.\n\t"
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "maintain toilet facilities cleanliness",
+          "maintaining the cleanliness of the toilet facilities",
+          "maintain the cleanliness of the toilet facilities",
+          "keep the toilet facilities clean",
+          "maintain the cleanliness of the toilet facility",
+          "ensure cleanliness of the toilet facilities"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/5d05068e-7ae7-4ff6-8fa3-e35ea03b48b1",
+      "labels": {
+        "fr": "vérifier la qualité de produits sur une ligne de production",
+        "en": "check quality of products on the production line",
+        "de": "Qualität von Produkten an der Produktionslinie kontrollieren"
+      },
+      "descriptions": {
+        "fr": "Vérifier la qualité des produits sur une ligne de production et retirer les éléments défectueux avant et après l’emballage.",
+        "en": "Check products for quality on the production line and remove defective items before and after packaging.",
+        "de": "Prüfen der Qualität von Produkten an der Produktionslinie und Aussortieren fehlerhafter Produkte vor und nach ihrer Verpackung."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "check the quality of products on the production line",
+          "check production line for deviations",
+          "assess production line for deviations",
+          "test production line for deviations",
+          "checking quality of products on the production line",
+          "audit production line for deviations"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+      "labels": {
+        "fr": "travailler en équipe",
+        "en": "work in teams",
+        "de": "in Teams arbeiten"
+      },
+      "descriptions": {
+        "fr": "Travailler avec confiance au sein d’un groupe, chacun de ses membres prenant en charge sa partie de l’ensemble de la prestation.",
+        "en": "Work confidently within a group with each doing their part in the service of the whole.",
+        "de": "Vertrauensvolle Zusammenarbeit in einem Team, in dem jedes Teammitglied seinen Aufgabenbereich hat."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "working in teams",
+          "handle team dynamics",
+          "cooperate",
+          "cooperate with colleagues",
+          "support colleagues",
+          "collaborate on tasks",
+          "work in groups",
+          "team-working",
+          "foster social networks",
+          "work in squads"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/644617c8-fbe6-4755-b7f2-c3a623641e5b",
+      "labels": {
+        "fr": "aspirer des surfaces",
+        "en": "vacuum surfaces",
+        "de": "Flächen mit dem Staubsauger reinigen"
+      },
+      "descriptions": {
+        "fr": "Utiliser un aspirateur pour éliminer les poussières et les petites particules des sols, des tentures, des tapis ou des meubles.",
+        "en": "Use a vacuum cleaner to remove dust and small particles from floors, drapes, carpets or furniture.",
+        "de": "Verwenden eines Staubsaugers zur Beseitigung von Staub und kleinen Teilchen von Fußböden, Vorhängen, Teppichen oder Möbeln."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "vacuum surface",
+          "clean surfaces with a vacuum",
+          "vacuuming surfaces"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/65c4ee04-319d-417c-8f45-8594408d0d24",
+      "labels": {
+        "fr": "contrôler des équipements de surveillance",
+        "en": "monitor surveillance equipment",
+        "de": "Überwachungseinrichtungen überwachen"
+      },
+      "descriptions": {
+        "fr": "Contrôler le fonctionnement des équipements utilisés pour la surveillance et la collecte de renseignements afin de garantir leur bon fonctionnement et de recueillir les informations de surveillance qu’il ont détectées.",
+        "en": "Monitor the operation of equipment used in surveillance and gathering of intelligence to ensure it functions properly and to gather the surveillance information detected by it.",
+        "de": "Überwachen des Betriebs von Einrichtungen, die bei der Überwachung und Erkenntnisgewinnung eingesetzt werden, um ihre ordnungsgemäße Funktionsweise sicherzustellen und die Überwachungsdaten zu erfassen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "supervise surveillance equipment use",
+          "manage surveillance equipment use",
+          "oversee inspection equipment",
+          "manage inspection equipment",
+          "oversee surveillance equipment use",
+          "audit surveillance equipment use",
+          "audit inspection equipment",
+          "supervise inspection equipment"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/680f271f-4a7e-410a-aaaf-4f42c8f48251",
+      "labels": {
+        "fr": "ajouter des ingrédients pendant la fabrication de produits alimentaires",
+        "en": "administer ingredients in food production",
+        "de": "Zutaten in der Lebensmittelproduktion beigeben"
+      },
+      "descriptions": {
+        "fr": "Déterminer les ingrédients à ajouter et les quantités requises en fonction de la recette et de la manière dont ces ingrédients doivent être incorporés.",
+        "en": "Ingredients to be added and the required amounts according to the recipe and the way those ingredients are to be administered.",
+        "de": "Beigeben der Zutaten in den laut Rezept erforderlichen Mengen unter Berücksichtigung der Art und Weise, wie diese Zutaten beizugeben sind."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "organise ingredients in food production",
+          "apply ingredients in food production",
+          "control ingredients in food production",
+          "administer an ingredient in food production",
+          "administrate ingredients in food production",
+          "utilise ingredients in food production",
+          "administering ingredients in food production"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/68698869-c13c-4563-adc7-118b7644f45d",
+      "labels": {
+        "fr": "identifier les besoins des clients",
+        "en": "identify customer's needs",
+        "de": "Kundenbedürfnisse feststellen"
+      },
+      "descriptions": {
+        "fr": "Utiliser des questions appropriées et écouter activement afin d’identifier les attentes, les souhaits et les exigences de la clientèle en fonction du produit et des services.",
+        "en": "Use appropriate questions and active listening in order to identify customer expectations, desires and requirements according to product and services.",
+        "de": "Feststellen der Erwartungen, Wünsche und Anforderungen der Kunden in Bezug auf Produkte und Dienstleistungen durch geeignete Fragen und aktives Zuhören."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "diagnose customer's needs",
+          "analyse customer's needs",
+          "identifying a customer's needs",
+          "map out customer requirements into pragmatic actions",
+          "identifying customer's needs",
+          "classify customer's needs",
+          "determine customer's needs",
+          "identify a customer's needs"
+        ],
+        "de": [
+          "Kundenbedürfnisse ermitteln"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/6fcf2fc7-7b74-42e5-845f-f5854fd44f37",
+      "labels": {
+        "fr": "assurer le bon étiquetage de produits",
+        "en": "ensure correct goods labelling",
+        "de": "korrekte Warenauszeichnung sicherstellen"
+      },
+      "descriptions": {
+        "fr": "Veiller à ce que les marchandises soient étiquetées avec toutes les informations nécessaires (par exemple, légales, technologiques, de danger et autres) concernant le produit. Veiller à ce que les étiquettes respectent les exigences légales et soient conformes aux règlements.",
+        "en": "Ensure that goods are labeled with all necessary labeling information (e.g. legal, technological, hazardous and others) regarding the product. Ensure that labels respects the legal requirements and adhere to regulations.",
+        "de": "Sicherstellen, dass Waren mit allen erforderlichen (rechtlichen, technischen, Gefahrstoff- und sonstigen) Angaben zum Produkt ausgezeichnet sind. Sicherstellen, dass die Etiketten den rechtlichen Anforderungen und Vorschriften entsprechen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "ensure correct goods labeling",
+          "ensure correct labelling of goods",
+          "assure correct goods labelling",
+          "maintain correct goods labelling",
+          "ensure the labelling of goods correctly",
+          "establish correct goods labelling",
+          "secure correct goods labelling"
+        ],
+        "de": [
+          "korrekte Warenkennzeichnung sicherstellen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/6ff01827-907d-43d8-b6e4-7162c1cf0aca",
+      "labels": {
+        "fr": "nettoyer des surfaces",
+        "en": "clean surfaces",
+        "de": "Oberflächen reinigen"
+      },
+      "descriptions": {
+        "fr": "Désinfection des surfaces conformément aux normes sanitaires.",
+        "en": "Disinfect surfaces in accordance with sanitary standards.",
+        "de": "Desinfizieren von Oberflächen gemäß den Hygienestandards."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [
+          "laver les surfaces",
+          "laver les revêtements",
+          "nettoyer les revêtements"
+        ],
+        "en": [
+          "clean floors",
+          "clean worktops",
+          "clear tables",
+          "clean tables",
+          "clean walls",
+          "clean the surfaces",
+          "clean surface"
+        ],
+        "de": [
+          "Böden wischen",
+          "Oberflächen sauber machen",
+          "Tische reinigen",
+          "Wände säubern",
+          "Oberflächen säubern"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/704bed2c-737a-4585-b840-1d28bbcab9b4",
+      "labels": {
+        "fr": "enregistrer les commandes de plats et de boissons des clients",
+        "en": "take food and beverage orders from customers",
+        "de": "Essens- und Getränkebestellungen von Kundinnen und Kunden aufnehmen"
+      },
+      "descriptions": {
+        "fr": "Prendre les commandes passées par les clients et les enregistrer dans le système de point de vente. Gérer les commandes et les communiquer aux collègues.",
+        "en": "Accept orders from customers and record them into the Point of Sale system. Manage order requests and communicate them to fellow staff members.",
+        "de": "Entgegennehmen von Bestellungen von Kunden und Eintragen der Bestellungen in das Point-of-Sale-System. Verwalten von Auftragsanfragen und Weiterleiten an Kollegen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [
+          "traiter les commandes de plats et de boissons des clients",
+          "prendre les commandes de plats et de boissons des clients"
+        ],
+        "en": [
+          "take food and drink orders from customers",
+          "receive orders from customers for food and drink",
+          "take customer orders for food and beverages",
+          "take orders from customers for food and beverages"
+        ],
+        "de": [
+          "Kundenwünsche für Essen und Getränke aufnehmen",
+          "Bestellungen für Essen und Getränke aufnehmen",
+          "Essens- und Getränkebestellungen von Gästen aufnehmen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/77a11321-754a-41de-b9e4-80d747f528db",
+      "labels": {
+        "fr": "organiser la présentation de produits",
+        "en": "organise product display",
+        "de": "Warenpräsentation organisieren"
+      },
+      "descriptions": {
+        "fr": "Disposer les marchandises de manière attrayante et sûre. Créer un comptoir ou une autre zone de présentation où des démonstrations ont lieu afin d’attirer l’attention des clients potentiels. Organiser et tenir à jour des stands de présentation des marchandises. Créer et assembler des points de vente et des présentations de produits pour le processus de vente.",
+        "en": "Arrange goods in attractive and safe way. Set up a counter or other display area where demonstrations take place in order to attract the attention of prospective customers. Organise and maintain stands for merchandise display. Create and assemble sales spot and product displays for sales process.",
+        "de": "Präsentieren der Waren auf ansprechende und sichere Weise. Einrichten eines Ladentisches oder einer anderen Ausstellungsfläche für Warenpräsentationen, um die Aufmerksamkeit potenzieller Kunden zu wecken. Aufbauen und Pflegen von Ständen für die Warenauslage. Erstellen und Montieren von Verkaufsstellen und Warenpräsentationen für den Verkauf."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "organising product displays",
+          "organize product display",
+          "organise a product display",
+          "arrange product display",
+          "organise product displays",
+          "coordinate product display",
+          "set up product display",
+          "establish product display"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/77b636e8-fab3-41a8-8022-1e0a354059dc",
+      "labels": {
+        "fr": "faire preuve d’empathie",
+        "en": "show empathy",
+        "de": "Einfühlungsvermögen zeigen"
+      },
+      "descriptions": {
+        "fr": "Faire preuve d’empathie afin d’éviter toute forme de violence et d’isolement symbolique et d’accorder une attention particulière à tous. Cela devrait comprendre une capacité de compréhension de la communication orale et non verbale des sentiments et des émotions.",
+        "en": "Show empathy in order to prevent any kind of symbolic violence and isolation and to guarantee a considerate attention to everyone. It should include a capacity to understand various verbal and non-verbal communication of sentiment and feeling.",
+        "de": "Zeigen von Einfühlungsvermögen, um jede Art von symbolischer Gewalt und Isolation zu verhindern und sicherzustellen, dass jedem Einzelnen gebührend Aufmerksamkeit geschenkt wird. Fähigkeit, verschiedene verbale und nicht verbale Ausdrucksformen von Stimmungen und Gefühlen zu verstehen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "show good manners",
+          "display consideration",
+          "concern for others",
+          "show concern for others",
+          "treat people fairly",
+          "demonstrate concern for others",
+          "showing empathy",
+          "show courtesy",
+          "demonstrate consideration",
+          "be empathic",
+          "communicate an empathic response",
+          "exhibit consideration"
+        ],
+        "de": [
+          "Empathie zeigen"
+        ]
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/7a147904-22b3-498a-b4d9-7bceeb86b45d",
+      "labels": {
+        "fr": "gérer le stress",
+        "en": "cope with stress",
+        "de": "Stress standhalten"
+      },
+      "descriptions": {
+        "fr": "Gérer les défis, les perturbations et les changements et surmonter les revers et l’adversité.\n  ",
+        "en": "Handle challenges, disruption and change and recover from set-backs and adversity.",
+        "de": "Herausforderungen, Umbrüche und Veränderungen bewältigen, sich von Rückschlägen erholen und mit Widrigkeiten umgehen.\n\t"
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [
+          "faire face à la pression",
+          "résister à la pression"
+        ],
+        "en": [
+          "show mental resilience",
+          "manage pressure",
+          "coping with pressure",
+          "deal with pressure",
+          "handle pressure",
+          "accept challenges",
+          "cope with pressures",
+          "perform under pressure",
+          "stay cool under pressure",
+          "work under pressure"
+        ],
+        "de": [
+          "mit Druck umgehen",
+          "unter Druck gelassen bleiben",
+          "mentale Belastbarkeit zeigen"
+        ]
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/7b3717e4-e963-44e0-b94f-1088a7242da0",
+      "labels": {
+        "fr": "soigner des végétaux",
+        "en": "nurse plants",
+        "de": "Pflanzen pflegen"
+      },
+      "descriptions": {
+        "fr": "Déterminer la nécessité d’activités de soins et les effectuer par la culture, l’entretien, l’arrosage et la pulvérisation des plantes et des arbres manuellement ou à l’aide d’un équipement approprié, en tenant compte des espèces végétales et en respectant les exigences de sécurité.",
+        "en": "Determine the need for nursing activities and carry out nursing by cultivating, maintaining, watering and spraying the plants and trees manually or using appropriate equipment, taking into account the plant species and following safety requirements.",
+        "de": "Feststellen des Pflegebedarfs und Durchführen der Pflege durch Pflanzen, Hegen, Bewässern und Beregnen der Pflanzen und Bäume von Hand oder mit geeigneten Geräten unter Berücksichtigung der Pflanzenart und der Sicherheitsanforderungen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "tending plants",
+          "nurse plants and trees",
+          "plant nursing",
+          "nursing plants and trees",
+          "plant and tree tending",
+          "nursing plants",
+          "tend plants",
+          "plant tending",
+          "tending plants and trees",
+          "plant and tree nursing",
+          "tend plants and trees"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/7b4bc709-5888-4f78-bbaf-fb760d4e2e4b",
+      "labels": {
+        "fr": "entretenir des équipements de nettoyage",
+        "en": "maintain cleaning equipment",
+        "de": "Reinigungsgeräte pflegen"
+      },
+      "descriptions": {
+        "fr": "Nettoyer et préserver les équipements et le matériel utilisés à des fins de nettoyage en bon état.",
+        "en": "Clean and preserve the equipment and material used for cleaning purposes in a proper state.",
+        "de": "Reinigen und pflegen der für Reinigungszwecke verwendeten Geräte und Materialien, damit sie in einwandfreiem Zustand bleiben."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "manage cleaning equipment",
+          "take care of cleaning equipment",
+          "maintain equipment for cleaning",
+          "maintaining cleaning equipment"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/7e9daad3-8604-4839-af9b-dc6f8db3ef68",
+      "labels": {
+        "fr": "remplir des rayons",
+        "en": "stock shelves",
+        "de": "Regale auffüllen"
+      },
+      "descriptions": {
+        "fr": "Recharger les rayons avec les marchandises à vendre.",
+        "en": "Refill shelves with merchandise to be sold.",
+        "de": "Auffüllen der Regale mit Waren für den Verkauf."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "shelf stocking",
+          "stock a shelf",
+          "top up shelves",
+          "fill shelves",
+          "stocking shelves",
+          "refill shelves",
+          "fill a shelf"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+      "labels": {
+        "fr": "veiller aux détails",
+        "en": "attend to detail",
+        "de": "auf Details achten"
+      },
+      "descriptions": {
+        "fr": "Accomplir une tâche avec préoccupation pour tous les domaines concernés, quelle qu’en soit l’ampleur.",
+        "en": "Accomplish a task with concern for all the areas involved, no matter how small.",
+        "de": "Ausführen einer Aufgabe unter Berücksichtigung aller betroffenen, noch so kleinen Bereiche."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [
+          "s'attacher aux détails"
+        ],
+        "en": [
+          "work meticulously",
+          "attend to precision",
+          "attend to details",
+          "deal with details",
+          "sort out details",
+          "attend to accuracy",
+          "work carefully",
+          "to work precisely",
+          "work in a proper manner",
+          "attending to details",
+          "manage details"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/8a1942a8-bebd-4cc5-bdff-fe215aaa3de5",
+      "labels": {
+        "fr": "utiliser du matériel de jardinage",
+        "en": "use gardening equipment",
+        "de": "Gartengeräte benutzen"
+      },
+      "descriptions": {
+        "fr": "Utiliser des équipements de jardinage tels que tondeuses, pulvérisateurs, faucheuses, tronçonneuses, conformes à la réglementation en matière de santé et de sécurité.",
+        "en": "Use gardening equipment such as clippers, sprayers, mowers, chainsaws, complying to health and safety regulations.",
+        "de": "Einsatz von Gartengeräten, wie Gartenscheren, Zerstäubern, Mähern und Kettensägen, Einhaltung von Gesundheits- und Sicherheitsvorschriften."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "using gardening equipment",
+          "gardening equipment use",
+          "using garden tools",
+          "garden tool using",
+          "use garden tools",
+          "gardening equipment using",
+          "using tools for gardening",
+          "using equipment for gardening",
+          "use equipment for gardening",
+          "use tools for gardening"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/8ce4a4af-969b-4d1c-8bfe-891cff82f913",
+      "labels": {
+        "fr": "planter des végétaux",
+        "en": "plant green plants",
+        "de": "Grünpflanzen pflanzen"
+      },
+      "descriptions": {
+        "fr": "Planter les semences manuellement ou à l’aide d’un équipement au sol.",
+        "en": "Plant seeds manually or by using ground equipment.",
+        "de": "Ausbringen von Saat per Hand oder mit Bodenbearbeitungsgeräten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "plant seeds manually",
+          "green plants planting",
+          "green plant planting"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/94a1b3c5-2a95-4703-8559-973bc6d14747",
+      "labels": {
+        "fr": "exécuter des mesures de lutte contre les adventices",
+        "en": "perform weed control operations",
+        "de": "Unkraut bekämpfen"
+      },
+      "descriptions": {
+        "fr": "Pulvériser les plantes contre les adventices et les maladies des plantes, conformément aux exigences de l’industrie nationale et des clients.",
+        "en": "Carry out crop spraying for weeds and plant disease operations in line with National industry and customer requirements.",
+        "de": "Durchführen von Maßnahmen zur Bekämpfung von Unkraut und Krankheiten bei Nutzpflanzen im Einklang mit den Anforderungen der nationalen Branchenstandards und der Kunden und Kundinnen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "controlling weeds",
+          "weed control operation performing",
+          "weed controlling",
+          "weeding",
+          "performing weed control operations",
+          "control weeds",
+          "weed control operations performing"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/99b95aca-221d-415c-9de5-564e1a273701",
+      "labels": {
+        "fr": "accueillir des clients du restaurant",
+        "en": "welcome restaurant guests",
+        "de": "Restaurantgäste begrüßen"
+      },
+      "descriptions": {
+        "fr": "Accueillir les invités et les mener à leurs tables et veiller à ce qu’ils soient correctement assis à une table appropriée.",
+        "en": "Greet guests and take them to their tables and make sure they are properly seated at a convenient table.",
+        "de": "Begrüßen von Gästen, Geleiten an den richtigen Tisch, Zuweisen von geeigneten Plätzen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [
+          "recevoir des clients aux tables du restaurant",
+          "recevoir des clients au restaurant",
+          "accompagner des clients jusqu’à leur table au restaurant"
+        ],
+        "en": [
+          "welcome guests in restaurant",
+          "welcome guests at restaurant",
+          "greet and accompany guests to tables",
+          "greet clients and usher them to their table"
+        ],
+        "de": [
+          "Restaurantbesucherinnen und Restaurantbesucher begrüßen",
+          "Restaurantgäste willkommen heißen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/a0d96ce8-aeeb-4ffb-bd78-21c0598179ff",
+      "labels": {
+        "fr": "travailler selon une recette",
+        "en": "work according to recipe",
+        "de": "anhand von Rezepten arbeiten"
+      },
+      "descriptions": {
+        "fr": "Exécuter des tâches dans le cadre de la préparation de repas conformément à la recette ou aux spécifications, afin de préserver la qualité des ingrédients et de garantir l’exécution précise de la recette. Sélectionner les ustensiles appropriés pour suivre la recette, en tenant compte de la situation actuelle.",
+        "en": "Perform tasks in food preparation according to recipe or specification in order to preserve the quality of ingredients and to ensure replication accuracy of the recipe. Select the appropriate materials to follow the recipe, taking into account the current situation.",
+        "de": "Ausführen von Aufgaben für die Zubereitung von Lebensmitteln nach Rezept oder sonstigen Vorgaben, um die Qualität der Zutaten zu erhalten und die Wiederholbarkeit des Rezepts mit identischem Ergebnis zu gewährleisten. Wählen der geeigneten Materialien für das Rezept unter Berücksichtigung der jeweiligen Situation."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "employ according to recipe",
+          "create according to recipe",
+          "prepare according to recipe",
+          "conduct according to recipe",
+          "work according to recipes",
+          "working according to recipes"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
+      "labels": {
+        "fr": "écouter activement",
+        "en": "listen actively",
+        "de": "aufmerksam zuhören"
+      },
+      "descriptions": {
+        "fr": "Prêter attention aux propos des autres, comprendre patiemment les points soulevés en posant, au besoin, des questions et en n’interrompant pas les autres à des moments inconvenants; être en mesure d’écouter attentivement les besoins des clients, des passagers, des usagers ou d’autres tiers et fourni des solutions en conséquence.",
+        "en": "Give attention to what other people say, patiently understand points being made, asking questions as appropriate, and not interrupting at inappropriate times; able to listen carefully the needs of customers, clients, passengers, service users or others, and provide solutions accordingly.",
+        "de": "Darauf achten, was andere Personen sagen, geduldiges Nachvollziehen der geäußerten Punkte und gegebenenfalls Stellen von Fragen, ohne die Person unangemessen zu unterbrechen; Fähigkeit, die Bedürfnisse von Kunden, Fahrgästen, Nutzern von Dienstleistungen und anderen Personen wahrzunehmen und Anbieten entsprechender Lösungen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "maintain active listening",
+          "active listening",
+          "apply active listening techniques",
+          "use active listening techniques",
+          "listen with attentive participation"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/a2cd3b30-2d6c-473e-a5d4-4e7cb576babe",
+      "labels": {
+        "fr": "nettoyer les sols d’un bâtiment",
+        "en": "clean building floors",
+        "de": "Fußböden in Gebäuden reinigen"
+      },
+      "descriptions": {
+        "fr": "Nettoyer les sols et les escaliers des bâtiments en les balayant, en y passant l’aspirateur et en les nettoyant, conformément aux normes sanitaires et organisationnelles.",
+        "en": "Clean the floors and stairways of buildings by sweeping, vacuuming, and mopping them, according to hygienic and organisational standards.",
+        "de": "Reinigen von Fußböden und Treppen in Gebäuden durch Kehren, Absaugen und Aufwischen gemäß Hygiene- und Organisationsstandards."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "clean floors of building",
+          "clean building floor",
+          "cleaning building floors",
+          "tidy building floors",
+          "clean up building floors",
+          "clean buildings floors"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/a34f4fd4-1aff-4941-82d5-542ac94f81c3",
+      "labels": {
+        "fr": "suivre des procédures en matière d’hygiène lors de la transformation de denrées alimentaires",
+        "en": "follow hygienic procedures during food processing",
+        "de": "bei der Lebensmittelverarbeitung Hygieneverfahren befolgen"
+      },
+      "descriptions": {
+        "fr": "Garantir un espace de travail propre et conforme aux normes d’hygiène dans l’industrie de la transformation des denrées alimentaires.",
+        "en": "Ensure a clean working space according to hygienic standards in the food processing industry.",
+        "de": "Gewährleisten eines sauberen Arbeitsbereichs gemäß den Hygienestandards in der Lebensmittelverarbeitungsindustrie."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "regulate hygiene procedures",
+          "supervise hygiene procedures",
+          "align with hygiene procedures",
+          "moderate hygiene procedures",
+          "follow hygienic procedure during food processing",
+          "following hygienic procedures during food processing"
+        ],
+        "de": [
+          "bei der Nahrungsmittelverarbeitung Hygieneverfahren befolgen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/a4fd17bf-6309-47c5-b7fa-ae5560673acf",
+      "labels": {
+        "fr": "recenser des menaces pour la sécurité",
+        "en": "identify security threats",
+        "de": "Sicherheitsbedrohungen ermitteln"
+      },
+      "descriptions": {
+        "fr": "Recenser les menaces pour la sécurité au cours des enquêtes, des inspections ou des rondes, et prendre les mesures nécessaires pour réduire ou neutraliser la menace.",
+        "en": "Identify security threats during investigations, inspections, or patrols, and perform the necessary actions to minimise or neutralise the threat.",
+        "de": "Ermitteln von Sicherheitsbedrohungen bei Untersuchungen, Inspektionen oder Streifengängen und Ergreifen der erforderlichen Maßnahmen, um die Bedrohung zu minimieren oder zu neutralisieren."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "diagnose safeguarding threats",
+          "determine safeguarding threats",
+          "determine security threats",
+          "establish security threats",
+          "establish safeguarding threats",
+          "diagnose security threats"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/a6d697d1-80ba-4175-82d4-43440ed04270",
+      "labels": {
+        "fr": "traiter des remboursements",
+        "en": "process refunds",
+        "de": "Rückerstattungen bearbeiten"
+      },
+      "descriptions": {
+        "fr": "Résoudre les questions des clients en matière de retour, d’échange de marchandises, de remboursements ou de rajustements des factures. Suivre les directives organisationnelles au cours de ce processus.",
+        "en": "Resolve customer inquiries for returns, exchange of merchandise, refunds or bill adjustments. Follow organisational guidelines during this process.",
+        "de": "Bearbeiten von Kundenanfragen in Bezug auf die Rückgabe oder den Umtausch von Waren, Rückerstattungen oder Rechnungsänderungen. Befolgen der Unternehmensvorgaben für diesen Prozess."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "pay refunds",
+          "measure refunds",
+          "process a refund",
+          "handle refunds",
+          "refund processing",
+          "processing refunds",
+          "sort refunds"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/ae699de1-0746-4fe2-86f0-17770db7790d",
+      "labels": {
+        "fr": "effectuer des contrôles de sécurité",
+        "en": "perform security checks",
+        "de": "Sicherheitskontrollen durchführen"
+      },
+      "descriptions": {
+        "fr": "Surveiller et contrôler les bagages ou les effets personnels des individus afin de s’assurer qu’ils ne représentent aucune menace et que leur comportement est juridiquement conforme.",
+        "en": "Monitor and check individuals' bags or personal items in order to make sure the individuals present no threats and that their behaviour is legally compliant.",
+        "de": "Kontrollieren von Taschen oder persönlichen Gegenständen, um eine Gefährdung durch die betreffenden Personen auszuschließen und sicherzustellen, dass sie sich rechtskonform verhalten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "performing security checks",
+          "perform security controls",
+          "perform security check",
+          "do security checks"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/b7553d1b-31b4-42e6-b6be-2a90189ef7d6",
+      "labels": {
+        "fr": "présenter des menus",
+        "en": "present menus",
+        "de": "Speisekarten vorstellen"
+      },
+      "descriptions": {
+        "fr": "Distribuer des menus à des invités et répondre aux questions d’invités en utilisant votre connaissance du menu.",
+        "en": "Hand out menus to guests while assisting guests with questions using your mastery of the menu.",
+        "de": "Ausgeben der Speisekarten und Beantworten von Fragen der Gäste auf der Grundlage genauer Kenntnisse über die Speisekarte."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [
+          "exposer les menus",
+          "exposer des menus"
+        ],
+        "en": [
+          "presenting the menu",
+          "introduce the menu",
+          "prseent the menu",
+          "explain the menu"
+        ],
+        "de": [
+          "Menüs präsentieren",
+          "Menükarten vorstellen",
+          "Menüs vorstellen",
+          "Speisekarten präsentieren"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/bdcac0c8-b77a-4640-9eaf-c0cf3efd1e23",
+      "labels": {
+        "fr": "traiter des paiements",
+        "en": "process payments",
+        "de": "Zahlungen verarbeiten"
+      },
+      "descriptions": {
+        "fr": "Accepter des paiements tels que des espèces, cartes de crédit et cartes de débit. Gérer le remboursement en cas de retours ou administrer des bons et instruments de marketing, tels que des cartes offrant des bonus ou des cartes de membre. Veiller à la sécurité et à la protection des données à caractère personnel.",
+        "en": "Accept payments such as cash, credit cards and debit cards. Handle reimbursement in case of returns or administer vouchers and marketing instruments such as bonus cards or membership cards. Pay attention to safety and the protection of personal data.",
+        "de": "Annahme von Zahlungen in Form von Bargeld, Kreditkarten und Debitkarten. Bearbeitung von Erstattungen im Falle von Rücksendung; Verwaltung von Gutscheinen und Marketinginstrumenten wie Bonus- oder Mitgliedskarten. Wahrung der Sicherheit und des Schutzes personenbezogener Daten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [
+          "traiter les modes de paiement",
+          "enregistrer les paiements"
+        ],
+        "en": [
+          "collect payments",
+          "take payments for bills",
+          "handle payments",
+          "processing payments",
+          "accept payments",
+          "process a payment",
+          "process customer payments"
+        ],
+        "de": [
+          "Zahlungen abwickeln",
+          "Zahlungsvorgänge abschließen",
+          "Einzahlungen verarbeiten",
+          "Zahlungen bearbeiten"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/beeaddc7-fe69-4b97-a286-0bd595432eb9",
+      "labels": {
+        "fr": "servir des boissons",
+        "en": "serve beverages",
+        "de": "Getränke servieren"
+      },
+      "descriptions": {
+        "fr": "Servir une variété de boissons alcoolisées et non alcoolisées, telles que des boissons rafraîchissantes, des eaux minérales, du vin et de la bière en bouteille à un comptoir ou sur un plateau.",
+        "en": "Provide a variety of alcoholic and non-alcoholic beverages such as soft drinks, mineral waters, wine and bottled beer over a counter or using a tray.",
+        "de": "Servieren verschiedener alkoholischer und alkoholfreier Getränke wie Erfrischungsgetränke, Mineralwasser, Wein und Flaschenbier über eine Theke oder mithilfe eines Tabletts."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [
+          "servir des boissons alcoolisées et non alcoolisées",
+          "proposer des boissons alcoolisées et non alcoolisées",
+          "distribuer des boissons"
+        ],
+        "en": [
+          "serve alcoholic drinks",
+          "serve alcoholic beverages",
+          "serving beverages",
+          "serve drinks",
+          "served beverages",
+          "serve non-alcoholic beverages"
+        ],
+        "de": [
+          "Ausschank von Getränken",
+          "Getränke ausschenken",
+          "Getränke anbieten",
+          "Getränke anreichen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/c011d9ef-b3f1-4f48-8d1b-9cdd288a4f55",
+      "labels": {
+        "fr": "préparer le restaurant pour le service",
+        "en": "prepare the restaurant for service",
+        "de": "das Restaurant für den Betrieb vorbereiten"
+      },
+      "descriptions": {
+        "fr": "Préparer le restaurant pour le service, notamment organiser et mettre en place les tables, préparer des zones de service et assurer la propreté de la zone de restauration.",
+        "en": "Make the restaurant ready for service, including arranging and setting tables, preparing service areas and ensuring the cleanliness of the dining area.",
+        "de": "Vorbereitung des Restaurants für den Betrieb einschließlich Anordnen und Eindecken von Tischen, Vorbereitung des Servicebereichs und Gewährleistung der Sauberkeit des Essbereichs."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "occupation-specific",
+      "alternativeLabels": {
+        "fr": [
+          "préparer le restaurant pour le service à la clientèle",
+          "apprêter le restaurant pour le service",
+          "préparer la salle du restaurant pour le service à la clientèle"
+        ],
+        "en": [
+          "set up the restaurant",
+          "prepare and maintain food service areas",
+          "prepare restaurant for service",
+          "prepare restaurant to use for service"
+        ],
+        "de": [
+          "das Restaurant für den Service vorbereiten",
+          "den Betrieb der Gaststätte vorbereiten",
+          "den Gaststättenbetrieb vorbereiten"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/c29aa9d2-4da8-4bdd-831c-8d4a2fb51730",
+      "labels": {
+        "fr": "travailler de manière autonome",
+        "en": "work independently",
+        "de": "selbstständig arbeiten"
+      },
+      "descriptions": {
+        "fr": "Développer ses propres manières de faire les choses, en se motivant soi-même avec peu ou pas de supervision, et en ne dépendant que de soi-même pour faire les choses.",
+        "en": "Develop one's own ways of doing things, motivating oneself with little or no supervision, and depending on oneself to get things done.",
+        "de": "Entwickeln eigener Arbeitsweisen aus eigenem Antrieb, mit wenig oder gar keiner Aufsicht, und eigenständiges Bewältigen der Arbeiten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "ability to work autonomously",
+          "work on your own",
+          "like to work independently",
+          "working independently",
+          "act independently",
+          "work in a self-reliant manner",
+          "work autonomously",
+          "independently working",
+          "work without supervision"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/c8f14c32-7f24-41bb-9e8f-b24d6fd3ca86",
+      "labels": {
+        "fr": "suivre un planning de production",
+        "en": "follow production schedule",
+        "de": "Produktionsplan befolgen"
+      },
+      "descriptions": {
+        "fr": "Suivre un planning de production en tenant compte de l’ensemble des exigences, des échéances et des besoins. Ce planning définit les différents produits à produire au cours de chaque période et englobe divers points tels que la production, l’effectif, les stocks, etc. Il est généralement inhérent à la fabrication et prévoit le moment de la demande d’un produit ainsi que sa quantité. Utiliser toutes les informations nécessaires à la mise en œuvre du plan.",
+        "en": "Follow production schedule taking into account all requirements, times and needs. This schedule outlines what individual commodities must be produced in each time period and encapsulates various concerns like production, staffing, inventory, etc. It is usually linked to manufacturing where the plan indicates when and how much of each product will be demanded. Utilise all the information in the actual implementation of the plan.",
+        "de": "Befolgen des Produktionsplans unter Berücksichtigung aller Anforderungen, Zeitvorgaben und Bedürfnisse. Der Produktionsplan beschreibt, welche einzelnen Waren in jedem Zeitraum hergestellt werden müssen, und spiegelt verschiedene Aspekte wider, wie Produktion, Personalausstattung, Lagerbestände usw. Er ist insofern Grundlage für die Fertigung, als er angibt, wann und wie viel von jedem Produkt nachgefragt wird. Verwenden sämtlicher Informationen bei der tatsächlichen Umsetzung des Plans."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "use production schedules",
+          "follow production schedules",
+          "comply with production schedule",
+          "comply with workplan",
+          "consider production schedules",
+          "utilise production schedules",
+          "comply with schedule for production",
+          "comply with production schedules",
+          "respect production schedules",
+          "follow a production schedule",
+          "ensure compliance with production schedules",
+          "read production schedules"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/cd76316c-23e5-449a-a0c4-598bf7ee1a5a",
+      "labels": {
+        "fr": "donner des conseils sur le style vestimentaire",
+        "en": "advise on clothing style",
+        "de": "Beratung zum Kleidungsstil leisten"
+      },
+      "descriptions": {
+        "fr": "Donner des conseils aux clients sur les styles vestimentaires à la mode et le caractère approprié des différents vêtements pour des occasions particulières.",
+        "en": "Provide advice to customers on fashionable styles of clothing and appropriateness of different garments for particular occasions.",
+        "de": "Beratung von Kunden zu modischen Kleidungsstilen und zur Eignung verschiedener Kleidungsstücke für bestimmte Anlässe."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "help on clothing style",
+          "advising on clothing style",
+          "suggest on clothing style",
+          "commend on clothing style",
+          "advise on clothing styles",
+          "instruct on clothing style",
+          "advise about clothing style",
+          "recommend on clothing style"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/d05ae693-dc7d-4073-8806-2782f117c24a",
+      "labels": {
+        "fr": "nettoyer des surfaces vitrées",
+        "en": "clean glass surfaces",
+        "de": "Glasflächen reinigen"
+      },
+      "descriptions": {
+        "fr": "Utiliser des produits de nettoyage pour nettoyer toute surface vitrée, notamment les fenêtres.",
+        "en": "Use cleaning products to clean any surface covered by glass.",
+        "de": "Verwenden von Reinigungsmitteln zur Reinigung von Glasflächen, insbesondere von Fenstern."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "clean glass",
+          "remove dirt from glass surfaces",
+          "wash glass surfaces",
+          "cleaning glass surfaces",
+          "clean glass surface"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/d9013e0e-e937-43d5-ab71-0e917ee882b8",
+      "labels": {
+        "fr": "gérer le temps",
+        "en": "manage time",
+        "de": "Zeitpläne verwalten"
+      },
+      "descriptions": {
+        "fr": "Planifier la chronologie des événements, des programmes et des activités, ainsi que le travail d’autres personnes.",
+        "en": "Plan the time sequence of events, programmes and activities, as well as the work of others.",
+        "de": "Verwaltung der zeitlichen Abfolge von Veranstaltungen, Programmen und Aktivitäten sowie der Arbeit anderer Personen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "managing time",
+          "schedule",
+          "prioritise tasks",
+          "prioritise actions",
+          "manage schedule",
+          "set priorities",
+          "meet deadlines",
+          "define milestones",
+          "draw up time line",
+          "work out time line",
+          "adhere to schedules",
+          "plan deadlines",
+          "plan time",
+          "coordinate actions"
+        ],
+        "de": [
+          "Zeit verwalten",
+          "terminieren",
+          "Zeit einteilen"
+        ]
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/e37d64dc-0f05-4ee8-b065-bf76f70d8f5c",
+      "labels": {
+        "fr": "respecter les obligations de confidentialité",
+        "en": "respect confidentiality obligations",
+        "de": "Vertraulichkeitsverpflichtungen einhalten"
+      },
+      "descriptions": {
+        "fr": "Faire preuve de la discrétion et de la réserve nécessaires lorsqu’il s’agit de traiter des informations confidentielles, secrètes ou désagréables.\n  ",
+        "en": "Observe the necessary discretion and restraint when dealing with confidential, secret or unpleasant information.",
+        "de": "Demonstrieren der nötigen Diskretion und Zurückhaltung beim Umgang mit vertraulichen, geheimen oder unangenehmen Informationen.\n  "
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "transversal",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "be discrete",
+          "ensure privacy",
+          "ensure absolute discretion",
+          "keep secret information",
+          "protect privacy",
+          "handle sensitive information",
+          "comply with confidentiality obligations"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": true
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/e95dc989-ae49-49c6-bfc4-9aef35e92f35",
+      "labels": {
+        "fr": "patrouiller une zone",
+        "en": "patrol areas",
+        "de": "in einem Gebiet Patrouille gehen"
+      },
+      "descriptions": {
+        "fr": "Effectuer des patrouilles dans une zone désignée, surveiller les situations suspectes et dangereuses et y réagir, et communiquer avec les services d'intervention d'urgence.",
+        "en": "Patrol a designated area, watch out for and respond to suspicious and dangerous situations, and communicating with emergency response organisations.",
+        "de": "Überwachung eines ausgewiesenen Bereichs, Beobachtung und Reaktion auf verdächtige und gefährliche Situationen sowie Kommunikation mit Notfallhilfeorganisationen."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "safeguarding ranges",
+          "safeguarding spaces",
+          "patrol circuits",
+          "safeguarding areas",
+          "patrol spaces",
+          "patrol ranges"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/ea4a7e5e-923d-4a15-ad55-362a3ff41641",
+      "labels": {
+        "fr": "contrôler la propreté de la salle de restauration",
+        "en": "check dining room cleanliness",
+        "de": "Sauberkeit des Speisesaals überprüfen"
+      },
+      "descriptions": {
+        "fr": "Contrôler les salles à manger, y compris les surfaces du plancher et des murs, les tables et les postes de service, et s'assurer qu'elles sont bien propres.",
+        "en": "Control dining areas including their floor and wall surfaces, tables and serving stations and ensure appropriate cleanliness.",
+        "de": "Überprüfen der Essbereiche, einschließlich Fußboden- und Wandflächen sowie Tischen und Theken und Gewährleistung einer angemessenen Sauberkeit."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [
+          "évaluer la propreté de la salle de restauration",
+          "s’assurer de la propreté de la salle",
+          "vérifier la propreté de la salle de restauration"
+        ],
+        "en": [
+          "verify cleanliness and sanitation in the dining hall",
+          "check dining room for cleanliness",
+          "check cleanliness in dining room",
+          "inspect cleanliness in eating areas"
+        ],
+        "de": [
+          "Prüfen  ob der Speisesaal sauber ist",
+          "Reinlichkeit des Speisesaals überprüfen"
+        ]
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/ea9c2308-cdd0-409f-b512-384a4fd83677",
+      "labels": {
+        "fr": "entrer en contact avec des forces de l’ordre",
+        "en": "liaise with security authorities",
+        "de": "mit Sicherheitsbehörden zusammenarbeiten"
+      },
+      "descriptions": {
+        "fr": "Réagir rapidement aux incidents et aux manquements à la sécurité en appelant la police et en restant en contact avec les autres parties concernées dans l'éventualité de poursuites engagées contre l'auteur de l'infraction.",
+        "en": "Respond quickly to security incidents and violations by calling the police and keep in touch with other relevant parties involved in the potential prosecution of the offender.",
+        "de": "Rasches Reagieren auf Sicherheitsvorfälle und -verstöße durch Herbeirufen der Polizei und Aufrechterhalten der Verbindung zu anderen relevanten Parteien, die an der möglichen strafrechtlichen Verfolgung des Täters beteiligt sein könnten."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "collaborate with security authorities",
+          "liaise with security authority",
+          "liaising with security authorities",
+          "work together with security authorities"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/f13bcfba-84b9-44a0-974f-a3d5b470ea9a",
+      "labels": {
+        "fr": "faire une tournée d’inspection",
+        "en": "execute inspection walkway",
+        "de": "Inspektionsrunde abgehen"
+      },
+      "descriptions": {
+        "fr": "Effectuer un tour d’inspection afin de vérifier si toutes les portes et fenêtres sont fermées.",
+        "en": "Carry out a route in order to verify if all the doors and windows are closed.",
+        "de": "Überprüfung auf einer Runde, ob alle Türen und Fenster geschlossen sind."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "do inspection of walkway",
+          "carry out inspection of walkway",
+          "execute inspection walkways",
+          "executing inspection walkway"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/f4b4accf-11b2-45bc-b47d-95f7cf9c569c",
+      "labels": {
+        "fr": "utiliser du matériel d’entretien de pelouses",
+        "en": "operate turf management equipment",
+        "de": "mit Rasenpflegegeräten arbeiten"
+      },
+      "descriptions": {
+        "fr": "Utiliser du matériel d’entretien de pelouses comme des taille-haies, des tondeuses et des coupe-bordures.",
+        "en": "Operate turf management equipment like hedge cutters, mowers and strimmers.",
+        "de": "Bedienen von Rasenpflegegeräten wie Heckenschneider, Rasenmäher und Rasentrimmer."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "sector-specific",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "use equipment for turf management",
+          "turf management equipment using",
+          "operate equipment for turf management",
+          "operating turf management equipment",
+          "turf management equipment operating",
+          "use turf management equipment",
+          "using turf management equipment"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/f6c12779-bd4c-4908-a766-dd0db556c63b",
+      "labels": {
+        "fr": "gérer un comportement agressif",
+        "en": "deal with aggressive behaviour",
+        "de": "mit aggressivem Verhalten umgehen"
+      },
+      "descriptions": {
+        "fr": "Réagir rapidement et de manière professionnelle à un comportement hostile, en prenant des mesures appropriées et légales pour éviter que la situation dégénère, telles qu’avertir verbalement la personne impliquée, l’évacuer des lieux en toute légalité ou procéder à son arrestation. Signaler les comportements hostiles de manière détaillée conformément aux procédures de l’organisation.",
+        "en": "Respond promptly to adverse behaviour in a professional manner by taking appropriate and legal action to prevent further aggressiveness, such as verbal warning, lawful removal from the premises or apprehension of the person involved. Report details of adverse behaviour in line with the organisation’s procedures.",
+        "de": "Unverzügliche professionelle Reaktion auf regelwidriges Verhalten, indem angemessene sowie rechtliche Maßnahmen ergriffen werden, um weitere Aggression zu verhindern, zum Beispiel mündliche Verwarnung, rechtmäßige Entfernung der Person von der Örtlichkeit oder Festnahme der beteiligten Person. Meldung von regelwidrigem Verhalten im Einklang mit den im Unternehmen geltenden Verfahren."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "deal with aggressive behavior",
+          "handle aggressive behaviour",
+          "dealing with aggressive behaviour"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    },
+    {
+      "uri": "http://data.europa.eu/esco/skill/f83c245f-4aa9-484f-8fd2-4ad65dd82ae5",
+      "labels": {
+        "fr": "faire preuve de vigilance",
+        "en": "practice vigilance",
+        "de": "Beobachtungs- und Meldepraktiken ausüben"
+      },
+      "descriptions": {
+        "fr": "Faire preuve de vigilance lors de patrouilles ou d’autres activités de surveillance afin de garantir la sûreté et la sécurité, de repérer les comportements suspects ou d’autres changements inquiétants dans les modèles ou les activités, et de réagir rapidement à ces changements.",
+        "en": "Practice vigilance during patrol or other surveillance activities in order to ensure safety and security, to look out for suspicious behaviour or other alarming changes in patterns or activities, and to respond quickly to these changes.",
+        "de": "Ausüben von Wachsamkeit während Kontroll- oder sonstigen Überwachungstätigkeiten, um Sicherheit und Schutz zu gewährleisten, verdächtiges Verhalten oder andere alarmierende Veränderungen bei Mustern oder Tätigkeiten zu erkennen und rasch auf diese Veränderungen zu reagieren."
+      },
+      "skillType": "skill/competence",
+      "reuseLevel": "cross-sector",
+      "alternativeLabels": {
+        "fr": [],
+        "en": [
+          "undertake surveillance",
+          "undertake vigilance",
+          "carry out vigilance",
+          "enforce vigilance",
+          "carry out surveillance",
+          "enforce surveillance"
+        ],
+        "de": []
+      },
+      "inOfficialTransversalCollection": false
+    }
+  ],
+  "occupationSkillRelations": [
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/0cb013af-6dd9-4fb2-b34e-63dda1a5cf82",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/25b746af-fb4e-41fc-9975-a74d73627cfe",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/2b69525c-731c-4813-99a7-673fa5679d32",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/68698869-c13c-4563-adc7-118b7644f45d",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/77a11321-754a-41de-b9e4-80d747f528db",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/7e9daad3-8604-4839-af9b-dc6f8db3ef68",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/a6d697d1-80ba-4175-82d4-43440ed04270",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/bdcac0c8-b77a-4640-9eaf-c0cf3efd1e23",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/13da27aa-ca6a-476d-ab2c-efc9e5bd97b2",
+      "skillUri": "http://data.europa.eu/esco/skill/cd76316c-23e5-449a-a0c4-598bf7ee1a5a",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/110d7aa3-e44e-4cce-a927-8d4de615f3d9",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/2ed98048-bf2f-47e5-a0de-fd23d6abe2f6",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/329d7233-7231-4082-8ca4-0b5e295785aa",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/51a26193-9abe-4bce-9108-f50835be1c35",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/58a15a33-2b41-4a7e-bb8a-777328b5d82a",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/6ff01827-907d-43d8-b6e4-7162c1cf0aca",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/7b4bc709-5888-4f78-bbaf-fb760d4e2e4b",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/94a1b3c5-2a95-4703-8559-973bc6d14747",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/a2cd3b30-2d6c-473e-a5d4-4e7cb576babe",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/303a1e34-cb16-4054-b323-81e5eec17397",
+      "skillUri": "http://data.europa.eu/esco/skill/d05ae693-dc7d-4073-8806-2782f117c24a",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/0256f6b0-f4a9-4c5e-9cfd-96d58a2a70fe",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/65c4ee04-319d-417c-8f45-8594408d0d24",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/a4fd17bf-6309-47c5-b7fa-ae5560673acf",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/ae699de1-0746-4fe2-86f0-17770db7790d",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/e95dc989-ae49-49c6-bfc4-9aef35e92f35",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/ea9c2308-cdd0-409f-b512-384a4fd83677",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/f13bcfba-84b9-44a0-974f-a3d5b470ea9a",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/f6c12779-bd4c-4908-a766-dd0db556c63b",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/31808988-fc0a-4bc3-9e47-27216d6759f5",
+      "skillUri": "http://data.europa.eu/esco/skill/f83c245f-4aa9-484f-8fd2-4ad65dd82ae5",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/17fa5b53-fd59-49eb-8763-29255a185d26",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/351122a2-44f7-41db-ba8b-425136d5fb87",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/51097602-8e4e-4830-8f35-d77afc713fc0",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/7b3717e4-e963-44e0-b94f-1088a7242da0",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/8a1942a8-bebd-4cc5-bdff-fe215aaa3de5",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/8ce4a4af-969b-4d1c-8bfe-891cff82f913",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/94a1b3c5-2a95-4703-8559-973bc6d14747",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/a48b9a5a-5ded-482d-8cda-7fd097a32c16",
+      "skillUri": "http://data.europa.eu/esco/skill/f4b4accf-11b2-45bc-b47d-95f7cf9c569c",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/110d7aa3-e44e-4cce-a927-8d4de615f3d9",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/329d7233-7231-4082-8ca4-0b5e295785aa",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/51a26193-9abe-4bce-9108-f50835be1c35",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/58a15a33-2b41-4a7e-bb8a-777328b5d82a",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/644617c8-fbe6-4755-b7f2-c3a623641e5b",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/6ff01827-907d-43d8-b6e4-7162c1cf0aca",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/7b4bc709-5888-4f78-bbaf-fb760d4e2e4b",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/cbad55a4-c7cf-4ab6-9540-eac72b26729b",
+      "skillUri": "http://data.europa.eu/esco/skill/d05ae693-dc7d-4073-8806-2782f117c24a",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/42a6eff0-e9d9-423d-877b-e48fe91ff26f",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/68698869-c13c-4563-adc7-118b7644f45d",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/6ff01827-907d-43d8-b6e4-7162c1cf0aca",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/704bed2c-737a-4585-b840-1d28bbcab9b4",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/99b95aca-221d-415c-9de5-564e1a273701",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/b7553d1b-31b4-42e6-b6be-2a90189ef7d6",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/bdcac0c8-b77a-4640-9eaf-c0cf3efd1e23",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/beeaddc7-fe69-4b97-a286-0bd595432eb9",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/c011d9ef-b3f1-4f48-8d1b-9cdd288a4f55",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/d5db9d5c-2ebf-4a54-a79a-1b7e7ff70471",
+      "skillUri": "http://data.europa.eu/esco/skill/ea4a7e5e-923d-4a15-ad55-362a3ff41641",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/01fec851-b5f4-419b-940a-3b4c835adfa8",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/5521fcf8-80fa-489b-af18-a69823b85702",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/5d05068e-7ae7-4ff6-8fa3-e35ea03b48b1",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/680f271f-4a7e-410a-aaaf-4f42c8f48251",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/6fcf2fc7-7b74-42e5-845f-f5854fd44f37",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/a0d96ce8-aeeb-4ffb-bd78-21c0598179ff",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/a34f4fd4-1aff-4941-82d5-542ac94f81c3",
+      "relationType": "optional",
+      "skillType": "skill/competence"
+    },
+    {
+      "occupationUri": "http://data.europa.eu/esco/occupation/e3dc66de-99c7-4607-a82b-7244036d316d",
+      "skillUri": "http://data.europa.eu/esco/skill/c8f14c32-7f24-41bb-9e8f-b24d6fd3ca86",
+      "relationType": "essential",
+      "skillType": "skill/competence"
+    }
+  ]
+}
