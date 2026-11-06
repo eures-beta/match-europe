@@ -1,3 +1,17 @@
+## 6 novembre 2026 — commandes de mise à jour des référentiels
+
+PR depuis main : commandes Django `sync_esco`, `sync_rome`, `sync_esco_rome`,
+exposées par les cibles `make occupations-sync-esco`, `make occupations-sync-rome`
+et `make occupations-sync-esco-rome`. Imports explicites des exports officiels
+en staging local, rapport d’écarts et empreintes, sans écriture en base ni Git.
+ROME/OGR restent synchronisés sur la même source ; relations ESCO/ROME recalculées.
+Les trois téléchargements réels ont reproduit les données embarquées sans changement.
+Les compétences restent hors périmètre. Voir la procédure de maintenance.
+Validation après rebase sur main : 383 tests PostgreSQL, transition utilisateurs,
+contrôles Django/migrations, Black, HTML, JavaScript et traductions réussis.
+La cible de promotion a été exercée vers un répertoire jetable, sans modifier
+les données versionnées ; 31 recherches multilingues et les empreintes vérifiées.
+
 ## 6 novembre 2026 — référentiels JSON lisibles
 
 Les deux gzip du catalogue sont remplacés par quatre JSON UTF-8 indentés :

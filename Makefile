@@ -40,6 +40,23 @@ CATALOG_SOURCES ?= .runtime/catalog-sources
 CATALOG_OUTPUT ?= .runtime/catalog-staging
 CATALOG_DIR ?= eures_beta/occupations/data
 CATALOG_REPORT ?= .runtime/catalog-validation.json
+CATALOG_VERSION ?=
+CATALOG_SOURCE_URL ?=
+CATALOG_ALLOW_REMOVALS ?= 0
+CATALOG_SYNC_OPTIONS = --output "$(CATALOG_OUTPUT)" $(if $(filter 1,$(CATALOG_ALLOW_REMOVALS)),--allow-removals,)
+
+.PHONY: occupations-sync-esco occupations-sync-rome occupations-sync-esco-rome occupations-promote
+occupations-promote: ## Valider le staging et remplacer explicitement les quatre JSON versionnés et le manifeste
+	$(PYTHON) -m eures_beta.occupations.tools.promote_catalog --source "$(CATALOG_OUTPUT)" --target "$(CATALOG_DIR)"
+
+occupations-sync-esco: ## Télécharger les métiers ESCO FR/EN/DE et préparer les JSON en staging
+	@$(MANAGE) sync_esco $(CATALOG_SYNC_OPTIONS) $(if $(CATALOG_VERSION),--source-version "$(CATALOG_VERSION)",)
+
+occupations-sync-rome: ## Préparer ensemble ROME et OGR depuis une édition XLSX officielle
+	@$(MANAGE) sync_rome $(CATALOG_SYNC_OPTIONS) $(if $(CATALOG_VERSION),--source-version "$(CATALOG_VERSION)",) $(if $(CATALOG_SOURCE_URL),--source-url "$(CATALOG_SOURCE_URL)",)
+
+occupations-sync-esco-rome: ## Préparer les correspondances officielles ESCO/ROME
+	@$(MANAGE) sync_esco_rome $(CATALOG_SYNC_OPTIONS) $(if $(CATALOG_SOURCE_URL),--source-url "$(CATALOG_SOURCE_URL)",)
 
 .PHONY: occupations-build occupations-validate occupations-test
 .PHONY: occupations-performance-test
