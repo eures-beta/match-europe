@@ -1,5 +1,12 @@
 # EURES beta / Match Europe — vue d’ensemble
 
+## 5 novembre 2026 — réponses habituelles des employeurs
+
+Le parcours employeur conserve les pratiques de réponse dans une fiche dédiée
+par compte et les réaffiche aux prochains dépôts. Aucun partage implicite entre
+collègues d'un établissement. Les relances restent à développer. Voir
+[le périmètre et les limites](EMPLOYER_RESPONSE_PRACTICE.md).
+
 ## 4 novembre 2026 — premier lot candidat
 
 Le modèle `users.User` accepte désormais `kind=candidate`. Son ajout ne crée

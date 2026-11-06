@@ -276,3 +276,10 @@ candidate-ui-test: ## Vérifier la prolongation du brouillon candidat sans navig
 .PHONY: occupations-ui-test
 occupations-ui-test: ## Tester la recherche métier du navigateur, ses erreurs et son délai limite
 	node --test eures_beta/occupations/test_picker.cjs
+
+.PHONY: employer-response-run employer-response-test
+employer-response-run: ## Essayer les réponses employeur sur 9036, sans email réel
+	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"
+
+employer-response-test: ## Vérifier les réponses par compte, droits, conflits et traductions
+	@$(MANAGE) test eures_beta.employers.tests.test_response_practice --noinput $(TEST_ARGS)

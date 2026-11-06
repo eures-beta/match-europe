@@ -114,6 +114,10 @@ def employer_page(request, path):
         language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         with translation.override(language):
             context = {'signed_in': authenticated}
+            if authenticated and template_name in ('import.html', 'import-v2.html'):
+                from .response_practice_views import page_context
+
+                context.update(page_context(person))
             if path == 'push-test.html':
                 from eures_beta.employers.push_strings import browser_strings
 

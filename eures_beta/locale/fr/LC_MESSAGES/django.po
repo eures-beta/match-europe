@@ -7837,3 +7837,123 @@ msgstr "L’envoi des e-mails est actuellement indisponible."
 
 msgid "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
 msgstr "Vos réponses attendent la confirmation de votre adresse e-mail pendant une heure. La confirmation crée un compte candidat et enregistre le profil. Les comptes existants ne sont jamais remplacés. Les demandes expirées sont supprimées lors du nettoyage, pas nécessairement à l’instant exact de leur expiration. Cette notice n’active ni rapprochement ni mise en relation automatique."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Yes, all applications"
+msgstr "Oui, à toutes les candidatures"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "No, only applicants selected for the next recruitment stage"
+msgstr "Non, uniquement aux personnes retenues pour la suite du recrutement"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "It depends on the recruitment"
+msgstr "Cela dépend des recrutements"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Less than one week"
+msgstr "Moins d’une semaine"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Between 1 and 2 weeks"
+msgstr "Entre 1 et 2 semaines"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "More than 2 weeks and up to 1 month"
+msgstr "Plus de 2 semaines et jusqu’à 1 mois"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "More than one month"
+msgstr "Plus d’un mois"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "The timeframe varies too much to estimate"
+msgstr "Le délai varie trop pour donner une estimation"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Do you reply to all applications received?"
+msgstr "Répondez-vous à toutes les candidatures reçues ?"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Do not count automatic acknowledgements."
+msgstr "Sans compter l’accusé de réception automatique."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "How long do you usually take to send a first reply?"
+msgstr "Habituellement, dans quel délai apportez-vous une première réponse ?"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Count from receipt of the application, excluding automatic acknowledgements. If you do not reply to everyone, indicate the timeframe for the people you contact."
+msgstr "À partir de la réception de la candidature, sans compter l’accusé de réception automatique. Si vous ne répondez pas à toutes les candidatures, indiquez le délai pour les personnes que vous recontactez."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Application response coverage"
+msgstr "Pratique de réponse aux candidatures"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Usual first reply timeframe"
+msgstr "Délai habituel de première réponse"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "An employer account is required."
+msgstr "Un compte employeur est nécessaire."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Employer response practice"
+msgstr "Pratique de réponse d’un employeur"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Employer response practices"
+msgstr "Pratiques de réponse des employeurs"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Replies to applications"
+msgstr "Réponses aux candidatures"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "These answers belong to your account. They will be reused for your next offers; your colleagues keep their own answers."
+msgstr "Ces réponses sont liées à votre compte et seront réutilisées pour vos prochaines offres. Vos collègues conservent leurs propres réponses."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Change my answers"
+msgstr "Modifier mes réponses"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Save my answers"
+msgstr "Enregistrer mes réponses"
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Your answers have been saved for your next offers."
+msgstr "Vos réponses sont enregistrées pour vos prochaines offres."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Unable to save your answers. Please try again."
+msgstr "Impossible d’enregistrer vos réponses. Veuillez réessayer."
+
+
+#: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
+msgid "Your answers changed in another tab. Reload the page before editing them."
+msgstr "Vos réponses ont changé dans un autre onglet. Rechargez la page avant de les modifier."

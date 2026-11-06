@@ -1,4 +1,5 @@
 import uuid
+from .response_practice import RESPONSE_COVERAGE, RESPONSE_TIME
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -159,3 +160,60 @@ class EmployerSearchEvent(models.Model):
 
     class Meta:
         db_table = 'journeys_employersearchevent'
+
+
+class EmployerResponsePractice(models.Model):
+    """Current declared practice of one employer account, independent of colleagues."""
+
+    employer = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='response_practice',
+        limit_choices_to={'kind': 'employer'},
+    )
+    response_coverage = models.CharField(
+        _('Application response coverage'),
+        max_length=16,
+        choices=RESPONSE_COVERAGE,
+    )
+    response_time = models.CharField(
+        _('Usual first reply timeframe'),
+        max_length=24,
+        choices=RESPONSE_TIME,
+    )
+    revision = models.PositiveIntegerField(default=1, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        super().clean()
+        if self.employer_id and self.employer.kind != 'employer':
+            from django.core.exceptions import ValidationError
+
+            raise ValidationError({'employer': _('An employer account is required.')})
+
+    class Meta:
+        verbose_name = _('Employer response practice')
+        verbose_name_plural = _('Employer response practices')
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(response_coverage__in=['all', 'selected', 'varies']),
+                name='employer_response_coverage_valid',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(
+                    response_time__in=[
+                        'under_week',
+                        'one_two_weeks',
+                        'two_weeks_month',
+                        'over_month',
+                        'variable',
+                    ]
+                ),
+                name='employer_response_time_valid',
+            ),
+            models.CheckConstraint(
+                condition=models.Q(revision__gte=1),
+                name='employer_response_revision_positive',
+            ),
+        ]
