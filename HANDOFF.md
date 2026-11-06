@@ -1083,3 +1083,10 @@ Les vérifications de lien, POST/CSRF et propriété restent en place.
 Cette décision remplace le périmètre d’essai limité décrit antérieurement.
 Aucun changement de modèle ou migration supplémentaire : la séparation entre
 demande temporaire et profil confirmé reste à discuter avant une refonte.
+
+## 6 novembre 2026 — contact pour les invitations employeurs
+
+Le contact par défaut est désormais celui du bandeau existant : Eric Barthélémy.
+L’encart FR/EN/DE dirige vers son email et non vers l’annuaire général EURES.
+La destination configurable est conservée sans ajout automatique de langue.
+Aucune modification des droits, modèles ou données.
