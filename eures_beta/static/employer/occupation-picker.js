@@ -157,9 +157,10 @@
     fallbackIntro.hidden = message === t.manualHelp;
     if (focus) query.focus();
   }
+  let detectedQuery = '';
   async function find(mode = 'search', useContext = false, fromTitle = false) {
     clearTimeout(timer);
-    const q = (fromTitle ? title.value : query.value).trim();
+    const q = (fromTitle ? detectedQuery || title.value : query.value).trim();
     if (!q) {
       manual(t.manualHelp);
       status.textContent = '';
@@ -293,6 +294,7 @@
     error.textContent = '';
   });
   title.addEventListener('input', () => {
+    detectedQuery = '';
     clear();
     fallback.hidden = true;
     query.value = '';
@@ -300,7 +302,8 @@
     timer = setTimeout(() => find('search', true, true), 300);
   });
   window.meOccupation = {
-    load(value, detected = false) {
+    load(value, detected = false, occupationQuery = '') {
+      detectedQuery = occupationQuery;
       fromDocument = detected;
       clear();
       fallback.hidden = true;

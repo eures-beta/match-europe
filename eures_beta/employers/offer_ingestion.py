@@ -410,7 +410,7 @@ def parse_page(html):
 
 
 @timed_stage('document_extract')
-def read_pdf(upload, split_sections=True):
+def read_pdf(upload, split_sections=True, include_text=False):
     if upload.size > 10 * 1024 * 1024:
         raise ImportFailure('large')
     header = upload.read(8)
@@ -445,6 +445,8 @@ def read_pdf(upload, split_sections=True):
     if not text.strip():
         raise ImportFailure('unreadable')
     data = parse_pdf_text(text, split_sections=split_sections)
+    if include_text:
+        data['_sourceText'] = text
     if extracted.get('ocr'):
         data['extraction'] = 'document_ocr'
         data['extractionWarnings'].append({'field': 'ocr', 'values': []})

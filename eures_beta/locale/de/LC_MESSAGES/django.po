@@ -7873,3 +7873,23 @@ msgstr "Arbeitgeberprofil"
 
 msgid "Employer profiles"
 msgstr "Arbeitgeberprofile"
+
+msgctxt "employer albert"
+msgid "Prepared with Albert AI (DINUM) from your offer text. Check every field before saving."
+msgstr "Mit Albert, der KI der DINUM, aus Ihrem Angebotstext vorbereitet. Prüfen Sie jedes Feld vor dem Speichern."
+
+msgctxt "employer albert"
+msgid "Albert could not prepare this offer. The source text is preserved below; complete the fields manually or try again."
+msgstr "Albert konnte dieses Angebot nicht vorbereiten. Der Quelltext bleibt unten erhalten; ergänzen Sie die Felder manuell oder versuchen Sie es erneut."
+
+msgctxt "employer albert"
+msgid "By continuing, you request AI-assisted preparation by Albert (DINUM). The text of your document or pasted offer is sent to Albert. Check the proposed information before saving. No publication or candidate search will be started."
+msgstr "Wenn Sie fortfahren, beauftragen Sie die KI-gestützte Vorbereitung durch Albert (DINUM). Der Text Ihres Dokuments oder eingefügten Angebots wird an Albert übermittelt. Prüfen Sie die Vorschläge vor dem Speichern. Es wird weder veröffentlicht noch eine Kandidatensuche gestartet."
+
+msgctxt "employer albert"
+msgid "Albert prepared this offer, but some passages could not be verified and were left blank. Compare with the source text and complete the fields."
+msgstr "Albert hat dieses Angebot vorbereitet. Einige nicht überprüfbare Angaben bleiben leer. Vergleichen Sie den Quelltext und ergänzen Sie die Felder."
+
+msgctxt "employer albert"
+msgid "View the source text to check the extracted information"
+msgstr "Quelltext anzeigen und übernommene Angaben prüfen"

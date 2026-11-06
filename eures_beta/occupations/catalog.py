@@ -154,6 +154,14 @@ def suggestions(query, language, context=''):
         if score:
             for uri in uris:
                 scores[uri] = max(score, scores.get(uri, 0))
+    # A qualified title may have no exact catalog alias (e.g. an electrician
+    # specialised in an industry). Offer the explicitly named broader occupation,
+    # without treating the unmatched qualification as a code or an equivalence.
+    if not scores:
+        for term, uris in index.items():
+            if len(term) >= 7 and query.startswith(term + ' '):
+                for uri in uris:
+                    scores[uri] = max(200 + len(term), scores.get(uri, 0))
     # Typo tolerance only when no lexical result exists; never rewrite the user's title.
     if not scores and 4 <= len(query) <= 80:
         for term in get_close_matches(query, index, n=3, cutoff=0.85):
@@ -201,7 +209,7 @@ def nearby(query, language, excluded=(), context=''):
     return [present(row, language) for _, row in ranked[:3]]
 
 
-def rome_suggestions(query):
+def rome_suggestions(query, context=''):
     """Search French ROME names/codes directly, without the ESCO crosswalk."""
     query = re.sub(r'^ROME\s*[:—-]?\s*', '', query.strip(), flags=re.I)
     data = rome_catalog()
@@ -212,6 +220,9 @@ def rome_suggestions(query):
     if not query:
         return []
     scores, labels = {}, {}
+    # Context only orders lexical candidates; never crosses ESCO into ROME.
+    context_words = {word[:7] for word in normalize(context).split() if len(word) >= 5}
+    context_terms = [word[:7] for word in normalize(context).split() if len(word) >= 5]
     for row in data['appellations'].values():
         term = normalize(row['label'])
         names = [normalize(part) for part in row['label'].split('/')]
@@ -226,6 +237,18 @@ def rome_suggestions(query):
         )
         if not score:
             continue
+        if context_words:
+            score += 10 * len(
+                {word[:7] for word in term.split() if len(word) >= 5} & context_words
+            )
+            # Prefer a supported activity phrase over dispersed generic words.
+            terms = [word[:7] for word in names[-1].split() if len(word) >= 5]
+            for first, second in zip(terms, terms[1:]):
+                if any(
+                    word == first and second in context_terms[i + 1 : i + 3]
+                    for i, word in enumerate(context_terms)
+                ):
+                    score += 5
         for code in row['ficheCodes']:
             scores[code] = max(score, scores.get(code, 0))
             labels.setdefault(code, []).append((score, row['label']))

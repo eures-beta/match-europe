@@ -37,6 +37,17 @@ LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
 LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
+ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '0') == '1'
+ALBERT_API_KEY = os.environ.get('ALBERT_API_KEY', '')
+ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'mistral-small-3-2-24b-instruct-2506')
+if ALBERT_IMPORT_ENABLED and (
+    DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
+):
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        'Albert import trials require local/preview and no real email.'
+    )
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
 # Team contact for employers requesting a Match Europe invitation.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
