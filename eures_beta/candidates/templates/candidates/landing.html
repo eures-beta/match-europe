@@ -223,12 +223,36 @@
           <div class="employer-header-actions">
             <div class="lang-switch"
                  aria-label="{% translate "Language" context "candidate shell" %}">
-              <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=fr{% if step %}&amp;step={{ step }}{% endif %}">FR</a>
-              <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=en{% if step %}&amp;step={{ step }}{% endif %}">EN</a>
-              <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=de{% if step %}&amp;step={{ step }}{% endif %}">DE</a>
+              {% if step == 1 %}
+                <button class="lang-link"
+                        type="submit"
+                        form="candidate-project"
+                        name="target_language"
+                        value="fr"
+                        lang="fr"
+                        aria-label="Français">FR</button>
+                <button class="lang-link"
+                        type="submit"
+                        form="candidate-project"
+                        name="target_language"
+                        value="en"
+                        lang="en"
+                        aria-label="English">EN</button>
+                <button class="lang-link"
+                        type="submit"
+                        form="candidate-project"
+                        name="target_language"
+                        value="de"
+                        lang="de"
+                        aria-label="Deutsch">DE</button>
+              {% else %}
+                <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
+                   href="{{ request.path }}?lang=fr{% if step %}&amp;step={{ step }}{% endif %}">FR</a>
+                <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
+                   href="{{ request.path }}?lang=en{% if step %}&amp;step={{ step }}{% endif %}">EN</a>
+                <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
+                   href="{{ request.path }}?lang=de{% if step %}&amp;step={{ step }}{% endif %}">DE</a>
+              {% endif %}
             </div>
             {% include "includes/account_link.html" %}
           </div>

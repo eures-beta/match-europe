@@ -478,9 +478,10 @@ class CandidateJourneyAccessibilityTests(TestCase):
 
     def test_conditionally_required_questions_are_marked(self):
         self.get()
-        self.assertContains(
+        self.assertNotContains(
             self.get(1), 'Les métiers que je souhaite exercer (obligatoire)'
         )
+        self.assertContains(self.get(1), 'Je suis ouvert à différents métiers')
         self.post(1, occupation_references=['rome:D1102'])
         page = self.get(2).content.decode()
         for label in (

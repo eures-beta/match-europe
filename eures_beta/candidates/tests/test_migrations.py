@@ -5,6 +5,43 @@ from django.test import TransactionTestCase
 
 
 class CandidateProfileMigrationTests(TransactionTestCase):
+    def test_skill_upgrade_preserves_legacy_profiles_and_reverse_keeps_accounts(self):
+        old_apps = self.migrate(
+            ('candidates', '0003_candidateprofile_email_verified_at_and_more')
+        )
+        user = old_apps.get_model('users', 'User').objects.create(
+            email='legacy-skills@example.invalid', kind='candidate', password='!'
+        )
+        profile = old_apps.get_model('candidates', 'CandidateProfile').objects.create(
+            user_id=user.pk,
+            display_name='Preserved fictional candidate',
+            desired_occupations='Preserved fictional job',
+        )
+        apps = self.migrate(
+            ('candidates', '0004_candidateprofile_acquired_skills_and_more')
+        )
+        current = apps.get_model('candidates', 'CandidateProfile').objects.get(
+            pk=profile.pk
+        )
+        self.assertEqual(current.project_mode, 'occupation')
+        self.assertEqual(current.acquired_skills, [])
+        self.assertEqual(current.learning_activities, [])
+        self.assertEqual(current.professional_behaviours, [])
+        self.assertEqual(current.skill_catalogue_version, '')
+        self.assertEqual(current.desired_occupations, 'Preserved fictional job')
+        apps = self.migrate(
+            ('candidates', '0003_candidateprofile_email_verified_at_and_more')
+        )
+        self.assertTrue(
+            apps.get_model('users', 'User').objects.filter(pk=user.pk).exists()
+        )
+        self.assertEqual(
+            apps.get_model('candidates', 'CandidateProfile')
+            .objects.get(pk=profile.pk)
+            .desired_occupations,
+            'Preserved fictional job',
+        )
+
     def test_registration_upgrade_keeps_existing_profiles_unverified(self):
         apps = self.migrate(('candidates', '0001_initial'))
         User = apps.get_model('users', 'User')

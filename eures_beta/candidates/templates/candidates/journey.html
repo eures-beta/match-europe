@@ -42,7 +42,7 @@
             <p role="status">{% translate "Your previous draft expired. Start again." %}</p>
           {% endif %}
           {% if step == 1 %}
-            <p>{% translate "Choose the jobs and countries that interest you." %}</p>
+            <p>{% translate "Describe your project and choose the countries that interest you. You can continue without choosing an occupation." %}</p>
           {% elif step == 2 %}
             <p>{% translate "Tell us how you could travel or move, and which languages you can use." %}</p>
           {% elif step == 3 %}
@@ -75,7 +75,7 @@
               </section>
             {% endfor %}
           {% endif %}
-          <form method="post" novalidate>
+          <form method="post" novalidate id="candidate-project">
             {% if step == 4 %}
               <p><a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Read the data protection notice" context "employer import" %}</a></p>
             {% endif %}
@@ -83,7 +83,14 @@
             <input type="hidden" name="token" value="{{ draft.token }}">
             {% if return_to_review %}<input type="hidden" name="return" value="review">{% endif %}
             {% for field in form %}
-              {% if field.name == "schedule_strict" %}
+              {% if field.name == "project_mode" %}
+                <fieldset class="journey-field guided-choice">
+                  <legend>{{ field.label }}</legend>
+                  {{ field }}{{ field.errors }}
+                </fieldset>
+                {% include "candidates/skill_sections.html" %}
+              {% elif field.name in skill_field_names %}
+              {% elif field.name == "schedule_strict" %}
               {% elif field.is_hidden and field.name != "language_skills" %}
                 {{ field }}{{ field.errors }}
               {% elif field.name == "language_skills" %}
@@ -111,8 +118,9 @@
               {% elif field.name == "occupation_references" %}
                 <fieldset class="journey-field occupation-candidate"
                           data-field="occupation_references"
+                          data-occupation-only
                           {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
-                  <legend>{{ field.label }} ({% translate "required" %})</legend>
+                  <legend>{{ field.label }}</legend>
                   <p>{% translate "Two independent catalogues. Choose jobs you want; selecting ROME does not select ESCO." %}</p>
                   <div id="candidate-search-status" role="status" aria-live="polite">
                     {% if search_performed and not reference_rows %}
@@ -175,7 +183,9 @@
                   </section>
                 {% endif %}
               {% else %}
-                <div class="journey-field" data-field="{{ field.name }}">
+                <div class="journey-field"
+                     data-field="{{ field.name }}"
+                     {% if field.name == "occupation_query" or field.name == "desired_occupations" %} data-occupation-only{% endif %}>
                   {% if field.field.widget.input_type == "checkbox" %}{{ field }} {{ field.label_tag }}{% else %}{{ field.label_tag }}{% if field.field.required %} <span>({% translate "required" %})</span>{% endif %}{{ field }}{% endif %}
                   {% if field.help_text %}<p class="helptext"
    id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
@@ -246,6 +256,7 @@
      aria-live="polite"></p>
   {% if step == 1 %}
     {% include "employer/occupation_strings.html" %}
+    <script src="/static/candidate/skill-selection.js" defer></script>
     {{ reference_rows|json_script:"candidate-reference-rows" }}
   {% endif %}
   {% if step == 2 or step == 4 %}

@@ -1,5 +1,9 @@
 # EURES beta / Match Europe — décisions communes
 
+## 6 novembre 2026 — candidat ouvert à différents métiers
+
+Eric autorise l’implémentation dans une nouvelle PR, sans fusion ni déploiement, après l’audit de #155. Parcours sans métier : un écran à trois sections repliables, savoir-faire 0–10, activités à apprendre 0–5, exactement trois savoir-être, au moins un savoir-faire ou une activité. Catégories, recherche et étiquettes supprimables en FR/EN/DE. Savoir-être non éliminatoires ; aucun moteur de matching activé. Voir [contrat et limites](CANDIDATE_OPEN_SKILLS.md).
+
 ## 6 novembre 2026 — préparation d’un catalogue de 50 métiers
 
 Eric demande une proposition de 50 métiers ou plus et la création des fichiers
