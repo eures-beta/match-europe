@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "version": "1.2.1",
   "languages": [
     "fr",
@@ -89,15 +89,21 @@
     ]
   },
   "artifacts": {
-    "occupations.json.gz": {
-      "sha256": "ea7cf6a6d0b7a9c40907f10a4f4c57506fea3b5fb14fd4c8c7275df96dd4aea5",
-      "bytes": 2223910,
-      "uncompressedBytes": 8487327
+    "esco.json": {
+      "sha256": "ce81fbc6b535a4864740d91aa437e858d96d1408a14e4c34ecfddc26c6f9ffcd",
+      "bytes": 11342175
     },
-    "rome.json.gz": {
-      "sha256": "a687f494aa3f4c8ebe73e3bd4f6d5bea13d7f2a1f5db5b43697cc414b172ee24",
-      "bytes": 694017,
-      "uncompressedBytes": 4421256
+    "rome.json": {
+      "sha256": "007a79074850eeecc8f599cdec87bc9463689ffe70eb16b1b4a4d38d4e99f9c2",
+      "bytes": 243585
+    },
+    "ogr.json": {
+      "sha256": "65dbfc8fd5fd32698f6b4eebcd79d7998b7378c864ed5ef763afbdd792096818",
+      "bytes": 2210782
+    },
+    "esco_rome.json": {
+      "sha256": "0a147a4ff4712217c4fe9782aa780f47ab16d6ac91f3dcca4fe373705482b2af",
+      "bytes": 3630621
     }
   },
   "attribution": {
