@@ -2,7 +2,6 @@
 
 import secrets
 import time
-from functools import wraps
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
@@ -13,20 +12,11 @@ from django.shortcuts import redirect, render
 from django.utils import translation
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_GET
-from eures_beta.demo_access import require_demo_access
+from django.views.decorators.cache import never_cache
 from eures_beta.users.models import User
-from eures_beta.users.views import selected_language
+from eures_beta.users.views import selected_language, email_ready
 from . import registration
 from .models import CandidateProfile
-
-
-def trial_required(view):
-    @wraps(view)
-    def wrapped(request, *args, **kwargs):
-        registration.require_trial()
-        return view(request, *args, **kwargs)
-
-    return wrapped
 
 
 def page(request, stage, **context):
@@ -38,17 +28,15 @@ def page(request, stage, **context):
     return response
 
 
-@require_demo_access
+@never_cache
 @require_GET
 def requested(request):
-    registration.require_trial()
-    return page(request, 'requested')
+    return page(request, 'requested', email_delivery_available=email_ready())
 
 
-@require_demo_access
+@never_cache
 @require_http_methods(['GET', 'POST'])
 def confirm(request):
-    registration.require_trial()
     key = 'candidate_confirmation_token'
     if request.method == 'GET':
         if 'token' in request.GET:
@@ -90,7 +78,6 @@ def confirm(request):
 
 
 def owned_profile(request):
-    registration.require_trial()
     if request.user.kind != User.Kind.CANDIDATE or not request.user.is_active:
         raise PermissionDenied
     profile = CandidateProfile.objects.filter(user=request.user).first()
@@ -99,8 +86,7 @@ def owned_profile(request):
     return profile
 
 
-@require_demo_access
-@trial_required
+@never_cache
 @login_required
 @require_GET
 def profile(request):
@@ -148,8 +134,7 @@ def profile(request):
         )
 
 
-@require_demo_access
-@trial_required
+@never_cache
 @login_required
 @require_http_methods(['POST'])
 def edit(request):

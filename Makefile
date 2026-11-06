@@ -264,21 +264,21 @@ user-kind-test: ## Tester les rôles, la migration candidat et la fermeture des 
 
 .PHONY: candidate-run candidate-test
 .PHONY: candidate-registration-run candidate-registration-test candidate-email candidate-registration-cleanup
-candidate-registration-run: ## Essayer la confirmation candidat fictive sur 9035, sans email réel
-	@$(LOAD_ENV) CANDIDATE_REGISTRATION_ENABLED=1 ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9035"
+candidate-registration-run: ## Démarrer le parcours candidat local sur 9035, sans email réel
+	@$(MANAGE) runserver "127.0.0.1:9035"
 
 candidate-registration-test: ## Tester la confirmation, les droits et la conservation des demandes candidat
 	@$(MANAGE) test eures_beta.candidates.tests.test_registration --noinput $(TEST_ARGS)
 
 candidate-email: ## Simuler un email de confirmation candidat (EMAIL et ORIGIN requis, lien privé)
 	@test -n "$(EMAIL)" && test -n "$(ORIGIN)" || { echo 'Indiquer EMAIL et ORIGIN.' >&2; exit 2; }
-	@$(LOAD_ENV) CANDIDATE_REGISTRATION_ENABLED=1 "$(PYTHON)" manage.py candidate_email "$(EMAIL)" --origin "$(ORIGIN)"
+	@$(MANAGE) candidate_email "$(EMAIL)" --origin "$(ORIGIN)"
 
 candidate-registration-cleanup: ## Compter les demandes candidat expirées (CLEANUP_ARGS=--apply pour effacer)
-	@$(LOAD_ENV) CANDIDATE_REGISTRATION_ENABLED=1 "$(PYTHON)" manage.py cleanup_candidate_registrations $(CLEANUP_ARGS)
+	@$(MANAGE) cleanup_candidate_registrations $(CLEANUP_ARGS)
 
-candidate-run: ## Ouvrir la recette candidat locale sur le port 9031 (données fictives)
-	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9031"
+candidate-run: ## Démarrer le parcours candidat local sur le port 9031
+	@$(MANAGE) runserver "127.0.0.1:9031"
 candidate-test: ## Tester le questionnaire candidat sur PostgreSQL
 	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.candidates --noinput $(TEST_ARGS)
 
