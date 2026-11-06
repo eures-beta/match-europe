@@ -13,6 +13,7 @@ from io import StringIO
 
 from eures_beta.users.models import User, EmployerInvitation, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
+from eures_beta.occupations.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (
     EmployerResponsePractice,
     Company,
@@ -97,6 +98,12 @@ class ReadOnlyAdminTests(TestCase):
             response_time='under_week',
         )
         self.records = [
+            OccupationSkillSuggestion.objects.create(
+                occupation_uri='https://example.invalid/occupation',
+                source_version='fictional-source',
+                method='simulation',
+                status='ready',
+            ),
             self.response_practice,
             self.company,
             self.membership,

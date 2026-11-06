@@ -47,6 +47,14 @@ CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '0') == '1'
 ALBERT_API_KEY = os.environ.get('ALBERT_API_KEY', '')
 ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'mistral-small-3-2-24b-instruct-2506')
+SKILLS_ALBERT_ENABLED = os.environ.get('SKILLS_ALBERT_ENABLED', '0') == '1'
+# Real calls require an explicit second switch; simulations have a separate cache.
+SKILLS_ALBERT_SIMULATED = os.environ.get('SKILLS_ALBERT_SIMULATED', '1') == '1'
+SKILLS_ALBERT_SOURCE_DIR = BASE_DIR / '.runtime' / 'catalog-sources'
+if SKILLS_ALBERT_ENABLED and (DJANGO_ENVIRONMENT != 'local' or EMAIL_DELIVERY_ENABLED):
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured('Skills trials require local and no real email.')
 if ALBERT_IMPORT_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
 ):

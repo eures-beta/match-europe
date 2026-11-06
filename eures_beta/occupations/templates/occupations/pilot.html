@@ -101,6 +101,44 @@
         {% if step == "occupation" %}
           <h1>{% translate "Choose an occupation" %}</h1>
           <p>{% translate "For cleaning, choose the workplace: private homes or offices and buildings." %}</p>
+          {% if skills_albert_enabled %}
+            <section class="surface-card p-4 my-4">
+              <h2>{% translate "Another ESCO occupation" %}</h2>
+              <p>{% translate "Search for an occupation outside the shortlist. Only its official title and ESCO skills are used; no personal answers are sent." %}</p>
+              <form method="get">
+                <input type="hidden" name="lang" value="{{ page_language }}">
+                <label for="extra-occupation">{% translate "Occupation" %}</label>
+                <input class="form-control"
+                       id="extra-occupation"
+                       name="q"
+                       value="{{ occupation_query }}"
+                       maxlength="150"
+                       required>
+                <button class="btn btn-outline-primary mt-2" type="submit">{% translate "Search" %}</button>
+              </form>
+              {% if searched_extra %}
+                <form method="post" class="mt-3" data-resolve-skills>
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="resolve">
+                  <fieldset>
+                    <legend>{% translate "Confirm the occupation before preparing suggestions" %}</legend>
+                    {% for item in extra_occupations %}
+                      <label class="pilot-choice">
+                        <input type="radio" name="occupation" value="{{ item.uri }}" required>
+                        <span>{{ item.label }}</span>
+                      </label>
+                    {% empty %}
+                      <p>{% translate "No other ESCO occupation found. Refine your search; no skill will be invented." %}</p>
+                    {% endfor %}
+                  </fieldset>
+                  {% if extra_occupations %}
+                    <button class="btn btn-primary mt-2" type="submit">{% translate "Prepare the skills" %}</button>
+                    <p class="mt-3" role="status" tabindex="-1" data-resolve-status hidden>{% translate "One moment, we are looking for the skills associated with this occupation so we can suggest them to you." %}</p>
+                  {% endif %}
+                </form>
+              {% endif %}
+            </section>
+          {% endif %}
           <form method="post" class="my-4">
             {% csrf_token %}
             <input type="hidden" name="action" value="occupation">
@@ -122,14 +160,32 @@
           </form>
         {% elif step == "skills" %}
           <h1>{{ occupation_label }}</h1>
+          {% if generated_suggestions %}
+            <p class="alert alert-info">{% translate "These are verified ESCO skills and occupation links. Their shortlist is a suggestion, not a requirement. Check their relevance before choosing." %}</p>
+            {% if simulated_suggestions %}
+              <p class="alert alert-warning">{% translate "Simulation: no Albert call was made. This shortlist only tests the journey, not the quality of AI suggestions." %}</p>
+            {% else %}
+              <p>{% translate "Shortlist prepared with Albert, reused from the shared reference cache when available." %}</p>
+            {% endif %}
+          {% endif %}
           <p class="lead">
-            {% if role == "employer" %}
+            {% if generated_suggestions %}
+              {% if role == "employer" %}
+                {% translate "Which skills are priorities for this position?" %}
+              {% else %}
+                {% translate "Which skills can you use and want to highlight?" %}
+              {% endif %}
+            {% elif role == "employer" %}
               {% translate "Which skills and professional behaviours are priorities for this position?" %}
             {% else %}
               {% translate "Which skills and professional behaviours can you use and want to highlight?" %}
             {% endif %}
           </p>
-          <p>{% translate "Choose up to 5 key skills and up to 3 professional behaviours. You do not have to use every choice." %}</p>
+          {% if generated_suggestions %}
+            <p>{% translate "Choose up to 5 key skills. No choice is required or preselected." %}</p>
+          {% else %}
+            <p>{% translate "Choose up to 5 key skills and up to 3 professional behaviours. You do not have to use every choice." %}</p>
+          {% endif %}
           <p>{% translate "An unchecked item means it was not prioritised or declared, not that it is absent." %}</p>
           <form method="post" class="my-4" id="pilot-selection" data-skills-pilot>
             {% csrf_token %}
@@ -149,16 +205,18 @@
                        for="{{ checkbox.id_for_label }}">{{ checkbox.tag }}<span>{{ checkbox.choice_label }}</span></label>
               {% endfor %}
             </fieldset>
-            <fieldset class="mb-4" data-choice-group="behaviours" data-maximum="3">
-              <legend>{% translate "Professional behaviours" %} <span class="badge text-bg-secondary"
+            {% if not generated_suggestions %}
+              <fieldset class="mb-4" data-choice-group="behaviours" data-maximum="3">
+                <legend>{% translate "Professional behaviours" %} <span class="badge text-bg-secondary"
        data-count
        aria-live="polite">0 / 3</span></legend>
-              {{ form.behaviours.errors }}
-              {% for checkbox in form.behaviours %}
-                <label class="pilot-choice"
-                       for="{{ checkbox.id_for_label }}">{{ checkbox.tag }}<span>{{ checkbox.choice_label }}</span></label>
-              {% endfor %}
-            </fieldset>
+                {{ form.behaviours.errors }}
+                {% for checkbox in form.behaviours %}
+                  <label class="pilot-choice"
+                         for="{{ checkbox.id_for_label }}">{{ checkbox.tag }}<span>{{ checkbox.choice_label }}</span></label>
+                {% endfor %}
+              </fieldset>
+            {% endif %}
             <div class="mb-4">
               {{ form.other.label_tag }}
               {{ form.other }}
@@ -173,7 +231,11 @@
           </form>
           <details class="my-4">
             <summary>{% translate "Where do these suggestions come from?" %}</summary>
-            <p>{% translate "Key skills are linked to this occupation in ESCO 1.2.1. The shortlist and the proposed professional behaviours are editorial choices for this test, not automatic requirements." %}</p>
+            {% if generated_suggestions %}
+              <p>{% translate "Only official ESCO 1.2.1 occupation links are accepted. No professional behaviours are inferred for this occupation." %}</p>
+            {% else %}
+              <p>{% translate "Key skills are linked to this occupation in ESCO 1.2.1. The shortlist and the proposed professional behaviours are editorial choices for this test, not automatic requirements." %}</p>
+            {% endif %}
             <p><a href="{{ occupation_uri }}"
    target="_blank"
    rel="noopener noreferrer">{{ official_occupation_label }} — ESCO</a></p>
@@ -183,7 +245,11 @@
           </details>
         {% else %}
           <h1>{% translate "Your selection" %} — {{ occupation_label }}</h1>
-          <p>{% translate "This is a temporary test summary. Nothing has been sent or published." %}</p>
+          {% if generated_suggestions %}
+            <p>{% translate "Your choices remain in this temporary draft. The shared suggestions are kept for reuse." %}</p>
+          {% else %}
+            <p>{% translate "This is a temporary test summary. Nothing has been sent or published." %}</p>
+          {% endif %}
           <section class="my-4">
             <h2>{% translate "Key skills" %}</h2>
             <ul>
@@ -193,14 +259,16 @@
                 <li>{% translate "No selection" %}</li>
               {% endfor %}
             </ul>
-            <h2>{% translate "Professional behaviours" %}</h2>
-            <ul>
-              {% for label in selected_behaviours %}
-                <li>{{ label }}</li>
-              {% empty %}
-                <li>{% translate "No selection" %}</li>
-              {% endfor %}
-            </ul>
+            {% if not generated_suggestions %}
+              <h2>{% translate "Professional behaviours" %}</h2>
+              <ul>
+                {% for label in selected_behaviours %}
+                  <li>{{ label }}</li>
+                {% empty %}
+                  <li>{% translate "No selection" %}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
             {% if other %}
               <h2>{% translate "Other" %}</h2>
               <p>{{ other }}</p>

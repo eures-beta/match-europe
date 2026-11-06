@@ -13,6 +13,8 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_safe
 
 from .skills_pilot import SelectionForm, catalogue, choices
+from . import albert_skills
+from .catalog import suggestions
 
 SESSION_KEY = 'skills_pilot_v1'
 TTL = 30 * 60
@@ -70,6 +72,11 @@ def _journey(request, role, lang):
         request.session[SESSION_KEY] = all_states
         state = {}
     card = cards.get(state.get('occupation'))
+    if card is None and state.get('occupation') and albert_skills.enabled():
+        try:
+            card = albert_skills.resolve(state['occupation'])
+        except albert_skills.SuggestionUnavailable:
+            card = None
     step = request.GET.get('step', 'occupation')
     if step not in ('occupation', 'skills', 'review'):
         raise Http404
@@ -93,10 +100,18 @@ def _journey(request, role, lang):
             all_states.pop(role, None)
             request.session[SESSION_KEY] = all_states
             return redirect(destination(role, lang))
-        if action == 'occupation':
+        if action in ('occupation', 'resolve'):
             selected = request.POST.get('occupation')
-            if selected not in cards:
-                error = _('Choose one of the pilot occupations.')
+            selected_card = cards.get(selected)
+            if action == 'resolve' and albert_skills.enabled() and not selected_card:
+                try:
+                    selected_card = albert_skills.resolve(selected, generate=True)
+                except albert_skills.SuggestionUnavailable:
+                    error = _(
+                        'Skills could not be prepared. Try again in a minute or choose a listed occupation.'
+                    )
+            if selected_card is None:
+                error = error or _('Choose one of the pilot occupations.')
                 step = 'occupation'
             else:
                 if selected != state.get('occupation'):
@@ -149,7 +164,7 @@ def _journey(request, role, lang):
                         )
                     )
             step = 'skills'
-        elif action not in ('occupation',):
+        elif action not in ('occupation', 'resolve'):
             raise Http404
     if not card and step != 'occupation':
         return redirect(destination(role, lang))
@@ -160,6 +175,14 @@ def _journey(request, role, lang):
             card, lang, initial={**state, 'revision': state.get('revision', 0)}
         )
     context = _context(role, cards, lang, step, card, form, error)
+    query = request.GET.get('q', '').strip()[:150]
+    context['occupation_query'] = query
+    if albert_skills.enabled() and query:
+        covered = {item['occupation']['uri'] for item in cards.values()}
+        context['extra_occupations'] = [
+            item for item in suggestions(query, lang) if item['uri'] not in covered
+        ][:20]
+        context['searched_extra'] = True
     if card:
         context['selected_skills'] = [
             label
@@ -205,4 +228,7 @@ def _context(role, cards, lang, step, card, form, error):
         'official_occupation_label': card['occupation']['labels'][lang] if card else '',
         'form': form,
         'pilot_error': error,
+        'skills_albert_enabled': albert_skills.enabled(),
+        'generated_suggestions': bool(card and card.get('generated')),
+        'simulated_suggestions': bool(card and card.get('simulated')),
     }
