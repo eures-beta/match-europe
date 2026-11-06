@@ -1132,3 +1132,9 @@ Albert à l’option locale d’accès au prototype. Les tests déclarent désor
 explicitement `ME_EMPLOYER_DEV_ACCESS=1` et `SHARED_DEMO=False`. Aucune règle
 d’accès applicative n’est modifiée. 450 tests PostgreSQL passent aussi sans
 options locales implicites ; nouvelle validation GitHub demandée après push.
+
+## 6 novembre 2026 — textes de la notice dans le template
+
+Suppression du module data_protection.py : textes et tableau repris sans changement
+dans le template avec gettext. La vue transmet seulement le booléen d’activation
+du parcours candidat ; routes et structure des vues inchangées.
