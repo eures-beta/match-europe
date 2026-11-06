@@ -19,14 +19,14 @@ class PublicHomeTests(SimpleTestCase):
                 for language, title, figures, outlook in (
                     (
                         'fr',
-                        'Faciliter les recrutements',
+                        'L’emploi au-delà des frontières',
                         'Quelques repères',
                         'Perspectives',
                     ),
-                    ('en', 'Facilitating recruitment', 'A few figures', 'Outlook'),
+                    ('en', 'Employment beyond borders', 'A few figures', 'Outlook'),
                     (
                         'de',
-                        'Personalgewinnung und berufliche Mobilität',
+                        'Arbeit über Grenzen hinweg',
                         'Einige Kennzahlen',
                         'Ausblick',
                     ),

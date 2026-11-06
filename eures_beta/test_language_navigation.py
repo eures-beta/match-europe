@@ -30,9 +30,9 @@ class LanguageNavigationTests(SimpleTestCase):
         response = self.open_page(url)
         self.assertContains(response, f'<html lang="{language}"')
         heading = {
-            'fr': 'Recrutez plus facilement',
-            'en': 'Make recruitment easier',
-            'de': 'Einfacher Personal finden',
+            'fr': 'Recruter dans un autre pays',
+            'en': 'Recruit in another country',
+            'de': 'In einem anderen Land Personal finden',
         }[language]
         self.assertContains(response, heading)
         return response

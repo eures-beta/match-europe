@@ -3,10 +3,25 @@
 {% block public_content %}
   <section class="home-intro">
     <p class="kicker">{% translate "An experiment in the Greater Region" context "public home" %}</p>
-    <h1>{% translate "Facilitating recruitment and professional mobility in the Greater Region" context "public home" %}</h1>
-    <p class="lede">{% translate "Match Europe is testing a new way to connect employers’ needs with candidates’ mobility plans in a cross-border economic area." context "public home" %}</p>
-    <div class="landing-actions"><a class="primary-action" href="/candidate/?lang={{ page_language }}">{% translate "Start as a candidate" context "public home" %}</a><a class="secondary-action"
-   href="/employer/pages/{{ page_language }}.html">{% translate "Start as an employer" context "public home" %}</a></div>
+    <h1>{% translate "Employment beyond borders" context "public positioning" %}</h1>
+    <p class="lede">{% translate "Match Europe connects candidates’ career plans with employers’ recruitment needs across countries." context "public positioning" %}</p>
+  </section>
+  <section class="home-section" aria-labelledby="home-journeys-title">
+    <h2 id="home-journeys-title">{% translate "Two complementary journeys" context "public home" %}</h2>
+    <div class="home-grid home-grid-two">
+      <article class="surface-card">
+        <h3>{% translate "Work in another country" context "public positioning" %}</h3>
+        <p>{% translate "Describe your career plans. Match Europe identifies opportunities that match your profile." context "public positioning" %}</p>
+        <a href="/candidate/?lang={{ page_language }}">{% translate "I’m a candidate" context "public positioning" %}</a>
+      </article>
+      <article class="surface-card">
+        <h3>{% translate "Recruit in another country" context "public positioning" %}</h3>
+        <p>{% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}</p>
+        <a href="/employer/pages/{{ page_language }}.html">{% translate "I’m an employer" context "public positioning" %}</a>
+      </article>
+    </div>
+    <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>
+    <p>{% translate "The service is under development. Matching and introductions are not yet available." context "public positioning" %}</p>
   </section>
   <section class="home-section">
     <h2>{% translate "A cross-border labour market that remains fragmented" context "public home" %}</h2>
@@ -21,21 +36,6 @@
       <p class="surface-card">{% translate "280,000 cross-border workers travel within the Greater Region every day." context "public home" %}</p>
       <p class="surface-card">{% translate "40–50k people with cross-border experience could be looking for a job." context "public home" %}</p>
       <p class="surface-card">{% translate "15,000+ positions may remain vacant in the same economic area." context "public home" %}</p>
-    </div>
-  </section>
-  <section class="home-section">
-    <h2>{% translate "Two complementary journeys" context "public home" %}</h2>
-    <div class="home-grid home-grid-two">
-      <article class="surface-card">
-        <h3>{% translate "Candidate journey" context "public home" %}</h3>
-        <p>{% translate "The service helps understand people’s mobility plans, skills, languages and preferences to identify opportunities that could suit them more easily." context "public home" %}</p>
-        <a href="/candidate/?lang={{ page_language }}">{% translate "View the candidate journey" context "public home" %}</a>
-      </article>
-      <article class="surface-card">
-        <h3>{% translate "Employer journey" context "public home" %}</h3>
-        <p>{% translate "The service helps clarify recruitment needs and better account for important constraints and criteria to facilitate introductions." context "public home" %}</p>
-        <a href="/employer/pages/{{ page_language }}.html">{% translate "View the employer journey" context "public home" %}</a>
-      </article>
     </div>
   </section>
   <section class="home-section">

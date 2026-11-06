@@ -1,5 +1,22 @@
 # EURES beta / Match Europe — décisions communes
 
+## 6 novembre 2026 — accroches publiques validées écran par écran
+
+Eric valide successivement l’accueil, la page candidat et la page employeur.
+Accueil : « L’emploi au-delà des frontières ». Candidat : « Travailler dans un
+autre pays », puis « Décrivez votre projet professionnel. Match Europe identifie
+les opportunités qui correspondent à votre profil. » Employeur : « Recruter dans
+un autre pays », puis « Décrivez votre besoin de recrutement. Match Europe
+identifie les profils qui correspondent à votre recherche. »
+
+Signature commune : « Des correspondances pertinentes. Des mises en relation
+consenties. » Les pages ne promettent ni catalogue d’offres consultable, ni
+CVthèque, ni accompagnement individuel systématique. Les formulations existent
+en FR/EN/DE ; une réserve visible rappelle que le matching et les mises en relation
+ne sont pas encore disponibles. Enregistrer une offre ne lance pas de matching.
+L’accord du candidat et de l’employeur reste nécessaire à la mise en relation.
+Cette validation éditoriale n’autorise ni ouverture de droits, ni fusion, ni déploiement.
+
 ## 4 novembre 2026 — préparation du stockage candidat
 
 Demande d'Eric : préparer, après la PR #127, la table enregistrant les réponses

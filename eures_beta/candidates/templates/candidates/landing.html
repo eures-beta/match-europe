@@ -271,16 +271,15 @@
             </div>
             <div class="candidate-letter-head">
               <div class="kicker">{% translate "Candidate journey" context "candidate landing" %}</div>
-              <h1>{% translate "Find your next job in Europe" context "candidate landing" %}</h1>
-              <p class="lede">{% translate "Tell us which jobs interest you, where you would like to work and what conditions suit you." context "candidate landing" %}</p>
+              <h1>{% translate "Work in another country" context "public positioning" %}</h1>
+              <p class="lede">{% translate "Describe your career plans. Match Europe identifies opportunities that match your profile." context "public positioning" %}</p>
             </div>
             <div>
-              <h2 class="choice-heading">{% translate "Your next job starts with your project" context "candidate landing" %}</h2>
               <div class="entry-choices">
                 <a class="import-choice"
                    href="/candidate/prepare/?lang={{ page_language }}">
                   <span class="choice-symbol" aria-hidden="true">→</span>
-                  <span><strong>{% translate "Start my project" %}</strong><span class="choice-description">{% translate "Choose your jobs, mobility and working conditions in four guided steps." %}</span></span>
+                  <span><strong>{% translate "Describe my career plans" context "public positioning" %}</strong><span class="choice-description">{% translate "A questionnaire in four steps: target occupations, mobility and languages, working conditions, then review." context "public positioning" %}</span></span>
                   <span class="choice-arrow" aria-hidden="true">→</span>
                 </a>
               </div>
@@ -292,16 +291,10 @@
                data-selection-notice="{% translate "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted." context "candidate landing" %}"
                data-account-notice="{% translate "Candidate sign-in will be prepared in a later step." context "candidate landing" %}">
             </p>
+            <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>
+            <p class="candidate-highlight">{% translate "The service is under development. Matching and introductions are not yet available." context "public positioning" %}</p>
           </article>
           <aside class="candidate-sidebar">
-            <article class="surface-card candidate-info-card">
-              <h2>{% translate "What happens next" context "candidate landing" %}</h2>
-              <ol>
-                <li>{% translate "Review and complete your profile." context "candidate landing" %}</li>
-                <li>{% translate "Tell us your preferences, languages and mobility plans." context "candidate landing" %}</li>
-                <li>{% translate "Explore suggested opportunities with support from an EURES adviser." context "candidate landing" %}</li>
-              </ol>
-            </article>
             <article class="surface-card candidate-info-card">
               <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
               <p>{% translate "You can correct your information before confirming it. An introduction requires your agreement and the employer’s." context "candidate landing" %}</p>

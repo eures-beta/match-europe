@@ -8,21 +8,21 @@ class EmployerLandingTranslationTests(TestCase):
         examples = [
             (
                 'fr',
-                'Recrutez',
+                'Recruter dans un autre pays',
                 'Aller au contenu',
                 'Vos offres sont enregistrées.',
                 'Aucun rapprochement n’est effectué à ce stade.',
             ),
             (
                 'en',
-                'Make recruitment easier',
+                'Recruit in another country',
                 'Skip to content',
                 'Your offers are saved.',
                 'No matching is carried out at this stage.',
             ),
             (
                 'de',
-                'Einfacher Personal finden',
+                'In einem anderen Land Personal finden',
                 'Zum Inhalt',
                 'Ihre Angebote werden gespeichert.',
                 'Derzeit findet noch kein Abgleich statt.',

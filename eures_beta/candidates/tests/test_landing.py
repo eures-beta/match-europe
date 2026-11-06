@@ -16,9 +16,9 @@ class CandidateLandingTests(SimpleTestCase):
 
     def test_languages_choices_and_separation_from_employer(self):
         for language, title in (
-            ('fr', 'Trouvez votre prochain emploi en Europe'),
-            ('en', 'Find your next job in Europe'),
-            ('de', 'Finden Sie Ihren nächsten Job in Europa'),
+            ('fr', 'Travailler dans un autre pays'),
+            ('en', 'Work in another country'),
+            ('de', 'In einem anderen Land arbeiten'),
         ):
             with self.subTest(language=language):
                 response = self.client.get(
@@ -85,7 +85,7 @@ class CandidateLandingTests(SimpleTestCase):
         for path in ('/candidate/',):
             self.assertContains(
                 self.client.get(path, {'lang': 'en'}, secure=True),
-                'Find your next job in Europe',
+                'Work in another country',
             )
             self.assertContains(
                 self.client.get(path, {'lang': '../../invalid'}, secure=True),
