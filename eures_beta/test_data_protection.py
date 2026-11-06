@@ -69,3 +69,10 @@ class DataProtectionTests(SimpleTestCase):
                 self.client.get(reverse('home'), {'lang': language}),
                 f'href="/privacy/?lang={language}"',
             )
+
+    def test_notice_preserves_candidate_registration_information(self):
+        response = self.client.get(reverse('privacy'), {'lang': 'en'})
+        self.assertContains(
+            response, 'Confirmation creates a candidate account and saves the profile.'
+        )
+        self.assertNotContains(response, 'confirming it does not create an account')
