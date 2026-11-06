@@ -29,6 +29,14 @@ Les questions, l'API, les droits et les règles de validation restent inchangés
 
 ## 6 novembre 2026 — commandes de mise à jour des référentiels
 
+## 6 novembre 2026 — validation utilisateur du pilote compétences
+
+Eric a testé et validé le parcours local à un métier, puis autorisé sa publication
+en PR sous le titre « Ajout des compétences par métier ». Le multi-métiers
+candidat reste une évolution distincte non implémentée. La base de livraison
+#151 a été revérifiée inchangée avant publication. Aucune fusion ni aucun
+déploiement ne sont autorisés par cette publication.
+
 ## 6 novembre 2026 — sélection de compétences à tester localement
 
 Branche `codex/skills-selection-pilot`, créée sur le sommet GitHub vérifié de la
