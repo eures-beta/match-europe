@@ -12,7 +12,9 @@ jobs:
   notify:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
-      (github.event.label.name == 'recette 24h' || github.event.label.name == 'recette 7j' ||
+      (github.event.label.name == 'recette 4h' ||
+       github.event.label.name == 'recette 24h' || github.event.label.name == 'recette 7j' ||
+       contains(github.event.pull_request.labels.*.name, 'recette 4h') ||
        contains(github.event.pull_request.labels.*.name, 'recette 24h') ||
        contains(github.event.pull_request.labels.*.name, 'recette 7j'))
     runs-on: ubuntu-latest
