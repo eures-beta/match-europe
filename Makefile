@@ -40,6 +40,7 @@ format-js-check: ## Vérifier le format JavaScript sans modifier les sources
 check-js: ## Vérifier la syntaxe de chaque source JavaScript
 	$(MAKE) admin-filter-test
 	$(MAKE) candidate-ui-test
+	$(MAKE) candidate-skills-ui-test
 	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}'
 	find eures_beta -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
 
@@ -312,3 +313,10 @@ employer-response-test: ## Vérifier les réponses par compte, droits, conflits 
 .PHONY: environment-parity-test
 environment-parity-test: ## Vérifier la parité fonctionnelle local, recette et production
 	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert eures_beta.occupations.tests.test_skills_pilot --noinput $(TEST_ARGS)
+
+.PHONY: candidate-skills-test candidate-skills-ui-test
+candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stockage et ses droits
+	@$(MANAGE) test eures_beta.candidates.tests.test_skill_project --noinput $(TEST_ARGS)
+
+candidate-skills-ui-test: ## Tester la recherche, les étiquettes et les plafonds candidat sans réseau
+	node --test eures_beta/candidates/tests/skill_selection.test.cjs

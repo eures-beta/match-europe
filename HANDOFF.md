@@ -29,6 +29,10 @@ Les questions, l'API, les droits et les règles de validation restent inchangés
 
 ## 6 novembre 2026 — commandes de mise à jour des référentiels
 
+## 6 novembre 2026 — implémentation du projet candidat ouvert
+
+Travail autorisé dans une nouvelle PR au-dessus du sommet #155 (`692eb517`). Mode sans métier, sélection 10/5/exactement 3 avec minimum technique combiné de 1, recherche et étiquettes FR/EN/DE. Déclarations canoniques en session, demande temporaire et profil privé ; migration additive 0004 avec conservation des anciens profils. Recette navigateur locale FR/EN/DE, clavier et 390 px effectuée, sans audit WCAG complet. 479 tests PostgreSQL réussis, dont 9 scénarios dédiés au projet ouvert et un nouveau scénario de migration ; 3 tests JavaScript dédiés réussis. Installation sur base vide, contrôles Django/migrations, format Python/templates/JavaScript et catalogues FR/DE vérifiés et compilés. Recette navigateur trilingue et mobile effectuée ; aucun audit WCAG complet. État CI distant à vérifier après publication. Aucun matching, fusion, déploiement ni email réel. Voir [contrat](docs/CANDIDATE_OPEN_SKILLS.md).
+
 ## 6 novembre 2026 — validation utilisateur du pilote compétences
 
 Eric a testé et validé le parcours local à un métier, puis autorisé sa publication
