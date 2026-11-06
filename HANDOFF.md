@@ -1183,3 +1183,21 @@ Les routes privacy, statistics, project et journal ciblent chacune une vue
 dédiée. Suppression de l’aiguillage information_page ; rendu multilingue
 commun conservé dans _public_page. URL, noms de routes, templates, données
 et protections GET/HEAD et absence de cache conservés.
+# 6 novembre 2026 — catalogue proposé de 50 métiers
+
+Travail local isolé sur `codex/skills-catalogue-50`, depuis le sommet GitHub
+#154 vérifié à `d12374c`. Sept métiers initiaux et leurs sélections conservés,
+43 ajouts, même schéma à deux JSON. Données ESCO 1.2.1 FR/EN/DE comparées aux
+archives locales épinglées : 50 métiers distincts, 329 compétences distinctes,
+615 relations officielles dans le sous-catalogue, 400 propositions de compétences
+clés ayant toutes un lien officiel. Sur 200 propositions de savoir-être, 198
+associations sont explicitement éditoriales et deux ont un lien officiel.
+
+Chargement des nouveaux intitulés depuis leurs libellés officiels, avec maintien
+des intitulés de présentation historiques. Reconstruction en staging identique
+octet pour octet. `make skills-pilot-audit` compare les données aux trois archives.
+Validation locale : 469 tests PostgreSQL réussis, dont 17 tests du pilote.
+Le parcours couvre les 50 métiers, deux rôles et trois langues (300 combinaisons).
+Contrôles Django et absence de migration nouvelle vérifiés.
+La liste proposée est dans `docs/SKILLS_CATALOGUE_50.md`. Aucun push, fusion,
+déploiement ou appel Albert ; aucune nouvelle recette navigateur revendiquée.

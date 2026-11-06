@@ -1,3 +1,4 @@
+from itertools import product
 from time import time
 
 from django.test import Client, TestCase, override_settings
@@ -81,18 +82,40 @@ class SkillsPilotTests(TestCase):
         )
         for role in ('employer', 'candidate'):
             url = reverse('skills_pilot_journey', args=[role])
-            for key in self.cards:
-                with self.subTest(role=role, occupation=key):
+            for key, lang in product(self.cards, ('fr', 'en', 'de')):
+                with self.subTest(role=role, occupation=key, language=lang):
                     self.assertEqual(self.choose(key, role).status_code, 302)
-                    response = self.client.get(url, {'step': 'skills', 'lang': 'fr'})
+                    response = self.client.get(url, {'step': 'skills', 'lang': lang})
                     self.assertEqual(response.status_code, 200)
                     self.assertEqual(response.content.count(b'type="checkbox"'), 12)
-                    saved = self.client.post(url, self.selection(role))
+                    card = self.cards[key]
+                    self.assertEqual(
+                        list(response.context['form'].fields['skills'].choices),
+                        [
+                            (
+                                item['skillUri'],
+                                self.skills[item['skillUri']]['labels'][lang],
+                            )
+                            for item in card['keySkills']
+                        ],
+                    )
+                    self.assertEqual(
+                        response.context['official_occupation_label'],
+                        card['occupation']['labels'][lang],
+                    )
+                    saved = self.client.post(f'{url}?lang={lang}', self.selection(role))
                     self.assertEqual(saved.status_code, 302)
-                    review = self.client.get(url, {'step': 'review', 'lang': 'fr'})
+                    review = self.client.get(url, {'step': 'review', 'lang': lang})
                     self.assertEqual(review.status_code, 200)
                     self.assertEqual(len(review.context['selected_skills']), 5)
                     self.assertEqual(len(review.context['selected_behaviours']), 3)
+                    self.assertEqual(
+                        review.context['selected_skills'],
+                        [
+                            self.skills[item['skillUri']]['labels'][lang]
+                            for item in card['keySkills'][:5]
+                        ],
+                    )
         self.assertEqual(
             counts,
             (
