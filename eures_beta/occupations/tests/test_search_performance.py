@@ -30,6 +30,35 @@ class SearchPerformanceTests(SimpleTestCase):
             'Poste (' + 'h' * 32 + 'a)',
             'Poste (' + ' ' * 100 + 'a)',
         ]
+        normalization = '''
+import json, sys
+from eures_beta.occupations.catalog import search_title
+for title in json.loads(sys.argv[1]):
+    normalized = search_title(title)
+    assert normalized.startswith('poste ')
+    assert 'h' * 32 in normalized or 'a' in normalized
+'''
+        try:
+            result = subprocess.run(
+                [sys.executable, '-c', normalization, json.dumps(titles)],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except subprocess.TimeoutExpired:
+            self.fail(
+                'Malformed-title normalization exceeded five seconds in an isolated process'
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_malformed_searches_and_http_routes_finish_with_cold_catalogs(self):
+        # Keep the regex-specific five-second guard above independent of catalog
+        # loading, Django startup and the repeated FR/EN/DE HTTP integrations.
+        titles = [
+            'Poste (' + 'h' * 32,
+            'Poste (' + 'h' * 32 + 'a)',
+            'Poste (' + ' ' * 100 + 'a)',
+        ]
         program = '''
 import json, sys
 from eures_beta.occupations.catalog import search_title, suggestions, rome_suggestions
@@ -58,10 +87,10 @@ with override_settings(DEMO_MODE=True, SHARED_DEMO=True, ALLOWED_HOSTS=['testser
                 [sys.executable, '-c', program, json.dumps(titles)],
                 capture_output=True,
                 text=True,
-                timeout=5,
+                timeout=20,
             )
         except subprocess.TimeoutExpired:
             self.fail(
-                'Malformed-title searches exceeded five seconds in an isolated process'
+                'Cold-catalog searches and HTTP checks exceeded twenty seconds in an isolated process'
             )
         self.assertEqual(result.returncode, 0, result.stderr)

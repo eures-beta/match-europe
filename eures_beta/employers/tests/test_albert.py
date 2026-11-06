@@ -151,6 +151,38 @@ class EndpointTests(TestCase):
         'eures_beta.employers.albert.structure',
         return_value=validate_result(RESULT, SOURCE),
     )
+    def test_saving_without_corrected_fields_does_not_persist_source_or_proofs(
+        self, model
+    ):
+        from eures_beta.employers.models import JobOffer
+
+        source = self.client.post(
+            '/api/imports/source/',
+            {'agreement': 'true', 'kind': 'manual', 'text': SOURCE},
+        ).json()
+        response = self.client.post(
+            '/api/imports/',
+            {
+                'agreement': 'true',
+                'kind': 'manual',
+                'text': SOURCE,
+                'sourceToken': source['token'],
+                'contact': json.dumps(
+                    {'name': 'Contact fictif', 'email': 'contact@example.invalid'}
+                ),
+            },
+        )
+        self.assertEqual(response.status_code, 201)
+        data = JobOffer.objects.get().data
+        self.assertEqual(data['companyName'], 'Société Démo')
+        self.assertNotIn('extractionSource', data)
+        self.assertNotIn('extractionEvidence', data)
+        self.assertNotIn('pending_offer_source', self.client.session)
+
+    @patch(
+        'eures_beta.employers.albert.structure',
+        return_value=validate_result(RESULT, SOURCE),
+    )
     def test_manual_path_returns_grounded_data_without_storing_key(self, model):
         response = self.client.post(
             '/api/imports/source/',

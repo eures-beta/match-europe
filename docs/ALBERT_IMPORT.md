@@ -90,3 +90,9 @@ a ensuite passé ses 436 tests sur PostgreSQL.
 Eric a autorisé la publication après les essais locaux. La PR Albert est empilée
 sur la PR #144 ; le bouton partagé et son test déjà harmonisés dans cette base
 sont conservés. Aucun passage en production ni fusion n'est inclus.
+
+Validation sur la base #144 après réempilement : 450 tests PostgreSQL réussis,
+migrations sur une base locale vierge et contrôles qualité réussis. Le test de
+non-conservation couvre aussi l’enregistrement sans champs corrigés. Le garde-fou
+regex conserve sa borne de cinq secondes ; l’intégration à froid est séparée et
+bornée à vingt secondes (voir `OCCUPATION_SEARCH_PERFORMANCE.md`).

@@ -374,6 +374,19 @@ def imports(request, id=None):
                 if key in data:
                     cleaned[key] = data[key]
             data = cleaned
+        # Reading evidence is temporary even when a client saves without sending
+        # corrected fields. Never copy the complete source into the durable offer.
+        data = {
+            key: value
+            for key, value in data.items()
+            if key
+            not in (
+                'extractionSource',
+                'extractionEvidence',
+                'occupationQuery',
+                'extractionFailure',
+            )
+        }
         with stage('import_save'):
             obj = JobOffer.objects.create(
                 created_by=person,
