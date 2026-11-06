@@ -1027,3 +1027,10 @@ contact et de la notice historique employeur, en FR/EN/DE. Modification de
 libellés uniquement, sans changement des intégrations, droits ou données.
 Validation : 147 tests PostgreSQL employeur réussis, catalogues vérifiés et
 compilés. Aucune fusion ni opération de déploiement.
+
+## 6 novembre 2026 — contact pour les invitations employeurs
+
+Le contact par défaut est désormais celui du bandeau existant : Eric Barthélémy.
+L’encart FR/EN/DE dirige vers son email et non vers l’annuaire général EURES.
+La destination configurable est conservée sans ajout automatique de langue.
+Aucune modification des droits, modèles ou données.

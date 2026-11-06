@@ -99,11 +99,11 @@ class MagicLoginTests(TestCase):
                     self.assertContains(response, label)
         response = self.client.get('/accounts/login/?lang=en')
         self.assertContains(
-            response, 'Employer accounts are created by an EURES adviser.'
+            response, 'Employer accounts are created by our Match Europe advisers.'
         )
         self.assertContains(
             response,
-            'href="https://europa.eu/eures/portal/um/search-for-advisers?lang=en"',
+            'href="mailto:eric.barthelemy@francetravail.fr"',
         )
         self.assertNotContains(response, 'type="password"')
 
