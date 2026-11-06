@@ -7,6 +7,7 @@ from .health import health
 from eures_beta.users import views as user_views
 
 urlpatterns = [
+    path('skills-pilot/', include('eures_beta.occupations.pilot_urls')),
     path('', include('eures_beta.users.urls')),
     path("", include("eures_beta.employers.urls")),
     path("", include("eures_beta.candidates.urls")),

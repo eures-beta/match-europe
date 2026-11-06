@@ -36,6 +36,12 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
 LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
+SKILLS_PILOT_ENABLED = os.environ.get('SKILLS_PILOT_ENABLED', '0') == '1'
+if SKILLS_PILOT_ENABLED and DJANGO_ENVIRONMENT == 'local':
+    # Keep this disposable recipe separate from other localhost sessions.
+    SESSION_COOKIE_NAME = 'me_skills_pilot_session'
+    CSRF_COOKIE_NAME = 'me_skills_pilot_csrf'
+    SESSION_COOKIE_AGE = 30 * 60
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '0') == '1'

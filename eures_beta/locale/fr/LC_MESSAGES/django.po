@@ -7977,3 +7977,192 @@ msgstr "Albert a préparé cette offre, mais certains passages non vérifiables 
 msgctxt "employer albert"
 msgid "View the source text to check the extracted information"
 msgstr "Voir le texte source pour vérifier les informations extraites"
+
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "An unchecked item means it was not prioritised or declared, not that it is absent."
+msgstr "Une case non cochée signifie que cet élément n’a pas été retenu ou déclaré, pas qu’il est absent."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Another skill or behaviour (optional)"
+msgstr "Une autre compétence ou un autre savoir-être (facultatif)"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Change occupation"
+msgstr "Changer de métier"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Changing occupation clears the selection for this journey. The other journey is kept separately."
+msgstr "Changer de métier efface la sélection de ce parcours. L’autre parcours est conservé séparément."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Choose a journey"
+msgstr "Choisir un parcours"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Choose an occupation"
+msgstr "Choisir un métier"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Choose one of the pilot occupations."
+msgstr "Choisissez un métier proposé pour ce test."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Choose up to 3 professional behaviours."
+msgstr "Choisissez au maximum 3 savoir-être."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Choose up to 5 key skills and up to 3 professional behaviours. You do not have to use every choice."
+msgstr "Choisissez au maximum 5 compétences clés et 3 savoir-être. Vous n’êtes pas obligé de remplir tous les choix."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Choose up to 5 key skills."
+msgstr "Choisissez au maximum 5 compétences clés."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Cleaning — offices and buildings"
+msgstr "Agent de nettoyage — bureaux et locaux"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Cleaning — private homes"
+msgstr "Agent de nettoyage — ménage à domicile"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Clear this test journey"
+msgstr "Effacer ce parcours de test"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Clothing sales assistant"
+msgstr "Vendeur / vendeuse en prêt-à-porter"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Do not enter names or contact details. Free text is not automatically matched to the catalogue."
+msgstr "N’indiquez ni nom ni coordonnées. Le texte libre n’est pas automatiquement rapproché du catalogue."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Edit my selection"
+msgstr "Modifier ma sélection"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Food production worker"
+msgstr "Agent / agente de production agroalimentaire"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "For cleaning, choose the workplace: private homes or offices and buildings."
+msgstr "Pour le nettoyage, précisez le lieu de travail : domicile des particuliers ou bureaux et locaux professionnels."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Green space maintenance"
+msgstr "Agent / agente d’entretien des espaces verts"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Journey steps"
+msgstr "Étapes du parcours"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Key skills"
+msgstr "Compétences clés"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Key skills are linked to this occupation in ESCO 1.2.1. The shortlist and the proposed professional behaviours are editorial choices for this test, not automatic requirements."
+msgstr "Les compétences clés sont rattachées à ce métier dans ESCO 1.2.1. La sélection courte et les savoir-être proposés sont des choix éditoriaux pour ce test, pas des exigences automatiques."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Local test — fictional answers only. Drafts expire after 30 minutes without saving. No offer or candidate profile is created."
+msgstr "Test local — réponses fictives uniquement. Les brouillons expirent après 30 minutes sans enregistrement. Aucune offre ni fiche candidat n’est créée."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Mandatory qualifications and authorisations must be checked separately; selecting a skill does not establish them."
+msgstr "Les qualifications et autorisations obligatoires doivent être vérifiées séparément ; cocher une compétence ne les atteste pas."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "No compatibility score is calculated. Unselected items are not treated as missing skills."
+msgstr "Aucun score de compatibilité n’est calculé. Les éléments non sélectionnés ne sont pas considérés comme des compétences manquantes."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "No selection"
+msgstr "Aucune sélection"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Occupation"
+msgstr "Métier"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Professional behaviours"
+msgstr "Savoir-être professionnels"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Restaurant service"
+msgstr "Serveur / serveuse en restaurant"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Review"
+msgstr "Récapitulatif"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Review my selection"
+msgstr "Voir mon récapitulatif"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Security guard"
+msgstr "Agent / agente de sécurité"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Select the priorities for your job offer."
+msgstr "Choisissez les priorités pour votre offre."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Select the skills and behaviours you can use and want to highlight."
+msgstr "Choisissez les compétences et savoir-être que vous savez mobiliser et souhaitez mettre en avant."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Six occupations, one shared catalogue for employers and candidates."
+msgstr "Six métiers, un catalogue commun aux employeurs et aux candidats."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Skills pilot"
+msgstr "Test des compétences"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "This draft changed in another tab. Reload before continuing."
+msgstr "Ce brouillon a changé dans un autre onglet. Rechargez la page avant de continuer."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "This is a temporary test summary. Nothing has been sent or published."
+msgstr "Ce récapitulatif est un test temporaire. Rien n’a été envoyé ni publié."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "This temporary draft expired. Choose the occupation again."
+msgstr "Ce brouillon temporaire a expiré. Choisissez à nouveau le métier."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "This test uses the ESCO classification of the European Commission."
+msgstr "Ce test utilise la classification ESCO de la Commission européenne."
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Try the candidate journey"
+msgstr "Tester le parcours candidat"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Try the employer journey"
+msgstr "Tester le parcours employeur"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Try the skills journey"
+msgstr "Tester le choix des compétences"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Where do these suggestions come from?"
+msgstr "D’où viennent ces propositions ?"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Which skills and professional behaviours are priorities for this position?"
+msgstr "Quelles compétences et quels savoir-être sont prioritaires pour ce poste ?"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Which skills and professional behaviours can you use and want to highlight?"
+msgstr "Quelles compétences et quels savoir-être savez-vous mobiliser et souhaitez-vous mettre en avant ?"
+
+#: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
+msgid "Your selection"
+msgstr "Votre sélection"

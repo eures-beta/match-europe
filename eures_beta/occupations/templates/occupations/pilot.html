@@ -1,0 +1,230 @@
+{% load i18n static %}
+{% get_current_language as page_language %}
+<!DOCTYPE html>
+<html lang="{{ page_language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% translate "Skills pilot" %} — Match Europe</title>
+    <link rel="stylesheet"
+          href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'employer/site.css' %}">
+    <link rel="stylesheet" href="{% static 'public-brand.css' %}">
+    <link rel="stylesheet" href="{% static 'occupations/skills-pilot.css' %}">
+    <script src="{% static 'occupations/skills-pilot.js' %}" defer></script>
+  </head>
+  <body>
+    <a class="visually-hidden-focusable" href="#main-content">{% translate "Skip to content" %}</a>
+    <header class="site-header">
+      <div class="shell">
+        {% include "includes/public_brand.html" %}
+        <nav class="nav pilot-language" aria-label="{% translate 'Language' %}">
+          {% if step == "skills" and form %}
+            <button class="nav-pill"
+                    type="submit"
+                    form="pilot-selection"
+                    name="target_language"
+                    value="fr"
+                    lang="fr"
+                    aria-label="Français">FR</button>
+            <button class="nav-pill"
+                    type="submit"
+                    form="pilot-selection"
+                    name="target_language"
+                    value="en"
+                    lang="en"
+                    aria-label="English">EN</button>
+            <button class="nav-pill"
+                    type="submit"
+                    form="pilot-selection"
+                    name="target_language"
+                    value="de"
+                    lang="de"
+                    aria-label="Deutsch">DE</button>
+          {% else %}
+            <a class="nav-pill"
+               href="?lang=fr{% if step %}&amp;step={{ step }}{% endif %}"
+               lang="fr"
+               aria-label="Français">FR</a>
+            <a class="nav-pill"
+               href="?lang=en{% if step %}&amp;step={{ step }}{% endif %}"
+               lang="en"
+               aria-label="English">EN</a>
+            <a class="nav-pill"
+               href="?lang=de{% if step %}&amp;step={{ step }}{% endif %}"
+               lang="de"
+               aria-label="Deutsch">DE</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+    <main id="main-content" class="shell pilot-main">
+      <p class="pilot-notice">{% translate "Local test — fictional answers only. Drafts expire after 30 minutes without saving. No offer or candidate profile is created." %}</p>
+      {% if pilot_start %}
+        <h1>{% translate "Try the skills journey" %}</h1>
+        <p>{% translate "Six occupations, one shared catalogue for employers and candidates." %}</p>
+        <div class="row g-4 my-2">
+          <div class="col-md-6">
+            <section class="surface-card p-4 h-100">
+              <h2>{% translate "Employer" %}</h2>
+              <p>{% translate "Select the priorities for your job offer." %}</p>
+              <a class="btn btn-primary"
+                 href="{% url 'skills_pilot_journey' 'employer' %}?lang={{ page_language }}">{% translate "Try the employer journey" %}</a>
+            </section>
+          </div>
+          <div class="col-md-6">
+            <section class="surface-card p-4 h-100">
+              <h2>{% translate "Candidate" %}</h2>
+              <p>{% translate "Select the skills and behaviours you can use and want to highlight." %}</p>
+              <a class="btn btn-primary"
+                 href="{% url 'skills_pilot_journey' 'candidate' %}?lang={{ page_language }}">{% translate "Try the candidate journey" %}</a>
+            </section>
+          </div>
+        </div>
+      {% else %}
+        <p><a href="{% url 'skills_pilot_start' %}?lang={{ page_language }}">← {% translate "Choose a journey" %}</a></p>
+        <p class="kicker">
+          {% if role == "employer" %}
+            {% translate "Employer" %}
+          {% else %}
+            {% translate "Candidate" %}
+          {% endif %}
+        </p>
+        <nav aria-label="{% translate 'Journey steps' %}" class="my-3">
+          <ol class="pilot-steps">
+            <li{% if step == 'occupation' %} aria-current="step"{% endif %}>1. {% translate "Occupation" %}</li>
+            <li{% if step == 'skills' %} aria-current="step"{% endif %}>2. {% translate "Your selection" %}</li>
+            <li{% if step == 'review' %} aria-current="step"{% endif %}>3. {% translate "Review" %}</li>
+          </ol>
+        </nav>
+        {% if pilot_error %}<div class="alert alert-danger" role="alert">{{ pilot_error }}</div>{% endif %}
+        {% if step == "occupation" %}
+          <h1>{% translate "Choose an occupation" %}</h1>
+          <p>{% translate "For cleaning, choose the workplace: private homes or offices and buildings." %}</p>
+          <form method="post" class="my-4">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="occupation">
+            <fieldset>
+              <legend class="visually-hidden">{% translate "Occupation" %}</legend>
+              {% for identifier, title in pilot_cards %}
+                <label class="pilot-choice">
+                  <input type="radio"
+                         name="occupation"
+                         value="{{ identifier }}"
+                         required{% if identifier == current_occupation %}
+                         checked{% endif %}>
+                  <span>{{ title }}</span>
+                </label>
+              {% endfor %}
+            </fieldset>
+            <p class="mt-3 text-muted">{% translate "Changing occupation clears the selection for this journey. The other journey is kept separately." %}</p>
+            <button class="btn btn-primary" type="submit">{% translate "Continue" %}</button>
+          </form>
+        {% elif step == "skills" %}
+          <h1>{{ occupation_label }}</h1>
+          <p class="lead">
+            {% if role == "employer" %}
+              {% translate "Which skills and professional behaviours are priorities for this position?" %}
+            {% else %}
+              {% translate "Which skills and professional behaviours can you use and want to highlight?" %}
+            {% endif %}
+          </p>
+          <p>{% translate "Choose up to 5 key skills and up to 3 professional behaviours. You do not have to use every choice." %}</p>
+          <p>{% translate "An unchecked item means it was not prioritised or declared, not that it is absent." %}</p>
+          <form method="post" class="my-4" id="pilot-selection" data-skills-pilot>
+            {% csrf_token %}
+            <input type="hidden" name="action" value="selection">
+            {{ form.occupation }}
+            {{ form.revision }}
+            {{ form.non_field_errors }}
+            {{ form.occupation.errors }}
+            {{ form.revision.errors }}
+            <fieldset class="mb-4" data-choice-group="skills" data-maximum="5">
+              <legend>{% translate "Key skills" %} <span class="badge text-bg-secondary"
+       data-count
+       aria-live="polite">0 / 5</span></legend>
+              {{ form.skills.errors }}
+              {% for checkbox in form.skills %}
+                <label class="pilot-choice"
+                       for="{{ checkbox.id_for_label }}">{{ checkbox.tag }}<span>{{ checkbox.choice_label }}</span></label>
+              {% endfor %}
+            </fieldset>
+            <fieldset class="mb-4" data-choice-group="behaviours" data-maximum="3">
+              <legend>{% translate "Professional behaviours" %} <span class="badge text-bg-secondary"
+       data-count
+       aria-live="polite">0 / 3</span></legend>
+              {{ form.behaviours.errors }}
+              {% for checkbox in form.behaviours %}
+                <label class="pilot-choice"
+                       for="{{ checkbox.id_for_label }}">{{ checkbox.tag }}<span>{{ checkbox.choice_label }}</span></label>
+              {% endfor %}
+            </fieldset>
+            <div class="mb-4">
+              {{ form.other.label_tag }}
+              {{ form.other }}
+              {{ form.other.errors }}
+              <p class="form-text">{% translate "Do not enter names or contact details. Free text is not automatically matched to the catalogue." %}</p>
+            </div>
+            <div class="d-flex gap-3 flex-wrap">
+              <a class="btn btn-outline-primary"
+                 href="?lang={{ page_language }}&amp;step=occupation">{% translate "Change occupation" %}</a>
+              <button class="btn btn-primary" type="submit">{% translate "Review my selection" %}</button>
+            </div>
+          </form>
+          <details class="my-4">
+            <summary>{% translate "Where do these suggestions come from?" %}</summary>
+            <p>{% translate "Key skills are linked to this occupation in ESCO 1.2.1. The shortlist and the proposed professional behaviours are editorial choices for this test, not automatic requirements." %}</p>
+            <p><a href="{{ occupation_uri }}"
+   target="_blank"
+   rel="noopener noreferrer">{{ official_occupation_label }} — ESCO</a></p>
+            {% if role == "employer" %}
+              <p>{% translate "Mandatory qualifications and authorisations must be checked separately; selecting a skill does not establish them." %}</p>
+            {% endif %}
+          </details>
+        {% else %}
+          <h1>{% translate "Your selection" %} — {{ occupation_label }}</h1>
+          <p>{% translate "This is a temporary test summary. Nothing has been sent or published." %}</p>
+          <section class="my-4">
+            <h2>{% translate "Key skills" %}</h2>
+            <ul>
+              {% for label in selected_skills %}
+                <li>{{ label }}</li>
+              {% empty %}
+                <li>{% translate "No selection" %}</li>
+              {% endfor %}
+            </ul>
+            <h2>{% translate "Professional behaviours" %}</h2>
+            <ul>
+              {% for label in selected_behaviours %}
+                <li>{{ label }}</li>
+              {% empty %}
+                <li>{% translate "No selection" %}</li>
+              {% endfor %}
+            </ul>
+            {% if other %}
+              <h2>{% translate "Other" %}</h2>
+              <p>{{ other }}</p>
+            {% endif %}
+          </section>
+          <p>{% translate "No compatibility score is calculated. Unselected items are not treated as missing skills." %}</p>
+          <div class="d-flex gap-3 flex-wrap my-4">
+            <a class="btn btn-primary"
+               href="?lang={{ page_language }}&amp;step=skills">{% translate "Edit my selection" %}</a>
+            <a class="btn btn-outline-primary"
+               href="{% url 'skills_pilot_journey' 'employer' %}?lang={{ page_language }}">{% translate "Try the employer journey" %}</a>
+            <a class="btn btn-outline-primary"
+               href="{% url 'skills_pilot_journey' 'candidate' %}?lang={{ page_language }}">{% translate "Try the candidate journey" %}</a>
+          </div>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="restart">
+            <button class="btn btn-outline-secondary" type="submit">{% translate "Clear this test journey" %}</button>
+          </form>
+        {% endif %}
+      {% endif %}
+    </main>
+    <footer class="shell py-4">
+      <p>{% translate "This test uses the ESCO classification of the European Commission." %}</p>
+    </footer>
+  </body>
+</html>
