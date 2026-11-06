@@ -1,5 +1,23 @@
 ## 6 novembre 2026 — commandes de mise à jour des référentiels
 
+## 6 novembre 2026 — sélection de compétences à tester localement
+
+Branche `codex/skills-selection-pilot`, créée sur le sommet GitHub vérifié de la
+pile ouverte : PR #151, `codex/dedicated-public-views`, commit `4021fbe`.
+Deux rôles de simulation, six métiers et variante nettoyage de locaux, huit
+compétences et quatre savoir-être proposés ; plafonds serveur/navigateur 5/3,
+relecture, modification, conservation FR/EN/DE et séparation des brouillons.
+Recette `make skills-pilot-run` sur le port 9038. Aucun e-mail ni service externe,
+aucune création d’offre, compte ou profil ; pas de nouvelle migration.
+
+Validation locale : 469 tests PostgreSQL réussis ; reconstruction des deux JSON
+identique depuis les archives officielles épinglées FR/EN/DE. Vérification
+navigateur réalisée sur les parcours employeur et candidat, plafonds, relecture,
+conservation FR/EN/DE et action clavier ; contrôle à 375 pixels sans débordement
+horizontal constaté. Ce contrôle n’est pas un audit WCAG exhaustif. La sélection
+éditoriale et les libellés sont à revoir avec Eric. Voir
+[les limites et commandes](docs/SKILLS_PILOT.md). Aucun push, fusion ou déploiement.
+
 ## 6 novembre 2026 — accroches accueil, candidat et employeur
 
 Branche `codex/editorial-headlines`, au-dessus de `codex/remove-aglae-mentions`

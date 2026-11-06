@@ -1,5 +1,15 @@
 # EURES beta / Match Europe — décisions communes
 
+## 6 novembre 2026 — pilote commun de sélection des compétences
+
+Eric choisit six métiers : nettoyage, espaces verts, service en restaurant,
+sécurité, production agroalimentaire et vente de prêt-à-porter. Il demande un
+parcours local employeur/candidat pour tester et valider avant push.
+Le catalogue et les identifiants sont communs ; les questions et les réponses
+restent distinctes par rôle. Les plafonds de cinq compétences et trois savoir-être
+restent à éprouver en recette. Aucune publication, fusion ni production autorisée
+par cette étape. Voir [le pilote local](SKILLS_PILOT.md).
+
 ## 6 novembre 2026 — évaluer Albert localement avant publication
 
 Eric autorise une intégration locale limitée aux offres employeurs, une clé locale distincte et une évaluation des résultats. Il demande de tester personnellement le parcours avant tout push ou création de PR ; la recette jetable viendra après son accord. Les codes proposés restent issus des catalogues officiels, avec validation humaine. Voir [le contrat](ALBERT_IMPORT.md).

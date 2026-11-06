@@ -1,5 +1,13 @@
 # EURES beta / Match Europe — vue d’ensemble
 
+## 6 novembre 2026 — pilote local des compétences
+
+TRANSVERSE / EMPLOYEURS / CANDIDATS : parcours de recette autonome dans Django,
+`/skills-pilot/`, désactivé par défaut et réservé au loopback local. Six métiers,
+références ESCO FR/EN/DE partagées et sélections temporaires distinctes. Aucune
+connexion aux offres, profils durables, conseillers ou matching existants.
+La validation utilisateur et le push sont à venir. Voir [périmètre et recette](SKILLS_PILOT.md).
+
 ## 6 novembre 2026 — essai Albert pour les offres employeurs
 
 Essai opt-in local/recette de structuration du texte PDF ou collé par Albert, suivi de recherches ESCO/ROME indépendantes et de la relecture employeur. Désactivé par défaut, interdit en production. Aucun changement candidat ni matching. Voir [périmètre et limites](ALBERT_IMPORT.md).
