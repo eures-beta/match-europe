@@ -166,6 +166,10 @@ db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
 
 
 .PHONY: test-navigation
+.PHONY: landing-test
+landing-test: ## Vérifier les trois pages d'entrée, leurs textes, langues et protections
+	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.test_home eures_beta.test_language_navigation eures_beta.test_employer_landing_translation eures_beta.test_public_positioning eures_beta.candidates.tests.test_landing --noinput $(TEST_ARGS)
+
 test-navigation: ## Vérifier la bascule de langue et les liens ouverts avant un déploiement
 	@$(MANAGE) test eures_beta.test_language_navigation --noinput $(TEST_ARGS)
 

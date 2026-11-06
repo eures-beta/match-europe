@@ -275,28 +275,23 @@
           </div>
           <div class="candidate-letter-head">
             <div class="kicker">{% translate "Employer journey" context "employer landing" %}</div>
-            <h1>{% translate "Make recruitment easier through European mobility" context "employer landing" %}</h1>
-            <p class="lede">{% translate "Already written your job offer? Import a PDF or add the link to your advert to prepare and save your recruitment needs." context "employer landing" %}</p>
-            <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
+            <h1>{% translate "Recruit in another country" context "public positioning" %}</h1>
+            <p class="lede">{% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}</p>
+            <div class="landing-actions"><a class="primary-action"
+   href="/employer/pages/import-{{ page_language }}.html">{% translate "Describe my recruitment needs" context "public positioning" %}</a></div>
+            <p>{% translate "Upload your job offer as a PDF, add a link to your advert or enter your recruitment needs." context "public positioning" %}</p>
             {% if not user.is_authenticated or user.kind != "employer" %}
               {% include "includes/employer_invitation_help.html" %}
             {% endif %}
           </div>
           <section class="candidate-message">
-            <h2>{% translate "Your offer is read, then checked with you" context "employer landing" %}</h2>
-            <p>
-              <strong>{% translate "Match Europe reads and analyses your document to turn its information into a structured summary: role, skills, languages and working conditions." context "employer landing" %}
-              </strong>
-            </p>
-            <p>{% translate "Check this summary, correct any information if needed and complete what is missing." context "employer landing" %}</p>
-            <p>{% translate "If information is missing or unclear, you will be asked additional questions. In particular, specify whether you can welcome cross-border workers or people relocating from another European country." context "employer landing" %}</p>
+            <h2>{% translate "Check your job offer information" context "public positioning" %}</h2>
+            <p>{% translate "Review the extracted information, correct it and complete any missing details: occupation, languages and working conditions." context "public positioning" %}</p>
+            <p>{% translate "Prepare your questions for candidates, then save your offer." context "public positioning" %}</p>
             <p>{% translate "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers." context "employer landing" %}</p>
-            <div class="candidate-highlight">{% translate "Saving your offer does not start a candidate search. Matching is coming soon." context "employer landing" %}</div>
+            <div class="candidate-highlight">{% translate "The service is under development. Saving your offer does not start matching. Matching and introductions are not yet available." context "public positioning" %}</div>
           </section>
-          <section class="candidate-about">
-            <h2>{% translate "How the service can help" context "employer landing" %}</h2>
-            <p>{% translate "Broaden your search beyond your local market, prepare candidate prequalification and talk to interested candidates, with support from your EURES adviser." context "employer landing" %}</p>
-          </section>
+          <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>
         </article>
         <aside class="candidate-sidebar">
           <article class="surface-card candidate-info-card">
@@ -310,15 +305,7 @@
           </article>
           <article class="surface-card candidate-info-card">
             <h2>{% translate "You stay in control" context "employer landing" %}</h2>
-            <p>{% translate "A match between an offer and a profile remains a suggestion. An introduction requires both your agreement and the candidate’s. Your adviser then starts a three-way conversation." context "employer landing" %}</p>
-          </article>
-          <article class="panel candidate-info-card">
-            <h2>{% translate "Accessible support" context "employer landing" %}</h2>
-            <ul>
-              <li>{% translate "On desktop and mobile." context "employer landing" %}</li>
-              <li>{% translate "Targeted questions with quick replies and free text." context "employer landing" %}</li>
-              <li>{% translate "An EURES adviser to support the conversation." context "employer landing" %}</li>
-            </ul>
+            <p>{% translate "A match remains a suggestion. An introduction requires your agreement and the candidate’s." context "public positioning" %}</p>
           </article>
         </aside>
       </div>

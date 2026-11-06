@@ -7672,3 +7672,79 @@ msgstr "Kategorie"
 msgctxt "data protection table"
 msgid "Retention period"
 msgstr "Aufbewahrungsdauer"
+
+msgctxt "public positioning"
+msgid "Employment beyond borders"
+msgstr "Arbeit über Grenzen hinweg"
+
+msgctxt "public positioning"
+msgid "Match Europe connects candidates’ career plans with employers’ recruitment needs across countries."
+msgstr "Match Europe bringt die beruflichen Ziele von Bewerbenden mit dem Personalbedarf von Arbeitgebern aus verschiedenen Ländern zusammen."
+
+msgctxt "public positioning"
+msgid "Work in another country"
+msgstr "In einem anderen Land arbeiten"
+
+msgctxt "public positioning"
+msgid "Recruit in another country"
+msgstr "In einem anderen Land Personal finden"
+
+msgctxt "public positioning"
+msgid "Describe your career plans. Match Europe identifies opportunities that match your profile."
+msgstr "Beschreiben Sie Ihre beruflichen Ziele. Match Europe ermittelt Möglichkeiten, die zu Ihrem Profil passen."
+
+msgctxt "public positioning"
+msgid "Describe your recruitment needs. Match Europe identifies profiles that match your requirements."
+msgstr "Beschreiben Sie Ihren Personalbedarf. Match Europe ermittelt Profile, die Ihren Anforderungen entsprechen."
+
+msgctxt "public positioning"
+msgid "Relevant matches. Introductions by mutual consent."
+msgstr "Passende Zuordnungen. Kontaktaufnahme im beiderseitigen Einvernehmen."
+
+msgctxt "public positioning"
+msgid "The service is under development. Matching and introductions are not yet available."
+msgstr "Der Dienst befindet sich im Aufbau. Matching und Kontaktvermittlung sind noch nicht verfügbar."
+
+msgctxt "public positioning"
+msgid "Describe my career plans"
+msgstr "Meine beruflichen Ziele beschreiben"
+
+msgctxt "public positioning"
+msgid "Describe my recruitment needs"
+msgstr "Meinen Personalbedarf beschreiben"
+
+msgctxt "public positioning"
+msgid "A questionnaire in four steps: target occupations, mobility and languages, working conditions, then review."
+msgstr "Ein Fragebogen in vier Schritten: gewünschte Berufe, Mobilität und Sprachen, Arbeitsbedingungen und abschließende Prüfung."
+
+msgctxt "public positioning"
+msgid "I’m a candidate"
+msgstr "Für Bewerbende"
+
+msgctxt "public positioning"
+msgid "I’m an employer"
+msgstr "Für Arbeitgeber"
+
+msgctxt "public positioning"
+msgid "Upload your job offer as a PDF, add a link to your advert or enter your recruitment needs."
+msgstr "Laden Sie Ihr Stellenangebot als PDF hoch, fügen Sie einen Link zu Ihrer Stellenanzeige hinzu oder beschreiben Sie Ihren Personalbedarf."
+
+msgctxt "public positioning"
+msgid "Check your job offer information"
+msgstr "Prüfen Sie die Angaben Ihres Stellenangebots"
+
+msgctxt "public positioning"
+msgid "Review the extracted information, correct it and complete any missing details: occupation, languages and working conditions."
+msgstr "Prüfen und korrigieren Sie die ausgelesenen Angaben und ergänzen Sie fehlende Informationen: Beruf, Sprachen und Arbeitsbedingungen."
+
+msgctxt "public positioning"
+msgid "Prepare your questions for candidates, then save your offer."
+msgstr "Bereiten Sie Ihre Fragen an Bewerbende vor und speichern Sie anschließend Ihr Stellenangebot."
+
+msgctxt "public positioning"
+msgid "The service is under development. Saving your offer does not start matching. Matching and introductions are not yet available."
+msgstr "Der Dienst befindet sich im Aufbau. Das Speichern Ihres Stellenangebots startet kein Matching. Matching und Kontaktvermittlung sind noch nicht verfügbar."
+
+msgctxt "public positioning"
+msgid "A match remains a suggestion. An introduction requires your agreement and the candidate’s."
+msgstr "Eine Übereinstimmung bleibt ein Vorschlag. Eine Kontaktvermittlung setzt Ihre Zustimmung und die der Bewerberin oder des Bewerbers voraus."

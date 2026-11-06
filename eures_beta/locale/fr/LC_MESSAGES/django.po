@@ -7672,3 +7672,79 @@ msgstr "Catégorie"
 msgctxt "data protection table"
 msgid "Retention period"
 msgstr "Durée de conservation"
+
+msgctxt "public positioning"
+msgid "Employment beyond borders"
+msgstr "L’emploi au-delà des frontières"
+
+msgctxt "public positioning"
+msgid "Match Europe connects candidates’ career plans with employers’ recruitment needs across countries."
+msgstr "Match Europe rapproche les projets professionnels des candidats et les besoins de recrutement des employeurs de différents pays."
+
+msgctxt "public positioning"
+msgid "Work in another country"
+msgstr "Travailler dans un autre pays"
+
+msgctxt "public positioning"
+msgid "Recruit in another country"
+msgstr "Recruter dans un autre pays"
+
+msgctxt "public positioning"
+msgid "Describe your career plans. Match Europe identifies opportunities that match your profile."
+msgstr "Décrivez votre projet professionnel. Match Europe identifie les opportunités qui correspondent à votre profil."
+
+msgctxt "public positioning"
+msgid "Describe your recruitment needs. Match Europe identifies profiles that match your requirements."
+msgstr "Décrivez votre besoin de recrutement. Match Europe identifie les profils qui correspondent à votre recherche."
+
+msgctxt "public positioning"
+msgid "Relevant matches. Introductions by mutual consent."
+msgstr "Des correspondances pertinentes. Des mises en relation consenties."
+
+msgctxt "public positioning"
+msgid "The service is under development. Matching and introductions are not yet available."
+msgstr "Le service est en construction. Le matching et les mises en relation ne sont pas encore disponibles."
+
+msgctxt "public positioning"
+msgid "Describe my career plans"
+msgstr "Décrire mon projet professionnel"
+
+msgctxt "public positioning"
+msgid "Describe my recruitment needs"
+msgstr "Décrire mon besoin de recrutement"
+
+msgctxt "public positioning"
+msgid "A questionnaire in four steps: target occupations, mobility and languages, working conditions, then review."
+msgstr "Un questionnaire en quatre étapes : métiers recherchés, mobilité et langues, conditions de travail, puis relecture."
+
+msgctxt "public positioning"
+msgid "I’m a candidate"
+msgstr "Je suis candidat"
+
+msgctxt "public positioning"
+msgid "I’m an employer"
+msgstr "Je suis employeur"
+
+msgctxt "public positioning"
+msgid "Upload your job offer as a PDF, add a link to your advert or enter your recruitment needs."
+msgstr "Importez votre offre en PDF, ajoutez le lien de votre annonce ou saisissez votre besoin."
+
+msgctxt "public positioning"
+msgid "Check your job offer information"
+msgstr "Vérifiez les informations de votre offre"
+
+msgctxt "public positioning"
+msgid "Review the extracted information, correct it and complete any missing details: occupation, languages and working conditions."
+msgstr "Relisez les informations extraites, corrigez-les et complétez les éléments manquants : métier, langues et conditions de travail."
+
+msgctxt "public positioning"
+msgid "Prepare your questions for candidates, then save your offer."
+msgstr "Préparez vos questions aux candidats, puis enregistrez votre offre."
+
+msgctxt "public positioning"
+msgid "The service is under development. Saving your offer does not start matching. Matching and introductions are not yet available."
+msgstr "Le service est en construction. Enregistrer votre offre ne lance pas de matching. Le matching et les mises en relation ne sont pas encore disponibles."
+
+msgctxt "public positioning"
+msgid "A match remains a suggestion. An introduction requires your agreement and the candidate’s."
+msgstr "Une correspondance reste une suggestion. Une mise en relation nécessite votre accord et celui du candidat."

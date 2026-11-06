@@ -1,5 +1,22 @@
 ## 6 novembre 2026 — commandes de mise à jour des référentiels
 
+## 6 novembre 2026 — accroches accueil, candidat et employeur
+
+Branche `codex/editorial-headlines`, au-dessus de `codex/remove-aglae-mentions`
+(PR #134, sommet de livraison vérifié sur GitHub au démarrage, `2561176`).
+Les trois écrans ont été validés séparément par Eric avant modification du code.
+Textes FR/EN/DE harmonisés, parcours candidat/employeur remontés sous l’accroche
+d’accueil, signature commune et indisponibilité du matching explicites.
+Promesses d’accompagnement systématique retirées des landing pages ; double accord
+et absence de rejet automatique sur les seules réponses conservés.
+Liens, protections, logos et parcours existants préservés ; aucune migration.
+
+Validation locale : `make landing-test` (17 tests PostgreSQL réussis),
+`make check`, `make translations-check`, `make translations-compile`,
+`make format` et `make format-html-check` réussis.
+Pas d’audit WCAG complet ni de vérification de production. Aucune fusion ou
+action de déploiement. Voir les formulations dans `docs/DECISIONS.md`.
+
 PR depuis main : commandes Django `sync_esco`, `sync_rome`, `sync_esco_rome`,
 exposées par les cibles `make occupations-sync-esco`, `make occupations-sync-rome`
 et `make occupations-sync-esco-rome`. Imports explicites des exports officiels
