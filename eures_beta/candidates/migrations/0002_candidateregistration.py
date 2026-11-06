@@ -10,7 +10,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('candidates', '0001_initial'),
+        ('candidates', '0002_ensure_candidate_profile_schema'),
     ]
 
     operations = [
