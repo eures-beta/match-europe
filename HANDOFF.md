@@ -1150,3 +1150,10 @@ La pile inclut désormais l’ouverture du parcours candidat de #132. La suppres
 du module de textes conserve la notice actualisée : confirmation email puis
 compte et profil. Elle ne rétablit pas l’ancien texte limité aux données fictives.
 Un test de régression couvre cette information ; aucun droit ni stockage changé.
+
+## 6 novembre 2026 — vues publiques explicites
+
+Les routes privacy, statistics, project et journal ciblent chacune une vue
+dédiée. Suppression de l’aiguillage information_page ; rendu multilingue
+commun conservé dans _public_page. URL, noms de routes, templates, données
+et protections GET/HEAD et absence de cache conservés.

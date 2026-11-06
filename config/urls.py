@@ -13,21 +13,16 @@ urlpatterns = [
     # Old tabs/bookmarks still contain these relative language links after deployment.
     path('previews/employer-landing/<path:path>', legacy_employer_page),
     path("health/", health, name="health"),
-    path('privacy/', views.information_page, {'section': 'privacy'}, name='privacy'),
+    path('privacy/', views.privacy, name='privacy'),
     path('admin/login/', user_views.admin_login),
     path('admin/password_change/', user_views.password_disabled),
     path('admin/password_change/done/', user_views.password_disabled),
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", views.home, name="home"),
-    path(
-        "statistics/",
-        views.information_page,
-        {"section": "statistics"},
-        name="statistics",
-    ),
-    path("project/", views.information_page, {"section": "project"}, name="project"),
-    path("journal/", views.information_page, {"section": "journal"}, name="journal"),
+    path("statistics/", views.statistics, name="statistics"),
+    path("project/", views.project, name="project"),
+    path("journal/", views.journal, name="journal"),
     # Compatibility only: templates must use the canonical named routes.
     *[
         path(
