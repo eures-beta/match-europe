@@ -1,0 +1,54 @@
+{% load i18n %}
+<div data-open-project>
+  <p>{% translate "You do not need to choose an occupation. Tell us what you can do and what you want to learn." %}</p>
+  <p>{% translate "Choose up to 10 skills you can use, up to 5 activities to learn, and exactly 3 professional behaviours. At least one skill or activity is required." %}</p>
+  <p>{% translate "Professional behaviours will never automatically exclude you from an opportunity. Matching is not available yet." %}</p>
+  <p>{% translate "This selection uses a limited ESCO 1.2.1 catalogue covering 50 occupations. Categories and professional behaviour suggestions are editorial choices, not official requirements or proof of qualifications." %}</p>
+  {% for section in skill_sections %}
+    <section class="candidate-skill-section journey-field"
+             id="section_{{ section.name }}"
+             tabindex="-1"
+             data-skill-section
+             data-maximum="{{ section.maximum }}"
+             data-remove="{% translate 'Remove: {label}' %}">
+      <h2>{{ section.label }} <span data-skill-count
+       role="status">{{ section.count }} / {{ section.maximum }}</span></h2>
+      <div id="{{ section.name }}_errors">{{ section.errors }}</div>
+      <div class="candidate-skill-tags" data-skill-tags>
+        {% for item in section.selected %}<span>{{ item.label }}</span>{% endfor %}
+      </div>
+      <details>
+        <summary>{% translate "Show or hide choices" %}</summary>
+        <div data-skill-search-wrapper hidden>
+          <label for="search_{{ section.name }}">{% translate "Search this section" %}</label>
+          <input type="search"
+                 id="search_{{ section.name }}"
+                 data-skill-search
+                 autocomplete="off">
+          <p data-skill-results
+             role="status"
+             data-template="{% translate '{count} matching choices' %}"></p>
+        </div>
+        {% for category in section.categories %}
+          <fieldset data-skill-category>
+            <legend>{{ category.label }}</legend>
+            {% for item in category.items %}
+              <label class="candidate-skill-choice"
+                     data-skill-choice
+                     data-search="{{ item.search }}">
+                <input type="checkbox"
+                       id="{{ item.id }}"
+                       name="{{ section.name }}"
+                       value="{{ item.uri }}"
+                       aria-describedby="{{ section.name }}_errors"
+                       {% if item.checked %}checked{% endif %}>
+                <span>{{ item.label }}</span>
+              </label>
+            {% endfor %}
+          </fieldset>
+        {% endfor %}
+      </details>
+    </section>
+  {% endfor %}
+  <p>{% translate "This service uses the ESCO classification of the European Commission." %}</p>
+</div>

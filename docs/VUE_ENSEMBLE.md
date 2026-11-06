@@ -1,5 +1,9 @@
 # EURES beta / Match Europe — vue d’ensemble
 
+## 6 novembre 2026 — projet candidat sans métier
+
+CANDIDATS : mode ouvert dans la première étape du questionnaire, trois listes ESCO transversales et réponses raccordées à la confirmation email puis au profil privé. Migration additive, anciens profils conservés sans compétences inventées. Parcours métier et pilote employeur conservés ; aucun matching ni nouveau droit. Voir [périmètre](CANDIDATE_OPEN_SKILLS.md).
+
 ## 6 novembre 2026 — extension locale proposée à 50 métiers
 
 TRANSVERSE / EMPLOYEURS / CANDIDATS : préparation de deux JSON compatibles avec

@@ -8166,3 +8166,158 @@ msgstr "Quelles compétences et quels savoir-être savez-vous mobiliser et souha
 #: eures_beta/occupations/pilot_views.py eures_beta/occupations/templates/occupations/pilot.html
 msgid "Your selection"
 msgstr "Votre sélection"
+
+#: eures_beta/candidates/journey.py:81
+#| msgid "My project"
+msgid "My professional project"
+msgstr "Mon projet professionnel"
+
+#: eures_beta/candidates/journey.py:82 eures_beta/candidates/models.py:56
+#| msgid "I have a minimum amount in mind"
+msgid "I have one or more occupations in mind"
+msgstr "J’ai un ou plusieurs métiers en tête"
+
+#: eures_beta/candidates/journey.py:83 eures_beta/candidates/models.py:57
+#| msgid "Select up to ten occupations."
+msgid "I am open to different occupations"
+msgstr "Je suis ouvert à différents métiers"
+
+#: eures_beta/candidates/journey.py:86
+#| msgid "Languages I can use"
+msgid "Skills I can use"
+msgstr "Mes savoir-faire"
+
+#: eures_beta/candidates/journey.py:87
+msgid "Activities I want to learn"
+msgstr "Les activités que je souhaite apprendre"
+
+#: eures_beta/candidates/journey.py:88
+#| msgid "Professional behaviours"
+msgid "My professional behaviours"
+msgstr "Mes savoir-être professionnels"
+
+#: eures_beta/candidates/skill_choices.py:19
+#| msgid "Green space maintenance"
+msgid "Cleaning and maintenance"
+msgstr "Nettoyage et entretien"
+
+#: eures_beta/candidates/skill_choices.py:20
+msgid "Agriculture and green spaces"
+msgstr "Agriculture et espaces verts"
+
+#: eures_beta/candidates/skill_choices.py:21
+#| msgid "Mobility and languages"
+msgid "Hospitality and catering"
+msgstr "Hôtellerie et restauration"
+
+#: eures_beta/candidates/skill_choices.py:22
+#| msgid "Security guard"
+msgid "Security"
+msgstr "Sécurité"
+
+#: eures_beta/candidates/skill_choices.py:23
+#| msgid "Food production worker"
+msgid "Food production"
+msgstr "Alimentation"
+
+#: eures_beta/candidates/skill_choices.py:24
+msgid "Retail"
+msgstr "Commerce"
+
+#: eures_beta/candidates/skill_choices.py:25
+msgid "Transport and logistics"
+msgstr "Transport et logistique"
+
+#: eures_beta/candidates/skill_choices.py:26
+#| msgctxt "project page"
+#| msgid "Introductions"
+msgid "Construction"
+msgstr "Bâtiment"
+
+#: eures_beta/candidates/skill_choices.py:27
+#| msgid "Green space maintenance"
+msgid "Industry and maintenance"
+msgstr "Industrie et maintenance"
+
+#: eures_beta/candidates/skill_choices.py:28
+#| msgctxt "project page"
+#| msgid "Human support"
+msgid "Care and support"
+msgstr "Soins et accompagnement"
+
+#: eures_beta/candidates/skill_choices.py:29
+#| msgid "Daytime work"
+msgid "Office work"
+msgstr "Administration"
+
+#: eures_beta/candidates/skill_choices.py:30
+#| msgid "Working hours and conditions I would accept"
+msgid "Working with others and organising work"
+msgstr "Coopérer et organiser son travail"
+
+#: eures_beta/candidates/skill_choices.py:91
+msgid "Select each item only once."
+msgstr "Sélectionnez chaque élément une seule fois."
+
+#: eures_beta/candidates/skill_choices.py:93
+#, python-format
+msgid "Choose no more than %(maximum)s items."
+msgstr "Choisissez au maximum %(maximum)s éléments."
+
+#: eures_beta/candidates/skill_choices.py:95
+msgid "Choose at least one skill you can use or one activity you want to learn."
+msgstr "Choisissez au moins un savoir-faire ou une activité à apprendre."
+
+#: eures_beta/candidates/skill_choices.py:97
+#| msgid "Choose up to 3 professional behaviours."
+msgid "Choose exactly three professional behaviours."
+msgstr "Choisissez exactement trois savoir-être professionnels."
+
+#: eures_beta/candidates/skill_choices.py:99
+msgid "Choose an activity either as a skill you can use or as an activity to learn, not both."
+msgstr "Déclarez une activité soit comme savoir-faire acquis, soit comme activité à apprendre, pas les deux."
+
+#: eures_beta/candidates/templates/candidates/journey.html:45
+msgid "Describe your project and choose the countries that interest you. You can continue without choosing an occupation."
+msgstr "Décrivez votre projet et choisissez les pays qui vous intéressent. Vous pouvez continuer sans choisir de métier."
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:3
+msgid "You do not need to choose an occupation. Tell us what you can do and what you want to learn."
+msgstr "Vous n’avez pas besoin de choisir un métier précis. Parlez-nous de ce que vous savez faire et de ce que vous souhaitez apprendre."
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:4
+msgid "Choose up to 10 skills you can use, up to 5 activities to learn, and exactly 3 professional behaviours. At least one skill or activity is required."
+msgstr "Choisissez de 0 à 10 savoir-faire, de 0 à 5 activités à apprendre et exactement 3 savoir-être professionnels. Au moins un savoir-faire ou une activité à apprendre est nécessaire."
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:5
+msgid "Professional behaviours will never automatically exclude you from an opportunity. Matching is not available yet."
+msgstr "Les savoir-être ne vous excluront jamais automatiquement d’une opportunité. Le matching n’est pas encore disponible."
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:6
+msgid "This selection uses a limited ESCO 1.2.1 catalogue covering 50 occupations. Categories and professional behaviour suggestions are editorial choices, not official requirements or proof of qualifications."
+msgstr "Cette sélection utilise un catalogue ESCO 1.2.1 limité à 50 métiers. Les catégories et les suggestions de savoir-être sont des choix éditoriaux ; elles ne constituent ni des exigences officielles ni des preuves de qualification."
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:13
+#, python-brace-format
+msgid "Remove: {label}"
+msgstr "Retirer : {label}"
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:20
+#| msgid "Show record counts"
+msgid "Show or hide choices"
+msgstr "Afficher ou masquer les choix"
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:22
+#| msgid "Edit this section"
+msgid "Search this section"
+msgstr "Rechercher dans cette section"
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:24
+#, python-brace-format
+msgid "{count} matching choices"
+msgstr "{count} choix correspondants"
+
+#: eures_beta/candidates/templates/candidates/skill_sections.html:45
+#| msgid "This test uses the ESCO classification of the European Commission."
+msgid "This service uses the ESCO classification of the European Commission."
+msgstr "Ce service utilise la classification ESCO de la Commission européenne."

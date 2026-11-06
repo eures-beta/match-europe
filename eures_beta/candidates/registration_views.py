@@ -17,6 +17,7 @@ from eures_beta.users.models import User
 from eures_beta.users.views import selected_language, email_ready
 from . import registration
 from .models import CandidateProfile
+from .skill_choices import FIELDS
 
 
 def page(request, stage, **context):
@@ -100,10 +101,20 @@ def profile(request):
         answers = registration.profile_answers(obj)
         for step in (1, 2, 3):
             form = FORMS[step](
-                initial=answers, **({'language': obj.language} if step == 1 else {})
+                initial=answers,
+                **({'language': selected_language(request)} if step == 1 else {}),
             )
             rows = []
             for name, field in form.fields.items():
+                if name == 'skill_catalogue_version':
+                    continue
+                if name in FIELDS and answers.get('project_mode') != 'open':
+                    continue
+                if (
+                    name in ('occupation_references', 'desired_occupations')
+                    and answers.get('project_mode') == 'open'
+                ):
+                    continue
                 if name not in answers or answers[name] in ('', None, [], {}):
                     continue
                 value = answers[name]
