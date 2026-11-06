@@ -15,20 +15,28 @@ def home(request):
 
 @never_cache
 @require_safe
-def information_page(request, section):
-    if section == 'privacy':
-        return _public_page(request, 'data_protection.html')
-    titles = {
-        'statistics': _('Statistics'),
-        'project': _('The project'),
-        'journal': _('Project journal'),
-    }
-    if section == 'journal':
-        from eures_beta.journal import ENTRIES
+def privacy(request):
+    return _public_page(request, 'data_protection.html')
 
-        return _public_page(request, 'journal.html', {'entries': ENTRIES})
-    template = 'project.html' if section == 'project' else 'under_construction.html'
-    return _public_page(request, template, {'title': titles[section]})
+
+@never_cache
+@require_safe
+def statistics(request):
+    return _public_page(request, 'under_construction.html', {'title': _('Statistics')})
+
+
+@never_cache
+@require_safe
+def project(request):
+    return _public_page(request, 'project.html', {'title': _('The project')})
+
+
+@never_cache
+@require_safe
+def journal(request):
+    from eures_beta.journal import ENTRIES
+
+    return _public_page(request, 'journal.html', {'entries': ENTRIES})
 
 
 def _public_page(request, template, context=None):

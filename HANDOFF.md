@@ -1090,3 +1090,12 @@ indépendante. Les textes gettext conservent le comportement de main : questionn
 en session, sans création de compte candidat, et expiration après 30 minutes.
 Les parcours des PR #132 et #164 ne sont pas embarqués. Aucun modèle ni migration
 modifié ; les six durées et les traductions existantes sont conservées.
+
+
+## 9 novembre 2026 — vues publiques explicites (#151)
+
+PR isolée et rebasée directement sur main après fusion de #149.
+Privacy, statistics, project et journal disposent chacun d'une vue dédiée.
+Le rendu multilingue, les routes, les protections GET/HEAD et le cache sont
+inchangés. Les textes de la notice actuellement sur main sont conservés.
+Aucun modèle, stockage ou migration ajouté dans ce lot.
