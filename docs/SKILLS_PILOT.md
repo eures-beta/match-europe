@@ -73,5 +73,6 @@ Les choix éditoriaux sont propres au pilote Match Europe. Voir les
 
 Recette navigateur : vérifier plafond atteint puis désélection, récapitulatif,
 retour à la modification, conservation FR/EN/DE, changement de métier et séparation
-des rôles. Tester au clavier et sur petit écran. La validation utilisateur et le
-push restent deux étapes ultérieures ; aucune fusion ni aucun déploiement.
+des rôles. Tester au clavier et sur petit écran. Eric a validé le parcours local à un métier et autorisé sa publication en PR
+le 6 novembre 2026. Le multi-métiers candidat reste hors périmètre. Aucune
+fusion ni aucun déploiement.
