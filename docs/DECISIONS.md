@@ -1,5 +1,15 @@
 # EURES beta / Match Europe — décisions communes
 
+## 6 novembre 2026 — préparation d’un catalogue de 50 métiers
+
+Eric demande une proposition de 50 métiers ou plus et la création des fichiers
+depuis ESCO, sans données inventées. Préparation sur le sommet de livraison #154
+vérifié à `d12374c` : 50 métiers distincts, sept existants conservés et 43 ajouts.
+La liste détaillée et les sélections sont proposées à la relecture, pas validées
+individuellement par Eric. Architecture des deux JSON et protections locales
+conservées ; aucune correspondance ROME ou statistique de recrutement ajoutée.
+Voir [la liste](SKILLS_CATALOGUE_50.md) et [les contrôles](SKILLS_PILOT.md).
+
 ## 6 novembre 2026 — pilote commun de sélection des compétences
 
 Eric choisit six métiers : nettoyage, espaces verts, service en restaurant,
