@@ -17,11 +17,7 @@ def home(request):
 @require_safe
 def information_page(request, section):
     if section == 'privacy':
-        from eures_beta import data_protection
-
-        return _public_page(
-            request, 'data_protection.html', {'notice': data_protection}
-        )
+        return _public_page(request, 'data_protection.html')
     titles = {
         'statistics': _('Statistics'),
         'project': _('The project'),
