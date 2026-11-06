@@ -1,6 +1,15 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+.PHONY: skills-pilot-run skills-pilot-test skills-pilot-build
+skills-pilot-build: ## Reconstruire le pilote depuis CATALOG_SOURCES en staging, sans réseau
+	@$(MANAGE) sync_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --output .runtime/skills-pilot-staging
+skills-pilot-run: ## Essayer les sélections employeur/candidat sur 9038, uniquement en local
+	@$(LOAD_ENV) SKILLS_PILOT_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 "$(PYTHON)" manage.py runserver "127.0.0.1:9038" --noreload
+
+skills-pilot-test: ## Vérifier le catalogue, les plafonds, les brouillons, les accès et les langues
+	@$(MANAGE) test eures_beta.occupations.tests.test_skills_pilot --noinput $(TEST_ARGS)
+
 .PHONY: albert-test albert-run albert-evaluate
 albert-test: ## Tester Albert sans réseau : validation, repli, droits et confidentialité
 	@$(MANAGE) test eures_beta.employers.tests.test_albert eures_beta.integrations.tests.test_albert --noinput $(TEST_ARGS)
