@@ -184,8 +184,13 @@ def _context(role, cards, lang, step, card, form, error):
     return {
         'role': role,
         'step': step,
-        'pilot_cards': [(key, titles[key]) for key in cards],
-        'occupation_label': titles.get(card['id']) if card else '',
+        'pilot_cards': [
+            (key, titles.get(key, item['occupation']['labels'][lang]))
+            for key, item in cards.items()
+        ],
+        'occupation_label': (
+            titles.get(card['id'], card['occupation']['labels'][lang]) if card else ''
+        ),
         'occupation_uri': card['occupation']['uri'] if card else '',
         'official_occupation_label': card['occupation']['labels'][lang] if card else '',
         'form': form,
