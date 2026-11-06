@@ -11,6 +11,10 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 6 novembre 2026 — lot local compétences et Albert autorisé
+
+Après l’audit en lecture seule de #156, Eric accepte le lot local proposé, désactivé par défaut et testé sans service payant. Implémentation dans le pilote commun : confirmation du métier, message d’attente, sélection parmi les compétences officiellement reliées dans ESCO, persistance et réutilisation. Hypothèse d’implémentation annoncée : aucun nouveau lien ESCO ni savoir-être inféré. La pertinence réelle d’Albert et le raccordement aux questionnaires durables restent à valider. Aucun push, fusion ou déploiement autorisé par cet accord. Voir [contrat](ALBERT_SKILLS.md).
+
 # EURES beta / Match Europe — décisions communes
 
 ## 6 novembre 2026 — candidat ouvert à différents métiers
