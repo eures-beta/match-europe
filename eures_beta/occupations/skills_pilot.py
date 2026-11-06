@@ -46,7 +46,9 @@ def catalogue():
 
 
 def choices(card, group, language):
-    _, skills = catalogue()
+    skills = card.get('_skills')
+    if skills is None:
+        _, skills = catalogue()
     return [
         (item['skillUri'], skills[item['skillUri']]['labels'][language])
         for item in card[group]

@@ -27,6 +27,10 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 6 novembre 2026 — compétences des métiers hors sélection
+
+Branche locale `codex/albert-occupation-skills`, sur #156 `f007a7f` vérifié sur GitHub. Pilote employeur/candidat étendu avec recherche ESCO, confirmation, attente, validation stricte des URI parmi les relations officielles et cache PostgreSQL partagé versionné. Migration additive, administration en lecture seule, réservations contre les doubles appels, repli préservant le brouillon. Simulation par défaut ; aucun appel Albert réel ni modification d’offre/profil métier. Voir [périmètre et recette](docs/ALBERT_SKILLS.md). Validation : 491 tests PostgreSQL réussis, 12 tests dédiés et 8 tests admin revérifiés, test JavaScript d’attente réussi ; contrôles Django/migrations/formats/traductions et archives officielles vérifiés. Recette navigateur employeur/candidat, conservation FR/EN/DE et largeur 390 px sans débordement. Aucun audit WCAG exhaustif, appel Albert réel, publication ou production.
+
 ## 6 novembre 2026 — commandes de mise à jour des référentiels
 
 ## 6 novembre 2026 — implémentation du projet candidat ouvert

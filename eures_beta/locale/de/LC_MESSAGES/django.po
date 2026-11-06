@@ -10734,3 +10734,51 @@ msgstr "{count} passende Einträge"
 #| msgid "This test uses the ESCO classification of the European Commission."
 msgid "This service uses the ESCO classification of the European Commission."
 msgstr "Dieser Dienst nutzt die ESCO-Klassifikation der Europäischen Kommission."
+
+msgid "Skills could not be prepared. Try again in a minute or choose a listed occupation."
+msgstr "Die Kompetenzen konnten nicht vorbereitet werden. Versuchen Sie es in einer Minute erneut oder wählen Sie einen Beruf aus der Liste."
+
+msgid "Another ESCO occupation"
+msgstr "Ein anderer ESCO-Beruf"
+
+msgid "Search for an occupation outside the shortlist. Only its official title and ESCO skills are used; no personal answers are sent."
+msgstr "Suchen Sie einen Beruf außerhalb der Vorauswahl. Nur seine offizielle Bezeichnung und ESCO-Kompetenzen werden verwendet; persönliche Antworten werden nicht übermittelt."
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "Confirm the occupation before preparing suggestions"
+msgstr "Bestätigen Sie den Beruf, bevor Vorschläge vorbereitet werden"
+
+msgid "No other ESCO occupation found. Refine your search; no skill will be invented."
+msgstr "Kein weiterer ESCO-Beruf gefunden. Präzisieren Sie Ihre Suche; es werden keine Kompetenzen erfunden."
+
+msgid "Prepare the skills"
+msgstr "Kompetenzen vorbereiten"
+
+msgid "One moment, we are looking for the skills associated with this occupation so we can suggest them to you."
+msgstr "Einen Moment, wir suchen die mit diesem Beruf verbundenen Kompetenzen, um sie Ihnen vorzuschlagen."
+
+msgid "These are verified ESCO skills and occupation links. Their shortlist is a suggestion, not a requirement. Check their relevance before choosing."
+msgstr "Die Kompetenzen und ihre Verbindungen zum Beruf sind in ESCO geprüft. Die Vorauswahl ist ein Vorschlag, keine Anforderung. Prüfen Sie ihre Relevanz vor der Auswahl."
+
+msgid "Simulation: no Albert call was made. This shortlist only tests the journey, not the quality of AI suggestions."
+msgstr "Simulation: Albert wurde nicht aufgerufen. Diese Vorauswahl dient zum Testen des Ablaufs, nicht der Qualität von KI-Vorschlägen."
+
+msgid "Shortlist prepared with Albert, reused from the shared reference cache when available."
+msgstr "Mit Albert vorbereitete Vorauswahl, die bei Verfügbarkeit aus dem gemeinsamen Referenzspeicher wiederverwendet wird."
+
+msgid "Only official ESCO 1.2.1 occupation links are accepted. No professional behaviours are inferred for this occupation."
+msgstr "Nur offizielle Verbindungen zum Beruf aus ESCO 1.2.1 werden akzeptiert. Für diesen Beruf werden keine beruflichen Verhaltensweisen abgeleitet."
+
+msgid "Which skills are priorities for this position?"
+msgstr "Welche Kompetenzen haben für diese Stelle Priorität?"
+
+msgid "Which skills can you use and want to highlight?"
+msgstr "Welche Kompetenzen können Sie einsetzen und möchten Sie hervorheben?"
+
+msgid "Choose up to 5 key skills. No choice is required or preselected."
+msgstr "Wählen Sie bis zu 5 Kernkompetenzen. Keine Auswahl ist vorgeschrieben oder vorausgewählt."
+
+msgid "Your choices remain in this temporary draft. The shared suggestions are kept for reuse."
+msgstr "Ihre Auswahl bleibt in diesem vorübergehenden Entwurf. Die gemeinsamen Vorschläge werden zur Wiederverwendung gespeichert."

@@ -1,6 +1,18 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+.PHONY: skills-albert-run skills-albert-test skills-source-check skills-albert-ui-test
+skills-albert-ui-test: ## Vérifier le message d'attente, le double clic et le retour navigateur
+	node --test eures_beta/occupations/tests/skills_wait.test.cjs
+skills-albert-run: ## Essayer les métiers hors catalogue sur 9039, Albert simulé sans réseau
+	@$(LOAD_ENV) SKILLS_PILOT_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 "$(PYTHON)" manage.py runserver "127.0.0.1:9039" --noreload
+
+skills-albert-test: ## Tester les suggestions, la réutilisation, les erreurs et droits sans Albert réel
+	@$(MANAGE) test eures_beta.occupations.tests.test_albert_skills --noinput $(TEST_ARGS)
+
+skills-source-check: ## Vérifier hors ligne les archives officielles complètes avant la recette
+	@$(MANAGE) check_skill_source
+
 .PHONY: skills-pilot-run skills-pilot-test skills-pilot-build skills-pilot-audit
 skills-pilot-audit: ## Comparer les 50 fiches aux archives ESCO épinglées, sans réseau ni base
 	$(PYTHON) -m eures_beta.occupations.tools.audit_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --report .runtime/skills-pilot-audit.json
