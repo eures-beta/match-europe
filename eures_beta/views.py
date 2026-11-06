@@ -20,7 +20,12 @@ def information_page(request, section):
         from eures_beta import data_protection
 
         return _public_page(
-            request, 'data_protection.html', {'notice': data_protection}
+            request,
+            'data_protection.html',
+            {
+                'notice': data_protection,
+                'scope_text': data_protection.SCOPE_TEXT,
+            },
         )
     titles = {
         'statistics': _('Statistics'),

@@ -6,6 +6,9 @@ from django import forms
 from decimal import Decimal
 from datetime import date
 from django.http import HttpResponseBadRequest, JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.views.decorators.debug import sensitive_post_parameters
+from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
@@ -13,7 +16,7 @@ from .schedule_rules import DERIVED, suggested_conditions, inconsistent_conditio
 from .language_choices import LanguageSkillsField, upgrade_language_answers
 from .occupation_choices import resolve_reference, search_occupations
 from django.views.decorators.http import require_http_methods
-from eures_beta.demo_access import require_demo_access
+from django.views.decorators.cache import never_cache
 
 KEY = 'candidate_journey'
 # Inactivity delay: each request on the journey restarts it (WCAG 2.2.1).
@@ -480,16 +483,20 @@ class ConditionsForm(GuidedForm):
 
 class ContactForm(forms.Form):
     display_name = forms.CharField(
-        label=_('Name to display (fictional)'),
+        label=_('Name to display'),
         max_length=150,
         widget=forms.TextInput(attrs={'autocomplete': 'name'}),
     )
     contact_email = forms.EmailField(
-        label=_('Email (fictional, optional)'),
-        required=False,
+        label=_('Email for confirmation'),
         widget=forms.EmailInput(attrs={'autocomplete': 'email'}),
     )
-    reviewed = forms.BooleanField(label=_('I have reviewed this fictional profile.'))
+    reviewed = forms.BooleanField(
+        label=_('I have reviewed my answers and read the data protection notice.')
+    )
+
+    def clean_contact_email(self):
+        return self.cleaned_data['contact_email'].strip().lower()
 
 
 FORMS = {1: ProjectForm, 2: MobilityForm, 3: ConditionsForm, 4: ContactForm}
@@ -502,7 +509,8 @@ TITLES = {
 SCHEMA = 2
 
 
-@require_demo_access
+@never_cache
+@sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
 def journey(request):
     language = request.GET.get('lang', request.LANGUAGE_CODE)
@@ -513,6 +521,8 @@ def journey(request):
 
 
 def workflow(request, language):
+    from . import registration
+
     def go(step):
         return redirect(f'/candidate/prepare/?step={step}&lang={language}')
 
@@ -591,11 +601,22 @@ def workflow(request, language):
         )
         if action not in allowed_actions:
             return HttpResponseBadRequest()
-    form = FORMS[step](
+    form_class = FORMS[step]
+    initial = draft['data']
+    if step == 4 and draft.get('editing_user'):
+        if (
+            not request.user.is_authenticated
+            or request.user.pk != draft['editing_user']
+        ):
+            raise PermissionDenied
+        initial = {**initial, 'contact_email': request.user.email}
+    form = form_class(
         request.POST if request.method == 'POST' else None,
-        initial=draft['data'],
+        initial=initial,
         **({'language': language} if step == 1 else {}),
     )
+    if step == 4 and draft.get('editing_user'):
+        form.fields['contact_email'].disabled = True
     if request.method == 'POST' and action != 'search' and form.is_valid():
         draft['data'].update(
             {
@@ -609,7 +630,26 @@ def workflow(request, language):
             and form.cleaned_data['language_skills']['status'] != 'unspecified'
         ):
             draft['data'].pop('language_notes', None)
-        draft['confirmed'] = step == 4
+        if step == 4:
+            if draft.get('editing_user'):
+                registration.update_profile(request.user, draft['data'], language)
+                destination = 'candidate_profile'
+            else:
+                from eures_beta.users.rate_limits import allow_request
+
+                if allow_request(request, form.cleaned_data['contact_email']):
+                    try:
+                        pending = registration.create_request(
+                            form.cleaned_data['contact_email'], draft['data'], language
+                        )
+                    except IntegrityError:
+                        # A simultaneous request for this address has the same generic outcome.
+                        pass
+                    else:
+                        registration.send_confirmation(pending)
+                destination = 'candidate_registration_requested'
+            request.session.pop(KEY, None)
+            return redirect(destination)
         draft['unlocked'] = max(draft['unlocked'], min(step + 1, 4))
         request.session[KEY] = draft
         if (

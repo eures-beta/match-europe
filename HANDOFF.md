@@ -1027,3 +1027,31 @@ contact et de la notice historique employeur, en FR/EN/DE. Modification de
 libellés uniquement, sans changement des intégrations, droits ou données.
 Validation : 147 tests PostgreSQL employeur réussis, catalogues vérifiés et
 compilés. Aucune fusion ni opération de déploiement.
+
+# 5 novembre 2026 — P1 : confirmation candidat et profil enregistré
+
+Premier lot opt-in local/recette, uniquement données fictives et adresses
+`.invalid`, sans email réel. Le questionnaire prépare une demande valable une
+heure ; confirmation GET non consommatrice puis POST protégé, compte et profil
+créés atomiquement, demande supprimée, session connectée. Consultation et
+modification réservées au candidat propriétaire, comptes et profils existants
+jamais écrasés. Migrations candidates 0002/0003 additives, dates de vérification
+email et lecture déclarée de la notice sans reprise rétroactive.
+Simulation email par commande privée et nettoyage des demandes expirées,
+comptage sans effacement par défaut. Pas de purge planifiée ni ouverture réelle.
+Voir `docs/CANDIDATE_EMAIL_REGISTRATION.md`. Fusion réservée à dejafait.
+
+
+
+## 2026-11-06 — ouverture du parcours candidat (#132)
+
+À la demande explicite de dejafait, suppression des restrictions propres à
+l’environnement et aux adresses fictives. Le questionnaire, la confirmation
+et le profil fonctionnent partout ; les e-mails suivent le backend protégé
+commun (production configurée seulement, simulation privée ailleurs).
+La recherche publique en lecture seule du catalogue métiers, utilisée par le
+questionnaire JavaScript, ne dépend plus non plus du mode démo.
+Les vérifications de lien, POST/CSRF et propriété restent en place.
+Cette décision remplace le périmètre d’essai limité décrit antérieurement.
+Aucun changement de modèle ou migration supplémentaire : la séparation entre
+demande temporaire et profil confirmé reste à discuter avant une refonte.

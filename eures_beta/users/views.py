@@ -49,6 +49,8 @@ def dashboard(request):
 
             return adviser_dashboard(request)
         if request.user.kind == 'candidate':
+            if hasattr(request.user, 'candidate_profile'):
+                return redirect('candidate_profile')
             return render(request, 'users/dashboard.html')
         from eures_beta.employers.dashboard import employer_dashboard
 

@@ -7748,3 +7748,92 @@ msgstr "Le service est en construction. Enregistrer votre offre ne lance pas de 
 msgctxt "public positioning"
 msgid "A match remains a suggestion. An introduction requires your agreement and the candidate’s."
 msgstr "Une correspondance reste une suggestion. Une mise en relation nécessite votre accord et celui du candidat."
+
+#: candidate registration
+msgid "Name to display"
+msgstr "Nom à afficher"
+
+#: candidate registration
+msgid "Email for confirmation"
+msgstr "E-mail de confirmation"
+
+#: candidate registration
+msgid "Use a fictional address ending in .invalid."
+msgstr "Utilisez une adresse fictive se terminant par .invalid."
+
+#: candidate registration
+msgid "I have reviewed my answers and read the data protection notice."
+msgstr "J’ai vérifié mes réponses et lu la notice de protection des données."
+
+#: candidate registration
+msgid "Candidate registration trial — fictional data only. No real email is sent."
+msgstr "Essai d’inscription candidat — données fictives uniquement. Aucun e-mail réel n’est envoyé."
+
+#: candidate registration
+msgid "Save my profile"
+msgstr "Enregistrer mon profil"
+
+#: candidate registration
+msgid "Verify my email and save my profile"
+msgstr "Vérifier mon e-mail et enregistrer mon profil"
+
+#: candidate registration
+msgid "Candidate profile confirmation"
+msgstr "Confirmation du profil candidat"
+
+#: candidate registration
+msgid "If this address can be registered, a confirmation has been prepared. If you already have an account, sign in to access it. No existing profile has been replaced."
+msgstr "Si cette adresse permet une inscription, une confirmation a été préparée. Si vous avez déjà un compte, connectez-vous pour y accéder. Aucun profil existant n’a été remplacé."
+
+#: candidate registration
+msgid "This trial sends no real email. A confirmation request lasts one hour; its temporary answers are removed after confirmation or during expiry cleanup."
+msgstr "Cet essai n’envoie aucun e-mail réel. Une demande de confirmation est valable une heure ; ses réponses temporaires sont supprimées après confirmation ou lors du nettoyage des demandes expirées."
+
+#: candidate registration
+msgid "Confirm to create your candidate account, save your reviewed answers and sign in on this device. Do not share your personal link."
+msgstr "Confirmez pour créer votre compte candidat, enregistrer vos réponses vérifiées et vous connecter sur cet appareil. Ne partagez pas votre lien personnel."
+
+#: candidate registration
+msgid "Confirm and save my profile"
+msgstr "Confirmer et enregistrer mon profil"
+
+#: candidate registration
+msgid "This confirmation is invalid, expired or already used. No account or profile has been changed."
+msgstr "Cette confirmation est invalide, expirée ou déjà utilisée. Aucun compte ni profil n’a été modifié."
+
+#: candidate registration
+msgid "Return to the candidate journey"
+msgstr "Revenir au parcours candidat"
+
+#: candidate registration
+msgid "Confirm your candidate profile"
+msgstr "Confirmez votre profil candidat"
+
+#: candidate registration
+msgid "Use this personal link within one hour, then confirm on the page to create your candidate account and save your answers. Opening the link alone changes nothing. If you did not request this, ignore this message."
+msgstr "Utilisez ce lien personnel dans l’heure, puis confirmez sur la page pour créer votre compte candidat et enregistrer vos réponses. L’ouverture du lien seule ne change rien. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message."
+
+#: candidate registration
+msgid "My candidate profile"
+msgstr "Mon profil candidat"
+
+#: candidate registration
+msgid "Your profile is saved. Only your account can access it here. No matching or introduction has been started."
+msgstr "Votre profil est enregistré. Seul votre compte peut y accéder ici. Aucun rapprochement ni mise en relation n’a été lancé."
+
+#: candidate registration
+msgid "Edit my profile"
+msgstr "Modifier mon profil"
+
+#: candidate registration
+msgid "In the enabled registration trial, fictional answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. No real email is sent; expired requests are removed by cleanup, not necessarily at the exact expiry time."
+msgstr "Dans l’essai d’inscription activé, les réponses fictives attendent une confirmation par e-mail pendant une heure. La confirmation crée un compte candidat et enregistre le profil. Les comptes existants ne sont jamais remplacés. Aucun e-mail réel n’est envoyé ; les demandes expirées sont supprimées par nettoyage, pas nécessairement à l’instant exact de leur expiration."
+
+msgid "A confirmation request lasts one hour. Confirm your email to create your account and save your profile."
+msgstr "Une demande de confirmation est valable une heure. Confirmez votre adresse e-mail pour créer votre compte et enregistrer votre profil."
+
+msgid "Email delivery is currently unavailable."
+msgstr "L’envoi des e-mails est actuellement indisponible."
+
+msgid "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
+msgstr "Vos réponses attendent la confirmation de votre adresse e-mail pendant une heure. La confirmation crée un compte candidat et enregistre le profil. Les comptes existants ne sont jamais remplacés. Les demandes expirées sont supprimées lors du nettoyage, pas nécessairement à l’instant exact de leur expiration. Cette notice n’active ni rapprochement ni mise en relation automatique."

@@ -7748,3 +7748,92 @@ msgstr "Der Dienst befindet sich im Aufbau. Das Speichern Ihres Stellenangebots 
 msgctxt "public positioning"
 msgid "A match remains a suggestion. An introduction requires your agreement and the candidate’s."
 msgstr "Eine Übereinstimmung bleibt ein Vorschlag. Eine Kontaktvermittlung setzt Ihre Zustimmung und die der Bewerberin oder des Bewerbers voraus."
+
+#: candidate registration
+msgid "Name to display"
+msgstr "Anzeigename"
+
+#: candidate registration
+msgid "Email for confirmation"
+msgstr "E-Mail-Adresse zur Bestätigung"
+
+#: candidate registration
+msgid "Use a fictional address ending in .invalid."
+msgstr "Verwenden Sie eine fiktive Adresse mit der Endung .invalid."
+
+#: candidate registration
+msgid "I have reviewed my answers and read the data protection notice."
+msgstr "Ich habe meine Antworten geprüft und die Datenschutzhinweise gelesen."
+
+#: candidate registration
+msgid "Candidate registration trial — fictional data only. No real email is sent."
+msgstr "Test der Bewerberregistrierung — nur fiktive Daten. Es wird keine echte E-Mail versendet."
+
+#: candidate registration
+msgid "Save my profile"
+msgstr "Mein Profil speichern"
+
+#: candidate registration
+msgid "Verify my email and save my profile"
+msgstr "Meine E-Mail bestätigen und mein Profil speichern"
+
+#: candidate registration
+msgid "Candidate profile confirmation"
+msgstr "Bestätigung des Bewerberprofils"
+
+#: candidate registration
+msgid "If this address can be registered, a confirmation has been prepared. If you already have an account, sign in to access it. No existing profile has been replaced."
+msgstr "Wenn diese Adresse registriert werden kann, wurde eine Bestätigung vorbereitet. Wenn Sie bereits ein Konto haben, melden Sie sich an. Kein bestehendes Profil wurde ersetzt."
+
+#: candidate registration
+msgid "This trial sends no real email. A confirmation request lasts one hour; its temporary answers are removed after confirmation or during expiry cleanup."
+msgstr "Dieser Test versendet keine echte E-Mail. Eine Bestätigungsanfrage ist eine Stunde gültig; die vorübergehenden Antworten werden nach der Bestätigung oder bei der Bereinigung abgelaufener Anfragen gelöscht."
+
+#: candidate registration
+msgid "Confirm to create your candidate account, save your reviewed answers and sign in on this device. Do not share your personal link."
+msgstr "Bestätigen Sie, um Ihr Bewerberkonto zu erstellen, Ihre geprüften Antworten zu speichern und sich auf diesem Gerät anzumelden. Teilen Sie Ihren persönlichen Link nicht."
+
+#: candidate registration
+msgid "Confirm and save my profile"
+msgstr "Mein Profil bestätigen und speichern"
+
+#: candidate registration
+msgid "This confirmation is invalid, expired or already used. No account or profile has been changed."
+msgstr "Diese Bestätigung ist ungültig, abgelaufen oder bereits verwendet. Kein Konto oder Profil wurde geändert."
+
+#: candidate registration
+msgid "Return to the candidate journey"
+msgstr "Zurück zum Bewerberfragebogen"
+
+#: candidate registration
+msgid "Confirm your candidate profile"
+msgstr "Bestätigen Sie Ihr Bewerberprofil"
+
+#: candidate registration
+msgid "Use this personal link within one hour, then confirm on the page to create your candidate account and save your answers. Opening the link alone changes nothing. If you did not request this, ignore this message."
+msgstr "Verwenden Sie diesen persönlichen Link innerhalb einer Stunde und bestätigen Sie auf der Seite, um Ihr Bewerberkonto zu erstellen und Ihre Antworten zu speichern. Das Öffnen des Links allein ändert nichts. Falls Sie dies nicht angefordert haben, ignorieren Sie diese Nachricht."
+
+#: candidate registration
+msgid "My candidate profile"
+msgstr "Mein Bewerberprofil"
+
+#: candidate registration
+msgid "Your profile is saved. Only your account can access it here. No matching or introduction has been started."
+msgstr "Ihr Profil ist gespeichert. Nur Ihr Konto kann hier darauf zugreifen. Es wurde kein Matching und keine Kontaktanbahnung gestartet."
+
+#: candidate registration
+msgid "Edit my profile"
+msgstr "Mein Profil bearbeiten"
+
+#: candidate registration
+msgid "In the enabled registration trial, fictional answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. No real email is sent; expired requests are removed by cleanup, not necessarily at the exact expiry time."
+msgstr "Im aktivierten Registrierungstest warten fiktive Antworten eine Stunde auf die E-Mail-Bestätigung. Die Bestätigung erstellt ein Bewerberkonto und speichert das Profil. Bestehende Konten werden niemals ersetzt. Es wird keine echte E-Mail versendet; abgelaufene Anfragen werden bei der Bereinigung gelöscht, nicht unbedingt genau zum Ablaufzeitpunkt."
+
+msgid "A confirmation request lasts one hour. Confirm your email to create your account and save your profile."
+msgstr "Eine Bestätigungsanfrage ist eine Stunde gültig. Bestätigen Sie Ihre E-Mail-Adresse, um Ihr Konto zu erstellen und Ihr Profil zu speichern."
+
+msgid "Email delivery is currently unavailable."
+msgstr "Der E-Mail-Versand ist derzeit nicht verfügbar."
+
+msgid "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
+msgstr "Ihre Antworten warten eine Stunde auf die E-Mail-Bestätigung. Die Bestätigung erstellt ein Bewerberkonto und speichert das Profil. Bestehende Konten werden nie ersetzt. Abgelaufene Anfragen werden bei der Bereinigung gelöscht, nicht unbedingt genau beim Ablauf. Dieser Hinweis aktiviert weder Matching noch automatische Kontaktvermittlung."

@@ -46,12 +46,13 @@ DRAFT_TEXT = _(
 )
 SCOPE_TITLE = _("Current scope")
 SCOPE_TEXT = _(
-    "The candidate questionnaire is currently a trial with fictional data: confirming it does not create an account or permanently register a profile. Matching and automatic introductions are not activated by this notice."
+    "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
 )
 LIMITS = _(
     "These are the retention rules carried forward from the experiment. Automatic deletion according to these periods is not yet implemented in this version. Detailed information about the responsible organisation, the legal basis and deletion arrangements must be completed before collecting real candidate profiles."
 )
 RIGHTS_TITLE = pgettext_lazy('employer privacy', 'Your rights and contact')
+
 RIGHTS_TEXT = _(
     "You can request access, correction or deletion of your data and ask the project team about its use. Contact the team:"
 )

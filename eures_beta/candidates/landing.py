@@ -4,10 +4,10 @@ from django.shortcuts import render
 from django.utils import translation
 from django.views.decorators.http import require_safe
 
-from eures_beta.demo_access import require_demo_access
+from django.views.decorators.cache import never_cache
 
 
-@require_demo_access
+@never_cache
 @require_safe
 def landing(request):
     language = request.GET.get('lang', request.LANGUAGE_CODE)
