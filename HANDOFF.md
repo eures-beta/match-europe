@@ -932,3 +932,16 @@ du rôle restaurent désormais aussi leurs migrations dépendantes.
 Les choix de conservation et le raccordement avec vérification email restent
 à traiter avant toute collecte réelle. Aucun déploiement ni fusion effectué.
 
+# 6 novembre 2026 — migration candidat après retrait du prototype
+
+Le registre historique peut contenir `candidates.0001_initial` alors que les
+tables anciennes ont été retirées. Le nom réutilisé dans le nouveau stockage
+fait alors sauter sa création. Test de régression constaté rouge : table
+`candidates_candidateprofile` absente malgré le marqueur initial.
+La migration corrective `0002_ensure_candidate_profile_schema` crée seulement
+la table manquante, avec unicité, clé étrangère et contrôle PostgreSQL du rôle.
+Une table déjà présente et ses profils sont conservés, y compris lors du
+retrait du seul correctif. Aucun ancien modèle ni compte fictif restauré.
+Validation locale : 376 tests PostgreSQL, transition utilisateurs, contrôles
+Django/migrations, Python, HTML, JavaScript et traductions réussis.
+

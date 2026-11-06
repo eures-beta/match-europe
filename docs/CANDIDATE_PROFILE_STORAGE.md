@@ -84,3 +84,20 @@ Ni matching, ni email, ni transmission à un tiers ne sont déclenchés.
 
 La base locale de ce worktree est distincte de celles des autres travaux.
 Aucune exécution de migration de production n'est autorisée par ce document.
+
+## Compatibilité avec les installations de l'ancien prototype
+
+Les anciens enregistrements `candidates.0001_initial` peuvent subsister dans
+`django_migrations` après le retrait des anciens modèles. Leur nom correspond
+à celui de la nouvelle migration initiale : Django peut donc la sauter sans
+créer `CandidateProfile`.
+
+`0002_ensure_candidate_profile_schema` crée le schéma et le contrôle PostgreSQL
+du rôle uniquement si la table est absente. Sur une installation neuve ou déjà
+équipée, elle ne modifie ni la table ni ses lignes. Elle ne réécrit pas le registre
+historique, ne restaure pas les anciens modèles et ne supprime aucune donnée.
+Son annulation conserve la table, qui appartient à l'état de `0001_initial` ;
+annuler aussi cette migration initiale reste une opération destructive explicite.
+
+`make candidate-test` couvre l'historique ancien et la conservation d'une fiche
+déjà présente. `make migrate` applique la correction comme les autres migrations.
