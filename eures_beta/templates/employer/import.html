@@ -787,6 +787,9 @@
           <h1 tabindex="-1">{% translate "Describe your offer" context "employer import" %}</h1>
           <p>{% translate "Include the role, duties and working conditions. You can complete this information later." context "employer import" %}</p>
           <form id="manual-form">
+            {% if albert_import %}
+              <p class="mini-note">{% translate "By continuing, you request AI-assisted preparation by Albert (DINUM). The text of your document or pasted offer is sent to Albert. Check the proposed information before saving. No publication or candidate search will be started." context "employer albert" %}</p>
+            {% endif %}
             <label for="offer-text">{% translate "Your job offer text" context "employer import" %}</label>
             <textarea id="offer-text"
                       rows="10"
@@ -1427,6 +1430,10 @@
     "home": "{% translate "Back to the employer home" context "employer import" as translated_value_148 %}{{ translated_value_148|escapejs }}"
   },
   "localReaderOrigin": "{% translate "Offer extracted from your document. Check and complete the information." context "employer import" as translated_value_149 %}{{ translated_value_149|escapejs }}",
+  "albertPartial": "{% translate "Albert prepared this offer, but some passages could not be verified and were left blank. Compare with the source text and complete the fields." context "employer albert" as albert_albertPartial %}{{ albert_albertPartial|escapejs }}",
+  "albertSource": "{% translate "View the source text to check the extracted information" context "employer albert" as albert_albertSource %}{{ albert_albertSource|escapejs }}",
+  "albertNote": "{% translate "Prepared with Albert AI (DINUM) from your offer text. Check every field before saving." context "employer albert" as albert_albertNote %}{{ albert_albertNote|escapejs }}",
+  "albertFallback": "{% translate "Albert could not prepare this offer. The source text is preserved below; complete the fields manually or try again." context "employer albert" as albert_albertFallback %}{{ albert_albertFallback|escapejs }}",
   "localReaderNote": "{% translate "Local reading using text extraction, without generative AI. The result may contain errors." context "employer import" as translated_value_150 %}{{ translated_value_150|escapejs }}",
   "localSave": "{% translate "Save and continue" context "employer import" as translated_value_151 %}{{ translated_value_151|escapejs }}",
   "localPrivacy": "{% translate "During this trial, the draft is saved only in the local database. No publication, candidate search or transfer to EURES partners." context "employer import" as translated_value_152 %}{{ translated_value_152|escapejs }}",
@@ -1596,7 +1603,7 @@
   "urlFallback": "{% translate "Choose another method: import a PDF or paste the offer text." context "employer import" as translated_value_74 %}{{ translated_value_74|escapejs }}",
   "readPdf": "{% translate "Read documents" context "employer import" as translated_value_75 %}{{ translated_value_75|escapejs }}",
   "readingPdf": "{% translate "Reading documents…" context "employer import" as translated_value_76 %}{{ translated_value_76|escapejs }}",
-  "readPdfAgreement": "{% translate "By clicking “Read documents”, you request preparation of your offer. The result may contain errors: check and correct it before validation. This trial uses local text extraction, without generative AI or transfer to a provider. No publication or candidate search will be started." context "employer import" as translated_value_77 %}{{ translated_value_77|escapejs }}",
+  "readPdfAgreement": "{% if albert_import %}{% translate "By continuing, you request AI-assisted preparation by Albert (DINUM). The text of your document or pasted offer is sent to Albert. Check the proposed information before saving. No publication or candidate search will be started." context "employer albert" as albert_albertAgreement %}{{ albert_albertAgreement|escapejs }}{% else %}{% translate "By clicking “Read documents”, you request preparation of your offer. The result may contain errors: check and correct it before validation. This trial uses local text extraction, without generative AI or transfer to a provider. No publication or candidate search will be started." context "employer import" as translated_value_77 %}{{ translated_value_77|escapejs }}{% endif %}",
   "documentLabel": "{% translate "Choose a PDF or images" context "employer import" as translated_value_78 %}{{ translated_value_78|escapejs }}",
   "documentHelp": "{% translate "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total. Local reading of images and scanned pages." context "employer import" as translated_value_79 %}{{ translated_value_79|escapejs }}",
   "documentChoice": "{% translate "Import a PDF or images" context "employer import" as translated_value_80 %}{{ translated_value_80|escapejs }}",

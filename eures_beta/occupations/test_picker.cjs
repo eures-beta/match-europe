@@ -145,3 +145,21 @@ test('successful API response renders selectable descriptions', async () => {
   assert.equal(h.context.window.meOccupation.validate(), true);
   assert.equal(h.context.window.meOccupation.collect().uris[0], 'urn:example:job');
 });
+
+test('AI central query is used initially and discarded after a title edit', async () => {
+  const calls = [];
+  const h = harness(async (_url, options) => {
+    calls.push(JSON.parse(options.body));
+    return { ok: true, json: async () => ({ results: [], rome_results: [], total: 0 }) };
+  });
+  h.ids['review-title'].value = 'électromécanicien — maintenance ponts roulants';
+  h.context.window.meOccupation.load(null, true, 'électromécanicien');
+  await settle();
+  assert.equal(calls[0].q, 'électromécanicien');
+  assert.equal(h.ids['review-title'].value, 'électromécanicien — maintenance ponts roulants');
+  h.ids['review-title'].value = 'boulanger';
+  h.ids['review-title'].listeners.input();
+  [...h.timers.values()].find((timer) => timer.ms === 300).fn();
+  await settle();
+  assert.equal(calls[1].q, 'boulanger');
+});

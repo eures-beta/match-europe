@@ -236,9 +236,16 @@
       draft.className = pending ? 'primary-action' : 'ghost-action';
       form.querySelector('[type=submit]').hidden = pending;
       confirm.closest('label').hidden = pending;
-      document.querySelector('#review-step > .mini-note').textContent = result.localOnly
-        ? t.localReaderNote
-        : t.liveNote;
+      document.querySelector('#review-step > .mini-note').textContent =
+        result.data.extraction === 'albert_text'
+          ? result.data.extractionWarnings?.length
+            ? t.albertPartial
+            : t.albertNote
+          : result.data.extraction === 'albert_fallback'
+            ? t.albertFallback
+            : result.localOnly
+              ? t.localReaderNote
+              : t.liveNote;
       if (result.localOnly) {
         const privacy = document.querySelector('.review-privacy-compact');
         if (privacy) {
@@ -256,6 +263,17 @@
       }
       this.stage = result.stage === 'prepare' ? 'prepare-step' : 'review-step';
       document.querySelectorAll('.document-warnings').forEach((node) => node.remove());
+      if (result.data.extractionSource) {
+        const details = document.createElement('details');
+        details.className = 'document-warnings';
+        const summary = document.createElement('summary');
+        summary.textContent = t.albertSource;
+        const text = document.createElement('p');
+        text.style.whiteSpace = 'pre-wrap';
+        text.textContent = result.data.extractionSource;
+        details.append(summary, text);
+        document.querySelector('#review-step > .mini-note').after(details);
+      }
       if (this.stage === 'prepare-step') {
         for (const name of ['title', 'companyName', 'city', 'description'])
           document.getElementById('prepare-' + name).value = result.data[name] || '';
@@ -268,7 +286,11 @@
       suggestedQuestions.clear();
       loadRequirements(values);
       for (const name of Object.keys(t.fields)) field(name).value = values[name] || '';
-      window.meOccupation?.load(values.occupation, result.kind !== 'manual');
+      window.meOccupation?.load(
+        values.occupation,
+        result.kind !== 'manual' || values.extraction === 'albert_text',
+        values.occupationQuery || '',
+      );
       for (const name of Object.keys(t.clarifications))
         document.getElementById('clarify-' + name).value = values.clarifications?.[name] || '';
       arrangeClarifications();
