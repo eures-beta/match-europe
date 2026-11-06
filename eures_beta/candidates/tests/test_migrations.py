@@ -77,3 +77,17 @@ class CandidateProfileMigrationTests(TransactionTestCase):
                 recorder.record_unapplied('candidates', '0001_initial')
                 executor = MigrationExecutor(connection)
                 executor.migrate(executor.loader.graph.leaf_nodes())
+
+    def test_existing_profile_is_preserved_by_reconciliation_and_its_reverse(self):
+        apps = self.migrate(('candidates', '0001_initial'))
+        User = apps.get_model('users', 'User')
+        account = User.objects.create(
+            email='preserved@example.invalid', kind='candidate', password='!'
+        )
+        Profile = apps.get_model('candidates', 'CandidateProfile')
+        profile = Profile.objects.create(user_id=account.pk, display_name='Fictional')
+        original = list(Profile.objects.filter(pk=profile.pk).values())
+        self.migrate(('candidates', '0002_ensure_candidate_profile_schema'))
+        self.assertEqual(list(Profile.objects.filter(pk=profile.pk).values()), original)
+        self.migrate(('candidates', '0001_initial'))
+        self.assertEqual(list(Profile.objects.filter(pk=profile.pk).values()), original)
