@@ -51,6 +51,24 @@ QUERIES = {
 
 
 def validate(directory, previous=None):
+    previous_directory = service.DATA_DIR
+    cached_functions = (
+        service.catalog,
+        service.rome_catalog,
+        service.occupation_index,
+        service.search_index,
+    )
+    for function in cached_functions:
+        function.cache_clear()
+    try:
+        return _validate(directory, previous)
+    finally:
+        service.DATA_DIR = previous_directory
+        for function in cached_functions:
+            function.cache_clear()
+
+
+def _validate(directory, previous=None):
     service.DATA_DIR = directory
     manifest = service.catalog()['manifest']
     jobs = service.catalog()['occupations']
@@ -61,9 +79,14 @@ def validate(directory, previous=None):
             != info['sha256']
         ):
             raise ValueError('Checksum mismatch')
-    assert len(jobs) == len({job['uri'] for job in jobs}) == 3039
-    assert len(rome['fiches']) == 1923
-    assert len(rome['appellations']) == 14330
+    assert (
+        len(jobs)
+        == len({job['uri'] for job in jobs})
+        == manifest['counts']['occupations']
+    )
+    assert len(jobs) > 0
+    assert len(rome['fiches']) == manifest['counts']['romeFiches'] > 0
+    assert len(rome['appellations']) == manifest['counts']['romeAppellations'] > 0
     assert len(rome['mappings']) == manifest['counts']['mappingRows']
     for job in jobs:
         assert re.fullmatch(

@@ -1,5 +1,81 @@
 # Catalogue métiers local
 
+## Mettre à jour une source avec Django
+
+Trois commandes Django sont exposées par le Makefile :
+
+```bash
+make occupations-sync-esco
+make occupations-sync-rome
+make occupations-sync-esco-rome
+```
+
+Elles utilisent les exports complets officiels, sans clé API : archives CSV
+ESCO FR/EN/DE, arborescence XLSX France Travail (ROME et OGR ensemble), table
+CSV officielle de correspondances ESCO/ROME. Il n’y a pas quatre API distinctes.
+Ces téléchargements sont réservés aux opérations de maintenance ; aucun appel
+réseau n’est ajouté au fonctionnement de l’application, aux tests ou au démarrage.
+
+La première commande exécutée initialise `.runtime/catalog-staging` depuis
+les JSON versionnés, puis rafraîchit uniquement la source demandée. Les suivantes
+réutilisent ce staging. Les relations préjointes sont recalculées après chaque
+import ; les autres données sources restent conservées. Ne pas exécuter deux
+imports simultanément vers le même répertoire.
+
+Par défaut, l’édition du manifeste est retéléchargée ; aucune découverte implicite
+de « latest ». Pour une nouvelle version ESCO :
+
+```bash
+make occupations-sync-esco CATALOG_VERSION=1.2.1
+```
+
+Pour une nouvelle édition ROME, fournir `CATALOG_VERSION` et
+`CATALOG_SOURCE_URL` avec l’URL XLSX officielle publiée par France Travail.
+L’arborescence doit garder le format attendu (deuxième feuille, colonnes A–E) ;
+une évolution de structure demande une revue de l’importateur. La commande
+`sync_esco_rome` lit les versions des deux référentiels dans le CSV officiel ;
+`CATALOG_SOURCE_URL` permet de choisir une nouvelle publication. Les éditions
+de la table de correspondances restent distinctes des éditions courantes des
+catalogues : aucune équivalence nouvelle n’est inventée.
+
+`CATALOG_OUTPUT` choisit le répertoire de travail. Les URL personnalisées sont
+limitées aux domaines HTTPS officiels ESCO/France Travail ; les redirections
+ne sont pas suivies. Délais et tailles de téléchargement/décompression bornés.
+Tout téléchargement et parsing doit réussir avant publication des fichiers.
+Une disparition d’identifiants bloque l’import : après examen de la source,
+`CATALOG_ALLOW_REMOVALS=1` permet de préparer cette suppression pour revue.
+
+Chaque import écrit les quatre JSON, leur manifeste avec empreintes et un
+`update-report.json` : identifiants ajoutés, retirés, modifiés et nombre de liens.
+Les compétences ne sont pas importées par ces commandes.
+
+Valider le staging :
+
+```bash
+make occupations-validate \
+  CATALOG_DIR=.runtime/catalog-staging \
+  CATALOG_REPORT=.runtime/catalog-staging/validation.json
+```
+
+Relire le rapport, puis promouvoir explicitement les quatre JSON et le manifeste
+vers `eures_beta/occupations/data/` pour préparer une PR de données :
+
+```bash
+make occupations-promote
+```
+
+Cette cible refait les contrôles d’intégrité et les recherches multilingues avant
+de modifier les fichiers versionnés. Relire ensuite les écarts Git.
+Mettre à jour le README d’attribution si les sources changent et relancer les tests.
+Les commandes ne créent ni commit ni PR, ne déploient rien et n’écrivent pas en
+base de données. Le staging ignoré n’est pas chargé par le site en production.
+
+Les commandes Django sous-jacentes sont `sync_esco`, `sync_rome` et
+`sync_esco_rome` ; leurs options sont documentées par leur aide native.
+
+Sources : [ESCO](https://esco.ec.europa.eu/en/use-esco/download),
+[ROME](https://www.francetravail.org/opendata/repertoire-operationnel-des-meti.html?type=article).
+
 ## Données et limites
 
 Le paquet partagé `eures_beta/occupations/` contient le service et les instantanés

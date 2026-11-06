@@ -30,7 +30,7 @@ def read_csv(archive, name):
         return list(csv.DictReader(io.TextIOWrapper(raw, encoding='utf-8-sig')))
 
 
-def xlsx_rows(path):
+def xlsx_rows(path, expected_sheet='Arbo Principale 19-10-2026'):
     with zipfile.ZipFile(path) as archive:
         strings = []
         if 'xl/sharedStrings.xml' in archive.namelist():
@@ -38,7 +38,9 @@ def xlsx_rows(path):
             strings = [''.join(node.itertext()) for node in root.findall('m:si', NS)]
         workbook = ET.fromstring(archive.read('xl/workbook.xml'))
         sheets = workbook.find('m:sheets', NS)
-        if sheets[1].attrib['name'] != 'Arbo Principale 19-10-2026':
+        if len(sheets) < 2 or (
+            expected_sheet and sheets[1].attrib['name'] != expected_sheet
+        ):
             raise ValueError('ROME worksheet/version changed; review importer')
         root = ET.fromstring(archive.read('xl/worksheets/sheet2.xml'))
         for row in root.findall('.//m:row', NS):
