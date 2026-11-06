@@ -1074,6 +1074,11 @@ Aucune modification des droits, modèles ou données.
 
 ## 6 novembre 2026 — textes de la notice dans le template
 
-Suppression du module data_protection.py : textes et tableau repris sans changement
-dans le template avec gettext. La vue transmet seulement le booléen d’activation
-du parcours candidat ; routes et structure des vues inchangées.
+Suppression du module data_protection.py : textes et tableau repris dans le
+template avec gettext ; routes et structure des vues inchangées.
+
+La PR #132 est isolée de la pile à la demande de dejafait. La notice ne doit donc
+pas importer son module d'inscription, ni annoncer un enregistrement candidat
+absent de cette branche. Les tests de notice ont reproduit l'import manquant
+avant suppression de ce couplage ; le texte reste celui du questionnaire en
+session sans création de compte. Le code et la branche #132 ne sont pas modifiés.
