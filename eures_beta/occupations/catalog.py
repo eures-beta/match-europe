@@ -1,6 +1,5 @@
 """Versioned occupation reference data, loaded locally with no network access."""
 
-import gzip
 import hashlib
 import json
 import re
@@ -23,11 +22,11 @@ def normalize(value):
 @lru_cache(maxsize=1)
 def catalog():
     manifest = json.loads((DATA_DIR / 'manifest.json').read_text())
-    path = DATA_DIR / 'occupations.json.gz'
+    path = DATA_DIR / 'esco.json'
     raw = path.read_bytes()
     if hashlib.sha256(raw).hexdigest() != manifest['artifacts'][path.name]['sha256']:
         raise ValueError('Occupation catalog checksum mismatch')
-    value = json.loads(gzip.decompress(raw))
+    value = json.loads(raw)
     if len(value['occupations']) != manifest['counts']['occupations']:
         raise ValueError('Occupation catalog count mismatch')
     return {
@@ -41,11 +40,14 @@ def catalog():
 @lru_cache(maxsize=1)
 def rome_catalog():
     manifest = catalog()['manifest']
-    path = DATA_DIR / 'rome.json.gz'
-    raw = path.read_bytes()
-    if hashlib.sha256(raw).hexdigest() != manifest['artifacts'][path.name]['sha256']:
-        raise ValueError('ROME catalog checksum mismatch')
-    return json.loads(gzip.decompress(raw))
+    result = {}
+    for name in ('rome.json', 'ogr.json', 'esco_rome.json'):
+        path = DATA_DIR / name
+        raw = path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != manifest['artifacts'][name]['sha256']:
+            raise ValueError('ROME catalog checksum mismatch')
+        result.update(json.loads(raw))
+    return result
 
 
 @lru_cache(maxsize=1)

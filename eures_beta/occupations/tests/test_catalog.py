@@ -1,6 +1,7 @@
 """Offline integrity, coverage and search regressions for the vendored data."""
 
 import json
+import shutil
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
@@ -69,7 +70,7 @@ class OccupationCatalogTests(SimpleTestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)
             (path / 'manifest.json').write_text(manifest)
-            (path / 'occupations.json.gz').write_bytes(b'corrupt')
+            (path / 'esco.json').write_bytes(b'corrupt')
             service.catalog.cache_clear()
             try:
                 with patch.object(service, 'DATA_DIR', path):
@@ -87,6 +88,23 @@ class OccupationCatalogTests(SimpleTestCase):
             {row['uri'] for row in nearby} & {row['uri'] for row in results}
         )
         self.assertFalse(any('tabac' in row['label'] for row in nearby))
+
+    def test_each_split_rome_file_is_checked_before_use(self):
+        for name in ('rome.json', 'ogr.json', 'esco_rome.json'):
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory)
+                for source in service.DATA_DIR.glob('*.json'):
+                    shutil.copyfile(source, path / source.name)
+                (path / name).write_bytes(b'corrupt')
+                service.catalog.cache_clear()
+                service.rome_catalog.cache_clear()
+                try:
+                    with patch.object(service, 'DATA_DIR', path):
+                        with self.assertRaisesRegex(ValueError, 'checksum'):
+                            service.rome_catalog()
+                finally:
+                    service.catalog.cache_clear()
+                    service.rome_catalog.cache_clear()
 
     def test_typo_tolerance_and_unsupported_language(self):
         self.assertTrue(service.suggestions('bibliothecair', 'fr'))

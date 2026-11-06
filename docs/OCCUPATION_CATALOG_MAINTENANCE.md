@@ -46,7 +46,8 @@ make occupations-validate \
 L’importeur est lié aux versions et schémas audités. Il rejette les langues avec
 des URI différentes, descriptions absentes, doublons contradictoires et métadonnées
 inattendues. Revoir sources, licences, versions, URI retirées et écarts avant de
-promouvoir manuellement les deux `.json.gz`, le manifeste et le rapport validés
+promouvoir manuellement `esco.json`, `rome.json`, `ogr.json`, `esco_rome.json`,
+le manifeste et le rapport validés
 vers `eures_beta/occupations/data/`, puis redémarrer pour purger les caches.
 Garder les versions précédentes dans Git. Ne pas supprimer ni reclasser des
 choix métier existants lors d’un changement de catalogue.

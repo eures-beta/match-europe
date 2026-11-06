@@ -1,10 +1,13 @@
-# Catalogues métiers embarqués — 29 octobre 2026
+# Catalogues métiers embarqués
 
-- `occupations.json.gz` : **3 039 métiers ESCO 1.2.1**, FR/EN/DE, intitulés,
+- [esco.json](esco.json) : **3 039 métiers ESCO 1.2.1**, FR/EN/DE, intitulés,
   synonymes, descriptions, groupes ISCO et relations hiérarchiques du pilier métiers.
   Les compétences du pilier ESCO skills ne sont pas importées dans l’application.
-- `rome.json.gz` : **1 923 fiches et 14 330 appellations ROME 26M10**, ainsi que
-  les **13 120 lignes** de la table officielle ESCO/ROME France publiée en 2025.
+- [rome.json](rome.json) : **1 923 fiches ROME 26M10**, indexées par code ROME.
+- [ogr.json](ogr.json) : **14 330 appellations**, indexées par identifiant OGR,
+  avec leurs codes de fiches ROME de rattachement.
+- [esco_rome.json](esco_rome.json) : les **13 120 lignes** de la table officielle
+  de correspondance ESCO/ROME France publiée en 2025.
 - `manifest.json` : schéma, versions, URLs, empreintes SHA-256, décomptes,
   traitements et attribution. Les archives sources originales sont conservées
   localement hors Git (répertoire de travail indiqué dans la procédure).
@@ -13,6 +16,13 @@
 
 Le runtime charge ces fichiers sans réseau avec vérification des empreintes.
 Aucune migration, téléchargement au démarrage ou nouvelle dépendance applicative.
+
+Les quatre JSON sont non compressés, indentés et encodés en UTF-8. Le schéma du
+manifeste passe à la version 2 ; les éditions des référentiels restent inchangées.
+Les anciens gzip sont supprimés, sans copie parallèle à maintenir. Pour un fichier
+trop volumineux pour la vue Code de GitHub, utiliser le bouton **Raw** : le contenu
+reste directement accessible sans décompression. ESCO conserve ses correspondances
+préjointes pour préserver le comportement et le coût des recherches existantes.
 
 ## Provenance et attribution
 
@@ -36,7 +46,7 @@ conversion d’une ressemblance de mots en équivalence de métiers.
 **Correspondances : France Travail / Commission européenne**, projet V1.1 du
 19 novembre 2025, ESCO 1.0.9 / appellations ROME 25M06, fichier officiel :
 https://esco.ec.europa.eu/system/files/2025-12/EURESmapping_occs_FR.csv .
-Les relations SKOS et toutes les lignes sont conservées dans `rome.json.gz`, y
+Les relations SKOS et toutes les lignes sont conservées dans `esco_rome.json`, y
 compris quatre URI absentes du catalogue ESCO courant. Aucun lien Forem ou ADEM
 courant n’est déduit de ce fichier français.
 
@@ -56,7 +66,7 @@ attribuer des compétences ou à décider d’une adéquation candidat/offre.
 
 Voir `docs/OCCUPATION_CATALOG_MAINTENANCE.md`. Les scripts n’effectuent pas de
 publication : construire en staging, valider, comparer et remplacer explicitement
-les fichiers embarqués. Les gzip sont déterministes (mtime=0) ; deux constructions
-sur les mêmes sources ont produit des fichiers et manifestes identiques.
+les quatre JSON embarqués. La sérialisation est déterministe (clés triées,
+indentation de deux espaces, saut de ligne final).
 Le rapport conserve la comparaison historique avec les 35 métiers du pilote.
 Cet échantillon expérimental n’est pas réintroduit dans le train.

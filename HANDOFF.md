@@ -1,3 +1,12 @@
+## 6 novembre 2026 — référentiels JSON lisibles
+
+Les deux gzip du catalogue sont remplacés par quatre JSON UTF-8 indentés :
+métiers ESCO, fiches ROME, appellations OGR et correspondances ESCO/ROME.
+Égalité intégrale des objets avec les anciens fichiers décompressés vérifiée
+avant suppression. Sources, éditions et identifiants conservés ; manifeste v2.
+Le chargeur conserve son interface et contrôle les quatre empreintes. L’outil de
+reconstruction produit le même format. Aucun modèle ni migration modifié.
+
 ## 3 novembre 2026 — consultation de tous les modèles dans Django Admin
 
 PR dédiée depuis main : neuf modèles applicatifs et cinq modèles techniques

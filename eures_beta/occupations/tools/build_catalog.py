@@ -6,7 +6,6 @@ No network, database or application dependency. Raw sources stay outside Git.
 import argparse
 import collections
 import csv
-import gzip
 import hashlib
 import io
 import json
@@ -232,26 +231,30 @@ def build(esco_dir, mapping_path, rome_path, output):
     artifacts = {}
     for name, value in [
         (
-            'occupations.json.gz',
+            'esco.json',
             {'occupations': sorted(jobs.values(), key=lambda row: row['uri'])},
         ),
         (
-            'rome.json.gz',
-            {'fiches': fiches, 'appellations': appellations, 'mappings': mappings},
+            'rome.json',
+            {'fiches': fiches},
         ),
+        ('ogr.json', {'appellations': appellations}),
+        ('esco_rome.json', {'mappings': mappings}),
     ]:
-        encoded = json.dumps(
-            value, ensure_ascii=False, separators=(',', ':'), sort_keys=True
-        ).encode()
+        encoded = (
+            json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True).encode(
+                'utf-8'
+            )
+            + b'\n'
+        )
         path = output / name
-        path.write_bytes(gzip.compress(encoded, mtime=0))
+        path.write_bytes(encoded)
         artifacts[name] = {
             'sha256': digest(path),
             'bytes': path.stat().st_size,
-            'uncompressedBytes': len(encoded),
         }
     manifest = {
-        'schemaVersion': 1,
+        'schemaVersion': 2,
         'version': ESCO_VERSION,
         'languages': list(LANGUAGES),
         'scope': 'complete occupations pillar FR/EN/DE; complete ROME hierarchy and official France mapping',
