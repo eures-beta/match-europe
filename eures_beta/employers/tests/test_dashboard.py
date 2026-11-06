@@ -139,9 +139,9 @@ class EmployerDashboardTests(TestCase):
             if populated:
                 self.offer('Existing offer', created_by=self.employer)
             for language, label in (
-                ('fr', 'Importer mon offre d’emploi'),
-                ('en', 'Import my job offer'),
-                ('de', 'Mein Stellenangebot importieren'),
+                ('fr', 'Décrire mon besoin de recrutement'),
+                ('en', 'Describe my recruitment needs'),
+                ('de', 'Meinen Personalbedarf beschreiben'),
             ):
                 with self.subTest(populated=populated, language=language):
                     url = f'/employer/pages/import-{language}.html'
