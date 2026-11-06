@@ -1,7 +1,10 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
-.PHONY: skills-pilot-run skills-pilot-test skills-pilot-build
+.PHONY: skills-pilot-run skills-pilot-test skills-pilot-build skills-pilot-audit
+skills-pilot-audit: ## Comparer les 50 fiches aux archives ESCO épinglées, sans réseau ni base
+	$(PYTHON) -m eures_beta.occupations.tools.audit_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --report .runtime/skills-pilot-audit.json
+
 skills-pilot-build: ## Reconstruire le pilote depuis CATALOG_SOURCES en staging, sans réseau
 	@$(MANAGE) sync_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --output .runtime/skills-pilot-staging
 skills-pilot-run: ## Essayer les sélections employeur/candidat sur 9038, uniquement en local

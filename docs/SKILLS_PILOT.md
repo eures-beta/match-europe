@@ -2,7 +2,43 @@
 
 Le parcours de sélection est actif par défaut et accessible en local, recette et production. Les choix restent privés à la session, avec expiration, validation serveur et CSRF ; ils ne créent pas directement une offre ou un profil. Les anciennes restrictions local/loopback/e-mails décrites ci-dessous sont remplacées par cette décision.
 
-# Sélection de compétences — recette locale sur six métiers
+# Sélection de compétences — catalogue local de 50 métiers
+
+## Extension proposée le 6 novembre 2026
+
+À la demande d’Eric, préparation locale de 50 métiers ESCO distincts : les six
+fiches initiales et la variante nettoyage de locaux sont conservées, avec 43
+ajouts. La liste et les huit compétences par métier sont des propositions
+éditoriales, pas un classement statistique des besoins de recrutement.
+Voir [la liste officielle et les identifiants](SKILLS_CATALOGUE_50.md).
+
+Les deux JSON gardent leur schéma : 49 éléments dans `cards`, plus
+`cleaningAlternative`, soit 50 métiers distincts. Aucun troisième catalogue,
+correspondance ROME, score, salaire ou statistique d’offres n’est ajouté.
+Les nouveaux intitulés affichés proviennent des libellés officiels ESCO FR/EN/DE ;
+les intitulés de présentation historiques des sept choix initiaux sont conservés.
+
+Les archives ESCO 1.2.1 locales sont contrôlées contre les empreintes épinglées
+dans la PR #154. `make skills-pilot-audit CATALOG_SOURCES=/chemin/archives`
+compare tous les concepts, libellés, descriptions, synonymes, types, collections
+transversales et relations aux trois archives. Il vérifie 50 URI métier distinctes,
+400 propositions de compétences clés et 200 propositions de savoir-être.
+Chaque compétence clé a un lien officiel ; 198 associations de savoir-être sont
+explicitement éditoriales et deux ont un lien officiel. Leur présence dans ESCO
+ne transforme pas leur sélection éditoriale en recommandation officielle.
+
+La reconstruction existante en staging conserve les deux fichiers à l’identique.
+Le cache du catalogue reste en mémoire par processus : redémarrer les processus
+après remplacement des JSON. Aucun appel Albert ou réseau à l’utilisation,
+aucune migration ni collecte durable ajoutés. Le pilote garde ses protections
+locales et ne raccorde pas ces choix aux offres, profils ou matching.
+
+Le parcours automatisé couvre chaque métier pour les deux rôles en FR/EN/DE,
+avec vérification des libellés, des sélections et du récapitulatif. La sélection
+éditoriale reste à relire par Eric ; pas de recette navigateur supplémentaire
+revendiquée pour ce lot. Aucun push, fusion ou déploiement.
+
+## Recette initiale et fonctionnement conservé
 
 Le pilote se teste dans l’application Django, à `/skills-pilot/?lang=fr`.
 Il prépare une sélection explicite commune aux employeurs et candidats avant
@@ -27,7 +63,7 @@ localhost. Ne jamais utiliser de données personnelles dans ce pilote.
 ## Parcours
 
 1. Choisir employeur ou candidat.
-2. Choisir l’un des six métiers ; le nettoyage distingue domicile et locaux.
+2. Choisir l’un des 50 métiers ; le nettoyage distingue domicile et locaux.
 3. Choisir au plus cinq compétences parmi huit et trois savoir-être parmi quatre.
    Aucun choix n’est imposé ou présélectionné. Champ « Autre » facultatif,
    limité à 300 caractères, sans rapprochement automatique avec un concept.
