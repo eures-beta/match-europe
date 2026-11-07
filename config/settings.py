@@ -39,6 +39,7 @@ DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 SKILLS_PILOT_ENABLED = os.environ.get('SKILLS_PILOT_ENABLED', '1') == '1'
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '1') == '1'
+ALBERT_IMPORT_SIMULATED = os.environ.get('ALBERT_IMPORT_SIMULATED', '0') == '1'
 ALBERT_API_KEY = os.environ.get('ALBERT_API_KEY', '')
 ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'mistral-small-3-2-24b-instruct-2506')
 CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
@@ -46,6 +47,7 @@ SKILLS_ALBERT_ENABLED = os.environ.get('SKILLS_ALBERT_ENABLED', '1') == '1'
 # Simulation is explicit; real calls require the private API key.
 SKILLS_ALBERT_SIMULATED = os.environ.get('SKILLS_ALBERT_SIMULATED', '0') == '1'
 SKILLS_ALBERT_SOURCE_DIR = BASE_DIR / '.runtime' / 'catalog-sources'
+CONTINUOUS_SKILLS_ENABLED = os.environ.get('CONTINUOUS_SKILLS_ENABLED', '1') == '1'
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
 # Team contact for employers requesting a Match Europe invitation.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
@@ -158,8 +160,16 @@ DATABASES = {
     }
 }
 
+# The single-worker disposable trial keeps at most one connection per Gunicorn
+# thread (four), instead of repeating the remote connection handshake per request.
+# Production and the other previews retain their existing configuration.
+if DJANGO_ENVIRONMENT == 'preview' and CONTINUOUS_SKILLS_ENABLED:
+    DATABASES['default']['CONN_MAX_AGE'] = 60
+    DATABASES['default']['CONN_HEALTH_CHECKS'] = True
+    DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
+
 if os.environ.get("PGSSLMODE"):
-    DATABASES["default"]["OPTIONS"] = {"sslmode": os.environ["PGSSLMODE"]}
+    DATABASES['default'].setdefault('OPTIONS', {})['sslmode'] = os.environ['PGSSLMODE']
 
 # Enable only when the ingress strips and sets X-Forwarded-Proto itself.
 if os.environ.get("DJANGO_TRUST_PROXY", "0") == "1":

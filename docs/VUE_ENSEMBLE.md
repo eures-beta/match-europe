@@ -11,6 +11,10 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 7 novembre 2026 — parcours continus de recette
+
+EMPLOYEURS / CANDIDATS : raccordement local des compétences ESCO dans les formulaires habituels, conservation dans les offres et profils, recette unique depuis l’accueil. Albert simulé, données fictives, confirmation candidat privée de session. Base de pile #157 vérifiée, pas de production. Voir [recette continue](CONTINUOUS_JOURNEYS.md).
+
 ## 6 novembre 2026 — métiers hors sélection, essai local
 
 TRANSVERSE / EMPLOYEURS / CANDIDATS : recherche d’un métier ESCO hors des 50 fiches, préparation serveur des suggestions parmi ses relations officielles vérifiées, cache PostgreSQL partagé et choix temporaires par rôle. Simulation par défaut, accès loopback uniquement ; aucun raccordement aux offres/profils réels ni appel Albert réel. Voir [contrat et recette](ALBERT_SKILLS.md).

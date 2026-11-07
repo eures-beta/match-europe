@@ -144,7 +144,17 @@ def validate_result(value, source):
 
 
 def structure(source):
-    if not enabled():
+    from eures_beta.occupations.continuous import enabled as continuous_enabled
+
+    if enabled() and continuous_enabled():
+        from .offer_ingestion import parse_pdf_text
+
+        if not isinstance(source, str) or not source.strip() or len(source) > 16000:
+            raise ImportFailure('albert_invalid')
+        data = parse_pdf_text(source)
+        data['extraction'] = 'albert_simulated'
+        return data
+    if not enabled() or not settings.ALBERT_API_KEY:
         raise ImportFailure('albert_unavailable')
     if not isinstance(source, str) or not source.strip() or len(source) > 16000:
         raise ImportFailure('albert_invalid')

@@ -5,6 +5,26 @@ from django.test import TransactionTestCase
 
 
 class CandidateProfileMigrationTests(TransactionTestCase):
+    def test_occupation_skill_upgrade_preserves_existing_answers(self):
+        apps = self.migrate(
+            ('candidates', '0004_candidateprofile_acquired_skills_and_more')
+        )
+        user = apps.get_model('users', 'User').objects.create(
+            email='existing@example.invalid', kind='candidate', password='!'
+        )
+        old = apps.get_model('candidates', 'CandidateProfile').objects.create(
+            user_id=user.pk,
+            display_name='Fictional preserved name',
+            desired_occupations='Preserved project',
+        )
+        apps = self.migrate(('candidates', '0005_candidateprofile_occupation_skills'))
+        profile = apps.get_model('candidates', 'CandidateProfile').objects.get(
+            pk=old.pk
+        )
+        self.assertEqual(profile.occupation_skills, {})
+        self.assertEqual(profile.desired_occupations, 'Preserved project')
+        self.assertEqual(profile.display_name, 'Fictional preserved name')
+
     def test_skill_upgrade_preserves_legacy_profiles_and_reverse_keeps_accounts(self):
         old_apps = self.migrate(
             ('candidates', '0003_candidateprofile_email_verified_at_and_more')

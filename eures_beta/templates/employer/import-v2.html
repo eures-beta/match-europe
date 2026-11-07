@@ -1233,6 +1233,9 @@
           <p id="review-provenance" class="review-provenance"></p>
           <p class="mini-note">{% translate "Drafts are saved only through voluntary download. Email and preparation agreement are excluded. Validation does not send anything to the preparation service." context "employer import-v2" %}</p>
           <form id="review-form" novalidate>
+            {% if continuous_skills %}
+              {% include "occupations/continuous.html" with skills_role="employer" %}
+            {% endif %}
             <section class="alt-panel">
               <h2>{% translate "1. Your offer information" context "employer import-v2" %}</h2>
               <div class="review-fields">
@@ -2041,6 +2044,12 @@
     </script>
     <script src="/static/employer/offer-import-api.js" defer></script>
     <script src="/static/employer/contact.js" defer></script>
+    {% if continuous_skills %}
+      {% include "employer/occupation_strings.html" %}
+      <script src="/static/employer/occupation-picker.js" defer></script>
+      <link rel="stylesheet" href="/static/occupations/skills-pilot.css">
+      <script src="/static/occupations/continuous.js" defer></script>
+    {% endif %}
     <script src="/static/employer/review.js" defer></script>
     <script src="/static/employer/import.js" defer></script>
   </body>

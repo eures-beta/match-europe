@@ -40,6 +40,7 @@ class CandidateProfile(models.Model):
     learning_activities = models.JSONField(default=list, blank=True)
     professional_behaviours = models.JSONField(default=list, blank=True)
     skill_catalogue_version = models.CharField(max_length=64, blank=True)
+    occupation_skills = models.JSONField(default=dict, blank=True)
     desired_occupations = models.CharField(max_length=500, blank=True)
     occupation_references = models.JSONField(default=list, blank=True)
     desired_countries = models.JSONField(default=list)

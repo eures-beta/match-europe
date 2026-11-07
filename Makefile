@@ -1,6 +1,18 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+.PHONY: continuous-run continuous-test continuous-ui-test
+.PHONY: continuous-source-prepare
+continuous-source-prepare: ## Télécharger explicitement les trois exports publics ESCO épinglés et les vérifier
+	@$(MANAGE) prepare_skill_source --download
+continuous-ui-test: ## Tester l'affichage, les choix, les erreurs et réponses périmées sans navigateur
+	node --test eures_beta/occupations/tests/continuous.test.cjs
+continuous-run: ## Tester toute la pile depuis l'accueil sur 9040, données fictives et Albert simulé
+	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= SKILLS_PILOT_ENABLED=0 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 ME_EMPLOYER_EMAIL_LOCAL=1 ME_LOCAL_REVIEW_ONLY=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
+
+continuous-test: ## Vérifier les choix employeur/candidat, leur conservation et les protections locales
+	@$(MANAGE) test eures_beta.occupations.tests.test_continuous eures_beta.occupations.tests.test_skill_source_prepare --noinput $(TEST_ARGS)
+
 .PHONY: skills-albert-run skills-albert-test skills-source-check skills-albert-ui-test
 skills-albert-ui-test: ## Vérifier le message d'attente, le double clic et le retour navigateur
 	node --test eures_beta/occupations/tests/skills_wait.test.cjs
