@@ -3,6 +3,7 @@
 import csv
 import hashlib
 import io
+import json
 from functools import lru_cache
 from pathlib import Path
 import zipfile
@@ -15,6 +16,45 @@ VERSION = (
     'esco-1.2.1-'
     + hashlib.sha256(str(sorted(PINNED.items())).encode()).hexdigest()[:16]
 )
+
+
+def prepare_occupation_files(directory, skills, relations):
+    """Build disposable small slices only after the pinned archives were verified."""
+    destination = Path(directory) / ('prepared-' + VERSION)
+    destination.mkdir(parents=True, exist_ok=True)
+    files = {}
+    for uri, linked in relations.items():
+        name = hashlib.sha256(uri.encode()).hexdigest() + '.json'
+        raw = json.dumps(
+            {
+                'occupation': uri,
+                'skills': {key: skills[key] for key in linked},
+                'relations': linked,
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        ).encode()
+        temporary = destination / (name + '.tmp')
+        temporary.write_bytes(raw)
+        temporary.replace(destination / name)
+        files[name] = hashlib.sha256(raw).hexdigest()
+    temporary = destination / 'manifest.tmp'
+    temporary.write_text(
+        json.dumps({'version': VERSION, 'files': files}, sort_keys=True)
+    )
+    temporary.replace(destination / 'manifest.json')
+    prepared_manifest.cache_clear()
+
+
+@lru_cache(maxsize=1)
+def prepared_manifest(directory):
+    path = Path(directory) / ('prepared-' + VERSION) / 'manifest.json'
+    if not path.exists():
+        return None
+    manifest = json.loads(path.read_text())
+    if manifest['version'] != VERSION:
+        raise ValueError('Prepared source version mismatch')
+    return manifest['files']
 
 
 @lru_cache(maxsize=1)
@@ -54,7 +94,22 @@ def load_source(directory):
 def source_for(uri):
     if uri not in occupation_index():
         raise ValueError('Unknown occupation')
-    skills, relations = load_source(str(settings.SKILLS_ALBERT_SOURCE_DIR))
+    directory = str(settings.SKILLS_ALBERT_SOURCE_DIR)
+    manifest = prepared_manifest(directory)
+    if manifest is not None:
+        name = hashlib.sha256(uri.encode()).hexdigest() + '.json'
+        if name not in manifest:
+            raise ValueError('No verified relations')
+        raw = (Path(directory) / ('prepared-' + VERSION) / name).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != manifest[name]:
+            raise ValueError('Prepared source checksum mismatch')
+        value = json.loads(raw)
+        if value['occupation'] != uri or not value['relations']:
+            raise ValueError('Prepared source occupation mismatch')
+        return value['skills'], value['relations']
+    if settings.DJANGO_ENVIRONMENT == 'preview':
+        raise ValueError('Prepared occupation sources required in preview')
+    skills, relations = load_source(directory)
     linked = relations.get(uri, {})
     if not linked:
         raise ValueError('No verified relations')
