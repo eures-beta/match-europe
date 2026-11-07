@@ -26,8 +26,14 @@ class SuggestionUnavailable(Exception):
 def enabled():
     return (
         settings.SKILLS_ALBERT_ENABLED
-        and settings.SKILLS_PILOT_ENABLED
-        and settings.DJANGO_ENVIRONMENT == 'local'
+        and (settings.SKILLS_PILOT_ENABLED or settings.CONTINUOUS_SKILLS_ENABLED)
+        and (
+            settings.DJANGO_ENVIRONMENT == 'local'
+            or (
+                settings.DJANGO_ENVIRONMENT == 'preview'
+                and settings.CONTINUOUS_SKILLS_ENABLED
+            )
+        )
         and not settings.EMAIL_DELIVERY_ENABLED
     )
 

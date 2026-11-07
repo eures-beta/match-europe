@@ -7,6 +7,13 @@
     {% if stage == "requested" %}
       <p role="status">{% translate "If this address can be registered, a confirmation has been prepared. If you already have an account, sign in to access it. No existing profile has been replaced." %}</p>
       <p>{% translate "A confirmation request lasts one hour. Confirm your email to create your account and save your profile." %}</p>
+      {% if local_confirmation_available %}
+        <p>{% translate "Local simulation for your fictional address: no email was sent. Continue to the confirmation step for this browser session only." %}</p>
+        <form method="post" action="{% url 'candidate_local_confirmation' %}">
+          {% csrf_token %}
+          <button class="primary-action" type="submit">{% translate "Simulate receiving my confirmation" %}</button>
+        </form>
+      {% endif %}
       {% if not email_delivery_available %}
         <p role="status">{% translate "Email delivery is currently unavailable." %}</p>
       {% endif %}

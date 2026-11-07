@@ -125,6 +125,8 @@
       row(label, name === 'contractType' ? t.contracts[values[name]] : values[name]);
     if (window.meOccupation)
       row(window.meOccupation.summaryLabel, window.meOccupation.summary(values.occupation));
+    if (window.meOccupationSkills)
+      row(window.meOccupationSkills.summaryLabel, window.meOccupationSkills.summary());
     for (const [name, label] of Object.entries(t.clarifications))
       row(label, values.clarifications?.[name]);
     for (const name of ['crossBorder', 'relocation'])
@@ -164,6 +166,7 @@
     const values = {};
     for (const name of Object.keys(t.fields)) values[name] = field(name).value.trim();
     if (window.meOccupation) values.occupation = window.meOccupation.collect();
+    if (window.meOccupationSkills) values.occupationSkills = window.meOccupationSkills.collect();
     values.clarifications = {};
     for (const name of Object.keys(t.clarifications))
       values.clarifications[name] = document.getElementById('clarify-' + name).value.trim();
@@ -291,6 +294,7 @@
         result.kind !== 'manual' || values.extraction === 'albert_text',
         values.occupationQuery || '',
       );
+      window.meOccupationSkills?.load(values.occupationSkills);
       for (const name of Object.keys(t.clarifications))
         document.getElementById('clarify-' + name).value = values.clarifications?.[name] || '';
       arrangeClarifications();

@@ -4,6 +4,11 @@ from eures_beta.candidates import registration_views
 
 urlpatterns = [
     path(
+        'candidate/registration/local-confirmation/',
+        registration_views.local_confirmation,
+        name='candidate_local_confirmation',
+    ),
+    path(
         'candidate/registration/requested/',
         registration_views.requested,
         name='candidate_registration_requested',

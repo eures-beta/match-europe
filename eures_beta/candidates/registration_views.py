@@ -32,7 +32,33 @@ def page(request, stage, **context):
 @never_cache
 @require_GET
 def requested(request):
-    return page(request, 'requested', email_delivery_available=email_ready())
+    from eures_beta.occupations.continuous import trial_request
+
+    return page(
+        request,
+        'requested',
+        email_delivery_available=email_ready(),
+        local_confirmation_available=bool(
+            trial_request(request)
+            and request.session.get('candidate_local_preview_token')
+        ),
+    )
+
+
+@never_cache
+@require_http_methods(['POST'])
+def local_confirmation(request):
+    from eures_beta.occupations.continuous import trial_request
+
+    if not trial_request(request):
+        raise Http404
+    token = request.session.pop('candidate_local_preview_token', '')
+    pending = registration.find_registration(token) if token else None
+    if not pending or not pending.email.endswith('.invalid'):
+        raise Http404
+    request.session['candidate_confirmation_token'] = token
+    request.session['login_language'] = pending.language
+    return redirect('candidate_registration_confirm')
 
 
 @never_cache
@@ -106,7 +132,18 @@ def profile(request):
             )
             rows = []
             for name, field in form.fields.items():
-                if name == 'skill_catalogue_version':
+                if name in (
+                    'skill_catalogue_version',
+                    'occupation_query',
+                    'condition_overrides',
+                    'auto_conditions',
+                ):
+                    continue
+                if (
+                    name.startswith('schedule_')
+                    and name != 'schedule_preference'
+                    and answers.get('schedule_preference') != 'specific'
+                ):
                     continue
                 if name in FIELDS and answers.get('project_mode') != 'open':
                     continue
@@ -126,6 +163,12 @@ def profile(request):
                         for item in value
                         if (row := resolve_reference(item, obj.language))
                     )
+                elif name == 'occupation_skills':
+                    from eures_beta.occupations.continuous import (
+                        summary as skills_summary,
+                    )
+
+                    value = skills_summary(value, selected_language(request))
                 elif name == 'language_skills':
                     value = '\n'.join(
                         row['code'] + ' — ' + row['level']

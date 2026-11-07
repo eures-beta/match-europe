@@ -2,6 +2,7 @@
 {% load i18n %}
 {% block page_title %}{% if error_summary %}{% translate "Error" %} — {% endif %}{% blocktranslate with title=title %}Step {{ step }} of 4: {{ title }}{% endblocktranslate %} — {% translate "Candidate journey" context "candidate landing" %} — Match Europe{% endblock %}
 {% block candidate_content %}
+  {% if continuous_skills %}<link rel="stylesheet" href="/static/occupations/skills-pilot.css">{% endif %}
   <main id="main-content" class="section candidate-journey">
     <div class="shell">
       <nav aria-label="{% translate 'Your progress' %}">
@@ -139,6 +140,9 @@
                     {% endfor %}
                   </div>
                   {{ field.errors }}
+                  {% if continuous_skills %}
+                    {% include "occupations/continuous.html" with skills_role="candidate" %}
+                  {% endif %}
                 </fieldset>
               {% elif field.field.widget.allow_multiple_selected or field.field.widget.input_type == "radio" %}
                 <fieldset class="journey-field guided-choice"
@@ -257,6 +261,7 @@
   {% if step == 1 %}
     {% include "employer/occupation_strings.html" %}
     <script src="/static/candidate/skill-selection.js" defer></script>
+    {% if continuous_skills %}<script src="/static/occupations/continuous.js" defer></script>{% endif %}
     {{ reference_rows|json_script:"candidate-reference-rows" }}
   {% endif %}
   {% if step == 2 or step == 4 %}

@@ -1,3 +1,11 @@
+## 7 novembre 2026 — publication et recette regroupée autorisées
+
+Eric demande une nouvelle PR au-dessus de #157, une recette jetable de sept jours de cette PR et la fermeture de la recette de #157. Raccordement étendu à preview HTTPS explicite, données fictives, Albert simulé et e-mails réels désactivés. Aucune fusion ou production autorisée.
+
+## 7 novembre 2026 — parcours continus de recette
+
+Eric confirme le raccordement employeur et candidat pour tester un parcours continu reprenant la pile ouverte. Préparation locale au-dessus de #157, simulation Albert et e-mails réels désactivés. Aucun matching, fusion, déploiement ou nouvelle publication autorisé par cette étape. Voir [périmètre et données](CONTINUOUS_JOURNEYS.md).
+
 ## 6 novembre 2026 — lot local compétences et Albert autorisé
 
 Après l’audit en lecture seule de #156, Eric accepte le lot local proposé, désactivé par défaut et testé sans service payant. Implémentation dans le pilote commun : confirmation du métier, message d’attente, sélection parmi les compétences officiellement reliées dans ESCO, persistance et réutilisation. Hypothèse d’implémentation annoncée : aucun nouveau lien ESCO ni savoir-être inféré. La pertinence réelle d’Albert et le raccordement aux questionnaires durables restent à valider. Aucun push, fusion ou déploiement autorisé par cet accord. Voir [contrat](ALBERT_SKILLS.md).
