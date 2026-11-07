@@ -26,7 +26,7 @@ class SuggestionUnavailable(Exception):
 def enabled():
     return bool(
         settings.SKILLS_ALBERT_ENABLED
-        and settings.SKILLS_PILOT_ENABLED
+        and (settings.SKILLS_PILOT_ENABLED or settings.CONTINUOUS_SKILLS_ENABLED)
         and (settings.SKILLS_ALBERT_SIMULATED or settings.ALBERT_API_KEY)
     )
 

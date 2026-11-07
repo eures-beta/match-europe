@@ -60,6 +60,8 @@
   document.getElementById('clarifications-known').hidden = true;
   const intro = missing.previousElementSibling?.previousElementSibling;
   if (intro?.tagName === 'P') intro.hidden = true;
+  const occupationSkills = form.querySelector('[data-occupation-skills]');
+  if (occupationSkills) form.querySelector('.occupation-picker').after(occupationSkills);
   const requirements = form.querySelector('.requirements-fields');
   const work = requirements.querySelector('fieldset');
   move(work, 1);

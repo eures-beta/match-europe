@@ -96,6 +96,7 @@
           if (check.checked) choices.add(job.uri);
           else choices.delete(job.uri);
           error.textContent = '';
+          window.meOccupationSkills?.update();
         });
         const details = node('details', '', article);
         node('summary', t.escoReference, details);
@@ -150,6 +151,7 @@
     near.hidden = true;
     list.replaceChildren();
     error.textContent = '';
+    window.meOccupationSkills?.update();
   }
   function manual(message = t.manualIntro, focus = false) {
     fallback.hidden = false;
@@ -324,6 +326,7 @@
         render();
       }
       find('search', true, true);
+      window.meOccupationSkills?.update();
     },
     reset: clear,
     collect() {

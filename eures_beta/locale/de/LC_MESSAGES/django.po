@@ -10782,3 +10782,27 @@ msgstr "Wählen Sie bis zu 5 Kernkompetenzen. Keine Auswahl ist vorgeschrieben o
 
 msgid "Your choices remain in this temporary draft. The shared suggestions are kept for reuse."
 msgstr "Ihre Auswahl bleibt in diesem vorübergehenden Entwurf. Die gemeinsamen Vorschläge werden zur Wiederverwendung gespeichert."
+
+msgid "Skills by occupation"
+msgstr "Kompetenzen nach Beruf"
+
+msgid "Check the skills selected for each occupation."
+msgstr "Prüfen Sie die ausgewählten Kompetenzen für jeden Beruf."
+
+msgid "Select an ESCO occupation above to see its skills. Choose up to five skills and three professional behaviours per occupation; nothing is preselected. ROME and personal titles remain independent."
+msgstr "Wählen Sie oben einen ESCO-Beruf, um seine Kompetenzen zu sehen. Wählen Sie je Beruf bis zu fünf Kompetenzen und drei berufliche Verhaltensweisen; nichts ist vorausgewählt. ROME und eigene Berufsbezeichnungen bleiben unabhängig."
+
+msgid "Skill suggestions for selected occupations need JavaScript. You can continue without them; no skill will be inferred."
+msgstr "Kompetenzvorschläge für ausgewählte Berufe benötigen JavaScript. Sie können ohne sie fortfahren; es werden keine Kompetenzen abgeleitet."
+
+msgid "Use an address ending in .invalid for this local test."
+msgstr "Verwenden Sie für diesen lokalen Test eine Adresse mit der Endung .invalid."
+
+msgid "Local simulation for your fictional address: no email was sent. Continue to the confirmation step for this browser session only."
+msgstr "Lokale Simulation für Ihre fiktive Adresse: Es wurde keine E-Mail gesendet. Fahren Sie zur Bestätigung fort, ausschließlich für diese Browsersitzung."
+
+msgid "Simulate receiving my confirmation"
+msgstr "Empfang meiner Bestätigung simulieren"
+
+msgid "Local test: Albert is simulated and no real email is sent. Use fictional data only."
+msgstr "Lokaler Test: Albert wird simuliert und es werden keine echten E-Mails gesendet. Verwenden Sie nur fiktive Daten."

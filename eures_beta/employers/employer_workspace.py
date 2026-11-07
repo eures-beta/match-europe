@@ -5,11 +5,13 @@ from functools import wraps
 from django import forms
 from django.core.paginator import Paginator
 from django.db import transaction
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from django.views.decorators.cache import never_cache
 from eures_beta.employers import employer_login
 from eures_beta.employers.employer_api import clean_data
 from eures_beta.employers.employer_ownership import (
@@ -36,10 +38,26 @@ def connected(view):
         with translation.override(lang):
             return view(request, *args, **kwargs)
 
-    return employer_login.enabled(wrapped)
+    local_guard = employer_login.enabled(wrapped)
+
+    @wraps(view)
+    @never_cache
+    def trial_or_local(request, *args, **kwargs):
+        from eures_beta.occupations.continuous import trial_request
+
+        return (
+            wrapped(request, *args, **kwargs)
+            if trial_request(request)
+            else local_guard(request, *args, **kwargs)
+        )
+
+    return trial_or_local
 
 
 def render(request, stage, status=200, **context):
+    from eures_beta.occupations.continuous import trial_request
+
+    context['continuous_skills'] = trial_request(request)
     response = employer_login.page(request, stage, **context)
     response.status_code = status
     return response
@@ -47,14 +65,20 @@ def render(request, stage, status=200, **context):
 
 def visible(request):
     # New account pages exclude anonymous legacy drafts, even in the same browser.
-    return (
-        accessible_imports(request)
-        .filter(company__isnull=False)
-        .select_related('company')
-    )
+    from eures_beta.occupations.continuous import trial_request
+
+    policy = Q(company__isnull=False)
+    if trial_request(request):
+        policy |= Q(created_by=identity(request))
+    return accessible_imports(request).filter(policy).select_related('company')
 
 
 class OfferEditForm(forms.Form):
+    occupationSkills = forms.JSONField(
+        label=_('Skills by occupation'),
+        required=False,
+        widget=forms.HiddenInput(attrs={'id': 'id_occupation_skills'}),
+    )
     revision = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
     title = forms.CharField(label=_('Job title'), max_length=125, required=False)
     companyName = forms.CharField(
@@ -208,6 +232,7 @@ class OfferEditForm(forms.Form):
             )
             return values
         data = deepcopy(self.offer.data)
+        data['occupationSkills'] = values.get('occupationSkills') or {}
         for key in (
             'title',
             'companyName',
@@ -235,6 +260,7 @@ class OfferEditForm(forms.Form):
         }
         if data.get('occupation', {}).get('title') != data['title']:
             data.pop('occupation', None)
+            data.pop('occupationSkills', None)
         try:
             cleaned = clean_data(data)
         except ImportFailure:
@@ -295,7 +321,7 @@ def detail(request, id):
     form = OfferEditForm(offer=offer)
     rows = []
     for field in form:
-        if field.name in ('revision', 'title'):
+        if field.name in ('revision', 'title', 'occupationSkills'):
             continue
         value = field.value()
         choices = dict(getattr(field.field, 'choices', []))
@@ -306,6 +332,13 @@ def detail(request, id):
         if value:
             rows.append((field.label, value))
     from eures_beta.employers.employer_search import simulation_enabled
+    from eures_beta.occupations.continuous import summary as skills_summary
+
+    skill_text = skills_summary(
+        offer.data.get('occupationSkills'), translation.get_language()
+    )
+    if skill_text:
+        rows.append((_('Skills by occupation'), skill_text))
 
     return render(
         request,
@@ -373,7 +406,13 @@ def edit(request, id):
 
                 return redirect(reverse('employer_offer', args=[offer.pk]) + '?saved=1')
     return render(
-        request, 'offer_edit', offer=offer, form=form, contact=contact, workspace=True
+        request,
+        'offer_edit',
+        offer=offer,
+        form=form,
+        contact=contact,
+        workspace=True,
+        skills_occupations=' '.join(offer.data.get('occupation', {}).get('uris', [])),
     )
 
 

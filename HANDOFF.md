@@ -27,6 +27,14 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 7 novembre 2026 — publication et recette regroupée autorisées
+
+Eric demande une nouvelle PR au-dessus de #157, une recette jetable de sept jours de cette PR et la fermeture de la recette de #157. Raccordement étendu à preview HTTPS explicite, données fictives, Albert simulé et e-mails réels désactivés. Aucune fusion ou production autorisée.
+
+## 7 novembre 2026 — parcours continus de recette
+
+Branche locale `codex/continuous-skills-journeys` sur #157 `da5b1c4` revérifié sur GitHub. Composant commun dans les formulaires habituels, stockage dans le JSON offre et champ candidat dédié (migration additive 0005), récapitulatifs et modification. Recette sur 9040 depuis l’accueil ; ancien pilote9039 conservé séparément. Simulation forcée des appels Albert, confirmation candidat locale par POST privée à la session et limitée aux adresses .invalid. Voir [contrat](docs/CONTINUOUS_JOURNEYS.md). Validation finale et limites consignées dans ce document après les contrôles.
+
 ## 6 novembre 2026 — compétences des métiers hors sélection
 
 Branche locale `codex/albert-occupation-skills`, sur #156 `f007a7f` vérifié sur GitHub. Pilote employeur/candidat étendu avec recherche ESCO, confirmation, attente, validation stricte des URI parmi les relations officielles et cache PostgreSQL partagé versionné. Migration additive, administration en lecture seule, réservations contre les doubles appels, repli préservant le brouillon. Simulation par défaut ; aucun appel Albert réel ni modification d’offre/profil métier. Voir [périmètre et recette](docs/ALBERT_SKILLS.md). Validation : 491 tests PostgreSQL réussis, 12 tests dédiés et 8 tests admin revérifiés, test JavaScript d’attente réussi ; contrôles Django/migrations/formats/traductions et archives officielles vérifiés. Recette navigateur employeur/candidat, conservation FR/EN/DE et largeur 390 px sans débordement. Aucun audit WCAG exhaustif, appel Albert réel, publication ou production.
