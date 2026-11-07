@@ -10806,3 +10806,6 @@ msgstr "Empfang meiner Bestätigung simulieren"
 
 msgid "Local test: Albert is simulated and no real email is sent. Use fictional data only."
 msgstr "Lokaler Test: Albert wird simuliert und es werden keine echten E-Mails gesendet. Verwenden Sie nur fiktive Daten."
+
+msgid "Try again"
+msgstr "Erneut versuchen"
