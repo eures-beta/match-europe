@@ -121,7 +121,11 @@ Avant le démarrage, préparer les sources officielles avec
 Django correspondante peut être utilisée dans le hook de construction privé.
 Les trois exports publics sont téléchargés avec une limite de taille, un délai
 et une empreinte épinglée, puis contrôlés avant promotion atomique. Cette étape
-n’appelle pas Albert. Elle ajoute environ 27 Mo d’archives par instance.
+n’appelle pas Albert. Elle ajoute environ 27 Mo d’archives et prépare des fichiers
+par métier contrôlés par empreinte, soit environ 70 Mo au total par instance.
+Les requêtes ne chargent que les références du métier demandé. Une recette
+sans cette préparation échoue explicitement plutôt que charger tous les exports
+en mémoire sur la petite instance.
 
 Le label de durée de la PR ouvre et ferme la recette selon le contrôleur privé ;
 il ne fusionne pas de code. La recette de #157 doit être désactivée après
