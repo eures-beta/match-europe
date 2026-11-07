@@ -36,6 +36,12 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
 LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
+
+# Historical option name retained for existing deployments; it no longer means local-only.
+MATCHING_LOCAL_ENABLED = (
+    os.environ.get('MATCHING_ENABLED', os.environ.get('MATCHING_LOCAL_ENABLED', '1'))
+    == '1'
+)
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '1') == '1'
 ALBERT_IMPORT_SIMULATED = os.environ.get('ALBERT_IMPORT_SIMULATED', '0') == '1'
@@ -108,6 +114,7 @@ INSTALLED_APPS = [
     'eures_beta.documents.apps.DocumentsConfig',
     'eures_beta.candidates.apps.CandidatesConfig',
     'eures_beta.employers.apps.EmployersConfig',
+    'eures_beta.matching',
 ]
 
 MIDDLEWARE = [

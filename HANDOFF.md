@@ -27,6 +27,28 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## Vérification du matching local — 7 novembre 2026
+
+Base #159 `c39c728`. Matching accessible localement sur le port de recette 9041.
+537 tests PostgreSQL réussis, dont 28 ciblés matching ; ces 28 ont été réexécutés
+avec succès après le dernier ajustement de template. Vérifications Django et
+migrations : aucune anomalie ; Black, djLint, contrôle de structure HTML et
+catalogues FR/DE vérifiés. Navigateur : consultation, valeurs comparées, refus
+fictif conservé après recalcul et blocage de date avec action de rétention désactivée.
+Scénario A conserve un refus fictif issu de cette vérification. Pas d’audit complet
+WCAG ni de calibration métier des poids. Guide : [matching local](docs/LOCAL_MATCHING.md).
+Préparation de l’étape suivante : [dialogue candidat](docs/CONVERSATIONAL_MATCHING.md),
+contrat écrit uniquement, pas d’appel Albert ni de notification.
+
+## 7 novembre 2026 — matching local autorisé
+
+TRANSVERSE / CANDIDATS / EMPLOYEURS : Eric autorise le matching local avant
+l’outil conversationnel. Base de pile #159 (`c39c728`) vérifiée ; aucune publication,
+fusion ou recette distante autorisée. Correspondances, inconnus, trois blocages
+explicites et décisions humaines distinctes. Métier hors score ; poids expérimentaux,
+pas de classement ni seuil de rejet validé. Albert et ses confirmations par offre
+ou générales restent à développer. Voir [contrat et recette](docs/LOCAL_MATCHING.md).
+
 ## 7 novembre 2026 — publication et recette regroupée autorisées
 
 Eric demande une nouvelle PR au-dessus de #157, une recette jetable de sept jours de cette PR et la fermeture de la recette de #157. Raccordement étendu à preview HTTPS explicite, données fictives, Albert simulé et e-mails réels désactivés. Aucune fusion ou production autorisée.

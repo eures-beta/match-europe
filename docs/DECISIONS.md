@@ -11,6 +11,15 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 7 novembre 2026 — matching local autorisé
+
+TRANSVERSE / CANDIDATS / EMPLOYEURS : Eric autorise le matching local avant
+l’outil conversationnel. Base de pile #159 (`c39c728`) vérifiée ; aucune publication,
+fusion ou recette distante autorisée. Correspondances, inconnus, trois blocages
+explicites et décisions humaines distinctes. Métier hors score ; poids expérimentaux,
+pas de classement ni seuil de rejet validé. Albert et ses confirmations par offre
+ou générales restent à développer. Voir [contrat et recette](LOCAL_MATCHING.md).
+
 ## 7 novembre 2026 — publication et recette regroupée autorisées
 
 Eric demande une nouvelle PR au-dessus de #157, une recette jetable de sept jours de cette PR et la fermeture de la recette de #157. Raccordement étendu à preview HTTPS explicite, données fictives, Albert simulé et e-mails réels désactivés. Aucune fusion ou production autorisée.

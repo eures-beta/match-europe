@@ -8,6 +8,7 @@ from eures_beta.skills.continuous_views import suggestions as skill_suggestions
 from eures_beta.users import views as user_views
 
 urlpatterns = [
+    path('matching-local/', include('eures_beta.matching.urls')),
     path(
         'api/occupation-skills/', skill_suggestions, name='occupation_skill_suggestions'
     ),
