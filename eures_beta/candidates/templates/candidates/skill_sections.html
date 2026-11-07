@@ -1,9 +1,7 @@
 {% load i18n %}
 <div data-open-project>
   <p>{% translate "You do not need to choose an occupation. Tell us what you can do and what you want to learn." %}</p>
-  <p>{% translate "Choose up to 10 skills you can use, up to 5 activities to learn, and exactly 3 professional behaviours. At least one skill or activity is required." %}</p>
-  <p>{% translate "Professional behaviours will never automatically exclude you from an opportunity. Matching is not available yet." %}</p>
-  <p>{% translate "This selection uses a limited ESCO 1.2.1 catalogue covering 50 occupations. Categories and professional behaviour suggestions are editorial choices, not official requirements or proof of qualifications." %}</p>
+  <p>{% translate "Start with the sectors that interest you. You can explore several sectors." %}</p>
   {% for section in skill_sections %}
     <section class="candidate-skill-section journey-field"
              id="section_{{ section.name }}"
@@ -13,12 +11,18 @@
              data-remove="{% translate 'Remove: {label}' %}">
       <h2>{{ section.label }} <span data-skill-count
        role="status">{{ section.count }} / {{ section.maximum }}</span></h2>
+      {% if section.is_behaviours %}
+        <p>{% translate "Choose the three ways of working that describe you best. The examples help you understand each choice." %}</p>
+      {% elif section.name == "acquired_skills" %}
+        <p>{% translate "Open a sector to see its skills. Choose up to 10 things you can already do, from one or more sectors." %}</p>
+      {% else %}
+        <p>{% translate "Open a sector and choose up to 5 activities you would like to learn." %}</p>
+      {% endif %}
       <div id="{{ section.name }}_errors">{{ section.errors }}</div>
       <div class="candidate-skill-tags" data-skill-tags>
         {% for item in section.selected %}<span>{{ item.label }}</span>{% endfor %}
       </div>
-      <details>
-        <summary>{% translate "Show or hide choices" %}</summary>
+      {% if not section.is_behaviours %}
         <div data-skill-search-wrapper hidden>
           <label for="search_{{ section.name }}">{% translate "Search this section" %}</label>
           <input type="search"
@@ -26,29 +30,37 @@
                  data-skill-search
                  autocomplete="off">
           <p data-skill-results
+             hidden
              role="status"
              data-template="{% translate '{count} matching choices' %}"></p>
         </div>
+      {% endif %}
+      <div class="candidate-skill-categories">
         {% for category in section.categories %}
-          <fieldset data-skill-category>
-            <legend>{{ category.label }}</legend>
-            {% for item in category.items %}
-              <label class="candidate-skill-choice"
-                     data-skill-choice
-                     data-search="{{ item.search }}">
-                <input type="checkbox"
-                       id="{{ item.id }}"
-                       name="{{ section.name }}"
-                       value="{{ item.uri }}"
-                       aria-describedby="{{ section.name }}_errors"
-                       {% if item.checked %}checked{% endif %}>
-                <span>{{ item.label }}</span>
-              </label>
-            {% endfor %}
-          </fieldset>
+          {% if section.is_behaviours %}
+            <fieldset class="candidate-behaviour-group" data-skill-category>
+              <legend>{{ category.label }}</legend>
+              {% include "candidates/skill_items.html" %}
+            </fieldset>
+          {% else %}
+            <details class="candidate-skill-sector" data-skill-category data-skill-sector>
+              <summary>
+                <span>{{ category.label }}</span>
+                <small>{% blocktranslate count total=category.items|length %}{{ total }} skill{% plural %}{{ total }} skills{% endblocktranslate %}</small>
+              </summary>
+              <div class="candidate-sector-choices">{% include "candidates/skill_items.html" %}</div>
+            </details>
+          {% endif %}
         {% endfor %}
-      </details>
+      </div>
     </section>
   {% endfor %}
-  <p>{% translate "This service uses the ESCO classification of the European Commission." %}</p>
+  <p>{% translate "Choose at least one skill you can use or one activity you want to learn." %}</p>
+  <p>{% translate "Professional behaviours will never automatically exclude you from an opportunity. Matching is not available yet." %}</p>
+  <details class="candidate-catalogue-note">
+    <summary>{% translate "About these choices" %}</summary>
+    <p>{% translate "This selection uses a limited ESCO 1.2.1 catalogue covering 50 occupations. Categories and professional behaviour suggestions are editorial choices, not official requirements or proof of qualifications." %}</p>
+    <p>{% translate "The plain-language wording and examples are reading aids. They do not add new skills." %}</p>
+    <p>{% translate "This service uses the ESCO classification of the European Commission." %}</p>
+  </details>
 </div>

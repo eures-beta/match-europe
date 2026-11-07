@@ -4,6 +4,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from eures_beta.candidates import registration
+from eures_beta.candidates import behaviour_help
 from eures_beta.candidates.journey import KEY, ProjectForm
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates.skill_choices import (
@@ -11,6 +12,7 @@ from eures_beta.candidates.skill_choices import (
     VERSION,
     skill_choices,
     skill_groups,
+    sections,
 )
 from eures_beta.candidates.tests.test_registration import answers
 from eures_beta.users.models import User
@@ -36,6 +38,45 @@ class OpenSkillProjectTests(TestCase):
             'journey-open@example.invalid', kind=User.Kind.CANDIDATE
         )
         self.client.force_login(self.user)
+
+    def test_sectors_start_collapsed_and_all_behaviours_have_localised_reading_aids(
+        self,
+    ):
+        groups, _ = skill_groups()
+        self.assertEqual(
+            {uri.rsplit('/', 1)[-1] for uri in groups['professional_behaviours']},
+            set(behaviour_help.HELP),
+        )
+        for language, example in (
+            ('fr', 'J’écoute l’autre personne'),
+            ('en', 'I listen to the other person'),
+            ('de', 'Ich höre der anderen Person zu'),
+        ):
+            form = ProjectForm(initial=project(), language=language)
+            rendered = sections(form, language)
+            self.assertEqual(len(rendered), 3)
+            self.assertTrue(
+                all(
+                    item['description']
+                    for category in rendered[2]['categories']
+                    for item in category['items']
+                )
+            )
+            self.assertTrue(
+                any(
+                    example in item['description']
+                    for category in rendered[2]['categories']
+                    for item in category['items']
+                )
+            )
+            self.assertEqual(
+                [str(category['label']) for category in rendered[2]['categories']],
+                [str(label) for label in behaviour_help.GROUPS.values()],
+            )
+        response = self.client.get('/candidate/prepare/?lang=fr', secure=True)
+        self.assertContains(response, 'data-skill-sector')
+        self.assertNotContains(response, 'data-skill-sector open')
+        self.assertContains(response, 'J’écoute l’autre personne')
 
     def test_all_valid_boundaries_and_canonical_catalogue_version(self):
         technical = [uri for uri, label in skill_choices('acquired_skills', 'fr')]

@@ -17,6 +17,7 @@ class Element {
     this.textContent = '';
     this.attributes = {};
     this.selectors = {};
+    this.open = false;
   }
   querySelectorAll(selector) {
     if (selector === 'button') return this.children.filter((child) => child.type === 'button');
@@ -33,6 +34,9 @@ class Element {
   }
   setAttribute(name, value) {
     this.attributes[name] = value;
+  }
+  hasAttribute(name) {
+    return name === 'data-skill-sector' && this.dataset.skillSector !== undefined;
   }
   append(child) {
     this.children.push(child);
@@ -52,7 +56,7 @@ function fixture() {
     const count = new Element();
     const search = new Element();
     const results = new Element({ template: '{count} choix' });
-    const category = new Element();
+    const category = new Element({ skillSector: '' });
     const choices = Array.from({ length: maximum + 1 }, (_, index) => {
       const choice = new Element({
         search: index === 0 ? 'préparer des repas cuisine' : `autre activité ${index}`,
@@ -75,6 +79,7 @@ function fixture() {
       '[data-skill-results]': [results],
       '[data-skill-search-wrapper]': [new Element()],
       '[data-skill-category]': [category],
+      '[data-skill-sector]': [category],
     };
     return Object.assign(section, { tags, count, search, results, category, choices });
   });
@@ -125,6 +130,29 @@ test('independent accent-insensitive synonym search retains selected tags and in
   assert.equal(first.tags.children.length, 1);
   assert.equal(first.choices[0].input.checked, true);
   assert.equal(second.choices[0].hidden, false);
+});
+
+test('sector search opens matches, restores collapsed sectors and keeps explicit choices', () => {
+  const { sections } = fixture();
+  const section = sections[0];
+  assert.equal(section.category.open, false);
+  section.choices[0].input.checked = true;
+  section.fire('change');
+  section.search.value = 'cuisine';
+  section.search.fire('input');
+  assert.equal(section.category.open, true);
+  section.search.value = '';
+  section.search.fire('input');
+  assert.equal(section.category.open, false);
+  assert.equal(section.results.hidden, true);
+  assert.equal(section.choices[0].input.checked, true);
+  assert.equal(section.tags.children.length, 1);
+  section.category.open = true;
+  section.search.value = 'absent';
+  section.search.fire('input');
+  section.search.value = '';
+  section.search.fire('input');
+  assert.equal(section.category.open, true);
 });
 
 test('each ceiling is enforced and removing a hidden choice restores capacity and focus', () => {

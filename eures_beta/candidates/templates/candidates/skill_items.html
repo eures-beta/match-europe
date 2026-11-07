@@ -1,0 +1,17 @@
+{% for item in category.items %}
+  <label class="candidate-skill-choice{% if item.description %} candidate-behaviour-choice{% endif %}"
+         data-skill-choice
+         data-search="{{ item.search }}">
+    <input type="checkbox"
+           id="{{ item.id }}"
+           name="{{ section.name }}"
+           value="{{ item.uri }}"
+           aria-labelledby="{{ item.id }}_label"
+           aria-describedby="{{ section.name }}_errors{% if item.description %} {{ item.id }}_description{% endif %}"
+           {% if item.checked %}checked{% endif %}>
+    <span class="candidate-skill-wording">
+      <span id="{{ item.id }}_label" data-skill-label>{{ item.label }}</span>
+      {% if item.description %}<small id="{{ item.id }}_description">{{ item.description }}</small>{% endif %}
+    </span>
+  </label>
+{% endfor %}

@@ -183,3 +183,6 @@ Parcours commun avec/sans CV en cinq étapes, lecture locale et brouillon tempor
 ## Questionnaire candidat simplifié — état local actuel
 
 La proposition initiale avec CV est remplacée à la demande d’Eric : questionnaire sans import ni historique professionnel, avec recherche ESCO/ROME, mobilité/langues, conditions et relecture. Voir [recette et limites](CANDIDATE_LOCAL_JOURNEY.md). Aucun raccordement au matching ou compte durable.
+## 7 novembre 2026 — lisibilité du projet candidat ouvert
+
+Sur #158, préparation d’une évolution : secteurs repliables affichés d’emblée dans les listes techniques et savoir-être présentés en phrases concrètes, un par ligne. Même catalogue et mêmes choix enregistrés. Voir [le contrat du parcours](CANDIDATE_OPEN_SKILLS.md).
