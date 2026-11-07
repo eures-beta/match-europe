@@ -7,7 +7,7 @@ import tempfile
 from urllib.request import urlopen
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from eures_beta.occupations.skill_source import load_source
+from eures_beta.occupations.skill_source import load_source, prepare_occupation_files
 from eures_beta.occupations.skills_pilot import DATA
 from eures_beta.occupations.tools.audit_skills_pilot import PINNED
 
@@ -68,6 +68,7 @@ class Command(BaseCommand):
                     temporary.unlink()
         load_source.cache_clear()
         skills, relations = load_source(str(directory))
+        prepare_occupation_files(directory, skills, relations)
         self.stdout.write(
             f'Archives ESCO vérifiées : {len(skills)} concepts et {len(relations)} métiers.'
         )
