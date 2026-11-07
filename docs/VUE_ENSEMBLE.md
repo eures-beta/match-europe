@@ -11,6 +11,15 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 7 novembre 2026 — matching local autorisé
+
+TRANSVERSE / CANDIDATS / EMPLOYEURS : Eric autorise le matching local avant
+l’outil conversationnel. Base de pile #159 (`c39c728`) vérifiée ; aucune publication,
+fusion ou recette distante autorisée. Correspondances, inconnus, trois blocages
+explicites et décisions humaines distinctes. Métier hors score ; poids expérimentaux,
+pas de classement ni seuil de rejet validé. Albert et ses confirmations par offre
+ou générales restent à développer. Voir [contrat et recette](LOCAL_MATCHING.md).
+
 ## 7 novembre 2026 — parcours continus de recette
 
 EMPLOYEURS / CANDIDATS : raccordement local des compétences ESCO dans les formulaires habituels, conservation dans les offres et profils, recette unique depuis l’accueil. Albert simulé, données fictives, confirmation candidat privée de session. Base de pile #157 vérifiée, pas de production. Voir [recette continue](CONTINUOUS_JOURNEYS.md).

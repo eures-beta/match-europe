@@ -9,12 +9,13 @@ class UnifiedLayoutTests(TestCase):
             'journeys',
             'accounts',
             'offers',
-            'matching',
             'conversations',
             'notifications',
         ):
             self.assertNotIn(label, apps.app_configs)
             self.assertFalse((settings.APPS_DIR / label).exists())
+        # The retired prototype is gone; the new local-only engine is explicit.
+        self.assertEqual(apps.get_app_config('matching').name, 'eures_beta.matching')
         self.assertFalse((settings.APPS_DIR / 'migration_history').exists())
         self.assertEqual(settings.ROOT_URLCONF, 'config.urls')
         self.assertFalse((settings.APPS_DIR / 'manage.py').exists())
