@@ -10809,3 +10809,113 @@ msgstr "Lokaler Test: Albert wird simuliert und es werden keine echten E-Mails g
 
 msgid "Try again"
 msgstr "Erneut versuchen"
+
+msgid "With other people"
+msgstr "Mit anderen Menschen"
+
+msgid "In my day-to-day work"
+msgstr "In meinem Arbeitsalltag"
+
+msgid "When things change or become difficult"
+msgstr "Wenn sich etwas ändert oder schwierig wird"
+
+msgid "Listening to others"
+msgstr "Anderen zuhören"
+
+msgid "I listen to the other person and check that I have understood."
+msgstr "Ich höre der anderen Person zu und prüfe, ob ich sie richtig verstanden habe."
+
+msgid "Working as a team"
+msgstr "Im Team arbeiten"
+
+msgid "I share useful information and help my colleagues when needed."
+msgstr "Ich teile hilfreiche Informationen und helfe bei Bedarf meinen Kolleginnen und Kollegen."
+
+msgid "Understanding other people"
+msgstr "Andere Menschen verstehen"
+
+msgid "I try to understand how another person feels and take it into account."
+msgstr "Ich versuche zu verstehen, wie sich eine andere Person fühlt, und nehme darauf Rücksicht."
+
+msgid "Keeping information confidential"
+msgstr "Informationen vertraulich behandeln"
+
+msgid "I do not share private information entrusted to me."
+msgstr "Ich gebe private Informationen, die mir anvertraut wurden, nicht weiter."
+
+msgid "Being someone people can rely on"
+msgstr "Jemand sein, auf den man sich verlassen kann"
+
+msgid "I keep my commitments and let people know if there is a problem."
+msgstr "Ich halte meine Zusagen ein und gebe Bescheid, wenn es ein Problem gibt."
+
+msgid "Organising my time"
+msgstr "Meine Zeit einteilen"
+
+msgid "I plan what I need to do so I can finish on time."
+msgstr "Ich plane meine Aufgaben so, dass ich rechtzeitig fertig werde."
+
+msgid "Keeping my work organised"
+msgstr "Meine Arbeit ordnen"
+
+msgid "I organise my documents, equipment and information so I can find them easily."
+msgstr "Ich ordne meine Unterlagen, mein Material und meine Informationen so, dass ich sie leicht wiederfinde."
+
+msgid "Working independently"
+msgstr "Selbstständig arbeiten"
+
+msgid "I can carry out my tasks on my own and ask for help when needed."
+msgstr "Ich kann meine Aufgaben selbst erledigen und bei Bedarf um Hilfe bitten."
+
+msgid "Checking my work"
+msgstr "Meine Arbeit überprüfen"
+
+msgid "I check details to spot mistakes or things I may have missed."
+msgstr "Ich prüfe Einzelheiten, um Fehler oder Vergessenes zu entdecken."
+
+msgid "Staying alert"
+msgstr "Aufmerksam bleiben"
+
+msgid "I pay attention to what is happening and notice unusual situations."
+msgstr "Ich achte darauf, was passiert, und bemerke ungewöhnliche Situationen."
+
+msgid "Adapting to change"
+msgstr "Mich auf Veränderungen einstellen"
+
+msgid "I adjust how I work when instructions or circumstances change."
+msgstr "Ich passe meine Arbeitsweise an, wenn sich Anweisungen oder die Situation ändern."
+
+msgid "Staying calm in difficult situations"
+msgstr "In schwierigen Situationen ruhig bleiben"
+
+msgid "When things become difficult, I try to stay calm and take one thing at a time."
+msgstr "Wenn es schwierig wird, versuche ich ruhig zu bleiben und eines nach dem anderen zu tun."
+
+msgid "Taking useful initiatives"
+msgstr "Sinnvolle Initiativen ergreifen"
+
+msgid "I suggest ideas or take useful action while respecting the instructions."
+msgstr "Ich mache Vorschläge oder handle sinnvoll und halte mich dabei an die Anweisungen."
+
+msgid "Start with the sectors that interest you. You can explore several sectors."
+msgstr "Beginnen Sie mit den Bereichen, die Sie interessieren. Sie können mehrere Bereiche erkunden."
+
+msgid "Choose the three ways of working that describe you best. The examples help you understand each choice."
+msgstr "Wählen Sie die drei Arbeitsweisen, die am besten zu Ihnen passen. Die Beispiele helfen Ihnen, jede Auswahl zu verstehen."
+
+msgid "Open a sector to see its skills. Choose up to 10 things you can already do, from one or more sectors."
+msgstr "Öffnen Sie einen Bereich, um die Kompetenzen zu sehen. Wählen Sie bis zu 10 Tätigkeiten aus einem oder mehreren Bereichen, die Sie bereits beherrschen."
+
+msgid "Open a sector and choose up to 5 activities you would like to learn."
+msgstr "Öffnen Sie einen Bereich und wählen Sie bis zu 5 Tätigkeiten, die Sie lernen möchten."
+
+msgid "About these choices"
+msgstr "Über diese Auswahl"
+
+msgid "The plain-language wording and examples are reading aids. They do not add new skills."
+msgstr "Die einfachen Formulierungen und Beispiele sind Lesehilfen. Sie fügen keine neuen Kompetenzen hinzu."
+
+msgid "%(total)s skill"
+msgid_plural "%(total)s skills"
+msgstr[0] "%(total)s Kompetenz"
+msgstr[1] "%(total)s Kompetenzen"

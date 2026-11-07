@@ -22,3 +22,20 @@
 .candidate-skill-tags button { min-height: 44px; }
 .candidate-skill-section :focus-visible { outline: 3px solid #003566; outline-offset: 3px; }
 .candidate-skill-section [hidden], [data-open-project][hidden] { display: none !important; }
+
+.candidate-skill-sector { margin: .75rem 0; border: 1px solid #94a3b8; border-radius: .5rem; background: #fff; }
+.candidate-skill-sector > summary { min-height: 44px; padding: 1rem; color: #17324d; font-weight: 700; overflow-wrap: anywhere; }
+.candidate-skill-sector > summary small { display: block; margin: .35rem 0 0 1.25rem; color: #334155; font-weight: 400; font-size: .95rem; }
+.candidate-sector-choices { padding: 0 .75rem .75rem; border-top: 1px solid #cbd5e1; }
+.candidate-skill-section .candidate-skill-choice { display: flex; width: 100%; box-sizing: border-box; gap: .85rem; align-items: flex-start; margin: .5rem 0; padding: .9rem; font-weight: 400; cursor: pointer; }
+.candidate-skill-choice .candidate-skill-wording { display: block; min-width: 0; line-height: 1.5; }
+.candidate-skill-wording [data-skill-label] { display: block; }
+.candidate-skill-section .candidate-behaviour-choice { border: 1px solid #94a3b8; border-radius: .5rem; background: #fff; }
+.candidate-behaviour-choice [data-skill-label] { font-weight: 700; }
+.candidate-behaviour-choice small { display: block; margin-top: .35rem; font-size: 1rem; line-height: 1.55; color: #334155; }
+.candidate-skill-choice:has(input:checked) { border-radius: .5rem; outline: 2px solid #004494; background: #e4efff; }
+.candidate-skill-choice input:disabled + .candidate-skill-wording { color: #475569; }
+.candidate-behaviour-group { min-width: 0; border: 0; padding: 0; }
+.candidate-behaviour-group legend { margin-bottom: .5rem; }
+.candidate-catalogue-note { margin-top: 1.5rem; }
+.candidate-catalogue-note summary { cursor: pointer; min-height: 44px; padding: .75rem 0; }

@@ -1276,3 +1276,6 @@ anciens brouillons de session ne sont plus lus ; aucune purge SQL ajoutée.
 Les métiers et recherches restent dans occupations ; catalogues de compétences,
 suggestions et composant intégré vivent dans [skills](https://github.com/eures-beta/match-europe/tree/codex/extract-skills-app/eures_beta/skills). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
 la table PostgreSQL, les identifiants, les suggestions et les permissions.
+## 7 novembre 2026 — secteurs et savoir-être lisibles
+
+Demande d’Eric : voir d’abord les secteurs dans le mode candidat ouvert, puis déplier leurs compétences ; simplifier les savoir-être. Branche `codex/candidate-sectors-readable` sur le sommet #158 `4d171a9` revérifié. Deux listes techniques par secteurs fermés, recherche avec ouverture temporaire et choix conservés ; treize savoir-être avec formulations simples et exemples FR/EN/DE en trois groupes. Identifiants, règles et stockage inchangés, aucune migration. Voir `docs/CANDIDATE_OPEN_SKILLS.md`. La recette distante #158 reste distincte de cette branche tant qu’une nouvelle recette n’est pas ouverte.

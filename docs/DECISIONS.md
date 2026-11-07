@@ -302,3 +302,6 @@ modèle CandidateRegistration. Vérification obligatoire avant création du comp
 et du profil ; un profil existant n’est remplacé qu’après comparaison et décision
 explicite du propriétaire connecté. Les comptes d’autres rôles ne sont jamais
 convertis. Voir [le parcours et la migration](CANDIDATE_EMAIL_REGISTRATION.md).
+## 7 novembre 2026 — présentation du projet candidat ouvert
+
+Eric demande les secteurs d’activité en première lecture, à déplier pour voir les compétences, et des savoir-être plus compréhensibles. Les volets natifs par secteur remplacent le volet général des deux listes techniques. Les savoir-être ont un intitulé simple, un exemple concret et trois groupes de lecture ; les URI ESCO et les règles de saisie ne changent pas. Les formulations sont des aides éditoriales FR/EN/DE, pas de nouvelles compétences ou critères de matching.

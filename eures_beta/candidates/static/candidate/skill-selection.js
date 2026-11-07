@@ -33,7 +33,9 @@
     const tags = section.querySelector('[data-skill-tags]');
     tags.replaceChildren();
     selected.forEach((input) => {
-      const label = input.closest('label').querySelector('span').textContent;
+      const row = input.closest('label');
+      const label = (row.querySelector('[data-skill-label]') || row.querySelector('span'))
+        .textContent;
       const button = document.createElement('button');
       button.type = 'button';
       button.textContent = `${label} ×`;
@@ -52,9 +54,21 @@
   openProject.querySelectorAll('[data-skill-section]').forEach((section) => {
     const search = section.querySelector('[data-skill-search]');
     const results = section.querySelector('[data-skill-results]');
+    if (!search) {
+      section.addEventListener('change', () => updateSelection(section));
+      updateSelection(section);
+      return;
+    }
     section.querySelector('[data-skill-search-wrapper]').hidden = false;
+    const expanded = new Map();
+    let searching = false;
     function filter() {
       const query = normalise(search.value.trim());
+      if (query && !searching) {
+        section.querySelectorAll('[data-skill-sector]').forEach((category) => {
+          expanded.set(category, category.open);
+        });
+      }
       let count = 0;
       section.querySelectorAll('[data-skill-category]').forEach((category) => {
         let visible = 0;
@@ -63,9 +77,15 @@
           if (!choice.hidden) visible++;
         });
         category.hidden = visible === 0;
+        if (category.hasAttribute?.('data-skill-sector')) {
+          if (query) category.open = visible > 0;
+          else if (searching) category.open = expanded.get(category) || false;
+        }
         count += visible;
       });
       results.textContent = results.dataset.template.replace('{count}', count);
+      results.hidden = !query;
+      searching = Boolean(query);
     }
     search.addEventListener('input', filter);
     section.addEventListener('change', () => updateSelection(section));

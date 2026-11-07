@@ -1,11 +1,29 @@
 # Candidat ouvert à différents métiers
 
+## Lisibilité — 7 novembre 2026
+
+À la demande d’Eric, évolution sur le sommet #158 (`4d171a9` revérifié) :
+les savoir-faire et activités à apprendre affichent d’abord les onze secteurs,
+chacun dans un `details` natif fermé. Le bloc général « afficher ou masquer »
+est retiré. La recherche ouvre les secteurs qui correspondent, puis restaure
+leur état précédent lorsqu’on l’efface. Les choix restent dans les étiquettes
+même si un secteur est replié ou filtré.
+
+Les treize savoir-être apparaissent un par ligne, regroupés sous trois repères :
+avec les autres, travail quotidien et situations changeantes ou difficiles.
+Un intitulé simple et une phrase concrète à la première personne facilitent la
+lecture. Ces formulations éditoriales FR/EN/DE sont définies dans
+`behaviour_help.py`, sans changer les URI ESCO, la validation ni les données
+déjà enregistrées. Les mêmes intitulés simples servent à la relecture et au profil.
+Les synonymes et libellés officiels restent disponibles pour la recherche.
+Aucune migration, modification des règles 10/5/3 ni changement de droits.
+
 ## Périmètre
 
 Évolution CANDIDATS empilée sur #155, base vérifiée à `692eb517`.
 Le questionnaire public conserve quatre étapes. Dans « Mon projet », un mode
-explicite permet de poursuivre sans métier avec un écran de trois sections
-repliables : savoir-faire, activités à apprendre, savoir-être professionnels.
+explicite permet de poursuivre sans métier avec un écran de trois sections :
+savoir-faire, activités à apprendre, savoir-être professionnels.
 Le parcours métier et le pilote employeur conservent leurs règles antérieures.
 Aucun matching, score, exclusion, envoi supplémentaire ou mise en relation n’est
 créé. Les savoir-être ne sont jamais des critères éliminatoires ; leur sélection
@@ -17,13 +35,13 @@ exactement par trois est une règle de saisie, pas un filtre d’opportunités.
 - Au moins un savoir-faire ou une activité à apprendre.
 - Chaque URI est unique par liste. La même activité ne peut pas être déclarée
   simultanément acquise et à apprendre : demander de corriger ce choix.
-- Cases groupées par catégories éditoriales, recherche indépendante dans chaque
-  section sur les libellés et synonymes officiels de la langue courante, sans
+- Cases groupées par secteurs éditoriaux repliables, recherche indépendante dans
+  les deux listes techniques sur les libellés et synonymes de la langue courante, sans
   distinction d’accents ou de casse. Aucun réseau, IA ou traduction automatique.
 - Étiquettes supprimables hors de la partie repliable : les choix restent visibles
   et sélectionnés pendant la recherche. Compteurs annoncés, contrôles natifs au
-  clavier, retour du focus après retrait. Les listes commencent repliées pour
-  garder les trois sections repérables, même avec 316 activités.
+  clavier, retour du focus après retrait. Les secteurs commencent repliés pour
+  éviter d’afficher toutes les activités d’emblée. Les savoir-être restent visibles.
 - Sans JavaScript : catégories et cases restent accessibles par les éléments
   `details` natifs ; les étiquettes sont des libellés et le retrait se fait par
   décochage. Recherche et plafonnement immédiat nécessitent JavaScript ; toutes
@@ -47,7 +65,8 @@ métiers reçoit le premier secteur rencontré dans l’ordre versionné des fic
 Ce rattachement n’est ni une hiérarchie ESCO ni une équivalence ROME.
 La pertinence sectorielle reste à relire ; ce sous-catalogue n’est pas exhaustif.
 
-Les libellés et synonymes officiels FR/EN/DE restent ceux de #155. La présente
+Les concepts et synonymes officiels FR/EN/DE restent ceux de #155 ; les intitulés
+de présentation des savoir-être ont les aides de lecture décrites ci-dessus. La présente
 évolution ne réatteste pas une comparaison aux archives officielles ESCO.
 Les qualifications et autorisations professionnelles restent à vérifier
 séparément ; cocher une activité ne constitue pas une habilitation.

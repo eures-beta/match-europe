@@ -10,8 +10,10 @@ from pathlib import Path
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import override
 
 from eures_beta.skills.skills_pilot import catalogue
+from . import behaviour_help
 
 VERSION = 'esco-1.2.1-match-europe-50-v1'
 FIELDS = ('acquired_skills', 'learning_activities', 'professional_behaviours')
@@ -65,10 +67,22 @@ def skill_groups():
 def skill_choices(name, language):
     groups, skills = skill_groups()
     group = groups['acquired_skills' if name == 'learning_activities' else name]
-    return sorted(
-        [(uri, skills[uri]['labels'][language]) for uri in group],
-        key=lambda item: item[1].casefold(),
-    )
+    with override(language):
+        return sorted(
+            [
+                (
+                    uri,
+                    (
+                        str(behaviour_help.for_uri(uri)[1])
+                        if name == 'professional_behaviours'
+                        and behaviour_help.for_uri(uri)
+                        else skills[uri]['labels'][language]
+                    ),
+                )
+                for uri in group
+            ],
+            key=lambda item: item[1].casefold(),
+        )
 
 
 def selection_field(label):
@@ -138,19 +152,35 @@ def sections(form, language):
         categories = {}
         group = groups['acquired_skills' if name == 'learning_activities' else name]
         for index, (uri, label) in enumerate(form.fields[name].choices):
+            help_item = (
+                behaviour_help.for_uri(uri)
+                if name == 'professional_behaviours'
+                else None
+            )
+            with override(language):
+                description = str(help_item[2]) if help_item else ''
             item = {
                 'uri': uri,
                 'label': label,
                 'id': f'id_{name}_{index}',
                 'checked': uri in selected,
+                'description': description,
                 'search': ' '.join(
-                    [label, *skills[uri]['alternativeLabels'][language]]
+                    [
+                        label,
+                        description,
+                        skills[uri]['labels'][language],
+                        *skills[uri]['alternativeLabels'][language],
+                    ]
                 ),
             }
-            categories.setdefault(group[uri], []).append(item)
+            categories.setdefault(help_item[0] if help_item else group[uri], []).append(
+                item
+            )
         result.append(
             {
                 'name': name,
+                'is_behaviours': name == 'professional_behaviours',
                 'label': bound.label,
                 'errors': bound.errors,
                 'maximum': maximum,
@@ -162,8 +192,23 @@ def sections(form, language):
                     if item['checked']
                 ],
                 'categories': [
-                    {'label': CATEGORIES[key], 'items': items}
-                    for key, items in categories.items()
+                    {
+                        'label': (
+                            behaviour_help.GROUPS[key]
+                            if name == 'professional_behaviours'
+                            else CATEGORIES[key]
+                        ),
+                        'items': items,
+                    }
+                    for key in (
+                        behaviour_help.GROUPS
+                        if name == 'professional_behaviours'
+                        else sorted(
+                            categories, key=lambda key: str(CATEGORIES[key]).casefold()
+                        )
+                    )
+                    if key in categories
+                    for items in [categories[key]]
                 ],
             }
         )
