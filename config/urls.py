@@ -4,9 +4,13 @@ from django.views.generic.base import RedirectView
 from eures_beta import views
 from eures_beta.redirects import legacy_employer_page
 from .health import health
+from eures_beta.occupations.continuous_views import suggestions as skill_suggestions
 from eures_beta.users import views as user_views
 
 urlpatterns = [
+    path(
+        'api/occupation-skills/', skill_suggestions, name='occupation_skill_suggestions'
+    ),
     path('skills-pilot/', include('eures_beta.occupations.pilot_urls')),
     path('', include('eures_beta.users.urls')),
     path("", include("eures_beta.employers.urls")),

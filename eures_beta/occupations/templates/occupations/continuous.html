@@ -1,0 +1,24 @@
+{% load i18n %}
+<section data-occupation-skills
+         data-role="{{ skills_role }}"
+         data-occupations="{{ skills_occupations }}"
+         data-occupation-only
+         data-wait="{% translate 'One moment, we are looking for the skills associated with this occupation so we can suggest them to you.' %}"
+         data-error="{% translate 'Skills could not be prepared. Try again in a minute or choose a listed occupation.' %}"
+         data-heading="{% translate 'Skills by occupation' %}"
+         data-skills="{% translate 'Key skills' %}"
+         data-behaviours="{% translate 'Professional behaviours' %}"
+         data-retry="{% translate 'Try again' %}"
+         data-simulation="{% translate 'Simulation: no Albert call was made. This shortlist only tests the journey, not the quality of AI suggestions.' %}">
+  <h2>{% translate "Skills by occupation" %}</h2>
+  <p>{% translate "Local test: Albert is simulated and no real email is sent. Use fictional data only." %}</p>
+  <p>{% translate "Select an ESCO occupation above to see its skills. Choose up to five skills and three professional behaviours per occupation; nothing is preselected. ROME and personal titles remain independent." %}</p>
+  <p>{% translate "An unchecked item means it was not prioritised or declared, not that it is absent." %}</p>
+  {% if skills_role == "employer" and not form.occupationSkills %}
+    <input type="hidden" id="id_occupation_skills" value="{}">
+  {% endif %}
+  <div data-occupation-skill-jobs></div>
+  <noscript>
+    <p>{% translate "Skill suggestions for selected occupations need JavaScript. You can continue without them; no skill will be inferred." %}</p>
+  </noscript>
+</section>

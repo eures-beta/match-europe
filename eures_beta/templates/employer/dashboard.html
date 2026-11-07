@@ -37,11 +37,15 @@
           {% for offer in offers %}
             <tr>
               <td>
+                {% if continuous_skills %}
+                  <a href="{% url 'employer_offer' offer.pk %}">
+                {% endif %}
                 {% if offer.data.title %}
                   {{ offer.data.title }}
                 {% else %}
                   {% translate "Untitled offer" context "employer dashboard" %}
                 {% endif %}
+                {% if continuous_skills %}</a>{% endif %}
               </td>
               <td>
                 {% if offer.company %}

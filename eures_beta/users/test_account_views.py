@@ -42,6 +42,11 @@ def sign_in(request):
     language = selected_language(request)
     destination = consume(request, settings.LOGIN_REDIRECT_URL)
     auth_login(request, user, backend='sesame.backends.ModelBackend')
+    from eures_beta.occupations.continuous import trial_request
+
+    if trial_request(request) and user.kind == 'employer':
+        request.session['employer_verified_email'] = user.email
+        request.session['employer_auth_language'] = language
     request.session['login_language'] = language
     request.session.set_expiry(settings.SESSION_COOKIE_AGE)
     return redirect('admin:index' if user.is_superuser else destination)

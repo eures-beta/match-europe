@@ -116,6 +116,11 @@ def employer_page(request, path):
             from .albert import enabled as albert_enabled
 
             context = {'signed_in': authenticated, 'albert_import': albert_enabled()}
+            from eures_beta.occupations.continuous import trial_request
+
+            context['continuous_skills'] = trial_request(request)
+            if context['continuous_skills']:
+                context['albert_import'] = False
             if authenticated and template_name in ('import.html', 'import-v2.html'):
                 from .response_practice_views import page_context
 
@@ -519,6 +524,15 @@ def clean_data(raw):
         except ValueError:
             raise ImportFailure('invalid_data') from None
     clar = raw.get('clarifications', {})
+    if 'occupationSkills' in raw:
+        from eures_beta.occupations.continuous import validated_selection
+
+        try:
+            out['occupationSkills'] = validated_selection(
+                raw['occupationSkills'], out.get('occupation', {}).get('uris', [])
+            )
+        except ValueError:
+            raise ImportFailure('invalid_data') from None
     if not isinstance(clar, dict):
         raise ImportFailure('invalid_data')
     for key in out['clarifications']:

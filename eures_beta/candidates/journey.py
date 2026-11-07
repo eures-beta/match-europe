@@ -16,6 +16,7 @@ from .schedule_rules import DERIVED, suggested_conditions, inconsistent_conditio
 from .language_choices import LanguageSkillsField, upgrade_language_answers
 from .occupation_choices import resolve_reference, search_occupations
 from . import skill_choices
+from eures_beta.occupations.continuous import trial_request as continuous_trial_request
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
 
@@ -77,6 +78,9 @@ class GuidedForm(forms.Form):
 
 
 class ProjectForm(GuidedForm):
+    occupation_skills = forms.JSONField(
+        label=_('Skills by occupation'), required=False, widget=forms.HiddenInput
+    )
     project_mode = single(
         _('My professional project'),
         [
@@ -177,6 +181,21 @@ class ProjectForm(GuidedForm):
                 _('Select an ESCO or ROME occupation, or enter your own job title.'),
             )
         skill_choices.clean_selection(self, data, partial=self.partial)
+        from eures_beta.occupations.continuous import validated_selection
+
+        if data.get('project_mode') == 'open':
+            data['occupation_skills'] = {}
+        else:
+            try:
+                data['occupation_skills'] = validated_selection(
+                    data.get('occupation_skills') or {},
+                    [value[5:] for value in selected if value.startswith('esco:')],
+                )
+            except ValueError:
+                self.add_error(
+                    'occupation_skills',
+                    _('Check the skills selected for each occupation.'),
+                )
         return data
 
 
@@ -522,7 +541,14 @@ class ContactForm(forms.Form):
     )
 
     def clean_contact_email(self):
-        return self.cleaned_data['contact_email'].strip().lower()
+        email = self.cleaned_data['contact_email'].strip().lower()
+        from eures_beta.occupations.continuous import enabled
+
+        if enabled() and not email.endswith('.invalid'):
+            raise forms.ValidationError(
+                _('Use an address ending in .invalid for this local test.')
+            )
+        return email
 
 
 FORMS = {1: ProjectForm, 2: MobilityForm, 3: ConditionsForm, 4: ContactForm}
@@ -693,6 +719,14 @@ def workflow(request, language):
                         pass
                     else:
                         registration.send_confirmation(pending)
+                        if (
+                            continuous_trial_request(request)
+                            and pending
+                            and pending.email.endswith('.invalid')
+                        ):
+                            request.session['candidate_local_preview_token'] = (
+                                registration.token_for(pending)
+                            )
                 destination = 'candidate_registration_requested'
             request.session.pop(KEY, None)
             return redirect(destination)
@@ -780,6 +814,14 @@ def workflow(request, language):
                         for item in value
                         if (row := resolve_reference(item, language))
                     )
+                elif name == 'occupation_skills':
+                    from eures_beta.occupations.continuous import (
+                        summary as skills_summary,
+                    )
+
+                    value = skills_summary(value, language)
+                    if not value:
+                        continue
                 elif isinstance(field, forms.MultipleChoiceField):
                     value = '\n'.join(
                         str(dict(field.choices).get(item, item)) for item in value
@@ -829,6 +871,7 @@ def workflow(request, language):
         'candidates/journey.html',
         {
             'form': form,
+            'continuous_skills': continuous_trial_request(request),
             'skill_sections': (
                 skill_choices.sections(form, language) if step == 1 else []
             ),
