@@ -60,6 +60,8 @@ class RequestStats:
     sql_in_flight: int = 0
     sql_count: int = 0
     sql_seconds: float = 0
+    first_sql_after_ms: float | None = None
+    cpu_ms: float | None = None
     stages: dict = field(default_factory=dict)
     active_stages: list = field(default_factory=list)
     lock: RLock = field(default_factory=RLock)
@@ -74,6 +76,8 @@ class RequestStats:
                 'sql_count': self.sql_count,
                 'sql_in_flight': self.sql_in_flight,
                 'sql_ms': round(self.sql_seconds * 1000, 3),
+                'first_sql_after_ms': self.first_sql_after_ms,
+                'cpu_ms': self.cpu_ms,
                 'sql_scope': 'request_thread',
                 'stages': {name: dict(values) for name, values in self.stages.items()},
                 'active_stages': list(self.active_stages),
@@ -88,6 +92,8 @@ class RequestStats:
     def measure_sql(self, execute, sql, params, many, context):
         started = perf_counter()
         with self.lock:
+            if self.first_sql_after_ms is None:
+                self.first_sql_after_ms = round((started - self.started) * 1000, 3)
             self.sql_in_flight += 1
         try:
             return execute(sql, params, many, context)

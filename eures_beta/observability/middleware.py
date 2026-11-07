@@ -3,6 +3,7 @@
 from contextlib import ExitStack
 import logging
 from threading import get_ident
+from time import thread_time
 from uuid import uuid4
 
 from django.conf import settings
@@ -41,6 +42,7 @@ class RequestMetricsMiddleware(MiddlewareMixin):
             else 'OTHER'
         )
         stats = RequestStats(request_id, method, sampled)
+        cpu_started = thread_time()
         request._performance_stats = stats
         token = current_request.set(stats)
         thread_id = get_ident()
@@ -67,6 +69,7 @@ class RequestMetricsMiddleware(MiddlewareMixin):
                 else:
                     active_requests[thread_id] = previous
             current_request.reset(token)
+            stats.cpu_ms = round((thread_time() - cpu_started) * 1000, 3)
             fields = stats.fields()
             slow = fields['duration_ms'] >= settings.REQUEST_METRICS_SLOW_MS
             if sampled or slow or status >= 400:
