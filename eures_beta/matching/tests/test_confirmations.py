@@ -1,4 +1,5 @@
 from io import StringIO
+from html.parser import HTMLParser
 from unittest.mock import patch
 from datetime import timedelta
 from django.core.management import call_command
@@ -6,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django.utils import translation
 from django.contrib.auth.models import Permission
 from eures_beta.users.models import User
 from eures_beta.matching import confirmation_services as service
@@ -86,6 +88,80 @@ class ConfirmationTests(TestCase):
         with self.assertRaises(StaleEvaluation):
             self.answer(row)
         self.assertTrue(service.review(self.request)['unresolved'])
+
+    def test_edit_prefills_current_answer_and_rejects_concurrent_overwrite(self):
+        row = self.row('schedule')
+        event = self.answer(row, 'conditional', 'Alternate Saturdays')
+        for language in ('fr', 'en', 'de'):
+            page = self.client.get(self.url, {'question': row['key'], 'lang': language})
+            form = page.context['form']
+            self.assertEqual(form['value'].value(), 'conditional')
+            self.assertEqual(form['detail'].value(), 'Alternate Saturdays')
+            self.assertEqual(form['previous'].value(), event.pk)
+        self.answer(row, 'no', previous=event.pk)
+        response = self.client.post(
+            self.url + '?question=' + row['key'],
+            dict(
+                action='answer',
+                key=row['key'],
+                fingerprint=row['fingerprint'],
+                previous=event.pk,
+                value='conditional',
+                detail='Old page',
+            ),
+        )
+        self.assertEqual(response.status_code, 409)
+        self.assertEqual(self.request.answers.order_by('-pk').first().value, 'no')
+
+    def test_stale_answer_is_not_prefilled_as_a_current_confirmation(self):
+        row = self.row('schedule')
+        event = self.answer(row)
+        self.pair.candidate.schedule_strict = not self.pair.candidate.schedule_strict
+        self.pair.candidate.save()
+        page = self.client.get(self.url, {'question': row['key']})
+        self.assertIsNone(page.context['form']['value'].value())
+        self.assertFalse(page.context['form']['detail'].value())
+        self.assertEqual(page.context['form']['previous'].value(), event.pk)
+
+    def test_error_summary_uses_labels_and_unique_ids_in_all_languages(self):
+        class Elements(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.ids = []
+
+            def handle_starttag(self, tag, attrs):
+                self.ids.extend(value for key, value in attrs if key == 'id')
+
+        row = self.row('schedule')
+        for action in ('answer', 'agree'):
+            if action == 'agree':
+                self.assertFalse(self.request.answers.exists())
+                self.complete()
+            for language in ('fr', 'en', 'de'):
+                data = dict(action=action, fingerprint=row['fingerprint'], previous=0)
+                if action == 'answer':
+                    data.update(key=row['key'], value='conditional', detail='')
+                query = '?lang=' + language
+                if action == 'answer':
+                    query += '&question=' + row['key']
+                page = self.client.post(self.url + query, data)
+                self.assertEqual(page.status_code, 400)
+                parser = Elements()
+                parser.feed(page.content.decode())
+                self.assertEqual(len(parser.ids), len(set(parser.ids)))
+                form = page.context['form' if action == 'answer' else 'agreement_form']
+                field = form['detail' if action == 'answer' else 'agreed']
+                with translation.override(language):
+                    self.assertContains(page, str(field.label), status_code=400)
+                target = (
+                    field.auto_id + '_0' if field.use_fieldset else field.id_for_label
+                )
+                self.assertIn(target, parser.ids)
+                self.assertContains(page, f'href="#{target}"', status_code=400)
+                self.assertNotContains(page, '<li>detail', status_code=400)
+                if action == 'answer':
+                    self.assertEqual(form['value'].value(), 'conditional')
+        self.assertFalse(self.request.agreements.exists())
 
     def test_reservations_refusals_and_general_changes_do_not_write_profile_or_decision(
         self,

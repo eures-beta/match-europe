@@ -18,8 +18,26 @@
       <p role="note">{% translate "Your existing answers are a starting point. Confirm what still applies to this specific offer. Nothing is sent to the employer." %}</p>
       <p><a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a></p>
       {% if error %}<p role="alert">{{ error }}</p>{% endif %}
-      {% if form.errors %}<div role="alert">{{ form.errors }}</div>{% endif %}
-      {% if agreement_form.errors %}<div role="alert">{{ agreement_form.errors }}</div>{% endif %}
+      {% for errors_form in error_forms %}
+        {% if errors_form.errors %}
+          <div role="alert">
+            {{ errors_form.non_field_errors }}
+            <ul>
+              {% for field in errors_form %}
+                {% if field.errors %}
+                  <li>
+                    {% if field.is_hidden %}
+                      {% translate "Review the conditions before recording your answer." %}
+                    {% else %}
+                      <a href="#{% if field.use_fieldset %}{{ field.auto_id }}_0{% else %}{{ field.id_for_label }}{% endif %}">{{ field.label }}</a>
+                    {% endif %}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
     </section>
     {% if current %}
       <section class="surface-card home-section" aria-labelledby="question-title">
