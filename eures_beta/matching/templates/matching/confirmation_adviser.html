@@ -1,0 +1,26 @@
+{% load i18n %}
+<section class="result-card">
+  <h2>{% translate "Candidate confirmations" %}</h2>
+  {% if confirmation %}
+    <p>{% translate "The candidate can review this offer in their private space. No notification has been sent." %}</p>
+    {% if confirmation_state.unresolved %}
+      <p>{% translate "Some conditions still need clarification or human review." %}</p>
+    {% endif %}
+    {% if confirmation_state.agreement.agreed %}
+      <p>{% translate "Separate transmission permission recorded for the current information. Nothing has been sent." %}</p>
+    {% else %}
+      <p>{% translate "No current permission to transmit the profile." %}</p>
+    {% endif %}
+    <ul>
+      {% for row in confirmation_state.rows %}
+        <li>{{ row.label }} — {{ row.expected }} : {% if row.askable %}{{ row.answer_label }}{% else %}{% translate "Employer clarification needed" %}{% endif %}{% if row.answer.detail %} — {{ row.answer.detail }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+  {% elif can_request_confirmation %}
+    <form method="post"
+          action="{% url 'request_candidate_confirmation' pair.pk %}?lang={{ page_language }}">
+      {% csrf_token %}
+      <button class="btn btn-primary" type="submit">{% translate "Ask the candidate to confirm this offer" %}</button>
+    </form>
+  {% endif %}
+</section>

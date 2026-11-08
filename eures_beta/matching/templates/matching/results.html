@@ -27,6 +27,9 @@
       <h1>{% translate "Matching" %}</h1>
       <p class="alert alert-info"
          role="note">{% translate "Fictional data only. No message, notification or introduction is sent." %}</p>
+      {% if pair %}
+        {% include "matching/confirmation_adviser.html" %}
+      {% endif %}
       {% if error %}<p role="alert" class="alert alert-danger">{{ error }}</p>{% endif %}
       {% if form %}
         <h2>{% translate "Matching results" %}</h2>
