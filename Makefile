@@ -2,6 +2,13 @@
 .DEFAULT_GOAL := help
 
 .PHONY: dialogue-run dialogue-test
+.PHONY: dialogue-live-run dialogue-live-test dialogue-live-evaluate
+dialogue-live-evaluate: ## Evaluer Albert réel sur six échanges fictifs, sans base ni données utilisateur
+	@$(MANAGE) evaluate_dialogue_albert --live
+dialogue-live-run: ## Essayer le raccordement Albert local sur 9045, données fictives uniquement
+	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_ENABLED=1 CONFIRMATION_DIALOGUE_SIMULATED=0 REQUEST_METRICS_ENABLED=0 MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9045 --noreload
+dialogue-live-test: ## Vérifier le raccordement avec API mockée, sans secret
+	@$(MANAGE) test eures_beta.matching.tests.test_dialogue_albert --noinput $(TEST_ARGS)
 dialogue-run: ## Essayer le dialogue Albert simulé local sur 9044, sans appel externe
 	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_SIMULATED=1 REQUEST_METRICS_ENABLED=0 MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9044 --noreload
 dialogue-test: ## Tester les propositions simulées et leur validation privée

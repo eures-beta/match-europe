@@ -27,6 +27,17 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 8 novembre 2026 — raccordement Albert du dialogue candidat
+
+CANDIDATS / CONSEILLERS : raccordement opt-in à Albert après le prototype local.
+Clarifications liées au contexte, réponses structurées contrôlées, propositions
+de profil avec preuves textuelles et relecture avant validation. Aucun accord
+de transmission implicite, score, compétence ou référence attribué par le modèle.
+API mockée dans les tests ; 598 tests complets réussis puis 9 tests ciblés du
+raccordement (dont deux contrôles supplémentaires de l’évaluation) réussis.
+Aucun appel réel encore exécuté : évaluation privée à relire avant activation.
+Production, PWA et notifications hors de ce lot. Voir [le contrat](docs/ALBERT_DIALOGUE_ADAPTER.md).
+
 ## 8 novembre 2026 — dialogue Albert simulé pour confirmer une offre
 
 CANDIDATS / CONSEILLERS : prototype local autorisé, sur #162 (20df0b7).
