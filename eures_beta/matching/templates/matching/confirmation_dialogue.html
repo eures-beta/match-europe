@@ -1,0 +1,100 @@
+{% extends "public_base.html" %}
+{% load i18n static %}
+{% block page_title %}{% translate "Confirm this offer" %} — Match Europe{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'matching/confirmations.css' %}">
+{% endblock %}
+{% block public_content %}
+  <div class="confirmation-flow">
+    <section class="surface-card home-section">
+      <h1>{% translate "Confirm this offer" %}</h1>
+      <h2>{{ obj.pair.offer.data.title }}</h2>
+      <p>{{ obj.pair.offer.data.companyName }} · {{ obj.pair.offer.data.city }}</p>
+      <details>
+        <summary>{% translate "Offer details" %}</summary>
+        <p>{{ obj.pair.offer.data.description|linebreaksbr }}</p>
+        <p>{{ obj.pair.offer.data.desiredProfile|linebreaksbr }}</p>
+      </details>
+      <p role="note">{% translate "Your existing answers are a starting point. Confirm what still applies to this specific offer. Nothing is sent to the employer." %}</p>
+      <p><a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a></p>
+      {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+      {% if form.errors %}<div role="alert">{{ form.errors }}</div>{% endif %}
+      {% if agreement_form.errors %}<div role="alert">{{ agreement_form.errors }}</div>{% endif %}
+    </section>
+    {% if current %}
+      <section class="surface-card home-section" aria-labelledby="question-title">
+        <h2 id="question-title">{{ current.label }}</h2>
+        <h3>{% translate "In this offer" %}</h3>
+        <p>{{ current.expected|linebreaksbr }}</p>
+        <p>{% translate "Only the details shown here are known. Missing exact times, frequency or other details are not assumed." %}</p>
+        <h3>{% translate "You previously declared" %}</h3>
+        <dl>
+          {% for label, value in current.declared %}<dt>{{ label }}</dt><dd>{{ value|linebreaksbr }}</dd>{% endfor %}
+        </dl>
+        <p>{% translate "Is this still correct and acceptable for this offer? If only part is acceptable, choose an answer under conditions and specify the exception." %}</p>
+        {% if current.kind == "skill" %}
+          <p>{% translate "For a skill, yes means you can already perform this activity. If you want to learn it, answer under conditions and specify the training needed." %}</p>
+        {% endif %}
+        <form method="post" class="confirmation-form">
+          {% csrf_token %}
+          {{ form.as_div }}
+          <button class="primary-action"
+                  type="submit"
+                  name="action"
+                  value="answer">{% translate "Save this answer" %}</button>
+        </form>
+      </section>
+    {% endif %}
+    <section class="surface-card home-section">
+      <h2>{% translate "Review of this offer" %}</h2>
+      {% if state.unresolved %}
+        <p>{% translate "Some conditions still need clarification or human review." %}</p>
+      {% endif %}
+      {% for row in rows %}
+        <details>
+          <summary>{{ row.label }} — {{ row.expected }} — {% if row.askable %}{{ row.answer_label }}{% else %}{% translate "Employer clarification needed" %}{% endif %}</summary>
+          <p>{{ row.expected|linebreaksbr }}</p>
+          {% if row.stale %}
+            <p>{% translate "Previous confirmation is out of date." %}</p>
+          {% endif %}
+          {% if row.answer %}
+            <p>{{ row.answer.created_at }} · {{ row.answer_label }}</p>
+            {% if row.answer.detail %}<p>{{ row.answer.detail|linebreaksbr }}</p>{% endif %}
+            {% if row.answer.value == "changed" %}
+              <p>{% translate "Your general profile has not changed. Review and validate the correction separately." %}</p>
+              <form method="post"
+                    action="{% url 'candidate_profile_edit' %}?lang={{ page_language }}">
+                {% csrf_token %}
+                <button class="primary-action" type="submit">{% translate "Review my general profile" %}</button>
+              </form>
+            {% endif %}
+            <a href="?lang={{ page_language }}&amp;question={{ row.key|urlencode }}">{% translate "Change this answer" %}</a>
+          {% endif %}
+        </details>
+      {% endfor %}
+    </section>
+    {% if not state.pending and not current %}
+      <section class="surface-card home-section">
+        <h2>{% translate "Separate transmission permission" %}</h2>
+        <p>{% translate "This permission concerns this employer and this offer only. Reservations remain subject to human review. This local trial does not transmit any profile." %}</p>
+        {% if state.agreement %}
+          <p role="status">
+            {% if state.agreement.agreed %}
+              {% translate "Permission recorded. Nothing has been sent." %}
+            {% else %}
+              {% translate "Transmission permission refused. Nothing has been sent." %}
+            {% endif %}
+          </p>
+        {% endif %}
+        <form method="post" class="confirmation-form">
+          {% csrf_token %}
+          {{ agreement_form.as_div }}
+          <button class="primary-action"
+                  type="submit"
+                  name="action"
+                  value="agree">{% translate "Record my choice" %}</button>
+        </form>
+      </section>
+    {% endif %}
+  </div>
+{% endblock %}

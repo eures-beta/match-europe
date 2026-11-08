@@ -42,16 +42,22 @@ def offers():
     )
 
 
+def can_view_pairs(user):
+    return (
+        user.is_authenticated
+        and user.is_active
+        and user.kind == 'adviser'
+        and user.has_perm('matching.view_matchpair')
+    )
+
+
+def can_change_pair(user):
+    return enabled() and can_view_pairs(user) and user.has_perm('matching.change_matchpair')
+
+
 def guard(request):
     require_matching_enabled()
-    if (
-        not request.user.is_authenticated
-        or not request.user.is_active
-        or request.user.kind != 'adviser'
-        or not request.user.has_perm('matching.view_matchpair')
-        or (
-            request.method == 'POST'
-            and not request.user.has_perm('matching.change_matchpair')
-        )
+    if not can_view_pairs(request.user) or (
+        request.method == 'POST' and not can_change_pair(request.user)
     ):
         raise PermissionDenied

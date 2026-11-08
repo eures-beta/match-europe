@@ -8,8 +8,10 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from .access import guard, candidates, offers
-from .models import MatchPair, MatchEvaluation
+from .access import guard, candidates, offers, can_change_pair
+from .confirmation_services import review
+from .confirmation_views import display_rows
+from .models import MatchPair, MatchEvaluation, ConfirmationRequest
 from .services import calculate, decide, inputs, StaleEvaluation
 from .presentation import present, DECISIONS
 from eures_beta.candidates.occupation_choices import resolve_reference
@@ -132,6 +134,10 @@ def detail(request, pk):
                     _('This action is unavailable. Review the blocking points first.'),
                     400,
                 )
+        confirmation = ConfirmationRequest.objects.filter(pair=pair).first()
+        confirmation_state = review(confirmation) if confirmation else None
+        if confirmation_state:
+            display_rows(confirmation_state['rows'], language)
         evaluation = pair.evaluations.order_by('-id').first()
         try:
             input_data, current = inputs(pair)
@@ -144,6 +150,9 @@ def detail(request, pk):
             'matching/results.html',
             dict(
                 pair=pair,
+                can_request_confirmation=can_change_pair(request.user),
+                confirmation=confirmation,
+                confirmation_state=confirmation_state,
                 occupation_labels=[
                     row['label']
                     for value in pair.candidate.occupation_references

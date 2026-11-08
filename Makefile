@@ -372,3 +372,8 @@ candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stock
 
 candidate-skills-ui-test: ## Tester la recherche, les étiquettes et les plafonds candidat sans réseau
 	node --test eures_beta/candidates/tests/skill_selection.test.cjs
+
+
+.PHONY: confirmations-test
+confirmations-test: ## Tester les confirmations par offre et les accords distincts
+	@$(MANAGE) test eures_beta.matching.tests.test_confirmations --noinput $(TEST_ARGS)
