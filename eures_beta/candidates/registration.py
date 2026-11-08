@@ -159,6 +159,10 @@ def profile_answers(profile):
     return json.loads(json.dumps(data, default=str))
 
 
+class StaleProfile(ValidationError):
+    pass
+
+
 @transaction.atomic
 def update_profile(user, data, language, *, expected_updated_at=None):
     if (
@@ -169,7 +173,7 @@ def update_profile(user, data, language, *, expected_updated_at=None):
         raise PermissionDenied
     profile = CandidateProfile.objects.select_for_update().get(user=user)
     if expected_updated_at and profile.updated_at.isoformat() != expected_updated_at:
-        raise ValidationError('The profile changed. Review it again before updating.')
+        raise StaleProfile('The profile changed. Review it again before updating.')
     answers = validated_answers(data, language)
     for name, value in answers.items():
         if name in ('salary_amount', 'available_from') and value == '':

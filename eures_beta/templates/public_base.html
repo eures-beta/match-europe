@@ -235,15 +235,15 @@
             <div class="lang-switch"
                  aria-label='{% translate "Language" context "employer landing" %}'>
               <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=fr"
+                 href="{{ request.path }}?lang=fr{% if language_question %}&amp;question={{ language_question|urlencode }}{% endif %}"
                  lang="fr"
                  hreflang="fr">FR</a>
               <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=en"
+                 href="{{ request.path }}?lang=en{% if language_question %}&amp;question={{ language_question|urlencode }}{% endif %}"
                  lang="en"
                  hreflang="en">EN</a>
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=de"
+                 href="{{ request.path }}?lang=de{% if language_question %}&amp;question={{ language_question|urlencode }}{% endif %}"
                  lang="de"
                  hreflang="de">DE</a>
             </div>

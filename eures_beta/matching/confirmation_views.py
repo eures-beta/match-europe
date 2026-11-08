@@ -16,7 +16,7 @@ from eures_beta.users.views import selected_language
 from eures_beta.candidates.journey import FORMS, SCHEDULE_DAYS, SCHEDULE_PERIODS
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.skills.skills_pilot import catalogue
-from . import access, confirmation_services as service
+from . import access, confirmation_services as service, dialogue_services
 from .services import StaleEvaluation
 
 LABELS = {
@@ -345,6 +345,7 @@ def dialogue(request, pk):
             form=form,
             agreement_form=agreement_form,
             error_forms=(form, agreement_form),
+            simulated_dialogue=dialogue_services.enabled(),
             page_language=language,
             error=error,
         ),
