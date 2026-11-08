@@ -346,6 +346,7 @@ def dialogue(request, pk):
             agreement_form=agreement_form,
             error_forms=(form, agreement_form),
             simulated_dialogue=dialogue_services.enabled(),
+            live_dialogue=dialogue_services.live(),
             page_language=language,
             error=error,
         ),

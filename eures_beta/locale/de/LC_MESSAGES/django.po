@@ -9717,3 +9717,27 @@ msgstr "Den Dialog fortsetzen"
 #: eures_beta/matching/templates/matching/dialogue.html
 msgid "Review your answers and give transmission permission separately in the guided form."
 msgstr "Prüfen Sie Ihre Antworten und erteilen Sie die Einwilligung zur Weitergabe gesondert im geführten Formular."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Albert is unavailable or the reply could not be validated. Your profile has not changed. Use the guided form or try again later."
+msgstr "Albert ist nicht verfügbar oder die Antwort konnte nicht geprüft werden. Ihr Profil wurde nicht geändert. Verwenden Sie das geführte Formular oder versuchen Sie es später erneut."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Dialogue with Albert"
+msgstr "Dialog mit Albert"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Fictional test only. Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer."
+msgstr "Nur für fiktive Tests. Albert erhält diese Bedingung, Ihre dazugehörigen Angaben und Ihre Antworten. Prüfen Sie die Vorschläge vor dem Speichern. Es wird nichts an den Arbeitgeber versandt."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Before"
+msgstr "Vorher"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "After"
+msgstr "Nachher"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Reply in your own words. If your situation has changed in general, say so. You will review any proposed profile change before saving it."
+msgstr "Antworten Sie mit Ihren eigenen Worten. Wenn sich Ihre Situation allgemein geändert hat, geben Sie dies an. Sie prüfen jede vorgeschlagene Profiländerung vor dem Speichern."
