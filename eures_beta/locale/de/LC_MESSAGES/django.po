@@ -9693,3 +9693,7 @@ msgstr "Ihr Profil ist gespeichert. Die Prüfung eines Stellenangebots führt ni
 
 msgid "Latest start date"
 msgstr "Spätester Arbeitsbeginn"
+
+#: eures_beta/matching/confirmation_views.py:225
+msgid "Maximum"
+msgstr "Maximum"
