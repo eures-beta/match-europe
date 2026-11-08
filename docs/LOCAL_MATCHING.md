@@ -150,3 +150,26 @@ Ne pas modifier ou arrêter les autres instances PostgreSQL de la machine.
 
 La validation métier des poids, une recette métier étendue et l’audit complet
 d’accessibilité restent distincts de ces contrôles techniques.
+
+## 8 novembre 2026 — résultats visibles sur le modèle de Flask
+
+À la demande d’Eric, inspection en lecture seule de `forms/eures-beta/admin.html`
+et `assets/admin/admin-3.js` du dépôt Flask au commit `a95d962` : fonction
+`renderMatchingRows`, ligne compacte candidat/employeur/poste/score/statuts,
+score global dans la fiche, sous-scores et points forts/faibles.
+
+La liste locale affiche désormais le score sur 100, les statuts du calcul et de
+la décision humaine, puis les sous-scores et explications au dépliage. La fiche
+montre le score global et les cinq sous-scores directement. Trois rubriques
+distinguent points forts, incompatibilités explicites et points à confirmer.
+Une évaluation périmée reste signalée. La consultation n’enregistre ni nouveau
+calcul ni décision. Les modèles, migrations et règles de score sont inchangés ;
+les poids restent expérimentaux, sans seuil automatique ni classement nouveau.
+Les coordonnées restent masquées, contrairement aux anciens écrans Flask.
+
+Vérification : 30 tests matching PostgreSQL réussis, contrôles Django/migrations,
+HTML et traductions réussis. Les fichiers Python modifiés ont été formatés avec
+Black. Contrôle navigateur de la fiche, du dépliage de liste et du petit écran
+390 px sans débordement ; scores décimaux sur une seule ligne. Pas d’audit WCAG
+exhaustif. Les 537 tests complets de la première implémentation constituent une
+vérification antérieure ; la suite complète n’a pas été relancée pour cet affichage.

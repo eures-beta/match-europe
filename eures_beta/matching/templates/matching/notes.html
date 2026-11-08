@@ -1,0 +1,43 @@
+{% load i18n %}
+<div class="result-notes">
+  <section class="result-note">
+    <h3>{% translate "Strengths" %}</h3>
+    <ul>
+      {% for row in result.strengths %}
+        <li>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</li>
+      {% empty %}
+        <li>{% translate "No established correspondence yet." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="result-note">
+    <h3>{% translate "Explicit incompatibilities" %}</h3>
+    <ul>
+      {% for row in result.incompatibilities %}
+        <li>
+          <strong>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</strong>
+          {% if row.blocking %}
+            <span class="result-status result-status-blocked">{% translate "Blocking point for this offer" %}</span>
+          {% endif %}
+          {% if row.expected_label %}<div>{% translate "Offer declaration" %}: {{ row.expected_label }}</div>{% endif %}
+          {% if row.declared_label %}<div>{% translate "Candidate declaration" %}: {{ row.declared_label }}</div>{% endif %}
+        </li>
+      {% empty %}
+        <li>{% translate "No explicit incompatibility identified." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="result-note">
+    <h3>{% translate "Points to confirm" %}</h3>
+    <ul>
+      {% for row in result.unknowns %}
+        <li>
+          <strong>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</strong>
+          <div class="result-caption">{{ row.explanation }}</div>
+        </li>
+      {% empty %}
+        <li>{% translate "No unknown point in the evaluated criteria." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>

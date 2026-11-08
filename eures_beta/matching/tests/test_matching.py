@@ -475,3 +475,39 @@ class LocalMatchingTests(TestCase):
                 ).status_code,
                 403,
             )
+
+    def test_result_list_shows_persisted_scores_and_flags_stale_data_without_recalculation(
+        self,
+    ):
+        pair = self.pair('date')
+        evaluation = pair.evaluations.latest('id')
+        before = Evaluation.objects.count()
+        pair.offer.revision += 1
+        pair.offer.save(update_fields=['revision'])
+        response = self.client.get(reverse('matching_local'), {'lang': 'fr'})
+        self.assertContains(response, 'Résultats du matching')
+        self.assertContains(response, 'Évaluation périmée')
+        self.assertContains(response, 'Bloqué pour cette offre')
+        entry = next(
+            item for item in response.context['entries'] if item['pair'].pk == pair.pk
+        )
+        self.assertEqual(
+            entry['result']['established'], evaluation.result['established']
+        )
+        self.assertTrue(entry['stale'])
+        self.assertEqual(Evaluation.objects.count(), before)
+        self.assertEqual(Decision.objects.count(), 0)
+
+    def test_detail_score_is_visible_without_an_expand_action(self):
+        pair = self.pair('unknown')
+        response = self.client.get(
+            reverse('matching_detail', args=[pair.pk]), {'lang': 'fr'}
+        )
+        self.assertContains(response, 'Score global')
+        self.assertContains(response, 'Détail du score')
+        self.assertContains(response, 'Points à confirmer')
+        self.assertContains(response, 'Points forts')
+        self.assertContains(response, 'Incompatibilités explicites')
+        self.assertNotContains(response, '<details')
+        self.assertTrue(response.context['result']['unknowns'])
+        self.assertTrue(response.context['result']['strengths'])

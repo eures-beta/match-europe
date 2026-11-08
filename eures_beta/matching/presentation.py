@@ -139,6 +139,9 @@ def present(result, language):
     return {
         **result,
         'rows': rows,
+        'strengths': [row for row in rows if row['state'] == 'match'],
+        'incompatibilities': [row for row in rows if row['state'] == 'mismatch'],
+        'unknowns': [row for row in rows if row['state'] == 'unknown'],
         'status_label': STATUSES[result['status']],
         'dimensions': [
             {**d, 'label': DIMENSIONS[d['key']]} for d in result['dimensions']

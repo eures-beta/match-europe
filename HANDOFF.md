@@ -27,6 +27,15 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 8 novembre 2026 — scores et résultats du matching visibles
+
+TRANSVERSE : Eric demande une présentation comparable à Flask. Lecture de
+l’administration Flask puis adaptation locale : ligne candidat/employeur/poste,
+score global /100 visible, sous-scores, statuts et trois rubriques d’explication.
+Aucune modification des poids, blocages, décisions ou droits. Trente tests matching
+PostgreSQL réussis, contrôle navigateur et petit écran 390 px. Aucun envoi,
+publication ou déploiement distant. Voir [le contrat local](docs/LOCAL_MATCHING.md).
+
 ## Vérification du matching local — 7 novembre 2026
 
 Base #159 `c39c728`. Matching accessible localement sur le port de recette 9041.

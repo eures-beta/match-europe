@@ -9,6 +9,7 @@
           href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'employer/site.css' %}">
     <link rel="stylesheet" href="{% static 'public-brand.css' %}">
+    <link rel="stylesheet" href="{% static 'matching/results.css' %}?v=2">
   </head>
   <body>
     <a class="visually-hidden-focusable" href="#main-content">{% translate "Skip to content" %}</a>
@@ -22,30 +23,91 @@
         </nav>
       </div>
     </header>
-    <main class="container py-4" id="main-content">
+    <main class="container py-4 matching-results" id="main-content">
       <h1>{% translate "Local matching" %}</h1>
       <p class="alert alert-info"
          role="note">{% translate "Fictional data only. No message, notification or introduction is sent." %}</p>
       {% if error %}<p role="alert" class="alert alert-danger">{{ error }}</p>{% endif %}
       {% if form %}
-        <p>{% translate "Choose an offer and a candidate to examine their correspondence." %}</p>
-        <form method="post" class="card card-body mb-4">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button class="btn btn-primary" type="submit">{% translate "Calculate correspondence" %}</button>
-        </form>
-        <h2>{% translate "Pairs already examined" %}</h2>
-        <ul>
-          {% for entry in entries %}
-            <li class="mb-3"><a href="{% url 'matching_detail' entry.pair.pk %}?lang={{ page_language }}">{{ entry.pair.candidate.display_name }} — {{ entry.title }}</a> · {{ entry.decision }}</li>
-          {% empty %}
-            <li>{% translate "No evaluation yet." %}</li>
-          {% endfor %}
-        </ul>
+        <h2>{% translate "Matching results" %}</h2>
+        <p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
+        {% for entry in entries %}
+          <details class="result-card">
+            <summary>
+              <span class="result-row">
+                <span class="result-person">
+                  <span class="result-kicker">{% translate "Candidate" %}</span>
+                  <strong class="result-main">{{ entry.pair.candidate.display_name }}</strong>
+                  <span class="result-sub">{{ entry.pair.candidate.get_project_mode_display }}</span>
+                </span>
+                <span class="result-offer">
+                  <span class="result-kicker">{% translate "Employer and position" %}</span>
+                  <strong class="result-main">{{ entry.title }}</strong>
+                  <span class="result-sub">{{ entry.pair.offer.data.companyName }} · {{ entry.pair.offer.data.city }}</span>
+                </span>
+                <span class="result-score">
+                  <strong>{% if entry.result %}{{ entry.result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
+                  <span>/ 100</span>
+                </span>
+                <span class="result-tags">
+                  {% if entry.result %}<span class="result-status{% if entry.result.blocked %} result-status-blocked{% endif %}">{{ entry.result.status_label }}</span>{% endif %}
+                  <span class="result-status">{{ entry.decision }}</span>
+                  {% if entry.stale %}
+                    <span class="result-status result-status-unknown">{% translate "Outdated evaluation" %}</span>
+                  {% endif %}
+                </span>
+                <span class="result-toggle">{% translate "Details" %}</span>
+              </span>
+            </summary>
+            <div class="result-body">
+              {% if entry.evaluation %}
+                <p class="result-caption">{% translate "Calculated on" %}: {{ entry.evaluation.created_at }}</p>
+                {% if entry.stale %}
+                  <p class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>
+                {% endif %}
+                {% include "matching/dimensions.html" with result=entry.result %}
+                {% include "matching/notes.html" with result=entry.result %}
+              {% else %}
+                <p>{% translate "No evaluation yet." %}</p>
+              {% endif %}
+              <a class="btn btn-primary"
+                 href="{% url 'matching_detail' entry.pair.pk %}?lang={{ page_language }}">{% translate "Compare and decide" %}</a>
+            </div>
+          </details>
+        {% empty %}
+          <p>{% translate "No evaluation yet." %}</p>
+        {% endfor %}
+        <details class="result-card" {% if form.errors %}open{% endif %}>
+          <summary>{% translate "Calculate another pair" %}</summary>
+          <div class="result-body">
+            <p>{% translate "Choose an offer and a candidate to examine their correspondence." %}</p>
+            <form method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button class="btn btn-primary" type="submit">{% translate "Calculate correspondence" %}</button>
+            </form>
+          </div>
+        </details>
       {% else %}
         <a href="{% url 'matching_local' %}?lang={{ page_language }}">{% translate "Choose another pair" %}</a>
-        <h2 class="mt-4">{{ pair.candidate.display_name }} — {{ pair.offer.data.title }}</h2>
-        <p>{% translate "Human decision" %}: <strong>{{ decision }}</strong></p>
+        <section class="result-hero" aria-label="{% translate 'Matching summary' %}">
+          <div>
+            <span class="result-kicker">{% translate "Candidate" %}</span>
+            <h2>{{ pair.candidate.display_name }}</h2>
+            <span class="result-kicker">{% translate "Employer and position" %}</span>
+            <h2>{{ pair.offer.data.title }}</h2>
+            <p>{{ pair.offer.data.companyName }} · {{ pair.offer.data.city }}</p>
+            {% if result %}<p class="result-status{% if result.blocked %} result-status-blocked{% endif %}">{{ result.status_label }}</p>{% endif %}
+            <p>{% translate "Human decision" %}: <strong>{{ decision }}</strong></p>
+            {% if evaluation %}<p class="result-caption">{% translate "Calculated on" %}: {{ evaluation.created_at }}</p>{% endif %}
+          </div>
+          <div class="result-score result-score-large">
+            <span>{% translate "Global score" %}</span>
+            <strong>{% if result %}{{ result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
+            <span>/ 100</span>
+            <span>{% translate "Experimental" %}</span>
+          </div>
+        </section>
         <p>{% translate "Occupation preferences are shown for discussion and do not add points." %}</p>
         <p>{{ pair.candidate.get_project_mode_display }}</p>
         {% if occupation_labels %}
@@ -80,20 +142,13 @@
           {% else %}
             <p>{% translate "No confirmed blocking point does not mean all requirements are satisfied." %}</p>
           {% endif %}
-          <details class="card card-body my-4">
-            <summary>{% translate "Experimental points — not a probability or a ranking" %}</summary>
-            <p>{% translate "Established points" %}: {{ result.established }} / 100 · {% translate "Unresolved point budget" %}: {{ result.unresolved }}</p>
-            <p>{% translate "Missing information earns no points and remains unknown. These figures must not be used to reject a candidate." %}</p>
-            <div class="row">
-              {% for dimension in result.dimensions %}
-                <div class="col-md-6 mb-2">
-                  <strong>{{ dimension.label }}</strong>: {{ dimension.established }} / {{ dimension.weight }}
-                  <br>
-                  {% translate "Requirements evaluated" %}: {{ dimension.evaluated }} / {{ dimension.applicable }}
-                </div>
-              {% endfor %}
-            </div>
-          </details>
+          <section aria-labelledby="score-details-title">
+            <h3 id="score-details-title">{% translate "Scoring details" %}</h3>
+            <p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
+            {% include "matching/dimensions.html" %}
+            <p>{% translate "Unresolved point budget" %}: {{ result.unresolved|floatformat:"-2" }}</p>
+          </section>
+          {% include "matching/notes.html" %}
           <h3>{% translate "Reasons and points to verify" %}</h3>
           <div class="row">
             {% for row in result.rows %}

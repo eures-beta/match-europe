@@ -1,0 +1,11 @@
+{% load i18n %}
+<div class="result-grid">
+  {% for dimension in result.dimensions %}
+    <div class="result-dimension">
+      <strong>{{ dimension.established|floatformat:"-2" }} / {{ dimension.weight }}</strong>
+      <span>{{ dimension.label }}</span>
+      <small>{% translate "Requirements evaluated" %}: {{ dimension.evaluated }} / {{ dimension.applicable }}</small>
+      {% if dimension.unresolved %}<small>{% translate "Unresolved point budget" %}: {{ dimension.unresolved|floatformat:"-2" }}</small>{% endif %}
+    </div>
+  {% endfor %}
+</div>
