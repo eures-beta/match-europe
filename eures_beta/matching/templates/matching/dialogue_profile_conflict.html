@@ -1,0 +1,15 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "Review my general profile" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="surface-card home-section">
+    <h1>{% translate "Review my general profile" %}</h1>
+    <p role="alert">{% translate "The offer, profile or answers changed. Review the current information before confirming." %}</p>
+    <p><a href="{% url 'candidate_profile' %}?lang={{ page_language }}">{% translate "My candidate profile" %}</a></p>
+    <form method="post"
+          action="{% url 'candidate_profile_edit' %}?lang={{ page_language }}">
+      {% csrf_token %}
+      <button class="primary-action" type="submit">{% translate "Review my general profile" %}</button>
+    </form>
+  </section>
+{% endblock %}

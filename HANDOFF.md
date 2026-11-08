@@ -27,6 +27,19 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 8 novembre 2026 — dialogue Albert simulé pour confirmer une offre
+
+CANDIDATS / CONSEILLERS : prototype local autorisé, sur #162 (20df0b7).
+Réponse libre sur corpus limité FR/EN/DE, reformulation puis validation explicite.
+Réserve pour une offre distincte du changement général : proposition sur les
+créneaux du samedi vers le brouillon existant, complétion et relecture du profil
+avant enregistrement. Ancienne proposition et profil concurrent refusés.
+Vérification de ce lot : 591 tests PostgreSQL complets, dont 9 tests dialogue,
+réussis ; traductions, Django/migrations, Black et HTML vérifiés. Parcours navigateur
+FR/EN/DE, clavier et mobile 390 px vérifiés. Audit WCAG exhaustif non réalisé.
+Création initiale du profil exclue ; aucun appel Albert réel, transmission, fusion
+ou déploiement. Voir [le contrat](docs/ALBERT_CONFIRMATION_DIALOGUE.md).
+
 ## 8 novembre 2026 — confirmations candidat par offre (local)
 
 CANDIDATS / CONSEILLERS : règles validées étape par étape puis implémentation

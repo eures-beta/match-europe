@@ -1,6 +1,12 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+.PHONY: dialogue-run dialogue-test
+dialogue-run: ## Essayer le dialogue Albert simulé local sur 9044, sans appel externe
+	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_SIMULATED=1 REQUEST_METRICS_ENABLED=0 MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9044 --noreload
+dialogue-test: ## Tester les propositions simulées et leur validation privée
+	@$(MANAGE) test eures_beta.matching.tests.test_dialogue --noinput $(TEST_ARGS)
+
 .PHONY: matching-format-html
 matching-format-html: ## Formater uniquement le template du matching local
 	$(QUALITY_PYTHON) -m djlint eures_beta/matching/templates --reformat

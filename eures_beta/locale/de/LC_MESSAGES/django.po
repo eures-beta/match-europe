@@ -9697,3 +9697,107 @@ msgstr "Spätester Arbeitsbeginn"
 #: eures_beta/matching/confirmation_views.py:225
 msgid "Maximum"
 msgstr "Maximum"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "You describe a general change. Confirm the proposed profile update separately from transmission permission."
+msgstr "Sie beschreiben eine allgemeine Änderung. Bestätigen Sie die vorgeschlagene Profiländerung getrennt von der Einwilligung zur Weitergabe."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "You accept under conditions for this offer. Your general profile will stay unchanged."
+msgstr "Sie stimmen für dieses Stellenangebot unter Bedingungen zu. Ihr allgemeines Profil bleibt unverändert."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "You do not accept this condition for this offer. Your general profile will stay unchanged."
+msgstr "Sie lehnen diese Bedingung für dieses Stellenangebot ab. Ihr allgemeines Profil bleibt unverändert."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "This condition is still acceptable for this offer. Your general profile will stay unchanged."
+msgstr "Diese Bedingung ist für dieses Stellenangebot weiterhin akzeptabel. Ihr allgemeines Profil bleibt unverändert."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Your reply"
+msgstr "Ihre Antwort"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Does your reply concern this offer or your general profile?"
+msgstr "Bezieht sich Ihre Antwort auf dieses Stellenangebot oder auf Ihr allgemeines Profil?"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "This offer only"
+msgstr "Nur dieses Stellenangebot"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "My general profile"
+msgstr "Mein allgemeines Profil"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "I confirm this change to my general profile"
+msgstr "Ich bestätige diesen Änderungsvorschlag für mein allgemeines Profil"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Please clarify the scope of your reply. This simulation only recognises the examples below; use the guided form for other replies."
+msgstr "Bitte präzisieren Sie, worauf sich Ihre Antwort bezieht. Diese Simulation erkennt nur die folgenden Beispiele; verwenden Sie für andere Antworten das geführte Formular."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Try the simulated Albert dialogue"
+msgstr "Den simulierten Albert-Dialog ausprobieren"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Simulated Albert dialogue"
+msgstr "Simulierter Albert-Dialog"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Local demonstration with fictional data. No AI service is called. Nothing is sent to the employer."
+msgstr "Lokale Demonstration mit fiktiven Daten. Es wird kein KI-Dienst aufgerufen und nichts an den Arbeitgeber versandt."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Use the guided form"
+msgstr "Das geführte Formular verwenden"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Review what I understood"
+msgstr "Prüfen Sie, was ich verstanden habe"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Proposed profile update"
+msgstr "Vorgeschlagene Profiländerung"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Before: your declared Saturday time slots."
+msgstr "Vorher: Ihre angegebenen Zeitfenster am Samstag."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "After: no declared availability on Saturdays. Other days stay unchanged."
+msgstr "Nachher: keine angegebene Verfügbarkeit am Samstag. Die anderen Tage bleiben unverändert."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "This update makes earlier transmission permission out of date. It does not transmit your profile."
+msgstr "Diese Änderung macht eine frühere Einwilligung zur Weitergabe ungültig. Ihr Profil wird dadurch nicht weitergegeben."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "The proposed change opens your profile for review. Check your other time slots, then validate the profile in the usual form. Your profile is not changed yet."
+msgstr "Der Vorschlag öffnet Ihr Profil zur Prüfung. Prüfen Sie Ihre anderen Zeitfenster und bestätigen Sie das Profil im üblichen Formular. Ihr Profil wurde noch nicht geändert."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Validate this summary"
+msgstr "Diese Zusammenfassung bestätigen"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Correct or cancel this proposal"
+msgstr "Diesen Vorschlag korrigieren oder verwerfen"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Is this still correct and acceptable for this offer?"
+msgstr "Ist dies für dieses Stellenangebot weiterhin richtig und akzeptabel?"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Simulation examples: yes; no. For Saturday: every other Saturday; I am no longer available on Saturdays. Specify whether this concerns this offer or your general profile."
+msgstr "Simulationsbeispiele: ja; nein. Für Samstag: jeden zweiten Samstag; ich bin samstags nicht mehr verfügbar. Geben Sie an, ob dies dieses Stellenangebot oder Ihr allgemeines Profil betrifft."
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Continue the dialogue"
+msgstr "Den Dialog fortsetzen"
+
+#: eures_beta/matching/templates/matching/dialogue.html
+msgid "Review your answers and give transmission permission separately in the guided form."
+msgstr "Prüfen Sie Ihre Antworten und erteilen Sie die Einwilligung zur Weitergabe gesondert im geführten Formular."
