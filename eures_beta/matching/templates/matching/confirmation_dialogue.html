@@ -42,6 +42,9 @@
     {% if current %}
       <section class="surface-card home-section" aria-labelledby="question-title">
         <h2 id="question-title">{{ current.label }}</h2>
+        {% if simulated_dialogue %}
+          <p><a href="{% url 'candidate_offer_dialogue' obj.pk %}?lang={{ page_language }}&amp;question={{ current.key|urlencode }}">{% translate "Try the simulated Albert dialogue" %}</a></p>
+        {% endif %}
         <h3>{% translate "In this offer" %}</h3>
         <p>{{ current.expected|linebreaksbr }}</p>
         <p>{% translate "Only the details shown here are known. Missing exact times, frequency or other details are not assumed." %}</p>

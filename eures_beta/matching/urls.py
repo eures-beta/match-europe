@@ -1,7 +1,12 @@
 from django.urls import path
-from . import confirmation_views, views
+from . import confirmation_views, dialogue_views, views
 
 urlpatterns = [
+    path(
+        "candidate/<int:pk>/dialogue/",
+        dialogue_views.conversation,
+        name="candidate_offer_dialogue",
+    ),
     path('candidate/', confirmation_views.inbox, name='candidate_offer_inbox'),
     path(
         'candidate/<int:pk>/',
