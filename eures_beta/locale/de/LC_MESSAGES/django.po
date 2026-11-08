@@ -9487,3 +9487,209 @@ msgstr "Die bisherige menschliche Entscheidung bleibt erhalten; diese Bewertung 
 
 msgid "Employer accounts and invitations"
 msgstr "Arbeitgeberkonten und Einladungen"
+
+#: eures_beta/candidates/templates/candidates/profile.html:9
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:15
+#: eures_beta/matching/templates/matching/confirmation_inbox.html:3
+#: eures_beta/matching/templates/matching/confirmation_inbox.html:6
+msgid "Offers to confirm"
+msgstr "Zu bestätigende Stellenangebote"
+
+#: eures_beta/matching/confirmation_views.py:27
+msgid "Workplace and mobility"
+msgstr "Arbeitsort und Mobilität"
+
+#: eures_beta/matching/confirmation_views.py:36
+msgid "Working time"
+msgstr "Arbeitszeit"
+
+#: eures_beta/matching/confirmation_views.py:39
+msgid "Yes, this is still correct for this offer"
+msgstr "Ja, das gilt weiterhin für dieses Stellenangebot"
+
+#: eures_beta/matching/confirmation_views.py:40
+msgid "Yes, under conditions"
+msgstr "Ja, unter Bedingungen"
+
+#: eures_beta/matching/confirmation_views.py:41
+msgid "No, for this offer"
+msgstr "Nein, für dieses Stellenangebot"
+
+#: eures_beta/matching/confirmation_views.py:42
+msgid "My situation has changed in general"
+msgstr "Meine Situation hat sich grundsätzlich geändert"
+
+#: eures_beta/matching/confirmation_views.py:43
+msgid "I need more information"
+msgstr "Ich benötige weitere Informationen"
+
+#: eures_beta/matching/confirmation_views.py:52
+msgid "Your answer"
+msgstr "Ihre Antwort"
+
+#: eures_beta/matching/confirmation_views.py:55
+msgid "Conditions, correction or information needed"
+msgstr "Bedingungen, Korrektur oder benötigte Informationen"
+
+#: eures_beta/matching/confirmation_views.py:60
+msgid "Describe work-related details only. Do not include sensitive personal information."
+msgstr "Beschreiben Sie nur arbeitsbezogene Einzelheiten. Geben Sie keine sensiblen persönlichen Informationen an."
+
+#: eures_beta/matching/confirmation_views.py:69
+msgid "Please specify your answer."
+msgstr "Bitte erläutern Sie Ihre Antwort."
+
+#: eures_beta/matching/confirmation_views.py:78
+msgid "Separate permission to share my profile with this employer for this offer"
+msgstr "Gesonderte Einwilligung zur Weitergabe meines Profils an diesen Arbeitgeber für dieses Stellenangebot"
+
+#: eures_beta/matching/confirmation_views.py:81
+msgid "I agree to this transmission"
+msgstr "Ich stimme dieser Weitergabe zu"
+
+#: eures_beta/matching/confirmation_views.py:82
+msgid "I do not agree to this transmission"
+msgstr "Ich stimme dieser Weitergabe nicht zu"
+
+#: eures_beta/matching/confirmation_views.py:140
+msgid "Skill reference needs clarification"
+msgstr "Die angegebene Kompetenz muss geklärt werden"
+
+#: eures_beta/matching/confirmation_views.py:243
+msgid "Awaiting confirmation"
+msgstr "Bestätigung ausstehend"
+
+#: eures_beta/matching/confirmation_views.py:305
+msgid "The offer, profile or answers changed. Review the current information before confirming."
+msgstr "Das Stellenangebot, das Profil oder die Antworten haben sich geändert. Prüfen Sie die aktuellen Informationen vor der Bestätigung."
+
+#: eures_beta/matching/confirmation_views.py:313
+msgid "Review the conditions before recording your answer."
+msgstr "Prüfen Sie die Bedingungen, bevor Sie Ihre Antwort speichern."
+
+#: eures_beta/matching/templates/matching/confirmation_adviser.html:3
+msgid "Candidate confirmations"
+msgstr "Bestätigungen der Bewerberin oder des Bewerbers"
+
+#: eures_beta/matching/templates/matching/confirmation_adviser.html:5
+msgid "The candidate can review this offer in their private space. No notification has been sent."
+msgstr "Die Bewerberin oder der Bewerber kann dieses Stellenangebot im privaten Bereich prüfen. Es wurde keine Benachrichtigung versandt."
+
+#: eures_beta/matching/templates/matching/confirmation_adviser.html:7
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:47
+msgid "Some conditions still need clarification or human review."
+msgstr "Einige Bedingungen müssen noch geklärt oder von einer Person geprüft werden."
+
+#: eures_beta/matching/templates/matching/confirmation_adviser.html:10
+msgid "Separate transmission permission recorded for the current information. Nothing has been sent."
+msgstr "Eine gesonderte Einwilligung zur Weitergabe wurde für die aktuellen Informationen erfasst. Es wurde nichts versandt."
+
+#: eures_beta/matching/templates/matching/confirmation_adviser.html:12
+msgid "No current permission to transmit the profile."
+msgstr "Derzeit liegt keine gültige Einwilligung zur Weitergabe des Profils vor."
+
+#: eures_beta/matching/templates/matching/confirmation_adviser.html:23
+msgid "Ask the candidate to confirm this offer"
+msgstr "Die Bewerberin oder den Bewerber um Bestätigung dieses Stellenangebots bitten"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:3
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:6
+msgid "Confirm this offer"
+msgstr "Bedingungen dieses Stellenangebots bestätigen"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:10
+msgid "Offer details"
+msgstr "Einzelheiten des Stellenangebots"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:14
+msgid "Your existing answers are a starting point. Confirm what still applies to this specific offer. Nothing is sent to the employer."
+msgstr "Ihre bisherigen Antworten dienen als Ausgangspunkt. Bestätigen Sie, was für dieses konkrete Stellenangebot weiterhin gilt. Es wird nichts an den Arbeitgeber versandt."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:23
+msgid "In this offer"
+msgstr "In diesem Stellenangebot"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:25
+msgid "Only the details shown here are known. Missing exact times, frequency or other details are not assumed."
+msgstr "Nur die hier angezeigten Angaben sind bekannt. Fehlende genaue Uhrzeiten, Häufigkeiten oder andere Einzelheiten werden nicht angenommen."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:26
+msgid "You previously declared"
+msgstr "Ihre bisherigen Angaben"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:30
+msgid "Is this still correct and acceptable for this offer? If only part is acceptable, choose an answer under conditions and specify the exception."
+msgstr "Gilt dies weiterhin und ist es für dieses Stellenangebot akzeptabel? Wenn nur ein Teil akzeptabel ist, antworten Sie unter Bedingungen und nennen Sie die Ausnahme."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:32
+msgid "For a skill, yes means you can already perform this activity. If you want to learn it, answer under conditions and specify the training needed."
+msgstr "Bei einer Kompetenz bedeutet Ja, dass Sie diese Tätigkeit bereits ausführen können. Wenn Sie sie erlernen möchten, antworten Sie unter Bedingungen und nennen Sie die benötigte Schulung."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:40
+msgid "Save this answer"
+msgstr "Diese Antwort speichern"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:45
+msgid "Review of this offer"
+msgstr "Zusammenfassung für dieses Stellenangebot"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:51
+msgid "Employer clarification needed"
+msgstr "Klärung durch den Arbeitgeber erforderlich"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:54
+msgid "Previous confirmation is out of date."
+msgstr "Die vorherige Bestätigung ist nicht mehr aktuell."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:60
+msgid "Your general profile has not changed. Review and validate the correction separately."
+msgstr "Ihr allgemeines Profil wurde nicht geändert. Prüfen und bestätigen Sie die Korrektur gesondert."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:64
+msgid "Review my general profile"
+msgstr "Mein allgemeines Profil prüfen"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:67
+msgid "Change this answer"
+msgstr "Diese Antwort ändern"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:74
+msgid "Separate transmission permission"
+msgstr "Gesonderte Einwilligung zur Weitergabe"
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:75
+msgid "This permission concerns this employer and this offer only. Reservations remain subject to human review. This local trial does not transmit any profile."
+msgstr "Diese Einwilligung gilt nur für diesen Arbeitgeber und dieses Stellenangebot. Vorbehalte müssen weiterhin von einer Person geprüft werden. In diesem lokalen Test wird kein Profil weitergegeben."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:79
+msgid "Permission recorded. Nothing has been sent."
+msgstr "Einwilligung erfasst. Es wurde nichts versandt."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:81
+msgid "Transmission permission refused. Nothing has been sent."
+msgstr "Weitergabe abgelehnt. Es wurde nichts versandt."
+
+#: eures_beta/matching/templates/matching/confirmation_dialogue.html:91
+msgid "Record my choice"
+msgstr "Meine Auswahl speichern"
+
+#: eures_beta/matching/templates/matching/confirmation_inbox.html:7
+msgid "Confirm the conditions for each offer. This does not change your general profile or send it to an employer."
+msgstr "Bestätigen Sie die Bedingungen für jedes Stellenangebot. Dadurch wird Ihr allgemeines Profil weder geändert noch an einen Arbeitgeber weitergegeben."
+
+#: eures_beta/matching/templates/matching/confirmation_inbox.html:12
+msgid "No offer is awaiting your confirmation."
+msgstr "Kein Stellenangebot wartet auf Ihre Bestätigung."
+
+
+msgid "Test candidate — offer confirmations"
+msgstr "Testbewerber — Bestätigung von Stellenangeboten"
+
+msgid "Candidate confirmations are separate from the matching calculation and never authorise transmission on their own."
+msgstr "Die Bestätigungen der Bewerberin oder des Bewerbers sind von der Matching-Berechnung getrennt und erlauben für sich allein niemals eine Weitergabe."
+
+msgid "Your profile is saved. Reviewing an offer does not transmit it to an employer."
+msgstr "Ihr Profil ist gespeichert. Die Prüfung eines Stellenangebots führt nicht zur Weitergabe an einen Arbeitgeber."
+
+msgid "Latest start date"
+msgstr "Spätester Arbeitsbeginn"

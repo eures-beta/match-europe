@@ -51,6 +51,13 @@ def specifications():
                 is_superuser=False,
                 label=label,
             )
+        result['matching-candidate'] = dict(
+            email='compatible@matching-trial.invalid',
+            kind=User.Kind.CANDIDATE,
+            is_staff=False,
+            is_superuser=False,
+            label=_('Test candidate — offer confirmations'),
+        )
     return result
 
 

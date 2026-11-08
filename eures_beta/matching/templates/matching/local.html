@@ -33,6 +33,7 @@
       </h1>
       {% if adviser_mode %}
         <p>{{ pair.team.name }} · {{ request.user.get_full_name }}</p>
+        {% include "matching/confirmation_adviser.html" %}
         <p><a href="{% url 'test_accounts' %}">{% translate "Switch fictional account" %}</a></p>
       {% endif %}
       <p class="alert alert-info"
@@ -135,7 +136,7 @@
               </div>
             {% endfor %}
           </div>
-          <p>{% translate "Unknown points will support the future candidate dialogue. Albert is not connected here." %}</p>
+          <p>{% translate "Candidate confirmations are separate from the matching calculation and never authorise transmission on their own." %}</p>
           <section aria-labelledby="decision-title" class="my-4">
             <h3 id="decision-title">{% translate "Human decision" %}</h3>
             <p>{% translate "A recalculation preserves the previous human decision. Retaining a pair does not authorise transmission." %}</p>

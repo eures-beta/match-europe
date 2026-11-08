@@ -169,6 +169,8 @@ def owned_profile(request):
 @require_GET
 def profile(request):
     obj = owned_profile(request)
+    from eures_beta.matching.confirmation_services import candidate_requests
+
     with translation.override(selected_language(request)):
         return render(
             request,
@@ -178,6 +180,9 @@ def profile(request):
                 'groups': answer_groups(
                     registration.profile_answers(obj), selected_language(request)
                 ),
+                'offer_confirmations_available': candidate_requests(
+                    request.user
+                ).exists(),
             },
         )
 

@@ -5,12 +5,14 @@
 matching-format-html: ## Formater uniquement le template du matching local
 	$(QUALITY_PYTHON) -m djlint eures_beta/matching/templates --reformat
 
+MATCHING_DB_PORT ?= 55441
+
 .PHONY: matching-db-init matching-db-start matching-db-stop matching-seed matching-run matching-test matching-format matching-translations
 matching-db-init: ## Initialiser PostgreSQL isolé pour la recette matching (port 55441)
 	@mkdir -p .runtime
 	initdb -D .runtime/matching-pg -U matching_local --auth-local=trust --auth-host=trust
 matching-db-start: ## Démarrer le PostgreSQL de recette sur loopback uniquement
-	pg_ctl -D .runtime/matching-pg -l .runtime/matching-pg.log -o "-h 127.0.0.1 -p 55441 -k /tmp" start
+	pg_ctl -D .runtime/matching-pg -l .runtime/matching-pg.log -o "-h 127.0.0.1 -p $(MATCHING_DB_PORT) -k /tmp" start
 matching-db-stop: ## Arrêter uniquement le PostgreSQL de cette recette
 	pg_ctl -D .runtime/matching-pg stop
 matching-seed: ## Ajouter les scénarios fictifs de matching sans écraser les profils
@@ -380,3 +382,12 @@ matching-team-test: ## Vérifier le portefeuille partagé, le matching manuel et
 	@$(MANAGE) test eures_beta.matching.tests.test_teams --noinput $(TEST_ARGS)
 matching-format-users: ## Formater les raccordements conseiller et comptes de recette
 	$(QUALITY_PYTHON) -m black --no-cache eures_beta/users/invitation_views.py eures_beta/users/test_accounts.py eures_beta/users/test_account_views.py eures_beta/users/management/commands/seed_test_accounts.py
+
+.PHONY: confirmations-test
+confirmations-test: ## Tester les confirmations candidat par offre, conflits et accords distincts
+	@$(MANAGE) test eures_beta.matching.tests.test_confirmations --noinput $(TEST_ARGS)
+
+.PHONY: confirmations-run confirmations-seed
+confirmations-seed: matching-team-seed ## Préparer les comptes fictifs conseiller et candidat pour les confirmations
+confirmations-run: ## Essayer les confirmations locales sur 9043, sans aucun envoi
+	@$(LOAD_ENV) REQUEST_METRICS_ENABLED=0 MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9043 --noreload

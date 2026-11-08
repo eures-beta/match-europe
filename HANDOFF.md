@@ -27,6 +27,25 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 8 novembre 2026 — confirmations candidat par offre (local)
+
+CANDIDATS / CONSEILLERS : règles validées étape par étape puis implémentation
+locale autorisée sur #161, branche `codex/candidate-offer-confirmations`.
+Dialogue déterministe FR/EN/DE : questions contextualisées même si compatibles,
+créneaux indépendants, réserves/refus/corrections générales séparés, renouvellement
+ciblé et accord distinct de transmission. Correction générale par la relecture
+existante, sans conversion automatique du texte. Migration additive matching.0003.
+Gardes locales et données fictives conservées ; aucun appel Albert réel, envoi,
+accès employeur nouveau, PWA, publication distante ou déploiement.
+22 tests ciblés et 579 tests PostgreSQL complets réussis ; contrôles Django réussis.
+Voir [contrat et recette](docs/CANDIDATE_OFFER_CONFIRMATIONS.md).
+
+Contrôles finaux : 579 tests PostgreSQL complets réussis, 22 tests ciblés
+relancés après les ajustements de formulaire ; Django/migrations, traductions,
+Black et structure HTML vérifiés. Parcours réel navigateur conseiller → candidat,
+réserve sur samedi matin enregistrée, petit écran 390 px sans débordement.
+Pas d’audit WCAG exhaustif. Recette locale, aucun envoi.
+
 ## 8 novembre 2026 — portefeuille conseiller partagé et décision manuelle (local)
 
 Eric autorise le portefeuille partagé par équipe et le matching manuel malgré

@@ -30,3 +30,14 @@ class TeamMetadataAdmin(MetadataOnlyAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         return ('id',)
+
+
+from .models import ConfirmationRequest, ConfirmationAnswer, TransmissionAgreement
+
+
+@admin.register(ConfirmationRequest, ConfirmationAnswer, TransmissionAgreement)
+class ConfirmationMetadataAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'created_at')
+
+    def get_readonly_fields(self, request, obj=None):
+        return ('id', 'created_at')

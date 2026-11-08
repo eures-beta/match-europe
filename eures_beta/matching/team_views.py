@@ -228,11 +228,22 @@ def detail(request, pk):
         raise Http404
     stale = bool(evaluation and fingerprint != evaluation.fingerprint)
     result = present(evaluation.result, language) if evaluation else None
+    from .models import ConfirmationRequest
+    from .confirmation_services import review
+
+    confirmation = ConfirmationRequest.objects.filter(pair=pair).first()
+    confirmation_state = review(confirmation) if confirmation else None
+    if confirmation_state:
+        from .confirmation_views import display_rows
+
+        display_rows(confirmation_state["rows"], language)
     return render(
         request,
         'matching/local.html',
         dict(
             adviser_mode=True,
+            confirmation=confirmation,
+            confirmation_state=confirmation_state,
             pair=pair,
             occupation_labels=[
                 row['label']

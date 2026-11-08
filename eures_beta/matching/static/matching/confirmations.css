@@ -1,0 +1,92 @@
+.confirmation-flow {
+  overflow-wrap: anywhere;
+}
+
+.confirmation-flow .confirmation-form {
+  max-width: 48rem;
+}
+
+.confirmation-form > div {
+  margin-block: 1rem;
+}
+
+.confirmation-form fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.confirmation-form legend, .confirmation-form label {
+  font-weight: 700;
+}
+
+.confirmation-form label {
+  display: block;
+  margin-bottom: .4rem;
+}
+
+.confirmation-form label:has(input[type="radio"]) {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-height: 44px;
+  padding: .65rem;
+  margin-block: .4rem;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.confirmation-form textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 7rem;
+  resize: vertical;
+  padding: .75rem;
+  border: 1px solid var(--muted);
+  border-radius: .5rem;
+}
+
+.confirmation-form input[type="radio"] {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.confirmation-form .helptext {
+  display: block;
+  margin-top: .4rem;
+  color: var(--muted);
+}
+
+.confirmation-form button {
+  min-height: 44px;
+  margin-top: 1rem;
+}
+
+.confirmation-flow details {
+  padding-block: .6rem;
+}
+
+.confirmation-flow summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding-block: .5rem;
+}
+
+.confirmation-flow dd {
+  margin-inline-start: 0;
+  margin-bottom: .75rem;
+}
+
+.confirmation-flow dt {
+  font-weight: 700;
+}
+
+.confirmation-flow :focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
