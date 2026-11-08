@@ -9403,3 +9403,87 @@ msgstr "Keine ausdrückliche Unvereinbarkeit festgestellt."
 #: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "No unknown point in the evaluated criteria."
 msgstr "Keine unbekannten Punkte unter den bewerteten Kriterien."
+
+
+msgid "A professional reason is required for a manual decision."
+msgstr "Für eine manuelle Entscheidung ist eine fachliche Begründung erforderlich."
+
+
+msgid "Adviser workspace"
+msgstr "Beratungsbereich"
+
+
+msgid "Back to the team portfolio"
+msgstr "Zurück zum Teamportfolio"
+
+
+msgid "Calculate and examine the pair"
+msgstr "Übereinstimmung berechnen und prüfen"
+
+
+msgid "Choose within your team portfolio. The calculated score remains unchanged; a reason is required to retain the pair manually."
+msgstr "Wählen Sie aus dem Portfolio Ihres Teams. Der berechnete Punktestand bleibt unverändert; eine manuelle Auswahl erfordert eine Begründung."
+
+
+msgid "Manual proposal"
+msgstr "Manueller Vorschlag"
+
+
+msgid "My teams"
+msgstr "Meine Teams"
+
+
+msgid "No team access has been assigned to this account."
+msgstr "Diesem Konto wurde kein Teamzugang zugewiesen."
+
+
+msgid "Prepare a manual matching"
+msgstr "Manuelles Matching vorbereiten"
+
+
+msgid "Professional reason"
+msgstr "Fachliche Begründung"
+
+
+msgid "Read-only team access."
+msgstr "Teamzugang mit Leserechten."
+
+
+msgid "Refused by an adviser"
+msgstr "Von einer Beratungsperson abgelehnt"
+
+
+msgid "Required for a manual decision. Explain the professional reason only."
+msgstr "Für eine manuelle Entscheidung erforderlich. Geben Sie nur die fachliche Begründung an."
+
+
+msgid "Retain manually despite the score"
+msgstr "Trotz Punktestand manuell auswählen"
+
+
+msgid "Shared team portfolio. Every decision retains its individual author."
+msgstr "Gemeinsames Teamportfolio. Jede Entscheidung bleibt ihrer Urheberin oder ihrem Urheber zugeordnet."
+
+
+msgid "Switch fictional account"
+msgstr "Fiktives Konto wechseln"
+
+
+msgid "Team matching"
+msgstr "Matching im Team"
+
+
+msgid "Test adviser — other team"
+msgstr "Testberatung — anderes Team"
+
+
+msgid "Test adviser — same team"
+msgstr "Testberatung — gleiches Team"
+
+
+msgid "The previous human decision is preserved; this evaluation has not been reviewed yet."
+msgstr "Die bisherige menschliche Entscheidung bleibt erhalten; diese Bewertung wurde noch nicht geprüft."
+
+
+msgid "Employer accounts and invitations"
+msgstr "Arbeitgeberkonten und Einladungen"

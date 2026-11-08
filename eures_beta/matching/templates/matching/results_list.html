@@ -1,0 +1,53 @@
+{% load i18n %}
+<h2>{% translate "Matching results" %}</h2>
+<p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
+{% for entry in entries %}
+  <details class="result-card">
+    <summary>
+      <span class="result-row">
+        <span class="result-person">
+          <span class="result-kicker">{% translate "Candidate" %}</span>
+          <strong class="result-main">{{ entry.pair.candidate.display_name }}</strong>
+          <span class="result-sub">{{ entry.pair.candidate.get_project_mode_display }}</span>
+        </span>
+        <span class="result-offer">
+          <span class="result-kicker">{% translate "Employer and position" %}</span>
+          <strong class="result-main">{{ entry.title }}</strong>
+          <span class="result-sub">{{ entry.pair.offer.data.companyName }} · {{ entry.pair.offer.data.city }}</span>
+        </span>
+        <span class="result-score">
+          <strong>{% if entry.result %}{{ entry.result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
+          <span>/ 100</span>
+        </span>
+        <span class="result-tags">
+          {% if entry.result %}<span class="result-status{% if entry.result.blocked %} result-status-blocked{% endif %}">{{ entry.result.status_label }}</span>{% endif %}
+          <span class="result-status">{{ entry.decision }}</span>
+          {% if adviser_mode %}<span class="result-status">{{ entry.pair.team.name }}</span>{% endif %}
+          {% if entry.manual %}
+            <span class="result-status">{% translate "Manual proposal" %}</span>
+          {% endif %}
+          {% if entry.stale %}
+            <span class="result-status result-status-unknown">{% translate "Outdated evaluation" %}</span>
+          {% endif %}
+        </span>
+        <span class="result-toggle">{% translate "Details" %}</span>
+      </span>
+    </summary>
+    <div class="result-body">
+      {% if entry.evaluation %}
+        <p class="result-caption">{% translate "Calculated on" %}: {{ entry.evaluation.created_at }}</p>
+        {% if entry.stale %}
+          <p class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>
+        {% endif %}
+        {% include "matching/dimensions.html" with result=entry.result %}
+        {% include "matching/notes.html" with result=entry.result %}
+      {% else %}
+        <p>{% translate "No evaluation yet." %}</p>
+      {% endif %}
+      <a class="btn btn-primary"
+         href="{% if adviser_mode %}{% url 'matching_team_detail' entry.pair.pk %}{% else %}{% url 'matching_detail' entry.pair.pk %}{% endif %}?lang={{ page_language }}">{% translate "Compare and decide" %}</a>
+    </div>
+  </details>
+{% empty %}
+  <p>{% translate "No evaluation yet." %}</p>
+{% endfor %}

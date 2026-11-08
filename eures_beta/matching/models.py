@@ -1,10 +1,58 @@
 """Local evaluations contain evidence, not copies of contact details."""
 
 from django.db import models
+from django.conf import settings
 from . import validation
 
 
+class MatchingTeam(models.Model):
+    slug = models.SlugField(unique=True)
+    name = models.CharField(max_length=100)
+    active = models.BooleanField(default=True)
+
+
+class TeamMembership(models.Model):
+    team = models.ForeignKey(MatchingTeam, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+    can_decide = models.BooleanField(default=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['team', 'user'], name='matching_unique_member'
+            )
+        ]
+
+
+class TeamOffer(models.Model):
+    team = models.ForeignKey(MatchingTeam, on_delete=models.PROTECT)
+    offer = models.OneToOneField('employers.JobOffer', on_delete=models.CASCADE)
+
+
+class TeamCandidate(models.Model):
+    team = models.ForeignKey(MatchingTeam, on_delete=models.CASCADE)
+    candidate = models.ForeignKey(
+        'candidates.CandidateProfile', on_delete=models.CASCADE
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['team', 'candidate'], name='matching_unique_candidate_access'
+            )
+        ]
+
+
 class MatchPair(models.Model):
+    team = models.ForeignKey(
+        MatchingTeam, null=True, blank=True, on_delete=models.PROTECT
+    )
+    source = models.CharField(
+        max_length=12,
+        default='calculated',
+        choices=[('calculated', 'Calculated'), ('manual', 'Manual')],
+    )
     candidate = models.ForeignKey(
         'candidates.CandidateProfile', on_delete=models.CASCADE
     )
@@ -34,6 +82,14 @@ class MatchPair(models.Model):
 
 
 class MatchEvaluation(models.Model):
+    requested_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT
+    )
+    request_mode = models.CharField(
+        max_length=12,
+        default='calculated',
+        choices=[('calculated', 'Calculated'), ('manual', 'Manual')],
+    )
     pair = models.ForeignKey(
         MatchPair, on_delete=models.CASCADE, related_name='evaluations'
     )
@@ -42,11 +98,20 @@ class MatchEvaluation(models.Model):
     result = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+
     class Meta:
         db_table = 'matching_evaluation'
 
 
 class MatchDecision(models.Model):
+    decided_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT
+    )
+    team = models.ForeignKey(
+        MatchingTeam, null=True, blank=True, on_delete=models.PROTECT
+    )
+    manual = models.BooleanField(default=False)
+    reason = models.TextField(max_length=2000, blank=True)
     pair = models.ForeignKey(
         MatchPair, on_delete=models.CASCADE, related_name='decisions'
     )

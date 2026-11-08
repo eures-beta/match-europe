@@ -164,3 +164,23 @@ puis les sous-scores et explications au dépliage. La fiche distingue points
 forts, incompatibilités explicites et points à confirmer. Une évaluation périmée
 reste signalée. La consultation n'enregistre ni calcul ni décision.
 Les poids restent expérimentaux, sans seuil automatique de rejet.
+
+## Portefeuille conseiller par équipe
+
+`MATCHING_TEAMS_ENABLED` est actif par défaut dans tous les environnements.
+Le tableau de bord affiche uniquement les paires attribuées aux équipes actives
+du conseiller. Les attributions et l'adhésion sont vérifiées à chaque accès ;
+calculer ou décider exige le droit `can_decide`. Les routes de la console
+autonome sont fermées quand ce mode est actif.
+
+La préparation manuelle utilise les candidats et offres du portefeuille.
+Retenir manuellement une paire exige un motif professionnel ; un score faible
+reste inchangé et un blocage explicite ne peut pas être contourné. L'historique
+conserve compte auteur, équipe, calcul, date et motif. Les décisions concurrentes
+ou issues d'un résultat périmé sont refusées. Aucun consentement ni transmission
+n'est ajouté.
+
+La migration additive crée équipes, adhésions et attributions et étend la
+traçabilité des calculs/décisions. Pour une base de test dédiée,
+`make matching-team-seed` crée les scénarios fictifs sans écraser les décisions.
+L'identification instantanée reste réservée aux comptes de test autorisés.

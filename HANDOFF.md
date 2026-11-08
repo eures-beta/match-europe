@@ -27,6 +27,35 @@ zéro ou un profil par compte, créée lors des premières réponses ; aucune cr
 automatique. Migration de renommage réversible, sans perte des réponses existantes.
 Les questions, l'API, les droits et les règles de validation restent inchangés.
 
+## 8 novembre 2026 — portefeuille conseiller partagé et décision manuelle (local)
+
+Eric autorise le portefeuille partagé par équipe et le matching manuel malgré
+un score faible. Implémentation locale sur `codex/team-matching-local`, dans la
+continuité des deux commits locaux au-dessus de #159 ; aucune publication distante.
+
+Avec `MATCHING_TEAMS_ENABLED=1` (désactivé par défaut), l’espace conseiller
+`/accounts/dashboard/` présente les seules paires attribuées aux équipes actives
+du conseiller. Adhésion, droit de décision et attribution des offres et candidats
+sont vérifiés en lecture et à chaque écriture. Les anciennes routes anonymes
+d’opérateur sont fermées dans ce mode. Les comptes employeurs et invitations
+restent accessibles avec leurs droits existants.
+
+Préparation manuelle : choisir candidat/offre dans le portefeuille, calculer,
+examiner, puis retenir avec un motif professionnel obligatoire. Un score nul
+reste nul ; aucun blocage explicite ne peut être contourné. Historique avec
+compte auteur, équipe, date, calcul et motif ; recalcul sans effacer la décision.
+Les décisions simultanées ou issues d’un écran périmé sont refusées explicitement.
+
+Migration additive `matching.0002` appliquée à la base de recette. Modèles d’équipes,
+adhésions et attributions explicites ; pas d’interface de gestion des équipes dans
+ce lot. `make matching-team-seed` prépare deux conseillers de la même équipe,
+un conseiller d’une autre équipe et un scénario à score nul sans écraser les
+décisions existantes. `make matching-run` active ce mode uniquement sur loopback.
+Entrée : `/accounts/test-accounts/`, puis conseiller de test. Tout est fictif ;
+aucun message, Albert réel, transmission ou consentement candidat implémenté.
+
+Vérification du lot : 557 tests PostgreSQL réussis, dont 18 tests dédiés aux équipes et décisions manuelles ; contrôles Django/migrations, Black, djLint, structure HTML et traductions FR/DE réussis. Contrôle HTTP réel des pages FR/EN/DE, du formulaire manuel et de la liste employeurs/invitations réussi. Le navigateur automatisé est indisponible : contrôle visuel du nouveau tableau non réalisé.
+
 ## 8 novembre 2026 — scores et résultats du matching visibles
 
 TRANSVERSE : Eric demande une présentation comparable à Flask. Lecture de

@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import OuterRef, Subquery
 from django.http import Http404
@@ -8,7 +9,7 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from .access import guard, candidates, offers
+from .access import guard, local_guard, candidates, offers
 from .models import MatchPair, MatchEvaluation
 from .services import calculate, decide, inputs, StaleEvaluation
 from .presentation import present, DECISIONS
@@ -41,6 +42,9 @@ def destination(pair, language):
 @never_cache
 @require_http_methods(['GET', 'POST'])
 def index(request):
+    if settings.MATCHING_TEAMS_ENABLED:
+        require_matching_enabled()
+        return redirect('dashboard')
     guard(request)
     language = lang(request)
     with translation.override(language):

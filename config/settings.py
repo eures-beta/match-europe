@@ -39,6 +39,7 @@ DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 
 # Matching is available in every environment unless explicitly disabled.
 MATCHING_ENABLED = os.environ.get('MATCHING_ENABLED', '1') == '1'
+MATCHING_TEAMS_ENABLED = os.environ.get('MATCHING_TEAMS_ENABLED', '1') == '1'
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '1') == '1'
 ALBERT_IMPORT_SIMULATED = os.environ.get('ALBERT_IMPORT_SIMULATED', '0') == '1'

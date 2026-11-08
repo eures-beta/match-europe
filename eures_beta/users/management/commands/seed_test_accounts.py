@@ -4,7 +4,7 @@ from django.core.management import BaseCommand, CommandError, call_command
 from django.db import transaction
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import (
-    ACCOUNTS,
+    specifications,
     enabled,
     fictional_database,
     prepared_user,
@@ -20,7 +20,7 @@ class Command(BaseCommand):
             raise CommandError(
                 'Test seeding requires an explicitly enabled local/preview database with only .invalid accounts.'
             )
-        for key, specification in ACCOUNTS.items():
+        for key, specification in specifications().items():
             if (
                 User.objects.filter(email__iexact=specification['email']).exists()
                 and prepared_user(key) is None
@@ -29,7 +29,7 @@ class Command(BaseCommand):
                     'A fixture account has unexpected attributes; no data changed.'
                 )
         users = {}
-        for key, specification in ACCOUNTS.items():
+        for key, specification in specifications().items():
             user = prepared_user(key)
             if user is None:
                 user = User.objects.create_user(
