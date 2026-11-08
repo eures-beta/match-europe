@@ -29,6 +29,31 @@ ACCOUNTS = {
 }
 
 
+def specifications():
+    result = dict(ACCOUNTS)
+    if settings.MATCHING_TEAMS_ENABLED and settings.DJANGO_ENVIRONMENT == 'local':
+        for key, email, label in (
+            (
+                'matching-peer',
+                'peer@matching-team.invalid',
+                _('Test adviser — same team'),
+            ),
+            (
+                'matching-other',
+                'other@matching-team.invalid',
+                _('Test adviser — other team'),
+            ),
+        ):
+            result[key] = dict(
+                email=email,
+                kind=User.Kind.ADVISER,
+                is_staff=False,
+                is_superuser=False,
+                label=label,
+            )
+    return result
+
+
 def enabled():
     return bool(
         settings.TEST_ACCOUNTS_ENABLED
@@ -47,7 +72,7 @@ def fictional_database():
 
 
 def prepared_user(key):
-    specification = ACCOUNTS.get(key)
+    specification = specifications().get(key)
     if not specification:
         return None
     user = User.objects.filter(email__iexact=specification['email']).first()

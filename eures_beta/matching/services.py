@@ -79,7 +79,16 @@ def calculate(candidate, offer):
 
 
 @transaction.atomic
-def decide(pair_id, evaluation_id, value):
+def decide(
+    pair_id,
+    evaluation_id,
+    value,
+    *,
+    manual=False,
+    reason='',
+    decided_by=None,
+    team=None,
+):
     if not enabled() or value not in ('retained', 'refused'):
         raise ValueError('Invalid local decision')
     pair = MatchPair.objects.select_for_update().get(pk=pair_id)
@@ -91,8 +100,13 @@ def decide(pair_id, evaluation_id, value):
         or current != evaluation.fingerprint
     ):
         raise StaleEvaluation('Recalculate before deciding')
+    if manual and (not decided_by or not team or not reason.strip()):
+        raise ValueError(
+            'A manual decision requires an authenticated author, team and reason'
+        )
     if value == 'retained' and (
-        evaluation.result['blocked'] or not evaluation.result['matched']
+        evaluation.result['blocked']
+        or (not manual and not evaluation.result['matched'])
     ):
         raise ValueError(
             'Unresolved blocking condition or no established correspondence'
@@ -102,8 +116,20 @@ def decide(pair_id, evaluation_id, value):
         not previous
         or previous.evaluation_id != evaluation.pk
         or previous.value != value
+        or previous.decided_by_id != getattr(decided_by, 'pk', None)
+        or previous.manual != manual
+        or previous.reason != reason
     ):
         pair.decision = value
         pair.save(update_fields=['decision'])
-        MatchDecision.objects.create(pair=pair, evaluation=evaluation, value=value)
+        MatchDecision.objects.create(
+            pair=pair,
+            evaluation=evaluation,
+            value=value,
+            decided_by=decided_by,
+            team=team,
+            manual=manual,
+            reason=reason,
+            actor='adviser' if decided_by else 'local_operator',
+        )
     return pair

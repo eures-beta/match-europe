@@ -16,7 +16,7 @@ matching-db-stop: ## Arrêter uniquement le PostgreSQL de cette recette
 matching-seed: ## Ajouter les scénarios fictifs de matching sans écraser les profils
 	@$(MANAGE) seed_matching_trial
 matching-run: ## Essayer le matching local sur 9041, sans email ni Albert réel
-	@$(LOAD_ENV) MATCHING_LOCAL_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9041 --noreload
+	@$(LOAD_ENV) MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9041 --noreload
 matching-test: ## Tester le calcul, les décisions, les conflits et les accès locaux
 	@$(MANAGE) test eures_beta.matching --noinput $(TEST_ARGS)
 matching-format: ## Formater uniquement le nouveau module de matching
@@ -372,3 +372,11 @@ candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stock
 
 candidate-skills-ui-test: ## Tester la recherche, les étiquettes et les plafonds candidat sans réseau
 	node --test eures_beta/candidates/tests/skill_selection.test.cjs
+
+.PHONY: matching-team-seed matching-team-test matching-format-users
+matching-team-seed: ## Préparer deux conseillers d’équipe et une équipe distincte en local
+	@$(LOAD_ENV) MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 "$(PYTHON)" manage.py seed_matching_teams
+matching-team-test: ## Vérifier le portefeuille partagé, le matching manuel et les accès par équipe
+	@$(MANAGE) test eures_beta.matching.tests.test_teams --noinput $(TEST_ARGS)
+matching-format-users: ## Formater les raccordements conseiller et comptes de recette
+	$(QUALITY_PYTHON) -m black --no-cache eures_beta/users/invitation_views.py eures_beta/users/test_accounts.py eures_beta/users/test_account_views.py eures_beta/users/management/commands/seed_test_accounts.py

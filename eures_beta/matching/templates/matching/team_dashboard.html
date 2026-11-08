@@ -1,0 +1,40 @@
+{% extends "users/dashboard.html" %}
+{% load i18n static %}
+{% block extra_head %}
+  {{ block.super }}
+  <link rel="stylesheet"
+        href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'matching/results.css' %}?v=3">
+{% endblock %}
+{% block public_content %}
+  <section class="matching-results py-4">
+    <h1>{% translate "Adviser workspace" %}</h1>
+    <p>{{ request.user.get_full_name }}</p>
+    <p>{% translate "Shared team portfolio. Every decision retains its individual author." %}</p>
+    <p role="note"
+       class="alert alert-info">{% translate "Fictional data only. No message, notification or introduction is sent." %}</p>
+    <p><a href="{% url 'test_accounts' %}">{% translate "Switch fictional account" %}</a></p>
+    {% if can_invite %}
+      <p><a href="{% url 'matching_team_employers' %}?lang={{ page_language }}">{% translate "Employer accounts and invitations" %}</a></p>
+      <p><a href="{% url 'employer_invite' %}">{% translate "Invite an employer" %}</a></p>
+    {% endif %}
+    <section>
+      <h2>{% translate "My teams" %}</h2>
+      <ul>
+        {% for member in members %}
+          <li>
+            {{ member.team.name }}
+            {% if member.can_decide %}
+              · <a href="{% url 'matching_team_manual' member.team_id %}?lang={{ page_language }}">{% translate "Prepare a manual matching" %}</a>
+            {% else %}
+              · {% translate "Read-only team access." %}
+            {% endif %}
+          </li>
+        {% empty %}
+          <li>{% translate "No team access has been assigned to this account." %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% include "matching/results_list.html" %}
+  </section>
+{% endblock %}

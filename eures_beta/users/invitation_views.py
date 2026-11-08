@@ -77,6 +77,14 @@ def invite(request):
 
 
 def adviser_dashboard(request):
+    if settings.MATCHING_TEAMS_ENABLED:
+        from eures_beta.matching.team_views import dashboard
+
+        return dashboard(request)
+    return invitation_dashboard(request)
+
+
+def invitation_dashboard(request):
     if not can_manage_employers(request.user):
         raise PermissionDenied
     from .models import EmployerInvitation

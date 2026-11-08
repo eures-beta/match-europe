@@ -44,6 +44,8 @@ def offers():
 
 def guard(request):
     local_guard(request)
+    if settings.MATCHING_TEAMS_ENABLED:
+        raise Http404
     if (
         not request.user.is_authenticated
         or not request.user.is_active
@@ -55,3 +57,5 @@ def guard(request):
         )
     ):
         raise PermissionDenied
+    if settings.MATCHING_TEAMS_ENABLED:
+        raise Http404

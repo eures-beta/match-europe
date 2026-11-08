@@ -1,0 +1,15 @@
+{% extends "users/dashboard.html" %}
+{% load i18n %}
+{% block public_content %}
+  <section class="shell py-4">
+    <h1>{% translate "Prepare a manual matching" %}</h1>
+    <p>{{ team.name }}</p>
+    <p>{% translate "Choose within your team portfolio. The calculated score remains unchanged; a reason is required to retain the pair manually." %}</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primary-action" type="submit">{% translate "Calculate and examine the pair" %}</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}?lang={{ page_language }}">{% translate "Back to the team portfolio" %}</a></p>
+  </section>
+{% endblock %}

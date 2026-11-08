@@ -9377,3 +9377,87 @@ msgstr "Aucune incompatibilité explicite identifiée."
 #: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
 msgid "No unknown point in the evaluated criteria."
 msgstr "Aucun point inconnu parmi les critères évalués."
+
+
+msgid "A professional reason is required for a manual decision."
+msgstr "Un motif professionnel est obligatoire pour une décision manuelle."
+
+
+msgid "Adviser workspace"
+msgstr "Espace conseiller"
+
+
+msgid "Back to the team portfolio"
+msgstr "Revenir au portefeuille de l’équipe"
+
+
+msgid "Calculate and examine the pair"
+msgstr "Calculer et examiner la correspondance"
+
+
+msgid "Choose within your team portfolio. The calculated score remains unchanged; a reason is required to retain the pair manually."
+msgstr "Choisissez dans le portefeuille de votre équipe. Le score calculé reste inchangé ; un motif est obligatoire pour retenir la correspondance manuellement."
+
+
+msgid "Manual proposal"
+msgstr "Proposition manuelle"
+
+
+msgid "My teams"
+msgstr "Mes équipes"
+
+
+msgid "No team access has been assigned to this account."
+msgstr "Aucun accès à une équipe n’a été attribué à ce compte."
+
+
+msgid "Prepare a manual matching"
+msgstr "Préparer un matching manuel"
+
+
+msgid "Professional reason"
+msgstr "Motif professionnel"
+
+
+msgid "Read-only team access."
+msgstr "Accès à l’équipe en lecture seule."
+
+
+msgid "Refused by an adviser"
+msgstr "Refusé par un conseiller"
+
+
+msgid "Required for a manual decision. Explain the professional reason only."
+msgstr "Obligatoire pour une décision manuelle. Indiquez uniquement le motif professionnel."
+
+
+msgid "Retain manually despite the score"
+msgstr "Retenir manuellement malgré le score"
+
+
+msgid "Shared team portfolio. Every decision retains its individual author."
+msgstr "Portefeuille partagé en équipe. L’auteur de chaque décision est conservé."
+
+
+msgid "Switch fictional account"
+msgstr "Changer de compte fictif"
+
+
+msgid "Team matching"
+msgstr "Matching en équipe"
+
+
+msgid "Test adviser — other team"
+msgstr "Conseiller de test — autre équipe"
+
+
+msgid "Test adviser — same team"
+msgstr "Conseiller de test — même équipe"
+
+
+msgid "The previous human decision is preserved; this evaluation has not been reviewed yet."
+msgstr "La décision humaine précédente est conservée ; cette évaluation n’a pas encore été examinée."
+
+
+msgid "Employer accounts and invitations"
+msgstr "Comptes employeurs et invitations"
