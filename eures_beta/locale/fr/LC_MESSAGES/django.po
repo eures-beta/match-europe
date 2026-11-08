@@ -9305,3 +9305,75 @@ msgstr "Mobilité"
 #: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
 msgid "Offer declaration"
 msgstr "Déclaration de l’offre"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Matching results"
+msgstr "Résultats du matching"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Scores are experimental. Blocking points and unknown information remain separate from the score."
+msgstr "Scores expérimentaux. Les blocages et les informations inconnues restent distincts du score."
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Employer and position"
+msgstr "Employeur et poste"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Outdated evaluation"
+msgstr "Évaluation périmée"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Details"
+msgstr "Détails"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Calculated on"
+msgstr "Calculé le"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Compare and decide"
+msgstr "Comparer et décider"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Calculate another pair"
+msgstr "Calculer une autre paire"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Matching summary"
+msgstr "Synthèse du matching"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Global score"
+msgstr "Score global"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Experimental"
+msgstr "Expérimental"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Scoring details"
+msgstr "Détail du score"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Strengths"
+msgstr "Points forts"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Explicit incompatibilities"
+msgstr "Incompatibilités explicites"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "Points to confirm"
+msgstr "Points à confirmer"
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "No established correspondence yet."
+msgstr "Aucune correspondance établie pour le moment."
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "No explicit incompatibility identified."
+msgstr "Aucune incompatibilité explicite identifiée."
+
+#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+msgid "No unknown point in the evaluated criteria."
+msgstr "Aucun point inconnu parmi les critères évalués."

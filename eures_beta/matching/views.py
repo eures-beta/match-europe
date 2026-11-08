@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import OuterRef, Subquery
 from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -8,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 from .access import guard, candidates, offers
-from .models import MatchPair
+from .models import MatchPair, Evaluation
 from .services import calculate, decide, inputs, StaleEvaluation
 from .presentation import present, DECISIONS
 from eures_beta.candidates.occupation_choices import resolve_reference
@@ -50,16 +51,39 @@ def index(request):
         pairs = (
             MatchPair.objects.filter(candidate__in=candidates(), offer__in=offers())
             .select_related('candidate', 'offer')
+            .annotate(
+                latest_evaluation_id=Subquery(
+                    Evaluation.objects.filter(pair_id=OuterRef('pk'))
+                    .order_by('-id')
+                    .values('pk')[:1]
+                )
+            )
             .order_by('-created_at')
         )
-        entries = [
-            dict(
-                pair=p,
-                decision=DECISIONS[p.decision],
-                title=p.offer.data.get('title', ''),
+        pairs = list(pairs)
+        evaluations = Evaluation.objects.in_bulk(
+            [p.latest_evaluation_id for p in pairs if p.latest_evaluation_id]
+        )
+        entries = []
+        for pair in pairs:
+            evaluation = evaluations.get(pair.latest_evaluation_id)
+            stale = False
+            if evaluation:
+                try:
+                    data, fingerprint = inputs(pair)
+                    stale = fingerprint != evaluation.fingerprint
+                except ObjectDoesNotExist:
+                    continue
+            entries.append(
+                dict(
+                    pair=pair,
+                    decision=DECISIONS[pair.decision],
+                    title=pair.offer.data.get('title', ''),
+                    evaluation=evaluation,
+                    result=present(evaluation.result, language) if evaluation else None,
+                    stale=stale,
+                )
             )
-            for p in pairs
-        ]
         return render(
             request,
             'matching/local.html',
