@@ -1,5 +1,20 @@
 # Confirmations candidat par offre — recette locale
 
+## Corrections après recette du 8 novembre 2026
+
+Le résumé des erreurs affiche les libellés traduits et des liens vers les champs,
+sans nom interne ni duplication des identifiants des messages locaux. La
+modification d’une réponse reprend le choix et la précision courants ; une
+confirmation périmée n’est pas préremplie. Les valeurs saisies restent conservées
+en cas d’erreur et les protections contre les écrasements concurrents demeurent.
+
+Vérifications : `make confirmations-test` (25 tests), `make test` (582 tests
+PostgreSQL), `make check`, `make format-check`, `make format-html-check` et
+`make translations-check` réussis. Extraction puis contrôle des traductions
+également vérifiés dans une copie isolée. Navigateur : préremplissage, erreur
+sans identifiant dupliqué et lien amenant le focus au champ vérifiés. Aucun
+audit WCAG exhaustif, fusion, déploiement ni transmission réelle.
+
 ## Périmètre autorisé le 8 novembre 2026
 
 Eric valide successivement les conditions déterminantes à confirmer même lorsque

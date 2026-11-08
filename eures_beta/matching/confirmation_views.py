@@ -333,6 +333,8 @@ def dialogue(request, pk):
                 'key': current['key'],
                 'fingerprint': current['fingerprint'],
                 'previous': latest.pk if latest else 0,
+                'value': current['answer'].value if current.get('answer') else None,
+                'detail': current['answer'].detail if current.get('answer') else '',
             }
         )
     return render(
@@ -345,6 +347,7 @@ def dialogue(request, pk):
             current=current,
             form=form,
             agreement_form=agreement_form,
+            error_forms=(form, agreement_form),
             page_language=language,
             error=error,
         ),
