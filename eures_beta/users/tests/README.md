@@ -13,7 +13,7 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 - [test_admin_filters.py](test_admin_filters.py) — Vérifie le bouton traduit, les filtres actifs et les listes sans filtres.
 - [admin_filters.test.cjs](admin_filters.test.cjs) — Vérifie le masquage, la restauration et le fonctionnement sans stockage navigateur ; exécuté par `make check-js`.
 
-- [test_email_backend.py](test_email_backend.py) — Vérifie le blocage SMTP local et en recette, et l’autorisation explicite en production sans envoi réel.
+- [Tests du transport e-mail partagé](../../emails/tests/test_backend.py) — Blocage SMTP local et recette, autorisation explicite en production sans envoi réel.
 
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [test_closed_registration.py](test_closed_registration.py) — Vérifie le refus de création de comptes depuis les formulaires et liens publics.

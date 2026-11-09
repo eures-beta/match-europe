@@ -381,7 +381,7 @@ employer-response-test: ## Vérifier les réponses par compte, droits, conflits 
 
 .PHONY: environment-parity-test
 environment-parity-test: ## Vérifier les parcours et droits dans les trois environnements, sans appel externe
-	@$(MANAGE) test config.test_environment_parity eures_beta.users.tests.test_email_backend eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot eures_beta.skills.tests.test_albert_skills eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare eures_beta.matching --noinput $(TEST_ARGS)
+	@$(MANAGE) test config.test_environment_parity eures_beta.emails.tests.test_backend eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot eures_beta.skills.tests.test_albert_skills eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare eures_beta.matching --noinput $(TEST_ARGS)
 
 .PHONY: candidate-skills-test candidate-skills-ui-test
 candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stockage et ses droits
@@ -394,3 +394,7 @@ candidate-skills-ui-test: ## Tester la recherche, les étiquettes et les plafond
 .PHONY: confirmations-test
 confirmations-test: ## Tester les confirmations par offre et les accords distincts
 	@$(MANAGE) test eures_beta.matching.tests.test_confirmations --noinput $(TEST_ARGS)
+
+.PHONY: emails-test
+emails-test: ## Vérifier le transport SMTP partagé et les protections sans envoi réel
+	@$(MANAGE) test eures_beta.emails.tests --noinput $(TEST_ARGS)

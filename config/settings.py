@@ -71,7 +71,7 @@ if TEST_ACCOUNTS_ENABLED and (
     raise ImproperlyConfigured(
         'Test accounts require local/preview and disabled real email delivery.'
     )
-EMAIL_BACKEND = 'eures_beta.users.email_backend.ProductionEmailBackend'
+EMAIL_BACKEND = 'eures_beta.emails.backend.ProductionEmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', '1') == '1'
