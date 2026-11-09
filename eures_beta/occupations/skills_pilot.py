@@ -14,8 +14,8 @@ BEHAVIOUR_MAX = 3
 
 @lru_cache(maxsize=1)
 def catalogue():
-    pilot = json.loads((DATA / 'skills_pilot.json').read_text())
-    source = json.loads((DATA / 'skills_pilot_sources.json').read_text())
+    pilot = json.loads((DATA / 'occupation_skills.json').read_text())
+    source = json.loads((DATA / 'occupation_skills_sources.json').read_text())
     skills = {item['uri']: item for item in source['skills']}
     official = {
         (r['occupationUri'], r['skillUri'], r['relationType'])

@@ -20,8 +20,8 @@ class Command(BaseCommand):
         parser.add_argument('--output', default='.runtime/skills-pilot-staging')
 
     def handle(self, *args, **options):
-        source = json.loads((DATA / 'skills_pilot_sources.json').read_text())
-        pilot = json.loads((DATA / 'skills_pilot.json').read_text())
+        source = json.loads((DATA / 'occupation_skills_sources.json').read_text())
+        pilot = json.loads((DATA / 'occupation_skills.json').read_text())
         output = Path(options['output'])
         if output.resolve() == DATA.resolve():
             raise CommandError(
@@ -98,8 +98,8 @@ class Command(BaseCommand):
         # Stable metadata identifies the fixed source edition; no invented latest/version discovery.
         output.mkdir(parents=True, exist_ok=True)
         for name, value in [
-            ('skills_pilot_sources.json', source),
-            ('skills_pilot.json', pilot),
+            ('occupation_skills_sources.json', source),
+            ('occupation_skills.json', pilot),
         ]:
             (output / name).write_text(
                 json.dumps(value, ensure_ascii=False, indent=2) + '\n'

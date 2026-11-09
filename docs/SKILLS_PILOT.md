@@ -78,9 +78,9 @@ entretien reste celui de Django. Aucun e-mail, compte, offre, matching ni score.
 
 ## Données
 
-`occupations/data/skills_pilot_sources.json` contient les concepts officiels ESCO
+`occupations/data/occupation_skills_sources.json` contient les concepts officiels ESCO
 1.2.1 utilisés et leurs libellés FR/EN/DE, descriptions, sources, empreintes et
-relations métier–compétence. `skills_pilot.json` contient la sélection éditoriale,
+relations métier–compétence. `occupation_skills.json` contient la sélection éditoriale,
 son ordre et les rubriques. Le chargement ne dépend d’aucun réseau.
 
 Les huit compétences clés de chaque fiche ont une relation officielle ESCO avec

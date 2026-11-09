@@ -70,3 +70,7 @@ les quatre JSON embarqués. La sérialisation est déterministe (clés triées,
 indentation de deux espaces, saut de ligne final).
 Le rapport conserve la comparaison historique avec les 35 métiers du pilote.
 Cet échantillon expérimental n’est pas réintroduit dans le train.
+
+
+- [occupation_skills.json](occupation_skills.json) : sélections éditoriales de compétences par métier, partagées par les parcours candidat et employeur.
+- [occupation_skills_sources.json](occupation_skills_sources.json) : références ESCO multilingues et relations officielles utilisées pour vérifier ces sélections.
