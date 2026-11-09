@@ -7867,3 +7867,9 @@ msgstr "Ihre Antworten konnten nicht gespeichert werden. Bitte versuchen Sie es 
 #: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
 msgid "Your answers changed in another tab. Reload the page before editing them."
 msgstr "Ihre Antworten wurden in einem anderen Tab geändert. Laden Sie die Seite neu, bevor Sie sie bearbeiten."
+
+msgid "Employer profile"
+msgstr "Arbeitgeberprofil"
+
+msgid "Employer profiles"
+msgstr "Arbeitgeberprofile"

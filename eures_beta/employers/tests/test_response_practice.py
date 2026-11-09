@@ -8,7 +8,7 @@ from django.urls import reverse
 from eures_beta.employers.models import (
     Company,
     CompanyMembership,
-    EmployerResponsePractice,
+    EmployerProfile,
 )
 
 User = get_user_model()
@@ -53,8 +53,10 @@ class ResponsePracticeTests(TestCase):
         )
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.json()['revision'], 2)
-        self.assertEqual(EmployerResponsePractice.objects.count(), 1)
-        saved = EmployerResponsePractice.objects.get()
+        self.assertEqual(EmployerProfile.objects.count(), 1)
+        saved = EmployerProfile.objects.get()
+        self.assertEqual(saved.user_id, self.employer.pk)
+        self.assertEqual(self.employer.employer_profile.pk, saved.pk)
         self.assertEqual(saved.response_time, 'variable')
         self.assertGreaterEqual(saved.updated, saved.created)
 
@@ -69,11 +71,11 @@ class ResponsePracticeTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            EmployerResponsePractice.objects.get(employer=self.employer).response_time,
+            EmployerProfile.objects.get(user=self.employer).response_time,
             'one_two_weeks',
         )
         self.assertEqual(
-            EmployerResponsePractice.objects.get(employer=self.colleague).response_time,
+            EmployerProfile.objects.get(user=self.colleague).response_time,
             'over_month',
         )
 
@@ -95,12 +97,10 @@ class ResponsePracticeTests(TestCase):
                 ).status_code,
                 400,
             )
-        self.assertFalse(EmployerResponsePractice.objects.exists())
+        self.assertFalse(EmployerProfile.objects.exists())
         self.save()
         self.assertEqual(self.save(revision=1, response_time='bogus').status_code, 400)
-        self.assertEqual(
-            EmployerResponsePractice.objects.get().response_time, 'one_two_weeks'
-        )
+        self.assertEqual(EmployerProfile.objects.get().response_time, 'one_two_weeks')
 
     def test_stale_write_cannot_overwrite_saved_answers(self):
         self.save()
@@ -109,9 +109,7 @@ class ResponsePracticeTests(TestCase):
         self.assertEqual(
             self.save(revision=1, response_time='over_month').status_code, 409
         )
-        self.assertEqual(
-            EmployerResponsePractice.objects.get().response_time, 'under_week'
-        )
+        self.assertEqual(EmployerProfile.objects.get().response_time, 'under_week')
 
     def test_access_requires_active_employer_and_demo_gate(self):
         adviser = User.objects.create_user(
@@ -135,30 +133,30 @@ class ResponsePracticeTests(TestCase):
         self.client.force_login(self.employer)
         with self.settings(DEMO_MODE=False, SHARED_DEMO=False):
             self.assertEqual(self.save().status_code, 404)
-        self.assertFalse(EmployerResponsePractice.objects.exists())
+        self.assertFalse(EmployerProfile.objects.exists())
 
     def test_csrf_and_methods(self):
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.employer)
         self.assertEqual(client.post(self.url, {}, secure=True).status_code, 403)
         self.assertEqual(self.client.delete(self.url, secure=True).status_code, 405)
-        self.assertFalse(EmployerResponsePractice.objects.exists())
+        self.assertFalse(EmployerProfile.objects.exists())
 
     def test_database_rejects_duplicate_and_noncanonical_answers(self):
         self.save()
         for values in (
             {
-                'employer': self.employer,
+                'user': self.employer,
                 'response_coverage': 'all',
                 'response_time': 'under_week',
             },
             {
-                'employer': self.colleague,
+                'user': self.colleague,
                 'response_coverage': 'bogus',
                 'response_time': 'under_week',
             },
             {
-                'employer': self.colleague,
+                'user': self.colleague,
                 'response_coverage': 'all',
                 'response_time': 'bogus',
             },
@@ -168,13 +166,13 @@ class ResponsePracticeTests(TestCase):
                 self.assertRaises(IntegrityError),
                 transaction.atomic(),
             ):
-                EmployerResponsePractice.objects.create(**values)
+                EmployerProfile.objects.create(**values)
         adviser = User.objects.create_user(
             email='another@example.invalid', kind='adviser'
         )
         with self.assertRaises(ValidationError):
-            EmployerResponsePractice(
-                employer=adviser, response_coverage='all', response_time='under_week'
+            EmployerProfile(
+                user=adviser, response_coverage='all', response_time='under_week'
             ).full_clean()
 
     def test_questions_then_summary_in_both_layouts_and_three_languages(self):

@@ -7867,3 +7867,9 @@ msgstr "Impossible d’enregistrer vos réponses. Veuillez réessayer."
 #: eures_beta/employers/response_practice.py eures_beta/templates/employer/response_practice.html
 msgid "Your answers changed in another tab. Reload the page before editing them."
 msgstr "Vos réponses ont changé dans un autre onglet. Rechargez la page avant de les modifier."
+
+msgid "Employer profile"
+msgstr "Profil employeur"
+
+msgid "Employer profiles"
+msgstr "Profils employeurs"

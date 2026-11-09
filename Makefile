@@ -268,4 +268,4 @@ employer-response-run: ## Essayer les réponses employeur sur 9036, sans email r
 	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"
 
 employer-response-test: ## Vérifier les réponses par compte, droits, conflits et traductions
-	@$(MANAGE) test eures_beta.employers.tests.test_response_practice --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.employers.tests.test_response_practice eures_beta.employers.tests.test_profile_rename --noinput $(TEST_ARGS)
