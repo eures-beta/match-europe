@@ -37,7 +37,7 @@ Django. Ce lot ne constitue pas leur exécution
 automatique ni une validation juridique. Il ne crée ni compte ni profil,
 aucun modèle ni migration et n'efface aucune donnée.
 
-Le brouillon candidat demeure privé à la session et expire après 30 minutes
+Le brouillon candidat demeure privé à la session et expire après 2 heures
 d'inactivité, conformément à #129/#130. Expiration d'accès et purge des supports
 techniques ne sont pas identiques. La conservation d'une invitation sans réponse
 ne prolonge pas la validité du lien d'invitation (7 jours) ou de connexion (1 h).
