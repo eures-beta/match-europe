@@ -11,7 +11,6 @@ urlpatterns = [
     path(
         'api/occupation-skills/', skill_suggestions, name='occupation_skill_suggestions'
     ),
-    path('skills-pilot/', include('eures_beta.occupations.pilot_urls')),
     path('', include('eures_beta.users.urls')),
     path("", include("eures_beta.employers.urls")),
     path("", include("eures_beta.candidates.urls")),

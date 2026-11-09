@@ -16,13 +16,11 @@ from eures_beta.users.models import User
 from eures_beta.occupations import albert_skills as service
 from eures_beta.occupations.catalog import occupation_index
 from eures_beta.occupations.models import OccupationSkillSuggestion as Suggestion
-from eures_beta.occupations.pilot_views import SESSION_KEY
 from eures_beta.occupations.skill_source import load_source
 from eures_beta.occupations.skills_pilot import catalogue
 
 
 @override_settings(
-    SKILLS_PILOT_ENABLED=True,
     SKILLS_ALBERT_ENABLED=True,
     SKILLS_ALBERT_SIMULATED=False,
     DJANGO_ENVIRONMENT='local',
@@ -45,19 +43,11 @@ class SuggestionTests(TestCase):
         self.ask_patch = patch.object(service, 'ask', return_value=self.values)
         self.ask = self.ask_patch.start()
         self.addCleanup(self.ask_patch.stop)
-        self.url = reverse('skills_pilot_journey', args=['employer'])
         self.users = {
             role: User.objects.create_user(role + '@albert-fixture.invalid', kind=role)
             for role in ('employer', 'candidate')
         }
         self.client.force_login(self.users['employer'])
-
-    def post(self, role='employer', **extra):
-        self.client.force_login(self.users[role])
-        return self.client.post(
-            reverse('skills_pilot_journey', args=[role]),
-            {'action': 'resolve', 'occupation': self.uri, **extra},
-        )
 
     def test_shared_persistent_cache_revalidated_without_second_call(self):
         first = service.resolve(self.uri, generate=True)
@@ -109,142 +99,6 @@ class SuggestionTests(TestCase):
         with override_settings(ALBERT_MODEL='another-model'):
             service.resolve(self.uri, generate=True)
         self.assertEqual(Suggestion.objects.count(), 3)
-
-    def test_disabled_csrf_and_get_never_call(self):
-        for changes in (
-            {'SKILLS_ALBERT_ENABLED': False},
-            {'SKILLS_PILOT_ENABLED': False, 'CONTINUOUS_SKILLS_ENABLED': False},
-        ):
-            with override_settings(**changes):
-                self.assertIn(self.post().status_code, (400, 404))
-                with self.assertRaises(service.SuggestionUnavailable):
-                    service.resolve(self.uri, generate=True)
-        self.assertEqual(
-            Client(enforce_csrf_checks=True)
-            .post(self.url, {'action': 'resolve', 'occupation': self.uri})
-            .status_code,
-            403,
-        )
-        self.assertEqual(
-            self.client.get(
-                self.url, {'action': 'resolve', 'occupation': self.uri}
-            ).status_code,
-            200,
-        )
-        self.ask.assert_not_called()
-        self.assertFalse(Suggestion.objects.exists())
-
-    def test_anonymous_and_wrong_role_cannot_generate(self):
-        for user in (None, self.users['candidate']):
-            self.client.logout()
-            if user:
-                self.client.force_login(user)
-            self.assertEqual(
-                self.client.post(
-                    self.url,
-                    {'action': 'resolve', 'occupation': self.uri},
-                    REMOTE_ADDR='192.0.2.1',
-                ).status_code,
-                403,
-            )
-        self.ask.assert_not_called()
-
-    def test_remote_generation_in_every_environment_with_emails_enabled(self):
-        for environment in ('local', 'preview', 'production'):
-            Suggestion.objects.all().delete()
-            self.ask.reset_mock()
-            with (
-                self.subTest(environment=environment),
-                override_settings(
-                    DJANGO_ENVIRONMENT=environment, EMAIL_DELIVERY_ENABLED=True
-                ),
-            ):
-                response = self.client.post(
-                    self.url,
-                    {'action': 'resolve', 'occupation': self.uri},
-                    REMOTE_ADDR='192.0.2.1',
-                )
-                self.assertEqual(response.status_code, 302)
-                self.ask.assert_called_once()
-                self.assertEqual(Suggestion.objects.get().status, 'ready')
-
-    def test_both_roles_trilingual_selection_review_and_reuse_without_business_writes(
-        self,
-    ):
-        counts = (
-            User.objects.count(),
-            CandidateProfile.objects.count(),
-            JobOffer.objects.count(),
-        )
-        for role in ('employer', 'candidate'):
-            self.assertEqual(self.post(role).status_code, 302)
-            url = reverse('skills_pilot_journey', args=[role])
-            for language in ('fr', 'en', 'de'):
-                page = self.client.get(url, {'lang': language, 'step': 'skills'})
-                self.assertContains(
-                    page, self.skills[self.values[0]]['labels'][language]
-                )
-                self.assertNotContains(page, 'fictional-secret')
-                self.assertEqual(
-                    len(page.context['form'].fields['behaviours'].choices), 0
-                )
-            state = self.client.session[SESSION_KEY][role]
-            payload = {
-                'action': 'selection',
-                'occupation': self.uri,
-                'revision': state['revision'],
-                'skills': self.values[:2],
-            }
-            self.assertEqual(self.client.post(url, payload).status_code, 302)
-            page = self.client.get(url, {'step': 'review'})
-            self.assertEqual(len(page.context['selected_skills']), 2)
-            payload['revision'] = self.client.session[SESSION_KEY][role]['revision']
-            payload['skills'] = ['invented']
-            self.assertEqual(self.client.post(url, payload).status_code, 400)
-        self.ask.assert_called_once()
-        self.assertEqual(
-            counts,
-            (
-                User.objects.count(),
-                CandidateProfile.objects.count(),
-                JobOffer.objects.count(),
-            ),
-        )
-
-    def test_failure_preserves_previous_journey_and_offers_retry(self):
-        self.client.post(
-            self.url, {'action': 'occupation', 'occupation': 'restauration'}
-        )
-        previous = dict(self.client.session[SESSION_KEY]['employer'])
-        self.ask.side_effect = service.SuggestionUnavailable()
-        response = self.post()
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(previous, self.client.session[SESSION_KEY]['employer'])
-        self.assertTrue(response.context['pilot_error'])
-
-    def test_unverified_occupation_and_missing_source_never_call_model(self):
-        with patch.object(service, 'source_for', side_effect=ValueError()):
-            self.assertEqual(self.post(occupation='unknown').status_code, 400)
-        self.ask.assert_not_called()
-
-    def test_waiting_and_failure_messages_translated_and_search_does_not_generate(self):
-        for lang, phrase in [
-            (
-                'fr',
-                'Un instant, nous recherchons les compétences associées à ce métier afin de vous les proposer',
-            ),
-            ('en', 'One moment, we are looking'),
-            ('de', 'Einen Moment'),
-        ]:
-            with patch(
-                'eures_beta.occupations.pilot_views.suggestions',
-                return_value=[{'uri': self.uri, 'label': 'Fictional <occupation>'}],
-            ):
-                page = self.client.get(self.url, {'q': 'test', 'lang': lang})
-            self.assertContains(page, phrase)
-            self.assertContains(page, 'Fictional &lt;occupation&gt;')
-            self.assertContains(page, 'role="status"')
-        self.ask.assert_not_called()
 
 
 @override_settings(

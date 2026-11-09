@@ -11,7 +11,6 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
     def test_business_features_start_enabled_without_environment_exclusions(self):
         flags = [
             'ALBERT_IMPORT_ENABLED',
-            'SKILLS_PILOT_ENABLED',
             'SKILLS_ALBERT_ENABLED',
             'CONTINUOUS_SKILLS_ENABLED',
         ]
