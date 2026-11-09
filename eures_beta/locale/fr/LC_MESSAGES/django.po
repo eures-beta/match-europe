@@ -8065,3 +8065,11 @@ msgstr "Le lien est valable une heure. Confirmez votre email pour enregistrer un
 #: eures_beta/candidates/templates/candidates/registration.html
 msgid "Confirm my email"
 msgstr "Confirmer mon email"
+
+#: eures_beta/templates/users/login.html
+msgid "Candidates, employers and advisers: sign in here with your email address."
+msgstr "Candidats, employeurs et conseillers : connectez-vous ici avec votre adresse email."
+
+#: eures_beta/templates/users/login.html
+msgid "Note for employer accounts"
+msgstr "À noter pour les comptes employeurs"
