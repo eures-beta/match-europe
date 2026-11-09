@@ -1269,3 +1269,10 @@ Après intégration aux formulaires candidat et employeur (#158), les routes
 de maintenance et le service de suggestions restent utilisés par les vrais
 parcours. Aucun modèle, migration ou réponse durable n’est supprimé. Les
 anciens brouillons de session ne sont plus lus ; aucune purge SQL ajoutée.
+
+
+## Séparation métiers et compétences — 9 novembre 2026
+
+Les métiers et recherches restent dans occupations ; catalogues de compétences,
+suggestions et composant intégré vivent dans [skills](https://github.com/eures-beta/match-europe/tree/codex/extract-skills-app/eures_beta/skills). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
+la table PostgreSQL, les identifiants, les suggestions et les permissions.

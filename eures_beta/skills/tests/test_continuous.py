@@ -5,10 +5,10 @@ from django.test import TestCase, Client, override_settings
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils import timezone
-from eures_beta.occupations import continuous, albert_skills
-from eures_beta.occupations.skills_pilot import catalogue
+from eures_beta.skills import continuous, albert_skills
+from eures_beta.skills.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog, occupation_index
-from eures_beta.occupations.models import OccupationSkillSuggestion
+from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.candidates.journey import KEY, TTL, ProjectForm, ContactForm
 from eures_beta.candidates.tests.test_registration import answers
 from eures_beta.candidates import registration
@@ -115,7 +115,7 @@ class ContinuousTests(TestCase):
             patch.object(
                 albert_skills, 'source_for', return_value=(self.skills, linked)
             ),
-            patch('eures_beta.occupations.albert_skills.build_opener') as network,
+            patch('eures_beta.skills.albert_skills.build_opener') as network,
         ):
             token = self.candidate()
             response = self.api(uri=uri, token=token)

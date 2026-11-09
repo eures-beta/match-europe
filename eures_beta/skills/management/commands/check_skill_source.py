@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from eures_beta.occupations.skill_source import load_source, VERSION
+from eures_beta.skills.skill_source import load_source, VERSION
 
 
 class Command(BaseCommand):

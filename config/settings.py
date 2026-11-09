@@ -97,6 +97,7 @@ AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'eures_beta.occupations',
+    'eures_beta.skills',
     'eures_beta.users.apps.UsersConfig',
     'eures_beta.users.admin_config.VersionedPermissionsAdminConfig',
     'django.contrib.auth',

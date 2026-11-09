@@ -213,7 +213,7 @@ def answer_groups(answers, language):
                     if (row := resolve_reference(item, language))
                 )
             elif name == 'occupation_skills':
-                from eures_beta.occupations.continuous import summary as skills_summary
+                from eures_beta.skills.continuous import summary as skills_summary
 
                 value = skills_summary(value, language)
             elif name == 'language_skills':

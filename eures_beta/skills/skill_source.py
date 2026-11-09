@@ -9,7 +9,7 @@ from pathlib import Path
 import zipfile
 
 from django.conf import settings
-from .catalog import occupation_index
+from eures_beta.occupations.catalog import occupation_index
 from .tools.audit_skills_pilot import PINNED
 
 VERSION = (

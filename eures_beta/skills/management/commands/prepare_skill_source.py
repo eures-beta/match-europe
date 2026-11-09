@@ -7,9 +7,9 @@ import tempfile
 from urllib.request import urlopen
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-from eures_beta.occupations.skill_source import load_source, prepare_occupation_files
-from eures_beta.occupations.skills_pilot import DATA
-from eures_beta.occupations.tools.audit_skills_pilot import PINNED
+from eures_beta.skills.skill_source import load_source, prepare_occupation_files
+from eures_beta.skills.skills_pilot import DATA
+from eures_beta.skills.tools.audit_skills_pilot import PINNED
 
 
 class Command(BaseCommand):

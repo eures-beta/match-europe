@@ -5,13 +5,13 @@ from tempfile import TemporaryDirectory
 from unittest.mock import MagicMock, patch
 from django.core.management import call_command, CommandError
 from django.test import SimpleTestCase, override_settings
-from eures_beta.occupations.skill_source import (
+from eures_beta.skills.skill_source import (
     prepare_occupation_files,
     source_for,
     VERSION,
 )
 
-MODULE = 'eures_beta.occupations.management.commands.prepare_skill_source.'
+MODULE = 'eures_beta.skills.management.commands.prepare_skill_source.'
 
 
 class SourcePreparationTests(SimpleTestCase):
@@ -25,10 +25,10 @@ class SourcePreparationTests(SimpleTestCase):
             TemporaryDirectory() as directory,
             override_settings(SKILLS_ALBERT_SOURCE_DIR=directory),
             patch(
-                'eures_beta.occupations.skill_source.occupation_index',
+                'eures_beta.skills.skill_source.occupation_index',
                 return_value={uri: {}},
             ),
-            patch('eures_beta.occupations.skill_source.load_source') as full_source,
+            patch('eures_beta.skills.skill_source.load_source') as full_source,
         ):
             prepare_occupation_files(directory, skills, {uri: {'one': 'essential'}})
             selected, linked = source_for(uri)

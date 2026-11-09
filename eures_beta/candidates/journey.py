@@ -16,7 +16,7 @@ from .schedule_rules import DERIVED, suggested_conditions, inconsistent_conditio
 from .language_choices import LanguageSkillsField, upgrade_language_answers
 from .occupation_choices import resolve_reference, search_occupations
 from . import skill_choices
-from eures_beta.occupations.continuous import trial_request as continuous_trial_request
+from eures_beta.skills.continuous import trial_request as continuous_trial_request
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
 
@@ -181,7 +181,7 @@ class ProjectForm(GuidedForm):
                 _('Select an ESCO or ROME occupation, or enter your own job title.'),
             )
         skill_choices.clean_selection(self, data, partial=self.partial)
-        from eures_beta.occupations.continuous import validated_selection
+        from eures_beta.skills.continuous import validated_selection
 
         if data.get('project_mode') == 'open':
             data['occupation_skills'] = {}
@@ -805,7 +805,7 @@ def workflow(request, language):
                         if (row := resolve_reference(item, language))
                     )
                 elif name == 'occupation_skills':
-                    from eures_beta.occupations.continuous import (
+                    from eures_beta.skills.continuous import (
                         summary as skills_summary,
                     )
 

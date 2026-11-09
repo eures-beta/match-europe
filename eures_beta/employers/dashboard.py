@@ -7,7 +7,7 @@ from .employer_ownership import accessible_imports
 
 
 def employer_dashboard(request):
-    from eures_beta.occupations.continuous import trial_request
+    from eures_beta.skills.continuous import trial_request
 
     # Never include browser-only anonymous drafts in an authenticated account list.
     offers = (

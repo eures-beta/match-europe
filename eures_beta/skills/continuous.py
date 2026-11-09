@@ -3,7 +3,7 @@
 from zipfile import BadZipFile
 from django.conf import settings
 from . import albert_skills
-from .catalog import occupation_index
+from eures_beta.occupations.catalog import occupation_index
 from .skill_source import source_for
 from .skills_pilot import catalogue
 

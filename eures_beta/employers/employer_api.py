@@ -122,7 +122,7 @@ def _employer_page(request, path):
             from .offer_structuring import enabled as albert_enabled
 
             context = {'signed_in': authenticated, 'albert_import': albert_enabled()}
-            from eures_beta.occupations.continuous import trial_request
+            from eures_beta.skills.continuous import trial_request
 
             context['continuous_skills'] = trial_request(request)
             if context['continuous_skills']:
@@ -534,7 +534,7 @@ def clean_data(raw):
             raise ImportFailure('invalid_data') from None
     clar = raw.get('clarifications', {})
     if 'occupationSkills' in raw:
-        from eures_beta.occupations.continuous import validated_selection
+        from eures_beta.skills.continuous import validated_selection
 
         try:
             out['occupationSkills'] = validated_selection(

@@ -13,7 +13,7 @@ from io import StringIO
 
 from eures_beta.users.models import User, EmployerInvitation, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
-from eures_beta.occupations.models import OccupationSkillSuggestion
+from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (
     EmployerProfile,
     Company,

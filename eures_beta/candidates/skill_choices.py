@@ -11,7 +11,7 @@ from pathlib import Path
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from eures_beta.occupations.skills_pilot import catalogue
+from eures_beta.skills.skills_pilot import catalogue
 
 VERSION = 'esco-1.2.1-match-europe-50-v1'
 FIELDS = ('acquired_skills', 'learning_activities', 'professional_behaviours')

@@ -261,7 +261,7 @@
   {% if step == 1 %}
     {% include "employer/occupation_strings.html" %}
     <script src="/static/candidate/skill-selection.js" defer></script>
-    {% if continuous_skills %}<script src="/static/occupations/continuous.js" defer></script>{% endif %}
+    {% if continuous_skills %}<script src="/static/skills/continuous.js" defer></script>{% endif %}
     {{ reference_rows|json_script:"candidate-reference-rows" }}
   {% endif %}
   {% if step == 2 or step == 4 %}
