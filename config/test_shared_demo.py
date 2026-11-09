@@ -11,7 +11,7 @@ from eures_beta.employers.offer_ingestion import ImportFailure
 
 @override_settings(SHARED_DEMO=True, DEMO_MODE=True)
 class SharedDemoTests(TestCase):
-    def test_remote_https_can_open_page_but_http_is_not_enabled(self):
+    def test_remote_page_and_api_keep_account_guards(self):
         response = self.client.get(
             "/employer/pages/import-v2-fr.html",
             secure=True,
@@ -21,7 +21,7 @@ class SharedDemoTests(TestCase):
         self.assertTemplateUsed(response, 'employer/import_access.html')
         self.assertEqual(
             self.client.get("/api/imports/", REMOTE_ADDR="192.0.2.42").status_code,
-            404,
+            403,
         )
 
     def test_shared_push_diagnostic_stays_disabled_even_on_loopback(self):

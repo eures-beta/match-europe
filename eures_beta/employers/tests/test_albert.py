@@ -119,12 +119,21 @@ class ValidationTests(SimpleTestCase):
             structure(SOURCE)
         opener.assert_not_called()
 
-    @override_settings(**{**ENABLED, 'DJANGO_ENVIRONMENT': 'production'})
+    @override_settings(**ENABLED)
     @patch('eures_beta.employers.albert.build_opener')
-    def test_production_never_calls_network(self, opener):
-        with self.assertRaises(ImportFailure):
-            structure(SOURCE)
-        opener.assert_not_called()
+    def test_all_environments_call_albert_even_with_email_enabled(self, opener):
+        opener.return_value.open.side_effect = TimeoutError()
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment,
+                    EMAIL_DELIVERY_ENABLED=True,
+                ),
+            ):
+                opener.reset_mock()
+                self.assertEqual(prepare(SOURCE)['extraction'], 'albert_fallback')
+                opener.assert_called_once()
 
     def test_redirects_never_forward_credentials(self):
         self.assertIsNone(
@@ -139,14 +148,33 @@ class ValidationTests(SimpleTestCase):
         self.assertEqual(rome_suggestions('I1304', 'ascenseurs')[0]['code'], 'I1304')
 
 
-@override_settings(**ENABLED, DEMO_MODE=True, SHARED_DEMO=False)
-@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
+@override_settings(**ENABLED, DEMO_MODE=False, SHARED_DEMO=False)
 class EndpointTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             email='employer@example.invalid', kind='employer'
         )
         self.client.force_login(self.user)
+
+    def test_import_is_available_outside_demo_in_all_environments(self):
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment,
+                    EMAIL_DELIVERY_ENABLED=True,
+                ),
+            ):
+                response = self.client.get(
+                    '/employer/pages/import-fr.html', REMOTE_ADDR='192.0.2.1'
+                )
+                self.assertContains(response, 'id="file-form"')
+                self.assertEqual(
+                    self.client.get(
+                        '/api/imports/', REMOTE_ADDR='192.0.2.1'
+                    ).status_code,
+                    200,
+                )
 
     @patch(
         'eures_beta.employers.albert.structure',

@@ -1,3 +1,7 @@
+## 9 novembre 2026 — correction de la parité des environnements
+
+La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.
+
 ## 9 novembre 2026 — profil du compte employeur (#133)
 
 À la demande de dejafait, `EmployerResponsePractice` devient `EmployerProfile`,

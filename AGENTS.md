@@ -197,12 +197,12 @@ These files are shared written context, not automatic access to every chat trans
 
 ---
 
-## Repository scope — standalone prototype
+## Repository scope — application livrable
 
-This repository contains the local Match Europe Django/PostgreSQL/Bootstrap prototype.
+This repository contains the Match Europe Django/PostgreSQL/Bootstrap application.
 The historical Flask/Grist application stays in `eures-beta/eures-beta` and is not migrated here.
 Employer pages use Django templates and gettext catalogues; browser styles live in `eures_beta/static/employer/`.
-This prototype is shared for discussion and preservation; it must not be deployed as is.
+Les fonctionnalités livrées sont destinées à tous les environnements, y compris la production après fusion et déploiement.
 Do not merge or deploy without separate explicit authorisation. Preserve `main` and work on branches.
 Use fictional data for tests. Keep databases, sessions, keys, uploads and private FT procedures outside Git.
 Local test integrations are opt-in; automated tests mock external requests.
@@ -831,3 +831,13 @@ The five permanent quality pillars for every user-facing feature are:
 - Local et recettes jetables n’envoient jamais d’e-mail réel. Ne jamais y définir
   `DJANGO_ENVIRONMENT=production`. L’activation et les secrets SMTP sont réservés
   à la production ; les tests emploient des transports simulés.
+
+
+## Parité fonctionnelle des environnements
+
+- Une fonctionnalité métier livrée fonctionne en local, en recette jetable et en production. Ne pas la conditionner au nom de l’environnement, au mode démo, à une adresse loopback, à une adresse fictive ou à la désactivation des e-mails.
+- Les fonctionnalités sont actives par défaut. Les secrets, origines de confiance et connexions aux services restent configurables ; leur absence doit produire un état explicite ou un repli prévu, pas une simulation silencieuse.
+- Les simulations et outils de peuplement fictif restent des outils de test explicitement activés et isolés. Ils ne constituent jamais une condition d’accès au parcours métier.
+- Conserver les contrôles de rôle, de propriété, d’équipe, de consentement, de CSRF et de validation des entrées. Tester les mêmes opérations autorisées et interdites dans les trois environnements.
+- L’absence d’autorisation de fusionner ou de déployer concerne les actions de l’agent ; elle ne justifie pas un verrou fonctionnel dans le code.
+- Une exception fonctionnelle doit être demandée explicitement par l’utilisateur et documentée ; ne pas prolonger les anciennes limites de prototype dans les nouveaux lots.

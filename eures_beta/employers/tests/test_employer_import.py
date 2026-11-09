@@ -714,10 +714,10 @@ class ImportFlowTests(TestCase):
         self.assertEqual([c.args[0] for c in api.call_args_list], ['POST', 'GET'])
         self.assertFalse(api.call_args_list[0].args[2]['jobPostings'][0]['active'])
 
-    def test_remote_client_and_missing_csrf_rejected(self):
+    def test_remote_authenticated_client_allowed_and_missing_csrf_rejected(self):
         self.assertEqual(
             self.client.get('/api/imports/', REMOTE_ADDR='192.0.2.1').status_code,
-            404,
+            200,
         )
         self.assertEqual(
             Client(enforce_csrf_checks=True).post('/api/imports/', {}).status_code,
