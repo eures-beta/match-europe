@@ -1,3 +1,7 @@
+## Mise à jour — 9 novembre 2026
+
+Les confirmations candidat fonctionnent dans tous les environnements, à distance et avec des adresses ordinaires. L’accès reste réservé au candidat propriétaire d’une demande rattachée à une équipe active avec ses affectations ; la révocation ferme cet accès. Les réponses et l’accord de transmission restent distincts, explicites, révocables et protégés contre les pages périmées. Les anciennes restrictions locales ci-dessous sont remplacées.
+
 # Confirmations candidat par offre — recette locale
 
 ## Corrections après recette du 8 novembre 2026
