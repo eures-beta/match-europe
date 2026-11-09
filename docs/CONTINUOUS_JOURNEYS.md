@@ -25,9 +25,10 @@ et lors de sa modification, avec libellés officiels FR/EN/DE.
 
 ## Données et validation
 
-Migration additive `candidates.0005_candidateprofile_occupation_skills` : champ
+Migration additive `candidates.0006_candidateprofile_occupation_skills`, après
+les compétences du profil et la vérification email préalable : champ
 JSON dédié `occupation_skills`, vide pour les anciens profils. Même validation
-dans le questionnaire, la demande temporaire et le modèle durable. Chaque clé
+dans le questionnaire, l’enregistrement après relecture et le modèle durable. Chaque clé
 est un métier sélectionné ; compétences et savoir-être sont vérifiés côté serveur
 contre les fiches ou les relations officielles ESCO, sans appel réseau lors de
 la validation. URI, doublons et plafonds sont contrôlés. Le serveur fixe la version.
@@ -41,8 +42,9 @@ un autre métier. Les droits par propriétaire/établissement et la révision re
 contrôlés par les vues existantes. Administration candidat toujours limitée aux
 métadonnées ; références de #157 toujours en lecture seule.
 
-Les durées de brouillon, demande temporaire et profil restent celles du parcours
-existant ; cette migration n’ajoute pas de purge automatique. Les suggestions de
+Le brouillon conserve les deux heures d’inactivité du parcours courant, le lien
+de vérification une heure et le profil la durée de la notice existante ; cette
+migration n’ajoute pas de purge automatique. Les suggestions de
 référence publiques restent distinctes des déclarations individuelles.
 
 ## Protections de la recette
@@ -50,8 +52,8 @@ référence publiques restent distinctes des déclarations individuelles.
 `CONTINUOUS_SKILLS_ENABLED=0` par défaut. Activation autorisée en local ou preview, sans e-mail réel. Le POST
 `/api/occupation-skills/` exige le loopback réel en local, ou HTTPS et le mode
 partagé explicite en preview,
-protégé contre CSRF ; employeur authentifié ou brouillon candidat actif avec
-son jeton de session. Les résultats ne sont pas accessibles aux autres rôles.
+protégé contre CSRF ; employeur authentifié ou candidat actif connecté avec
+son propre brouillon et son jeton de session. Les résultats ne sont pas accessibles aux autres rôles.
 Échec ou expiration : message explicite et nouvel essai possible, pas de choix
 inventé ni d’effacement du brouillon. Réponses navigateur périmées ignorées.
 
@@ -63,7 +65,8 @@ Le composant le signale. Aucun coût Albert ni e-mail réel.
 
 La confirmation candidat locale est privée à la session qui vient de préparer
 la demande, uniquement pour une adresse `.invalid`, en local ou recette HTTPS explicitement activée. Un POST explicite simule
-la réception, puis le POST de confirmation habituel crée le profil. Aucun lien
+la réception, puis le POST de confirmation habituel active le compte, avant le
+questionnaire. Le profil n’est créé qu’après sa relecture et validation. Aucun lien
 secret n’est affiché, aucun accès à une boîte commune et aucun contournement
 de vérification d’adresse réelle. En preview elle exige le mode partagé HTTPS ; elle reste interdite en production.
 
@@ -89,10 +92,10 @@ conditions, le profil, la mobilité et la relecture. Enregistrer le contact et l
 pratiques de réponse. Rouvrir l’offre depuis le tableau de bord et vérifier la
 conservation des choix. Tester une fiche parmi les 50 et un métier hors fiches.
 
-Candidat : depuis l’accueil, choisir le questionnaire, chercher un métier ESCO
-(exemple hors fiches : photographe), sélectionner ses compétences, poursuivre
-mobilité/conditions/relecture puis indiquer une adresse `.invalid`. Utiliser
-la simulation privée de réception et confirmer l’enregistrement. Vérifier le
+Candidat : depuis l’accueil, indiquer une adresse `.invalid`, utiliser la
+simulation privée de réception et confirmer l’email. Dans le questionnaire,
+chercher un métier ESCO (exemple hors fiches : photographe), sélectionner ses
+compétences, poursuivre mobilité/conditions/relecture et enregistrer. Vérifier le
 profil et la modification. Le mode sans métier reste disponible séparément
 dans le même questionnaire. Tous les essais utilisent des réponses fictives.
 

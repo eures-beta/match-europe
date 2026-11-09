@@ -59,7 +59,7 @@ def local_confirmation(request):
     if not pending or not pending.email.endswith('.invalid'):
         raise Http404
     request.session['candidate_confirmation_token'] = token
-    request.session['login_language'] = pending.language
+    request.session['login_language'] = pending.candidate_verification_language
     return redirect('candidate_registration_confirm')
 
 

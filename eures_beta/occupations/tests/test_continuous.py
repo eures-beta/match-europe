@@ -9,7 +9,7 @@ from eures_beta.occupations import continuous, albert_skills
 from eures_beta.occupations.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog, occupation_index
 from eures_beta.occupations.models import OccupationSkillSuggestion
-from eures_beta.candidates.journey import KEY, ProjectForm, ContactForm
+from eures_beta.candidates.journey import KEY, TTL, ProjectForm, ContactForm
 from eures_beta.candidates.tests.test_registration import answers
 from eures_beta.candidates import registration
 from eures_beta.candidates.models import CandidateProfile
@@ -68,6 +68,10 @@ class ContinuousTests(TestCase):
         )
 
     def candidate(self):
+        user, _ = User.objects.get_or_create(
+            email='journey@example.invalid', defaults={'kind': User.Kind.CANDIDATE}
+        )
+        self.client.force_login(user)
         self.client.get('/candidate/prepare/?lang=fr')
         return self.client.session[KEY]['token']
 
@@ -136,7 +140,7 @@ class ContinuousTests(TestCase):
         )
         session = self.client.session
         draft = session[KEY]
-        draft['touched_at'] = time() - 1900
+        draft['touched_at'] = time() - TTL - 1
         session[KEY] = draft
         session.save()
         self.assertEqual(self.api(token=token).status_code, 403)
@@ -205,24 +209,24 @@ class ContinuousTests(TestCase):
             continuous.validated_selection(self.values, [])
 
     def project(self):
-        return answers(
+        data = answers()
+        data.update(
             occupation_references=['esco:' + self.uri], occupation_skills=self.values
         )
+        return data
 
     def test_candidate_registration_edit_and_profile_preserve_ids_and_labels(self):
         for lang in ('fr', 'en', 'de'):
             data = self.project()
             pending = registration.create_request(
-                'candidate-' + lang + '@example.invalid', data, lang
-            )
-            self.assertEqual(
-                pending.answers['occupation_skills'][self.uri]['skills'],
-                self.values[self.uri]['skills'],
+                'candidate-' + lang + '@example.invalid', lang
             )
             user = registration.confirm_registration(registration.token_for(pending))
+            self.assertFalse(CandidateProfile.objects.filter(user=user).exists())
+            registration.update_profile(user, data, lang)
             self.assertEqual(
                 user.candidate_profile.occupation_skills,
-                pending.answers['occupation_skills'],
+                continuous.validated_selection(self.values, [self.uri]),
             )
             self.client.force_login(user)
             page = self.client.get('/candidate/profile/?lang=' + lang)
@@ -353,9 +357,7 @@ class ContinuousTests(TestCase):
             clean_data(data)
 
     def test_private_simulation_requires_same_session_fictional_address_and_post(self):
-        pending = registration.create_request(
-            'test@example.invalid', self.project(), 'fr'
-        )
+        pending = registration.create_request('test@example.invalid', 'fr')
         token = registration.token_for(pending)
         session = self.client.session
         session['candidate_local_preview_token'] = token
@@ -370,6 +372,10 @@ class ContinuousTests(TestCase):
         self.assertEqual(
             self.client.post(reverse('candidate_registration_confirm')).status_code, 302
         )
+        self.assertFalse(CandidateProfile.objects.exists())
+        pending.refresh_from_db()
+        self.assertTrue(pending.is_active)
+        registration.update_profile(pending, self.project(), 'fr')
         self.assertTrue(CandidateProfile.objects.exists())
         self.assertEqual(self.client.post(route).status_code, 404)
         form = ContactForm(
@@ -380,6 +386,33 @@ class ContinuousTests(TestCase):
             }
         )
         self.assertFalse(form.is_valid())
+
+    def test_email_first_trial_prepares_confirmation_in_requesting_session(self):
+        response = self.client.post(
+            reverse('candidate_start'), {'email': 'new@example.invalid'}
+        )
+        self.assertEqual(response.status_code, 302)
+        token = self.client.session['candidate_local_preview_token']
+        user = registration.find_registration(token)
+        self.assertEqual(user.email, 'new@example.invalid')
+        self.assertFalse(user.is_active)
+        self.assertFalse(CandidateProfile.objects.exists())
+        self.assertContains(
+            self.client.get(response.url, {'lang': 'en'}),
+            'Simulate receiving my confirmation',
+        )
+        self.client.post(reverse('candidate_start'), {'email': 'other@example.org'})
+        self.assertNotIn('candidate_local_preview_token', self.client.session)
+        self.assertFalse(User.objects.filter(email='other@example.org').exists())
+
+    def test_candidate_suggestions_reject_a_draft_owned_by_another_account(self):
+        token = self.candidate()
+        session = self.client.session
+        draft = session[KEY]
+        draft['owner_id'] = -1
+        session[KEY] = draft
+        session.save()
+        self.assertEqual(self.api(token=token).status_code, 403)
 
     @override_settings(ALBERT_IMPORT_ENABLED=True)
     @patch('eures_beta.employers.albert.build_opener')

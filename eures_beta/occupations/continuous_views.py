@@ -39,7 +39,11 @@ def suggestions(request):
         draft = request.session.get(KEY, {})
         token = payload.get('token', '')
         if (
-            not draft
+            not request.user.is_authenticated
+            or not request.user.is_active
+            or request.user.kind != 'candidate'
+            or not draft
+            or draft.get('owner_id') != request.user.pk
             or time.time() - draft.get('touched_at', 0) > TTL
             or not isinstance(token, str)
             or not secrets.compare_digest(token, draft.get('token', ''))
