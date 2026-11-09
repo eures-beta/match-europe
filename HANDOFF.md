@@ -1260,3 +1260,12 @@ Le parcours couvre les 50 métiers, deux rôles et trois langues (300 combinaiso
 Contrôles Django et absence de migration nouvelle vérifiés.
 La liste proposée est dans `docs/SKILLS_CATALOGUE_50.md`. Aucun push, fusion,
 déploiement ou appel Albert ; aucune nouvelle recette navigateur revendiquée.
+
+
+## Retrait du parcours autonome — 9 novembre 2026
+
+Après intégration aux formulaires candidat et employeur (#158), les routes
+`/skills-pilot/` et leurs écrans sont supprimés. Les catalogues, leurs outils
+de maintenance et le service de suggestions restent utilisés par les vrais
+parcours. Aucun modèle, migration ou réponse durable n’est supprimé. Les
+anciens brouillons de session ne sont plus lus ; aucune purge SQL ajoutée.

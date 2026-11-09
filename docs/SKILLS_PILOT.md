@@ -116,3 +116,12 @@ retour à la modification, conservation FR/EN/DE, changement de métier et sépa
 des rôles. Tester au clavier et sur petit écran. Eric a validé le parcours local à un métier et autorisé sa publication en PR
 le 6 novembre 2026. Le multi-métiers candidat reste hors périmètre. Aucune
 fusion ni aucun déploiement.
+
+
+## Retrait du parcours autonome — 9 novembre 2026
+
+Après intégration aux formulaires candidat et employeur (#158), les routes
+`/skills-pilot/` et leurs écrans sont supprimés. Les catalogues, leurs outils
+de maintenance et le service de suggestions restent utilisés par les vrais
+parcours. Aucun modèle, migration ou réponse durable n’est supprimé. Les
+anciens brouillons de session ne sont plus lus ; aucune purge SQL ajoutée.

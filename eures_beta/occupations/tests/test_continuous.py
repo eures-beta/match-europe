@@ -23,7 +23,6 @@ from eures_beta.employers.models import JobOffer, Company, CompanyMembership
     CONTINUOUS_SKILLS_ENABLED=True,
     SKILLS_ALBERT_ENABLED=True,
     SKILLS_ALBERT_SIMULATED=True,
-    SKILLS_PILOT_ENABLED=False,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     DEMO_MODE=False,

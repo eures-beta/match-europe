@@ -14,3 +14,12 @@ compétence aux personnes et ne calcule pas de matching.
 - [__init__.py](__init__.py) : déclaration du paquet Python.
 
 Voir la [procédure de maintenance](../../docs/OCCUPATION_CATALOG_MAINTENANCE.md).
+
+
+## Retrait du parcours autonome — 9 novembre 2026
+
+Après intégration aux formulaires candidat et employeur (#158), les routes
+`/skills-pilot/` et leurs écrans sont supprimés. Les catalogues, leurs outils
+de maintenance et le service de suggestions restent utilisés par les vrais
+parcours. Aucun modèle, migration ou réponse durable n’est supprimé. Les
+anciens brouillons de session ne sont plus lus ; aucune purge SQL ajoutée.
