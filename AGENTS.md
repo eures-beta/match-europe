@@ -828,9 +828,7 @@ The five permanent quality pillars for every user-facing feature are:
 
 - Tous les e-mails applicatifs passent par le backend Django protégé ; ne pas
   le contourner avec SMTP direct ou une API de prestataire.
-- Local et recettes jetables n’envoient jamais d’e-mail réel. Ne jamais y définir
-  `DJANGO_ENVIRONMENT=production`. L’activation et les secrets SMTP sont réservés
-  à la production ; les tests emploient des transports simulés.
+- Le même SMTP configuré est disponible dans tous les environnements après activation explicite ; l’envoi reste désactivé par défaut. Les tests emploient des transports simulés.
 
 
 ## Parité fonctionnelle des environnements
