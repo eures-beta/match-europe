@@ -111,7 +111,7 @@ class ResponsePracticeTests(TestCase):
         )
         self.assertEqual(EmployerProfile.objects.get().response_time, 'under_week')
 
-    def test_access_requires_active_employer_and_demo_gate(self):
+    def test_access_requires_active_employer_in_every_environment(self):
         adviser = User.objects.create_user(
             email='adviser@example.invalid', kind='adviser'
         )
@@ -131,9 +131,22 @@ class ResponsePracticeTests(TestCase):
         self.employer.is_active = True
         self.employer.save()
         self.client.force_login(self.employer)
-        with self.settings(DEMO_MODE=False, SHARED_DEMO=False):
-            self.assertEqual(self.save().status_code, 404)
         self.assertFalse(EmployerProfile.objects.exists())
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                self.settings(
+                    DEMO_MODE=False,
+                    SHARED_DEMO=False,
+                    DJANGO_ENVIRONMENT=environment,
+                    EMAIL_DELIVERY_ENABLED=True,
+                ),
+            ):
+                response = self.client.get(self.url, REMOTE_ADDR='192.0.2.1')
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    self.save(revision=response.json()['revision']).status_code, 200
+                )
 
     def test_csrf_and_methods(self):
         client = Client(enforce_csrf_checks=True)
