@@ -70,19 +70,16 @@ class DataProtectionTests(SimpleTestCase):
                 f'href="/privacy/?lang={language}"',
             )
 
-    def test_notice_preserves_candidate_registration_information(self):
+    def test_notice_describes_the_current_session_questionnaire(self):
         response = self.client.get(reverse('privacy'), {'lang': 'en'})
         self.assertContains(
-            response, 'Your email is verified before the questionnaire.'
-        )
-        self.assertContains(
-            response, 'A new account remains inactive until confirmation'
-        )
-        self.assertContains(
             response,
-            'answers are saved in your private profile when you submit the questionnaire.',
+            'confirming it does not create an account or permanently register a profile.',
         )
+        self.assertContains(response, 'expires after 30 minutes without activity.')
         self.assertNotContains(
             response, 'Confirmation creates a candidate account and saves the profile.'
         )
-        self.assertNotContains(response, 'confirming it does not create an account')
+        self.assertNotContains(
+            response, 'Your email is verified before the questionnaire.'
+        )
