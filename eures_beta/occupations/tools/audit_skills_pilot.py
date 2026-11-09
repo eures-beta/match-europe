@@ -28,8 +28,8 @@ def unique_index(rows, key):
 
 
 def audit(data_dir, esco_dir):
-    pilot = json.loads((data_dir / 'skills_pilot.json').read_text())
-    source = json.loads((data_dir / 'skills_pilot_sources.json').read_text())
+    pilot = json.loads((data_dir / 'occupation_skills.json').read_text())
+    source = json.loads((data_dir / 'occupation_skills_sources.json').read_text())
     tables = {}
     for lang in LANGUAGES:
         archive = esco_dir / f'esco-1.2.1-{lang}.zip'

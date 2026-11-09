@@ -46,7 +46,7 @@
     "verification": "Archives ESCO 1.2.1 locales contrôlées contre les SHA-256 épinglés dans la PR #154 ; concepts, traductions et relations vérifiés par comparaison aux CSV. Sélection éditoriale de 50 métiers, sans classement de tension ni correspondance ROME ajoutée.",
     "editorialBoundary": "Les concepts et libellés FR/EN/DE et les relations essential/optional proviennent d’ESCO. Le choix des suggestions, leur ordre et la rubrique savoir-être sont éditoriaux. Une suggestion sans lien métier officiel conserve un relationType nul. Aucun nouveau lien officiel n’est inventé."
   },
-  "sourceCatalogueFile": "skills_pilot_sources.json",
+  "sourceCatalogueFile": "occupation_skills_sources.json",
   "selectionRules": {
     "status": "proposal_to_test",
     "keySkillsMax": 5,

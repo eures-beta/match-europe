@@ -21,7 +21,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         directory = Path(settings.SKILLS_ALBERT_SOURCE_DIR)
         directory.mkdir(parents=True, exist_ok=True)
-        sources = json.loads((DATA / 'skills_pilot_sources.json').read_text())[
+        sources = json.loads((DATA / 'occupation_skills_sources.json').read_text())[
             'metadata'
         ]['sources']
         for language, digest in PINNED.items():
