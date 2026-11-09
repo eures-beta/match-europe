@@ -1,3 +1,7 @@
+## 9 novembre 2026 — correction de la parité des environnements
+
+La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.
+
 # Essai local de structuration des offres avec Albert
 
 Périmètre employeur, désactivé par défaut : texte d'un PDF (OCR local si nécessaire)

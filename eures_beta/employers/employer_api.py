@@ -60,9 +60,17 @@ def local_only(view):
     return wrapped
 
 
-@demo_api
+@never_cache
 @ensure_csrf_cookie
 def employer_page(request, path):
+    if path == 'push-test.html':
+        if settings.SHARED_DEMO:
+            raise Http404
+        return demo_api(_employer_page)(request, path)
+    return _employer_page(request, path)
+
+
+def _employer_page(request, path):
     public_pages = (
         'fr.html',
         'en.html',
@@ -71,8 +79,6 @@ def employer_page(request, path):
         'privacy-en.html',
         'privacy-de.html',
     )
-    if getattr(settings, 'SHARED_DEMO', False) and path == 'push-test.html':
-        raise Http404()
     base = settings.APPS_DIR / 'templates' / 'employer'
     template_name = (
         'landing.html' if path in ('fr.html', 'en.html', 'de.html') else path
@@ -165,7 +171,7 @@ def body(request):
     return value
 
 
-@demo_api
+@never_cache
 @employer_required
 def read_source(request):
     if request.method != 'POST':
@@ -264,7 +270,7 @@ def clean_contact(value):
     return form.cleaned_data
 
 
-@demo_api
+@never_cache
 @employer_required
 def imports(request, id=None):
     if request.method == 'GET':

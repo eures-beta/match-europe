@@ -18,11 +18,7 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 def enabled():
-    return (
-        settings.ALBERT_IMPORT_ENABLED
-        and settings.DJANGO_ENVIRONMENT in ('local', 'preview')
-        and not settings.EMAIL_DELIVERY_ENABLED
-    )
+    return bool(settings.ALBERT_IMPORT_ENABLED and settings.ALBERT_API_KEY)
 
 
 PROMPT = """Structure une annonce employeur en JSON uniquement, sans Markdown.

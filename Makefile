@@ -282,3 +282,7 @@ employer-response-run: ## Essayer les réponses employeur sur 9036, sans email r
 
 employer-response-test: ## Vérifier les réponses par compte, droits, conflits et traductions
 	@$(MANAGE) test eures_beta.employers.tests.test_response_practice eures_beta.employers.tests.test_profile_rename --noinput $(TEST_ARGS)
+
+.PHONY: environment-parity-test
+environment-parity-test: ## Vérifier la parité fonctionnelle local, recette et production
+	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert --noinput $(TEST_ARGS)
