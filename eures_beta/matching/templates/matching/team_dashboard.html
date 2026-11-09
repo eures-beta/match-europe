@@ -12,8 +12,10 @@
     <p>{{ request.user.get_full_name }}</p>
     <p>{% translate "Shared team portfolio. Every decision retains its individual author." %}</p>
     <p role="note"
-       class="alert alert-info">{% translate "Fictional data only. No message, notification or introduction is sent." %}</p>
-    <p><a href="{% url 'test_accounts' %}">{% translate "Switch fictional account" %}</a></p>
+       class="alert alert-info">{% translate "No message, notification or introduction is sent automatically." %}</p>
+    {% if test_accounts_enabled %}
+      <p><a href="{% url 'test_accounts' %}">{% translate "Switch fictional account" %}</a></p>
+    {% endif %}
     {% if can_invite %}
       <p><a href="{% url 'matching_team_employers' %}?lang={{ page_language }}">{% translate "Employer accounts and invitations" %}</a></p>
       <p><a href="{% url 'employer_invite' %}">{% translate "Invite an employer" %}</a></p>

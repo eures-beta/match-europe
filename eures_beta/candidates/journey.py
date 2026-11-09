@@ -573,6 +573,9 @@ def workflow(request, language):
         return redirect(f'/candidate/prepare/?step={step}&lang={language}')
 
     draft = request.session.get(KEY)
+    if draft and 'owner_id' in draft and draft['owner_id'] != request.user.pk:
+        request.session.pop(KEY, None)
+        draft = None
     now = time.time()
     last_activity = (draft or {}).get('touched_at', (draft or {}).get('created_at', 0))
     expired = bool(draft and not 0 <= now - last_activity < TTL)

@@ -15,16 +15,23 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
             'CONTINUOUS_SKILLS_ENABLED',
             'MATCHING_LOCAL_ENABLED',
             'MATCHING_TEAMS_ENABLED',
+            'CONFIRMATION_DIALOGUE_ENABLED',
         ]
         for environment in ('local', 'preview', 'production'):
             values = os.environ.copy()
-            for flag in flags:
+            for flag in flags + [
+                'MATCHING_ENABLED',
+                'SKILLS_ALBERT_SIMULATED',
+                'ALBERT_IMPORT_SIMULATED',
+                'CONFIRMATION_DIALOGUE_SIMULATED',
+            ]:
                 values.pop(flag, None)
             values.update(
                 DJANGO_ENVIRONMENT=environment,
                 DJANGO_SECRET_KEY='fictional-parity-settings',
                 EMAIL_DELIVERY_ENABLED='1',
                 TEST_ACCOUNTS_ENABLED='0',
+                ALBERT_API_KEY='fictional-settings-key',
             )
             with self.subTest(environment=environment):
                 result = subprocess.run(

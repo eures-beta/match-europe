@@ -43,7 +43,7 @@ def destination(pair, language):
 
 class ManualForm(forms.Form):
     candidate = forms.ModelChoiceField(label=_('Candidate'), queryset=None)
-    offer = forms.ModelChoiceField(label=_('Fictional offer'), queryset=None)
+    offer = forms.ModelChoiceField(label=_('Job offer'), queryset=None)
 
     def __init__(self, *args, team, **kwargs):
         super().__init__(*args, **kwargs)

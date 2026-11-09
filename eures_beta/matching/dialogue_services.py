@@ -26,7 +26,7 @@ MAX_AGE = 15 * 60
 def enabled():
     return (
         settings.CONFIRMATION_DIALOGUE_SIMULATED
-        or settings.CONFIRMATION_DIALOGUE_ENABLED
+        or (settings.CONFIRMATION_DIALOGUE_ENABLED and bool(settings.ALBERT_API_KEY))
     ) and access.enabled()
 
 

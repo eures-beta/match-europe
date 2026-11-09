@@ -432,9 +432,9 @@ class LocalMatchingTests(TestCase):
 
     def test_translated_pages_show_states_and_not_only_colours(self):
         titles = {
-            'fr': 'Matching local',
-            'en': 'Local matching',
-            'de': 'Lokales Matching',
+            'fr': 'Résultats du matching',
+            'en': 'Matching results',
+            'de': 'Matching-Ergebnisse',
         }
         for language, title in titles.items():
             response = self.client.get(reverse('matching_local'), {'lang': language})

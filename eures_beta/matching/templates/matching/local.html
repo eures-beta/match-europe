@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% translate "Local matching" %} — Match Europe</title>
+    <title>{% translate "Matching results" %} — Match Europe</title>
     <link rel="stylesheet"
           href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'employer/site.css' %}">
@@ -28,7 +28,7 @@
         {% if adviser_mode %}
           {% translate "Team matching" %}
         {% else %}
-          {% translate "Local matching" %}
+          {% translate "Matching results" %}
         {% endif %}
       </h1>
       {% if adviser_mode %}
@@ -37,7 +37,7 @@
         <p><a href="{% url 'test_accounts' %}">{% translate "Switch fictional account" %}</a></p>
       {% endif %}
       <p class="alert alert-info"
-         role="note">{% translate "Fictional data only. No message, notification or introduction is sent." %}</p>
+         role="note">{% translate "No message, notification or introduction is sent automatically." %}</p>
       {% if error %}<p role="alert" class="alert alert-danger">{{ error }}</p>{% endif %}
       {% if form %}
         {% include "matching/results_list.html" %}
@@ -182,7 +182,7 @@
             {% endif %}
             <ul class="mt-3">
               {% for event in decisions %}
-                <li>{{ event.created_at }} · {% if event.value == "retained" %}{% translate "Retained for review" %}{% else %}{% if event.decided_by %}{% translate "Refused by an adviser" %}{% else %}{% translate "Refused by the local operator" %}{% endif %}{% endif %}
+                <li>{{ event.created_at }} · {% if event.value == "retained" %}{% translate "Retained for review" %}{% else %}{% if event.decided_by %}{% translate "Refused by an adviser" %}{% else %}{% translate "Refused by an adviser" %}{% endif %}{% endif %}
                   {% if adviser_mode %}
                     {% if event.decided_by %}· {{ event.decided_by.get_full_name }}{% endif %}
                     {% if event.manual %} · {% translate "Manual proposal" %}{% endif %}

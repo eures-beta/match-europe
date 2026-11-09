@@ -57,5 +57,3 @@ def guard(request):
         )
     ):
         raise PermissionDenied
-    if settings.MATCHING_TEAMS_ENABLED:
-        raise Http404
