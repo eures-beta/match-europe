@@ -15,8 +15,8 @@ Installer les dépendances avec `make install-test` et `make install-js`. Utilis
 une base PostgreSQL distincte et un `.env` personnel ignoré par Git, limité aux
 permissions du propriétaire. `ALBERT_API_KEY` est un secret côté serveur : jamais
 dans les statiques, les réponses JSON, les journaux, les fixtures ou les commits.
-Le secret GitHub ne peut pas être relu pour les essais locaux : utiliser une clé
-de développement distincte et révocable.
+Pour les essais locaux, utiliser une clé de développement distincte et révocable,
+fournie par la configuration privée de l’environnement.
 
 `ALBERT_IMPORT_ENABLED=1` n'est permis qu'en `DJANGO_ENVIRONMENT=local` ou `preview`,
 avec les emails réels désactivés. `ALBERT_MODEL` sélectionne le modèle ; la valeur
