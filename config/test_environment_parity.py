@@ -9,7 +9,11 @@ from django.test import SimpleTestCase
 
 class EnvironmentParitySettingsTests(SimpleTestCase):
     def test_business_features_start_enabled_without_environment_exclusions(self):
-        flags = ['ALBERT_IMPORT_ENABLED', 'SKILLS_PILOT_ENABLED']
+        flags = [
+            'ALBERT_IMPORT_ENABLED',
+            'SKILLS_PILOT_ENABLED',
+            'SKILLS_ALBERT_ENABLED',
+        ]
         for environment in ('local', 'preview', 'production'):
             values = os.environ.copy()
             for flag in flags:

@@ -1,4 +1,4 @@
-"""Local opt-in shortlist with a bounded call and a shared, leased DB cache."""
+"""Verified shortlist with a bounded call and a shared, leased DB cache."""
 
 from datetime import timedelta
 import json
@@ -24,11 +24,10 @@ class SuggestionUnavailable(Exception):
 
 
 def enabled():
-    return (
+    return bool(
         settings.SKILLS_ALBERT_ENABLED
         and settings.SKILLS_PILOT_ENABLED
-        and settings.DJANGO_ENVIRONMENT == 'local'
-        and not settings.EMAIL_DELIVERY_ENABLED
+        and (settings.SKILLS_ALBERT_SIMULATED or settings.ALBERT_API_KEY)
     )
 
 

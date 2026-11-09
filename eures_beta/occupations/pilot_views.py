@@ -3,6 +3,7 @@
 from time import time
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -94,6 +95,12 @@ def _journey(request, role, lang):
             selected = request.POST.get('occupation')
             selected_card = cards.get(selected)
             if action == 'resolve' and albert_skills.enabled() and not selected_card:
+                if not (
+                    request.user.is_authenticated
+                    and request.user.is_active
+                    and request.user.kind == role
+                ):
+                    raise PermissionDenied
                 try:
                     selected_card = albert_skills.resolve(selected, generate=True)
                 except albert_skills.SuggestionUnavailable:
