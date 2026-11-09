@@ -1083,9 +1083,10 @@ absent de cette branche. Les tests de notice ont reproduit l'import manquant
 avant suppression de ce couplage ; le texte reste celui du questionnaire en
 session sans création de compte. Le code et la branche #132 ne sont pas modifiés.
 
-## 6 novembre 2026 — notice rebasée sur l’inscription candidat
+## 9 novembre 2026 — notice #149 isolée sur main
 
-La pile inclut désormais l’ouverture du parcours candidat de #132. La suppression
-du module de textes conserve la notice actualisée : confirmation email puis
-compte et profil. Elle ne rétablit pas l’ancien texte limité aux données fictives.
-Un test de régression couvre cette information ; aucun droit ni stockage changé.
+À la demande de dejafait, la PR #149 est extraite de la pile pour une livraison
+indépendante. Les textes gettext conservent le comportement de main : questionnaire
+en session, sans création de compte candidat, et expiration après 30 minutes.
+Les parcours des PR #132 et #164 ne sont pas embarqués. Aucun modèle ni migration
+modifié ; les six durées et les traductions existantes sont conservées.
