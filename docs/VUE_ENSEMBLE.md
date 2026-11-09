@@ -1,3 +1,12 @@
+## 9 novembre 2026 — profil du compte employeur (#133)
+
+À la demande de dejafait, `EmployerResponsePractice` devient `EmployerProfile`,
+avec le champ `user` et l'accès inverse `user.employer_profile`, en parallèle de
+`CandidateProfile`. Il décrit le compte personnel, pas l'entreprise. Relation
+zéro ou un profil par compte, créée lors des premières réponses ; aucune création
+automatique. Migration de renommage réversible, sans perte des réponses existantes.
+Les questions, l'API, les droits et les règles de validation restent inchangés.
+
 # EURES beta / Match Europe — vue d’ensemble
 
 ## 5 novembre 2026 — réponses habituelles des employeurs

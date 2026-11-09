@@ -162,13 +162,13 @@ class EmployerSearchEvent(models.Model):
         db_table = 'journeys_employersearchevent'
 
 
-class EmployerResponsePractice(models.Model):
-    """Current declared practice of one employer account, independent of colleagues."""
+class EmployerProfile(models.Model):
+    """Personal employer account profile, independent of the company and colleagues."""
 
-    employer = models.OneToOneField(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        related_name='response_practice',
+        related_name='employer_profile',
         limit_choices_to={'kind': 'employer'},
     )
     response_coverage = models.CharField(
@@ -187,14 +187,14 @@ class EmployerResponsePractice(models.Model):
 
     def clean(self):
         super().clean()
-        if self.employer_id and self.employer.kind != 'employer':
+        if self.user_id and self.user.kind != 'employer':
             from django.core.exceptions import ValidationError
 
-            raise ValidationError({'employer': _('An employer account is required.')})
+            raise ValidationError({'user': _('An employer account is required.')})
 
     class Meta:
-        verbose_name = _('Employer response practice')
-        verbose_name_plural = _('Employer response practices')
+        verbose_name = _('Employer profile')
+        verbose_name_plural = _('Employer profiles')
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(response_coverage__in=['all', 'selected', 'varies']),

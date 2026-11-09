@@ -14,7 +14,7 @@ from io import StringIO
 from eures_beta.users.models import User, EmployerInvitation, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.employers.models import (
-    EmployerResponsePractice,
+    EmployerProfile,
     Company,
     CompanyMembership,
     JobOffer,
@@ -91,8 +91,8 @@ class ReadOnlyAdminTests(TestCase):
             change_message='never-show-log-payload',
         )
         call_command('sync_group_and_perms', stdout=StringIO())
-        self.response_practice = EmployerResponsePractice.objects.create(
-            employer=self.employer,
+        self.response_practice = EmployerProfile.objects.create(
+            user=self.employer,
             response_coverage='all',
             response_time='under_week',
         )

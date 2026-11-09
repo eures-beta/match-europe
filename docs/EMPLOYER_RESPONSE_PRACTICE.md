@@ -18,13 +18,20 @@ préremplis ; « Annuler » restaure les valeurs enregistrées.
 
 ## Stockage et droits
 
-Migration additive `employers.0004_employerresponsepractice` : nouvelle table
-`employers_employerresponsepractice`, modèle `EmployerResponsePractice`, relation
-unique vers `users.User`. Colonnes `response_coverage`, `response_time`, `revision`,
-`created`, `updated`. Aucun profil créé pour les comptes existants tant qu'ils n'ont
-pas répondu. Valeurs canoniques contrôlées par PostgreSQL ; les libellés FR/EN/DE
-restent indépendants du stockage. Consultation et filtres dans l'administration
-en lecture seule.
+Le modèle `EmployerProfile` contient les informations personnelles propres au
+compte employeur, distinctes de `Company`. Son champ `user` est une relation
+obligatoire et unique vers `users.User`, accessible par `user.employer_profile`.
+Un compte possède zéro ou un profil ; il n'est créé qu'après les premières
+réponses. Le rôle employeur est vérifié par la validation Django et les vues,
+pas par une contrainte SQL inter-table.
+
+La migration `0004_employerresponsepractice` crée la table initiale ; la migration
+`0005_employer_profile` renomme le modèle, sa table en `employers_employerprofile`
+et la colonne `employer_id` en `user_id`, sans supprimer ni recréer les réponses.
+Elle conserve les identifiants et les rattachements des droits administratifs.
+Champs métier inchangés : `response_coverage`, `response_time`, `revision`,
+`created`, `updated`. Valeurs canoniques contrôlées par PostgreSQL ; libellés
+FR/EN/DE indépendants du stockage. Administration en lecture seule.
 
 API privée `GET/POST /api/employer/response-practice/` : compte employeur actif
 courant uniquement, CSRF conservée. Aucun identifiant de compte soumis ne permet

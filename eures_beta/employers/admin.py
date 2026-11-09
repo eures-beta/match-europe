@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from eures_beta.users.admin_base import ReadOnlyAdmin, json_display, redact
 from .models import (
-    EmployerResponsePractice,
+    EmployerProfile,
     Company,
     CompanyMembership,
     JobOffer,
@@ -106,15 +106,15 @@ class SearchEventAdmin(ReadOnlyAdmin):
     ordering = ('-created',)
 
 
-@admin.register(EmployerResponsePractice)
-class EmployerResponsePracticeAdmin(ReadOnlyAdmin):
+@admin.register(EmployerProfile)
+class EmployerProfileAdmin(ReadOnlyAdmin):
     list_display = (
-        'employer',
+        'user',
         'response_coverage',
         'response_time',
         'revision',
         'updated',
     )
     list_filter = ('response_coverage', 'response_time')
-    list_select_related = ('employer',)
+    list_select_related = ('user',)
     ordering = ('-updated',)

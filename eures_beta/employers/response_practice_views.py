@@ -10,7 +10,7 @@ from eures_beta.demo_access import require_demo_access
 from eures_beta.users.models import User
 from .employer_ownership import identity
 from .import_access import employer_required
-from .models import EmployerResponsePractice
+from .models import EmployerProfile
 from .response_practice import ResponsePracticeForm
 
 
@@ -25,11 +25,7 @@ def serialize(practice):
 
 
 def page_context(person):
-    practice = (
-        EmployerResponsePractice.objects.filter(employer=person).first()
-        if person
-        else None
-    )
+    practice = EmployerProfile.objects.filter(user=person).first() if person else None
     values = serialize(practice)
     return {
         'practice_form': ResponsePracticeForm(initial=values),
@@ -46,7 +42,7 @@ def response_practice(request):
     person = identity(request)
     if request.method == 'GET':
         return JsonResponse(
-            serialize(EmployerResponsePractice.objects.filter(employer=person).first())
+            serialize(EmployerProfile.objects.filter(user=person).first())
         )
     try:
         if len(request.body) > 4096:
@@ -62,11 +58,11 @@ def response_practice(request):
     with transaction.atomic():
         # Lock the existing account even for the first answer, preventing concurrent creates.
         User.objects.select_for_update().get(pk=person.pk)
-        practice = EmployerResponsePractice.objects.filter(employer=person).first()
+        practice = EmployerProfile.objects.filter(user=person).first()
         if payload['revision'] != (practice.revision if practice else 0):
             return JsonResponse({'error': 'conflict'}, status=409)
         if practice is None:
-            practice = EmployerResponsePractice(employer=person)
+            practice = EmployerProfile(user=person)
         else:
             practice.revision += 1
         for name, value in form.cleaned_data.items():
