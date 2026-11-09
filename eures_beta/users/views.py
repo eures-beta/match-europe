@@ -24,7 +24,7 @@ from django.views.decorators.http import require_http_methods, require_POST, req
 from sesame.utils import get_query_string, get_user
 
 from .forms import LoginForm
-from .email_backend import real_email_allowed
+from eures_beta.emails.backend import real_email_allowed
 from .rate_limits import allow_request
 from .login_return import remember, consume, IMPORT_PATHS
 
