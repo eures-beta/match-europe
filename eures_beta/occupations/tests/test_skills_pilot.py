@@ -42,31 +42,30 @@ class SkillsPilotTests(TestCase):
             'other': '',
         }
 
-    def test_disabled_outside_explicit_local_loopback(self):
-        for change in (
-            {'SKILLS_PILOT_ENABLED': False},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'DJANGO_ENVIRONMENT': 'preview'},
-            {'EMAIL_DELIVERY_ENABLED': True},
-        ):
-            with self.subTest(change=change), override_settings(**change):
-                self.assertEqual(self.client.get(self.start).status_code, 404)
+    def test_session_journey_works_remotely_in_all_environments(self):
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment,
+                    EMAIL_DELIVERY_ENABLED=True,
+                ),
+            ):
+                self.assertEqual(
+                    self.client.get(self.start, REMOTE_ADDR='192.0.2.1').status_code,
+                    200,
+                )
                 self.assertEqual(
                     self.client.post(
-                        self.url, {'action': 'occupation', 'occupation': 'restauration'}
+                        self.url,
+                        {'action': 'occupation', 'occupation': 'restauration'},
+                        REMOTE_ADDR='192.0.2.1',
                     ).status_code,
-                    404,
+                    302,
                 )
-        for remote in ('192.0.2.1', 'invalid', ''):
-            self.assertEqual(
-                self.client.get(
-                    self.start, REMOTE_ADDR=remote, HTTP_X_FORWARDED_FOR='127.0.0.1'
-                ).status_code,
-                404,
-            )
-        self.assertEqual(
-            self.client.get(self.start, REMOTE_ADDR='::1').status_code, 200
-        )
+        with override_settings(SKILLS_PILOT_ENABLED=False):
+            self.assertEqual(self.client.get(self.start).status_code, 404)
+        self.assertNotIn(SESSION_KEY, Client().session)
 
     def test_roles_and_methods(self):
         self.assertEqual(self.client.get('/skills-pilot/admin/').status_code, 404)

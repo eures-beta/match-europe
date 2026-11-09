@@ -1,6 +1,5 @@
-"""Opt-in loopback-only prototype; never writes profiles or offers."""
+"""Session-private skills selection; never writes profiles or offers."""
 
-from ipaddress import ip_address
 from time import time
 
 from django.conf import settings
@@ -19,16 +18,7 @@ TTL = 30 * 60
 
 
 def guard(request):
-    try:
-        loopback = ip_address(request.META.get('REMOTE_ADDR', '')).is_loopback
-    except ValueError:
-        loopback = False
-    if not (
-        settings.SKILLS_PILOT_ENABLED
-        and settings.DJANGO_ENVIRONMENT == 'local'
-        and not settings.EMAIL_DELIVERY_ENABLED
-        and loopback
-    ):
+    if not settings.SKILLS_PILOT_ENABLED:
         raise Http404
 
 

@@ -1,3 +1,7 @@
+## Mise à jour — 9 novembre 2026
+
+Le parcours de sélection est actif par défaut et accessible en local, recette et production. Les choix restent privés à la session, avec expiration, validation serveur et CSRF ; ils ne créent pas directement une offre ou un profil. Les anciennes restrictions local/loopback/e-mails décrites ci-dessous sont remplacées par cette décision.
+
 # Sélection de compétences — recette locale sur six métiers
 
 Le pilote se teste dans l’application Django, à `/skills-pilot/?lang=fr`.

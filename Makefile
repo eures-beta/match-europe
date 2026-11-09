@@ -308,4 +308,4 @@ employer-response-test: ## Vérifier les réponses par compte, droits, conflits 
 
 .PHONY: environment-parity-test
 environment-parity-test: ## Vérifier la parité fonctionnelle local, recette et production
-	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert --noinput $(TEST_ARGS)
+	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert eures_beta.occupations.tests.test_skills_pilot --noinput $(TEST_ARGS)
