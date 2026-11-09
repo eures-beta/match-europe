@@ -542,12 +542,6 @@ class ContactForm(forms.Form):
 
     def clean_contact_email(self):
         email = self.cleaned_data['contact_email'].strip().lower()
-        from eures_beta.occupations.continuous import enabled
-
-        if enabled() and not email.endswith('.invalid'):
-            raise forms.ValidationError(
-                _('Use an address ending in .invalid for this local test.')
-            )
         return email
 
 

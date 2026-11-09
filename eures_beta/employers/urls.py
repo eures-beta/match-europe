@@ -45,14 +45,14 @@ urlpatterns = [
         employer_workspace.duplicate,
         name='employer_offer_duplicate',
     ),
-    path('employer/attach/', employer_login.attach, name='employer_attach'),
+    path('employer/attach/', employer_workspace.attach, name='employer_attach'),
     path('employer/email-sent/', employer_login.sent, name='employer_email_sent'),
     path('employer/access/', employer_login.access, name='employer_access'),
     path('employer/test-inbox/', employer_login.inbox, name='employer_test_inbox'),
     path(
         'employer/confirm/<str:token>/', employer_login.confirm, name='employer_confirm'
     ),
-    path('employer/connected/', employer_login.connected, name='employer_connected'),
+    path('employer/connected/', employer_workspace.offers, name='employer_connected'),
     path('employer/logout/', employer_login.sign_out, name='employer_logout'),
     path('api/push-test/<str:action>/', push_test.api),
     path('employer/pages/push-test-sw.js', push_test.worker),

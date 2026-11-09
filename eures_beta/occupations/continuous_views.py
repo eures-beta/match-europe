@@ -42,8 +42,8 @@ def suggestions(request):
             not request.user.is_authenticated
             or not request.user.is_active
             or request.user.kind != 'candidate'
-            or not draft
             or draft.get('owner_id') != request.user.pk
+            or not draft
             or time.time() - draft.get('touched_at', 0) > TTL
             or not isinstance(token, str)
             or not secrets.compare_digest(token, draft.get('token', ''))

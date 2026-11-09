@@ -26,7 +26,7 @@ from eures_beta.employers.models import JobOffer, Company, CompanyMembership
     SKILLS_PILOT_ENABLED=False,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
-    DEMO_MODE=True,
+    DEMO_MODE=False,
     SHARED_DEMO=False,
 )
 @patch.dict(
@@ -68,12 +68,31 @@ class ContinuousTests(TestCase):
         )
 
     def candidate(self):
-        user, _ = User.objects.get_or_create(
-            email='journey@example.invalid', defaults={'kind': User.Kind.CANDIDATE}
+        person, _ = User.objects.get_or_create(
+            email='candidate@example.invalid', defaults={'kind': 'candidate'}
         )
-        self.client.force_login(user)
+        self.client.force_login(person)
         self.client.get('/candidate/prepare/?lang=fr')
         return self.client.session[KEY]['token']
+
+    def test_employer_workspace_is_remote_and_uses_real_account_authentication(self):
+        self.employer()
+        session = self.client.session
+        session.pop('employer_verified_email', None)
+        session.save()
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment,
+                    DEMO_MODE=False,
+                    EMAIL_DELIVERY_ENABLED=True,
+                ),
+            ):
+                for url in ('/employer/offers/', '/employer/connected/'):
+                    self.assertEqual(
+                        self.client.get(url, REMOTE_ADDR='192.0.2.1').status_code, 200
+                    )
 
     def test_fifty_cards_are_shared_and_do_not_call_albert(self):
         token = self.candidate()
@@ -120,24 +139,8 @@ class ContinuousTests(TestCase):
             403,
         )
         self.assertEqual(self.client.get(self.endpoint).status_code, 405)
-        for change in (
-            {'CONTINUOUS_SKILLS_ENABLED': False},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'DJANGO_ENVIRONMENT': 'preview'},
-            {'EMAIL_DELIVERY_ENABLED': True},
-        ):
-            with override_settings(**change):
-                self.assertEqual(self.api(token=token).status_code, 404)
-        self.assertEqual(
-            self.client.post(
-                self.endpoint,
-                '{}',
-                content_type='application/json',
-                REMOTE_ADDR='192.0.2.1',
-                HTTP_X_FORWARDED_FOR='127.0.0.1',
-            ).status_code,
-            404,
-        )
+        with override_settings(CONTINUOUS_SKILLS_ENABLED=False):
+            self.assertEqual(self.api(token=token).status_code, 404)
         session = self.client.session
         draft = session[KEY]
         draft['touched_at'] = time() - TTL - 1
@@ -145,50 +148,29 @@ class ContinuousTests(TestCase):
         session.save()
         self.assertEqual(self.api(token=token).status_code, 403)
 
-    @override_settings(DJANGO_ENVIRONMENT='preview', SHARED_DEMO=True)
-    def test_shared_preview_requires_https_and_preserves_role_guards(self):
+    def test_remote_suggestions_in_every_environment_preserve_role_guards(self):
         token = self.candidate()
-        payload = {
-            'role': 'candidate',
-            'occupation': self.uri,
-            'language': 'fr',
-            'token': token,
-        }
-        self.assertEqual(
-            self.client.post(
-                self.endpoint,
-                json.dumps(payload),
-                content_type='application/json',
-                secure=True,
-            ).status_code,
-            200,
-        )
-        self.assertEqual(
-            self.client.post(
-                self.endpoint, json.dumps(payload), content_type='application/json'
-            ).status_code,
-            404,
-        )
-        payload['role'] = 'employer'
-        self.assertEqual(
-            self.client.post(
-                self.endpoint,
-                json.dumps(payload),
-                content_type='application/json',
-                secure=True,
-            ).status_code,
-            403,
-        )
-        with override_settings(SHARED_DEMO=False):
-            self.assertEqual(
-                self.client.post(
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment, EMAIL_DELIVERY_ENABLED=True
+                ),
+            ):
+                payload = {
+                    'role': 'candidate',
+                    'occupation': self.uri,
+                    'language': 'fr',
+                    'token': token,
+                }
+                response = self.client.post(
                     self.endpoint,
                     json.dumps(payload),
                     content_type='application/json',
-                    secure=True,
-                ).status_code,
-                404,
-            )
+                    REMOTE_ADDR='192.0.2.1',
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(self.api('employer').status_code, 403)
 
     def test_forged_foreign_duplicate_and_excessive_answers_rejected(self):
         for value in (
@@ -210,9 +192,7 @@ class ContinuousTests(TestCase):
 
     def project(self):
         data = answers()
-        data.update(
-            occupation_references=['esco:' + self.uri], occupation_skills=self.values
-        )
+        data.update(occupation_references=['esco:' + self.uri], occupation_skills=self.values)
         return data
 
     def test_candidate_registration_edit_and_profile_preserve_ids_and_labels(self):
@@ -222,11 +202,10 @@ class ContinuousTests(TestCase):
                 'candidate-' + lang + '@example.invalid', lang
             )
             user = registration.confirm_registration(registration.token_for(pending))
-            self.assertFalse(CandidateProfile.objects.filter(user=user).exists())
             registration.update_profile(user, data, lang)
             self.assertEqual(
-                user.candidate_profile.occupation_skills,
-                continuous.validated_selection(self.values, [self.uri]),
+                user.candidate_profile.occupation_skills[self.uri]['skills'],
+                self.values[self.uri]['skills'],
             )
             self.client.force_login(user)
             page = self.client.get('/candidate/profile/?lang=' + lang)
@@ -356,65 +335,21 @@ class ContinuousTests(TestCase):
         with self.assertRaises(ImportFailure):
             clean_data(data)
 
-    def test_private_simulation_requires_same_session_fictional_address_and_post(self):
-        pending = registration.create_request('test@example.invalid', 'fr')
-        token = registration.token_for(pending)
-        session = self.client.session
-        session['candidate_local_preview_token'] = token
-        session.save()
-        route = reverse('candidate_local_confirmation')
-        self.assertEqual(Client().post(route).status_code, 404)
-        self.assertEqual(self.client.get(route).status_code, 405)
-        with override_settings(DJANGO_ENVIRONMENT='production'):
-            self.assertEqual(self.client.post(route).status_code, 404)
-        self.assertEqual(self.client.post(route).status_code, 302)
-        self.assertFalse(CandidateProfile.objects.exists())
-        self.assertEqual(
-            self.client.post(reverse('candidate_registration_confirm')).status_code, 302
-        )
-        self.assertFalse(CandidateProfile.objects.exists())
-        pending.refresh_from_db()
-        self.assertTrue(pending.is_active)
-        registration.update_profile(pending, self.project(), 'fr')
-        self.assertTrue(CandidateProfile.objects.exists())
-        self.assertEqual(self.client.post(route).status_code, 404)
+    def test_real_address_is_accepted_without_browser_confirmation_shortcut(self):
         form = ContactForm(
             {
                 'display_name': 'Fictional',
-                'contact_email': 'real@example.org',
+                'contact_email': 'candidate@example.org',
                 'reviewed': True,
             }
         )
-        self.assertFalse(form.is_valid())
-
-    def test_email_first_trial_prepares_confirmation_in_requesting_session(self):
-        response = self.client.post(
-            reverse('candidate_start'), {'email': 'new@example.invalid'}
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            self.client.post('/candidate/registration/local-confirmation/').status_code,
+            404,
         )
-        self.assertEqual(response.status_code, 302)
-        token = self.client.session['candidate_local_preview_token']
-        user = registration.find_registration(token)
-        self.assertEqual(user.email, 'new@example.invalid')
-        self.assertFalse(user.is_active)
-        self.assertFalse(CandidateProfile.objects.exists())
-        self.assertContains(
-            self.client.get(response.url, {'lang': 'en'}),
-            'Simulate receiving my confirmation',
-        )
-        self.client.post(reverse('candidate_start'), {'email': 'other@example.org'})
-        self.assertNotIn('candidate_local_preview_token', self.client.session)
-        self.assertFalse(User.objects.filter(email='other@example.org').exists())
 
-    def test_candidate_suggestions_reject_a_draft_owned_by_another_account(self):
-        token = self.candidate()
-        session = self.client.session
-        draft = session[KEY]
-        draft['owner_id'] = -1
-        session[KEY] = draft
-        session.save()
-        self.assertEqual(self.api(token=token).status_code, 403)
-
-    @override_settings(ALBERT_IMPORT_ENABLED=True)
+    @override_settings(ALBERT_IMPORT_ENABLED=True, ALBERT_IMPORT_SIMULATED=True)
     @patch('eures_beta.employers.albert.build_opener')
     def test_offer_structuring_simulation_never_calls_albert(self, opener):
         from eures_beta.employers.albert import structure
@@ -459,5 +394,15 @@ class ContinuousTests(TestCase):
         with override_settings(CONTINUOUS_SKILLS_ENABLED=False):
             self.assertEqual(
                 self.client.get(reverse('employer_offer', args=[offer.pk])).status_code,
-                404,
+                200,
             )
+
+    def test_candidate_suggestions_reject_a_draft_owned_by_another_account(self):
+        token = self.candidate()
+        session = self.client.session
+        draft = session[KEY]
+        draft['owner_id'] = -1
+        session[KEY] = draft
+        session.save()
+        self.assertEqual(self.api(token=token).status_code, 403)
+

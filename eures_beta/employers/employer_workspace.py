@@ -27,9 +27,10 @@ from eures_beta.employers.offer_ingestion import ImportFailure
 
 def connected(view):
     @wraps(view)
+    @never_cache
     def wrapped(request, *args, **kwargs):
-        if not identity(request) or not request.session.get('employer_verified_email'):
-            return redirect('employer_access')
+        if not identity(request):
+            return redirect('magic_login')
         lang = request.GET.get(
             'lang', request.session.get('employer_auth_language', 'fr')
         )
@@ -38,20 +39,7 @@ def connected(view):
         with translation.override(lang):
             return view(request, *args, **kwargs)
 
-    local_guard = employer_login.enabled(wrapped)
-
-    @wraps(view)
-    @never_cache
-    def trial_or_local(request, *args, **kwargs):
-        from eures_beta.occupations.continuous import trial_request
-
-        return (
-            wrapped(request, *args, **kwargs)
-            if trial_request(request)
-            else local_guard(request, *args, **kwargs)
-        )
-
-    return trial_or_local
+    return wrapped
 
 
 def render(request, stage, status=200, **context):
@@ -64,12 +52,8 @@ def render(request, stage, status=200, **context):
 
 
 def visible(request):
-    # New account pages exclude anonymous legacy drafts, even in the same browser.
-    from eures_beta.occupations.continuous import trial_request
-
-    policy = Q(company__isnull=False)
-    if trial_request(request):
-        policy |= Q(created_by=identity(request))
+    # Account and establishment ownership apply in every environment.
+    policy = Q(company__isnull=False) | Q(created_by=identity(request))
     return accessible_imports(request).filter(policy).select_related('company')
 
 
@@ -278,7 +262,19 @@ class OfferEditForm(forms.Form):
 @connected
 @require_GET
 def offers(request):
-    return employer_login.connected(request)
+    person = identity(request)
+    pending = JobOffer.objects.filter(company__isnull=True, created_by=person).order_by(
+        '-created'
+    )
+    requested = request.session.get('employer_claim_import')
+    draft = (
+        pending.filter(pk=requested).first() if requested else None
+    ) or pending.first()
+    if draft:
+        request.session['employer_claim_import'] = str(draft.pk)
+    else:
+        request.session.pop('employer_claim_import', None)
+    return employer_login.connected_page(request, person.email, person, draft)
 
 
 def offer_home(request, **attachment):
@@ -452,3 +448,9 @@ def resume_attachment(request, id):
     )
     request.session['employer_claim_import'] = str(offer.pk)
     return redirect('employer_connected')
+
+
+@connected
+@require_POST
+def attach(request):
+    return employer_login.attach_draft(request)

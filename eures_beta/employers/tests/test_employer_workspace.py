@@ -169,10 +169,10 @@ class WorkspaceTests(TestCase):
         Session.objects.filter(session_key=self.client.session.session_key).update(
             expire_date=timezone.now() - timedelta(seconds=1)
         )
-        self.assertRedirects(self.client.get('/employer/offers/'), '/employer/access/')
+        self.assertRedirects(self.client.get('/employer/offers/'), '/accounts/login/')
         self.assertRedirects(
             self.client.post(self.url('employer_offer_edit'), values),
-            '/employer/access/',
+            '/accounts/login/',
         )
 
     def test_lock_covers_new_editor_and_old_api(self):
@@ -283,7 +283,7 @@ class WorkspaceTests(TestCase):
         self.assertContains(
             self.client.get('/employer/offers/'), 'Private fictional draft'
         )
-        self.assertEqual(self.client.get(self.url(offer=private)).status_code, 404)
+        self.assertEqual(self.client.get(self.url(offer=private)).status_code, 200)
         colleague = get_user_model().objects.create_user(
             kind='employer', email='rh2@fiction.invalid'
         )

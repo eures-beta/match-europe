@@ -1,6 +1,5 @@
 """Reference choices shared by the real forms, never inferred declarations."""
 
-from ipaddress import ip_address
 from zipfile import BadZipFile
 from django.conf import settings
 from . import albert_skills
@@ -10,22 +9,12 @@ from .skills_pilot import catalogue
 
 
 def enabled():
-    return bool(
-        settings.CONTINUOUS_SKILLS_ENABLED
-        and settings.DJANGO_ENVIRONMENT in ('local', 'preview')
-        and not settings.EMAIL_DELIVERY_ENABLED
-    )
+    return settings.CONTINUOUS_SKILLS_ENABLED
 
 
 def trial_request(request):
-    if not enabled():
-        return False
-    if settings.DJANGO_ENVIRONMENT == 'preview':
-        return bool(settings.SHARED_DEMO and request.is_secure())
-    try:
-        return ip_address(request.META.get('REMOTE_ADDR', '')).is_loopback
-    except ValueError:
-        return False
+    # Compatibility name: availability is independent of deployment or client IP.
+    return enabled()
 
 
 def reference_card(uri, *, generate=False):

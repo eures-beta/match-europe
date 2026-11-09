@@ -1,3 +1,7 @@
+## Mise à jour — 9 novembre 2026
+
+Les compétences des formulaires sont actives par défaut dans tous les environnements. Les e-mails réels, les adresses ordinaires et les connexions distantes ne désactivent plus le parcours. Les comptes et leurs offres/profils conservent leurs droits de propriété. Le candidat vérifie son e-mail avant le questionnaire via le parcours commun ; aucun raccourci de confirmation dans le navigateur. Les simulations Albert sont explicites et ne sont plus imposées par l’activation des compétences. Les sources officielles peuvent être préparées ou lues depuis les archives vérifiées dans tous les environnements. Les anciennes limites ci-dessous sont historiques et remplacées.
+
 # Recette locale continue de la pile de PR
 
 ## Périmètre autorisé le 7 novembre 2026
