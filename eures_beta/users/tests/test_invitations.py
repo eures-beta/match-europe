@@ -55,7 +55,7 @@ class InvitationTests(TestCase):
 
     def test_dashboard_lists_employers_only_and_employer_keeps_placeholder(self):
         invitation = self.create()
-        page = self.client.get(reverse('dashboard'), {'lang': 'en'})
+        page = self.client.get(reverse('matching_team_employers'), {'lang': 'en'})
         self.assertContains(page, self.employer.email)
         self.assertContains(page, invitation.email)
         self.assertContains(page, 'Invite an employer')
