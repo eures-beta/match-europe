@@ -6,12 +6,12 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import EmailMessage, send_mail
 from django.test import SimpleTestCase, override_settings
 
-from eures_beta.users.email_backend import ProductionEmailBackend
+from eures_beta.emails.backend import ProductionEmailBackend
 from eures_beta.users.views import email_ready
 
 
 @override_settings(
-    EMAIL_BACKEND='eures_beta.users.email_backend.ProductionEmailBackend',
+    EMAIL_BACKEND='eures_beta.emails.backend.ProductionEmailBackend',
     EMAIL_DELIVERY_ENABLED=True,
     LOGIN_EMAIL_ENABLED=True,
     LOGIN_EMAIL_ORIGIN='https://testserver',

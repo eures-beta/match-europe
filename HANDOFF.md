@@ -21,6 +21,12 @@ La décision d’Eric remplace les anciennes limites de prototype ci-dessous : l
 À la demande de dejafait, le client HTTP partagé est dans `integrations/albert.py`.
 Le prompt et la validation employeur restent dans `employers/offer_structuring.py`.
 Même protocole, mêmes délais/limites et mêmes protections ; aucun appel réel requis.
+## 9 novembre 2026 — transport e-mail partagé
+
+Déplacement sans changement fonctionnel de `users/email_backend.py` vers
+`emails/backend.py`, avec réglages, imports et tests recâblés. SMTP Django
+indépendant de Brevo ; activation explicite identique dans tous les environnements.
+Aucun secret, modèle ou migration modifié. Cible dédiée `make emails-test`.
 
 ## 9 novembre 2026 — profil du compte employeur (#133)
 

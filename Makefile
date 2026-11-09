@@ -379,7 +379,7 @@ employer-response-test: ## Vérifier les réponses par compte, droits, conflits 
 
 .PHONY: environment-parity-test
 environment-parity-test: ## Vérifier les parcours et droits dans les trois environnements, sans appel externe
-	@$(MANAGE) test config.test_environment_parity eures_beta.users.tests.test_email_backend eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot eures_beta.skills.tests.test_albert_skills eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare eures_beta.matching --noinput $(TEST_ARGS)
+	@$(MANAGE) test config.test_environment_parity eures_beta.emails.tests.test_backend eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot eures_beta.skills.tests.test_albert_skills eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare eures_beta.matching --noinput $(TEST_ARGS)
 
 .PHONY: candidate-skills-test candidate-skills-ui-test
 candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stockage et ses droits
@@ -404,3 +404,7 @@ confirmations-test: ## Tester les confirmations candidat par offre, conflits et 
 confirmations-seed: matching-team-seed ## Préparer les comptes fictifs conseiller et candidat pour les confirmations
 confirmations-run: ## Essayer les confirmations locales sur 9043, sans aucun envoi
 	@$(LOAD_ENV) REQUEST_METRICS_ENABLED=0 MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9043 --noreload
+
+.PHONY: emails-test
+emails-test: ## Vérifier le transport SMTP partagé et les protections sans envoi réel
+	@$(MANAGE) test eures_beta.emails.tests --noinput $(TEST_ARGS)
