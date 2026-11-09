@@ -13,7 +13,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.debug import sensitive_variables
 
-from eures_beta.employers.albert import NoRedirect
+from eures_beta.integrations.albert import NoRedirect
 from .catalog import occupation_index
 from .models import OccupationSkillSuggestion
 from .skill_source import VERSION, source_for
