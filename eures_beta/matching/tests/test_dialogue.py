@@ -89,6 +89,7 @@ class DialogueTests(TestCase):
         draft = self.client.session[KEY]
         self.assertEqual(draft['data']['schedule_saturday'], [])
         self.assertEqual(draft['editing_user'], self.user.pk)
+        self.assertEqual(draft['owner_id'], self.user.pk)
         self.assertEqual(self.obj.answers.get().value, 'changed')
         # Review cannot be skipped while the proposed schedule is incomplete.
         skipped = self.client.get('/candidate/prepare/?step=4&lang=en')

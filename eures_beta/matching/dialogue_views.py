@@ -102,6 +102,7 @@ def conversation(request, pk):
                     now = time.time()
                     request.session[KEY] = {
                         'schema': SCHEMA,
+                        'owner_id': request.user.pk,
                         'created_at': now,
                         'touched_at': now,
                         'token': secrets.token_urlsafe(24),
