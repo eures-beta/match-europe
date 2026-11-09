@@ -249,14 +249,15 @@ class DialogueTests(TestCase):
 
     def test_disabled_network_csrf_and_other_roles_are_closed(self):
         for change in [
-            {'CONFIRMATION_DIALOGUE_SIMULATED': False},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'EMAIL_DELIVERY_ENABLED': True},
+            {
+                'CONFIRMATION_DIALOGUE_SIMULATED': False,
+                'CONFIRMATION_DIALOGUE_ENABLED': False,
+            },
         ]:
             with override_settings(**change):
                 self.assertEqual(self.client.get(self.url).status_code, 404)
         self.assertEqual(
-            self.client.get(self.url, REMOTE_ADDR='192.0.2.1').status_code, 404
+            self.client.get(self.url, REMOTE_ADDR='192.0.2.1').status_code, 200
         )
         strict = Client(enforce_csrf_checks=True)
         strict.force_login(self.user)

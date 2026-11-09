@@ -279,7 +279,7 @@ clever-run: ## Tester le lancement Clever localement sur HOST:PORT (loopback par
 	@$(LOAD_ENV) PYTHON="$(PYTHON)" GUNICORN_BIND="$(HOST):$(PORT)" ./clevercloud/run.sh
 .PHONY: translations-compile
 translations-compile: ## Compiler les catalogues gettext après modification des fichiers .po
-	@$(MANAGE) compilemessages
+	@$(MANAGE) compilemessages --ignore '.venv*'
 
 .PHONY: format-html format-html-check
 format-html: ## Indenter les templates Django avec djLint (cible 120 colonnes)
@@ -380,8 +380,8 @@ employer-response-test: ## Vérifier les réponses par compte, droits, conflits 
 	@$(MANAGE) test eures_beta.employers.tests.test_response_practice eures_beta.employers.tests.test_profile_rename --noinput $(TEST_ARGS)
 
 .PHONY: environment-parity-test
-environment-parity-test: ## Vérifier la parité fonctionnelle local, recette et production
-	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot --noinput $(TEST_ARGS)
+environment-parity-test: ## Vérifier les parcours et droits dans les trois environnements, sans appel externe
+	@$(MANAGE) test config.test_environment_parity eures_beta.users.tests.test_email_backend eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot eures_beta.skills.tests.test_albert_skills eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare eures_beta.matching --noinput $(TEST_ARGS)
 
 .PHONY: candidate-skills-test candidate-skills-ui-test
 candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stockage et ses droits

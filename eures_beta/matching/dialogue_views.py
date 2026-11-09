@@ -102,7 +102,6 @@ def conversation(request, pk):
                     now = time.time()
                     request.session[KEY] = {
                         'schema': SCHEMA,
-                        'owner_id': request.user.pk,
                         'created_at': now,
                         'touched_at': now,
                         'token': secrets.token_urlsafe(24),
@@ -111,6 +110,7 @@ def conversation(request, pk):
                             if any(name in MobilityForm().fields for name in patch)
                             else 3
                         ),
+                        'owner_id': request.user.pk,
                         'editing_user': request.user.pk,
                         'source_profile_updated_at': profile.updated_at.isoformat(),
                         'data': data,
