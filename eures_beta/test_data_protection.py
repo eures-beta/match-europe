@@ -73,6 +73,16 @@ class DataProtectionTests(SimpleTestCase):
     def test_notice_preserves_candidate_registration_information(self):
         response = self.client.get(reverse('privacy'), {'lang': 'en'})
         self.assertContains(
+            response, 'Your email is verified before the questionnaire.'
+        )
+        self.assertContains(
+            response, 'A new account remains inactive until confirmation'
+        )
+        self.assertContains(
+            response,
+            'answers are saved in your private profile when you submit the questionnaire.',
+        )
+        self.assertNotContains(
             response, 'Confirmation creates a candidate account and saves the profile.'
         )
         self.assertNotContains(response, 'confirming it does not create an account')
