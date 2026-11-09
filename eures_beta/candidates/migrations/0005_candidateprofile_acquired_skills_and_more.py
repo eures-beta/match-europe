@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
     dependencies = [
         (
             'candidates',
-            '0004_remove_candidateregistration_candidate_registration_email_ci_and_more',
+            '0004_confirmation_sessions',
         ),
     ]
 

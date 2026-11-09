@@ -140,7 +140,9 @@ def compare(request):
         request.session.pop(key, None)
         return redirect('candidate_profile')
     with translation.override(selected_language(request)):
-        old_groups = answer_groups(registration.profile_answers(obj), obj.language)
+        old_groups = answer_groups(
+            registration.profile_answers(obj), selected_language(request)
+        )
         new_groups = answer_groups(proposal['answers'], proposal['language'])
         return render(
             request,
@@ -174,7 +176,7 @@ def profile(request):
             {
                 'profile': obj,
                 'groups': answer_groups(
-                    registration.profile_answers(obj), obj.language
+                    registration.profile_answers(obj), selected_language(request)
                 ),
             },
         )
@@ -195,11 +197,19 @@ def answer_groups(answers, language):
         )
         rows = []
         for name, field in form.fields.items():
-            if name == 'skill_catalogue_version':
+            if name in (
+                'skill_catalogue_version',
+                'occupation_query',
+                'condition_overrides',
+                'auto_conditions',
+            ):
                 continue
             if name in FIELDS and answers.get('project_mode') != 'open':
                 continue
-            if name in ('occupation_references', 'desired_occupations') and answers.get('project_mode') == 'open':
+            if (
+                name in ('occupation_references', 'desired_occupations')
+                and answers.get('project_mode') == 'open'
+            ):
                 continue
             if name not in answers or answers[name] in ('', None, [], {}):
                 continue

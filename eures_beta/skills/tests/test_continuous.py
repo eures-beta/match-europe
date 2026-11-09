@@ -200,9 +200,11 @@ class ContinuousTests(TestCase):
         for lang in ('fr', 'en', 'de'):
             data = self.project()
             pending = registration.create_request(
-                'candidate-' + lang + '@example.invalid', lang
+                'candidate-' + lang + '@example.invalid', data, lang
             )
-            user = registration.confirm_registration(registration.token_for(pending))
+            user = registration.confirm_registration(
+                registration.token_for(pending)
+            ).user
             registration.update_profile(user, data, lang)
             self.assertEqual(
                 user.candidate_profile.occupation_skills[self.uri]['skills'],
