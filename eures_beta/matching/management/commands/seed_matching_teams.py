@@ -11,6 +11,7 @@ from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates.skill_choices import skill_groups
 from eures_beta.employers.models import JobOffer
 from eures_beta.matching.team_access import team_enabled
+from eures_beta.matching.access import test_data_enabled
 from eures_beta.matching.models import (
     MatchingTeam,
     TeamMembership,
@@ -26,7 +27,7 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        if not team_enabled() or not settings.TEST_ACCOUNTS_ENABLED:
+        if not team_enabled() or not test_data_enabled():
             raise CommandError(
                 'Local team matching and fictional accounts must be explicitly enabled.'
             )
