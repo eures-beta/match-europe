@@ -15,7 +15,7 @@ from django.contrib.auth.views import redirect_to_login
 from eures_beta.users.views import selected_language
 from eures_beta.candidates.journey import FORMS, SCHEDULE_DAYS, SCHEDULE_PERIODS
 from eures_beta.candidates.occupation_choices import resolve_reference
-from eures_beta.occupations.skills_pilot import catalogue
+from eures_beta.skills.skills_pilot import catalogue
 from . import access, confirmation_services as service
 from .team_views import entry
 from .services import StaleEvaluation
@@ -147,7 +147,7 @@ def display_rows(rows, language):
                 _('Not specified')
             )
         if name == 'occupation_skills':
-            from eures_beta.occupations.continuous import summary
+            from eures_beta.skills.continuous import summary
 
             return summary(value, language) or str(_('Not specified'))
         if name == 'language_skills':
