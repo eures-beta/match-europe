@@ -10,7 +10,7 @@ from eures_beta.employers.offer_ingestion import empty_data
 from eures_beta.employers.employer_api import clean_data
 from eures_beta.occupations.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog
-from eures_beta.matching.access import enabled
+from eures_beta.matching.access import test_data_enabled
 from eures_beta.matching.models import MatchPair, OfferRequirements
 from eures_beta.matching.services import calculate, inputs
 
@@ -20,9 +20,9 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        if not enabled():
+        if not test_data_enabled():
             raise CommandError(
-                'Requires local matching, no real email and no shared demo.'
+                'Requires explicit fictional accounts in local/preview with no real email.'
             )
         cards, _ = catalogue()
         card = cards['nettoyage']

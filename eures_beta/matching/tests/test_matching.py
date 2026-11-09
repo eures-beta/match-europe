@@ -238,6 +238,7 @@ class EngineTests(SimpleTestCase):
 
 @override_settings(
     MATCHING_LOCAL_ENABLED=True,
+    TEST_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     LOGIN_EMAIL_ENABLED=False,
@@ -247,6 +248,21 @@ class LocalMatchingTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         call_command('seed_matching_trial', stdout=StringIO())
+
+    def setUp(self):
+        from django.contrib.auth.models import Permission
+        from eures_beta.users.models import User
+
+        self.operator = User.objects.create_user(
+            'operator@matching-permissions.invalid', kind='adviser'
+        )
+        self.operator.user_permissions.add(
+            *Permission.objects.filter(
+                content_type__app_label='matching',
+                codename__in=['view_matchpair', 'change_matchpair'],
+            )
+        )
+        self.client.force_login(self.operator)
 
     def pair(self, name='compatible'):
         return MatchPair.objects.select_related('candidate', 'offer').get(
@@ -347,29 +363,43 @@ class LocalMatchingTests(TestCase):
         self.assertEqual(self.client.post(path, {'action': 'send'}).status_code, 400)
         self.assertEqual(Decision.objects.count(), 0)
 
-    def test_feature_network_environment_and_forwarding_guards(self):
+    def test_all_environments_and_remote_clients_keep_explicit_permissions(self):
         path = reverse('matching_local')
-        for settings in (
-            {'MATCHING_LOCAL_ENABLED': False},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'DJANGO_ENVIRONMENT': 'preview'},
-            {'EMAIL_DELIVERY_ENABLED': True},
-            {'LOGIN_EMAIL_ENABLED': True},
-            {'SHARED_DEMO': True},
-        ):
-            with override_settings(**settings):
-                self.assertEqual(self.client.get(path).status_code, 404)
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment,
+                    EMAIL_DELIVERY_ENABLED=True,
+                    LOGIN_EMAIL_ENABLED=True,
+                    SHARED_DEMO=True,
+                ),
+            ):
+                self.assertEqual(
+                    self.client.get(path, REMOTE_ADDR='192.0.2.1').status_code, 200
+                )
+                pair = self.pair()
+                self.assertEqual(
+                    self.client.post(
+                        path,
+                        {'candidate': pair.candidate_id, 'offer': pair.offer_id},
+                        REMOTE_ADDR='192.0.2.1',
+                    ).status_code,
+                    302,
+                )
                 with self.assertRaises(CommandError):
                     call_command('seed_matching_trial', stdout=StringIO())
-        self.assertEqual(
-            self.client.get(
-                path, REMOTE_ADDR='192.0.2.1', HTTP_X_FORWARDED_FOR='127.0.0.1'
-            ).status_code,
-            404,
-        )
-        self.assertEqual(self.client.get(path, REMOTE_ADDR='::1').status_code, 200)
+        with override_settings(MATCHING_LOCAL_ENABLED=False):
+            self.assertEqual(self.client.get(path).status_code, 404)
+        self.client.logout()
+        self.assertEqual(self.client.get(path).status_code, 403)
+        self.client.force_login(self.pair().candidate.user)
+        self.assertEqual(self.client.get(path).status_code, 403)
+        self.client.force_login(self.operator)
+        self.operator.user_permissions.clear()
+        self.assertEqual(self.client.get(path).status_code, 403)
 
-    def test_inactive_or_nonfictional_objects_are_not_exposed(self):
+    def test_inactive_objects_are_hidden_and_real_addresses_are_eligible(self):
         pair = self.pair()
         user = pair.candidate.user
         user.is_active = False
@@ -388,7 +418,7 @@ class LocalMatchingTests(TestCase):
         user.email = 'hidden@example.com'
         user.save(update_fields=['is_active', 'email'])
         self.assertEqual(
-            self.client.get(reverse('matching_detail', args=[pair.pk])).status_code, 404
+            self.client.get(reverse('matching_detail', args=[pair.pk])).status_code, 200
         )
 
     def test_result_contains_no_contacts_or_raw_profile_snapshot(self):
