@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.templatetags.static import static
+from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_safe
 from django.utils import translation
@@ -47,29 +49,33 @@ def _public_page(request, template, context=None):
         return render(request, template, context)
 
 
+@require_safe
 def manifest(request):
     return JsonResponse(
         {
             'name': 'Match Europe',
             'short_name': 'Match Europe',
-            'start_url': '/',
+            'id': '/',
+            'start_url': reverse('home'),
             'scope': '/',
             'display': 'standalone',
             'theme_color': '#003399',
             'background_color': '#f5f7fb',
             'icons': [
                 {
-                    'src': '/static/icon.svg',
-                    'sizes': 'any',
-                    'type': 'image/svg+xml',
+                    'src': static(f'pwa/icon-{size}.png'),
+                    'sizes': f'{size}x{size}',
+                    'type': 'image/png',
                     'purpose': 'any',
                 }
+                for size in (192, 512)
             ],
         },
         content_type='application/manifest+json',
     )
 
 
+@require_safe
 def service_worker(request):
     response = HttpResponse(
         (settings.APPS_DIR / 'static' / 'sw.js').read_text(),

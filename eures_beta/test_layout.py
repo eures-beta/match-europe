@@ -1,5 +1,7 @@
 from django.apps import apps
 from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.templatetags.static import static
 from django.test import TestCase, override_settings
 
 
@@ -20,6 +22,32 @@ class UnifiedLayoutTests(TestCase):
         self.assertEqual(settings.ROOT_URLCONF, 'config.urls')
         self.assertFalse((settings.APPS_DIR / 'manage.py').exists())
         self.assertFalse((settings.APPS_DIR / 'config').exists())
+
+    def test_public_and_candidate_pages_expose_installation(self):
+        for url in ('/', '/candidate/', '/candidate/start/'):
+            for language in ('fr', 'en', 'de'):
+                with self.subTest(url=url, language=language):
+                    response = self.client.get(url, {'lang': language}, follow=True)
+                    self.assertContains(
+                        response, 'rel="manifest" href="/manifest.webmanifest"'
+                    )
+                    self.assertContains(response, 'data-worker-url="/sw.js"')
+                    self.assertContains(response, 'rel="apple-touch-icon"')
+
+    def test_manifest_uses_static_icons_and_an_accessible_start_url(self):
+        response = self.client.get('/manifest.webmanifest')
+        self.assertEqual(response.headers['Content-Type'], 'application/manifest+json')
+        manifest = response.json()
+        self.assertEqual(manifest['display'], 'standalone')
+        self.assertEqual(self.client.get(manifest['start_url']).status_code, 200)
+        self.assertEqual(
+            {icon['sizes'] for icon in manifest['icons']}, {'192x192', '512x512'}
+        )
+        for icon in manifest['icons']:
+            size = icon['sizes'].split('x')[0]
+            path = f'pwa/icon-{size}.png'
+            self.assertEqual(icon['src'], static(path))
+            self.assertIsNotNone(finders.find(path))
 
     def test_service_worker_uses_the_shared_static_directory(self):
         response = self.client.get('/sw.js')

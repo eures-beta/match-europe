@@ -1430,3 +1430,22 @@ les dates, les identifiants et la conservation des attributions de permissions.
 Django/migrations, Black, HTML, JavaScript et traductions réussis. Aucun e-mail
 ou service externe réel. Aucun rebase des descendants, fusion ou déploiement ;
 les PR dépendantes devront reprendre ces nouveaux noms lors du rafraîchissement.
+
+## 9 novembre 2026 — socle d’installation PWA candidat
+
+Branche dédiée sur le sommet GitHub #166 (`3585cde`). La pile séparée #132/#169
+porte une autre séquence d’inscription. Les vérifications locales utilisent
+le parcours présent sur #166.
+
+Le manifeste et l’icône apparaissent sur l’accueil et les écrans du candidat.
+Le service worker existant est enregistré et laisse les requêtes au réseau.
+Les icônes PNG reprennent le dessin Match Europe déjà présent. La page de
+lancement reste l’accueil commun. Le profil validé est récupérable via la
+connexion habituelle dans une nouvelle session.
+
+Contrôles locaux : 607 tests PostgreSQL, test ciblé de reconnexion dans une
+seconde session, contrôles Django/migrations, Python, HTML et syntaxe JavaScript.
+Recette restante sur iPhone et Android : installer, vérifier l’ouverture
+du lien de connexion dans le contexte de l’application, récupérer un profil
+terminé sur ordinateur puis reprendre un brouillon commencé sur le téléphone.
+L’activation du pilote et l’abonnement aux notifications relèvent du lot suivant.
