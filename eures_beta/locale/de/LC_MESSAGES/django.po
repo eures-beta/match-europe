@@ -8073,3 +8073,13 @@ msgstr "Bewerbende, Arbeitgeber und Beratende: Melden Sie sich hier mit Ihrer E-
 #: eures_beta/templates/users/login.html
 msgid "Note for employer accounts"
 msgstr "Hinweis für Arbeitgeberkonten"
+
+#: eures_beta/candidates/templates/candidates/landing.html
+msgctxt "public positioning"
+msgid "Describe my career plans for the first time"
+msgstr "Meine beruflichen Pläne zum ersten Mal beschreiben"
+
+#: eures_beta/candidates/templates/candidates/landing.html
+msgctxt "public positioning"
+msgid "Never completed the questionnaire? Start here, without an account. Four steps to describe your project and review your answers."
+msgstr "Haben Sie diesen Fragebogen noch nie ausgefüllt? Beginnen Sie hier, ohne Konto. Vier Schritte, um Ihre Pläne zu beschreiben und Ihre Antworten zu prüfen."

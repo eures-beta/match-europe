@@ -8073,3 +8073,13 @@ msgstr "Candidats, employeurs et conseillers : connectez-vous ici avec votre adr
 #: eures_beta/templates/users/login.html
 msgid "Note for employer accounts"
 msgstr "À noter pour les comptes employeurs"
+
+#: eures_beta/candidates/templates/candidates/landing.html
+msgctxt "public positioning"
+msgid "Describe my career plans for the first time"
+msgstr "Décrire mon projet professionnel pour la première fois"
+
+#: eures_beta/candidates/templates/candidates/landing.html
+msgctxt "public positioning"
+msgid "Never completed the questionnaire? Start here, without an account. Four steps to describe your project and review your answers."
+msgstr "Vous n’avez jamais rempli ce questionnaire ? Commencez ici, sans compte. Quatre étapes pour décrire votre projet et relire vos réponses."
