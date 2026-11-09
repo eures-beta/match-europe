@@ -54,7 +54,8 @@ séparément ; cocher une activité ne constitue pas une habilitation.
 
 ## Stockage, validation et droits
 
-Migration additive `candidates.0004` : `project_mode`, trois listes JSON dédiées
+Migration additive `candidates.0005`, après la migration de l’email préalable :
+`project_mode`, trois listes JSON dédiées
 `acquired_skills`, `learning_activities`, `professional_behaviours`, et
 `skill_catalogue_version`. URI ESCO canoniques uniquement ; version fixée par
 le serveur à `esco-1.2.1-match-europe-50-v1`, jamais déduite du navigateur.
@@ -63,15 +64,16 @@ aucune déclaration rétroactive. Le retour arrière retire ces nouveaux champs
 et leurs réponses, sans supprimer les profils ni comptes ; aucun retour arrière
 sur des données réelles n’est effectué automatiquement.
 
-Les réponses passent du brouillon de session à la demande temporaire, puis au
-profil uniquement après confirmation email et POST existants. Même validation
-partagée dans le formulaire, la demande et `CandidateProfile.save()`. La fiche
+Après vérification de l’email, le candidat connecté remplit le questionnaire.
+Les réponses passent du brouillon privé au profil uniquement après validation
+POST explicite. Même validation partagée dans le formulaire, l’enregistrement
+et `CandidateProfile.save()`. Aucune table de demande temporaire n’est recréée. La fiche
 reste réservée au candidat propriétaire, l’admin n’affiche que les métadonnées.
 Aucun partage employeur/conseiller ni nouvelle permission. Pas de coordonnées
 supplémentaires collectées, ni de réponses dans les journaux.
 
-Conservation existante : brouillon 30 minutes après dernière activité, demande
-une heure, profil selon la notice commune (12 mois après dernier contact utile).
+Conservation existante : brouillon deux heures après dernière activité, lien
+de vérification une heure, profil selon la notice commune (12 mois après dernier contact utile).
 Ces échéances ne créent pas de purge physique planifiée. Aucune modification des
 transports email, de la confirmation, des durées ou de la notice juridique.
 
