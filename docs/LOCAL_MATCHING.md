@@ -1,3 +1,7 @@
+## Équipes — 9 novembre 2026
+
+Le portefeuille conseiller par équipe est actif par défaut partout. Les adhésions actives, affectations explicites de candidat/offre et droits de décision restent obligatoires ; aucun accès interéquipe ni droit implicite de superutilisateur n’est ajouté. Les comptes aux adresses ordinaires sont éligibles. Le peuplement fictif exige son activation explicite sur une base d’essai locale/recette, sans e-mails réels.
+
 ## Mise à jour — 9 novembre 2026
 
 Le matching fonctionne dans tous les environnements et accepte les comptes réels actifs, les profils vérifiés et les offres validées. Le nom historique `MATCHING_LOCAL_ENABLED` est compatible ; `MATCHING_ENABLED` le remplace dans les nouvelles configurations, actif par défaut. La console autonome exige un conseiller avec le droit explicite `matching.view_matchpair`, et `matching.change_matchpair` pour écrire. Les restrictions IP, démo et e-mails sont retirées. Le peuplement fictif demeure une commande d’opérateur explicitement activée, séparée du parcours métier. Les scores, règles de décision et confirmations humaines restent inchangés. Les limites locales ci-dessous sont historiques et remplacées.

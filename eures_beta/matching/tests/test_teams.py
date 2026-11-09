@@ -258,27 +258,44 @@ class TeamTests(TestCase):
         )
         self.assertEqual(self.client.get(self.detail(pair)).status_code, 302)
 
-    def test_feature_environment_and_network_guards(self):
+    def test_remote_team_matching_in_all_environments(self):
         pair = self.pair()
-        for change in (
-            {'MATCHING_TEAMS_ENABLED': False},
-            {'DJANGO_ENVIRONMENT': 'preview'},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'EMAIL_DELIVERY_ENABLED': True},
-            {'SHARED_DEMO': True},
-        ):
-            with override_settings(**change):
+        pair.candidate.user.email = 'candidate@example.org'
+        pair.candidate.user.save(update_fields=['email'])
+        pair.offer.created_by.email = 'employer@example.org'
+        pair.offer.created_by.save(update_fields=['email'])
+        pair.offer.email = 'contact@example.org'
+        pair.offer.save(update_fields=['email'])
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment,
+                    EMAIL_DELIVERY_ENABLED=True,
+                    SHARED_DEMO=True,
+                ),
+            ):
+                self.assertEqual(
+                    self.client.get(
+                        self.detail(pair), REMOTE_ADDR='192.0.2.1'
+                    ).status_code,
+                    200,
+                )
+                self.assertEqual(
+                    self.client.post(
+                        self.detail(pair),
+                        {'action': 'calculate'},
+                        REMOTE_ADDR='192.0.2.1',
+                    ).status_code,
+                    302,
+                )
+                self.client.force_login(self.other)
                 self.assertEqual(self.client.get(self.detail(pair)).status_code, 404)
+                self.client.force_login(self.a)
                 with self.assertRaises(CommandError):
                     call_command('seed_matching_teams', stdout=StringIO())
-        self.assertEqual(
-            self.client.get(
-                self.detail(pair),
-                REMOTE_ADDR='192.0.2.1',
-                HTTP_X_FORWARDED_FOR='127.0.0.1',
-            ).status_code,
-            404,
-        )
+        with override_settings(MATCHING_TEAMS_ENABLED=False):
+            self.assertEqual(self.client.get(self.detail(pair)).status_code, 404)
 
     def test_reason_is_bounded_escaped_and_no_external_call_is_made(self):
         pair = self.pair()
