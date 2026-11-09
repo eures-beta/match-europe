@@ -7,7 +7,8 @@ from django.contrib.auth import get_user_model
 from django.test import Client
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from eures_beta.employers.albert import prepare, structure, validate_result, NoRedirect
+from eures_beta.employers.offer_structuring import prepare, structure, validate_result
+from eures_beta.integrations.albert import NoRedirect
 from eures_beta.employers.offer_ingestion import ImportFailure
 from eures_beta.occupations.catalog import rome_suggestions, suggestions
 
@@ -76,7 +77,7 @@ class ValidationTests(SimpleTestCase):
         self.assertEqual(data['extractionSource'], ' '.join(SOURCE.split()))
 
     @override_settings(**ENABLED)
-    @patch('eures_beta.employers.albert.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_bounded_request_and_valid_json(self, opener):
         response = MagicMock()
         response.read.return_value = json.dumps(
@@ -101,7 +102,7 @@ class ValidationTests(SimpleTestCase):
         response.read.assert_called_once_with(100001)
 
     @override_settings(**ENABLED)
-    @patch('eures_beta.employers.albert.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_timeout_and_truncation_keep_manual_source_without_guessed_fields(
         self, opener
     ):
@@ -113,14 +114,14 @@ class ValidationTests(SimpleTestCase):
         self.assertNotIn('sensitive', json.dumps(data))
 
     @override_settings(ALBERT_IMPORT_ENABLED=False)
-    @patch('eures_beta.employers.albert.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_disabled_never_calls_network(self, opener):
         with self.assertRaises(ImportFailure):
             structure(SOURCE)
         opener.assert_not_called()
 
     @override_settings(**ENABLED)
-    @patch('eures_beta.employers.albert.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_all_environments_call_albert_even_with_email_enabled(self, opener):
         opener.return_value.open.side_effect = TimeoutError()
         for environment in ('local', 'preview', 'production'):
@@ -177,7 +178,7 @@ class EndpointTests(TestCase):
                 )
 
     @patch(
-        'eures_beta.employers.albert.structure',
+        'eures_beta.employers.offer_structuring.structure',
         return_value=validate_result(RESULT, SOURCE),
     )
     def test_saving_without_corrected_fields_does_not_persist_source_or_proofs(
@@ -209,7 +210,7 @@ class EndpointTests(TestCase):
         self.assertNotIn('pending_offer_source', self.client.session)
 
     @patch(
-        'eures_beta.employers.albert.structure',
+        'eures_beta.employers.offer_structuring.structure',
         return_value=validate_result(RESULT, SOURCE),
     )
     def test_manual_path_returns_grounded_data_without_storing_key(self, model):
@@ -222,7 +223,7 @@ class EndpointTests(TestCase):
         self.assertNotIn('test-secret', json.dumps(dict(self.client.session)))
         model.assert_called_once_with(SOURCE)
 
-    @patch('eures_beta.employers.albert.structure')
+    @patch('eures_beta.employers.offer_structuring.structure')
     def test_other_roles_and_missing_agreement_never_send_content(self, model):
         self.assertEqual(
             self.client.post(
@@ -249,7 +250,7 @@ class EndpointTests(TestCase):
 
     @patch('eures_beta.employers.employer_api.read_pdf')
     @patch(
-        'eures_beta.employers.albert.structure',
+        'eures_beta.employers.offer_structuring.structure',
         return_value=validate_result(RESULT, SOURCE),
     )
     def test_pdf_uses_complete_source_once_and_keeps_key_out_of_session(
@@ -274,7 +275,7 @@ class EndpointTests(TestCase):
         self.assertNotIn('_sourceText', json.dumps(dict(self.client.session)))
         self.assertNotIn('test-secret', response.content.decode())
 
-    @patch('eures_beta.employers.albert.structure')
+    @patch('eures_beta.employers.offer_structuring.structure')
     def test_csrf_is_required_before_any_external_call(self, model):
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.user)

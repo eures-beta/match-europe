@@ -2,6 +2,12 @@
 
 La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.
 
+## 9 novembre 2026 — séparation du client Albert (#146)
+
+À la demande de dejafait, le client HTTP partagé est dans `integrations/albert.py`.
+Le prompt et la validation employeur restent dans `employers/offer_structuring.py`.
+Même protocole, mêmes délais/limites et mêmes protections ; aucun appel réel requis.
+
 ## 9 novembre 2026 — profil du compte employeur (#133)
 
 À la demande de dejafait, `EmployerResponsePractice` devient `EmployerProfile`,

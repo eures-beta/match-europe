@@ -119,7 +119,7 @@ def _employer_page(request, path):
             language = request.GET.get('lang', request.LANGUAGE_CODE)
         language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         with translation.override(language):
-            from .albert import enabled as albert_enabled
+            from .offer_structuring import enabled as albert_enabled
 
             context = {'signed_in': authenticated, 'albert_import': albert_enabled()}
             if authenticated and template_name in ('import.html', 'import-v2.html'):
@@ -179,7 +179,10 @@ def read_source(request):
     if request.POST.get('agreement') != 'true':
         return failure('agreement_required')
     try:
-        from .albert import enabled as albert_enabled, prepare as albert_prepare
+        from .offer_structuring import (
+            enabled as albert_enabled,
+            prepare as albert_prepare,
+        )
 
         use_albert = albert_enabled()
         url = request.POST.get('url', '').strip()
