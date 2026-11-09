@@ -99,9 +99,9 @@ class UserTests(TestCase):
         with patch('eures_beta.employers.dashboard.employer_dashboard') as employer:
             response = self.client.get('/accounts/dashboard/')
         employer.assert_not_called()
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/dashboard.html')
-        self.assertNotContains(response, '/accounts/employers/invite/')
+        self.assertRedirects(
+            response, '/candidate/start/', fetch_redirect_response=False
+        )
 
     def test_candidate_label_is_translated(self):
         from django.utils.translation import override

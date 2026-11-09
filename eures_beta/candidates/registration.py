@@ -20,7 +20,8 @@ from django.utils.translation import gettext as _
 
 from eures_beta.users.invitations import validate_origin
 from eures_beta.users.models import User
-from .models import CandidateProfile, CandidateRegistration
+from .models import CandidateProfile
+from datetime import timedelta
 
 SALT = 'candidates.registration.v1'
 logger = logging.getLogger(__name__)
@@ -52,9 +53,9 @@ def validated_answers(data, language):
     return json.loads(json.dumps(answers, default=str))
 
 
-def token_for(registration):
+def token_for(user):
     return signing.dumps(
-        {'id': str(registration.pk), 'nonce': str(registration.nonce)}, salt=SALT
+        {'id': user.pk, 'nonce': str(user.candidate_verification_nonce)}, salt=SALT
     )
 
 
@@ -63,84 +64,96 @@ def find_registration(token, *, lock=False):
         payload = signing.loads(
             token, salt=SALT, max_age=settings.CANDIDATE_REGISTRATION_MAX_AGE
         )
-        identifier, nonce = uuid.UUID(payload['id']), uuid.UUID(payload['nonce'])
+        identifier, nonce = int(payload['id']), uuid.UUID(payload['nonce'])
     except (signing.BadSignature, ValueError, KeyError, TypeError):
         return None
-    query = (
-        CandidateRegistration.objects.select_for_update()
-        if lock
-        else CandidateRegistration.objects
-    )
+    query = User.objects.select_for_update() if lock else User.objects
     return query.filter(
-        pk=identifier, nonce=nonce, expires_at__gt=timezone.now()
+        pk=identifier,
+        kind=User.Kind.CANDIDATE,
+        is_active=False,
+        candidate_verification_nonce=nonce,
+        candidate_verification_expires__gt=timezone.now(),
     ).first()
 
 
 @transaction.atomic
-def create_request(email, data, language):
+def create_request(email, language):
     email = email.strip().lower()
     validate_email(email)
-    answers = validated_answers(data, language)
-    CandidateRegistration.objects.filter(expires_at__lte=timezone.now()).delete()
-    existing = User.objects.filter(email__iexact=email).first()
-    if existing and (
-        not existing.is_active
-        or existing.kind != User.Kind.CANDIDATE
-        or CandidateProfile.objects.filter(user=existing).exists()
-    ):
+    existing = User.objects.select_for_update().filter(email__iexact=email).first()
+    if existing:
+        # Never modify an existing account/profile from an anonymous request.
+        # Active accounts receive the ordinary sign-in link, including other roles.
+        if existing.is_active:
+            return existing
+        if (
+            existing.kind == User.Kind.CANDIDATE
+            and existing.candidate_verification_nonce
+        ):
+            if existing.candidate_verification_expires <= timezone.now():
+                existing.candidate_verification_nonce = uuid.uuid4()
+                existing.candidate_verification_expires = timezone.now() + timedelta(
+                    seconds=settings.CANDIDATE_REGISTRATION_MAX_AGE
+                )
+                existing.save(
+                    update_fields=[
+                        'candidate_verification_nonce',
+                        'candidate_verification_expires',
+                    ]
+                )
+            return existing
         return None
-    # Do not replace an unverified request: an anonymous visitor cannot change
-    # the answers another person is currently verifying.
-    if CandidateRegistration.objects.filter(email__iexact=email).exists():
-        return None
-    return CandidateRegistration.objects.create(
-        email=email, language=language, answers=answers
+    return User.objects.create_user(
+        email=email,
+        kind=User.Kind.CANDIDATE,
+        is_active=False,
+        candidate_verification_nonce=uuid.uuid4(),
+        candidate_verification_expires=timezone.now()
+        + timedelta(seconds=settings.CANDIDATE_REGISTRATION_MAX_AGE),
+        candidate_verification_language=language,
     )
 
 
 @transaction.atomic
 def confirm_registration(token):
-    pending = find_registration(token, lock=True)
-    if pending is None:
-        return None
-    user = User.objects.select_for_update().filter(email__iexact=pending.email).first()
-    if user and (
-        not user.is_active
-        or user.kind != User.Kind.CANDIDATE
-        or CandidateProfile.objects.filter(user=user).exists()
-    ):
-        pending.delete()
-        return None
+    user = find_registration(token, lock=True)
     if user is None:
-        user = User.objects.create_user(email=pending.email, kind=User.Kind.CANDIDATE)
-    answers = validated_answers(pending.answers, pending.language)
-    for name in ('salary_amount', 'available_from'):
-        if answers.get(name) == '':
-            answers[name] = None
-    CandidateProfile.objects.create(
-        user=user,
-        language=pending.language,
-        email_verified_at=timezone.now(),
-        notice_read_at=pending.created_at,
-        notice_version='2026-11-05',
-        **answers,
+        return None
+    user.is_active = True
+    user.candidate_verification_nonce = None
+    user.candidate_verification_expires = None
+    user.save(
+        update_fields=[
+            'is_active',
+            'candidate_verification_nonce',
+            'candidate_verification_expires',
+        ]
     )
-    pending.delete()
     return user
 
 
-def confirmation_message(pending, origin):
-    if pending.expires_at <= timezone.now():
-        raise ValidationError('Expired request.')
-    link = (
-        validate_origin(origin)
-        + reverse('candidate_registration_confirm')
-        + '?'
-        + urlencode({'token': token_for(pending)})
-    )
-    with translation.override(pending.language):
+def confirmation_message(user, origin):
+    origin = validate_origin(origin)
+    if user.is_active:
+        from sesame.utils import get_query_string
+
+        link = origin + reverse('magic_confirm') + get_query_string(user)
+    else:
+        if (
+            not user.candidate_verification_nonce
+            or user.candidate_verification_expires <= timezone.now()
+        ):
+            raise ValidationError('Expired request.')
+        link = (
+            origin
+            + reverse('candidate_registration_confirm')
+            + '?'
+            + urlencode({'token': token_for(user)})
+        )
+    with translation.override(user.candidate_verification_language):
         return (
-            _('Confirm your candidate profile'),
+            _('Confirm your email to continue'),
             render_to_string('candidates/registration_email.txt', {'link': link}),
         )
 
@@ -178,7 +191,21 @@ def update_profile(user, data, language):
         or user.kind != User.Kind.CANDIDATE
     ):
         raise PermissionDenied
-    profile = CandidateProfile.objects.select_for_update().get(user=user)
+    User.objects.select_for_update().get(pk=user.pk)
+    profile = CandidateProfile.objects.select_for_update().filter(user=user).first()
+    if profile is None:
+        answers = validated_answers(data, language)
+        for name in ("salary_amount", "available_from"):
+            if answers.get(name) == "":
+                answers[name] = None
+        return CandidateProfile.objects.create(
+            user=user,
+            language=language,
+            email_verified_at=timezone.now(),
+            notice_read_at=timezone.now(),
+            notice_version="2026-11-05",
+            **answers,
+        )
     answers = validated_answers(data, language)
     for name, value in answers.items():
         if name in ('salary_amount', 'available_from') and value == '':

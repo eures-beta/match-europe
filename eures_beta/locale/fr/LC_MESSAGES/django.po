@@ -7837,3 +7837,43 @@ msgstr "L’envoi des e-mails est actuellement indisponible."
 
 msgid "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
 msgstr "Vos réponses attendent la confirmation de votre adresse e-mail pendant une heure. La confirmation crée un compte candidat et enregistre le profil. Les comptes existants ne sont jamais remplacés. Les demandes expirées sont supprimées lors du nettoyage, pas nécessairement à l’instant exact de leur expiration. Cette notice n’active ni rapprochement ni mise en relation automatique."
+
+
+msgid "Your email address"
+msgstr "Votre adresse email"
+
+msgid "Verify your email before starting. If you already have a candidate profile, you will be able to retrieve it."
+msgstr "Vérifiez votre email avant de commencer. Si vous avez déjà un profil candidat, vous pourrez le retrouver."
+
+msgid "Send my personal link"
+msgstr "Envoyer mon lien personnel"
+
+msgid "This account has another role. Sign out and use a different email for your candidate account."
+msgstr "Ce compte a un autre rôle. Déconnectez-vous et utilisez une autre adresse email pour votre compte candidat."
+
+msgid "If this address can continue, a personal link has been prepared. Check your email. No existing account or profile has been replaced."
+msgstr "Si cette adresse permet de continuer, un lien personnel a été préparé. Consultez vos emails. Aucun compte ou profil existant n’a été remplacé."
+
+msgid "Your personal link is valid for one hour. You can complete the questionnaire after verifying your email."
+msgstr "Votre lien personnel est valable une heure. Vous pourrez remplir le questionnaire après vérification de votre email."
+
+msgid "Confirm your email and sign in on this device to continue to the questionnaire. Do not share your personal link."
+msgstr "Confirmez votre email et connectez-vous sur cet appareil pour accéder au questionnaire. Ne partagez pas votre lien personnel."
+
+msgid "Confirm and continue"
+msgstr "Confirmer et continuer"
+
+msgid "Confirm your email to continue"
+msgstr "Confirmez votre email pour continuer"
+
+msgid "Use this personal link within one hour, then confirm on the page to sign in and continue. Opening the link alone does not sign you in. If you did not request this, ignore this message."
+msgstr "Utilisez ce lien personnel dans l’heure, puis confirmez sur la page pour vous connecter et continuer. Ouvrir le lien ne vous connecte pas automatiquement. Si vous n’êtes pas à l’origine de cette demande, ignorez ce message."
+
+msgid "Save my candidate profile"
+msgstr "Enregistrer mon profil candidat"
+
+msgid "Test candidate"
+msgstr "Candidat de test"
+
+msgid "Your email is verified before the questionnaire. A new account remains inactive until confirmation; answers are saved in your private profile when you submit the questionnaire. Existing profiles are only updated by their signed-in owner. Expired unverified accounts are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
+msgstr "Votre email est vérifié avant le questionnaire. Un nouveau compte reste inactif jusqu’à confirmation ; vos réponses sont enregistrées dans votre profil privé à la validation du questionnaire. Seul le propriétaire connecté peut modifier son profil existant. Les comptes non vérifiés expirés sont supprimés par nettoyage, pas nécessairement à l’instant de leur expiration. Cette notice n’active aucun matching ni présentation automatique."

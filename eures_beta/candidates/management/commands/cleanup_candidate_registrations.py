@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from eures_beta.candidates.models import CandidateRegistration
+from eures_beta.users.models import User
 
 
 class Command(BaseCommand):
@@ -10,7 +10,12 @@ class Command(BaseCommand):
         parser.add_argument('--apply', action='store_true')
 
     def handle(self, *args, **options):
-        queryset = CandidateRegistration.objects.filter(expires_at__lte=timezone.now())
+        queryset = User.objects.filter(
+            kind='candidate',
+            is_active=False,
+            candidate_verification_nonce__isnull=False,
+            candidate_verification_expires__lte=timezone.now(),
+        )
         count = queryset.count()
         if options['apply']:
             queryset.delete()

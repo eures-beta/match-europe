@@ -36,6 +36,43 @@ class CandidateProfileMigrationTests(TransactionTestCase):
             User.objects.get(pk=user.pk).email, 'old-profile@example.invalid'
         )
 
+    def test_pending_answers_move_to_two_models_without_email_verification(self):
+        apps = self.migrate(
+            ('candidates', '0003_candidateprofile_email_verified_at_and_more')
+        )
+        Pending = apps.get_model('candidates', 'CandidateRegistration')
+        from django.utils import timezone
+        from datetime import timedelta
+
+        old = Pending.objects.create(
+            email='pending@example.invalid',
+            language='de',
+            answers={
+                'display_name': 'Preserved pending candidate',
+                'desired_countries': ['DE'],
+            },
+            expires_at=timezone.now() + timedelta(hours=1),
+        )
+        apps = self.migrate(
+            (
+                'candidates',
+                '0004_remove_candidateregistration_candidate_registration_email_ci_and_more',
+            )
+        )
+        User = apps.get_model('users', 'User')
+        user = User.objects.get(email=old.email)
+        self.assertFalse(user.is_active)
+        self.assertEqual(user.candidate_verification_nonce, old.nonce)
+        profile = apps.get_model('candidates', 'CandidateProfile').objects.get(
+            user_id=user.pk
+        )
+        self.assertEqual(profile.display_name, 'Preserved pending candidate')
+        self.assertEqual(profile.desired_countries, ['DE'])
+        self.assertIsNone(profile.email_verified_at)
+        self.assertNotIn(
+            'candidates_candidateregistration', connection.introspection.table_names()
+        )
+
     def migrate(self, target):
         executor = MigrationExecutor(connection)
         executor.migrate([target])

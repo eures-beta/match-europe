@@ -5,6 +5,13 @@ from django.utils.translation import gettext_lazy as _
 from .models import User
 
 ACCOUNTS = {
+    'candidate': {
+        'email': 'candidate@demo.example.invalid',
+        'kind': User.Kind.CANDIDATE,
+        'is_staff': False,
+        'is_superuser': False,
+        'label': _('Test candidate'),
+    },
     'adviser': {
         'email': 'adviser@demo.example.invalid',
         'kind': User.Kind.ADVISER,

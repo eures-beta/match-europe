@@ -36,7 +36,7 @@ class TestAccountAccessTests(TestCase):
 
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
-        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.count(), len(ACCOUNTS))
         self.assertEqual(Company.objects.count(), 1)
         self.assertEqual(CompanyMembership.objects.count(), 1)
         self.assertEqual(JobOffer.objects.count(), 2)
@@ -97,7 +97,15 @@ class TestAccountAccessTests(TestCase):
             self.assertEqual(client.session.get_expiry_age(), 30 * 86400)
             self.assertEqual(
                 response.request['PATH_INFO'],
-                '/admin/' if key == 'admin' else '/accounts/dashboard/',
+                (
+                    '/admin/'
+                    if key == 'admin'
+                    else (
+                        '/candidate/prepare/'
+                        if key == 'candidate'
+                        else '/accounts/dashboard/'
+                    )
+                ),
             )
             self.assertEqual(
                 client.get('/admin/').status_code, 200 if key == 'admin' else 302

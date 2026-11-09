@@ -1,27 +1,22 @@
 from datetime import timedelta
 from io import StringIO
-from unittest.mock import patch
-
-from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.core.management import call_command
-from django.core.management.base import CommandError
-from django.test import Client, TestCase, override_settings
-from django.test import TransactionTestCase
-from django.db import close_old_connections, connections
 from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
+from unittest.mock import patch
+
+from django.core.management import call_command
+from django.db import close_old_connections, connections
+from django.test import Client, TestCase, TransactionTestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from eures_beta.candidates import registration
 from eures_beta.candidates.journey import KEY
-from eures_beta.candidates.models import CandidateProfile, CandidateRegistration
+from eures_beta.candidates.models import CandidateProfile
+from eures_beta.users.models import User
 
-User = get_user_model()
 
-
-def answers(**changes):
+def answers():
     return dict(
         display_name='Fictional candidate',
         desired_occupations='Fictional job',
@@ -33,25 +28,19 @@ def answers(**changes):
         schedule_preference='discuss',
         working_conditions=['discuss'],
         salary_preference='discuss',
-        **changes,
     )
 
 
-@override_settings(
-    DJANGO_ENVIRONMENT='local',
-    EMAIL_DELIVERY_ENABLED=False,
-    DEMO_MODE=True,
-    SHARED_DEMO=True,
-)
+@override_settings(DJANGO_ENVIRONMENT='preview', EMAIL_DELIVERY_ENABLED=False)
 class CandidateRegistrationTests(TestCase):
     def pending(self, email='candidate@example.invalid'):
-        return registration.create_request(email, answers(), 'fr')
+        return registration.create_request(email, 'fr')
 
-    def open_link(self, pending, client=None):
+    def open_link(self, user, client=None):
         client = client or self.client
         client.get(
             reverse('candidate_registration_confirm'),
-            {'token': registration.token_for(pending)},
+            {'token': registration.token_for(user)},
             secure=True,
         )
         return client.get(reverse('candidate_registration_confirm'), secure=True)
@@ -61,37 +50,53 @@ class CandidateRegistrationTests(TestCase):
             reverse('candidate_registration_confirm'), secure=True
         )
 
-    def test_no_account_until_explicit_post_and_replay_is_rejected(self):
-        pending = self.pending()
-        token = registration.token_for(pending)
-        self.assertEqual(User.objects.count(), 0)
-        self.assertEqual(CandidateProfile.objects.count(), 0)
-        response = self.open_link(pending)
-        self.assertNotContains(response, token)
-        self.assertEqual(response['Referrer-Policy'], 'same-origin')
-        self.assertEqual(User.objects.count(), 0)
-        self.assertEqual(CandidateRegistration.objects.count(), 1)
+    def test_email_precedes_questionnaire_and_public_outcomes_are_neutral(self):
         self.assertRedirects(
-            self.confirm(), reverse('candidate_profile'), fetch_redirect_response=False
+            self.client.get('/candidate/prepare/', secure=True),
+            reverse('candidate_start'),
+            fetch_redirect_response=False,
         )
-        user = User.objects.get()
-        profile = user.candidate_profile
-        self.assertEqual(user.kind, 'candidate')
+        self.assertNotIn(KEY, self.client.session)
+        existing = User.objects.create_user('employer@example.invalid', kind='employer')
+        pages = []
+        for email in ('new@example.invalid', existing.email):
+            self.client.post(reverse('candidate_start'), {'email': email}, secure=True)
+            response = self.client.get(
+                reverse('candidate_registration_requested'), secure=True
+            )
+            pages.append(response.context['stage'])
+            self.assertNotContains(response, email)
+            self.assertNotContains(response, 'token=')
+        self.assertEqual(pages, ['requested', 'requested'])
+        existing.refresh_from_db()
+        self.assertEqual(existing.kind, 'employer')
+
+    def test_inactive_account_cannot_login_before_post_and_replay_fails(self):
+        user = self.pending()
+        token = registration.token_for(user)
+        self.assertFalse(user.is_active)
         self.assertFalse(user.has_usable_password())
-        self.assertIsNotNone(profile.email_verified_at)
-        self.assertIsNotNone(profile.notice_read_at)
-        self.assertEqual(profile.notice_version, '2026-11-05')
-        self.assertEqual(profile.desired_occupations, 'Fictional job')
-        self.assertEqual(CandidateRegistration.objects.count(), 0)
+        self.assertEqual(CandidateProfile.objects.count(), 0)
+        self.assertNotContains(self.open_link(user), token)
+        user.refresh_from_db()
+        self.assertFalse(user.is_active)
+        self.assertRedirects(
+            self.confirm(), reverse('candidate_prepare'), fetch_redirect_response=False
+        )
+        user.refresh_from_db()
+        self.assertTrue(user.is_active)
+        self.assertIsNone(user.candidate_verification_nonce)
+        self.assertEqual(int(self.client.session['_auth_user_id']), user.pk)
         self.client.get(
             reverse('candidate_registration_confirm'), {'token': token}, secure=True
         )
         self.assertContains(self.confirm(), 'invalide')
         self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(CandidateProfile.objects.count(), 0)
 
-    def test_expired_tampered_and_missing_tokens_do_not_create_accounts(self):
-        pending = self.pending()
-        token = registration.token_for(pending)
+    def test_expired_tampered_and_missing_tokens_do_not_activate(self):
+        user = self.pending()
+        token = registration.token_for(user)
         for invalid in ('', token + 'tampered', 'x' * 600):
             self.client.get(
                 reverse('candidate_registration_confirm'),
@@ -99,239 +104,190 @@ class CandidateRegistrationTests(TestCase):
                 secure=True,
             )
             self.assertContains(self.confirm(), 'invalide')
-        pending.expires_at = timezone.now() - timedelta(seconds=1)
-        pending.save()
-        self.open_link(pending)
-        self.assertContains(self.confirm(), 'invalide')
-        self.assertEqual(User.objects.count(), 0)
-
-    def test_confirmation_requires_csrf(self):
-        pending = self.pending()
-        client = Client(enforce_csrf_checks=True)
-        self.open_link(pending, client)
-        self.assertEqual(self.confirm(client).status_code, 403)
-        self.assertEqual(User.objects.count(), 0)
-
-    def test_profile_creation_failure_rolls_back_account_and_consumption(self):
-        pending = self.pending()
-        self.open_link(pending)
-        with patch.object(
-            CandidateProfile, 'save', side_effect=ValidationError('invalid')
-        ):
-            self.assertContains(self.confirm(), 'invalide')
-        self.assertEqual(User.objects.count(), 0)
-        self.assertTrue(CandidateRegistration.objects.filter(pk=pending.pk).exists())
-
-    def test_existing_accounts_and_inactive_accounts_are_never_replaced(self):
-        for kind, active in (
-            ('employer', True),
-            ('adviser', True),
-            ('candidate', False),
-        ):
-            email = f'{kind}-{active}@example.invalid'
-            user = User.objects.create_user(email=email, kind=kind, is_active=active)
-            self.assertIsNone(
-                registration.create_request(email.upper(), answers(), 'fr')
-            )
-            user.refresh_from_db()
-            self.assertEqual(user.kind, kind)
-            self.assertEqual(user.is_active, active)
-        self.assertEqual(CandidateRegistration.objects.count(), 0)
-        self.assertEqual(CandidateProfile.objects.count(), 0)
-
-    def test_existing_active_candidate_without_profile_is_reused_after_verification(
-        self,
-    ):
-        existing = User.objects.create_user(
-            'candidate@example.invalid', kind='candidate'
+        User.objects.filter(pk=user.pk).update(
+            candidate_verification_expires=timezone.now() - timedelta(seconds=1)
         )
-        pending = self.pending()
-        self.assertIsNone(getattr(existing, 'candidate_profile', None))
-        self.open_link(pending)
-        self.assertEqual(self.confirm().status_code, 302)
-        self.assertEqual(User.objects.count(), 1)
-        self.assertEqual(CandidateProfile.objects.get().user_id, existing.pk)
-        self.assertIsNone(registration.create_request(existing.email, answers(), 'fr'))
-
-    def test_account_created_while_waiting_is_not_overwritten(self):
-        pending = self.pending()
-        self.open_link(pending)
-        user = User.objects.create_user(email=pending.email, kind='employer')
+        self.open_link(user)
         self.assertContains(self.confirm(), 'invalide')
         user.refresh_from_db()
-        self.assertEqual(user.kind, 'employer')
-        self.assertEqual(CandidateProfile.objects.count(), 0)
+        self.assertFalse(user.is_active)
 
-    def test_second_anonymous_request_cannot_replace_pending_answers(self):
-        pending = self.pending()
-        changed = answers()
-        changed['display_name'] = 'Unrelated visitor'
-        self.assertIsNone(registration.create_request(pending.email, changed, 'de'))
-        pending.refresh_from_db()
-        self.assertEqual(pending.answers['display_name'], 'Fictional candidate')
-        self.assertEqual(pending.language, 'fr')
+    def test_csrf_and_failed_activation_preserve_unconsumed_account(self):
+        user = self.pending()
+        client = Client(enforce_csrf_checks=True)
+        self.open_link(user, client)
+        self.assertEqual(self.confirm(client).status_code, 403)
+        self.open_link(user)
+        from django.core.exceptions import ValidationError
 
-    def test_answers_are_revalidated_and_only_model_fields_are_kept(self):
-        data = answers()
-        data['desired_countries'] = ['INVALID']
-        with self.assertRaises(ValidationError):
-            registration.create_request('fiction@example.invalid', data, 'fr')
-        data = answers()
-        data['cv_text'] = 'must not persist'
-        data['token'] = 'must not persist'
-        pending = registration.create_request('fiction@example.invalid', data, 'fr')
-        self.assertNotIn('cv_text', pending.answers)
-        self.assertNotIn('token', pending.answers)
-        self.assertIsNotNone(
-            registration.create_request('candidate@example.test', answers(), 'fr')
+        with patch.object(User, 'save', side_effect=ValidationError('invalid')):
+            self.assertContains(self.confirm(), 'invalide')
+        user.refresh_from_db()
+        self.assertFalse(user.is_active)
+        self.assertIsNotNone(user.candidate_verification_nonce)
+
+    def test_anonymous_repeat_does_not_modify_account_or_profile(self):
+        user = self.pending()
+        original = (
+            user.candidate_verification_nonce,
+            user.candidate_verification_expires,
         )
-
-    def test_pending_admin_only_exposes_metadata(self):
-        from django.contrib import admin
-        from django.test import RequestFactory
-
-        pending = self.pending()
-        operator = User.objects.create_superuser(
-            'operator@example.invalid', kind='adviser'
+        self.assertEqual(
+            registration.create_request(user.email.upper(), 'de').pk, user.pk
         )
-        request = RequestFactory().get('/')
-        request.user = operator
-        model_admin = admin.site._registry[CandidateRegistration]
-        self.assertTrue(model_admin.has_view_permission(request))
-        self.assertFalse(model_admin.has_view_permission(request, pending))
-        self.assertFalse(model_admin.has_add_permission(request))
-        self.assertFalse(model_admin.has_change_permission(request, pending))
-        self.assertFalse(model_admin.has_delete_permission(request, pending))
-        self.assertEqual(model_admin.list_display, ('id', 'created_at', 'expires_at'))
+        user.refresh_from_db()
+        self.assertEqual(
+            original,
+            (user.candidate_verification_nonce, user.candidate_verification_expires),
+        )
+        user = registration.confirm_registration(registration.token_for(user))
+        profile = registration.update_profile(user, answers(), 'fr')
+        returned = registration.create_request(user.email, 'de')
+        profile.refresh_from_db()
+        self.assertEqual(returned.pk, user.pk)
+        self.assertEqual(profile.display_name, 'Fictional candidate')
+        self.assertEqual(profile.language, 'fr')
+        with override_settings(DEBUG=True, ALLOWED_HOSTS=['127.0.0.1']):
+            _, body = registration.confirmation_message(
+                returned, 'http://127.0.0.1:9035'
+            )
+        self.assertIn('/accounts/confirm/?sesame=', body)
 
-    def test_profile_is_private_and_edit_does_not_create_another_account(self):
-        pending = self.pending()
-        self.open_link(pending)
+    def test_complete_questionnaire_creates_one_profile_and_edit_reuses_it(self):
+        user = self.pending()
+        self.open_link(user)
         self.confirm()
-        user = User.objects.get()
-        self.assertContains(
-            self.client.get(reverse('candidate_profile'), secure=True), 'Fictional job'
-        )
-        outsider = Client()
-        self.assertEqual(
-            outsider.get(reverse('candidate_profile'), secure=True).status_code, 302
-        )
-        employer = User.objects.create_user(
-            email='employer@example.invalid', kind='employer'
-        )
-        outsider.force_login(employer)
-        self.assertEqual(
-            outsider.get(reverse('candidate_profile'), secure=True).status_code, 403
-        )
-        self.assertEqual(
-            outsider.post(reverse('candidate_profile_edit'), secure=True).status_code,
-            403,
-        )
-        self.assertEqual(
-            self.client.get(reverse('candidate_profile_edit'), secure=True).status_code,
-            405,
+        self.client.get('/candidate/prepare/?lang=fr', secure=True)
+        for step, data in (
+            (1, {'desired_occupations': 'Fictional job', 'desired_countries': ['FR']}),
+            (2, {'mobility': 'discuss'}),
+            (
+                3,
+                {
+                    k: v
+                    for k, v in answers().items()
+                    if k
+                    in (
+                        'availability',
+                        'contract_types',
+                        'working_time',
+                        'schedule_preference',
+                        'working_conditions',
+                        'salary_preference',
+                    )
+                },
+            ),
+            (
+                4,
+                {
+                    'display_name': 'Fictional candidate',
+                    'contact_email': 'attacker@example.invalid',
+                    'reviewed': 'on',
+                },
+            ),
+        ):
+            response = self.client.post(
+                f'/candidate/prepare/?step={step}&lang=fr',
+                {
+                    'token': self.client.session[KEY]['token'],
+                    'action': 'finish' if step == 4 else 'continue',
+                    **data,
+                },
+                secure=True,
+            )
+            self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('candidate_profile'))
+        self.assertEqual(CandidateProfile.objects.count(), 1)
+        self.assertNotIn(KEY, self.client.session)
+        user.refresh_from_db()
+        self.assertEqual(user.email, 'candidate@example.invalid')
+        self.assertRedirects(
+            self.client.get(reverse('candidate_start'), secure=True),
+            reverse('candidate_profile'),
+            fetch_redirect_response=False,
         )
         self.client.post(reverse('candidate_profile_edit'), secure=True)
-        draft = self.client.session[KEY]
-        response = self.client.post(
-            '/candidate/prepare/?step=4&lang=fr',
-            {
-                'action': 'finish',
-                'token': draft['token'],
-                'display_name': 'Updated fictional name',
-                'reviewed': 'on',
-                'contact_email': 'other@example.invalid',
-            },
-            secure=True,
-        )
-        self.assertRedirects(
-            response, reverse('candidate_profile'), fetch_redirect_response=False
-        )
-        profile = CandidateProfile.objects.get(user=user)
-        self.assertEqual(profile.display_name, 'Updated fictional name')
-        self.assertEqual(
-            User.objects.get(pk=user.pk).email, 'candidate@example.invalid'
-        )
+        self.assertEqual(self.client.session[KEY]['owner_id'], user.pk)
+        data = answers()
+        data['display_name'] = 'Updated fictional name'
+        registration.update_profile(user, data, 'en')
         self.assertEqual(CandidateProfile.objects.count(), 1)
+        self.assertEqual(user.candidate_profile.display_name, 'Updated fictional name')
 
-    def test_expiry_cleanup_is_dry_run_by_default_and_preserves_valid_requests(self):
-        expired = self.pending()
-        CandidateRegistration.objects.filter(pk=expired.pk).update(
-            expires_at=timezone.now() - timedelta(seconds=1)
+    def test_profile_private_wrong_role_and_account_switch_discard_old_draft(self):
+        user = User.objects.create_user('owner@example.invalid', kind='candidate')
+        registration.update_profile(user, answers(), 'fr')
+        self.client.force_login(user)
+        self.client.get('/candidate/prepare/', secure=True)
+        first = self.client.session[KEY]['token']
+        other = User.objects.create_user('other@example.invalid', kind='candidate')
+        self.client.force_login(other)
+        self.assertEqual(
+            self.client.get(reverse('candidate_profile'), secure=True).status_code, 404
         )
-        valid = registration.create_request('second@example.invalid', answers(), 'fr')
-        # Creation opportunistically removed expired data. Recreate an expired test record.
-        expired = CandidateRegistration.objects.create(
-            email='expired@example.invalid',
-            answers={},
-            expires_at=timezone.now() - timedelta(seconds=1),
+        self.client.get('/candidate/prepare/', secure=True)
+        self.assertNotEqual(self.client.session[KEY]['token'], first)
+        self.assertEqual(self.client.session[KEY]['data'], {})
+        employer = User.objects.create_user('employer@example.invalid', kind='employer')
+        self.client.force_login(employer)
+        self.assertContains(
+            self.client.get(reverse('candidate_start'), secure=True), 'autre rôle'
         )
-        output = StringIO()
-        call_command('cleanup_candidate_registrations', stdout=output)
-        self.assertTrue(CandidateRegistration.objects.filter(pk=expired.pk).exists())
-        call_command('cleanup_candidate_registrations', apply=True, stdout=output)
-        self.assertFalse(CandidateRegistration.objects.filter(pk=expired.pk).exists())
-        self.assertTrue(CandidateRegistration.objects.filter(pk=valid.pk).exists())
+        self.assertEqual(
+            self.client.get(reverse('candidate_profile'), secure=True).status_code, 403
+        )
 
-    def test_email_simulation_is_private_and_validates_origin(self):
-        pending = self.pending()
-        output = StringIO()
+    def test_operator_simulation_and_cleanup_only_unverified_expired_candidates(self):
+        user = self.pending()
         with override_settings(DEBUG=True, ALLOWED_HOSTS=['127.0.0.1']):
+            output = StringIO()
             call_command(
                 'candidate_email',
-                pending.email,
+                user.email,
                 origin='http://127.0.0.1:9035',
                 stdout=output,
             )
             self.assertIn('/candidate/registration/confirm/?token=', output.getvalue())
-            with self.assertRaises(CommandError):
-                call_command(
-                    'candidate_email',
-                    pending.email,
-                    origin='https://attacker.invalid',
-                    stdout=StringIO(),
-                )
-        response = self.client.get(
-            reverse('candidate_registration_requested'), secure=True
+        User.objects.filter(pk=user.pk).update(
+            candidate_verification_expires=timezone.now() - timedelta(seconds=1)
         )
-        self.assertNotContains(response, registration.token_for(pending))
-        self.assertNotContains(response, pending.email)
+        active = User.objects.create_user('active@example.invalid', kind='candidate')
+        disabled = User.objects.create_user(
+            'disabled@example.invalid', kind='candidate', is_active=False
+        )
+        call_command('cleanup_candidate_registrations', stdout=StringIO())
+        self.assertTrue(User.objects.filter(pk=user.pk).exists())
+        call_command('cleanup_candidate_registrations', apply=True, stdout=StringIO())
+        self.assertFalse(User.objects.filter(pk=user.pk).exists())
+        self.assertTrue(
+            User.objects.filter(pk__in=[active.pk, disabled.pk]).count() == 2
+        )
 
-    def test_registration_and_confirmation_work_in_every_environment(self):
-        for environment in ('local', 'preview', 'production'):
-            with (
-                self.subTest(environment=environment),
-                override_settings(
-                    DJANGO_ENVIRONMENT=environment, DEMO_MODE=False, SHARED_DEMO=False
-                ),
-            ):
-                self.client = Client()
-                self.assertEqual(
-                    self.client.get('/candidate/', secure=True).status_code, 200
-                )
-                self.assertEqual(
-                    self.client.get('/candidate/prepare/', secure=True).status_code, 200
-                )
-                pending = self.pending(f'{environment}@example.test')
-                self.open_link(pending)
-                self.assertEqual(self.confirm().status_code, 302)
-                self.assertEqual(
-                    self.client.get(
-                        reverse('candidate_profile'), secure=True
-                    ).status_code,
-                    200,
-                )
-                self.assertTrue(
-                    User.objects.filter(email=pending.email, kind='candidate').exists()
-                )
+    def test_expired_pending_link_can_be_renewed_without_reactivating_disabled_accounts(
+        self,
+    ):
+        user = self.pending()
+        old = registration.token_for(user)
+        User.objects.filter(pk=user.pk).update(
+            candidate_verification_expires=timezone.now() - timedelta(seconds=1)
+        )
+        renewed = registration.create_request(user.email, 'de')
+        self.assertNotEqual(
+            user.candidate_verification_nonce, renewed.candidate_verification_nonce
+        )
+        self.assertIsNone(registration.find_registration(old))
+        self.assertFalse(renewed.is_active)
+        disabled = User.objects.create_user(
+            'disabled@example.invalid', kind='candidate', is_active=False
+        )
+        self.assertIsNone(registration.create_request(disabled.email, 'fr'))
 
-    def test_confirmation_delivery_uses_protected_shared_policy(self):
-        pending = self.pending()
-        with patch('eures_beta.candidates.registration.send_mail') as send:
-            for environment in ('local', 'preview'):
-                with override_settings(DJANGO_ENVIRONMENT=environment):
-                    self.assertFalse(registration.send_confirmation(pending))
-            send.assert_not_called()
+    def test_production_uses_shared_backend_and_admin_hides_nonce(self):
+        user = self.pending()
+        from django.core import mail
+        from django.contrib import admin
+        from django.test import RequestFactory
+
         with override_settings(
             DJANGO_ENVIRONMENT='production',
             EMAIL_DELIVERY_ENABLED=True,
@@ -342,124 +298,38 @@ class CandidateRegistrationTests(TestCase):
             DEFAULT_FROM_EMAIL='noreply@example.invalid',
             EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
         ):
-            from django.core import mail
-
-            self.assertTrue(registration.send_confirmation(pending))
-            self.assertEqual(mail.outbox[-1].to, [pending.email])
+            self.assertTrue(registration.send_confirmation(user))
+            self.assertEqual(mail.outbox[-1].to, [user.email])
             self.assertIn(
-                'https://testserver/candidate/registration/confirm/?token=',
-                mail.outbox[-1].body,
+                '/candidate/registration/confirm/?token=', mail.outbox[-1].body
             )
-            self.assertEqual(User.objects.count(), 0)
-            with patch(
-                'eures_beta.candidates.registration.send_mail',
-                side_effect=RuntimeError(pending.email),
-            ):
-                with self.assertLogs(
-                    'eures_beta.candidates.registration', level='ERROR'
-                ) as logs:
-                    self.assertFalse(registration.send_confirmation(pending))
-                self.assertNotIn(pending.email, ''.join(logs.output))
-                self.assertTrue(
-                    CandidateRegistration.objects.filter(pk=pending.pk).exists()
-                )
-
-    def test_questionnaire_submits_to_pending_instead_of_creating_an_account(self):
-        self.client.get('/candidate/prepare/?lang=fr', secure=True)
-        for step, data in (
-            (1, {'desired_occupations': 'Fictional job', 'desired_countries': ['FR']}),
-            (2, {'mobility': 'discuss'}),
-            (
-                3,
-                {
-                    'availability': 'discuss',
-                    'contract_types': ['discuss'],
-                    'working_time': ['discuss'],
-                    'schedule_preference': 'discuss',
-                    'working_conditions': ['discuss'],
-                    'salary_preference': 'discuss',
-                },
-            ),
-            (
-                4,
-                {
-                    'display_name': 'Fictional candidate',
-                    'contact_email': 'candidate@example.invalid',
-                    'reviewed': 'on',
-                },
-            ),
-        ):
-            draft = self.client.session[KEY]
-            response = self.client.post(
-                f'/candidate/prepare/?step={step}&lang=fr',
-                {
-                    'token': draft['token'],
-                    'action': 'finish' if step == 4 else 'continue',
-                    **data,
-                },
-                secure=True,
-            )
-            self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('candidate_registration_requested'))
-        self.assertEqual(CandidateRegistration.objects.count(), 1)
-        self.assertEqual(User.objects.count(), 0)
-        self.assertNotIn(KEY, self.client.session)
-
-    def test_registration_pages_and_email_are_translated(self):
-        for language, title in (
-            ('fr', 'Confirmation du profil candidat'),
-            ('en', 'Candidate profile confirmation'),
-            ('de', 'Bestätigung des Bewerberprofils'),
-        ):
-            with self.subTest(language=language):
-                response = self.client.get(
-                    reverse('candidate_registration_requested'),
-                    {'lang': language},
-                    secure=True,
-                )
-                self.assertContains(response, title)
-                self.assertContains(response, f'<html lang="{language}">')
-        with override_settings(DEBUG=True, ALLOWED_HOSTS=['127.0.0.1']):
-            pending = registration.create_request('de@example.invalid', answers(), 'de')
-            subject, _body = registration.confirmation_message(
-                pending, 'http://127.0.0.1:9035'
-            )
-            self.assertEqual(subject, 'Bestätigen Sie Ihr Bewerberprofil')
-
-    def test_request_limit_and_existing_address_have_the_same_public_outcome(self):
-        from eures_beta.users.rate_limits import allow_request
-        from django.test import RequestFactory
-
-        request = RequestFactory().post('/', REMOTE_ADDR='192.0.2.1')
-        self.assertEqual(
-            [allow_request(request, 'limit@example.invalid') for _ in range(6)],
-            [True] * 5 + [False],
+        request = RequestFactory().get('/')
+        request.user = User.objects.create_superuser(
+            'staff@example.invalid', kind='adviser'
         )
-        response = self.client.get(
-            reverse('candidate_registration_requested'), secure=True
+        self.assertNotIn(
+            'candidate_verification_nonce',
+            admin.site._registry[User].get_fields(request, user),
         )
-        self.assertNotContains(response, 'limit@example.invalid')
-        self.assertNotContains(response, 'token=')
+
+    def test_confirmation_delivery_remains_disabled_in_preview(self):
+        user = self.pending()
+        with patch('eures_beta.candidates.registration.send_mail') as send:
+            self.assertFalse(registration.send_confirmation(user))
+        send.assert_not_called()
 
 
-@override_settings(
-    DJANGO_ENVIRONMENT='local',
-    EMAIL_DELIVERY_ENABLED=False,
-)
 class CandidateConfirmationConcurrencyTests(TransactionTestCase):
-    def test_two_confirmations_create_exactly_one_account_and_profile(self):
-        pending = registration.create_request(
-            'concurrent@example.invalid', answers(), 'fr'
-        )
-        token = registration.token_for(pending)
+    def test_two_confirmations_activate_exactly_once(self):
+        user = registration.create_request('concurrent@example.invalid', 'fr')
+        token = registration.token_for(user)
         barrier = Barrier(2)
 
         def confirm():
             close_old_connections()
             try:
                 barrier.wait(timeout=10)
-                user = registration.confirm_registration(token)
-                return bool(user)
+                return bool(registration.confirm_registration(token))
             finally:
                 connections.close_all()
 
@@ -467,5 +337,4 @@ class CandidateConfirmationConcurrencyTests(TransactionTestCase):
             results = list(pool.map(lambda _: confirm(), range(2)))
         self.assertEqual(sorted(results), [False, True])
         self.assertEqual(User.objects.count(), 1)
-        self.assertEqual(CandidateProfile.objects.count(), 1)
-        self.assertEqual(CandidateRegistration.objects.count(), 0)
+        self.assertEqual(CandidateProfile.objects.count(), 0)

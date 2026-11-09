@@ -513,6 +513,10 @@ SCHEMA = 2
 @sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
 def journey(request):
+    if not request.user.is_authenticated:
+        return redirect('candidate_start')
+    if request.user.kind != 'candidate' or not request.user.is_active:
+        return redirect('candidate_start')
     language = request.GET.get('lang', request.LANGUAGE_CODE)
     if language not in ('fr', 'en', 'de'):
         language = 'fr'
@@ -527,6 +531,25 @@ def workflow(request, language):
         return redirect(f'/candidate/prepare/?step={step}&lang={language}')
 
     draft = request.session.get(KEY)
+    if draft and draft.get('owner_id') != request.user.pk:
+        request.session.pop(KEY, None)
+        draft = None
+    if not draft:
+        from .models import CandidateProfile
+
+        existing = CandidateProfile.objects.filter(user=request.user).first()
+        if existing:
+            draft = {
+                'schema': SCHEMA,
+                'owner_id': request.user.pk,
+                'created_at': time.time(),
+                'touched_at': time.time(),
+                'token': secrets.token_urlsafe(24),
+                'unlocked': 4,
+                'editing_user': request.user.pk,
+                'data': registration.profile_answers(existing),
+            }
+            request.session[KEY] = draft
     now = time.time()
     last_activity = (draft or {}).get('touched_at', (draft or {}).get('created_at', 0))
     expired = bool(draft and not 0 <= now - last_activity < TTL)
@@ -544,6 +567,7 @@ def workflow(request, language):
         }
         draft = {
             'schema': SCHEMA,
+            'owner_id': request.user.pk,
             'created_at': draft['created_at'],
             'token': secrets.token_urlsafe(24),
             'data': {
@@ -575,6 +599,7 @@ def workflow(request, language):
             return go(1)
         draft = {
             'schema': SCHEMA,
+            'owner_id': request.user.pk,
             'created_at': now,
             'touched_at': now,
             'token': secrets.token_urlsafe(24),
@@ -603,11 +628,8 @@ def workflow(request, language):
             return HttpResponseBadRequest()
     form_class = FORMS[step]
     initial = draft['data']
-    if step == 4 and draft.get('editing_user'):
-        if (
-            not request.user.is_authenticated
-            or request.user.pk != draft['editing_user']
-        ):
+    if step == 4:
+        if not request.user.is_authenticated or request.user.pk != draft['owner_id']:
             raise PermissionDenied
         initial = {**initial, 'contact_email': request.user.email}
     form = form_class(
@@ -615,7 +637,7 @@ def workflow(request, language):
         initial=initial,
         **({'language': language} if step == 1 else {}),
     )
-    if step == 4 and draft.get('editing_user'):
+    if step == 4:
         form.fields['contact_email'].disabled = True
     if request.method == 'POST' and action != 'search' and form.is_valid():
         draft['data'].update(
@@ -631,25 +653,9 @@ def workflow(request, language):
         ):
             draft['data'].pop('language_notes', None)
         if step == 4:
-            if draft.get('editing_user'):
-                registration.update_profile(request.user, draft['data'], language)
-                destination = 'candidate_profile'
-            else:
-                from eures_beta.users.rate_limits import allow_request
-
-                if allow_request(request, form.cleaned_data['contact_email']):
-                    try:
-                        pending = registration.create_request(
-                            form.cleaned_data['contact_email'], draft['data'], language
-                        )
-                    except IntegrityError:
-                        # A simultaneous request for this address has the same generic outcome.
-                        pass
-                    else:
-                        registration.send_confirmation(pending)
-                destination = 'candidate_registration_requested'
+            registration.update_profile(request.user, draft['data'], language)
             request.session.pop(KEY, None)
-            return redirect(destination)
+            return redirect('candidate_profile')
         draft['unlocked'] = max(draft['unlocked'], min(step + 1, 4))
         request.session[KEY] = draft
         if (

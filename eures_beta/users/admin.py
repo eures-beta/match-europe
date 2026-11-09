@@ -13,6 +13,7 @@ from .models import User, EmployerInvitation, LoginRateLimit
 
 @admin.register(User)
 class AccountAdmin(ReadOnlyAdmin):
+    exclude = (*ReadOnlyAdmin.exclude, 'candidate_verification_nonce')
     list_display = ('email', 'kind', 'is_active', 'is_staff', 'is_superuser')
     list_filter = ('kind', 'is_active', 'is_staff', 'is_superuser')
     search_fields = ('email', 'first_name', 'last_name')

@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ValidationError
-from eures_beta.candidates.models import CandidateRegistration
+from eures_beta.users.models import User
 from eures_beta.candidates.registration import confirmation_message
 
 
@@ -15,10 +15,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            pending = CandidateRegistration.objects.get(
-                email__iexact=options['email'].strip()
-            )
+            pending = User.objects.get(email__iexact=options['email'].strip())
             subject, body = confirmation_message(pending, options['origin'])
-        except (CandidateRegistration.DoesNotExist, ValidationError):
+        except (User.DoesNotExist, ValidationError):
             raise CommandError('No valid request or allowed origin.') from None
         self.stdout.write(subject + '\n\n' + body)

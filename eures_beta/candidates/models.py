@@ -15,28 +15,6 @@ def registration_expiry():
     return timezone.now() + timedelta(seconds=settings.CANDIDATE_REGISTRATION_MAX_AGE)
 
 
-class CandidateRegistration(models.Model):
-    """Short-lived answers awaiting possession of an email address; never an account."""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    nonce = models.UUIDField(default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True)
-    language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
-    answers = models.JSONField(default=dict)
-    created_at = models.DateTimeField(default=timezone.now)
-    expires_at = models.DateTimeField(default=registration_expiry, db_index=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                Lower('email'), name='candidate_registration_email_ci'
-            )
-        ]
-
-    def __str__(self):
-        return str(self.pk)
-
-
 class CandidateProfile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(

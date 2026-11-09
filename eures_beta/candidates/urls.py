@@ -3,6 +3,7 @@ from eures_beta.candidates import landing, journey
 from eures_beta.candidates import registration_views
 
 urlpatterns = [
+    path('candidate/start/', registration_views.start, name='candidate_start'),
     path(
         'candidate/registration/requested/',
         registration_views.requested,

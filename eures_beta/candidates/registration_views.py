@@ -17,6 +17,8 @@ from eures_beta.users.models import User
 from eures_beta.users.views import selected_language, email_ready
 from . import registration
 from .models import CandidateProfile
+from django import forms
+from django.views.decorators.debug import sensitive_post_parameters
 
 
 def page(request, stage, **context):
@@ -26,6 +28,38 @@ def page(request, stage, **context):
         )
     response['Referrer-Policy'] = 'same-origin'
     return response
+
+
+class EntryForm(forms.Form):
+    email = forms.EmailField(
+        label=_("Your email address"),
+        widget=forms.EmailInput(attrs={'autocomplete': 'email'}),
+    )
+
+
+@never_cache
+@sensitive_post_parameters('email')
+@require_http_methods(['GET', 'POST'])
+def start(request):
+    if request.user.is_authenticated:
+        if request.user.kind != User.Kind.CANDIDATE:
+            return page(request, 'wrong_role')
+        if CandidateProfile.objects.filter(user=request.user).exists():
+            return redirect('candidate_profile')
+        return redirect('candidate_prepare')
+    form = EntryForm(request.POST if request.method == 'POST' else None)
+    if request.method == 'POST' and form.is_valid():
+        from eures_beta.users.rate_limits import allow_request
+
+        email = form.cleaned_data['email'].strip().lower()
+        if allow_request(request, email):
+            try:
+                user = registration.create_request(email, selected_language(request))
+            except IntegrityError:
+                user = None
+            registration.send_confirmation(user)
+        return redirect('candidate_registration_requested')
+    return page(request, 'start', form=form)
 
 
 @never_cache
@@ -47,7 +81,9 @@ def confirm(request):
             )
             if pending:
                 request.session[key] = token
-                request.session['login_language'] = pending.language
+                request.session['login_language'] = (
+                    pending.candidate_verification_language
+                )
             response = redirect('candidate_registration_confirm')
             response['Referrer-Policy'] = 'no-referrer'
             return response
@@ -59,7 +95,6 @@ def confirm(request):
         return page(
             request,
             'confirm' if pending else 'invalid',
-            pending_name=pending.answers.get('display_name', '') if pending else '',
         )
     token = request.session.pop(key, '')
     try:
@@ -68,13 +103,13 @@ def confirm(request):
             user = registration.confirm_registration(token) if token else None
             if user is None:
                 return page(request, 'invalid')
-            language = user.candidate_profile.language
+            language = user.candidate_verification_language
             auth_login(request, user, backend='sesame.backends.ModelBackend')
             request.session['login_language'] = language
             request.session.set_expiry(settings.SESSION_COOKIE_AGE)
     except (IntegrityError, ValidationError):
         return page(request, 'invalid')
-    return redirect('candidate_profile')
+    return redirect('candidate_prepare')
 
 
 def owned_profile(request):
@@ -144,6 +179,7 @@ def edit(request):
     now = time.time()
     request.session[KEY] = {
         'schema': SCHEMA,
+        'owner_id': request.user.pk,
         'created_at': now,
         'touched_at': now,
         'token': secrets.token_urlsafe(24),

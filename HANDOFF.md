@@ -1070,3 +1070,17 @@ demande temporaire et profil confirmé reste à discuter avant une refonte.
 sont cohérents avec ce délai ; l’avertissement reste deux minutes avant l’échéance.
 Les tests couvrent la reprise après une heure d’inactivité et le refus après
 plus de deux heures. Aucun changement des modèles ni de la confirmation email.
+
+## 9 novembre 2026 — email avant questionnaire candidat
+
+PR empilée sur #132 : entrée neutre par email, compte candidat inactif avant
+confirmation POST, puis questionnaire réservé au candidat connecté. Un compte
+actif retrouve la connexion habituelle ; son rôle et son profil ne sont jamais
+écrasés par une demande anonyme. Un seul profil est créé ou mis à jour à la
+validation finale. Le délai d’inactivité reste deux heures.
+
+CandidateRegistration est retiré ; les demandes existantes sont transférées
+sans vérification inventée et la migration échoue atomiquement en cas de collision.
+Les anciens liens doivent être redemandés. Voir docs/CANDIDATE_EMAIL_REGISTRATION.md.
+Le sélecteur de test propose un candidat fictif dans local/preview uniquement.
+Aucun email réel envoyé ni migration de production exécutée pendant ce travail.

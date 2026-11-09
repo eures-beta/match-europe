@@ -4,19 +4,26 @@
 {% block public_content %}
   <section class="surface-card home-section">
     <h1>{% translate "Candidate profile confirmation" %}</h1>
-    {% if stage == "requested" %}
-      <p role="status">{% translate "If this address can be registered, a confirmation has been prepared. If you already have an account, sign in to access it. No existing profile has been replaced." %}</p>
-      <p>{% translate "A confirmation request lasts one hour. Confirm your email to create your account and save your profile." %}</p>
+    {% if stage == "start" %}
+      <p>{% translate "Verify your email before starting. If you already have a candidate profile, you will be able to retrieve it." %}</p>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="primary-action" type="submit">{% translate "Send my personal link" %}</button>
+      </form>
+    {% elif stage == "wrong_role" %}
+      <p>{% translate "This account has another role. Sign out and use a different email for your candidate account." %}</p>
+    {% elif stage == "requested" %}
+      <p role="status">{% translate "If this address can continue, a personal link has been prepared. Check your email. No existing account or profile has been replaced." %}</p>
+      <p>{% translate "Your personal link is valid for one hour. You can complete the questionnaire after verifying your email." %}</p>
       {% if not email_delivery_available %}
         <p role="status">{% translate "Email delivery is currently unavailable." %}</p>
       {% endif %}
-      <a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>
     {% elif stage == "confirm" %}
-      <p><strong>{% translate "Name to display" %}</strong> : {{ pending_name }}</p>
-      <p>{% translate "Confirm to create your candidate account, save your reviewed answers and sign in on this device. Do not share your personal link." %}</p>
+      <p>{% translate "Confirm your email and sign in on this device to continue to the questionnaire. Do not share your personal link." %}</p>
       <form method="post" action="{% url 'candidate_registration_confirm' %}">
         {% csrf_token %}
-        <button class="primary-action" type="submit">{% translate "Confirm and save my profile" %}</button>
+        <button class="primary-action" type="submit">{% translate "Confirm and continue" %}</button>
       </form>
     {% else %}
       <p role="alert">{% translate "This confirmation is invalid, expired or already used. No account or profile has been changed." %}</p>

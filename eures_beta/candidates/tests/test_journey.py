@@ -7,6 +7,14 @@ from eures_beta.candidates.journey import KEY, SCHEMA, ConditionsForm, MobilityF
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateJourneyTests(TestCase):
+    def setUp(self):
+        from eures_beta.users.models import User
+
+        self.user = User.objects.create_user(
+            'journey@example.invalid', kind='candidate'
+        )
+        self.client.force_login(self.user)
+
     def get(self, step=1, **query):
         return self.client.get(
             '/candidate/prepare/', {'step': step, **query}, secure=True
@@ -87,6 +95,7 @@ class CandidateJourneyTests(TestCase):
     def test_old_session_is_sanitised_and_project_retained(self):
         session = self.client.session
         session[KEY] = {
+            'owner_id': self.user.pk,
             'created_at': time.time(),
             'token': 'old-token',
             'unlocked': 5,
@@ -245,6 +254,7 @@ class CandidateJourneyTests(TestCase):
         with override_settings(DEMO_MODE=False):
             self.assertEqual(self.get().status_code, 200)
         client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
         self.assertEqual(
             client.post('/candidate/prepare/', {}, secure=True).status_code, 403
         )
@@ -255,6 +265,7 @@ class CandidateJourneyTests(TestCase):
         self.get()
         token = self.client.session[KEY]['token']
         other = Client()
+        other.force_login(self.user)
         other.get('/candidate/prepare/', secure=True)
         self.assertNotEqual(token, other.session[KEY]['token'])
         self.assertEqual(self.get(4).status_code, 302)
@@ -268,6 +279,7 @@ class CandidateJourneyTests(TestCase):
         self.get()
         session = self.client.session
         session[KEY] = {
+            'owner_id': self.user.pk,
             **session[KEY],
             'created_at': time.time() - 7201,
             'touched_at': time.time() - 7201,
@@ -430,6 +442,8 @@ class CandidateJourneyTests(TestCase):
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateJourneyAccessibilityTests(TestCase):
+    setUp = CandidateJourneyTests.setUp
+
     """Fixes from the 4 November 2026 accessibility and fluency review."""
 
     get = CandidateJourneyTests.get
@@ -499,6 +513,7 @@ class CandidateJourneyAccessibilityTests(TestCase):
         session = self.client.session
         token = session[KEY]['token']
         session[KEY] = {
+            'owner_id': self.user.pk,
             **session[KEY],
             'created_at': time.time() - 10800,
             'touched_at': time.time() - 3600,
@@ -578,6 +593,7 @@ class CandidateJourneyAccessibilityTests(TestCase):
         self.get()
         self.assertEqual(self.post(action='extend', token='wrong').status_code, 400)
         client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
         client.cookies = self.client.cookies
         self.assertEqual(
             client.post(

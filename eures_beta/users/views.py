@@ -44,14 +44,12 @@ def account(request):
 @require_GET
 def dashboard(request):
     with translation.override(selected_language(request)):
+        if request.user.kind == 'candidate':
+            return redirect('candidate_start')
         if request.user.kind == 'adviser':
             from .invitation_views import adviser_dashboard
 
             return adviser_dashboard(request)
-        if request.user.kind == 'candidate':
-            if hasattr(request.user, 'candidate_profile'):
-                return redirect('candidate_profile')
-            return render(request, 'users/dashboard.html')
         from eures_beta.employers.dashboard import employer_dashboard
 
         return employer_dashboard(request)

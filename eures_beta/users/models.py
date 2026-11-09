@@ -79,6 +79,16 @@ class User(AbstractUser):
         EMPLOYER = 'employer', _('Employer')
         CANDIDATE = 'candidate', _('Candidate')
 
+    candidate_verification_nonce = models.UUIDField(
+        null=True, blank=True, editable=False
+    )
+    candidate_verification_expires = models.DateTimeField(
+        null=True, blank=True, editable=False
+    )
+    candidate_verification_language = models.CharField(
+        max_length=2, default="fr", db_default="fr", choices=settings.LANGUAGES
+    )
+
     username = None
     email = models.EmailField(unique=True)
     kind = models.CharField(max_length=16, choices=Kind.choices)

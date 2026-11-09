@@ -46,7 +46,7 @@ DRAFT_TEXT = _(
 )
 SCOPE_TITLE = _("Current scope")
 SCOPE_TEXT = _(
-    "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
+    "Your email is verified before the questionnaire. A new account remains inactive until confirmation; answers are saved in your private profile when you submit the questionnaire. Existing profiles are only updated by their signed-in owner. Expired unverified accounts are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice."
 )
 LIMITS = _(
     "These are the retention rules carried forward from the experiment. Automatic deletion according to these periods is not yet implemented in this version. Detailed information about the responsible organisation, the legal basis and deletion arrangements must be completed before collecting real candidate profiles."
