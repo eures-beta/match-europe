@@ -127,7 +127,7 @@ class EmployerDashboardTests(TestCase):
         )
         self.client.force_login(adviser)
         self.assertTemplateUsed(
-            self.client.get(reverse('dashboard')), 'users/adviser_dashboard.html'
+            self.client.get(reverse('dashboard')), 'matching/team_dashboard.html'
         )
 
     @override_settings(SHARED_DEMO=True)
