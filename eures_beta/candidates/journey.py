@@ -702,9 +702,19 @@ def workflow(request, language):
         if step == 4:
             if draft.get('editing_user'):
                 try:
-                    registration.update_profile(request.user, draft['data'], language, expected_updated_at=draft.get('source_profile_updated_at'))
+                    registration.update_profile(
+                        request.user,
+                        draft['data'],
+                        language,
+                        expected_updated_at=draft.get('source_profile_updated_at'),
+                    )
                 except registration.StaleProfile:
-                    return render(request, 'matching/dialogue_profile_conflict.html', {'page_language': language}, status=409)
+                    return render(
+                        request,
+                        'matching/dialogue_profile_conflict.html',
+                        {'page_language': language},
+                        status=409,
+                    )
                 destination = 'candidate_profile'
             else:
                 from eures_beta.users.rate_limits import allow_request
