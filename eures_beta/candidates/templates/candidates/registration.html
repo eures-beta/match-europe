@@ -5,18 +5,25 @@
   <section class="surface-card home-section">
     <h1>{% translate "Candidate profile confirmation" %}</h1>
     {% if stage == "requested" %}
-      <p role="status">{% translate "If this address can be registered, a confirmation has been prepared. If you already have an account, sign in to access it. No existing profile has been replaced." %}</p>
-      <p>{% translate "A confirmation request lasts one hour. Confirm your email to create your account and save your profile." %}</p>
+      <p role="status">{% translate "A confirmation has been requested. Your draft is preserved. No existing profile has been replaced." %}</p>
+      <p>{% translate "The link lasts one hour. Confirm your email to save a new profile or review your existing profile." %}</p>
       {% if not email_delivery_available %}
         <p role="status">{% translate "Email delivery is currently unavailable." %}</p>
       {% endif %}
       <a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>
+      <p><a href="{% url 'candidate_prepare' %}?step=4&amp;lang={{ page_language }}">{% translate "Return to my draft" %}</a></p>
+    {% elif stage == "role" %}
+      <p role="alert">{% translate "This address belongs to an unavailable account or another role. No account has been changed. Your answers are preserved; return to your draft to use another email." %}</p>
+      <a href="{% url 'candidate_prepare' %}?step=4&amp;lang={{ page_language }}">{% translate "Return to my draft" %}</a>
+    {% elif stage == "changed" %}
+      <p role="alert">{% translate "Your profile has changed since you opened the comparison. Review it again before updating." %}</p>
+      <a href="{% url 'candidate_profile_compare' %}">{% translate "Compare again" %}</a>
     {% elif stage == "confirm" %}
       <p><strong>{% translate "Name to display" %}</strong> : {{ pending_name }}</p>
-      <p>{% translate "Confirm to create your candidate account, save your reviewed answers and sign in on this device. Do not share your personal link." %}</p>
+      <p>{% translate "Confirm your email and continue on this device. If a profile already exists, you can compare it with your new answers before deciding. Do not share your personal link." %}</p>
       <form method="post" action="{% url 'candidate_registration_confirm' %}">
         {% csrf_token %}
-        <button class="primary-action" type="submit">{% translate "Confirm and save my profile" %}</button>
+        <button class="primary-action" type="submit">{% translate "Confirm my email" %}</button>
       </form>
     {% else %}
       <p role="alert">{% translate "This confirmation is invalid, expired or already used. No account or profile has been changed." %}</p>

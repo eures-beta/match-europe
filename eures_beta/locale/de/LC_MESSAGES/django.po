@@ -7997,3 +7997,71 @@ msgstr "Meinen Entwurf 2 Stunden länger behalten"
 #: eures_beta/data_protection.py
 msgid "The candidate draft expires after 2 hours without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
 msgstr "Der Bewerberentwurf läuft nach 2 Stunden ohne Aktivität ab. Dieser vorübergehende Entwurf ist von einem dauerhaft gespeicherten Profil getrennt. Der Ablauf wird bei der Rückkehr zum Fragebogen geprüft; er garantiert keine sofortige Löschung aus technischen Speichern oder Sicherungskopien."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Retrieve or edit my profile"
+msgstr "Mein Profil aufrufen oder bearbeiten"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Already completed the questionnaire? Sign in using your email."
+msgstr "Haben Sie den Fragebogen bereits ausgefüllt? Melden Sie sich mit Ihrer E-Mail-Adresse an."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Start without an account. Your email is requested only at the end to save your answers securely."
+msgstr "Starten Sie ohne Konto. Ihre E-Mail-Adresse wird erst am Ende benötigt, um Ihre Antworten sicher zu speichern."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "A confirmation has been requested. Your draft is preserved. No existing profile has been replaced."
+msgstr "Eine Bestätigung wurde angefordert. Ihr Entwurf bleibt erhalten. Kein bestehendes Profil wurde ersetzt."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Return to my draft"
+msgstr "Zurück zu meinem Entwurf"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "This address belongs to an unavailable account or another role. No account has been changed. Your answers are preserved; return to your draft to use another email."
+msgstr "Diese Adresse gehört zu einem nicht verfügbaren Konto oder einer anderen Rolle. Kein Konto wurde geändert. Ihre Antworten bleiben erhalten; kehren Sie zum Entwurf zurück, um eine andere E-Mail-Adresse zu verwenden."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Your profile has changed since you opened the comparison. Review it again before updating."
+msgstr "Ihr Profil wurde seit dem Öffnen des Vergleichs geändert. Prüfen Sie es erneut, bevor Sie es aktualisieren."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Compare again"
+msgstr "Erneut vergleichen"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Confirm your email and continue on this device. If a profile already exists, you can compare it with your new answers before deciding. Do not share your personal link."
+msgstr "Bestätigen Sie Ihre E-Mail-Adresse, um auf diesem Gerät fortzufahren. Falls bereits ein Profil besteht, können Sie es vor Ihrer Entscheidung mit Ihren neuen Antworten vergleichen. Teilen Sie Ihren persönlichen Link nicht."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Compare my answers"
+msgstr "Meine Antworten vergleichen"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Your existing profile has not changed. Choose whether to keep it or replace it with the answers below."
+msgstr "Ihr bestehendes Profil wurde nicht geändert. Entscheiden Sie, ob Sie es behalten oder durch die folgenden Antworten ersetzen möchten."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Current profile"
+msgstr "Aktuelles Profil"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "New answers"
+msgstr "Neue Antworten"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Keep my current profile"
+msgstr "Mein aktuelles Profil behalten"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Replace with my new answers"
+msgstr "Durch meine neuen Antworten ersetzen"
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "The link lasts one hour. Confirm your email to save a new profile or review your existing profile."
+msgstr "Der Link ist eine Stunde gültig. Bestätigen Sie Ihre E-Mail-Adresse, um ein neues Profil zu speichern oder Ihr bestehendes Profil zu prüfen."
+
+#: eures_beta/candidates/templates/candidates/registration.html
+msgid "Confirm my email"
+msgstr "Meine E-Mail-Adresse bestätigen"

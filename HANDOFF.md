@@ -1,3 +1,13 @@
+## 9 novembre 2026 — questionnaire ouvert, email à la fin
+
+PR fille de #132, en remplacement de #164 fermée sans fusion. Entrée anonyme,
+lien pour retrouver un profil, brouillon conservé pendant la vérification et
+récupérable sur un autre appareil. Profil existant : comparaison puis choix
+explicite, avec contrôle de version pour empêcher un écrasement concurrent.
+Autre rôle : aucune conversion, brouillon récupérable pour changer d’adresse.
+Migration des demandes vers les sessions Django avant suppression de leur modèle.
+Aucun compte/profil existant supprimé. Aucun réglage de production modifié.
+Voir [le fonctionnement et les limites](docs/CANDIDATE_EMAIL_REGISTRATION.md).
 ## 9 novembre 2026 — correction de la parité des environnements
 
 La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.

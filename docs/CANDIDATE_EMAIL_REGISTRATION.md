@@ -2,7 +2,61 @@
 
 L’envoi dépend de sa configuration explicite (`EMAIL_DELIVERY_ENABLED`, `LOGIN_EMAIL_ENABLED`, origine HTTPS de confiance et transport SMTP), jamais du nom de l’environnement. L’envoi reste désactivé par défaut. Les tests simulent le transport et les outils de comptes fictifs restent incompatibles avec l’envoi réel. Aucune configuration distante ni aucun e-mail réel n’est modifié par cette correction. Cette décision remplace les anciennes mentions « production uniquement » ci-dessous.
 
-# Confirmation et enregistrement candidat — premier lot P1
+# Questionnaire ouvert et confirmation candidat
+
+## 9 novembre 2026 — remplacement de la proposition email préalable
+
+Cette version remplace la PR #164 abandonnée : aucun compte ni email n’est
+nécessaire pour commencer. L’accueil propose le questionnaire et une connexion
+pour retrouver un profil existant. L’email est demandé à la dernière étape.
+
+Les seules données métier durables restent `users.User` et
+`candidates.CandidateProfile`. Les réponses en attente de vérification sont
+conservées une heure dans des lignes dédiées de `django_session`, distinctes
+des sessions de navigation et sans authentification. Le lien signé ne contient
+que deux UUID, jamais une clé de session de navigateur, l’email ou les réponses.
+Le brouillon du navigateur reste disponible pendant son délai d’inactivité de
+deux heures ; ouvrir le lien sur un autre appareil retrouve aussi les réponses.
+
+Après le POST de vérification protégé par CSRF :
+
+- nouvelle adresse : création atomique du compte candidat et du profil ;
+- candidat actif sans profil : création du profil sur le compte existant ;
+- candidat avec profil : connexion puis comparaison de l’ancien profil et des
+  nouvelles réponses, sans modification automatique. Un second POST explicite
+  permet de conserver le profil ou de le remplacer. La proposition expire après
+  deux heures et est liée au compte connecté. Une modification concurrente du
+  profil impose une nouvelle comparaison ;
+- compte inactif ou autre rôle : explication après vérification seulement,
+  aucun compte modifié. Les réponses sont remises dans le brouillon pour
+  permettre d’utiliser une autre adresse.
+
+Plusieurs demandes indépendantes pour le même email sont possibles dans les
+limites anti-abus existantes ; aucune ne remplace les réponses d’une autre.
+La page publique reste neutre sur l’existence d’un compte. GET ne confirme rien,
+le jeton est retiré de l’URL et un POST ne peut le consommer qu’une fois.
+
+La migration `0004_confirmation_sessions` transfère les demandes existantes
+(réponses, dates, UUID et nonce conservés), puis supprime leur ancienne table.
+Les liens déjà envoyés restent valables pendant leur échéance initiale. Aucun
+compte ou profil existant n’est supprimé. Un retour à l’ancien schéma échoue
+explicitement s’il ne peut représenter plusieurs demandes du même email, au lieu
+de perdre des données. Nettoyer ou terminer ces demandes avant un tel rollback.
+
+`make candidate-email EMAIL=personne@example.invalid ORIGIN=http://127.0.0.1:9035`
+simule en privé le message de la demande la plus récente pour cette adresse ;
+ne jamais publier le lien de connexion. `make candidate-registration-cleanup`
+compte les paquets expirés ; `CLEANUP_ARGS=--apply` les supprime sans toucher aux
+sessions de navigation ni aux profils. Le nettoyage Django usuel des sessions
+expirées est également compatible. Il n’y a pas de tâche de purge nouvellement
+installée : l’expiration interdit l’accès sans garantir l’effacement immédiat.
+
+Le backend email commun et son activation explicite sont conservés. Aucun
+transport, secret ou réglage distant n’est ajouté par cette PR.
+Les textes et les écrans de comparaison existent en FR/EN/DE. Aucun matching,
+partage conseiller ou inscription employeur n’est ouvert.
+
+## Historique — premier lot P1 (remplacé sur les points décrits ci-dessus)
 
 ## Périmètre et activation
 

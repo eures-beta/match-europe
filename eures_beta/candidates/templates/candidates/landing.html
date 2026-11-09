@@ -280,7 +280,14 @@
                   <span><strong>{% translate "Describe my career plans" context "public positioning" %}</strong><span class="choice-description">{% translate "A questionnaire in four steps: target occupations, mobility and languages, working conditions, then review." context "public positioning" %}</span></span>
                   <span class="choice-arrow" aria-hidden="true">→</span>
                 </a>
+                <a class="import-choice"
+                   href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'magic_login' %}{% endif %}?lang={{ page_language }}">
+                  <span class="choice-symbol" aria-hidden="true">↪</span>
+                  <span><strong>{% translate "Retrieve or edit my profile" %}</strong><span class="choice-description">{% translate "Already completed the questionnaire? Sign in using your email." %}</span></span>
+                  <span class="choice-arrow" aria-hidden="true">→</span>
+                </a>
               </div>
+              <p>{% translate "Start without an account. Your email is requested only at the end to save your answers securely." %}</p>
             </div>
             <p id="candidate-status"
                class="candidate-highlight"
