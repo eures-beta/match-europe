@@ -48,6 +48,6 @@ urlpatterns = [
             ('forms/eures-beta/journal', 'journal', 'legacy_journal'),
         )
     ],
-    path('manifest.webmanifest', views.manifest),
-    path('sw.js', views.service_worker),
+    path('manifest.webmanifest', views.manifest, name='pwa_manifest'),
+    path('sw.js', views.service_worker, name='pwa_worker'),
 ]

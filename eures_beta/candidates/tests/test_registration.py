@@ -13,6 +13,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
 from django.urls import reverse
 from django.utils import timezone
+from sesame.utils import get_token
 
 from eures_beta.candidates import registration
 from eures_beta.candidates.journey import KEY
@@ -261,6 +262,13 @@ class CandidateRegistrationTests(TestCase):
             self.client.get(reverse('candidate_profile_edit'), secure=True).status_code,
             405,
         )
+        mobile = Client()
+        mobile.get(reverse('magic_confirm'), {'sesame': get_token(user)}, secure=True)
+        restored = mobile.post(reverse('magic_confirm'), secure=True, follow=True)
+        self.assertEqual(restored.request['PATH_INFO'], reverse('candidate_profile'))
+        self.assertContains(restored, 'Fictional candidate')
+        self.assertContains(restored, 'rel="manifest"')
+
         self.client.post(reverse('candidate_profile_edit'), secure=True)
         draft = self.client.session[KEY]
         response = self.client.post(
