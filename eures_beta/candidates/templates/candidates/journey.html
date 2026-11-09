@@ -215,7 +215,7 @@
         <aside class="surface-card journey-aside">
           <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
           <p>{% translate "Your answers describe your current project. You can change them before confirming." %}</p>
-          <p>{% translate "Your draft stays available while you use it, and for 30 minutes after your last action. It is private to this session. This is not a permanent save." %}</p>
+          <p>{% translate "Your draft stays available while you use it, and for 2 hours after your last action. It is private to this session. This is not a permanent save." %}</p>
           <p>{% translate "Any future introduction to an employer will require a separate agreement." %}</p>
           <form method="post">
             {% csrf_token %}
@@ -237,8 +237,8 @@
     <button type="button"
             class="primary-action"
             id="journey-timeout-extend"
-            data-done="{% translate 'Your draft is kept for 30 more minutes.' %}"
-            data-failed="{% translate 'The draft could not be extended. Keep this page open and copy your answers before trying again.' %}">{% translate "Keep my draft for 30 more minutes" %}</button>
+            data-done="{% translate 'Your draft is kept for 2 more hours.' %}"
+            data-failed="{% translate 'The draft could not be extended. Keep this page open and copy your answers before trying again.' %}">{% translate "Keep my draft for 2 more hours" %}</button>
   </div>
   <p class="journey-timeout-status"
      id="journey-timeout-status"

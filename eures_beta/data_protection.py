@@ -42,7 +42,7 @@ RETENTION_ROWS = (
 )
 DRAFT_TITLE = _("Temporary questionnaire drafts")
 DRAFT_TEXT = _(
-    "The candidate draft expires after 30 minutes without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
+    "The candidate draft expires after 2 hours without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
 )
 SCOPE_TITLE = _("Current scope")
 SCOPE_TEXT = _(

@@ -14,7 +14,7 @@ function harness(response) {
       value: selector.includes('csrfmiddlewaretoken') ? 'csrf-token' : 'draft-token',
     }),
   };
-  const timeout = { hidden: true, dataset: { seconds: '1800', warningSeconds: '120' } };
+  const timeout = { hidden: true, dataset: { seconds: '7200', warningSeconds: '120' } };
   const extend = {
     dataset: { done: 'Extended', failed: 'Not extended' },
     addEventListener: (name, handler) => (events[name] = handler),
@@ -49,13 +49,13 @@ function harness(response) {
     },
   );
   const warning = [...timers.values()][0];
-  assert.equal(warning.delay, 1680000);
+  assert.equal(warning.delay, 7080000);
   warning.callback();
   return { timeout, extend, status, requests, click: events.click };
 }
 
 test('extension uses a protected POST and only confirms an explicit server acknowledgement', async () => {
-  const ui = harness({ ok: true, json: async () => ({ extended: true, seconds: 1800 }) });
+  const ui = harness({ ok: true, json: async () => ({ extended: true, seconds: 7200 }) });
   await ui.click();
   const [, options] = ui.requests[0];
   assert.equal(options.method, 'POST');

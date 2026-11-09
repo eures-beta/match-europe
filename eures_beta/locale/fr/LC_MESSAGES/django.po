@@ -7526,20 +7526,20 @@ msgstr "Modifier : %(section)s"
 msgid "Save and return to the review"
 msgstr "Enregistrer et revenir au récapitulatif"
 
-msgid "Your draft stays available while you use it, and for 30 minutes after your last action. It is private to this session. This is not a permanent save."
-msgstr "Votre brouillon reste disponible tant que vous l’utilisez, et 30 minutes après votre dernière action. Il est privé à cette session. Ce n’est pas une sauvegarde durable."
+msgid "Your draft stays available while you use it, and for 2 hours after your last action. It is private to this session. This is not a permanent save."
+msgstr "Votre brouillon reste disponible tant que vous l’utilisez, et 2 heures après votre dernière action. Il est privé à cette session. Ce n’est pas une sauvegarde durable."
 
 msgid "Your draft will expire in 2 minutes without activity."
 msgstr "Sans activité, votre brouillon expirera dans 2 minutes."
 
-msgid "Your draft is kept for 30 more minutes."
-msgstr "Votre brouillon est conservé 30 minutes de plus."
+msgid "Your draft is kept for 2 more hours."
+msgstr "Votre brouillon est conservé 2 heures de plus."
 
 msgid "The draft could not be extended. Keep this page open and copy your answers before trying again."
 msgstr "Le brouillon n’a pas pu être prolongé. Gardez cette page ouverte et copiez vos réponses avant de réessayer."
 
-msgid "Keep my draft for 30 more minutes"
-msgstr "Garder mon brouillon 30 minutes de plus"
+msgid "Keep my draft for 2 more hours"
+msgstr "Garder mon brouillon 2 heures de plus"
 
 msgctxt "employer dashboard"
 msgid "Your employer account has been created. Welcome to Match Europe."
@@ -7642,8 +7642,8 @@ msgid "Temporary questionnaire drafts"
 msgstr "Brouillons temporaires du questionnaire"
 
 #: eures_beta/data_protection.py
-msgid "The candidate draft expires after 30 minutes without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
-msgstr "Le brouillon candidat expire après 30 minutes sans activité. Ce brouillon temporaire est distinct d’un profil enregistré durablement. L’expiration est vérifiée au retour dans le questionnaire ; elle ne garantit pas un effacement immédiat des supports techniques ou des sauvegardes."
+msgid "The candidate draft expires after 2 hours without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
+msgstr "Le brouillon candidat expire après 2 heures sans activité. Ce brouillon temporaire est distinct d’un profil enregistré durablement. L’expiration est vérifiée au retour dans le questionnaire ; elle ne garantit pas un effacement immédiat des supports techniques ou des sauvegardes."
 
 #: eures_beta/data_protection.py
 msgid "Current scope"

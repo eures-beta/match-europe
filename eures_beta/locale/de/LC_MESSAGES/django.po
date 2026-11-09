@@ -7526,20 +7526,20 @@ msgstr "Bearbeiten: %(section)s"
 msgid "Save and return to the review"
 msgstr "Speichern und zur Übersicht zurückkehren"
 
-msgid "Your draft stays available while you use it, and for 30 minutes after your last action. It is private to this session. This is not a permanent save."
-msgstr "Ihr Entwurf bleibt verfügbar, solange Sie ihn nutzen, und 30 Minuten nach Ihrer letzten Aktion. Er ist privat für diese Sitzung. Es handelt sich nicht um eine dauerhafte Speicherung."
+msgid "Your draft stays available while you use it, and for 2 hours after your last action. It is private to this session. This is not a permanent save."
+msgstr "Ihr Entwurf bleibt verfügbar, solange Sie ihn nutzen, und 2 Stunden nach Ihrer letzten Aktion. Er ist privat für diese Sitzung. Es handelt sich nicht um eine dauerhafte Speicherung."
 
 msgid "Your draft will expire in 2 minutes without activity."
 msgstr "Ohne Aktivität läuft Ihr Entwurf in 2 Minuten ab."
 
-msgid "Your draft is kept for 30 more minutes."
-msgstr "Ihr Entwurf bleibt weitere 30 Minuten erhalten."
+msgid "Your draft is kept for 2 more hours."
+msgstr "Ihr Entwurf bleibt weitere 2 Stunden erhalten."
 
 msgid "The draft could not be extended. Keep this page open and copy your answers before trying again."
 msgstr "Der Entwurf konnte nicht verlängert werden. Lassen Sie diese Seite geöffnet und kopieren Sie Ihre Antworten, bevor Sie es erneut versuchen."
 
-msgid "Keep my draft for 30 more minutes"
-msgstr "Meinen Entwurf 30 Minuten länger behalten"
+msgid "Keep my draft for 2 more hours"
+msgstr "Meinen Entwurf 2 Stunden länger behalten"
 
 msgctxt "employer dashboard"
 msgid "Your employer account has been created. Welcome to Match Europe."
@@ -7642,8 +7642,8 @@ msgid "Temporary questionnaire drafts"
 msgstr "Vorübergehende Fragebogenentwürfe"
 
 #: eures_beta/data_protection.py
-msgid "The candidate draft expires after 30 minutes without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
-msgstr "Der Bewerberentwurf läuft nach 30 Minuten ohne Aktivität ab. Dieser vorübergehende Entwurf ist von einem dauerhaft gespeicherten Profil getrennt. Der Ablauf wird bei der Rückkehr zum Fragebogen geprüft; er garantiert keine sofortige Löschung aus technischen Speichern oder Sicherungskopien."
+msgid "The candidate draft expires after 2 hours without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups."
+msgstr "Der Bewerberentwurf läuft nach 2 Stunden ohne Aktivität ab. Dieser vorübergehende Entwurf ist von einem dauerhaft gespeicherten Profil getrennt. Der Ablauf wird bei der Rückkehr zum Fragebogen geprüft; er garantiert keine sofortige Löschung aus technischen Speichern oder Sicherungskopien."
 
 #: eures_beta/data_protection.py
 msgid "Current scope"

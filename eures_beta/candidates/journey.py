@@ -20,7 +20,7 @@ from django.views.decorators.cache import never_cache
 
 KEY = 'candidate_journey'
 # Inactivity delay: each request on the journey restarts it (WCAG 2.2.1).
-TTL = 1800
+TTL = 2 * 60 * 60
 # The page warns this many seconds before expiry and offers to extend.
 TTL_WARNING = 120
 # Fields that become mandatory only through a form rule, marked as required.
