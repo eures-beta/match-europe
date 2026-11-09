@@ -9,7 +9,7 @@ import zipfile
 
 from django.core.management.base import BaseCommand, CommandError
 
-from eures_beta.occupations.skills_pilot import DATA
+from eures_beta.skills.skills_pilot import DATA
 
 
 class Command(BaseCommand):

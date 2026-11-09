@@ -72,5 +72,12 @@ Le rapport conserve la comparaison historique avec les 35 métiers du pilote.
 Cet échantillon expérimental n’est pas réintroduit dans le train.
 
 
-- [occupation_skills.json](occupation_skills.json) : sélections éditoriales de compétences par métier, partagées par les parcours candidat et employeur.
-- [occupation_skills_sources.json](occupation_skills_sources.json) : références ESCO multilingues et relations officielles utilisées pour vérifier ces sélections.
+- [occupation_skills.json](../../skills/data/occupation_skills.json) : sélections éditoriales de compétences par métier, partagées par les parcours candidat et employeur.
+- [occupation_skills_sources.json](../../skills/data/occupation_skills_sources.json) : références ESCO multilingues et relations officielles utilisées pour vérifier ces sélections.
+
+
+## Séparation métiers et compétences — 9 novembre 2026
+
+Les métiers et recherches restent dans occupations ; catalogues de compétences,
+suggestions et composant intégré vivent dans [skills](https://github.com/eures-beta/match-europe/tree/codex/extract-skills-app/eures_beta/skills). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
+la table PostgreSQL, les identifiants, les suggestions et les permissions.

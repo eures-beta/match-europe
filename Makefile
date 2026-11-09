@@ -6,31 +6,31 @@
 continuous-source-prepare: ## Télécharger explicitement les trois exports publics ESCO épinglés et les vérifier
 	@$(MANAGE) prepare_skill_source --download
 continuous-ui-test: ## Tester l'affichage, les choix, les erreurs et réponses périmées sans navigateur
-	node --test eures_beta/occupations/tests/continuous.test.cjs
+	node --test eures_beta/skills/tests/continuous.test.cjs
 continuous-run: ## Tester toute la pile depuis l'accueil sur 9040, données fictives et Albert simulé
 	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 ME_EMPLOYER_EMAIL_LOCAL=1 ME_LOCAL_REVIEW_ONLY=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
 
 continuous-test: ## Vérifier les choix employeur/candidat, leur conservation et les protections locales
-	@$(MANAGE) test eures_beta.occupations.tests.test_continuous eures_beta.occupations.tests.test_skill_source_prepare --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare --noinput $(TEST_ARGS)
 
 .PHONY: skills-albert-test skills-source-check skills-albert-ui-test
 skills-albert-ui-test: continuous-ui-test ## Vérifier le composant intégré de compétences
 
 skills-albert-test: ## Tester les suggestions, la réutilisation, les erreurs et droits sans Albert réel
-	@$(MANAGE) test eures_beta.occupations.tests.test_albert_skills --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.skills.tests.test_albert_skills --noinput $(TEST_ARGS)
 
 skills-source-check: ## Vérifier hors ligne les archives officielles complètes avant la recette
 	@$(MANAGE) check_skill_source
 
 .PHONY: skills-pilot-test skills-pilot-build skills-pilot-audit
 skills-pilot-audit: ## Comparer les 50 fiches aux archives ESCO épinglées, sans réseau ni base
-	$(PYTHON) -m eures_beta.occupations.tools.audit_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --report .runtime/skills-pilot-audit.json
+	$(PYTHON) -m eures_beta.skills.tools.audit_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --report .runtime/skills-pilot-audit.json
 
 skills-pilot-build: ## Reconstruire le pilote depuis CATALOG_SOURCES en staging, sans réseau
 	@$(MANAGE) sync_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --output .runtime/skills-pilot-staging
 
 skills-pilot-test: ## Vérifier le catalogue, les plafonds, les brouillons, les accès et les langues
-	@$(MANAGE) test eures_beta.occupations.tests.test_skills_pilot --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.skills.tests.test_skills_pilot --noinput $(TEST_ARGS)
 
 .PHONY: albert-test albert-run albert-evaluate
 albert-test: ## Tester Albert sans réseau : validation, repli, droits et confidentialité
@@ -331,7 +331,7 @@ employer-response-test: ## Vérifier les réponses par compte, droits, conflits 
 
 .PHONY: environment-parity-test
 environment-parity-test: ## Vérifier la parité fonctionnelle local, recette et production
-	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert eures_beta.occupations.tests.test_skills_pilot --noinput $(TEST_ARGS)
+	@$(MANAGE) test config.test_environment_parity eures_beta.employers.tests.test_albert eures_beta.skills.tests.test_skills_pilot --noinput $(TEST_ARGS)
 
 .PHONY: candidate-skills-test candidate-skills-ui-test
 candidate-skills-test: ## Tester le parcours sans métier, ses bornes, son stockage et ses droits

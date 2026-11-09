@@ -43,7 +43,7 @@ def connected(view):
 
 
 def render(request, stage, status=200, **context):
-    from eures_beta.occupations.continuous import trial_request
+    from eures_beta.skills.continuous import trial_request
 
     context['continuous_skills'] = trial_request(request)
     response = employer_login.page(request, stage, **context)
@@ -328,7 +328,7 @@ def detail(request, id):
         if value:
             rows.append((field.label, value))
     from eures_beta.employers.employer_search import simulation_enabled
-    from eures_beta.occupations.continuous import summary as skills_summary
+    from eures_beta.skills.continuous import summary as skills_summary
 
     skill_text = skills_summary(
         offer.data.get('occupationSkills'), translation.get_language()

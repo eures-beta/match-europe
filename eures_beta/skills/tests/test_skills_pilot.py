@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import Resolver404, resolve
-from eures_beta.occupations.skills_pilot import catalogue
+from eures_beta.skills.skills_pilot import catalogue
 
 
 class RetiredPilotTests(SimpleTestCase):

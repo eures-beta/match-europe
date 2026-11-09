@@ -66,7 +66,7 @@ function harness(fetch, initial = '{}', role = 'candidate') {
     clearTimeout: () => {},
   };
   vm.runInNewContext(
-    fs.readFileSync(path.join(__dirname, '../static/occupations/continuous.js'), 'utf8'),
+    fs.readFileSync(path.join(__dirname, '../static/skills/continuous.js'), 'utf8'),
     context,
   );
   const change = () =>

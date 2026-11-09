@@ -23,3 +23,10 @@ limites](../docs/USER_MODEL.md).
 Le paquet [observability/](observability/) mesure les requêtes et étapes coûteuses
 sans conserver leur contenu. Voir [les champs, réglages et limites](../docs/OBSERVABILITY.md).
 - [Ressources de l’administration](static/admin/) — Bouton de masquage des filtres et préférence locale du navigateur.
+
+
+## Séparation métiers et compétences — 9 novembre 2026
+
+Les métiers et recherches restent dans occupations ; catalogues de compétences,
+suggestions et composant intégré vivent dans [skills](skills/). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
+la table PostgreSQL, les identifiants, les suggestions et les permissions.

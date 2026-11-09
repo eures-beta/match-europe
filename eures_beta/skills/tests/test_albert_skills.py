@@ -13,11 +13,11 @@ from django.utils import timezone
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
 from eures_beta.users.models import User
-from eures_beta.occupations import albert_skills as service
+from eures_beta.skills import albert_skills as service
 from eures_beta.occupations.catalog import occupation_index
-from eures_beta.occupations.models import OccupationSkillSuggestion as Suggestion
-from eures_beta.occupations.skill_source import load_source
-from eures_beta.occupations.skills_pilot import catalogue
+from eures_beta.skills.models import OccupationSkillSuggestion as Suggestion
+from eures_beta.skills.skill_source import load_source
+from eures_beta.skills.skills_pilot import catalogue
 
 
 @override_settings(
@@ -107,7 +107,7 @@ class SuggestionTests(TestCase):
     ALBERT_MODEL='fixture-model',
 )
 class TransportTests(SimpleTestCase):
-    @patch('eures_beta.occupations.albert_skills.build_opener')
+    @patch('eures_beta.skills.albert_skills.build_opener')
     def test_bounded_request_no_redirect_and_verified_output(self, opener):
         uri = next(iter(occupation_index()))
         skills = {'verified': {'labels': {'fr': 'Compétence fictive'}}}
@@ -146,7 +146,7 @@ class TransportTests(SimpleTestCase):
             service.ask(uri, skills, {'verified': 'essential'})
 
     @override_settings(SKILLS_ALBERT_SIMULATED=True)
-    @patch('eures_beta.occupations.albert_skills.build_opener')
+    @patch('eures_beta.skills.albert_skills.build_opener')
     def test_simulation_never_opens_network(self, opener):
         self.assertEqual(
             service.ask('unused', {}, {'verified': 'essential'}), ['verified']
@@ -168,7 +168,7 @@ class TransportTests(SimpleTestCase):
                         'occupationUri,skillUri,relationType\noccupation,skill,essential\n',
                     )
                 pinned[lang] = hashlib.sha256(path.read_bytes()).hexdigest()
-            with patch('eures_beta.occupations.skill_source.PINNED', pinned):
+            with patch('eures_beta.skills.skill_source.PINNED', pinned):
                 skills, relations = load_source(directory)
                 self.assertEqual(skills['skill']['labels']['de'], 'Official de')
                 self.assertEqual(relations['occupation']['skill'], 'essential')
