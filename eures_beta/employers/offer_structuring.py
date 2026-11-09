@@ -144,9 +144,7 @@ def validate_result(value, source):
 
 
 def structure(source):
-    from eures_beta.occupations.continuous import enabled as continuous_enabled
-
-    if enabled() and continuous_enabled():
+    if settings.ALBERT_IMPORT_ENABLED and settings.ALBERT_IMPORT_SIMULATED:
         from .offer_ingestion import parse_pdf_text
 
         if not isinstance(source, str) or not source.strip() or len(source) > 16000:

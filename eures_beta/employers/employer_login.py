@@ -253,6 +253,10 @@ def sign_out(request):
 @enabled
 @require_POST
 def attach(request):
+    return attach_draft(request)
+
+
+def attach_draft(request):
     """Attach only the draft proven by the consumed login link, with explicit workspace choice."""
     person = identity(request)
     pending_id = request.session.get('employer_claim_import')

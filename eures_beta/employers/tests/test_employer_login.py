@@ -80,7 +80,7 @@ class EmployerLoginTests(TestCase):
         with self.settings(DEMO_MODE=False):
             self.assertEqual(self.client.get('/employer/access/').status_code, 404)
         self.assertRedirects(
-            self.client.get('/employer/connected/'), '/employer/access/'
+            self.client.get('/employer/connected/'), '/accounts/login/'
         )
         csrf = Client(enforce_csrf_checks=True)
         self.assertEqual(

@@ -107,8 +107,6 @@ def source_for(uri):
         if value['occupation'] != uri or not value['relations']:
             raise ValueError('Prepared source occupation mismatch')
         return value['skills'], value['relations']
-    if settings.DJANGO_ENVIRONMENT == 'preview':
-        raise ValueError('Prepared occupation sources required in preview')
     skills, relations = load_source(directory)
     linked = relations.get(uri, {})
     if not linked:
