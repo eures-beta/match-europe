@@ -6,7 +6,10 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('candidates', '0003_candidateprofile_email_verified_at_and_more'),
+        (
+            'candidates',
+            '0004_remove_candidateregistration_candidate_registration_email_ci_and_more',
+        ),
     ]
 
     operations = [

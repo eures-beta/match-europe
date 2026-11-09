@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from eures_beta.candidates import registration
 from eures_beta.candidates.journey import KEY, ProjectForm
-from eures_beta.candidates.models import CandidateProfile, CandidateRegistration
+from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates.skill_choices import (
     FIELDS,
     VERSION,
@@ -30,6 +30,12 @@ def project(**changes):
 
 @override_settings(EMAIL_DELIVERY_ENABLED=False, DJANGO_ENVIRONMENT='local')
 class OpenSkillProjectTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'journey-open@example.invalid', kind=User.Kind.CANDIDATE
+        )
+        self.client.force_login(self.user)
+
     def test_all_valid_boundaries_and_canonical_catalogue_version(self):
         technical = [uri for uri, label in skill_choices('acquired_skills', 'fr')]
         for acquired, learning in ((0, 1), (1, 0), (10, 5)):
@@ -111,14 +117,13 @@ class OpenSkillProjectTests(TestCase):
             data = answers()
             data.update(project())
             pending = registration.create_request(
-                f'candidate-{language}@example.invalid', data, language
+                f'candidate-{language}@example.invalid', language
             )
-            self.assertEqual(User.objects.count(), CandidateProfile.objects.count())
-            self.assertEqual(
-                pending.answers['acquired_skills'], data['acquired_skills']
-            )
+            self.assertFalse(pending.is_active)
+            self.assertFalse(CandidateProfile.objects.filter(user=pending).exists())
             user = registration.confirm_registration(registration.token_for(pending))
-            profile = user.candidate_profile
+            self.assertFalse(CandidateProfile.objects.filter(user=user).exists())
+            profile = registration.update_profile(user, data, language)
             self.assertEqual(profile.project_mode, 'open')
             self.assertEqual(profile.skill_catalogue_version, VERSION)
             self.assertEqual(
@@ -150,18 +155,16 @@ class OpenSkillProjectTests(TestCase):
             profile.professional_behaviours = []
             with self.assertRaises(ValidationError):
                 profile.save()
-        self.assertEqual(CandidateRegistration.objects.count(), 0)
 
-    def test_pending_answers_are_revalidated_before_account_creation(self):
+    def test_answers_are_validated_before_profile_creation(self):
         data = answers()
         data.update(project())
-        pending = registration.create_request('tampered@example.invalid', data, 'fr')
-        pending.answers['professional_behaviours'] = []
-        pending.save()
+        pending = registration.create_request('tampered@example.invalid', 'fr')
+        user = registration.confirm_registration(registration.token_for(pending))
+        data['professional_behaviours'] = []
         with self.assertRaises(ValidationError):
-            registration.confirm_registration(registration.token_for(pending))
-        self.assertEqual(User.objects.count(), 0)
-        self.assertTrue(CandidateRegistration.objects.filter(pk=pending.pk).exists())
+            registration.update_profile(user, data, 'fr')
+        self.assertFalse(CandidateProfile.objects.filter(user=user).exists())
 
     def test_journey_post_review_language_switch_and_server_errors(self):
         self.client.get('/candidate/prepare/?lang=fr', secure=True)
@@ -197,7 +200,7 @@ class OpenSkillProjectTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.client.session[KEY]['unlocked'], 2)
-        # Full questionnaire continues to the usual review and verified signup.
+        # The already authenticated candidate reviews before saving the profile.
         self.client.post(
             '/candidate/prepare/?step=2&lang=fr',
             {'token': token, 'action': 'continue', 'mobility': 'discuss'},
@@ -227,15 +230,8 @@ class OpenSkillProjectTests(TestCase):
             secure=True,
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(User.objects.count(), 0)
-        pending = CandidateRegistration.objects.get()
-        self.client.get(
-            reverse('candidate_registration_confirm'),
-            {'token': registration.token_for(pending)},
-            secure=True,
-        )
-        self.client.post(reverse('candidate_registration_confirm'), secure=True)
-        profile = CandidateProfile.objects.get()
+        self.assertEqual(User.objects.count(), 1)
+        profile = CandidateProfile.objects.get(user=self.user)
         self.assertEqual(profile.acquired_skills, project()['acquired_skills'])
         self.assertEqual(
             profile.professional_behaviours, project()['professional_behaviours']
@@ -263,7 +259,7 @@ class OpenSkillProjectTests(TestCase):
         response = self.client.get('/candidate/prepare/?step=4&lang=en', secure=True)
         self.assertEqual(response.status_code, 302)
         self.assertIn('step=1', response.url)
-        self.assertEqual(CandidateRegistration.objects.count(), 0)
+        self.assertFalse(CandidateProfile.objects.filter(user=self.user).exists())
 
     def test_csrf_and_private_profile_access_remain_enforced(self):
         browser = Client(enforce_csrf_checks=True)

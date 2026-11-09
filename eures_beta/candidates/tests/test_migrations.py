@@ -18,7 +18,7 @@ class CandidateProfileMigrationTests(TransactionTestCase):
             desired_occupations='Preserved fictional job',
         )
         apps = self.migrate(
-            ('candidates', '0004_candidateprofile_acquired_skills_and_more')
+            ('candidates', '0005_candidateprofile_acquired_skills_and_more')
         )
         current = apps.get_model('candidates', 'CandidateProfile').objects.get(
             pk=profile.pk
