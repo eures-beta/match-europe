@@ -648,7 +648,11 @@ def workflow(request, language):
                     else:
                         registration.send_confirmation(pending)
                 destination = 'candidate_registration_requested'
-            request.session.pop(KEY, None)
+            if draft.get('editing_user'):
+                request.session.pop(KEY, None)
+            else:
+                # Keep the original browser draft while the email is being verified.
+                request.session[KEY] = draft
             return redirect(destination)
         draft['unlocked'] = max(draft['unlocked'], min(step + 1, 4))
         request.session[KEY] = draft

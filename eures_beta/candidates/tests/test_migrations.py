@@ -36,6 +36,36 @@ class CandidateProfileMigrationTests(TransactionTestCase):
             User.objects.get(pk=user.pk).email, 'old-profile@example.invalid'
         )
 
+    def test_pending_answers_and_existing_links_survive_session_migration(self):
+        from eures_beta.candidates.tests.test_registration import answers
+        from eures_beta.candidates import registration
+
+        apps = self.migrate(
+            ('candidates', '0003_candidateprofile_email_verified_at_and_more')
+        )
+        Pending = apps.get_model('candidates', 'CandidateRegistration')
+        old = Pending.objects.create(
+            email='pending@example.invalid', answers=answers(), language='de'
+        )
+        token = registration.token_for(old)
+        self.migrate(('candidates', '0004_confirmation_sessions'))
+        self.assertNotIn(
+            'candidates_candidateregistration', connection.introspection.table_names()
+        )
+        pending = registration.find_registration(token)
+        self.assertEqual(pending.answers, old.answers)
+        self.assertEqual(pending.language, 'de')
+        self.assertEqual(pending.expires_at, old.expires_at)
+        apps = self.migrate(
+            ('candidates', '0003_candidateprofile_email_verified_at_and_more')
+        )
+        restored = apps.get_model('candidates', 'CandidateRegistration').objects.get(
+            pk=old.pk
+        )
+        self.assertEqual(restored.answers, old.answers)
+        self.assertEqual(restored.nonce, old.nonce)
+        self.migrate(('candidates', '0004_confirmation_sessions'))
+
     def migrate(self, target):
         executor = MigrationExecutor(connection)
         executor.migrate([target])

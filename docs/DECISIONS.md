@@ -257,3 +257,12 @@ Choix validé par dejafait : `EmployerCompany` devient `Company`,
 `JobOffer`. Les six autres modèles applicatifs ne sont pas renommés. Conserver
 les tables, données, relations, identifiants de types de contenu et de droits.
 Pas de changement de champs ni de comportement métier dans ce lot.
+
+## 9 novembre 2026 — questionnaire candidat sans compte préalable
+
+À la demande de dejafait, abandon de la PR #164 : entrée anonyme et email à la
+fin. Les brouillons temporaires utilisent les sessions Django existantes, sans
+modèle CandidateRegistration. Vérification obligatoire avant création du compte
+et du profil ; un profil existant n’est remplacé qu’après comparaison et décision
+explicite du propriétaire connecté. Les comptes d’autres rôles ne sont jamais
+convertis. Voir [le parcours et la migration](CANDIDATE_EMAIL_REGISTRATION.md).

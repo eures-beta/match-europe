@@ -68,7 +68,7 @@ class CandidateJourneyTests(TestCase):
             ).status_code,
             302,
         )
-        self.assertNotIn(KEY, self.client.session)
+        self.assertIn(KEY, self.client.session)
         self.assertEqual(
             self.client.get('/candidate/import/', secure=True).status_code, 404
         )

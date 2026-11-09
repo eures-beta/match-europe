@@ -20,7 +20,9 @@ from django.utils.translation import gettext as _
 
 from eures_beta.users.invitations import validate_origin
 from eures_beta.users.models import User
-from .models import CandidateProfile, CandidateRegistration
+from .models import CandidateProfile
+from . import pending as pending_store
+from dataclasses import dataclass
 
 SALT = 'candidates.registration.v1'
 logger = logging.getLogger(__name__)
@@ -66,14 +68,7 @@ def find_registration(token, *, lock=False):
         identifier, nonce = uuid.UUID(payload['id']), uuid.UUID(payload['nonce'])
     except (signing.BadSignature, ValueError, KeyError, TypeError):
         return None
-    query = (
-        CandidateRegistration.objects.select_for_update()
-        if lock
-        else CandidateRegistration.objects
-    )
-    return query.filter(
-        pk=identifier, nonce=nonce, expires_at__gt=timezone.now()
-    ).first()
+    return pending_store.load(identifier, nonce, lock=lock)
 
 
 @transaction.atomic
@@ -81,21 +76,17 @@ def create_request(email, data, language):
     email = email.strip().lower()
     validate_email(email)
     answers = validated_answers(data, language)
-    CandidateRegistration.objects.filter(expires_at__lte=timezone.now()).delete()
-    existing = User.objects.filter(email__iexact=email).first()
-    if existing and (
-        not existing.is_active
-        or existing.kind != User.Kind.CANDIDATE
-        or CandidateProfile.objects.filter(user=existing).exists()
-    ):
-        return None
-    # Do not replace an unverified request: an anonymous visitor cannot change
-    # the answers another person is currently verifying.
-    if CandidateRegistration.objects.filter(email__iexact=email).exists():
-        return None
-    return CandidateRegistration.objects.create(
-        email=email, language=language, answers=answers
-    )
+    pending_store.expired().delete()
+    # Independent packages: a second visitor cannot overwrite another draft.
+    # Account existence is only disclosed after proving possession of the email.
+    return pending_store.store(email, answers, language)
+
+
+@dataclass
+class Confirmation:
+    user: object
+    pending: object
+    status: str
 
 
 @transaction.atomic
@@ -104,29 +95,27 @@ def confirm_registration(token):
     if pending is None:
         return None
     user = User.objects.select_for_update().filter(email__iexact=pending.email).first()
-    if user and (
-        not user.is_active
-        or user.kind != User.Kind.CANDIDATE
-        or CandidateProfile.objects.filter(user=user).exists()
-    ):
+    if user and (not user.is_active or user.kind != User.Kind.CANDIDATE):
         pending.delete()
-        return None
+        return Confirmation(None, pending, 'role')
     if user is None:
         user = User.objects.create_user(email=pending.email, kind=User.Kind.CANDIDATE)
     answers = validated_answers(pending.answers, pending.language)
     for name in ('salary_amount', 'available_from'):
         if answers.get(name) == '':
             answers[name] = None
-    CandidateProfile.objects.create(
-        user=user,
-        language=pending.language,
-        email_verified_at=timezone.now(),
-        notice_read_at=pending.created_at,
-        notice_version='2026-11-05',
-        **answers,
-    )
+    existing = CandidateProfile.objects.filter(user=user).exists()
+    if not existing:
+        CandidateProfile.objects.create(
+            user=user,
+            language=pending.language,
+            email_verified_at=timezone.now(),
+            notice_read_at=pending.created_at,
+            notice_version='2026-11-05',
+            **answers,
+        )
     pending.delete()
-    return user
+    return Confirmation(user, pending, 'review' if existing else 'created')
 
 
 def confirmation_message(pending, origin):
@@ -171,7 +160,7 @@ def profile_answers(profile):
 
 
 @transaction.atomic
-def update_profile(user, data, language):
+def update_profile(user, data, language, *, expected_updated_at=None):
     if (
         not user.is_authenticated
         or not user.is_active
@@ -179,6 +168,8 @@ def update_profile(user, data, language):
     ):
         raise PermissionDenied
     profile = CandidateProfile.objects.select_for_update().get(user=user)
+    if expected_updated_at and profile.updated_at.isoformat() != expected_updated_at:
+        raise ValidationError('The profile changed. Review it again before updating.')
     answers = validated_answers(data, language)
     for name, value in answers.items():
         if name in ('salary_amount', 'available_from') and value == '':

@@ -65,16 +65,89 @@ def confirm(request):
     try:
         # Account, profile and token consumption must all commit or all roll back.
         with transaction.atomic():
-            user = registration.confirm_registration(token) if token else None
-            if user is None:
+            result = registration.confirm_registration(token) if token else None
+            if result is None:
                 return page(request, 'invalid')
-            language = user.candidate_profile.language
-            auth_login(request, user, backend='sesame.backends.ModelBackend')
-            request.session['login_language'] = language
+            pending = result.pending
+            if result.status == 'role':
+                restore_draft(request, pending)
+                return page(request, 'role')
+            auth_login(request, result.user, backend='sesame.backends.ModelBackend')
+            request.session['login_language'] = pending.language
             request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+            from .journey import KEY
+
+            request.session.pop(KEY, None)
+            if result.status == 'review':
+                request.session['candidate_profile_proposal'] = {
+                    'user': result.user.pk,
+                    'answers': pending.answers,
+                    'language': pending.language,
+                    'expires_at': time.time() + 7200,
+                }
+                return redirect('candidate_profile_compare')
     except (IntegrityError, ValidationError):
         return page(request, 'invalid')
     return redirect('candidate_profile')
+
+
+def restore_draft(request, pending):
+    """Restore answers on this device without granting any account access."""
+    from .journey import KEY, SCHEMA
+
+    now = time.time()
+    request.session[KEY] = {
+        'schema': SCHEMA,
+        'created_at': now,
+        'touched_at': now,
+        'token': secrets.token_urlsafe(24),
+        'unlocked': 4,
+        'data': {**pending.answers, 'contact_email': pending.email},
+    }
+
+
+@never_cache
+@login_required
+@require_http_methods(['GET', 'POST'])
+def compare(request):
+    obj = owned_profile(request)
+    key = 'candidate_profile_proposal'
+    proposal = request.session.get(key, {})
+    if (
+        proposal.get('user') != request.user.pk
+        or proposal.get('expires_at', 0) <= time.time()
+    ):
+        request.session.pop(key, None)
+        return page(request, 'invalid')
+    if request.method == 'POST':
+        if request.POST.get('action') == 'keep':
+            request.session.pop(key, None)
+            return redirect('candidate_profile')
+        if request.POST.get('action') != 'replace':
+            raise PermissionDenied
+        try:
+            registration.update_profile(
+                request.user,
+                proposal['answers'],
+                proposal['language'],
+                expected_updated_at=request.POST.get('version', 'missing'),
+            )
+        except ValidationError:
+            return page(request, 'changed')
+        request.session.pop(key, None)
+        return redirect('candidate_profile')
+    with translation.override(selected_language(request)):
+        old_groups = answer_groups(registration.profile_answers(obj), obj.language)
+        new_groups = answer_groups(proposal['answers'], proposal['language'])
+        return render(
+            request,
+            'candidates/compare.html',
+            {
+                'version': obj.updated_at.isoformat(),
+                'old_groups': old_groups,
+                'new_groups': new_groups,
+            },
+        )
 
 
 def owned_profile(request):
@@ -91,47 +164,60 @@ def owned_profile(request):
 @require_GET
 def profile(request):
     obj = owned_profile(request)
-    from .journey import FORMS
-
-    groups = []
     with translation.override(selected_language(request)):
-        from .journey import TITLES
-
-        answers = registration.profile_answers(obj)
-        for step in (1, 2, 3):
-            form = FORMS[step](
-                initial=answers, **({'language': obj.language} if step == 1 else {})
-            )
-            rows = []
-            for name, field in form.fields.items():
-                if name not in answers or answers[name] in ('', None, [], {}):
-                    continue
-                value = answers[name]
-                if name == 'occupation_references':
-                    from .occupation_choices import resolve_reference
-
-                    value = '\n'.join(
-                        row['label']
-                        for item in value
-                        if (row := resolve_reference(item, obj.language))
-                    )
-                elif name == 'language_skills':
-                    value = '\n'.join(
-                        row['code'] + ' — ' + row['level']
-                        for row in value.get('languages', [])
-                    ) or (_('To discuss') if value.get('status') == 'discuss' else '')
-                elif isinstance(value, bool):
-                    value = _('Yes') if value else _('No')
-                elif isinstance(value, list):
-                    choices = dict(getattr(field, 'choices', ()))
-                    value = '\n'.join(str(choices.get(item, item)) for item in value)
-                elif hasattr(field, 'choices'):
-                    value = dict(field.choices).get(value, value)
-                rows.append((field.label, value))
-            groups.append((TITLES[step], rows))
         return render(
-            request, 'candidates/profile.html', {'profile': obj, 'groups': groups}
+            request,
+            'candidates/profile.html',
+            {
+                'profile': obj,
+                'groups': answer_groups(
+                    registration.profile_answers(obj), obj.language
+                ),
+            },
         )
+
+
+def answer_groups(answers, language):
+    from .journey import FORMS, TITLES
+
+    groups = [
+        (
+            _('Name to display'),
+            [(_('Name to display'), answers.get('display_name', ''))],
+        )
+    ]
+    for step in (1, 2, 3):
+        form = FORMS[step](
+            initial=answers, **({'language': language} if step == 1 else {})
+        )
+        rows = []
+        for name, field in form.fields.items():
+            if name not in answers or answers[name] in ('', None, [], {}):
+                continue
+            value = answers[name]
+            if name == 'occupation_references':
+                from .occupation_choices import resolve_reference
+
+                value = '\n'.join(
+                    row['label']
+                    for item in value
+                    if (row := resolve_reference(item, language))
+                )
+            elif name == 'language_skills':
+                value = '\n'.join(
+                    row['code'] + ' — ' + row['level']
+                    for row in value.get('languages', [])
+                ) or (_('To discuss') if value.get('status') == 'discuss' else '')
+            elif isinstance(value, bool):
+                value = _('Yes') if value else _('No')
+            elif isinstance(value, list):
+                choices = dict(getattr(field, 'choices', ()))
+                value = '\n'.join(str(choices.get(item, item)) for item in value)
+            elif hasattr(field, 'choices'):
+                value = dict(field.choices).get(value, value)
+            rows.append((field.label, value))
+        groups.append((TITLES[step], rows))
+    return groups
 
 
 @never_cache
