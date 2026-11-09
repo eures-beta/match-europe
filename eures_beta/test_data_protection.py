@@ -73,14 +73,14 @@ class DataProtectionTests(SimpleTestCase):
                 f'href="/privacy/?lang={language}"',
             )
 
-    def test_notice_describes_the_current_session_questionnaire(self):
+    def test_notice_describes_verified_registration_and_two_hour_drafts(self):
         response = self.client.get(reverse('privacy'), {'lang': 'en'})
         self.assertContains(
             response,
-            'confirming it does not create an account or permanently register a profile.',
+            'Your answers await email confirmation for one hour.',
         )
-        self.assertContains(response, 'expires after 30 minutes without activity.')
-        self.assertNotContains(
+        self.assertContains(response, 'expires after 2 hours without activity.')
+        self.assertContains(
             response, 'Confirmation creates a candidate account and saves the profile.'
         )
         self.assertNotContains(
