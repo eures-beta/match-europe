@@ -350,9 +350,9 @@ class ContinuousTests(TestCase):
         )
 
     @override_settings(ALBERT_IMPORT_ENABLED=True, ALBERT_IMPORT_SIMULATED=True)
-    @patch('eures_beta.employers.albert.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_offer_structuring_simulation_never_calls_albert(self, opener):
-        from eures_beta.employers.albert import structure
+        from eures_beta.employers.offer_structuring import structure
 
         self.assertEqual(
             structure('Serveur\nMissions : accueillir les clients')['extraction'],
