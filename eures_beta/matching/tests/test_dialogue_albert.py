@@ -181,14 +181,35 @@ class AlbertAdapterTests(TestCase):
             self.client.post(self.url, {'action': 'reply', **self.data()})
             ask.assert_not_called()
 
-    def test_production_never_calls_albert(self):
-        with (
-            override_settings(DJANGO_ENVIRONMENT='production'),
-            patch.object(adapter, 'build_opener') as call,
-        ):
-            with self.assertRaises(adapter.Unavailable):
-                adapter.ask(self.row, 'oui', '', 'fr', [])
-            call.assert_not_called()
+    def test_albert_dialogue_calls_in_every_environment_without_implicit_simulation(
+        self,
+    ):
+        body = {
+            'choices': [
+                {
+                    'finish_reason': 'stop',
+                    'message': {'content': json.dumps(self.model())},
+                }
+            ]
+        }
+        for environment in ('local', 'preview', 'production'):
+            opener = MagicMock()
+            opener.open.return_value.__enter__.return_value = BytesIO(
+                json.dumps(body).encode()
+            )
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment, EMAIL_DELIVERY_ENABLED=True
+                ),
+                patch.object(adapter, 'build_opener', return_value=opener),
+            ):
+                result = adapter.ask(self.row, 'oui', '', 'fr', [])
+                self.assertEqual(result['outcome'], 'conditional')
+                opener.open.assert_called_once()
+                self.assertEqual(
+                    self.client.get(self.url, REMOTE_ADDR='192.0.2.1').status_code, 200
+                )
 
     def test_network_errors_and_truncated_response_are_closed(self):
         for raw in [

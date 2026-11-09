@@ -1,3 +1,7 @@
+## Mise à jour — 9 novembre 2026
+
+Le dialogue Albert fonctionne dans tous les environnements, avec une clé privée configurée ; il est actif par défaut. La simulation est explicitement choisie pour les essais, jamais imposée par l’environnement. Les appels envoient uniquement la condition de l’offre, les déclarations correspondantes, les paroles et l’historique utile du dialogue ; aucune transmission automatique à l’employeur ni modification de profil sans relecture explicite. La CSRF, les droits propriétaire/équipe, les quotas et les contrôles de version sont conservés. Sans clé ou en cas d’échec, le formulaire guidé reste disponible. Les anciennes restrictions locales ci-dessous sont remplacées.
+
 # Dialogue Albert simulé — prototype local
 
 ## Périmètre

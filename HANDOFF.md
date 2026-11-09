@@ -24,6 +24,10 @@ Autre rôle : aucune conversion, brouillon récupérable pour changer d’adress
 Migration des demandes vers les sessions Django avant suppression de leur modèle.
 Aucun compte/profil existant supprimé. Aucun réglage de production modifié.
 Voir [le fonctionnement et les limites](docs/CANDIDATE_EMAIL_REGISTRATION.md).
+## 9 novembre 2026 — livraison dans tous les environnements
+
+Décision d’Eric : retirer les restrictions arbitraires local/recette/production des fonctionnalités métier. Configuration et droits réels conservés, fonctionnalités actives par défaut, simulations explicites. Autorisation explicite reçue pour les trois usages Albert, les accès propriétaires employeur et le transport commun des e-mails configuré dans chaque environnement. La pile distante a été actualisée sans perdre les correctifs publiés en parallèle. Validation locale : 601 tests PostgreSQL réussis ; aucun appel Albert ou e-mail réel, aucune fusion ni opération de production. Voir [le contrat actuel et les prérequis](docs/ENVIRONMENT_PARITY.md).
+
 ## 9 novembre 2026 — correction de la parité des environnements
 
 La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.

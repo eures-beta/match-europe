@@ -263,6 +263,7 @@ def edit(request):
         'token': secrets.token_urlsafe(24),
         'unlocked': 4,
         'editing_user': request.user.pk,
+        'source_profile_updated_at': obj.updated_at.isoformat(),
         'data': registration.profile_answers(obj),
     }
     return redirect('/candidate/prepare/?step=4&lang=' + selected_language(request))

@@ -9741,3 +9741,12 @@ msgstr "Nachher"
 #: eures_beta/matching/templates/matching/dialogue.html
 msgid "Reply in your own words. If your situation has changed in general, say so. You will review any proposed profile change before saving it."
 msgstr "Antworten Sie mit Ihren eigenen Worten. Wenn sich Ihre Situation allgemein geändert hat, geben Sie dies an. Sie prüfen jede vorgeschlagene Profiländerung vor dem Speichern."
+
+msgid "No message, notification or introduction is sent automatically."
+msgstr "Es werden keine Nachrichten, Benachrichtigungen oder Vorstellungen automatisch versendet."
+
+msgid "This permission concerns this employer and this offer only. Reservations remain subject to human review. No profile is transmitted automatically."
+msgstr "Diese Zustimmung gilt nur für diesen Arbeitgeber und dieses Angebot. Vorbehalte müssen von einer Person geprüft werden. Es wird kein Profil automatisch übermittelt."
+
+msgid "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer."
+msgstr "Albert erhält diese Bedingung, Ihre zugehörigen Angaben und Ihre Antworten. Prüfen Sie die Vorschläge vor dem Speichern. Nichts wird an den Arbeitgeber gesendet."

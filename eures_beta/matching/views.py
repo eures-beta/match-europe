@@ -18,8 +18,8 @@ from eures_beta.candidates.occupation_choices import resolve_reference
 
 
 class PairForm(forms.Form):
-    candidate = forms.ModelChoiceField(label=_('Fictional candidate'), queryset=None)
-    offer = forms.ModelChoiceField(label=_('Fictional offer'), queryset=None)
+    candidate = forms.ModelChoiceField(label=_('Candidate'), queryset=None)
+    offer = forms.ModelChoiceField(label=_('Job offer'), queryset=None)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
