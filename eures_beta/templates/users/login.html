@@ -7,7 +7,7 @@
 {% block public_content %}
   <section class="import-card account-login" aria-labelledby="login-title">
     <h1 id="login-title">{% translate "Sign in" %}</h1>
-    {% include "includes/employer_invitation_help.html" %}
+    <p>{% translate "Candidates, employers and advisers: sign in here with your email address." %}</p>
     {% if stage == "sent" %}
       <p role="status">{% translate "If an active account exists for this address, you will receive a sign-in link by email. Check your inbox and spam folder." %}</p>
     {% elif stage == "confirm" %}
@@ -34,5 +34,9 @@
       </form>
       <p>{% translate "The link expires after one hour and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
     {% endif %}
+    <aside aria-labelledby="employer-accounts-note">
+      <h2 id="employer-accounts-note">{% translate "Note for employer accounts" %}</h2>
+      {% include "includes/employer_invitation_help.html" %}
+    </aside>
   </section>
 {% endblock %}
