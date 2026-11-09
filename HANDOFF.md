@@ -26,7 +26,7 @@ Aucun compte/profil existant supprimé. Aucun réglage de production modifié.
 Voir [le fonctionnement et les limites](docs/CANDIDATE_EMAIL_REGISTRATION.md).
 ## 9 novembre 2026 — livraison dans tous les environnements
 
-Décision d’Eric : retirer les restrictions arbitraires local/recette/production des fonctionnalités métier. Configuration et droits réels conservés, fonctionnalités actives par défaut, simulations explicites. Autorisation explicite reçue pour les trois usages Albert, les accès propriétaires employeur et le transport commun des e-mails configuré dans chaque environnement. La pile distante a été actualisée sans perdre les correctifs publiés en parallèle. Validation locale : 601 tests PostgreSQL réussis ; aucun appel Albert ou e-mail réel, aucune fusion ni opération de production. Voir [le contrat actuel et les prérequis](docs/ENVIRONMENT_PARITY.md).
+Décision d’Eric : retirer les restrictions arbitraires local/recette/production des fonctionnalités métier. Configuration et droits réels conservés, fonctionnalités actives par défaut, simulations explicites. Autorisation explicite reçue pour les trois usages Albert, les accès propriétaires employeur et le transport commun des e-mails configuré dans chaque environnement. La pile distante a été actualisée sans perdre les correctifs publiés en parallèle. Validation locale : 605 tests PostgreSQL réussis après intégration du client Albert partagé ; aucun appel Albert ou e-mail réel, aucune fusion ni opération de production. Voir [le contrat actuel et les prérequis](docs/ENVIRONMENT_PARITY.md).
 
 ## 9 novembre 2026 — correction de la parité des environnements
 
