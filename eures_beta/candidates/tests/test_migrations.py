@@ -7,7 +7,7 @@ from django.test import TransactionTestCase
 class CandidateProfileMigrationTests(TransactionTestCase):
     def test_occupation_skill_upgrade_preserves_existing_answers(self):
         apps = self.migrate(
-            ('candidates', '0004_candidateprofile_acquired_skills_and_more')
+            ('candidates', '0005_candidateprofile_acquired_skills_and_more')
         )
         user = apps.get_model('users', 'User').objects.create(
             email='existing@example.invalid', kind='candidate', password='!'
@@ -17,7 +17,7 @@ class CandidateProfileMigrationTests(TransactionTestCase):
             display_name='Fictional preserved name',
             desired_occupations='Preserved project',
         )
-        apps = self.migrate(('candidates', '0005_candidateprofile_occupation_skills'))
+        apps = self.migrate(('candidates', '0006_candidateprofile_occupation_skills'))
         profile = apps.get_model('candidates', 'CandidateProfile').objects.get(
             pk=old.pk
         )
