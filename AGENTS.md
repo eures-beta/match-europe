@@ -44,8 +44,8 @@
 - Le parcours candidat est disponible dans tous les environnements : compte et
   profil sont créés uniquement après vérification du lien et confirmation POST.
   Il reste distinct de la connexion et des invitations employeurs/conseillers.
-  Les e-mails réels suivent le backend Django protégé commun, réservé à la
-  production ; les essais utilisent la simulation privée. Voir
+  Les e-mails suivent le backend Django commun, désactivé par défaut et
+  activé explicitement avec un transport configuré, indépendamment de l’environnement. Voir
   `docs/CANDIDATE_EMAIL_REGISTRATION.md`.
 
 - La création autonome de comptes est fermée, pour les conseillers comme pour

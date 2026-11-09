@@ -1,3 +1,7 @@
+## 9 novembre 2026 — transport commun sans exclusion d’environnement
+
+L’envoi dépend de sa configuration explicite (`EMAIL_DELIVERY_ENABLED`, `LOGIN_EMAIL_ENABLED`, origine HTTPS de confiance et transport SMTP), jamais du nom de l’environnement. L’envoi reste désactivé par défaut. Les tests simulent le transport et les outils de comptes fictifs restent incompatibles avec l’envoi réel. Aucune configuration distante ni aucun e-mail réel n’est modifié par cette correction. Cette décision remplace les anciennes mentions « production uniquement » ci-dessous.
+
 # Confirmation et enregistrement candidat — premier lot P1
 
 ## Périmètre et activation
