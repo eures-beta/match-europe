@@ -4,7 +4,7 @@ from eures_beta.candidates.journey import (
     SCHEDULE_DAYS,
     SCHEDULE_PERIODS,
 )
-from eures_beta.occupations.skills_pilot import catalogue
+from eures_beta.skills.skills_pilot import catalogue
 
 DIMENSIONS = {
     'skills': _('Declared skills'),
