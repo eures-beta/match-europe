@@ -45,7 +45,10 @@ class DataProtectionTests(SimpleTestCase):
                 self.assertContains(response, '<th scope="row">', count=6)
                 self.assertContains(response, '24 ')
                 self.assertContains(response, '6 ')
-                self.assertContains(response, '30 ')
+                self.assertContains(
+                    response,
+                    {'fr': '2 heures', 'en': '2 hours', 'de': '2 Stunden'}[language],
+                )
                 self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
                 self.assertNotContains(
                     response, f'/employer/pages/privacy-{language}.html'

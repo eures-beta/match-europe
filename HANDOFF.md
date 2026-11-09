@@ -1177,3 +1177,11 @@ Les vérifications de lien, POST/CSRF et propriété restent en place.
 Cette décision remplace le périmètre d’essai limité décrit antérieurement.
 Aucun changement de modèle ou migration supplémentaire : la séparation entre
 demande temporaire et profil confirmé reste à discuter avant une refonte.
+
+## 9 novembre 2026 — confort du brouillon candidat (PR #132)
+
+À la demande de dejafait, le délai d’inactivité du questionnaire passe de
+30 minutes à deux heures. Prolongation, avertissement, notice et textes FR/EN/DE
+sont cohérents avec ce délai ; l’avertissement reste deux minutes avant l’échéance.
+Les tests couvrent la reprise après une heure d’inactivité et le refus après
+plus de deux heures. Aucun changement des modèles ni de la confirmation email.

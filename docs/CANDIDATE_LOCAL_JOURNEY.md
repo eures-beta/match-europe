@@ -27,7 +27,7 @@ Source historique locale consultée : `forms/eures-beta/app.js`, module horaires
 
 ### Accès et conservation
 
-Démonstration uniquement, via les protections du socle (mode démo et loopback explicites ou démo partagée HTTPS). CSRF, jeton et validation des choix côté serveur. Aucun appel externe, profil métier, compte, matching, email ou transmission. Brouillon privé à la session, accès limité à 30 minutes sans activité (délai remis à zéro à chaque page du parcours, avertissement 2 minutes avant avec bouton de prolongation) et suppression explicite possible. L’expiration est vérifiée lors d’une requête ; sans requête ultérieure, la ligne de session reste jusqu’au nettoyage technique Django. Ce délai ne constitue pas une purge planifiée.
+Démonstration uniquement, via les protections du socle (mode démo et loopback explicites ou démo partagée HTTPS). CSRF, jeton et validation des choix côté serveur. Aucun appel externe, profil métier, compte, matching, email ou transmission. Brouillon privé à la session, accès limité à 2 heures sans activité (délai remis à zéro à chaque page du parcours, avertissement 2 minutes avant avec bouton de prolongation) et suppression explicite possible. L’expiration est vérifiée lors d’une requête ; sans requête ultérieure, la ligne de session reste jusqu’au nettoyage technique Django. Ce délai ne constitue pas une purge planifiée.
 
 Lors de la reprise d’un ancien brouillon, texte CV, sources d’extraction et champs supprimés sont retirés de la session active ; les réponses encore utiles (projet et préférences) sont conservées. La nouvelle structure recommence à la première étape pour relecture, avec un nouveau jeton. Cela ne constitue pas une purge des anciennes sessions inactives ou des sauvegardes techniques.
 

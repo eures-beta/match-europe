@@ -269,8 +269,8 @@ class CandidateJourneyTests(TestCase):
         session = self.client.session
         session[KEY] = {
             **session[KEY],
-            'created_at': time.time() - 1801,
-            'touched_at': time.time() - 1801,
+            'created_at': time.time() - 7201,
+            'touched_at': time.time() - 7201,
         }
         expired_token = session[KEY]['token']
         session.save()
@@ -500,8 +500,8 @@ class CandidateJourneyAccessibilityTests(TestCase):
         token = session[KEY]['token']
         session[KEY] = {
             **session[KEY],
-            'created_at': time.time() - 3600,
-            'touched_at': time.time() - 60,
+            'created_at': time.time() - 10800,
+            'touched_at': time.time() - 3600,
         }
         session.save()
         response = self.get()
@@ -512,9 +512,9 @@ class CandidateJourneyAccessibilityTests(TestCase):
     def test_expiry_warning_offers_to_extend(self):
         response = self.get()
         self.assertContains(response, 'id="journey-timeout"')
-        self.assertContains(response, 'data-seconds="1800"')
+        self.assertContains(response, 'data-seconds="7200"')
         self.assertContains(response, 'data-warning-seconds="120"')
-        self.assertContains(response, 'Garder mon brouillon 30 minutes de plus')
+        self.assertContains(response, 'Garder mon brouillon 2 heures de plus')
 
     def test_editing_from_review_returns_to_review(self):
         page = self.reach_review()
@@ -557,7 +557,7 @@ class CandidateJourneyAccessibilityTests(TestCase):
         before = self.client.session[KEY]
         response = self.post(3, action='extend')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {'extended': True, 'seconds': 1800})
+        self.assertEqual(response.json(), {'extended': True, 'seconds': 7200})
         after = self.client.session[KEY]
         for name in ('token', 'data', 'unlocked', 'created_at'):
             self.assertEqual(after[name], before[name])
@@ -566,7 +566,7 @@ class CandidateJourneyAccessibilityTests(TestCase):
     def test_extend_refuses_expired_or_missing_draft(self):
         self.advance()
         session = self.client.session
-        session[KEY]['touched_at'] = time.time() - 1801
+        session[KEY]['touched_at'] = time.time() - 7201
         session.save()
         response = self.post(3, action='extend')
         self.assertEqual(response.status_code, 409)
