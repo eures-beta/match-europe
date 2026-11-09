@@ -1,3 +1,4 @@
+from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -117,12 +118,13 @@ class OpenSkillProjectTests(TestCase):
             data = answers()
             data.update(project())
             pending = registration.create_request(
-                f'candidate-{language}@example.invalid', language
+                f'candidate-{language}@example.invalid', data, language
             )
-            self.assertFalse(pending.is_active)
-            self.assertFalse(CandidateProfile.objects.filter(user=pending).exists())
-            user = registration.confirm_registration(registration.token_for(pending))
-            self.assertFalse(CandidateProfile.objects.filter(user=user).exists())
+            self.assertFalse(User.objects.filter(email=pending.email).exists())
+            user = registration.confirm_registration(
+                registration.token_for(pending)
+            ).user
+            self.assertTrue(CandidateProfile.objects.filter(user=user).exists())
             profile = registration.update_profile(user, data, language)
             self.assertEqual(profile.project_mode, 'open')
             self.assertEqual(profile.skill_catalogue_version, VERSION)
@@ -159,14 +161,13 @@ class OpenSkillProjectTests(TestCase):
     def test_answers_are_validated_before_profile_creation(self):
         data = answers()
         data.update(project())
-        pending = registration.create_request('tampered@example.invalid', 'fr')
-        user = registration.confirm_registration(registration.token_for(pending))
         data['professional_behaviours'] = []
         with self.assertRaises(ValidationError):
-            registration.update_profile(user, data, 'fr')
-        self.assertFalse(CandidateProfile.objects.filter(user=user).exists())
+            registration.create_request('tampered@example.invalid', data, 'fr')
+        self.assertFalse(User.objects.filter(email='tampered@example.invalid').exists())
 
-    def test_journey_post_review_language_switch_and_server_errors(self):
+    @patch('eures_beta.candidates.registration.send_confirmation')
+    def test_journey_post_review_language_switch_and_server_errors(self, send):
         self.client.get('/candidate/prepare/?lang=fr', secure=True)
         token = self.client.session[KEY]['token']
         partial = project(
@@ -231,6 +232,9 @@ class OpenSkillProjectTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(User.objects.count(), 1)
+        self.assertFalse(CandidateProfile.objects.filter(user=self.user).exists())
+        pending = send.call_args.args[0]
+        registration.confirm_registration(registration.token_for(pending))
         profile = CandidateProfile.objects.get(user=self.user)
         self.assertEqual(profile.acquired_skills, project()['acquired_skills'])
         self.assertEqual(
