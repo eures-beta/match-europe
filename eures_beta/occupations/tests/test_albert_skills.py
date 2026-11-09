@@ -46,8 +46,14 @@ class SuggestionTests(TestCase):
         self.ask = self.ask_patch.start()
         self.addCleanup(self.ask_patch.stop)
         self.url = reverse('skills_pilot_journey', args=['employer'])
+        self.users = {
+            role: User.objects.create_user(role + '@albert-fixture.invalid', kind=role)
+            for role in ('employer', 'candidate')
+        }
+        self.client.force_login(self.users['employer'])
 
     def post(self, role='employer', **extra):
+        self.client.force_login(self.users[role])
         return self.client.post(
             reverse('skills_pilot_journey', args=[role]),
             {'action': 'resolve', 'occupation': self.uri, **extra},
@@ -104,27 +110,15 @@ class SuggestionTests(TestCase):
             service.resolve(self.uri, generate=True)
         self.assertEqual(Suggestion.objects.count(), 3)
 
-    def test_disabled_production_email_preview_remote_csrf_and_get_never_call(self):
+    def test_disabled_csrf_and_get_never_call(self):
         for changes in (
             {'SKILLS_ALBERT_ENABLED': False},
-            {'SKILLS_PILOT_ENABLED': False},
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'DJANGO_ENVIRONMENT': 'preview'},
-            {'EMAIL_DELIVERY_ENABLED': True},
+            {'SKILLS_PILOT_ENABLED': False, 'CONTINUOUS_SKILLS_ENABLED': False},
         ):
             with override_settings(**changes):
                 self.assertIn(self.post().status_code, (400, 404))
                 with self.assertRaises(service.SuggestionUnavailable):
                     service.resolve(self.uri, generate=True)
-        self.assertEqual(
-            self.client.post(
-                self.url,
-                {'action': 'resolve', 'occupation': self.uri},
-                REMOTE_ADDR='192.0.2.1',
-                HTTP_X_FORWARDED_FOR='127.0.0.1',
-            ).status_code,
-            404,
-        )
         self.assertEqual(
             Client(enforce_csrf_checks=True)
             .post(self.url, {'action': 'resolve', 'occupation': self.uri})
@@ -139,6 +133,40 @@ class SuggestionTests(TestCase):
         )
         self.ask.assert_not_called()
         self.assertFalse(Suggestion.objects.exists())
+
+    def test_anonymous_and_wrong_role_cannot_generate(self):
+        for user in (None, self.users['candidate']):
+            self.client.logout()
+            if user:
+                self.client.force_login(user)
+            self.assertEqual(
+                self.client.post(
+                    self.url,
+                    {'action': 'resolve', 'occupation': self.uri},
+                    REMOTE_ADDR='192.0.2.1',
+                ).status_code,
+                403,
+            )
+        self.ask.assert_not_called()
+
+    def test_remote_generation_in_every_environment_with_emails_enabled(self):
+        for environment in ('local', 'preview', 'production'):
+            Suggestion.objects.all().delete()
+            self.ask.reset_mock()
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment, EMAIL_DELIVERY_ENABLED=True
+                ),
+            ):
+                response = self.client.post(
+                    self.url,
+                    {'action': 'resolve', 'occupation': self.uri},
+                    REMOTE_ADDR='192.0.2.1',
+                )
+                self.assertEqual(response.status_code, 302)
+                self.ask.assert_called_once()
+                self.assertEqual(Suggestion.objects.get().status, 'ready')
 
     def test_both_roles_trilingual_selection_review_and_reuse_without_business_writes(
         self,

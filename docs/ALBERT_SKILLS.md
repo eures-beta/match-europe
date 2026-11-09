@@ -1,3 +1,7 @@
+## Mise à jour — 9 novembre 2026
+
+La préparation des compétences fonctionne dans tous les environnements et est active par défaut lorsque la clé Albert est configurée. Les sources ESCO officielles vérifiées restent nécessaires. La simulation est désactivée par défaut et ne dépend pas du nom de l’environnement ; son cache reste séparé. Les anciennes exclusions local/loopback/e-mails ci-dessous sont remplacées.
+
 # Compétences des métiers hors sélection — essai local
 
 ## Autorisation et limites
