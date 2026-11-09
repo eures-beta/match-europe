@@ -11,7 +11,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from . import access
 
-from eures_beta.employers.albert import NoRedirect
+from eures_beta.integrations.albert import NoRedirect
 from eures_beta.candidates.journey import ConditionsForm, MobilityForm
 
 ENDPOINT = 'https://albert.api.etalab.gouv.fr/v1/chat/completions'
