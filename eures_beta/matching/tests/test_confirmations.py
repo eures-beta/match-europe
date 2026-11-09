@@ -316,23 +316,38 @@ class ConfirmationTests(TestCase):
         self.assertFalse(self.request.answers.exists())
         self.assertFalse(self.request.agreements.exists())
 
-    def test_real_data_environment_and_network_are_closed(self):
-        for change in (
-            {'DJANGO_ENVIRONMENT': 'production'},
-            {'EMAIL_DELIVERY_ENABLED': True},
-            {'MATCHING_TEAMS_ENABLED': False},
-        ):
-            with override_settings(**change):
-                self.assertEqual(self.client.get(self.url).status_code, 404)
-        self.assertEqual(
-            self.client.get(
-                self.url, REMOTE_ADDR='192.0.2.1', HTTP_X_FORWARDED_FOR='127.0.0.1'
-            ).status_code,
-            404,
-        )
+    def test_real_addresses_and_remote_confirmation_in_every_environment(self):
         self.user.email = 'candidate@example.org'
-        self.user.save()
-        self.assertEqual(self.client.get(self.url).status_code, 404)
+        self.user.save(update_fields=['email'])
+        for environment in ('local', 'preview', 'production'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(
+                    DJANGO_ENVIRONMENT=environment, EMAIL_DELIVERY_ENABLED=True
+                ),
+            ):
+                self.assertEqual(
+                    self.client.get(self.url, REMOTE_ADDR='192.0.2.1').status_code, 200
+                )
+                row = self.row('schedule')
+                response = self.client.post(
+                    self.url,
+                    {
+                        'action': 'answer',
+                        'key': row['key'],
+                        'fingerprint': row['fingerprint'],
+                        'previous': (
+                            self.request.answers.order_by('-pk').first().pk
+                            if self.request.answers.exists()
+                            else 0
+                        ),
+                        'value': 'yes',
+                    },
+                    REMOTE_ADDR='192.0.2.1',
+                )
+                self.assertEqual(response.status_code, 302)
+        with override_settings(MATCHING_ENABLED=False):
+            self.assertEqual(self.client.get(self.url).status_code, 404)
 
     def test_complete_browser_journey_no_external_calls(self):
         with (
