@@ -83,13 +83,12 @@ class EmployerDashboardTests(TestCase):
             self.client.get(reverse('dashboard'), {'lang': 'en'}), 'Untitled offer'
         )
 
-    def test_read_only_dashboard_has_no_edit_links_and_rejects_writes(self):
+    def test_dashboard_links_owned_offers_and_rejects_direct_writes(self):
         offer = self.offer('Existing offer', company=self.company)
         before = JobOffer.objects.values().get(pk=offer.pk)
         response = self.client.get(reverse('dashboard'))
         self.assertIn('no-store', response['Cache-Control'])
-        self.assertNotContains(response, str(offer.pk))
-        self.assertNotContains(response, '/employer/offers/')
+        self.assertContains(response, reverse('employer_offer', args=[offer.pk]))
         for method in ('post', 'put', 'patch', 'delete'):
             self.assertEqual(
                 getattr(self.client, method)(
