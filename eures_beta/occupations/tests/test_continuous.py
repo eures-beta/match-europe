@@ -192,7 +192,9 @@ class ContinuousTests(TestCase):
 
     def project(self):
         data = answers()
-        data.update(occupation_references=['esco:' + self.uri], occupation_skills=self.values)
+        data.update(
+            occupation_references=['esco:' + self.uri], occupation_skills=self.values
+        )
         return data
 
     def test_candidate_registration_edit_and_profile_preserve_ids_and_labels(self):
@@ -405,4 +407,3 @@ class ContinuousTests(TestCase):
         session[KEY] = draft
         session.save()
         self.assertEqual(self.api(token=token).status_code, 403)
-
