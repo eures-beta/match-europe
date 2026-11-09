@@ -1,20 +1,10 @@
 """Opt-in employer text structuring; no model-generated reference codes are trusted."""
 
-import json
 import re
-import time
-from urllib.error import HTTPError, URLError
-from urllib.request import Request, build_opener, HTTPRedirectHandler
 
 from django.conf import settings
-from django.views.decorators.debug import sensitive_variables
-
+from eures_beta.integrations.albert import AlbertError, complete_json
 from .offer_ingestion import empty_data, ImportFailure
-
-
-class NoRedirect(HTTPRedirectHandler):
-    def redirect_request(self, *args, **kwargs):
-        return None
 
 
 def enabled():
@@ -153,53 +143,20 @@ def validate_result(value, source):
     return data
 
 
-@sensitive_variables()
 def structure(source):
-    if not enabled() or not settings.ALBERT_API_KEY:
+    if not enabled():
         raise ImportFailure('albert_unavailable')
     if not isinstance(source, str) or not source.strip() or len(source) > 16000:
         raise ImportFailure('albert_invalid')
-    payload = {
-        'model': settings.ALBERT_MODEL,
-        'messages': [
-            {'role': 'system', 'content': PROMPT},
-            {'role': 'user', 'content': source},
-        ],
-        'temperature': 0,
-        'max_tokens': 3500,
-        'stream': False,
-        'response_format': {'type': 'json_object'},
-    }
-    request = Request(
-        'https://albert.api.etalab.gouv.fr/v1/chat/completions',
-        data=json.dumps(payload).encode(),
-        headers={
-            'Authorization': 'Bearer ' + settings.ALBERT_API_KEY,
-            'Content-Type': 'application/json',
-        },
-        method='POST',
-    )
-    started = time.monotonic()
     try:
-        with build_opener(NoRedirect()).open(request, timeout=35) as response:
-            raw = response.read(100001)
-        if len(raw) > 100000 or time.monotonic() - started > 40:
-            raise ValueError()
-        result = json.loads(raw)
-        choice = result['choices'][0]
-        if choice.get('finish_reason') != 'stop':
-            raise ValueError()
-        content = choice['message']['content']
-        # Some models add a single Markdown fence despite JSON output mode.
-        if isinstance(content, str):
-            content = re.sub(
-                r'^```(?:json)?\s*([\s\S]*?)\s*```$', r'\1', content.strip()
-            )
-        value = json.loads(content)
-    except HTTPError as exc:
-        raise ImportFailure('albert_http_' + str(exc.code)) from None
-    except (OSError, URLError, ValueError, KeyError, IndexError, TypeError):
-        raise ImportFailure('albert_unavailable') from None
+        value = complete_json(
+            [
+                {'role': 'system', 'content': PROMPT},
+                {'role': 'user', 'content': source},
+            ]
+        )
+    except AlbertError as exc:
+        raise ImportFailure(exc.code) from None
     return validate_result(value, source)
 
 

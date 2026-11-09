@@ -3,7 +3,7 @@
 
 .PHONY: albert-test albert-run albert-evaluate
 albert-test: ## Tester Albert sans réseau : validation, repli, droits et confidentialité
-	@$(MANAGE) test eures_beta.employers.tests.test_albert --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.employers.tests.test_albert eures_beta.integrations.tests.test_albert --noinput $(TEST_ARGS)
 
 albert-run: ## Essayer le parcours Albert sur 9037, avec comptes fictifs et sans email réel
 	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 ME_LOCAL_REVIEW_ONLY=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9037" --noreload

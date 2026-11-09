@@ -6,7 +6,7 @@ from pathlib import Path
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from eures_beta.employers.albert import structure, enabled
+from eures_beta.employers.offer_structuring import structure, enabled
 from eures_beta.employers.offer_ingestion import ImportFailure, read_pdf
 from eures_beta.occupations.catalog import suggestions, rome_suggestions
 

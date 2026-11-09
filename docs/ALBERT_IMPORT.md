@@ -100,3 +100,10 @@ migrations sur une base locale vierge et contrôles qualité réussis. Le test d
 non-conservation couvre aussi l’enregistrement sans champs corrigés. Le garde-fou
 regex conserve sa borne de cinq secondes ; l’intégration à froid est séparée et
 bornée à vingt secondes (voir `OCCUPATION_SEARCH_PERFORMANCE.md`).
+
+## Organisation du code partagé
+
+`eures_beta/integrations/albert.py` contient le client JSON borné, indépendant
+des applications métier. `employers/offer_structuring.py` conserve le prompt,
+les limites d’entrée des offres, leur validation et le repli manuel.
+Le refactoring ne change ni le périmètre PDF/texte ni le lecteur d’URL.
