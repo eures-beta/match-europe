@@ -6,7 +6,6 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from eures_beta.demo_access import require_demo_access
 from eures_beta.users.models import User
 from .employer_ownership import identity
 from .import_access import employer_required
@@ -35,7 +34,6 @@ def page_context(person):
 
 
 @never_cache
-@require_demo_access
 @employer_required
 @require_http_methods(['GET', 'POST'])
 def response_practice(request):
