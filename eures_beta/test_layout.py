@@ -24,7 +24,7 @@ class UnifiedLayoutTests(TestCase):
         self.assertFalse((settings.APPS_DIR / 'config').exists())
 
     def test_public_and_candidate_pages_expose_installation(self):
-        for url in ('/', '/candidate/', '/candidate/start/'):
+        for url in ('/', '/candidate/', '/candidate/prepare/'):
             for language in ('fr', 'en', 'de'):
                 with self.subTest(url=url, language=language):
                     response = self.client.get(url, {'lang': language}, follow=True)
