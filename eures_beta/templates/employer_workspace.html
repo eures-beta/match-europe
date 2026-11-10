@@ -422,7 +422,7 @@
         <p>{% trans "This offer can be edited until candidate search starts." %}</p>
       {% endif %}
       {% if search_operation %}
-        <p class="offer-status">{% trans "Local simulation: no candidate has been contacted and no external search has been started." %}</p>
+        <p class="offer-status">{% trans "Simulation: no candidate has been contacted and no external search has been started." %}</p>
         {% if search_operation.state == "failed" %}
           <p role="status">{% trans "The search did not start. You can edit the offer or confirm a new attempt." %}</p>
         {% endif %}
@@ -518,7 +518,7 @@
     </form>
   {% elif stage == "search_confirm" %}
     <h2>{% trans "Start my candidate search" %}</h2>
-    <p class="offer-status">{% trans "Local simulation: no candidate has been contacted and no external search has been started." %}</p>
+    <p class="offer-status">{% trans "Simulation: no candidate has been contacted and no external search has been started." %}</p>
     <p>{% trans "Starting includes candidate search, qualification and contact. Once the server confirms the start, this offer cannot be edited. If your needs change, duplicate it to create a new draft." %}</p>
     <p>{% trans "While the request is pending or its outcome is uncertain, changes are temporarily suspended. Checking its status does not send a new start request." %}</p>
     <form method="post">{% csrf_token %}{{ form.as_p }}

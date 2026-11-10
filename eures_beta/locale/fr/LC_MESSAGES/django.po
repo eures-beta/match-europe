@@ -231,8 +231,8 @@ msgstr ""
 "prise de contact."
 
 #: eures_beta/employers/employer_search.py:24
-msgid "Local simulation scenario"
-msgstr "Scénario de simulation locale"
+msgid "Simulation scenario"
+msgstr "Scénario de simulation"
 
 #: eures_beta/employers/employer_search.py:26
 msgid "Confirmed start"
@@ -1977,12 +1977,8 @@ msgstr "Lien vers une offre accessible publiquement"
 #: eures_beta/templates/employer/import-v2.html:1174
 #: eures_beta/templates/employer/import-v2.html:1970
 msgctxt "employer import-v2"
-msgid ""
-"This demonstration does not visit the link yet. Reading the page will be "
-"connected in the next step."
-msgstr ""
-"Le lien n’est pas encore consulté dans cette démonstration. La lecture de la "
-"page sera raccordée à l’étape suivante."
+msgid "Enter the public link to your job offer. If it cannot be read, upload a document or paste the text."
+msgstr "Saisissez le lien public de votre offre. Si sa lecture est impossible, importez un document ou collez le texte."
 
 #: eures_beta/templates/employer/import-v2.html:1182
 #: eures_beta/templates/employer/import-v2.html:2006
@@ -2041,10 +2037,8 @@ msgstr "Votre email professionnel"
 #: eures_beta/templates/employer/import-v2.html:1216
 #: eures_beta/templates/employer/import-v2.html:1945
 msgctxt "employer import-v2"
-msgid "Use a fictional address for this demonstration. No email is sent."
-msgstr ""
-"Pour cette démonstration, utilisez une adresse fictive. Aucun email n’est "
-"envoyé."
+msgid "Enter your email address to continue."
+msgstr "Saisissez votre adresse e-mail pour continuer."
 
 #: eures_beta/templates/employer/import-v2.html:1218
 #: eures_beta/templates/employer/import-v2.html:1925
@@ -2622,14 +2616,8 @@ msgstr ""
 #: eures_beta/templates/employer/import-v2.html:1624
 #: eures_beta/templates/employer/import-v2.html:1807
 msgctxt "employer import-v2"
-msgid ""
-"In this local trial, confirmation saves an inactive offer in the preparation "
-"service. It does not start candidate searches or send information to EURES "
-"partners."
-msgstr ""
-"Pendant cet essai local, la validation enregistre une offre inactive dans le "
-"service de préparation. Elle ne lance ni recherche de candidats ni "
-"transmission aux partenaires EURES."
+msgid "Confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners."
+msgstr "La confirmation enregistre une offre inactive dans le service de préparation. Elle ne lance pas de recherche de candidats et n’envoie pas d’informations aux partenaires EURES."
 
 #: eures_beta/templates/employer/import-v2.html:1625
 #: eures_beta/templates/employer/import-v2.html:1808
@@ -2749,14 +2737,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1710
 msgctxt "employer import-v2"
-msgid ""
-"Offer validated in this demonstration. You can download the validated "
-"summary. No the preparation service update, search or candidate contact has "
-"occurred."
-msgstr ""
-"Offre validée dans cette démonstration. Vous pouvez télécharger la fiche "
-"validée. Aucun nouvel envoi au service de préparation, aucune recherche et "
-"aucun contact candidat n’ont eu lieu."
+msgid "Your summary is ready to download. Downloading it does not update the preparation service or contact candidates."
+msgstr "Votre récapitulatif est prêt à être téléchargé. Le téléchargement ne met pas à jour le service de préparation et ne contacte aucun candidat."
 
 #: eures_beta/templates/employer/import-v2.html:1712
 msgctxt "employer import-v2"
@@ -2808,14 +2790,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1720
 msgctxt "employer import-v2"
-msgid ""
-"An initial inactive offer has been sent to the preparation service. "
-"Corrections stay local until you validate the update. Your email is not sent "
-"to the preparation service."
-msgstr ""
-"L’IA peut produire des erreurs ou omettre des informations. Vous pouvez "
-"corriger cette fiche avant de la valider. Votre email n’est pas transmis au "
-"prestataire de préparation."
+msgid "An initial inactive offer has been sent to the preparation service. Validate your corrections to update it. Your email is not sent to the preparation service."
+msgstr "Une première offre inactive a été transmise au service de préparation. Validez vos corrections pour la mettre à jour. Votre e-mail n’est pas transmis au service de préparation."
 
 #: eures_beta/templates/employer/import-v2.html:1722
 msgctxt "employer import-v2"
@@ -2883,15 +2859,13 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1737
 msgctxt "employer import-v2"
-msgid "Sandbox did not confirm complete storage. Corrections are saved; retry."
-msgstr ""
-"La sandbox n’a pas confirmé l’enregistrement complet. Vos corrections "
-"restent sauvegardées ; réessayez."
+msgid "The preparation service did not confirm complete storage. Corrections are saved; retry."
+msgstr "Le service de préparation n’a pas confirmé l’enregistrement complet. Les corrections sont conservées ; réessayez."
 
 #: eures_beta/templates/employer/import-v2.html:1738
 msgctxt "employer import-v2"
-msgid "Sandbox key is missing from the local server."
-msgstr "La clé sandbox n’est pas configurée sur le serveur local."
+msgid "The preparation service is not configured. You can enter the information manually."
+msgstr "Le service de préparation n’est pas configuré. Vous pouvez saisir les informations manuellement."
 
 #: eures_beta/templates/employer/import-v2.html:1739
 msgctxt "employer import-v2"
@@ -2921,8 +2895,8 @@ msgstr "Vérifiez les champs, les questions et leurs longueurs."
 
 #: eures_beta/templates/employer/import-v2.html:1744
 msgctxt "employer import-v2"
-msgid "Local server unavailable. Entries remain on screen."
-msgstr "Le serveur local est indisponible. Votre saisie reste à l’écran."
+msgid "The service is unavailable. Your entries remain on screen."
+msgstr "Le service est indisponible. Vos saisies restent affichées."
 
 #: eures_beta/templates/employer/import-v2.html:1745
 msgctxt "employer import-v2"
@@ -2938,10 +2912,8 @@ msgstr ""
 #: eures_beta/templates/employer/import-v2.html:1746
 #: eures_beta/templates/employer/import-v2.html:2002
 msgctxt "employer import-v2"
-msgid "Local test: external services are disabled. You can save the draft."
-msgstr ""
-"Essai local : les services externes sont désactivés. Vous pouvez enregistrer "
-"le brouillon."
+msgid "External saving is unavailable. You can save the draft in Match Europe."
+msgstr "L’enregistrement externe est indisponible. Vous pouvez enregistrer le brouillon dans Match Europe."
 
 #: eures_beta/templates/employer/import-v2.html:1747
 #: eures_beta/templates/employer/import.html:1341
@@ -3048,13 +3020,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1828
 msgctxt "employer import-v2"
-msgid ""
-"This local trial stops here: no candidate search, prequalification or "
-"contact is started. No confirmation email is sent."
-msgstr ""
-"Cet essai local s’arrête ici : aucune recherche de candidats, aucune "
-"préqualification ni prise de contact n’est lancée. Aucun email de "
-"confirmation n’est envoyé."
+msgid "Saving the offer does not start a candidate search, prequalification or contact."
+msgstr "L’enregistrement de l’offre ne lance pas de recherche de candidats, de préqualification ou de prise de contact."
 
 #: eures_beta/templates/employer/import-v2.html:1829
 #: eures_beta/templates/employer/import-v2.html:1897
@@ -3082,27 +3049,18 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1834
 msgctxt "employer import-v2"
-msgid ""
-"Local reading using text extraction, without generative AI. The result may "
-"contain errors."
-msgstr ""
-"Lecture locale par extraction de texte, sans IA générative. Le résultat peut "
-"contenir des erreurs."
+msgid "Text extraction without generative AI. Check and correct the result before saving."
+msgstr "Extraction du texte sans IA générative. Vérifiez et corrigez le résultat avant l’enregistrement."
 
 #: eures_beta/templates/employer/import-v2.html:1836
 msgctxt "employer import-v2"
-msgid ""
-"During this trial, the draft is saved only in the local database. No "
-"publication, candidate search or transfer to EURES partners."
-msgstr ""
-"Pendant cet essai, le brouillon est enregistré uniquement dans la base "
-"locale. Aucune publication, recherche de candidats ou transmission aux "
-"partenaires EURES."
+msgid "The draft is saved in Match Europe. Saving does not publish the offer or start a candidate search."
+msgstr "Le brouillon est enregistré dans Match Europe. L’enregistrement ne publie pas l’offre et ne lance pas de recherche de candidats."
 
 #: eures_beta/templates/employer/import-v2.html:1837
 msgctxt "employer import-v2"
-msgid "Your offer has been saved locally."
-msgstr "Votre offre a été enregistrée localement."
+msgid "Your offer has been saved in Match Europe."
+msgstr "Votre offre a été enregistrée dans Match Europe."
 
 #: eures_beta/templates/employer/import-v2.html:1839
 msgctxt "employer import-v2"
@@ -3211,13 +3169,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1895
 msgctxt "employer import-v2"
-msgid ""
-"Local trial: notification activation and trial enrolment are not connected "
-"yet. No matching, prequalification or introductions are started."
-msgstr ""
-"Essai local : l’activation des notifications et l’inscription au test ne "
-"sont pas encore raccordées. Aucun matching, aucune préqualification ni mise "
-"en relation ne sont déclenchés."
+msgid "Notification activation is not available yet. This action does not start matching, prequalification or introductions."
+msgstr "L’activation des notifications n’est pas encore disponible. Cette action ne lance pas de rapprochement, de préqualification ou de mise en relation."
 
 #: eures_beta/templates/employer/import-v2.html:1911
 #: eures_beta/templates/employer/import-v2.html:1947
@@ -3279,13 +3232,8 @@ msgstr "Je préfère renseigner mon offre manuellement"
 
 #: eures_beta/templates/employer/import-v2.html:1950
 msgctxt "employer import-v2"
-msgid ""
-"Local demonstration: no the preparation service request. You may voluntarily "
-"download the test summary to your computer. Email is not saved."
-msgstr ""
-"Démonstration locale : aucun envoi au service de préparation. La fiche de "
-"test peut être téléchargée volontairement sur votre ordinateur. L’email "
-"n’est pas enregistré."
+msgid "Check your information before saving. You can also download a summary to your computer."
+msgstr "Vérifiez vos informations avant l’enregistrement. Vous pouvez aussi télécharger un récapitulatif sur votre ordinateur."
 
 #: eures_beta/templates/employer/import-v2.html:1951
 #: eures_beta/templates/employer/import-v2.html:1992
@@ -3307,12 +3255,8 @@ msgstr "Choisissez un PDF ou des images pour continuer."
 #: eures_beta/templates/employer/import-v2.html:1954
 #: eures_beta/templates/employer/import-v2.html:1991
 msgctxt "employer import-v2"
-msgid ""
-"Unreadable, protected or excessive document, or local OCR unavailable. Try "
-"another file or paste the text."
-msgstr ""
-"Document illisible, protégé ou trop long, ou OCR local indisponible. Essayez "
-"un autre fichier ou collez le texte."
+msgid "The document could not be read. Try another file or paste the text."
+msgstr "Le document n’a pas pu être lu. Essayez un autre fichier ou collez le texte."
 
 #: eures_beta/templates/employer/import-v2.html:1955
 msgctxt "employer import-v2"
@@ -3369,12 +3313,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1966
 msgctxt "employer import-v2"
-msgid ""
-"In this demonstration, agreement is simulated and is not recorded. The legal "
-"basis and final wording remain to be confirmed with France Travail."
-msgstr ""
-"Dans cette démonstration, cet accord est simulé et n’est pas enregistré. La "
-"base juridique et le texte définitif restent à confirmer avec France Travail."
+msgid "Read the privacy notice before continuing."
+msgstr "Consultez la notice de confidentialité avant de continuer."
 
 #: eures_beta/templates/employer/import-v2.html:1967
 msgctxt "employer import-v2"
@@ -3392,21 +3332,13 @@ msgstr ""
 
 #: eures_beta/templates/employer/import-v2.html:1981
 msgctxt "employer import-v2"
-msgid ""
-"Local trial: documents read without an external service. No publication or "
-"candidate search."
-msgstr ""
-"Essai local : lecture des documents sans service externe. Aucune publication "
-"ni recherche de candidats."
+msgid "Check the extracted information before saving. Reading a document does not publish an offer or start a candidate search."
+msgstr "Vérifiez les informations extraites avant l’enregistrement. La lecture d’un document ne publie pas d’offre et ne lance pas de recherche de candidats."
 
 #: eures_beta/templates/employer/import-v2.html:1982
 msgctxt "employer import-v2"
-msgid ""
-"Your email is saved in your local draft. No sign-in email is sent during "
-"this trial."
-msgstr ""
-"Votre email est conservé dans votre brouillon local. Aucun email de "
-"connexion n’est envoyé pendant cet essai."
+msgid "Your email is saved with your draft."
+msgstr "Votre adresse e-mail est enregistrée avec votre brouillon."
 
 #: eures_beta/templates/employer/import-v2.html:1983
 msgctxt "employer import-v2"
@@ -3473,11 +3405,6 @@ msgctxt "employer import-v2"
 msgid "This draft is unavailable in this session."
 msgstr "Ce brouillon n’est pas accessible depuis cette session."
 
-#: eures_beta/templates/employer/import-v2.html:1999
-msgctxt "employer import-v2"
-msgid "The local server is unavailable. Your entries remain on screen."
-msgstr "Le serveur local est indisponible. Votre saisie reste à l’écran."
-
 #: eures_beta/templates/employer/import-v2.html:2000
 msgctxt "employer import-v2"
 msgid ""
@@ -3536,17 +3463,8 @@ msgstr "Lecture des documents en cours…"
 
 #: eures_beta/templates/employer/import-v2.html:2012
 msgctxt "employer import-v2"
-msgid ""
-"By clicking “Read documents”, you request preparation of your offer. The "
-"result may contain errors: check and correct it before validation. This "
-"trial uses local text extraction, without generative AI or transfer to a "
-"provider. No publication or candidate search will be started."
-msgstr ""
-"En cliquant sur « Lire les documents », vous demandez la préparation de "
-"votre offre. Le résultat peut contenir des erreurs : vérifiez et corrigez "
-"les informations avant validation. Pendant cet essai, la lecture utilise une "
-"extraction locale, sans IA générative ni transmission à un prestataire. "
-"Aucune publication ni recherche de candidats ne sera lancée."
+msgid "By clicking “Read documents”, you request text extraction without generative AI. Check and correct the result before saving. This action does not publish the offer or start a candidate search."
+msgstr "En cliquant sur « Lire les documents », vous demandez une extraction du texte sans IA générative. Vérifiez et corrigez le résultat avant l’enregistrement. Cette action ne publie pas l’offre et ne lance pas de recherche de candidats."
 
 #: eures_beta/templates/employer/import-v2.html:2013
 msgctxt "employer import-v2"
@@ -3555,12 +3473,8 @@ msgstr "Choisir un PDF ou des images"
 
 #: eures_beta/templates/employer/import-v2.html:2014
 msgctxt "employer import-v2"
-msgid ""
-"One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB "
-"total. Local reading of images and scanned pages."
-msgstr ""
-"Un PDF ou jusqu’à 8 images PNG/JPEG d’une même offre, dans l’ordre de "
-"lecture · 10 Mo au total. Lecture locale des images et des pages scannées."
+msgid "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total."
+msgstr "Un PDF ou jusqu’à 8 images PNG/JPEG de la même offre, dans l’ordre de lecture · 10 Mo au total."
 
 #: eures_beta/templates/employer/import-v2.html:2015
 msgctxt "employer import-v2"
@@ -3845,12 +3759,8 @@ msgstr "Lien vers une offre accessible publiquement"
 #: eures_beta/templates/employer/import.html:775
 #: eures_beta/templates/employer/import.html:1555
 msgctxt "employer import"
-msgid ""
-"This demonstration does not visit the link yet. Reading the page will be "
-"connected in the next step."
-msgstr ""
-"Le lien n’est pas encore consulté dans cette démonstration. La lecture de la "
-"page sera raccordée à l’étape suivante."
+msgid "Enter the public link to your job offer. If it cannot be read, upload a document or paste the text."
+msgstr "Saisissez le lien public de votre offre. Si sa lecture est impossible, importez un document ou collez le texte."
 
 #: eures_beta/templates/employer/import.html:782
 #: eures_beta/templates/employer/import.html:1591
@@ -3909,10 +3819,8 @@ msgstr "Votre email professionnel"
 #: eures_beta/templates/employer/import.html:815
 #: eures_beta/templates/employer/import.html:1530
 msgctxt "employer import"
-msgid "Use a fictional address for this demonstration. No email is sent."
-msgstr ""
-"Pour cette démonstration, utilisez une adresse fictive. Aucun email n’est "
-"envoyé."
+msgid "Enter your email address to continue."
+msgstr "Saisissez votre adresse e-mail pour continuer."
 
 #: eures_beta/templates/employer/import.html:817
 #: eures_beta/templates/employer/import.html:1510
@@ -4490,14 +4398,8 @@ msgstr ""
 #: eures_beta/templates/employer/import.html:1218
 #: eures_beta/templates/employer/import.html:1401
 msgctxt "employer import"
-msgid ""
-"In this local trial, confirmation saves an inactive offer in the preparation "
-"service. It does not start candidate searches or send information to EURES "
-"partners."
-msgstr ""
-"Pendant cet essai local, la validation enregistre une offre inactive dans le "
-"service de préparation. Elle ne lance ni recherche de candidats ni "
-"transmission aux partenaires EURES."
+msgid "Confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners."
+msgstr "La confirmation enregistre une offre inactive dans le service de préparation. Elle ne lance pas de recherche de candidats et n’envoie pas d’informations aux partenaires EURES."
 
 #: eures_beta/templates/employer/import.html:1219
 #: eures_beta/templates/employer/import.html:1402
@@ -4617,14 +4519,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import.html:1304
 msgctxt "employer import"
-msgid ""
-"Offer validated in this demonstration. You can download the validated "
-"summary. No the preparation service update, search or candidate contact has "
-"occurred."
-msgstr ""
-"Offre validée dans cette démonstration. Vous pouvez télécharger la fiche "
-"validée. Aucun nouvel envoi au service de préparation, aucune recherche et "
-"aucun contact candidat n’ont eu lieu."
+msgid "Your summary is ready to download. Downloading it does not update the preparation service or contact candidates."
+msgstr "Votre récapitulatif est prêt à être téléchargé. Le téléchargement ne met pas à jour le service de préparation et ne contacte aucun candidat."
 
 #: eures_beta/templates/employer/import.html:1306
 msgctxt "employer import"
@@ -4676,14 +4572,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import.html:1314
 msgctxt "employer import"
-msgid ""
-"An initial inactive offer has been sent to the preparation service. "
-"Corrections stay local until you validate the update. Your email is not sent "
-"to the preparation service."
-msgstr ""
-"L’IA peut produire des erreurs ou omettre des informations. Vous pouvez "
-"corriger cette fiche avant de la valider. Votre email n’est pas transmis au "
-"prestataire de préparation."
+msgid "An initial inactive offer has been sent to the preparation service. Validate your corrections to update it. Your email is not sent to the preparation service."
+msgstr "Une première offre inactive a été transmise au service de préparation. Validez vos corrections pour la mettre à jour. Votre e-mail n’est pas transmis au service de préparation."
 
 #: eures_beta/templates/employer/import.html:1316
 msgctxt "employer import"
@@ -4751,15 +4641,13 @@ msgstr ""
 
 #: eures_beta/templates/employer/import.html:1331
 msgctxt "employer import"
-msgid "Sandbox did not confirm complete storage. Corrections are saved; retry."
-msgstr ""
-"La sandbox n’a pas confirmé l’enregistrement complet. Vos corrections "
-"restent sauvegardées ; réessayez."
+msgid "The preparation service did not confirm complete storage. Corrections are saved; retry."
+msgstr "Le service de préparation n’a pas confirmé l’enregistrement complet. Les corrections sont conservées ; réessayez."
 
 #: eures_beta/templates/employer/import.html:1332
 msgctxt "employer import"
-msgid "Sandbox key is missing from the local server."
-msgstr "La clé sandbox n’est pas configurée sur le serveur local."
+msgid "The preparation service is not configured. You can enter the information manually."
+msgstr "Le service de préparation n’est pas configuré. Vous pouvez saisir les informations manuellement."
 
 #: eures_beta/templates/employer/import.html:1333
 msgctxt "employer import"
@@ -4789,8 +4677,8 @@ msgstr "Vérifiez les champs, les questions et leurs longueurs."
 
 #: eures_beta/templates/employer/import.html:1338
 msgctxt "employer import"
-msgid "Local server unavailable. Entries remain on screen."
-msgstr "Le serveur local est indisponible. Votre saisie reste à l’écran."
+msgid "The service is unavailable. Your entries remain on screen."
+msgstr "Le service est indisponible. Vos saisies restent affichées."
 
 #: eures_beta/templates/employer/import.html:1339
 msgctxt "employer import"
@@ -4806,10 +4694,8 @@ msgstr ""
 #: eures_beta/templates/employer/import.html:1340
 #: eures_beta/templates/employer/import.html:1587
 msgctxt "employer import"
-msgid "Local test: external services are disabled. You can save the draft."
-msgstr ""
-"Essai local : les services externes sont désactivés. Vous pouvez enregistrer "
-"le brouillon."
+msgid "External saving is unavailable. You can save the draft in Match Europe."
+msgstr "L’enregistrement externe est indisponible. Vous pouvez enregistrer le brouillon dans Match Europe."
 
 #: eures_beta/templates/employer/import.html:1343
 msgctxt "employer import"
@@ -4912,13 +4798,8 @@ msgstr ""
 #: eures_beta/templates/employer/import.html:1422
 #: eures_beta/templates/employer/import.html:1480
 msgctxt "employer import"
-msgid ""
-"This local trial stops here: no candidate search, prequalification or "
-"contact is started. No confirmation email is sent."
-msgstr ""
-"Cet essai local s’arrête ici : aucune recherche de candidats, aucune "
-"préqualification ni prise de contact n’est lancée. Aucun email de "
-"confirmation n’est envoyé."
+msgid "Saving the offer does not start a candidate search, prequalification or contact."
+msgstr "L’enregistrement de l’offre ne lance pas de recherche de candidats, de préqualification ou de prise de contact."
 
 #: eures_beta/templates/employer/import.html:1423
 #: eures_beta/templates/employer/import.html:1482
@@ -4946,27 +4827,18 @@ msgstr ""
 
 #: eures_beta/templates/employer/import.html:1428
 msgctxt "employer import"
-msgid ""
-"Local reading using text extraction, without generative AI. The result may "
-"contain errors."
-msgstr ""
-"Lecture locale par extraction de texte, sans IA générative. Le résultat peut "
-"contenir des erreurs."
+msgid "Text extraction without generative AI. Check and correct the result before saving."
+msgstr "Extraction du texte sans IA générative. Vérifiez et corrigez le résultat avant l’enregistrement."
 
 #: eures_beta/templates/employer/import.html:1430
 msgctxt "employer import"
-msgid ""
-"During this trial, the draft is saved only in the local database. No "
-"publication, candidate search or transfer to EURES partners."
-msgstr ""
-"Pendant cet essai, le brouillon est enregistré uniquement dans la base "
-"locale. Aucune publication, recherche de candidats ou transmission aux "
-"partenaires EURES."
+msgid "The draft is saved in Match Europe. Saving does not publish the offer or start a candidate search."
+msgstr "Le brouillon est enregistré dans Match Europe. L’enregistrement ne publie pas l’offre et ne lance pas de recherche de candidats."
 
 #: eures_beta/templates/employer/import.html:1431
 msgctxt "employer import"
-msgid "Your offer has been saved locally."
-msgstr "Votre offre a été enregistrée localement."
+msgid "Your offer has been saved in Match Europe."
+msgstr "Votre offre a été enregistrée dans Match Europe."
 
 #: eures_beta/templates/employer/import.html:1433
 msgctxt "employer import"
@@ -5058,13 +4930,8 @@ msgstr "Je préfère renseigner mon offre manuellement"
 
 #: eures_beta/templates/employer/import.html:1535
 msgctxt "employer import"
-msgid ""
-"Local demonstration: no the preparation service request. You may voluntarily "
-"download the test summary to your computer. Email is not saved."
-msgstr ""
-"Démonstration locale : aucun envoi au service de préparation. La fiche de "
-"test peut être téléchargée volontairement sur votre ordinateur. L’email "
-"n’est pas enregistré."
+msgid "Check your information before saving. You can also download a summary to your computer."
+msgstr "Vérifiez vos informations avant l’enregistrement. Vous pouvez aussi télécharger un récapitulatif sur votre ordinateur."
 
 #: eures_beta/templates/employer/import.html:1536
 #: eures_beta/templates/employer/import.html:1577
@@ -5086,12 +4953,8 @@ msgstr "Choisissez un PDF ou des images pour continuer."
 #: eures_beta/templates/employer/import.html:1539
 #: eures_beta/templates/employer/import.html:1576
 msgctxt "employer import"
-msgid ""
-"Unreadable, protected or excessive document, or local OCR unavailable. Try "
-"another file or paste the text."
-msgstr ""
-"Document illisible, protégé ou trop long, ou OCR local indisponible. Essayez "
-"un autre fichier ou collez le texte."
+msgid "The document could not be read. Try another file or paste the text."
+msgstr "Le document n’a pas pu être lu. Essayez un autre fichier ou collez le texte."
 
 #: eures_beta/templates/employer/import.html:1540
 msgctxt "employer import"
@@ -5148,12 +5011,8 @@ msgstr ""
 
 #: eures_beta/templates/employer/import.html:1551
 msgctxt "employer import"
-msgid ""
-"In this demonstration, agreement is simulated and is not recorded. The legal "
-"basis and final wording remain to be confirmed with France Travail."
-msgstr ""
-"Dans cette démonstration, cet accord est simulé et n’est pas enregistré. La "
-"base juridique et le texte définitif restent à confirmer avec France Travail."
+msgid "Read the privacy notice before continuing."
+msgstr "Consultez la notice de confidentialité avant de continuer."
 
 #: eures_beta/templates/employer/import.html:1552
 msgctxt "employer import"
@@ -5171,21 +5030,13 @@ msgstr ""
 
 #: eures_beta/templates/employer/import.html:1566
 msgctxt "employer import"
-msgid ""
-"Local trial: documents read without an external service. No publication or "
-"candidate search."
-msgstr ""
-"Essai local : lecture des documents sans service externe. Aucune publication "
-"ni recherche de candidats."
+msgid "Check the extracted information before saving. Reading a document does not publish an offer or start a candidate search."
+msgstr "Vérifiez les informations extraites avant l’enregistrement. La lecture d’un document ne publie pas d’offre et ne lance pas de recherche de candidats."
 
 #: eures_beta/templates/employer/import.html:1567
 msgctxt "employer import"
-msgid ""
-"Your email is saved in your local draft. No sign-in email is sent during "
-"this trial."
-msgstr ""
-"Votre email est conservé dans votre brouillon local. Aucun email de "
-"connexion n’est envoyé pendant cet essai."
+msgid "Your email is saved with your draft."
+msgstr "Votre adresse e-mail est enregistrée avec votre brouillon."
 
 #: eures_beta/templates/employer/import.html:1568
 msgctxt "employer import"
@@ -5252,11 +5103,6 @@ msgctxt "employer import"
 msgid "This draft is unavailable in this session."
 msgstr "Ce brouillon n’est pas accessible depuis cette session."
 
-#: eures_beta/templates/employer/import.html:1584
-msgctxt "employer import"
-msgid "The local server is unavailable. Your entries remain on screen."
-msgstr "Le serveur local est indisponible. Votre saisie reste à l’écran."
-
 #: eures_beta/templates/employer/import.html:1585
 msgctxt "employer import"
 msgid ""
@@ -5305,17 +5151,8 @@ msgstr "Lecture des documents en cours…"
 
 #: eures_beta/templates/employer/import.html:1597
 msgctxt "employer import"
-msgid ""
-"By clicking “Read documents”, you request preparation of your offer. The "
-"result may contain errors: check and correct it before validation. This "
-"trial uses local text extraction, without generative AI or transfer to a "
-"provider. No publication or candidate search will be started."
-msgstr ""
-"En cliquant sur « Lire les documents », vous demandez la préparation de "
-"votre offre. Le résultat peut contenir des erreurs : vérifiez et corrigez "
-"les informations avant validation. Pendant cet essai, la lecture utilise une "
-"extraction locale, sans IA générative ni transmission à un prestataire. "
-"Aucune publication ni recherche de candidats ne sera lancée."
+msgid "By clicking “Read documents”, you request text extraction without generative AI. Check and correct the result before saving. This action does not publish the offer or start a candidate search."
+msgstr "En cliquant sur « Lire les documents », vous demandez une extraction du texte sans IA générative. Vérifiez et corrigez le résultat avant l’enregistrement. Cette action ne publie pas l’offre et ne lance pas de recherche de candidats."
 
 #: eures_beta/templates/employer/import.html:1598
 msgctxt "employer import"
@@ -5324,12 +5161,8 @@ msgstr "Choisir un PDF ou des images"
 
 #: eures_beta/templates/employer/import.html:1599
 msgctxt "employer import"
-msgid ""
-"One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB "
-"total. Local reading of images and scanned pages."
-msgstr ""
-"Un PDF ou jusqu’à 8 images PNG/JPEG d’une même offre, dans l’ordre de "
-"lecture · 10 Mo au total. Lecture locale des images et des pages scannées."
+msgid "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total."
+msgstr "Un PDF ou jusqu’à 8 images PNG/JPEG de la même offre, dans l’ordre de lecture · 10 Mo au total."
 
 #: eures_beta/templates/employer/import.html:1600
 msgctxt "employer import"
@@ -5820,12 +5653,8 @@ msgstr "ROME · Intitulés des métiers"
 
 #: eures_beta/templates/employer/occupation_strings.html:7
 msgctxt "employer occupations"
-msgid ""
-"French ROME catalogue, searched directly by job title or code. Detailed "
-"descriptions are not included in this trial."
-msgstr ""
-"Catalogue ROME français, recherché directement par intitulé ou code. Les "
-"descriptions détaillées ne sont pas incluses dans cet essai."
+msgid "French ROME catalogue, searched directly by job title or code. Detailed descriptions are not included."
+msgstr "Référentiel ROME français, recherché directement par intitulé ou code métier. Les descriptions détaillées ne sont pas incluses."
 
 #: eures_beta/templates/employer/occupation_strings.html:8
 msgctxt "employer occupations"
@@ -6112,12 +5941,8 @@ msgstr "Protection des données"
 
 #: eures_beta/templates/employer/privacy.html:14
 msgctxt "employer privacy"
-msgid ""
-"Existing notice dated 3 August 2026 — needs updating for the offer import "
-"journey. Local copy, not validated for this new journey."
-msgstr ""
-"Notice existante du 3 août 2026 — à actualiser pour le parcours d’import "
-"d’offre. Copie locale, non validée pour ce nouveau parcours."
+msgid "Notice dated 3 August 2026 — needs updating and validation for the offer import journey."
+msgstr "Notice du 3 août 2026 — à mettre à jour et à valider pour le parcours d’import d’offre."
 
 #: eures_beta/templates/employer/privacy.html:21
 msgctxt "employer privacy"
@@ -6190,27 +6015,13 @@ msgstr ""
 
 #: eures_beta/templates/employer/privacy.html:60
 msgctxt "employer privacy"
-msgid "Company contact in the local trial"
-msgstr "Contact entreprise dans l’essai local"
+msgid "Company contact"
+msgstr "Contact de l’entreprise"
 
 #: eures_beta/templates/employer/privacy.html:61
 msgctxt "employer privacy"
-msgid ""
-"The contact name and email, plus the optional phone and role, are stored "
-"with the local draft so the adviser can contact you. The employer can view "
-"and edit them in this browser. The assigned adviser and administrators can "
-"view them in their workspaces. These fields are not shown to candidates or "
-"included in the offer export. Retention and the production notice remain to "
-"be defined; this historical copy does not validate the new journey."
-msgstr ""
-"Le nom et l’email du contact, ainsi que le téléphone et la fonction si vous "
-"les renseignez, sont conservés avec le brouillon local pour permettre au "
-"conseiller de vous recontacter. L’employeur peut les consulter et les "
-"corriger dans ce navigateur. Le conseiller affecté à l’offre et les "
-"administrateurs peuvent les consulter dans leurs espaces. Ces champs ne sont "
-"pas affichés aux candidats ni inclus dans l’export de la fiche. La durée de "
-"conservation et la notice de production restent à définir ; cette copie "
-"historique ne valide pas le nouveau parcours."
+msgid "The contact name and email, plus the optional phone and role, are stored with the draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates or included in the offer export. Retention and the privacy notice remain to be defined; this historical copy does not validate the new journey."
+msgstr "Le nom et l’e-mail du contact, ainsi que son téléphone et sa fonction facultatifs, sont enregistrés avec le brouillon pour permettre au conseiller de vous contacter. L’employeur peut les consulter et les modifier dans ce navigateur. Le conseiller affecté et les administrateurs peuvent les consulter dans leurs espaces. Ces champs ne sont pas affichés aux candidats ni inclus dans l’export de l’offre. La conservation et la notice de confidentialité restent à définir ; cette copie historique ne valide pas le nouveau parcours."
 
 #: eures_beta/templates/employer/privacy.html:68
 msgctxt "employer privacy"
@@ -6858,8 +6669,8 @@ msgstr ""
 "est disponible."
 
 #: eures_beta/templates/employer_login.html:21
-msgid "Local test only"
-msgstr "Uniquement pour cet essai local"
+msgid "Test message"
+msgstr "Message de test"
 
 #: eures_beta/templates/employer_login.html:22
 msgid ""
@@ -6878,12 +6689,8 @@ msgid "Test inbox"
 msgstr "Boîte de réception de test"
 
 #: eures_beta/templates/employer_login.html:28
-msgid ""
-"Local simulation — this email has not been sent. The sender address will be "
-"configured with Brevo FT."
-msgstr ""
-"Simulation locale — cet email n’a pas été envoyé. L’adresse d’expédition "
-"sera configurée avec Brevo FT."
+msgid "Simulated email — this message has not been sent."
+msgstr "E-mail simulé — ce message n’a pas été envoyé."
 
 #: eures_beta/templates/employer_login.html:31
 msgid "From"
@@ -7114,12 +6921,8 @@ msgstr ""
 
 #: eures_beta/templates/employer_workspace.html:425
 #: eures_beta/templates/employer_workspace.html:516
-msgid ""
-"Local simulation: no candidate has been contacted and no external search has "
-"been started."
-msgstr ""
-"Simulation locale : aucun candidat contacté et aucune recherche externe "
-"lancée."
+msgid "Simulation: no candidate has been contacted and no external search has been started."
+msgstr "Simulation : aucun candidat n’a été contacté et aucune recherche externe n’a été lancée."
 
 #: eures_beta/templates/employer_workspace.html:427
 msgid ""
@@ -10792,9 +10595,6 @@ msgstr "Simulation locale pour votre adresse fictive : aucun e-mail n’a été 
 
 msgid "Simulate receiving my confirmation"
 msgstr "Simuler la réception de ma confirmation"
-
-msgid "Local test: Albert is simulated and no real email is sent. Use fictional data only."
-msgstr "Essai local : Albert est simulé et aucun e-mail réel n’est envoyé. Utilisez uniquement des données fictives."
 
 msgid "Try again"
 msgstr "Réessayer"

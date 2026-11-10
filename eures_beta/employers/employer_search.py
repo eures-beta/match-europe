@@ -21,7 +21,7 @@ class LaunchForm(forms.Form):
         )
     )
     scenario = forms.ChoiceField(
-        label=_('Local simulation scenario'),
+        label=_('Simulation scenario'),
         choices=[
             ('success', _('Confirmed start')),
             ('failure', _('Failure before start')),

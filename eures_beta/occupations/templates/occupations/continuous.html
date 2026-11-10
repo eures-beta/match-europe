@@ -11,7 +11,6 @@
          data-retry="{% translate 'Try again' %}"
          data-simulation="{% translate 'Simulation: no Albert call was made. This shortlist only tests the journey, not the quality of AI suggestions.' %}">
   <h2>{% translate "Skills by occupation" %}</h2>
-  <p>{% translate "Local test: Albert is simulated and no real email is sent. Use fictional data only." %}</p>
   <p>{% translate "Select an ESCO occupation above to see its skills. Choose up to five skills and three professional behaviours per occupation; nothing is preselected. ROME and personal titles remain independent." %}</p>
   <p>{% translate "An unchecked item means it was not prioritised or declared, not that it is absent." %}</p>
   {% if skills_role == "employer" and not form.occupationSkills %}
