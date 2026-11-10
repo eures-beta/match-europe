@@ -436,6 +436,7 @@ def duplicate(request, id):
             source_kind='manual',
             source_url='',
             data=data,
+            structured_requirements=deepcopy(original.structured_requirements),
         )
     return redirect('employer_offer_edit', id=copy.pk)
 

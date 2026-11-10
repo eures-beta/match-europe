@@ -224,6 +224,9 @@ class WorkspaceTests(TestCase):
             self.offer.synced_at
         ) = self.offer.validated_at = timezone.now()
         self.offer.sandbox_response = {'external': 'must-not-copy'}
+        self.offer.structured_requirements = {
+            'languages': [{'code': 'fr', 'level': 'B1'}]
+        }
         self.offer.data['geo'] = {'query': 'Metz'}
         self.offer.save()
         original = deepcopy(self.offer.data)
@@ -236,6 +239,9 @@ class WorkspaceTests(TestCase):
         self.assertEqual(copy.company, self.company)
         self.assertEqual(copy.created_by, self.person)
         self.assertEqual(copy.contact, self.offer.contact)
+        self.assertEqual(
+            copy.structured_requirements, self.offer.structured_requirements
+        )
         for field in (
             'search_started_at',
             'initial_sent_at',

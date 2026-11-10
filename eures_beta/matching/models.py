@@ -4,22 +4,6 @@ from django.db import models
 from . import validation
 
 
-class OfferRequirements(models.Model):
-    """Explicit structured supplements for fictional local scenarios only."""
-
-    offer = models.OneToOneField(
-        'employers.JobOffer',
-        on_delete=models.CASCADE,
-        related_name='matching_requirements',
-    )
-    data = models.JSONField(default=dict)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        validation.requirements(self.data)
-        return super().save(*args, **kwargs)
-
-
 class MatchPair(models.Model):
     candidate = models.ForeignKey(
         'candidates.CandidateProfile', on_delete=models.CASCADE

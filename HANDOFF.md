@@ -1330,3 +1330,15 @@ ces noms lors de leur prochain rafraîchissement ; elles ne sont pas modifiées 
 Validation : 537 tests après le premier commit, 538 après le second, PostgreSQL,
 Django/migrations et Black ; tests aller-retour avec lignes et permissions.
 Aucune fusion ni opération sur une base distante.
+
+## 10 novembre 2026 — exigences dans JobOffer (#160)
+
+Sur demande de dejafait, OfferRequirements est remplacé par le champ JSON validé
+JobOffer.structured_requirements dans employers. Validation, calcul, seed et
+copie d'offre recâblés ; aucun texte libre n'est interprété en critère obligatoire.
+La migration copie les valeurs avant de retirer la table redondante ; conflit
+refusé sans écrasement. Le rollback restaure les valeurs mais pas les anciens
+identifiants/dates techniques des lignes de la table supprimée. Les offres,
+leurs dates et les liens de matching sont conservés. 548 tests PostgreSQL, dont
+aller-retour de migration, conflits et duplication ; Django/migrations et qualité
+Python/HTML/JS/traductions réussis. Pas de fusion ni déploiement par cette tâche.

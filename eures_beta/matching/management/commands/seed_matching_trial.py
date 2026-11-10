@@ -11,7 +11,7 @@ from eures_beta.employers.employer_api import clean_data
 from eures_beta.skills.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog
 from eures_beta.matching.access import test_data_enabled
-from eures_beta.matching.models import MatchPair, OfferRequirements
+from eures_beta.matching.models import MatchPair
 from eures_beta.matching.services import calculate, inputs
 
 
@@ -68,26 +68,22 @@ class Command(BaseCommand):
                 source_kind='matching',
                 data=clean_data(data),
             )
-            OfferRequirements.objects.create(
-                offer=offer,
-                data={
-                    'country': 'FR',
-                    'languages': [{'code': 'fr', 'level': 'A2'}],
-                    'latest_start': (
-                        timezone.localdate() + timedelta(days=14)
-                    ).isoformat(),
-                    'start_mandatory': True,
-                    'schedule': ['saturday:morning'],
-                    'schedule_mandatory': True,
-                    'mandatory_permits': ['B'],
-                    'salary': {
-                        'maximum': '22',
-                        'currency': 'EUR',
-                        'basis': 'gross',
-                        'period': 'hour',
-                    },
+            offer.structured_requirements = {
+                'country': 'FR',
+                'languages': [{'code': 'fr', 'level': 'A2'}],
+                'latest_start': (timezone.localdate() + timedelta(days=14)).isoformat(),
+                'start_mandatory': True,
+                'schedule': ['saturday:morning'],
+                'schedule_mandatory': True,
+                'mandatory_permits': ['B'],
+                'salary': {
+                    'maximum': '22',
+                    'currency': 'EUR',
+                    'basis': 'gross',
+                    'period': 'hour',
                 },
-            )
+            }
+            offer.save(update_fields=['structured_requirements'])
         scenarios = [
             ('compatible', 'Profil fictif A — correspondances', {}),
             (
