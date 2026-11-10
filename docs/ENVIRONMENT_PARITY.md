@@ -8,14 +8,14 @@ Décision d’Eric du 9 novembre 2026 : les fonctionnalités livrées sont desti
 - #133 et #146 : profil employeur et import accessibles avec les droits du compte réel ; Albert utilisable avec une clé configurée, sans prérequis de démonstration.
 - #154 et #157 : sélection de compétences accessible à distance ; génération Albert réservée au rôle authentifié correspondant, avec références ESCO vérifiées.
 - #158 : compétences intégrées aux formulaires et espaces propriétaires dans tous les environnements ; aucune simulation Albert forcée. Liste et rattachement des offres utilisent la connexion commune. Les confirmations fictives dans le navigateur sont retirées ; le candidat suit le parcours d’e-mail vérifié avant saisie.
-- #160 et #161 : profils vérifiés et offres validées aux adresses ordinaires éligibles ; console autonome avec permissions explicites puis portefeuilles avec adhésions et affectations d’équipe. Aucun droit implicite par IP, rôle de superutilisateur ou adresse de contact.
+- #160 : profils vérifiés et offres validées aux adresses ordinaires éligibles, avec permissions explicites dans la console de matching. Le portefeuille d’équipe de la #161 est reporté. Aucun droit implicite par IP, rôle de superutilisateur ou adresse de contact.
 - #162 et #163 : confirmations et dialogue candidat disponibles à distance ; accord de transmission distinct, relecture des modifications du profil, quotas, CSRF, révocation et détection des modifications concurrentes conservés.
 
 Les PR intermédiaires conservent leurs fonctionnalités et reçoivent le socle corrigé. Les changements publiés en parallèle sur la pile ont été conservés, notamment les migrations candidat réorganisées et les contrôles de propriété des brouillons.
 
 ## Configuration nécessaire
 
-Les fonctionnalités métier sont actives par défaut. Les anciennes options `ALBERT_IMPORT_ENABLED`, `SKILLS_PILOT_ENABLED`, `SKILLS_ALBERT_ENABLED`, `CONTINUOUS_SKILLS_ENABLED`, `MATCHING_TEAMS_ENABLED` et `CONFIRMATION_DIALOGUE_ENABLED` restent des commandes explicites de configuration, sans restriction par environnement. Une ancienne valeur explicite `0` reste une désactivation choisie : la retirer ou l’actualiser dans le dépôt privé de déploiement si elle n’est plus souhaitée. `MATCHING_ENABLED` remplace le nom historique `MATCHING_LOCAL_ENABLED`, conservé pour compatibilité.
+Les fonctionnalités métier sont actives par défaut. Les anciennes options `ALBERT_IMPORT_ENABLED`, `SKILLS_PILOT_ENABLED`, `SKILLS_ALBERT_ENABLED`, `CONTINUOUS_SKILLS_ENABLED` et `CONFIRMATION_DIALOGUE_ENABLED` restent des commandes explicites de configuration, sans restriction par environnement. Une ancienne valeur explicite `0` reste une désactivation choisie : la retirer ou l’actualiser dans le dépôt privé de déploiement si elle n’est plus souhaitée. Le matching utilise `MATCHING_ENABLED`.
 
 Albert nécessite une clé privée et son modèle configuré. Les simulations `ALBERT_IMPORT_SIMULATED`, `SKILLS_ALBERT_SIMULATED` et `CONFIRMATION_DIALOGUE_SIMULATED` sont désactivées par défaut et ne sont jamais activées automatiquement par le nom de l’environnement. Les replis guidés/manuels sont conservés.
 

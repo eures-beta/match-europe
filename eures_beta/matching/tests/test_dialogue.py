@@ -1,6 +1,7 @@
 from io import StringIO
 from unittest.mock import patch
 
+from django.contrib.auth.models import Permission
 from django.core import signing
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
@@ -9,17 +10,31 @@ from django.urls import reverse
 from eures_beta.candidates.journey import KEY, ConditionsForm
 from eures_beta.matching import confirmation_services as confirmations
 from eures_beta.matching import dialogue_services as dialogue
-from eures_beta.matching.models import MatchPair, TeamCandidate
+from eures_beta.matching.models import MatchPair
 from eures_beta.matching.services import StaleEvaluation
 from eures_beta.users.test_accounts import prepared_user
-from .test_teams import SETTINGS
+
+SETTINGS = {
+    'MATCHING_ENABLED': True,
+    'TEST_ACCOUNTS_ENABLED': True,
+    'DJANGO_ENVIRONMENT': 'local',
+    'EMAIL_DELIVERY_ENABLED': False,
+    'LOGIN_EMAIL_ENABLED': False,
+}
 
 
 @override_settings(**{**SETTINGS, 'CONFIRMATION_DIALOGUE_SIMULATED': True})
 class DialogueTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_matching_teams', stdout=StringIO())
+        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_matching_trial', stdout=StringIO())
+        prepared_user('adviser').user_permissions.add(
+            *Permission.objects.filter(
+                content_type__app_label='matching',
+                codename__in=('view_matchpair', 'change_matchpair'),
+            )
+        )
 
     def setUp(self):
         self.adviser = prepared_user('adviser')
@@ -268,11 +283,10 @@ class DialogueTests(TestCase):
             self.client.force_login(user)
             self.assertEqual(self.client.get(self.url).status_code, 404)
 
-    def test_revoked_assignment_closes_proposal_acceptance(self):
+    def test_unverified_profile_closes_proposal_acceptance(self):
         proposal = self.propose()
-        TeamCandidate.objects.filter(
-            team=self.pair.team, candidate=self.pair.candidate
-        ).delete()
+        self.pair.candidate.email_verified_at = None
+        self.pair.candidate.save()
         self.assertEqual(
             self.client.post(
                 self.url, dict(action='accept', token=proposal['token'])

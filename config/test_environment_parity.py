@@ -14,6 +14,7 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
             'SKILLS_ALBERT_ENABLED',
             'CONTINUOUS_SKILLS_ENABLED',
             'MATCHING_ENABLED',
+            'CONFIRMATION_DIALOGUE_ENABLED',
         ]
         for environment in ('local', 'preview', 'production'):
             values = os.environ.copy()

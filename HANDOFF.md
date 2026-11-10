@@ -8,6 +8,13 @@ les données non vides, les identifiants et tables conservés, l’aller-retour,
 séquences, l’installation vierge et le refus des divergences. Voir
 [le contrat de migration](docs/CANDIDATE_OFFER_CONFIRMATIONS.md).
 
+## 10 novembre 2026 — dialogue Albert sur les confirmations de la #162
+
+La #163 se rattache aux demandes du matching existant. Le candidat doit être
+propriétaire de la demande, avec un profil vérifié et une offre validée.
+Le formulaire guidé reste accessible et les propositions Albert sont soumises
+à validation explicite. Voir [le raccordement](docs/ALBERT_DIALOGUE_ADAPTER.md).
+
 ## 10 novembre 2026 — confirmations candidat sur le matching de main
 
 La #162 reprend les permissions existantes du matching et ajoute la confirmation
