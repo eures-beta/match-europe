@@ -100,7 +100,7 @@ class TeamTests(TestCase):
         self.assertGreater(pairs.count(), 1)
         self.assertEqual(TeamOffer.objects.get(offer=offer).team, self.team)
         self.assertEqual(
-            Evaluation.objects.filter(pair__in=pairs).count(), pairs.count()
+            MatchEvaluation.objects.filter(pair__in=pairs).count(), pairs.count()
         )
         page = self.client.get(reverse('dashboard'), {'offer': offer.pk})
         entries = page.context['entries']
