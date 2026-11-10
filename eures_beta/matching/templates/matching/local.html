@@ -89,7 +89,7 @@
           </div>
         </details>
       {% else %}
-        <a href="{% url 'matching_local' %}?lang={{ page_language }}">{% translate "Choose another pair" %}</a>
+        <a href="{% url 'matching' %}?lang={{ page_language }}">{% translate "Choose another pair" %}</a>
         <section class="result-hero" aria-label="{% translate 'Matching summary' %}">
           <div>
             <span class="result-kicker">{% translate "Candidate" %}</span>
