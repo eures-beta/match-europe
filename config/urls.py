@@ -8,7 +8,18 @@ from eures_beta.skills.continuous_views import suggestions as skill_suggestions
 from eures_beta.users import views as user_views
 
 urlpatterns = [
-    path('matching-local/', include('eures_beta.matching.urls')),
+    path('matching/', include('eures_beta.matching.urls')),
+    # Preserve old bookmarks, including detail pages and language queries.
+    path(
+        'matching-local/',
+        RedirectView.as_view(url='/matching/', permanent=True, query_string=True),
+    ),
+    path(
+        'matching-local/<int:pk>/',
+        RedirectView.as_view(
+            pattern_name='matching_detail', permanent=True, query_string=True
+        ),
+    ),
     path(
         'api/occupation-skills/', skill_suggestions, name='occupation_skill_suggestions'
     ),
