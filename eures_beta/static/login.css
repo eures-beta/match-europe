@@ -37,7 +37,7 @@
 }
 
 .account-login button:disabled {
-  opacity: .65;
+  opacity: 0.65;
   cursor: not-allowed;
 }
 

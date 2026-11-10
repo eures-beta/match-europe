@@ -37,9 +37,9 @@ body {
   color: var(--text);
   background:
     radial-gradient(circle at 18% 10%, rgba(0, 68, 148, 0.16), transparent 26%),
-    radial-gradient(circle at 85% 0%, rgba(255, 204, 0, 0.20), transparent 24%),
+    radial-gradient(circle at 85% 0%, rgba(255, 204, 0, 0.2), transparent 24%),
     linear-gradient(180deg, #f6f9ff 0%, var(--bg) 45%, #eef5ff 100%);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 a {
@@ -118,7 +118,10 @@ textarea {
   border-radius: 999px;
   padding: 0.55rem 0.9rem;
   background: rgba(255, 255, 255, 0.72);
-  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
 }
 
 .nav-pill:hover,
@@ -150,7 +153,7 @@ textarea {
   align-items: stretch;
 }
 
-body[data-page="home"] .hero-grid {
+body[data-page='home'] .hero-grid {
   align-items: start;
 }
 
@@ -190,7 +193,7 @@ body[data-page="home"] .hero-grid {
   letter-spacing: -0.04em;
 }
 
-body[data-page="home"] .hero-card h1 {
+body[data-page='home'] .hero-card h1 {
   max-width: 10.5ch;
   font-size: clamp(2.9rem, 4.7vw, 4.8rem);
 }
@@ -223,7 +226,10 @@ body[data-page="home"] .hero-card h1 {
   border-radius: 999px;
   text-decoration: none;
   border: 1px solid transparent;
-  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+  transition:
+    transform 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease;
 }
 
 .primary-action {
@@ -240,8 +246,7 @@ body[data-page="home"] .hero-card h1 {
 .story-card {
   border-radius: 28px;
   padding: 1.5rem;
-  background:
-    linear-gradient(180deg, rgba(27, 124, 103, 0.15), rgba(255, 255, 255, 0.82));
+  background: linear-gradient(180deg, rgba(27, 124, 103, 0.15), rgba(255, 255, 255, 0.82));
 }
 
 .story-card h2,
@@ -437,7 +442,10 @@ body[data-page="home"] .hero-card h1 {
   border-radius: 18px;
   text-decoration: none;
   background: rgba(255, 255, 255, 0.72);
-  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
 }
 
 .summary-link:hover,
@@ -459,7 +467,7 @@ body[data-page="home"] .hero-card h1 {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 20px;
-  border: 1px solid rgba(0, 68, 148, 0.10);
+  border: 1px solid rgba(0, 68, 148, 0.1);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 255, 0.94));
 }
 
@@ -678,7 +686,7 @@ body[data-page="home"] .hero-card h1 {
 .candidate-message {
   padding: 1.35rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 255, 0.96));
-  border: 1px solid rgba(0, 68, 148, 0.10);
+  border: 1px solid rgba(0, 68, 148, 0.1);
 }
 
 .candidate-message h2,
@@ -714,7 +722,7 @@ body[data-page="home"] .hero-card h1 {
 .candidate-about {
   padding: 1.25rem 1.35rem;
   background: rgba(0, 68, 148, 0.05);
-  border: 1px solid rgba(0, 68, 148, 0.10);
+  border: 1px solid rgba(0, 68, 148, 0.1);
 }
 
 .candidate-sidebar {
@@ -738,7 +746,7 @@ body[data-page="home"] .hero-card h1 {
   gap: 0.95rem;
   margin-bottom: 0.4rem;
   padding-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(0, 68, 148, 0.10);
+  border-bottom: 1px solid rgba(0, 68, 148, 0.1);
 }
 
 .questionnaire-grid {
@@ -771,14 +779,14 @@ body[data-page="home"] .hero-card h1 {
   display: grid;
   gap: 0.95rem;
   padding: 1.2rem;
-  border: 1px solid rgba(0, 68, 148, 0.10);
+  border: 1px solid rgba(0, 68, 148, 0.1);
   border-radius: 24px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 255, 0.94));
   box-shadow: 0 12px 28px rgba(34, 58, 94, 0.05);
 }
 
 .form-section + .form-section {
-  border-top: 1px solid rgba(0, 68, 148, 0.10);
+  border-top: 1px solid rgba(0, 68, 148, 0.1);
 }
 
 .form-section h3 {
@@ -877,7 +885,11 @@ body[data-page="home"] .hero-card h1 {
   border-radius: 16px;
   padding: 0.6rem 0.9rem;
   cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
 }
 
 .checkbox-pill:hover {
@@ -994,11 +1006,11 @@ body[data-page="home"] .hero-card h1 {
   color: var(--muted);
 }
 
-.status[data-state="success"] {
+.status[data-state='success'] {
   color: var(--success);
 }
 
-.status[data-state="error"] {
+.status[data-state='error'] {
   color: var(--danger);
 }
 
@@ -1034,7 +1046,7 @@ body[data-page="home"] .hero-card h1 {
 .matrix-table th,
 .matrix-table td {
   padding: 0.8rem 0.7rem;
-  border-bottom: 1px solid rgba(23, 50, 77, 0.10);
+  border-bottom: 1px solid rgba(23, 50, 77, 0.1);
   text-align: center;
 }
 
@@ -1064,7 +1076,7 @@ body[data-page="home"] .hero-card h1 {
 .rank-field {
   padding: 0.9rem;
   border-radius: 18px;
-  border: 1px solid rgba(23, 50, 77, 0.10);
+  border: 1px solid rgba(23, 50, 77, 0.1);
   background: rgba(255, 255, 255, 0.72);
 }
 
@@ -1077,7 +1089,7 @@ body[data-page="home"] .hero-card h1 {
   padding: 1.15rem 1.2rem;
   border-radius: 22px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 249, 255, 0.96));
-  border: 1px solid rgba(0, 68, 148, 0.10);
+  border: 1px solid rgba(0, 68, 148, 0.1);
   box-shadow: 0 14px 30px rgba(34, 58, 94, 0.08);
 }
 
@@ -1222,7 +1234,7 @@ body[data-page="home"] .hero-card h1 {
     font-size: clamp(2.1rem, 11vw, 3rem);
   }
 
-  body[data-page="home"] .hero-card h1 {
+  body[data-page='home'] .hero-card h1 {
     max-width: none;
     font-size: clamp(2.35rem, 10.4vw, 3.35rem);
     line-height: 0.98;

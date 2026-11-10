@@ -1,13 +1,13 @@
 /* Only the explicit toggle changes the existing Django layout. */
 #changelist-filter[hidden] {
-    display: none;
+  display: none;
 }
 
 #changelist.filters-collapsed .changelist-form-container:has(#changelist-filter) > div {
-    max-width: 100%;
-    width: 100%;
+  max-width: 100%;
+  width: 100%;
 }
 
 #admin-filter-toggle {
-    margin: 0 0 12px;
+  margin: 0 0 12px;
 }
