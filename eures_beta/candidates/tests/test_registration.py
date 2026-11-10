@@ -269,7 +269,9 @@ class CandidateRegistrationTests(TestCase):
         self.assertContains(restored, 'data-install-handoff')
         self.assertContains(restored, 'data-install-phone')
         secured_profile = mobile.get(reverse('candidate_profile'), secure=True)
-        self.assertContains(secured_profile, 'https://testserver/candidate/install/?lang=')
+        self.assertContains(
+            secured_profile, 'https://testserver/candidate/install/?lang='
+        )
         self.assertContains(restored, 'Fictional candidate')
         self.assertContains(restored, 'rel="manifest"')
 
