@@ -1342,3 +1342,12 @@ identifiants/dates techniques des lignes de la table supprimée. Les offres,
 leurs dates et les liens de matching sont conservés. 548 tests PostgreSQL, dont
 aller-retour de migration, conflits et duplication ; Django/migrations et qualité
 Python/HTML/JS/traductions réussis. Pas de fusion ni déploiement par cette tâche.
+
+## 10 novembre 2026 — nom unique du réglage de matching (#160)
+
+Sur demande précise de dejafait, MATCHING_ENABLED devient l'unique nom du réglage
+Django et de la variable d'environnement. Ancien alias retiré, valeur par défaut
+active et désactivation explicite conservées. Consommateurs, commandes Make et
+tests/docs du réglage recâblés. Aucun autre flag, route ou fichier renommé.
+Validation : 548 tests PostgreSQL et contrôles Django/migrations, Python, HTML,
+JavaScript et traductions réussis. Ni fusion ni déploiement par ce changement.

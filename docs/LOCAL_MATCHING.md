@@ -1,6 +1,6 @@
 ## Mise à jour — 9 novembre 2026
 
-Le matching fonctionne dans tous les environnements et accepte les comptes réels actifs, les profils vérifiés et les offres validées. Le nom historique `MATCHING_LOCAL_ENABLED` est compatible ; `MATCHING_ENABLED` le remplace dans les nouvelles configurations, actif par défaut. La console autonome exige un conseiller avec le droit explicite `matching.view_matchpair`, et `matching.change_matchpair` pour écrire. Les restrictions IP, démo et e-mails sont retirées. Le peuplement fictif demeure une commande d’opérateur explicitement activée, séparée du parcours métier. Les scores, règles de décision et confirmations humaines restent inchangés. Les limites locales ci-dessous sont historiques et remplacées.
+Le matching fonctionne dans tous les environnements et accepte les comptes réels actifs, les profils vérifiés et les offres validées. `MATCHING_ENABLED` est l’unique réglage d’activation, actif par défaut, sans dépendance à l’environnement. La console autonome exige un conseiller avec le droit explicite `matching.view_matchpair`, et `matching.change_matchpair` pour écrire. Les restrictions IP, démo et e-mails sont retirées. Le peuplement fictif demeure une commande d’opérateur explicitement activée, séparée du parcours métier. Les scores, règles de décision et confirmations humaines restent inchangés. Les limites locales ci-dessous sont historiques et remplacées.
 
 # Matching local : correspondances explicables
 
@@ -113,7 +113,7 @@ Le bouton « Retenir pour examen » reste indisponible si blocage, données pér
 ou aucune correspondance. Un refus peut être révisé explicitement par l’opérateur,
 avec un nouvel événement. Aucun consentement ni transmission n’en découle.
 
-Accès fermé par défaut. `/matching-local/` exige `MATCHING_LOCAL_ENABLED=1`,
+Accès fermé par défaut. `/matching-local/` exige `MATCHING_ENABLED=1`,
 environnement `local`, aucun email activé, aucune démo partagée et connexion
 loopback réelle. Les en-têtes de proxy ne permettent pas de contourner ce contrôle.
 POST avec CSRF pour calcul et décisions. Seuls les profils confirmés de comptes
@@ -136,7 +136,7 @@ Pour une instance locale séparée : `make matching-db-init`, puis
 local `matching_local`, authentification de recette sans mot de passe, jamais
 à exposer sur le réseau. Définir `PGHOST=127.0.0.1`, `PGPORT=55441`,
 `PGUSER=matching_local` et un `PGDATABASE` propre au dossier dans `.env`.
-Définir une clé Django locale, `DJANGO_DEBUG=1`, `MATCHING_LOCAL_ENABLED=1`,
+Définir une clé Django locale, `DJANGO_DEBUG=1`, `MATCHING_ENABLED=1`,
 `DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0`, `LOGIN_EMAIL_ENABLED=0`.
 
 Puis `make db-create`, `make migrate`, `make matching-translations`,

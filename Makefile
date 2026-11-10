@@ -16,7 +16,7 @@ matching-db-stop: ## Arrêter uniquement le PostgreSQL de cette recette
 matching-seed: ## Ajouter les scénarios fictifs de matching sans écraser les profils
 	@$(MANAGE) seed_matching_trial
 matching-run: ## Essayer le matching local sur 9041, sans email ni Albert réel
-	@$(LOAD_ENV) MATCHING_LOCAL_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9041 --noreload
+	@$(LOAD_ENV) MATCHING_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9041 --noreload
 matching-test: ## Tester le calcul, les décisions, les conflits et les accès locaux
 	@$(MANAGE) test eures_beta.matching --noinput $(TEST_ARGS)
 matching-format: ## Formater uniquement le nouveau module de matching

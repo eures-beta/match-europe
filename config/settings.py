@@ -37,11 +37,8 @@ LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
 LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 
-# Historical option name retained for existing deployments; it no longer means local-only.
-MATCHING_LOCAL_ENABLED = (
-    os.environ.get('MATCHING_ENABLED', os.environ.get('MATCHING_LOCAL_ENABLED', '1'))
-    == '1'
-)
+# Matching is available in every environment unless explicitly disabled.
+MATCHING_ENABLED = os.environ.get('MATCHING_ENABLED', '1') == '1'
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '1') == '1'
 ALBERT_IMPORT_SIMULATED = os.environ.get('ALBERT_IMPORT_SIMULATED', '0') == '1'

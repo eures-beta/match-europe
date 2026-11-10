@@ -6,7 +6,7 @@ from eures_beta.employers.models import JobOffer
 
 
 def enabled():
-    return settings.MATCHING_LOCAL_ENABLED
+    return settings.MATCHING_ENABLED
 
 
 def local_guard(request):

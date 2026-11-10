@@ -12,7 +12,7 @@ from eures_beta.employers.models import JobOffer
 
 
 @override_settings(
-    MATCHING_LOCAL_ENABLED=True,
+    MATCHING_ENABLED=True,
     TEST_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
