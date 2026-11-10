@@ -5,11 +5,55 @@ import json
 import re
 import unicodedata
 from difflib import get_close_matches
-from functools import lru_cache
+from functools import lru_cache, wraps
 from pathlib import Path
+from threading import RLock
+
+import ijson
 
 DATA_DIR = Path(__file__).parent / 'data'
 LANGUAGES = ('fr', 'en', 'de')
+_LOAD_LOCK = RLock()
+
+
+def serialized_cache(maxsize):
+    """Serialize cache misses as well as publication, including nested loaders.
+
+    lru_cache alone allows concurrent first requests to build several copies.
+    """
+
+    def decorate(function):
+        cached = lru_cache(maxsize=maxsize)(function)
+
+        @wraps(function)
+        def wrapped(*args, **kwargs):
+            with _LOAD_LOCK:
+                return cached(*args, **kwargs)
+
+        def clear():
+            with _LOAD_LOCK:
+                cached.cache_clear()
+
+        wrapped.cache_clear = clear
+        wrapped.cache_info = cached.cache_info
+        return wrapped
+
+    return decorate
+
+
+def read_artifact(path, manifest):
+    """Verify and parse the same open file without full bytes/text copies."""
+    with path.open('rb') as source:
+        checksum = hashlib.file_digest(source, 'sha256').hexdigest()
+        if checksum != manifest['artifacts'][path.name]['sha256']:
+            raise ValueError('Occupation catalog checksum mismatch')
+        source.seek(0)
+        values = ijson.items(source, '', use_float=True)
+        value = next(values)
+        # Exhaust to validate the complete document, including trailing content.
+        if next(values, None) is not None:
+            raise ValueError('Unexpected additional catalog document')
+        return value
 
 
 def normalize(value):
@@ -19,14 +63,11 @@ def normalize(value):
     ).strip()
 
 
-@lru_cache(maxsize=1)
+@serialized_cache(maxsize=1)
 def catalog():
     manifest = json.loads((DATA_DIR / 'manifest.json').read_text())
     path = DATA_DIR / 'esco.json'
-    raw = path.read_bytes()
-    if hashlib.sha256(raw).hexdigest() != manifest['artifacts'][path.name]['sha256']:
-        raise ValueError('Occupation catalog checksum mismatch')
-    value = json.loads(raw)
+    value = read_artifact(path, manifest)
     if len(value['occupations']) != manifest['counts']['occupations']:
         raise ValueError('Occupation catalog count mismatch')
     return {
@@ -37,25 +78,32 @@ def catalog():
     }
 
 
-@lru_cache(maxsize=1)
+@serialized_cache(maxsize=1)
 def rome_catalog():
     manifest = catalog()['manifest']
     result = {}
     for name in ('rome.json', 'ogr.json', 'esco_rome.json'):
         path = DATA_DIR / name
-        raw = path.read_bytes()
-        if hashlib.sha256(raw).hexdigest() != manifest['artifacts'][name]['sha256']:
-            raise ValueError('ROME catalog checksum mismatch')
-        result.update(json.loads(raw))
+        result.update(read_artifact(path, manifest))
     return result
 
 
-@lru_cache(maxsize=1)
+@serialized_cache(maxsize=1)
+def rome_search_catalog():
+    """Independent ROME lookup needs names/codes, never the ESCO crosswalk."""
+    manifest = catalog()['manifest']
+    result = {}
+    for name in ('rome.json', 'ogr.json'):
+        result.update(read_artifact(DATA_DIR / name, manifest))
+    return result
+
+
+@serialized_cache(maxsize=1)
 def occupation_index():
     return {row['uri']: row for row in catalog()['occupations']}
 
 
-@lru_cache(maxsize=3)
+@serialized_cache(maxsize=3)
 def search_index(language):
     if language not in LANGUAGES:
         raise ValueError('Unsupported catalog language')
@@ -64,7 +112,9 @@ def search_index(language):
         for term in [row['labels'][language], *row['aliases'].get(language, [])]:
             key = normalize(term)
             if key:
-                index.setdefault(key, set()).add(row['uri'])
+                uris = index.setdefault(key, [])
+                if row['uri'] not in uris:
+                    uris.append(row['uri'])
     return index
 
 
@@ -212,7 +262,7 @@ def nearby(query, language, excluded=(), context=''):
 def rome_suggestions(query, context=''):
     """Search French ROME names/codes directly, without the ESCO crosswalk."""
     query = re.sub(r'^ROME\s*[:—-]?\s*', '', query.strip(), flags=re.I)
-    data = rome_catalog()
+    data = rome_search_catalog()
     if re.fullmatch(r'[A-Z]\d{4}', query, re.I):
         fiche = data['fiches'].get(query.upper())
         return [{**fiche, 'matched_labels': []}] if fiche else []

@@ -6,7 +6,7 @@ from eures_beta.occupations.catalog import (
     occupation_index,
     present,
     references,
-    rome_catalog,
+    rome_search_catalog,
     rome_suggestions,
     suggestions,
 )
@@ -26,7 +26,7 @@ def resolve_reference(value, language):
                 'version': '1.2.1',
             }
     elif value.startswith('rome:'):
-        row = rome_catalog()['fiches'].get(value[5:])
+        row = rome_search_catalog()['fiches'].get(value[5:])
         if row:
             return {
                 'value': value,

@@ -107,7 +107,10 @@ occupations-sync-esco-rome: ## Préparer les correspondances officielles ESCO/RO
 .PHONY: occupations-build occupations-validate occupations-test
 .PHONY: occupations-performance-test
 .PHONY: occupations-benchmark
-.PHONY: occupations-memory-benchmark occupations-memory-test
+.PHONY: occupations-memory-benchmark occupations-memory-test occupations-memory-serve
+occupations-memory-serve: ## Servir localement avec un worker et huit threads pour vérifier la recherche (PORT=9048)
+	@$(LOAD_ENV) "$(PYTHON)" -m gunicorn config.wsgi:application --bind "127.0.0.1:9048" --workers 1 --worker-class gthread --threads 8 --access-logfile -
+
 occupations-memory-benchmark: ## Mesurer le pic mémoire du POST Django à froid, sans réseau ni base
 	$(PYTHON) -m eures_beta.occupations.tools.benchmark_memory
 
