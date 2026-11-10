@@ -375,7 +375,7 @@ candidate-skills-ui-test: ## Tester la recherche, les étiquettes et les plafond
 
 .PHONY: matching-team-seed matching-team-test matching-format-users
 matching-team-seed: ## Préparer deux conseillers d’équipe et une équipe distincte en local
-	@$(LOAD_ENV) MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 "$(PYTHON)" manage.py seed_matching_teams
+	@$(LOAD_ENV) MATCHING_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 "$(PYTHON)" manage.py seed_matching_teams
 matching-team-test: ## Vérifier le portefeuille partagé, le matching manuel et les accès par équipe
 	@$(MANAGE) test eures_beta.matching.tests.test_teams --noinput $(TEST_ARGS)
 matching-format-users: ## Formater les raccordements conseiller et comptes de recette

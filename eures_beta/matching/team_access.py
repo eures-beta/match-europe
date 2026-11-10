@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db.models import Exists, OuterRef
 from django.http import Http404
-from .access import enabled, local_guard, candidates, offers
+from .access import enabled, require_matching_enabled, candidates, offers
 from .models import MatchingTeam, TeamMembership, TeamCandidate, TeamOffer, MatchPair
 
 

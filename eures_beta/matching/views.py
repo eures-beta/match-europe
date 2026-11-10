@@ -9,7 +9,7 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from .access import guard, local_guard, candidates, offers
+from .access import guard, require_matching_enabled, candidates, offers
 from .models import MatchPair, MatchEvaluation
 from .services import calculate, decide, inputs, StaleEvaluation
 from .presentation import present, DECISIONS
