@@ -103,6 +103,15 @@ check-js: ## Vérifier la syntaxe de chaque source JavaScript
 	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}'
 	find eures_beta -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
 
+# Même Prettier pour les CSS autonomes ; les ressources tierces restent intactes.
+.PHONY: format-css format-css-check
+format-css: ## Formater les feuilles CSS autonomes du projet avec Prettier
+	./node_modules/.bin/prettier --write 'eures_beta/**/*.css'
+
+format-css-check: ## Vérifier le format et la stabilité des CSS sans modifier les sources
+	./node_modules/.bin/prettier --check 'eures_beta/**/*.css'
+	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.css'
+
 .PHONY: admin-filter-test
 admin-filter-test: ## Tester le bouton des filtres admin et sa mémorisation, sans navigateur ni réseau
 	node --test eures_beta/users/tests/admin_filters.test.cjs eures_beta/users/tests/admin_navigation.test.cjs

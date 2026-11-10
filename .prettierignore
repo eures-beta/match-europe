@@ -3,3 +3,5 @@ node_modules/
 .runtime/
 staticfiles/
 build/
+# Ressources tierces distribuées telles quelles.
+eures_beta/static/vendor/
