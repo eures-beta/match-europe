@@ -9,8 +9,8 @@ def enabled():
     return settings.MATCHING_ENABLED
 
 
-def local_guard(request):
-    # Compatibility name for dependent PRs: only feature availability is checked.
+def require_matching_enabled():
+    """Return 404 when the matching feature is explicitly disabled."""
     if not enabled():
         raise Http404
 
@@ -43,7 +43,7 @@ def offers():
 
 
 def guard(request):
-    local_guard(request)
+    require_matching_enabled()
     if (
         not request.user.is_authenticated
         or not request.user.is_active
