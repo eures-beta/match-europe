@@ -46,8 +46,8 @@ class MatchModelRenameTests(TransactionTestCase):
         return result
 
     def assert_rename_preserves_data(self, before, after, old, new):
-        apps = self.migrate(before)
         call_command('seed_matching_trial', stdout=StringIO())
+        apps = self.migrate(before)
         evaluation_name = 'MatchEvaluation' if old == 'Decision' else old
         evaluation = apps.get_model('matching', evaluation_name).objects.first()
         apps.get_model('matching', 'Decision').objects.create(

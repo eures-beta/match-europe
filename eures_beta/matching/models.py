@@ -98,7 +98,6 @@ class MatchEvaluation(models.Model):
     result = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-
     class Meta:
         db_table = 'matching_evaluation'
 

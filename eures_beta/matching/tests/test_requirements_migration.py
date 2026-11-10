@@ -35,15 +35,15 @@ class OfferRequirementsMigrationTests(TransactionTestCase):
         super().tearDown()
 
     def prepare(self):
-        apps = self.migrate('0003_rename_match_decision')
         call_command('seed_matching_trial', stdout=StringIO())
+        apps = self.migrate('0003_rename_match_decision')
         Offer = apps.get_model('employers', 'JobOffer')
         offer = Offer.objects.first()
         payload = offer.structured_requirements
         updated = offer.updated
         Offer.objects.filter(pk=offer.pk).update(structured_requirements={})
-        apps.get_model('matching', 'OfferRequirements').objects.create(
-            offer_id=offer.pk, data=payload
+        apps.get_model('matching', 'OfferRequirements').objects.update_or_create(
+            offer_id=offer.pk, defaults={'data': payload}
         )
         return apps, offer.pk, payload, updated
 
