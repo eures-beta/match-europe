@@ -10,6 +10,32 @@ permissions:
   contents: read
 
 jobs:
+  e2e-memory:
+    name: Parcours HTTP — 256 Mio
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          # Le témoin négatif exporte exactement le code historique avant #177.
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14'
+      - name: Vérifier les parcours actuels sous plafond mémoire réel
+        run: make e2e-test
+      - name: Vérifier que le banc détecte la régression historique
+        run: make e2e-regression
+      - name: Publier uniquement les mesures, jamais les emails ou liens secrets
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: e2e-memory-reports
+          path: |
+            .runtime/e2e-report.json
+            .runtime/e2e-legacy-report.json
+          if-no-files-found: ignore
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 15
