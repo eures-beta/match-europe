@@ -18,6 +18,22 @@ from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
 
 
+class MatchingRouteTests(SimpleTestCase):
+    def test_canonical_routes_have_no_environment_name(self):
+        self.assertEqual(reverse('matching'), '/matching/')
+        self.assertEqual(reverse('matching_detail', args=[42]), '/matching/42/')
+
+    def test_old_bookmarks_preserve_detail_and_language(self):
+        for source, target in (
+            ('/matching-local/?lang=de', '/matching/?lang=de'),
+            ('/matching-local/42/?lang=en', '/matching/42/?lang=en'),
+        ):
+            with self.subTest(source=source):
+                response = self.client.get(source)
+                self.assertEqual(response.status_code, 301)
+                self.assertEqual(response['Location'], target)
+
+
 class EngineTests(SimpleTestCase):
     def run_pair(self, candidate=None, offer=None, requirements=None, facts=None):
         return engine.evaluate(
