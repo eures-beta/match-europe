@@ -13,7 +13,7 @@ class StaleEvaluation(ValueError):
 
 
 def inputs(pair, *, lock=False):
-    # Re-read eligible objects: disablement/revocation also invalidates local access.
+    # Re-read eligible objects: disablement/revocation also invalidates matching access.
     candidate_query, offer_query = candidates(), offers()
     if lock:
         candidate_query = candidate_query.select_for_update(of=('self',))
@@ -57,7 +57,7 @@ def inputs(pair, *, lock=False):
 @transaction.atomic
 def calculate(candidate, offer):
     if not enabled():
-        raise ValueError('Local matching is disabled')
+        raise ValueError('Matching is disabled')
     pair, _ = MatchPair.objects.get_or_create(candidate=candidate, offer=offer)
     pair = MatchPair.objects.select_for_update().get(pk=pair.pk)
     data, fingerprint = inputs(pair, lock=True)
@@ -81,7 +81,7 @@ def calculate(candidate, offer):
 @transaction.atomic
 def decide(pair_id, evaluation_id, value):
     if not enabled() or value not in ('retained', 'refused'):
-        raise ValueError('Invalid local decision')
+        raise ValueError('Invalid matching decision')
     pair = MatchPair.objects.select_for_update().get(pk=pair_id)
     evaluation = pair.evaluations.order_by('-id').first()
     _, current = inputs(pair, lock=True)

@@ -9159,8 +9159,8 @@ msgid "Languages"
 msgstr "Langues"
 
 #: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
-msgid "Local matching"
-msgstr "Matching local"
+msgid "Matching"
+msgstr "Matching"
 
 #: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Missing information earns no points and remains unknown. These figures must not be used to reject a candidate."
