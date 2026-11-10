@@ -2,7 +2,6 @@ from eures_beta.testing import assert_active_link
 from django.test import SimpleTestCase, override_settings
 
 
-@override_settings(SHARED_DEMO=True, DEMO_MODE=True)
 class EmployerPrivacyTranslationTests(SimpleTestCase):
     def test_notice_and_navigation_follow_the_url_language(self):
         for language, title in (

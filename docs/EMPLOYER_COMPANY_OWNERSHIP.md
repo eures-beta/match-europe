@@ -1,94 +1,19 @@
-# Rattachement employeur à un établissement — recette locale
+# Rattachement employeur à un établissement
 
-## Périmètre
+Le compte employeur se connecte par le [parcours commun](MAGIC_LOGIN.md), importe
+son offre, relit les informations et choisit son établissement. Le brouillon est
+réservé à son compte dès sa création ; aucun transfert par lien simulé n'est utilisé.
 
-Lot 2, PR nº 19 empilée sur la PR nº 18 (`codex/employer-email-account`).
-Un compte individuel peut appartenir à plusieurs établissements. Les membres actifs
-d’un établissement partagent ses imports d’offres ; le créateur est conservé.
-Aucune appartenance n’est déduite de l’email, du domaine ou du nom d’établissement.
-Les droits conseiller/admin existants restent distincts. Le matching fictif `Offer`
-et ses conversations ne sont pas modifiés.
+- Un établissement : confirmation explicite de son choix.
+- Plusieurs : choix parmi ses appartenances actives, vérifiées côté serveur.
+- Aucun : saisie du nom et première appartenance créées sous verrou transactionnel.
+- Aucune correspondance automatique par nom, domaine ou adresse email.
 
-## Parcours simplifié
+Les membres actifs partagent les offres de leur établissement. La révocation retire
+les droits à la requête suivante. Le créateur reste tracé ; une ancienne session
+anonyme ne permet pas de reprendre le brouillon d'un autre compte.
+Les contrôles de révision et CSRF restent nécessaires pour toute modification.
 
-Activer `ME_EMPLOYER_DEV_ACCESS=1`, `ME_EMPLOYER_EMAIL_LOCAL=1` et
-`ME_LOCAL_REVIEW_ONLY=1`, en démonstration et sur loopback uniquement.
-
-1. Importer une offre fictive, la relire puis renseigner le contact.
-2. La soumission conserve le brouillon et conduit à la connexion. Aucun envoi
-   AGLAE ni géocodage n’est déclenché par cette soumission dans ce mode.
-3. Utiliser l’email simulé. Le lien à usage unique porte uniquement le brouillon
-   soumis depuis ce navigateur ; aucun identifiant arbitraire n’est accepté.
-4. La vérification réserve le brouillon à une identité durable. Rotation de
-   session, ouverture du lien sur un autre navigateur et reconnexion après
-   déconnexion conservent cet accès, même avant le choix de l’établissement.
-5. Un seul établissement : afficher son nom et « Enregistrer l’offre pour cet
-   établissement ». Plusieurs : choisir explicitement l’établissement concerné.
-   Aucun : saisir uniquement son nom, prérempli avec le nom extrait si disponible.
-6. Après rattachement, une appartenance active est nécessaire pour lire ou modifier
-   l’import. L’ancien navigateur anonyme perd l’accès. Le retrait d’une appartenance
-   retire les droits dès la requête suivante, y compris pour le créateur.
-
-La création d’un autre établissement est refusée côté serveur lorsqu’une
-appartenance active existe. Le verrou sur l’identité sérialise le premier
-rattachement entre navigateurs. Une révision périmée est refusée pour éviter
-l’écrasement silencieux des corrections faites par deux collègues.
-
-## Données et limites
-
-Migration additive `0006` uniquement : identités, établissements, appartenances,
-références du propriétaire/créateur et brouillon porté par le lien. Le modèle
-`Company` conserve son nom technique mais représente l’établissement.
-Aucune migration d’identification officielle ni de rapprochement des données.
-Les anciens imports non attribués conservent leur accès par session.
-
-L’établissement n’est identifié que par son nom dans cette première version.
-Des homonymes sont possibles : ils ne sont jamais fusionnés ni partagés par
-simple correspondance de nom. Identité juridique, vérification du mandat et
-traitement des doublons restent à concevoir avant production.
-
-Les invitations et la révocation par interface restent un lot séparé ; les tests
-créent explicitement des appartenances fictives. Pas de nouvelle page « Mes offres »
-dans ce lot. Aucun email réel, habilitation de production, merge ou déploiement.
-Les formulaires utilisent POST/CSRF, des libellés explicites et les textes FR/EN/DE
-dans la coque V2 existante. Aucun logo ni lecteur PDF modifié.
-
-Référence de conception : [Company / CompanyMembership des Emplois de
-l’inclusion](https://github.com/gip-inclusion/les-emplois/blob/main/itou/companies/models.py).
-Aucun code tiers copié ; leurs parcours complets ne sont pas reproduits.
-
-## Validation de la branche destinée à la PR
-
-81 tests PostgreSQL passent sur la version isolée de cette PR, dont onze tests de
-rattachement : partage et retrait des droits, reconnexion autre navigateur,
-conservation du brouillon, premier nom obligatoire, refus de création supplémentaire,
-choix multiple obligatoire et absence de droits par homonymie. Contrôle Django sans
-erreur, migrations cohérentes, traductions compilées et diff vérifié.
-Le parcours simplifié a aussi été contrôlé visuellement dans la recette locale
-intégrée ; ce contrôle ne vaut pas audit complet d’accessibilité ou de marque.
-## Renommage des modèles
-
-`Company`, `CompanyMembership` et `JobOffer` remplacent respectivement
-`EmployerCompany`, `EmployerMembership` et `EmployerImport`. Il s’agit des mêmes
-objets, sans nouveau champ, changement d’habilitation ou logique de publication.
-`Company` reste un espace employeur non vérifié juridiquement.
-
-La migration `0003_rename_employer_models` modifie l’état Django sans modifier
-les tables physiques `journeys_employercompany`, `journeys_employermembership`
-et `journeys_employerimport`. Les relations, identifiants, champs JSON et données
-existantes sont conservés, y compris les relations des trois autres modèles
-employeur. Les identifiants des ContentType et permissions restent identiques ;
-leurs noms et codenames sont adaptés en place pour préserver groupes, droits
-directs et journal admin. Un conflit de métadonnées bloque la migration plutôt
-que de fusionner ou supprimer silencieusement des données. Le retour arrière
-rétablit les anciens noms sans supprimer les objets.
-
-Les noms Python des modèles et les URLs admin générées changent ; adapter les
-imports et scripts externes éventuels. Les routes métier, champs `person`,
-`pending_import`, `created_imports` et autres noms de relations restent inchangés.
-Les migrations historiques et les tests qui construisent un ancien schéma
-conservent volontairement leurs noms historiques. Aucun alias Python permanent.
-
-Vérifications : `make migrations-test` teste la conservation des données et des
-droits dans les deux sens ; `make users-upgrade-test` vérifie la mise à niveau
-depuis l’ancien schéma utilisateur. Ne pas appliquer de renommage SQL manuel.
+Modèles `Company`, `CompanyMembership` et `JobOffer` : tables, données et relations
+conservées. Aucun changement de schéma dans le retrait des parcours historiques.
+`make employer-test` et `make test` vérifient le rattachement et les droits.

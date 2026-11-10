@@ -4,7 +4,6 @@ from django.test import TestCase, override_settings
 from django.urls import resolve, Resolver404
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class RetiredPrototypeTests(TestCase):
     def test_old_routes_are_absent_even_with_an_authenticated_or_draft_session(self):
         user = get_user_model().objects.create_user(

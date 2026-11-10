@@ -25,16 +25,6 @@ from eures_beta.employers.models import JobOffer, Company, CompanyMembership
     SKILLS_ALBERT_SIMULATED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
-    DEMO_MODE=False,
-    SHARED_DEMO=False,
-)
-@patch.dict(
-    'os.environ',
-    {
-        'ME_EMPLOYER_DEV_ACCESS': '1',
-        'ME_EMPLOYER_EMAIL_LOCAL': '1',
-        'ME_LOCAL_REVIEW_ONLY': '1',
-    },
 )
 class ContinuousTests(TestCase):
     def setUp(self):
@@ -84,7 +74,6 @@ class ContinuousTests(TestCase):
                 self.subTest(environment=environment),
                 override_settings(
                     DJANGO_ENVIRONMENT=environment,
-                    DEMO_MODE=False,
                     EMAIL_DELIVERY_ENABLED=True,
                 ),
             ):

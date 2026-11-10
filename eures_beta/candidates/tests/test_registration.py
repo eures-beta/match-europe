@@ -43,8 +43,6 @@ def answers(**changes):
 @override_settings(
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
-    DEMO_MODE=True,
-    SHARED_DEMO=True,
 )
 class CandidateRegistrationTests(TestCase):
     def pending(self, email='candidate@example.invalid'):
@@ -495,8 +493,6 @@ class CandidateRegistrationTests(TestCase):
                             LOGIN_EMAIL_ENABLED=enabled,
                             EMAIL_DELIVERY_ENABLED=enabled,
                             TEST_ACCOUNTS_ENABLED=False,
-                            DEMO_MODE=False,
-                            SHARED_DEMO=False,
                         ),
                     ):
                         response = Client().get(
@@ -512,9 +508,7 @@ class CandidateRegistrationTests(TestCase):
         for environment in ('local', 'preview', 'production'):
             with (
                 self.subTest(environment=environment),
-                override_settings(
-                    DJANGO_ENVIRONMENT=environment, DEMO_MODE=False, SHARED_DEMO=False
-                ),
+                override_settings(DJANGO_ENVIRONMENT=environment),
             ):
                 self.client = Client()
                 self.assertEqual(

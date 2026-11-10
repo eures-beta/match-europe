@@ -1,2 +1,5 @@
 -r base.txt
--r push.txt
+# Certificats TLS du serveur Albert fictif dans le banc E2E isolé.
+cryptography==50.0.2
+# Client du rafraîchissement ESCO et de ses tests.
+requests==2.34.2

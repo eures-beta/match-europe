@@ -1082,14 +1082,11 @@
             <div class="lang-switch"
                  aria-label="{% translate "Language" context "employer auth-shell" %}">
               <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="{% if workspace %}
-{{ request.path }}{% else %}/employer/access/{% endif %}?lang=fr">FR</a>
+                 href="{{ request.path }}?lang=fr">FR</a>
               <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="{% if workspace %}
-{{ request.path }}{% else %}/employer/access/{% endif %}?lang=en">EN</a>
+                 href="{{ request.path }}?lang=en">EN</a>
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="{% if workspace %}
-{{ request.path }}{% else %}/employer/access/{% endif %}?lang=de">DE</a>
+                 href="{{ request.path }}?lang=de">DE</a>
             </div>
             {% include "includes/account_link.html" %}
           </div>

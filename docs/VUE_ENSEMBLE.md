@@ -6,6 +6,15 @@ permission Django ou groupe supplémentaire. Les protections candidat/employeur
 et l'administration Django restent distinctes. Voir [la décision](DECISIONS.md)
 et [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
 
+## 10 novembre 2026 — retrait des anciens parcours de présentation
+
+TRANSVERSE / EMPLOYEURS : connexion indépendante avec boîte simulée, diagnostic
+Push et simulateur de lancement retirés. L'espace employeur utilise la connexion
+commune et conserve le rattachement, les appartenances et les contrôles de révision.
+Les anciennes variables de présentation ne sont plus lues. Les données et les
+migrations historiques restent conservées ; aucune suppression de table.
+Voir [connexion](EMPLOYER_EMAIL_LOGIN.md) et [parité](ENVIRONMENT_PARITY.md).
+
 ## 9 novembre 2026 — livraison dans tous les environnements
 
 Décision d’Eric : retirer les restrictions arbitraires local/recette/production des fonctionnalités métier. Configuration et droits réels conservés, fonctionnalités actives par défaut, simulations explicites. Autorisation explicite reçue pour les trois usages Albert, les accès propriétaires employeur et le transport commun des e-mails configuré dans chaque environnement. La pile distante a été actualisée sans perdre les correctifs publiés en parallèle. Validation locale : 605 tests PostgreSQL réussis après intégration du client Albert partagé ; aucun appel Albert ou e-mail réel, aucune fusion ni opération de production. Voir [le contrat actuel et les prérequis](ENVIRONMENT_PARITY.md).

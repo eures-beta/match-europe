@@ -17,7 +17,6 @@ from django.test.utils import CaptureQueriesContext
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     LOGIN_EMAIL_ENABLED=False,
-    SHARED_DEMO=False,
 )
 class MatchModelRenameTests(TransactionTestCase):
     def migrate(self, target):

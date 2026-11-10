@@ -3,6 +3,7 @@
 from copy import deepcopy
 from functools import wraps
 from django import forms
+from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Q
@@ -12,7 +13,6 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.views.decorators.cache import never_cache
-from eures_beta.employers import employer_login
 from eures_beta.employers.employer_api import clean_data
 from eures_beta.employers.employer_ownership import (
     identity,
@@ -21,7 +21,9 @@ from eures_beta.employers.employer_ownership import (
 )
 from eures_beta.employers.forms import EmployerContactForm
 from eures_beta.choices import MOBILITY
-from eures_beta.employers.models import JobOffer
+from eures_beta.employers.models import JobOffer, Company, CompanyMembership
+from eures_beta.employers.establishments import EstablishmentForm
+from django.shortcuts import render as render_template
 from eures_beta.employers.offer_ingestion import ImportFailure
 
 
@@ -46,7 +48,7 @@ def render(request, stage, status=200, **context):
     from eures_beta.skills.continuous import trial_request
 
     context['continuous_skills'] = trial_request(request)
-    response = employer_login.page(request, stage, **context)
+    response = page(request, stage, **context)
     response.status_code = status
     return response
 
@@ -274,7 +276,7 @@ def offers(request):
         request.session['employer_claim_import'] = str(draft.pk)
     else:
         request.session.pop('employer_claim_import', None)
-    return employer_login.connected_page(request, person.email, person, draft)
+    return connected_page(request, person.email, person, draft)
 
 
 def offer_home(request, **attachment):
@@ -327,7 +329,6 @@ def detail(request, id):
             value = choices.get(value, value)
         if value:
             rows.append((field.label, value))
-    from eures_beta.employers.employer_search import simulation_enabled
     from eures_beta.skills.continuous import summary as skills_summary
 
     skill_text = skills_summary(
@@ -339,10 +340,8 @@ def detail(request, id):
     return render(
         request,
         'offer_detail',
-        search_simulation=simulation_enabled(),
         offer=offer,
         saved=request.GET.get('saved') == '1',
-        search_operation=offer.search_operations.order_by('-created').first(),
         fields=rows,
         contact=EmployerContactForm(initial=offer.contact),
         workspace=True,
@@ -456,4 +455,101 @@ def resume_attachment(request, id):
 @connected
 @require_POST
 def attach(request):
-    return employer_login.attach_draft(request)
+    return attach_draft(request)
+
+
+def page(request, stage, **context):
+    lang = request.GET.get(
+        'lang',
+        request.session.get(
+            'employer_auth_language', translation.get_language() or 'fr'
+        ),
+    )
+    lang = lang if lang in ('fr', 'en', 'de') else 'fr'
+    request.session['employer_auth_language'] = lang
+    with translation.override(lang):
+        return render_template(
+            request,
+            'employer_space.html',
+            {
+                'stage': stage,
+                'signed_in': bool(identity(request)),
+                'auth_shell': 'employer_auth_shell.html',
+                **context,
+            },
+        )
+
+
+def connected_page(request, email, person, draft, establishment_form=None):
+    return offer_home(
+        request,
+        email=email,
+        companies=Company.objects.filter(memberships__in=memberships(request)),
+        pending_import=request.session.get('employer_claim_import'),
+        pending_title=(
+            (draft.data.get('title') or draft.data.get('description', '')[:125])
+            if draft
+            else ''
+        ),
+        import_url='/employer/pages/import-'
+        + request.session.get('employer_auth_language', 'fr')
+        + '.html',
+        attached=request.session.pop('employer_attached', False),
+        establishment_form=(
+            establishment_form
+            if establishment_form is not None
+            else EstablishmentForm(
+                initial={'name': draft.data.get('companyName', '')} if draft else None
+            )
+        ),
+    )
+
+
+def attach_draft(request):
+    """Attach only a draft owned by the authenticated employer, with explicit workspace choice."""
+    person = identity(request)
+    pending_id = request.session.get('employer_claim_import')
+    if not person or not pending_id:
+        raise Http404
+    with transaction.atomic():
+        draft = (
+            JobOffer.objects.select_for_update()
+            .filter(pk=pending_id, company__isnull=True, created_by=person)
+            .first()
+        )
+        if draft is None:
+            raise Http404
+        company_id = request.POST.get('company', '')
+        if company_id:
+            if not company_id.isdecimal():
+                raise Http404
+            member = (
+                memberships(request)
+                .select_for_update()
+                .filter(company_id=company_id)
+                .first()
+            )
+            if not member:
+                raise Http404
+            company = member.company
+        else:
+            # Serialise first registration for this person, including across browsers.
+            get_user_model().objects.select_for_update().get(pk=person.pk)
+            if memberships(request).exists():
+                raise Http404
+            form = EstablishmentForm(request.POST)
+            if not form.is_valid():
+                return connected_page(request, person.email, person, draft, form)
+            company = Company.objects.create(name=form.cleaned_data['name'])
+            CompanyMembership.objects.create(person=person, company=company)
+        draft.company = company
+        draft.created_by = person
+        # Session ownership must no longer provide an alternative access path.
+        draft.session_key = ''
+        draft.save(update_fields=['company', 'created_by', 'session_key', 'updated'])
+        from eures_beta.matching.services import schedule_offer_matching
+
+        schedule_offer_matching(draft)
+    request.session.pop('employer_claim_import', None)
+    request.session['employer_attached'] = company.name
+    return redirect('employer_connected')

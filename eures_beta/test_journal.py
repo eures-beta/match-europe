@@ -21,7 +21,6 @@ class JournalMarkup(HTMLParser):
         self.h1 += tag == 'h1'
 
 
-@override_settings(DEMO_MODE=False)
 class JournalTests(SimpleTestCase):
     def test_full_history_and_new_milestones_are_translated_and_public(self):
         samples = {

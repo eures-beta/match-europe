@@ -9,14 +9,6 @@ from eures_beta.employers.models import (
 )
 
 
-@patch.dict(
-    'os.environ',
-    {
-        'ME_EMPLOYER_EMAIL_LOCAL': '1',
-        'ME_EMPLOYER_DEV_ACCESS': '1',
-        'ME_LOCAL_REVIEW_ONLY': '1',
-    },
-)
 class OwnershipTests(TestCase):
     def create(self, client=None):
         client = client or self.client
@@ -27,7 +19,10 @@ class OwnershipTests(TestCase):
             session = client.session
             session.save()
             offer = JobOffer.objects.create(
-                session_key=session.session_key,
+                created_by=get_user_model().objects.get_or_create(
+                    email='first@fiction.invalid', defaults={'kind': 'employer'}
+                )[0],
+                session_key='',
                 email='contact@fiction.invalid',
                 preparation_agreed_at=timezone.now(),
                 source_kind='manual',
@@ -37,7 +32,7 @@ class OwnershipTests(TestCase):
                     'email': 'contact@fiction.invalid',
                 },
             )
-            session['employer_pending_import'] = str(offer.pk)
+            session['employer_claim_import'] = str(offer.pk)
             session.save()
             return {'id': str(offer.pk)}
         response = client.post(
@@ -57,29 +52,31 @@ class OwnershipTests(TestCase):
         return response.json()
 
     def login(self, client, email):
-        if not get_user_model().objects.filter(email=email).exists():
-            get_user_model().objects.create_user(email=email, kind='employer')
-        session = client.session
-        if session.get('employer_verified_email') == email:
-            return get_user_model().objects.get(email=email)
-        session['employer_email_sent_at'] = 0
-        session.save()
-        client.post('/employer/access/', {'email': email})
-        link = client.session['employer_test_message']['link']
-        client.post(link)
-        return get_user_model().objects.get(email=email)
+        person, _ = get_user_model().objects.get_or_create(
+            email=email, defaults={'kind': 'employer'}
+        )
+        client.force_login(person)
+        return person
 
     def attach(self):
         draft = self.create()
-        self.assertContains(
-            self.client.get('/employer/access/'), 'value="contact@fiction.invalid"'
-        )
         person = self.login(self.client, 'first@fiction.invalid')
         self.assertRedirects(
             self.client.post('/employer/attach/', {'name': 'Fictional company'}),
             '/employer/connected/',
         )
         return draft, person, Company.objects.get()
+
+    def test_attachment_schedules_matching_after_commit(self):
+        with (
+            patch(
+                'eures_beta.matching.services.calculate_for_saved_offer'
+            ) as calculate,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            draft, _, _ = self.attach()
+        offer = JobOffer.objects.get(pk=draft['id'])
+        calculate.assert_called_once_with(offer.pk, offer.revision)
 
     def test_shared_offer_revocation_and_outsider(self):
         draft, person, company = self.attach()
@@ -119,7 +116,7 @@ class OwnershipTests(TestCase):
     def test_reconnect_other_browser_logout_and_no_email_claim(self):
         draft, person, company = self.attach()
         url = '/api/imports/' + draft['id'] + '/'
-        self.client.post('/employer/logout/')
+        self.client.post('/accounts/logout/')
         self.assertEqual(self.client.get(url).status_code, 403)
         other = Client()
         self.assertEqual(self.login(other, person.email), person)
@@ -130,25 +127,6 @@ class OwnershipTests(TestCase):
         self.assertEqual(
             outsider.post('/employer/attach/', {'company': company.pk}).status_code, 404
         )
-
-    def test_draft_survives_link_opened_in_other_browser(self):
-        draft = self.create()
-        get_user_model().objects.create_user(
-            email='first@fiction.invalid', kind='employer'
-        )
-        self.client.post('/employer/access/', {'email': 'first@fiction.invalid'})
-        link = self.client.session['employer_test_message']['link']
-        other = Client()
-        other.post(link)
-        self.assertContains(other.get('/employer/connected/'), 'Rattacher votre offre')
-        other.post('/employer/attach/', {'name': 'Fictional company'})
-        url = '/api/imports/' + draft['id'] + '/'
-        self.assertEqual(other.get(url).status_code, 200)
-        self.assertEqual(self.client.get(url).status_code, 403)
-        self.assertEqual(
-            other.post('/employer/attach/', {'name': 'Duplicate'}).status_code, 404
-        )
-        self.assertEqual(Company.objects.count(), 1)
 
     def test_cannot_select_an_unrelated_company_or_draft(self):
         draft = self.create()
@@ -203,7 +181,7 @@ class OwnershipTests(TestCase):
     def test_unattached_draft_survives_logout_and_reconnection(self):
         draft = self.create()
         person = self.login(self.client, 'first@fiction.invalid')
-        self.client.post('/employer/logout/')
+        self.client.post('/accounts/logout/')
         other = Client()
         self.login(other, person.email)
         self.assertContains(other.get('/employer/connected/'), 'Rattacher votre offre')
@@ -264,8 +242,8 @@ class OwnershipTests(TestCase):
     def test_name_match_does_not_grant_access(self):
         draft, _, existing = self.attach()
         other = Client()
-        self.create(other)
         outsider = self.login(other, 'outsider@fiction.invalid')
+        self.create(other)
         other.post('/employer/attach/', {'name': existing.name})
         self.assertEqual(Company.objects.count(), 2)
         self.assertFalse(

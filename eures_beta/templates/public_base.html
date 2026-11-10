@@ -126,13 +126,6 @@
             }
         }
 
-        .demo-notice {
-            margin: 0;
-            padding: 12px 24px;
-            background: #fff0bd;
-            color: #17324d;
-            text-align: center
-        }
 
         .primary-action:disabled {
             cursor: default;
@@ -205,7 +198,6 @@
   <body>
     {% include "includes/test_accounts_banner.html" %}
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
-    {% if shared_demo_notice %}<p class="demo-notice">{{ shared_demo_notice }}</p>{% endif %}
     <header class="site-header">
       <div class="shell">
         {% include "includes/public_brand.html" %}

@@ -15,7 +15,6 @@ class LanguageLinks(HTMLParser):
             self.hrefs.append(attrs['href'])
 
 
-@override_settings(SHARED_DEMO=True)
 class LanguageNavigationTests(SimpleTestCase):
     def open_page(self, url):
         # Keep HTTPS while following relative redirects, as a browser does.

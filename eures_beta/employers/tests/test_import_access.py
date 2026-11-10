@@ -12,7 +12,6 @@ from eures_beta.employers.models import JobOffer
 User = get_user_model()
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class ImportAccessTests(TestCase):
     destination = '/employer/pages/import-fr.html'
 

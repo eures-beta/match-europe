@@ -8,7 +8,6 @@ import time
 import threading
 import secrets
 from html import escape
-from functools import wraps
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, build_opener, HTTPRedirectHandler
@@ -31,8 +30,6 @@ from django.utils import translation
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
-from eures_beta.demo_access import require_demo_access as demo_api
-
 from eures_beta.employers.models import JobOffer
 from eures_beta.employers.employer_ownership import accessible_imports, identity
 from eures_beta.employers.forms import EmployerContactForm
@@ -50,29 +47,9 @@ lock = threading.Lock()
 last_geocode = 0.0
 
 
-def local_only(view):
-    @wraps(view)
-    @never_cache
-    def wrapped(request, *args, **kwargs):
-        if (
-            getattr(settings, 'SHARED_DEMO', False)
-            or not settings.DEMO_MODE
-            or request.META.get('REMOTE_ADDR') not in ('127.0.0.1', '::1')
-            or os.environ.get('ME_EMPLOYER_DEV_ACCESS') != '1'
-        ):
-            raise Http404()
-        return view(request, *args, **kwargs)
-
-    return wrapped
-
-
 @never_cache
 @ensure_csrf_cookie
 def employer_page(request, path):
-    if path == 'push-test.html':
-        if settings.SHARED_DEMO:
-            raise Http404
-        return demo_api(_employer_page)(request, path)
     return _employer_page(request, path)
 
 
@@ -127,8 +104,6 @@ def _employer_page(request, path):
             + '>'
         )
         language = Path(path).stem.rsplit('-', 1)[-1]
-        if path == 'push-test.html':
-            language = request.GET.get('lang', request.LANGUAGE_CODE)
         language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
         with translation.override(language):
             from .offer_structuring import enabled as albert_enabled
@@ -143,30 +118,10 @@ def _employer_page(request, path):
                 from .response_practice_views import page_context
 
                 context.update(page_context(person))
-            if path == 'push-test.html':
-                from eures_beta.employers.push_strings import browser_strings
-
-                context['push_strings'] = browser_strings()
             body = (
                 get_template('employer/' + template_name)
                 .render(context, request=request)
                 .replace('<body>', body_tag)
-            )
-        from eures_beta.demo import shared_notice
-
-        language = Path(path).stem.rsplit('-', 1)[-1]
-        with translation.override(
-            language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
-        ):
-            notice = shared_notice()
-        if notice and path == 'push-test.html':
-            body = body.replace(
-                body_tag,
-                body_tag
-                + '<aside role="note" style="padding:1rem;background:#fff3cd;color:#332701">'
-                + escape(notice)
-                + '</aside>',
-                1,
             )
         return HttpResponse(body)
     return FileResponse(candidate.open('rb'))
@@ -274,7 +229,6 @@ def read_source(request):
                 'source': final,
                 'stage': 'review',
                 'contact': {},
-                'localOnly': os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1',
             }
         )
     except ImportFailure as exc:
@@ -446,18 +400,11 @@ def serialize(obj):
         'kind': obj.source_kind,
         'synced': bool(obj.synced_at),
         'sandbox': obj.sandbox_response,
-        'localOnly': os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1',
-        'stage': (
-            'review'
-            if obj.initial_sent_at or os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1'
-            else 'prepare'
-        ),
+        'stage': ('review' if obj.initial_sent_at else 'prepare'),
     }
 
 
 def initial_send(obj, created=False):
-    if os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1':
-        return JsonResponse(serialize(obj), status=201 if created else 200)
     data = obj.data
     if not all(data.get(k) for k in ('title', 'companyName', 'city', 'description')):
         return JsonResponse(serialize(obj), status=201 if created else 200)
@@ -654,11 +601,6 @@ class NoRedirect(HTTPRedirectHandler):
 
 @timed_stage('external_submission')
 def aglae(method, path, payload=None):
-    # Shared previews never read a personal key or write to an external service.
-    if getattr(settings, 'SHARED_DEMO', False):
-        raise ImportFailure('api_key_missing')
-    if os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1':
-        raise ImportFailure('local_review_only')
     # Fixed sandbox origin; never accepted from the browser or a draft.
     keyfile = Path(
         os.environ.get(
@@ -697,8 +639,6 @@ def aglae(method, path, payload=None):
 
 @timed_stage('geocode')
 def geocode(city):
-    if os.environ.get('ME_LOCAL_REVIEW_ONLY') == '1':
-        raise ImportFailure('local_review_only')
     global last_geocode
     # Public workplace text only. No employer email or offer description is forwarded.
     query = urlencode({'q': city, 'format': 'jsonv2', 'limit': 1})

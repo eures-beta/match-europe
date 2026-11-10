@@ -1,2 +1,0 @@
-# Optional loopback-only Web Push diagnostic
-pywebpush==2.5.0

@@ -130,7 +130,6 @@ class EmployerDashboardTests(TestCase):
             self.client.get(reverse('dashboard')), 'users/adviser_dashboard.html'
         )
 
-    @override_settings(SHARED_DEMO=True)
     def test_import_button_matches_public_page_in_each_language_with_and_without_offers(
         self,
     ):

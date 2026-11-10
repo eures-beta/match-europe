@@ -5,7 +5,6 @@ from django.test import TestCase, Client, override_settings
 from eures_beta.occupations.catalog import suggestions
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class OccupationSearchTests(TestCase):
     def test_reference_lookup_accepts_rome_and_esco_without_changing_offer_title(self):
         baker = suggestions('boulanger', 'fr')[0]
@@ -61,13 +60,12 @@ class OccupationSearchTests(TestCase):
         self.assertEqual(
             self.client.put('/api/occupations/', secure=True).status_code, 405
         )
-        with override_settings(DEMO_MODE=False):
-            self.assertEqual(
-                self.client.get(
-                    '/api/occupations/', {'q': 'boulanger'}, secure=True
-                ).status_code,
-                200,
-            )
+        self.assertEqual(
+            self.client.get(
+                '/api/occupations/', {'q': 'boulanger'}, secure=True
+            ).status_code,
+            200,
+        )
 
     def test_annotated_generic_title_uses_explicit_multilingual_offer_context(self):
         payload = {

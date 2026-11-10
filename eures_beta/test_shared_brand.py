@@ -4,7 +4,6 @@ from django.test import TestCase, override_settings
 from django.utils import translation
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class SharedBrandTests(TestCase):
     def test_public_tabs_share_the_same_brand_in_each_language(self):
         for language in ('fr', 'en', 'de'):

@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class EntryPointTests(TestCase):
-    @override_settings(SHARED_DEMO=True)
+
     def test_home_opens_the_public_home_with_both_journeys(self):
         response = self.client.get("/", secure=True)
         self.assertTemplateUsed(response, "home.html")
@@ -16,7 +16,6 @@ class EntryPointTests(TestCase):
             self.client.get("/employer/pages/fr.html", secure=True), '<html lang="fr"'
         )
 
-    @override_settings(SHARED_DEMO=True)
     def test_employer_landing_languages_remain_available(self):
         for language in ("fr", "en", "de"):
             with self.subTest(language=language):

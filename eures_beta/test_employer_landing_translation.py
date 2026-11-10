@@ -2,7 +2,6 @@ from eures_beta.testing import assert_active_link
 from django.test import TestCase, override_settings
 
 
-@override_settings(SHARED_DEMO=True)
 class EmployerLandingTranslationTests(TestCase):
     def test_one_template_translates_content_navigation_and_accessibility_labels(self):
         examples = [

@@ -1,7 +1,6 @@
 from django.test import SimpleTestCase, override_settings
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class PublicPositioningTests(SimpleTestCase):
     def test_matching_limits_and_consent_are_visible_in_all_three_languages(self):
         for language, signature, unavailable, adviser_promise in (

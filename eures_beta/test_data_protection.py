@@ -2,7 +2,6 @@ from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 
-@override_settings(DEMO_MODE=False, SHARED_DEMO=False)
 class DataProtectionTests(SimpleTestCase):
     def test_notice_is_public_translated_and_states_the_inherited_periods(self):
         for language, title, period, limit in (
