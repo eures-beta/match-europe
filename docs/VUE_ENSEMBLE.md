@@ -18,7 +18,7 @@ l’administration Flask puis adaptation locale : ligne candidat/employeur/poste
 score global /100 visible, sous-scores, statuts et trois rubriques d’explication.
 Aucune modification des poids, blocages, décisions ou droits. Trente tests matching
 PostgreSQL réussis, contrôle navigateur et petit écran 390 px. Aucun envoi,
-publication ou déploiement distant. Voir [le contrat local](LOCAL_MATCHING.md).
+publication ou déploiement distant. Voir [le contrat de matching](MATCHING.md).
 
 ## 7 novembre 2026 — matching local autorisé
 
@@ -27,7 +27,7 @@ l’outil conversationnel. Base de pile #159 (`c39c728`) vérifiée ; aucune pub
 fusion ou recette distante autorisée. Correspondances, inconnus, trois blocages
 explicites et décisions humaines distinctes. Métier hors score ; poids expérimentaux,
 pas de classement ni seuil de rejet validé. Albert et ses confirmations par offre
-ou générales restent à développer. Voir [contrat et recette](LOCAL_MATCHING.md).
+ou générales restent à développer. Voir [contrat et recette](MATCHING.md).
 
 ## 7 novembre 2026 — parcours continus de recette
 

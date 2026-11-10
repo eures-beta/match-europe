@@ -34,7 +34,7 @@ l’administration Flask puis adaptation locale : ligne candidat/employeur/poste
 score global /100 visible, sous-scores, statuts et trois rubriques d’explication.
 Aucune modification des poids, blocages, décisions ou droits. Trente tests matching
 PostgreSQL réussis, contrôle navigateur et petit écran 390 px. Aucun envoi,
-publication ou déploiement distant. Voir [le contrat local](docs/LOCAL_MATCHING.md).
+publication ou déploiement distant. Voir [le contrat de matching](docs/MATCHING.md).
 
 ## Vérification du matching local — 7 novembre 2026
 
@@ -45,7 +45,7 @@ migrations : aucune anomalie ; Black, djLint, contrôle de structure HTML et
 catalogues FR/DE vérifiés. Navigateur : consultation, valeurs comparées, refus
 fictif conservé après recalcul et blocage de date avec action de rétention désactivée.
 Scénario A conserve un refus fictif issu de cette vérification. Pas d’audit complet
-WCAG ni de calibration métier des poids. Guide : [matching local](docs/LOCAL_MATCHING.md).
+WCAG ni de calibration métier des poids. Guide : [matching](docs/MATCHING.md).
 Préparation de l’étape suivante : [dialogue candidat](docs/CONVERSATIONAL_MATCHING.md),
 contrat écrit uniquement, pas d’appel Albert ni de notification.
 
@@ -56,7 +56,7 @@ l’outil conversationnel. Base de pile #159 (`c39c728`) vérifiée ; aucune pub
 fusion ou recette distante autorisée. Correspondances, inconnus, trois blocages
 explicites et décisions humaines distinctes. Métier hors score ; poids expérimentaux,
 pas de classement ni seuil de rejet validé. Albert et ses confirmations par offre
-ou générales restent à développer. Voir [contrat et recette](docs/LOCAL_MATCHING.md).
+ou générales restent à développer. Voir [contrat et recette](docs/MATCHING.md).
 
 ## 7 novembre 2026 — publication et recette regroupée autorisées
 
