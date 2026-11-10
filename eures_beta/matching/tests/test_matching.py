@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase, Client, override_settings
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
 from eures_beta.matching import engine, services, validation
 from eures_beta.matching.models import (
@@ -23,15 +23,10 @@ class MatchingRouteTests(SimpleTestCase):
         self.assertEqual(reverse('matching'), '/matching/')
         self.assertEqual(reverse('matching_detail', args=[42]), '/matching/42/')
 
-    def test_old_bookmarks_preserve_detail_and_language(self):
-        for source, target in (
-            ('/matching-local/?lang=de', '/matching/?lang=de'),
-            ('/matching-local/42/?lang=en', '/matching/42/?lang=en'),
-        ):
-            with self.subTest(source=source):
-                response = self.client.get(source)
-                self.assertEqual(response.status_code, 301)
-                self.assertEqual(response['Location'], target)
+    def test_unreleased_matching_urls_are_not_retained(self):
+        for path in ('/matching-local/', '/matching-local/42/'):
+            with self.subTest(path=path), self.assertRaises(Resolver404):
+                resolve(path)
 
 
 class EngineTests(SimpleTestCase):
