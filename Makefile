@@ -2,7 +2,10 @@
 .DEFAULT_GOAL := help
 
 # Docker limite réellement le serveur Linux ; aucun secret ni service distant.
-.PHONY: e2e-test e2e-regression
+.PHONY: e2e-test e2e-regression e2e-unit-test
+e2e-unit-test: ## Vérifier le lecteur des e-mails capturés sans Docker ni envoi
+	@$(MANAGE) test eures_beta.system_tests.test_journeys --noinput
+
 e2e-test: ## Tester les parcours HTTP sur Gunicorn/PostgreSQL, serveur plafonné à 256 Mio
 	python3 -m eures_beta.system_tests.run
 

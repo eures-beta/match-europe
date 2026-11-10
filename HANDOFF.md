@@ -7,6 +7,16 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 10 novembre 2026 — réancrage du banc après fermeture de #182
+
+Le banc est réancré sur #181, sans reprendre le transport Brevo de #182 fermée.
+Les trois commits initiaux sont conservés. Un défaut du lecteur d’e-mails de test
+est corrigé : plusieurs messages peuvent partager le même fichier Django.
+`make e2e-unit-test` reproduit ce cas ; échec observé avant correction, puis succès.
+Validation après réancrage : 615 tests PostgreSQL et contrôles de qualité réussis.
+Les cinq parcours Docker passent sous 256 Mio ; le témoin historique constate
+l’OOM attendu à huit recherches simultanées. Aucune fusion ou production effectuée.
+
 ## 10 novembre 2026 — parcours HTTP sous plafond mémoire
 
 TRANSVERSE : `make e2e-test` lance les parcours employeur, conseiller et candidat

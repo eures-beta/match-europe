@@ -99,15 +99,20 @@ class Browser:
     def confirm_mail(self, recipient, path):
         links = []
         for file in (ARTIFACTS / 'mail').glob('*'):
-            message = BytesParser(policy=policy.default).parsebytes(file.read_bytes())
-            if recipient not in str(message['To']):
-                continue
-            content = message.get_body(preferencelist=('plain',)).get_content()
-            links.extend(
-                re.findall(
-                    r'https://web:8443' + re.escape(path) + r'\?[^\s<>]+', content
+            # Django's file backend can append several messages to one file.
+            # Parse its message delimiter before checking each recipient.
+            for raw in file.read_bytes().split(b'\n' + b'-' * 79 + b'\n'):
+                if not raw.strip():
+                    continue
+                message = BytesParser(policy=policy.default).parsebytes(raw)
+                if recipient not in str(message['To']):
+                    continue
+                content = message.get_body(preferencelist=('plain',)).get_content()
+                links.extend(
+                    re.findall(
+                        r'https://web:8443' + re.escape(path) + r'\?[^\s<>]+', content
+                    )
                 )
-            )
         assert links, 'Expected captured confirmation email was not generated'
         self.request(links[-1].removeprefix(ORIGIN))
         self.request(path, {})
