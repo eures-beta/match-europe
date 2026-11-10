@@ -1449,3 +1449,15 @@ Recette restante sur iPhone et Android : installer, vérifier l’ouverture
 du lien de connexion dans le contexte de l’application, récupérer un profil
 terminé sur ordinateur puis reprendre un brouillon commencé sur le téléphone.
 L’activation du pilote et l’abonnement aux notifications relèvent du lot suivant.
+
+## 10 novembre 2026 — installation proposée après le questionnaire
+
+Sur le profil enregistré, la section « Prochaine étape sur votre téléphone »
+ouvre les instructions selon l’appareil. Le candidat peut choisir l’autre
+option. Le lien de transfert ouvre un guide public FR/EN/DE et ne contient
+aucune donnée du profil. Dans une PWA ouverte sur téléphone, l’écran confirme
+le mode application. Les notifications sont annoncées comme une étape à venir.
+
+La section utilise le parcours candidat et le manifeste communs à tous les
+environnements. Recette manuelle à faire sur iPhone et Android pour vérifier
+l’installation et la connexion au même compte depuis la PWA.

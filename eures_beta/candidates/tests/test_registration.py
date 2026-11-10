@@ -266,6 +266,10 @@ class CandidateRegistrationTests(TestCase):
         mobile.get(reverse('magic_confirm'), {'sesame': get_token(user)}, secure=True)
         restored = mobile.post(reverse('magic_confirm'), secure=True, follow=True)
         self.assertEqual(restored.request['PATH_INFO'], reverse('candidate_profile'))
+        self.assertContains(restored, 'data-install-handoff')
+        self.assertContains(restored, 'data-install-phone')
+        secured_profile = mobile.get(reverse('candidate_profile'), secure=True)
+        self.assertContains(secured_profile, 'https://testserver/candidate/install/?lang=')
         self.assertContains(restored, 'Fictional candidate')
         self.assertContains(restored, 'rel="manifest"')
 

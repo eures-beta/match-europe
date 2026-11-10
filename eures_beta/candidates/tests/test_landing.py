@@ -6,6 +6,18 @@ from django.contrib.staticfiles import finders
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateLandingTests(SimpleTestCase):
+    def test_installation_guide_is_public_and_localized(self):
+        for language, title in (
+            ('fr', 'Installer Match Europe sur votre téléphone'),
+            ('en', 'Install Match Europe on your phone'),
+            ('de', 'Match Europe auf Ihrem Smartphone installieren'),
+        ):
+            with self.subTest(language=language):
+                response = self.client.get('/candidate/install/', {'lang': language})
+                self.assertContains(response, title)
+                self.assertContains(response, 'rel="manifest"')
+                self.assertContains(response, f'?lang={language}')
+
     def test_candidate_routes_belong_to_the_candidate_application(self):
         from django.urls import resolve
 
