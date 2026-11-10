@@ -100,7 +100,7 @@ class InvitationTests(TestCase):
                 'is_staff': 'on',
             },
         )
-        self.assertContains(page, 'No email has been sent')
+        self.assertContains(page, 'Invitation saved.')
         invitation = EmployerInvitation.objects.get()
         self.assertEqual(invitation.email, 'new@example.invalid')
         self.assertEqual(invitation.invited_by, self.adviser)
@@ -413,7 +413,7 @@ class InvitationTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
 
-    def test_delivery_failure_is_explicit_and_logs_no_personal_data(self):
+    def test_delivery_failure_is_logged_without_personal_data(self):
         with (
             override_settings(LOGIN_EMAIL_ENABLED=True),
             patch(
@@ -428,7 +428,7 @@ class InvitationTests(TestCase):
                     reverse('employer_invite') + '?lang=en',
                     {'email': 'secret@example.invalid', 'language': 'en'},
                 )
-        self.assertContains(page, 'No email has been sent')
+        self.assertContains(page, 'Invitation saved.')
         self.assertNotIn('secret@example.invalid', str(captured.output))
         self.assertNotIn('sensitive payload', str(captured.output))
 

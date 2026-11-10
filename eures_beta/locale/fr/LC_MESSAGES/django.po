@@ -8307,12 +8307,8 @@ msgid "The invitation email has been sent."
 msgstr "L’e-mail d’invitation a été envoyé."
 
 #: eures_beta/templates/users/invite_employer.html:8
-msgid ""
-"Invitation saved. No email has been sent; delivery is not available. An "
-"operator can simulate the email privately."
-msgstr ""
-"Invitation enregistrée. Aucun e-mail n’a été envoyé : l’envoi est "
-"indisponible. Un opérateur peut simuler le message en privé."
+msgid "Invitation saved."
+msgstr "Invitation enregistrée."
 
 #: eures_beta/templates/users/invite_employer.html:10
 msgid "Invitation reference"

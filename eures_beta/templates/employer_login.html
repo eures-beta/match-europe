@@ -17,12 +17,6 @@
 {% elif stage == "sent" %}
   <h1>{% trans "Check your email" %}</h1>
   <p class="lede">{% trans "If an active employer account exists for this address, a connection link is available." %}</p>
-  <aside class="review-provenance" aria-labelledby="test-email-title">
-    <h2 id="test-email-title">{% trans "Test message" %}</h2>
-    <p>{% trans "No email is actually sent during this test. The button below lets you view the simulated message." %}</p>
-    <a class="ghost-action"
-       href="{% url 'employer_test_inbox' %}">{% trans "For testing: view the simulated email" %}</a>
-  </aside>
 {% elif stage == "inbox" %}
   <h1>{% trans "Test inbox" %}</h1>
   <p class="mini-note">{% trans "Simulated email — this message has not been sent." %}</p>

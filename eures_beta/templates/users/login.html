@@ -21,16 +21,11 @@
       <a class="primary-action" href="{% url 'magic_login' %}">{% translate "Request a new link" %}</a>
     {% else %}
       <p>{% translate "Already have an account? Enter your email address to receive a secure sign-in link. No password is needed." %}</p>
-      {% if not email_ready or stage == "unavailable" %}
-        <p role="status">{% translate "Email delivery is not available yet. You can view this page, but no sign-in email will be sent." %}</p>
-      {% endif %}
       <form method="post"
             action="{% url 'magic_login' %}?lang={{ page_language }}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="primary-action"
-                type="submit"
-                {% if not email_ready %}disabled{% endif %}>{% translate "Send me a sign-in link" %}</button>
+        <button class="primary-action" type="submit">{% translate "Send me a sign-in link" %}</button>
       </form>
       <p>{% translate "The link expires after one hour and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
     {% endif %}

@@ -67,7 +67,6 @@
                 {% else %}
                   {% translate "Invitation pending" %}
                 {% endif %}
-                {% if not invitation.email_sent_at %}— {% translate "Email not sent" %}{% endif %}
               </td>
               <td>
                 <time datetime="{{ invitation.created_at|date:'c' }}">{{ invitation.created_at|date:"SHORT_DATETIME_FORMAT" }}</time>

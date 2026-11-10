@@ -4,6 +4,10 @@ L’envoi dépend de sa configuration explicite (`EMAIL_DELIVERY_ENABLED`, `LOGI
 
 # Questionnaire ouvert et confirmation candidat
 
+L’écran de demande de confirmation est identique avec ou sans transport d’e-mails
+configuré. L’absence d’envoi ne rajoute ni avertissement de recette ni lien secret
+à la page ; la vérification de l’adresse reste obligatoire avant toute création.
+
 ## 9 novembre 2026 — remplacement de la proposition email préalable
 
 Cette version remplace la PR #164 abandonnée : aucun compte ni email n’est

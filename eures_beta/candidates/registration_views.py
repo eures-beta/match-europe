@@ -14,7 +14,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.cache import never_cache
 from eures_beta.users.models import User
-from eures_beta.users.views import selected_language, email_ready
+from eures_beta.users.views import selected_language
 from . import registration
 from .models import CandidateProfile
 from django import forms
@@ -34,7 +34,7 @@ def page(request, stage, **context):
 @never_cache
 @require_GET
 def requested(request):
-    return page(request, 'requested', email_delivery_available=email_ready())
+    return page(request, 'requested')
 
 
 @never_cache

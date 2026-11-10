@@ -467,6 +467,33 @@ class CandidateRegistrationTests(TestCase):
         self.assertNotContains(response, registration.token_for(pending))
         self.assertNotContains(response, pending.email)
 
+    def test_confirmation_request_page_does_not_depend_on_email_transport(self):
+        for language in ('fr', 'en', 'de'):
+            reference = None
+            for environment in ('local', 'preview', 'production'):
+                for enabled in (False, True):
+                    with (
+                        self.subTest(
+                            language=language, environment=environment, enabled=enabled
+                        ),
+                        override_settings(
+                            DJANGO_ENVIRONMENT=environment,
+                            LOGIN_EMAIL_ENABLED=enabled,
+                            EMAIL_DELIVERY_ENABLED=enabled,
+                            TEST_ACCOUNTS_ENABLED=False,
+                            DEMO_MODE=False,
+                            SHARED_DEMO=False,
+                        ),
+                    ):
+                        response = Client().get(
+                            reverse('candidate_registration_requested'),
+                            {'lang': language},
+                            secure=True,
+                        )
+                        if reference is None:
+                            reference = response.content
+                        self.assertEqual(response.content, reference)
+
     def test_registration_and_confirmation_work_in_every_environment(self):
         for environment in ('local', 'preview', 'production'):
             with (

@@ -210,13 +210,56 @@ class MagicLoginTests(TestCase):
         self.assertNotIn('evil.invalid', mail.outbox[-1].body)
         self.assertIn('https://testserver/accounts/confirm/', mail.outbox[-1].body)
 
-    def test_unconfigured_delivery_is_explicit_and_never_exposes_a_link(self):
+    def test_disabled_delivery_preserves_login_ui_without_sending_or_exposing_links(
+        self,
+    ):
+        def visible_html(response):
+            return re.sub(
+                r'name="csrfmiddlewaretoken" value="[^"]+"',
+                'name="csrfmiddlewaretoken" value="CSRF"',
+                response.content.decode(),
+            )
+
+        for language in ('fr', 'en', 'de'):
+            reference = None
+            for environment in ('local', 'preview', 'production'):
+                for enabled in (False, True):
+                    with (
+                        self.subTest(
+                            language=language, environment=environment, enabled=enabled
+                        ),
+                        override_settings(
+                            DJANGO_ENVIRONMENT=environment,
+                            LOGIN_EMAIL_ENABLED=enabled,
+                            EMAIL_DELIVERY_ENABLED=enabled,
+                            TEST_ACCOUNTS_ENABLED=False,
+                            DEMO_MODE=False,
+                            SHARED_DEMO=False,
+                        ),
+                        patch(
+                            'eures_beta.users.views.send_mail', return_value=1
+                        ) as send,
+                    ):
+                        LoginRateLimit.objects.all().delete()
+                        client = Client()
+                        url = '/accounts/login/?lang=' + language
+                        form = client.get(url)
+                        response = client.post(url, {'email': self.user.email})
+                        rendered = (visible_html(form), visible_html(response))
+                        if reference is None:
+                            reference = rendered
+                        self.assertEqual(rendered, reference)
+                        self.assertEqual(response.context['stage'], 'sent')
+                        self.assertEqual(send.call_count, int(enabled))
+                        self.assertNotContains(response, 'sesame=')
+                        self.assertNotIn('_auth_user_id', client.session)
+
+    def test_unconfigured_delivery_never_exposes_a_link(self):
         with override_settings(LOGIN_EMAIL_ENABLED=False):
             response = self.client.post(
                 '/accounts/login/?lang=en', {'email': self.user.email}
             )
-            self.assertContains(response, 'Email delivery is not available yet')
-            self.assertContains(response, 'disabled')
+            self.assertEqual(response.context['stage'], 'sent')
             self.assertNotContains(response, 'sesame=')
             self.assertNotIn('magic_login_token', self.client.session)
         self.assertEqual(len(mail.outbox), 0)

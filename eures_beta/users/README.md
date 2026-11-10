@@ -17,7 +17,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [Administration en lecture seule](../../../docs/ADMIN_READONLY.md) — Modèles consultables, rôles et secrets masqués.
 - [admin_base.py](admin_base.py) — Protection commune contre les écritures et affichage sûr des données structurées.
 
-- [email_backend.py](email_backend.py) — Interdit les connexions SMTP hors production explicitement activée.
+- [email_backend.py](email_backend.py) — Protège les connexions SMTP par activation explicite, quel que soit l’environnement ; l’affichage des parcours reste identique.
 
 - [Invitations employeurs](../../../docs/EMPLOYER_INVITATIONS.md) — Tableau conseiller, invitation de sept jours et simulation privée des e-mails.
 - [invitations.py](invitations.py) — Création explicite, jetons signés et limites.

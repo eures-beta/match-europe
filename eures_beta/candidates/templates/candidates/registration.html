@@ -7,9 +7,6 @@
     {% if stage == "requested" %}
       <p role="status">{% translate "A confirmation has been requested. Your draft is preserved. No existing profile has been replaced." %}</p>
       <p>{% translate "The link lasts one hour. Confirm your email to save a new profile or review your existing profile." %}</p>
-      {% if not email_delivery_available %}
-        <p role="status">{% translate "Email delivery is currently unavailable." %}</p>
-      {% endif %}
       <a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>
       <p><a href="{% url 'candidate_prepare' %}?step=4&amp;lang={{ page_language }}">{% translate "Return to my draft" %}</a></p>
     {% elif stage == "role" %}
