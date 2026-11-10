@@ -9,12 +9,8 @@ from django.utils import timezone
 from eures_beta.employers.models import JobOffer
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1', 'ME_LOCAL_REVIEW_ONLY': '0'})
 class EmployerContactTests(TestCase):
     def setUp(self):
-        env = patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
-        env.start()
-        self.addCleanup(env.stop)
         self.staff = {}
         for role in (
             'adviser',

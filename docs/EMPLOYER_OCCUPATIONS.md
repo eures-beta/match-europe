@@ -26,9 +26,7 @@ non activée. Aucun nouveau contrat AGLAE, matching ou contact candidat.
 
 `GET /api/occupations/?q=…&lang=fr&mode=search` : version et au plus trois
 propositions locales. `mode=near` accepte des `excluded` répétés. Le garde commun
-`require_demo_access` conserve les conditions démo/HTTPS partagé ou loopback
-explicitement activé ; tailles, langues, modes et URI sont contrôlés côté serveur.
-Aucune nouvelle permission, aucun réseau ESCO à l’usage.
+Les API métiers conservent les contrôles de rôle employeur et de CSRF ; elles ne dépendent pas d’un mode de présentation ou de l’adresse réseau.
 
 Le JSON `JobOffer.data.occupation` contient `title`, `language`, `version`,
 `uris`, `personal`, `jobs`. Le serveur reconstruit descriptions, codes et relations

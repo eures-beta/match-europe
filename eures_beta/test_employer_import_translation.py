@@ -4,7 +4,6 @@ import json
 from django.test import TestCase, override_settings
 
 
-@override_settings(SHARED_DEMO=True, DEMO_MODE=True)
 class JobOfferTranslationTests(TestCase):
     page = "import"
 

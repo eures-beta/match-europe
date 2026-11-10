@@ -17,6 +17,16 @@ Les rôles candidat/employeur, la désactivation des comptes, la propriété du 
 la validation des données et CSRF restent contrôlés. L'administration Django garde
 ses protections distinctes. Aucun renommage de modèle dans ce correctif.
 
+## 10 novembre 2026 — suppression des parcours de démonstration hérités
+
+Demande explicite de dejafait : nettoyage agressif dans une nouvelle PR au sommet
+de la pile, sans fusion ni production. Retirer les parcours obsolètes et les cinq
+réglages de présentation discutés, sans exposer leurs anciennes routes en levant
+leurs protections. Les comptes fictifs restent des outils de test isolés.
+Les données historiques sont conservées et les accès réels gardent leurs contrôles.
+Cette décision remplace les consignes d'activation des modes de démonstration
+figurant dans les entrées historiques ci-dessous.
+
 ## 9 novembre 2026 — livraison dans tous les environnements
 
 Décision d’Eric : retirer les restrictions arbitraires local/recette/production des fonctionnalités métier. Configuration et droits réels conservés, fonctionnalités actives par défaut, simulations explicites. Autorisation explicite reçue pour les trois usages Albert, les accès propriétaires employeur et le transport commun des e-mails configuré dans chaque environnement. La pile distante a été actualisée sans perdre les correctifs publiés en parallèle. Validation locale : 605 tests PostgreSQL réussis après intégration du client Albert partagé ; aucun appel Albert ou e-mail réel, aucune fusion ni opération de production. Voir [le contrat actuel et les prérequis](ENVIRONMENT_PARITY.md).

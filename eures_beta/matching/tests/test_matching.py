@@ -252,7 +252,6 @@ class EngineTests(SimpleTestCase):
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     LOGIN_EMAIL_ENABLED=False,
-    SHARED_DEMO=False,
 )
 class LocalMatchingTests(TestCase):
     @classmethod
@@ -415,7 +414,6 @@ class LocalMatchingTests(TestCase):
                     DJANGO_ENVIRONMENT=environment,
                     EMAIL_DELIVERY_ENABLED=True,
                     LOGIN_EMAIL_ENABLED=True,
-                    SHARED_DEMO=True,
                 ),
             ):
                 self.assertEqual(

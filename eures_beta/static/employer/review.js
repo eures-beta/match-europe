@@ -246,16 +246,7 @@
             : t.albertNote
           : result.data.extraction === 'albert_fallback'
             ? t.albertFallback
-            : result.localOnly
-              ? t.localReaderNote
-              : t.liveNote;
-      if (result.localOnly) {
-        const privacy = document.querySelector('.review-privacy-compact');
-        if (privacy) {
-          const paragraphs = privacy.querySelectorAll('p');
-          paragraphs[paragraphs.length - 1].textContent = t.localPrivacy;
-        }
-      }
+            : t.liveNote;
       form.reset();
       status.textContent = '';
       error.textContent = '';
@@ -312,8 +303,7 @@
       });
       document.getElementById('question-custom').value = values.questions?.[5]?.question || '';
       document.getElementById('review-provenance').textContent =
-        (result.localOnly ? t.localReaderOrigin : t.liveOrigin) +
-        (result.source ? ' ' + result.source : '');
+        t.liveOrigin + (result.source ? ' ' + result.source : '');
       document.getElementById('review-provenance').style.overflowWrap = 'anywhere';
       if (result.synced) status.textContent = t.liveSynced;
       showGeo();

@@ -1,4 +1,4 @@
-"""Explicit fictional accounts; never use the historical shared-demo flag here."""
+"""Explicit fictional accounts; isolated from production."""
 
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _

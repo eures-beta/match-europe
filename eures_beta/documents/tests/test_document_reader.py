@@ -110,7 +110,6 @@ class DocumentFieldTests(SimpleTestCase):
             read_pdf(SimpleUploadedFile('test.png', b'%PDF-fiction'))
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 class MultipleImageTests(TestCase):
     def setUp(self):
         from django.contrib.auth import get_user_model
@@ -121,10 +120,9 @@ class MultipleImageTests(TestCase):
             )
         )
 
-    @patch.dict('os.environ', {'ME_LOCAL_REVIEW_ONLY': '1'})
     @patch('eures_beta.employers.employer_api.geocode')
     @patch('eures_beta.employers.employer_api.aglae')
-    def test_local_review_never_calls_external_services(self, api, geo):
+    def test_saving_import_never_calls_external_services(self, api, geo):
         response = self.client.post(
             '/api/imports/',
             {
@@ -138,7 +136,7 @@ class MultipleImageTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json()['stage'], 'review')
+        self.assertEqual(response.json()['stage'], 'prepare')
         api.assert_not_called()
         geo.assert_not_called()
 

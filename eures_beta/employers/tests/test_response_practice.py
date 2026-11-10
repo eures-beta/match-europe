@@ -14,7 +14,6 @@ from eures_beta.employers.models import (
 User = get_user_model()
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class ResponsePracticeTests(TestCase):
     def setUp(self):
         self.employer = User.objects.create_user(
@@ -136,8 +135,6 @@ class ResponsePracticeTests(TestCase):
             with (
                 self.subTest(environment=environment),
                 self.settings(
-                    DEMO_MODE=False,
-                    SHARED_DEMO=False,
                     DJANGO_ENVIRONMENT=environment,
                     EMAIL_DELIVERY_ENABLED=True,
                 ),

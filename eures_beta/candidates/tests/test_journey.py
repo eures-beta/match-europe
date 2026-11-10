@@ -5,7 +5,6 @@ from django.utils.html import strip_tags
 from eures_beta.candidates.journey import KEY, SCHEMA, ConditionsForm, MobilityForm
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateJourneyTests(TestCase):
     def get(self, step=1, **query):
         return self.client.get(
@@ -242,8 +241,7 @@ class CandidateJourneyTests(TestCase):
 
     def test_access_csrf_and_token(self):
         self.assertEqual(self.client.get('/candidate/prepare/').status_code, 200)
-        with override_settings(DEMO_MODE=False):
-            self.assertEqual(self.get().status_code, 200)
+        self.assertEqual(self.get().status_code, 200)
         client = Client(enforce_csrf_checks=True)
         self.assertEqual(
             client.post('/candidate/prepare/', {}, secure=True).status_code, 403
@@ -428,7 +426,6 @@ class CandidateJourneyTests(TestCase):
         self.assertIn('condition_overrides', response.context['form'].errors)
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateJourneyAccessibilityTests(TestCase):
     """Fixes from the 4 November 2026 accessibility and fluency review."""
 

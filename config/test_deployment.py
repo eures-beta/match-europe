@@ -96,7 +96,6 @@ class EmployerStaticTests(SimpleTestCase):
                     "review.js",
                     "import.js",
                     "contact.js",
-                    "push-test.js",
                     "assets/eures-ela.jpg",
                     "assets/france-travail.svg",
                     "assets/adem.png",

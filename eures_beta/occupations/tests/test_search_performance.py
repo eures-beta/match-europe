@@ -74,7 +74,7 @@ import os, django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 from django.test import Client, override_settings
-with override_settings(DEMO_MODE=True, SHARED_DEMO=True, ALLOWED_HOSTS=['testserver']):
+with override_settings(ALLOWED_HOSTS=['testserver']):
     for title in titles:
         for language in ('fr', 'en', 'de'):
             response = Client().post('/api/occupations/', json.dumps({'q':title, 'lang':language, 'independent':True}), content_type='application/json', secure=True)

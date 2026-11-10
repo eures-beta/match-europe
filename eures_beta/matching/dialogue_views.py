@@ -1,4 +1,4 @@
-"""Private local dialogue demonstration, with explicit review before any write."""
+"""Private candidate dialogue, with explicit review before any write."""
 
 from django import forms
 import secrets

@@ -57,7 +57,6 @@ class UnifiedLayoutTests(TestCase):
             (settings.APPS_DIR / 'static' / 'sw.js').read_bytes(),
         )
 
-    @override_settings(SHARED_DEMO=True)
     def test_employer_pages_are_django_templates_and_sources_are_not_exposed(self):
         from django.contrib.auth import get_user_model
 

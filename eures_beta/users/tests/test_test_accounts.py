@@ -220,8 +220,6 @@ class TestAccountAccessTests(TestCase):
                     DJANGO_ENVIRONMENT=environment,
                     TEST_ACCOUNTS_ENABLED=enabled,
                     EMAIL_DELIVERY_ENABLED=email_enabled,
-                    SHARED_DEMO=True,
-                    DEMO_MODE=True,
                 ),
             ):
                 self.assertEqual(

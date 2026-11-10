@@ -15,14 +15,6 @@ from eures_beta.employers.models import (
 from eures_beta.employers.offer_ingestion import empty_data
 
 
-@patch.dict(
-    'os.environ',
-    {
-        'ME_EMPLOYER_DEV_ACCESS': '1',
-        'ME_EMPLOYER_EMAIL_LOCAL': '1',
-        'ME_LOCAL_REVIEW_ONLY': '1',
-    },
-)
 class WorkspaceTests(TestCase):
     def setUp(self):
         self.person = get_user_model().objects.create_user(
@@ -345,7 +337,38 @@ class WorkspaceTests(TestCase):
         self.assertNotContains(response, self.foreign.data['title'])
         self.assertContains(response, self.person.email)
         self.assertContains(response, 'Mon compte')
-        self.assertContains(response, '/employer/logout/')
+        self.assertContains(response, '/accounts/logout/')
         self.assertNotContains(response, 'Votre adresse email est vérifiée')
         self.assertContains(response, 'scope="col"')
         self.assertContains(response, 'tabindex="0"')
+
+    def test_retired_search_records_keep_existing_locks_and_allow_safe_duplication(
+        self,
+    ):
+        from eures_beta.employers.models import EmployerSearchOperation
+
+        operation = EmployerSearchOperation.objects.create(
+            offer=self.offer,
+            requested_by=self.person,
+            revision=self.offer.revision,
+            state='uncertain',
+            scenario='timeout_accepted',
+        )
+        response = self.client.get(self.url())
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, '/search/')
+        self.assertEqual(
+            self.client.post(
+                self.url('employer_offer_edit'), self.payload()
+            ).status_code,
+            409,
+        )
+        response = self.client.post(
+            self.url('employer_offer_duplicate'), {'revision': self.offer.revision}
+        )
+        self.assertEqual(response.status_code, 302)
+        operation.refresh_from_db()
+        self.assertEqual(operation.state, 'uncertain')
+        self.assertEqual(EmployerSearchOperation.objects.count(), 1)
+        copy = JobOffer.objects.get(duplicated_from=self.offer)
+        self.assertFalse(copy.search_write_blocked)

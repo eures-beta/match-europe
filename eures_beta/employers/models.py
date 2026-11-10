@@ -112,7 +112,7 @@ class JobOffer(models.Model):
 
 
 class EmployerEmailLink(models.Model):
-    """Single-use local email verification, optionally carrying one explicitly submitted draft."""
+    """Historical verification records; the retired login no longer creates or consumes them."""
 
     pending_import = models.ForeignKey(
         JobOffer, null=True, blank=True, on_delete=models.PROTECT
@@ -128,7 +128,7 @@ class EmployerEmailLink(models.Model):
 
 
 class EmployerSearchOperation(models.Model):
-    """Local simulation only. One durable operation per confirmed offer revision."""
+    """Historical simulator records retained without an active launch endpoint."""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     offer = models.ForeignKey(

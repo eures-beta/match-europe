@@ -7,6 +7,38 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 10 novembre 2026 — retrait des parcours de démonstration hérités
+
+Sur demande de dejafait, retrait de la connexion employeur indépendante et de sa
+boîte simulée, du diagnostic Push (HTML/JS/API/service worker), du simulateur de
+lancement de recherche et de leurs routes. Les helpers encore utilisés sont
+déplacés dans employer_workspace ; l'espace emploie la connexion/déconnexion
+commune. Les droits, CSRF, révisions, rattachements et propriétés restent contrôlés.
+Les cinq variables ME_DEMO_MODE, ME_SHARED_DEMO, ME_EMPLOYER_DEV_ACCESS,
+ME_EMPLOYER_EMAIL_LOCAL et ME_LOCAL_REVIEW_ONLY ne sont plus consommées.
+
+Les modèles/tables/données historiques restent présents, sans nouvelle écriture
+depuis les parcours retirés ; les verrous d'offres déjà en attente sont conservés.
+Aucune migration ni purge. Les comptes fictifs et fournisseurs simulés explicitement
+activés restent des outils de test isolés ; les modes de présentation sont retirés.
+Les actions AGLAE sandbox/géocodage restent explicites et configurées ; la lecture
+et la sauvegarde seules ne les appellent pas. Aucun service réel activé ou appelé.
+
+Tests adaptés aux comptes réels de fixtures ; make test-retired-paths remplace
+l'ancien contrôle de modes. Dépendances Web Push retirées ; cryptography est déclarée
+explicitement pour le fixture TLS E2E qui la recevait indirectement. Guides actifs
+réécrits et traductions inutilisées retirées, notamment les avertissements hérités.
+L'erreur email traduite reste portée par le formulaire commun après retrait de
+l'ancien écran qui fournissait sa traduction.
+
+Validation finale après réancrage sur184 sans182 :581 tests PostgreSQL verts ;
+huit tests de la nouvelle cible également vérifiés avant réancrage,
+Django/migrations, Black, HTML, JS/CSS et gettext verts. Banc Docker Linux arm64 :
+cinq groupes de parcours HTTP réels, huit recherches froides, pic166162432octets,
+aucun OOM/SIGKILL ni redémarrage worker. Premier essai sans dépendance TLS explicite
+échoué au fixture, corrigé puis banc vert. Pas de revue visuelle navigateur.
+Aucune fusion ni opération de production autorisée/exécutée dans ce lot.
+
 ## 10 novembre 2026 — réancrage du banc après fermeture de #182
 
 Le banc est réancré sur #181, sans reprendre le transport Brevo de #182 fermée.
@@ -16,6 +48,7 @@ est corrigé : plusieurs messages peuvent partager le même fichier Django.
 Validation après réancrage : 615 tests PostgreSQL et contrôles de qualité réussis.
 Les cinq parcours Docker passent sous 256 Mio ; le témoin historique constate
 l’OOM attendu à huit recherches simultanées. Aucune fusion ou production effectuée.
+
 
 ## 10 novembre 2026 — parcours HTTP sous plafond mémoire
 

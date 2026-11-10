@@ -6,6 +6,7 @@ class LoginForm(forms.Form):
     email = forms.EmailField(
         label=_('Email address'),
         max_length=254,
+        error_messages={'invalid': _('Enter a valid email address.')},
         widget=forms.EmailInput(
             attrs={'autocomplete': 'email', 'autocapitalize': 'none'}
         ),

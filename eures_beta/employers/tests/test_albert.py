@@ -149,7 +149,7 @@ class ValidationTests(SimpleTestCase):
         self.assertEqual(rome_suggestions('I1304', 'ascenseurs')[0]['code'], 'I1304')
 
 
-@override_settings(**ENABLED, DEMO_MODE=False, SHARED_DEMO=False)
+@override_settings(**ENABLED)
 class EndpointTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
@@ -157,7 +157,7 @@ class EndpointTests(TestCase):
         )
         self.client.force_login(self.user)
 
-    def test_import_is_available_outside_demo_in_all_environments(self):
+    def test_import_is_available_in_all_modes_in_all_environments(self):
         for environment in ('local', 'preview', 'production'):
             with (
                 self.subTest(environment=environment),

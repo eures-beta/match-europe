@@ -59,7 +59,7 @@ continuous-source-prepare: ## Télécharger explicitement les trois exports publ
 continuous-ui-test: ## Tester l'affichage, les choix, les erreurs et réponses périmées sans navigateur
 	node --test eures_beta/skills/tests/continuous.test.cjs
 continuous-run: ## Tester toute la pile depuis l'accueil sur 9040, données fictives et Albert simulé
-	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 ME_EMPLOYER_EMAIL_LOCAL=1 ME_LOCAL_REVIEW_ONLY=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
+	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
 
 continuous-test: ## Vérifier les choix employeur/candidat, leur conservation et les protections locales
 	@$(MANAGE) test eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare --noinput $(TEST_ARGS)
@@ -88,7 +88,7 @@ albert-test: ## Tester Albert sans réseau : validation, repli, droits et confid
 	@$(MANAGE) test eures_beta.employers.tests.test_albert eures_beta.integrations.tests.test_albert --noinput $(TEST_ARGS)
 
 albert-run: ## Essayer le parcours Albert sur 9037, avec comptes fictifs et sans email réel
-	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 ME_LOCAL_REVIEW_ONLY=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9037" --noreload
+	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9037" --noreload
 
 ALBERT_INPUT ?=
 ALBERT_OUTPUT ?= .runtime/albert-evaluation.json
@@ -190,11 +190,11 @@ occupations-validate: ## Vérifier un catalogue et écrire son rapport, sans mod
 	$(PYTHON) -m eures_beta.occupations.tools.validate_catalog "$(CATALOG_DIR)" --report "$(CATALOG_REPORT)"
 
 occupations-test: ## Tester uniquement le catalogue partagé et ses interfaces
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.occupations --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.occupations --noinput $(TEST_ARGS)
 
 .PHONY: employer-test
 employer-test: ## Tester le parcours employeur et sa recherche de métiers sur PostgreSQL
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers eures_beta.occupations eures_beta.test_employer_auth_translation eures_beta.test_employer_import_translation eures_beta.test_employer_landing_translation eures_beta.test_employer_privacy_translation --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.employers eures_beta.occupations eures_beta.test_employer_import_translation eures_beta.test_employer_landing_translation eures_beta.test_employer_privacy_translation --noinput $(TEST_ARGS)
 HOST ?= 127.0.0.1
 PORT ?= 8000
 # Commandes usuelles sans paramètres ; chaque worktree possède son .venv et .env.
@@ -215,17 +215,17 @@ install: ## Installer les dépendances dans .venv (Python 3.14 requis)
 run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
-test: ## Tests PostgreSQL : scénarios fictifs explicites et contrôles hors démo
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta config --noinput $(TEST_ARGS)
+test: ## Tests PostgreSQL : scénarios fictifs explicites et protections des parcours réels
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta config --noinput $(TEST_ARGS)
 
 .PHONY: employer-test
 .PHONY: test-collection
 test-collection: ## Vérifier les imports de tous les tests, sans créer de base
 	@$(MANAGE) test config.test_test_collection --noinput
 
-.PHONY: test-demo-modes
-test-demo-modes: ## Vérifier les réglages réels et les protections hors démo
-	@$(MANAGE) test config.test_demo_modes --noinput
+.PHONY: test-retired-paths
+test-retired-paths: ## Vérifier le retrait des anciens parcours et les accès réels
+	@$(MANAGE) test config.test_retired_paths --noinput
 
 check: ## Vérifier Django et l'absence de migrations oubliées
 	@$(MANAGE) check
@@ -243,7 +243,7 @@ migrations: ## Afficher l'état des migrations sans les appliquer
 
 .PHONY: migrations-test
 migrations-test: ## Tester les installations neuves et les transitions de migrations sur PostgreSQL local
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations eures_beta.employers.tests.test_model_renames --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.employers.tests.test_autonomous_migrations eures_beta.employers.tests.test_model_renames --noinput $(TEST_ARGS)
 
 .PHONY: permissions-sync permissions-test
 .PHONY: admin-test
@@ -267,7 +267,7 @@ collectstatic: ## Collecter les statiques dans staticfiles/
 	@$(MANAGE) collectstatic --noinput
 
 .PHONY: install-test test-local serve db-create
-install-test: ## Installer aussi les dépendances du diagnostic Push pour les tests
+install-test: ## Installer les dépendances pour les tests
 	python3.14 -m venv .venv
 	.venv/bin/python -m pip install -r requirements/test.txt
 
@@ -283,7 +283,7 @@ db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
 .PHONY: test-navigation
 .PHONY: landing-test
 landing-test: ## Vérifier les trois pages d'entrée, leurs textes, langues et protections
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.test_home eures_beta.test_language_navigation eures_beta.test_employer_landing_translation eures_beta.test_public_positioning eures_beta.candidates.tests.test_landing --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.test_home eures_beta.test_language_navigation eures_beta.test_employer_landing_translation eures_beta.test_public_positioning eures_beta.candidates.tests.test_landing --noinput $(TEST_ARGS)
 
 test-navigation: ## Vérifier la bascule de langue et les liens ouverts avant un déploiement
 	@$(MANAGE) test eures_beta.test_language_navigation --noinput $(TEST_ARGS)
@@ -327,11 +327,11 @@ users-upgrade-test: ## Vérifier la migration des identités dans une base Postg
 
 .PHONY: registration-test
 registration-test: ## Vérifier la fermeture de la création autonome de comptes
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.users.tests.test_closed_registration --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.users.tests.test_closed_registration --noinput $(TEST_ARGS)
 
 .PHONY: observability-test
 observability-test: ## Vérifier les mesures de requêtes, la confidentialité et les diagnostics de timeout
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.observability --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.observability --noinput $(TEST_ARGS)
 .PHONY: login-test
 .PHONY: test-accounts-seed test-accounts-test
 test-accounts-seed: ## Ajouter les comptes et offres fictifs (local/preview explicitement activé uniquement)
@@ -358,7 +358,7 @@ invitation-email: ## Simuler un email privé contenant un lien secret (INVITATIO
 	@$(MANAGE) invitation_email "$(INVITATION)" --origin "$(ORIGIN)"
 
 login-test: ## Tester les liens magiques, sessions, limites et inscriptions fermées
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.users.tests --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.users.tests --noinput $(TEST_ARGS)
 
 .PHONY: user-kind-test
 user-kind-test: ## Tester les rôles, la migration candidat et la fermeture des inscriptions
@@ -382,7 +382,7 @@ candidate-registration-cleanup: ## Compter les demandes candidat expirées (CLEA
 candidate-run: ## Démarrer le parcours candidat local sur le port 9031
 	@$(MANAGE) runserver "127.0.0.1:9031"
 candidate-test: ## Tester le questionnaire candidat sur PostgreSQL
-	@$(LOAD_ENV) ME_DEMO_MODE=1 "$(PYTHON)" manage.py test eures_beta.candidates --noinput $(TEST_ARGS)
+	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta.candidates --noinput $(TEST_ARGS)
 
 .PHONY: candidate-ui-test
 candidate-ui-test: ## Vérifier la prolongation du brouillon candidat sans navigateur ni réseau
@@ -394,7 +394,7 @@ occupations-ui-test: ## Tester la recherche métier du navigateur, ses erreurs e
 
 .PHONY: employer-response-run employer-response-test
 employer-response-run: ## Essayer les réponses employeur sur 9036, sans email réel
-	@$(LOAD_ENV) ME_DEMO_MODE=1 ME_EMPLOYER_DEV_ACCESS=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"
+	@$(LOAD_ENV) TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"
 
 employer-response-test: ## Vérifier les réponses par compte, droits, conflits et traductions
 	@$(MANAGE) test eures_beta.employers.tests.test_response_practice eures_beta.employers.tests.test_profile_rename --noinput $(TEST_ARGS)

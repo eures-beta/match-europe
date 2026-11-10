@@ -17,7 +17,6 @@ from eures_beta.logging import RedactAccessLinks
 from eures_beta.users.models import LoginRateLimit
 
 
-@patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'})
 @override_settings(
     EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
     EMAIL_HOST='smtp.example.invalid',
@@ -233,8 +232,6 @@ class MagicLoginTests(TestCase):
                             LOGIN_EMAIL_ENABLED=enabled,
                             EMAIL_DELIVERY_ENABLED=enabled,
                             TEST_ACCOUNTS_ENABLED=False,
-                            DEMO_MODE=False,
-                            SHARED_DEMO=False,
                         ),
                         patch(
                             'eures_beta.users.views.send_mail', return_value=1

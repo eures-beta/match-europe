@@ -31,10 +31,7 @@ class PublicNavigationTests(TestCase):
                 ('en', 'This page is under construction.'),
                 ('de', 'Diese Seite befindet sich im Aufbau.'),
             ):
-                with (
-                    self.subTest(page=route, language=language),
-                    override_settings(DEMO_MODE=False),
-                ):
+                with (self.subTest(page=route, language=language),):
                     response = self.client.get(reverse(route), {'lang': language})
                     self.assertTemplateUsed(
                         response,
@@ -63,7 +60,6 @@ class PublicNavigationTests(TestCase):
                         )
                     self.assertEqual(self.client.post(reverse(route)).status_code, 405)
 
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
     def test_menus_use_canonical_routes(self):
         for language in ('fr', 'en', 'de'):
             for path in (
@@ -88,7 +84,6 @@ class PublicNavigationTests(TestCase):
     def test_home_is_the_public_entrypoint(self):
         self.assertEqual(resolve(reverse('home')).url_name, 'home')
 
-    @override_settings(DEMO_MODE=False)
     def test_legacy_candidate_redirect_opens_the_public_candidate_landing(self):
         response = self.client.get(
             reverse('legacy_candidate'), secure=True, follow=True

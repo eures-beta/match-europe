@@ -4,7 +4,6 @@ from django.templatetags.static import static
 from django.contrib.staticfiles import finders
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateLandingTests(SimpleTestCase):
     def test_pwa_installation_guide_is_public_and_localized(self):
         for language, title in (
@@ -112,22 +111,19 @@ class CandidateLandingTests(SimpleTestCase):
                 '<html lang="fr">',
             )
 
-    def test_rejects_writes_and_is_available_without_demo(self):
+    def test_rejects_writes_and_is_available_with_real_accounts(self):
         for path in ('/candidate/',):
             self.assertEqual(self.client.post(path, secure=True).status_code, 405)
             self.assertEqual(self.client.get(path).status_code, 200)
-            with override_settings(DEMO_MODE=False):
-                self.assertEqual(self.client.get(path, secure=True).status_code, 200)
+            self.assertEqual(self.client.get(path, secure=True).status_code, 200)
 
-    @override_settings(SHARED_DEMO=False)
     def test_access_is_not_restricted_to_loopback(self):
         from unittest.mock import patch
 
-        with patch.dict('os.environ', {'ME_EMPLOYER_DEV_ACCESS': '1'}):
-            self.assertEqual(
-                self.client.get('/candidate/', REMOTE_ADDR='127.0.0.1').status_code, 200
-            )
-            self.assertEqual(
-                self.client.get('/candidate/', REMOTE_ADDR='192.0.2.42').status_code,
-                200,
-            )
+        self.assertEqual(
+            self.client.get('/candidate/', REMOTE_ADDR='127.0.0.1').status_code, 200
+        )
+        self.assertEqual(
+            self.client.get('/candidate/', REMOTE_ADDR='192.0.2.42').status_code,
+            200,
+        )

@@ -209,7 +209,6 @@ class EuresImportTests(SimpleTestCase):
         self.assertEqual(fetch.call_count, 1)
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class EuresSourceReviewTests(TestCase):
     def setUp(self):
         from django.contrib.auth import get_user_model

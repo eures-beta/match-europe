@@ -20,7 +20,6 @@ class ProjectLinks(HTMLParser):
             self.anchors.append(attrs['href'][1:])
 
 
-@override_settings(DEMO_MODE=False)
 class ProjectPageTests(SimpleTestCase):
     def test_historical_content_and_qualifications_in_all_languages(self):
         samples = {

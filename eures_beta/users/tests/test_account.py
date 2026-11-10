@@ -3,7 +3,6 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 
-@override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class AccountPageTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(

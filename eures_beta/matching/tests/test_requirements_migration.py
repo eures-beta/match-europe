@@ -17,7 +17,6 @@ from eures_beta.employers.models import JobOffer
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     LOGIN_EMAIL_ENABLED=False,
-    SHARED_DEMO=False,
 )
 class OfferRequirementsMigrationTests(TransactionTestCase):
     def migrate(self, name):

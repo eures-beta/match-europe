@@ -12,14 +12,6 @@ from eures_beta.employers.models import (
 from eures_beta.employers.tests.test_employer_ownership import OwnershipTests
 
 
-@patch.dict(
-    'os.environ',
-    {
-        'ME_EMPLOYER_EMAIL_LOCAL': '1',
-        'ME_EMPLOYER_DEV_ACCESS': '1',
-        'ME_LOCAL_REVIEW_ONLY': '1',
-    },
-)
 class ConnectedEmployerTests(TestCase):
     login = OwnershipTests.login
 
@@ -52,9 +44,7 @@ class ConnectedEmployerTests(TestCase):
             self.assertContains(page, company.name)
             self.assertNotContains(page, 'Hidden establishment')
         self.assertEqual(JobOffer.objects.count(), 0)
-        self.assertRedirects(
-            self.client.get('/employer/access/'), '/employer/connected/'
-        )
+        self.assertEqual(self.client.get('/employer/access/').status_code, 404)
 
     @patch('eures_beta.employers.employer_api.aglae')
     @patch('eures_beta.employers.employer_api.geocode')
@@ -133,7 +123,7 @@ class ConnectedEmployerTests(TestCase):
         self.assertContains(
             self.client.get('/employer/connected/?lang=fr'), 'Mon espace employeur'
         )
-        self.client.post('/employer/logout/')
+        self.client.post('/accounts/logout/')
         self.assertTemplateUsed(self.client.get(path), 'employer/import_access.html')
 
     def test_expired_document_session_explains_reread(self):

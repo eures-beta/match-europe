@@ -14,14 +14,7 @@ Le service est en cours de développement.
 Prérequis : Python 3.14 et PostgreSQL démarré, avec un rôle autorisé à créer des bases.
 Copier `.env.example` en `.env`, puis renseigner `DJANGO_SECRET_KEY` et les
 paramètres PostgreSQL (`PGUSER`, `PGPASSWORD`, `PGDATABASE`, `PGHOST`, `PGPORT`).
-Pour essayer le prototype localement sans écrire dans AGLAE, ajouter :
-
-```dotenv
-ME_DEMO_MODE=1
-ME_EMPLOYER_DEV_ACCESS=1
-ME_EMPLOYER_EMAIL_LOCAL=1
-ME_LOCAL_REVIEW_ONLY=1
-```
+Les parcours utilisent les mêmes comptes et protections dans chaque environnement.
 
 ```bash
 make install-test
