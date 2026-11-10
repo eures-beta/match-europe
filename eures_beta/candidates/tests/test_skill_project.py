@@ -45,7 +45,7 @@ class OpenSkillProjectTests(TestCase):
         groups, _ = skill_groups()
         self.assertEqual(
             {uri.rsplit('/', 1)[-1] for uri in groups['professional_behaviours']},
-            set(behaviour_help.HELP),
+            {item.esco_id for item in behaviour_help.BEHAVIOURS.values()},
         )
         for language, example in (
             ('fr', 'J’écoute l’autre personne'),

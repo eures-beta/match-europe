@@ -73,7 +73,7 @@ def skill_choices(name, language):
                 (
                     uri,
                     (
-                        str(behaviour_help.for_uri(uri)[1])
+                        str(behaviour_help.for_uri(uri).label)
                         if name == 'professional_behaviours'
                         and behaviour_help.for_uri(uri)
                         else skills[uri]['labels'][language]
@@ -158,7 +158,7 @@ def sections(form, language):
                 else None
             )
             with override(language):
-                description = str(help_item[2]) if help_item else ''
+                description = str(help_item.description) if help_item else ''
             item = {
                 'uri': uri,
                 'label': label,
@@ -174,9 +174,9 @@ def sections(form, language):
                     ]
                 ),
             }
-            categories.setdefault(help_item[0] if help_item else group[uri], []).append(
-                item
-            )
+            categories.setdefault(
+                help_item.group if help_item else group[uri], []
+            ).append(item)
         result.append(
             {
                 'name': name,
