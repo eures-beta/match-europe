@@ -1,6 +1,6 @@
 ## Mise à jour — 9 novembre 2026
 
-Le dialogue Albert fonctionne dans tous les environnements, avec une clé privée configurée ; il est actif par défaut. La simulation est explicitement choisie pour les essais, jamais imposée par l’environnement. Les appels envoient uniquement la condition de l’offre, les déclarations correspondantes, les paroles et l’historique utile du dialogue ; aucune transmission automatique à l’employeur ni modification de profil sans relecture explicite. La CSRF, les droits propriétaire/équipe, les quotas et les contrôles de version sont conservés. Sans clé ou en cas d’échec, le formulaire guidé reste disponible. Les anciennes restrictions locales ci-dessous sont remplacées.
+Le dialogue Albert fonctionne dans tous les environnements, avec une clé privée configurée ; il est actif par défaut. La simulation est explicitement choisie pour les essais, jamais imposée par l’environnement. Les appels envoient uniquement la condition de l’offre, les déclarations correspondantes, les paroles et l’historique utile du dialogue ; aucune transmission automatique à l’employeur ni modification de profil sans relecture explicite. La CSRF, la vérification de la propriété de la demande, les quotas et les contrôles de version sont conservés. Sans clé ou en cas d’échec, le formulaire guidé reste disponible. Les anciennes restrictions locales ci-dessous sont remplacées.
 
 # Dialogue Albert simulé — prototype local
 
@@ -52,7 +52,7 @@ nouvelles disponibilités et ne supprime pas automatiquement les autres conditio
 
 `CONFIRMATION_DIALOGUE_SIMULATED` est désactivé par défaut. La route conserve
 les gardes locales existantes : loopback, données fictives, comptes actifs,
-propriétaire candidat et attributions actuelles d’équipe. Pas d’accès implicite
+candidat propriétaire, profil vérifié et offre validée. Pas d’accès implicite
 employeur, conseiller ou superutilisateur ; pas d’emails réels ni mode production.
 
 Réponse limitée à 2000 caractères. Proposition signée, limitée à quinze minutes,
@@ -76,7 +76,8 @@ Environnement local isolé déjà préparé pour #162 ; voir
 [les confirmations](CANDIDATE_OFFER_CONFIRMATIONS.md) pour PostgreSQL et les comptes.
 
 - `make matching-translations` : compiler FR/DE.
-- `make confirmations-seed` : préparer les données fictives si nécessaire.
+- `make matching-seed` : préparer les paires fictives dans une base d’essai.
+  Un conseiller de recette habilité sollicite la confirmation depuis le détail de la paire.
 - `make dialogue-run` : prototype sur loopback, port 9044, sans Albert réel.
 - `make dialogue-test` : protections, corpus trilingue, validation et mise à jour
   complète du profil sur PostgreSQL jetable.

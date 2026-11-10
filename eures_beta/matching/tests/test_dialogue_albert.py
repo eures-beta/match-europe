@@ -9,12 +9,11 @@ from django.core.management import call_command, CommandError
 from eures_beta.matching import dialogue_albert as adapter
 from eures_beta.matching import dialogue_services as dialogue
 from . import test_dialogue
-from .test_teams import SETTINGS
 
 
 @override_settings(
     **{
-        **SETTINGS,
+        **test_dialogue.SETTINGS,
         'CONFIRMATION_DIALOGUE_SIMULATED': False,
         'CONFIRMATION_DIALOGUE_ENABLED': True,
         'ALBERT_API_KEY': 'fictional-test-key',
