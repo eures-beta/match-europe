@@ -52,12 +52,17 @@ def can_view_pairs(user):
 
 
 def can_change_pair(user):
-    return enabled() and can_view_pairs(user) and user.has_perm('matching.change_matchpair')
+    return (
+        enabled()
+        and can_view_pairs(user)
+        and user.has_perm('matching.change_matchpair')
+    )
 
 
 def guard(request):
     require_matching_enabled()
     if not can_view_pairs(request.user) or (
-        request.method == 'POST' and not can_change_pair(request.user)
+        request.method == 'POST'
+        and not request.user.has_perm('matching.change_matchpair')
     ):
         raise PermissionDenied
