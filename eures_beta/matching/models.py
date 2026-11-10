@@ -125,6 +125,7 @@ class MatchDecision(models.Model):
     class Meta:
         db_table = 'matching_decision'
 
+
 class ConfirmationRequest(models.Model):
     """An adviser explicitly chooses an offer to discuss; never an invitation email."""
 

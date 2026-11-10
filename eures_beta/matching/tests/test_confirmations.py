@@ -75,7 +75,9 @@ class ConfirmationTests(TestCase):
         self.assertFalse(TransmissionAgreement.objects.exists())
 
     def test_offer_missing_information_is_not_a_candidate_question(self):
-        type(self.pair.offer).objects.filter(pk=self.pair.offer_id).update(structured_requirements={})
+        type(self.pair.offer).objects.filter(pk=self.pair.offer_id).update(
+            structured_requirements={}
+        )
         row = self.row('languages')
         self.assertFalse(row['askable'])
         with self.assertRaises(StaleEvaluation):
@@ -386,7 +388,10 @@ class ConfirmationTests(TestCase):
 
     def test_saturday_morning_and_afternoon_have_independent_answers(self):
         req = type(self.pair.offer).objects.get(pk=self.pair.offer_id)
-        req.structured_requirements['schedule'] = ['saturday:morning', 'saturday:afternoon']
+        req.structured_requirements['schedule'] = [
+            'saturday:morning',
+            'saturday:afternoon',
+        ]
         req.save()
         rows = [
             row for row in service.questions(self.request) if row['kind'] == 'schedule'
