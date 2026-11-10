@@ -399,7 +399,9 @@ def edit(request, id):
                     ]
                 )
                 from django.urls import reverse
+                from eures_beta.matching.team_services import schedule_offer_matching
 
+                schedule_offer_matching(offer)
                 return redirect(reverse('employer_offer', args=[offer.pk]) + '?saved=1')
     return render(
         request,

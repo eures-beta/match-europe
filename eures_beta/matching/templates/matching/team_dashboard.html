@@ -37,6 +37,11 @@
         {% endfor %}
       </ul>
     </section>
+    <form method="get">
+      <input type="hidden" name="lang" value="{{ page_language }}">
+      {{ offer_filter.as_p }}
+      <button type="submit" class="btn btn-secondary">{% translate "Filter" %}</button>
+    </form>
     {% include "matching/results_list.html" %}
   </section>
 {% endblock %}

@@ -55,12 +55,16 @@ def inputs(pair, *, lock=False):
 
 
 @transaction.atomic
-def calculate(candidate, offer):
+def calculate(candidate, offer, *, reuse_current=False):
     if not enabled():
         raise ValueError('Local matching is disabled')
     pair, _ = MatchPair.objects.get_or_create(candidate=candidate, offer=offer)
     pair = MatchPair.objects.select_for_update().get(pk=pair.pk)
     data, fingerprint = inputs(pair, lock=True)
+    if reuse_current:
+        latest = pair.evaluations.order_by('-id').first()
+        if latest and latest.fingerprint == fingerprint:
+            return latest
     result = engine.evaluate(
         data['candidate'],
         data['offer'],

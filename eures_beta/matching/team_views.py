@@ -57,6 +57,17 @@ class ManualForm(forms.Form):
         )
 
 
+class OfferFilter(forms.Form):
+    offer = forms.ModelChoiceField(label=_('Job offer'), queryset=None, required=False)
+
+    def __init__(self, *args, offers, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['offer'].queryset = offers.order_by('-created')
+        self.fields['offer'].label_from_instance = lambda item: item.data.get(
+            'title', ''
+        )
+
+
 class DecisionForm(forms.Form):
     evaluation = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
     decision_version = forms.IntegerField(min_value=0, widget=forms.HiddenInput)
@@ -90,6 +101,14 @@ def dashboard(request):
         )
         .order_by('-created_at')
     )
+    offer_filter = OfferFilter(
+        request.GET,
+        offers=access.offers().filter(teamoffer__team__in=[m.team_id for m in members]),
+    )
+    if not offer_filter.is_valid():
+        query = query.none()
+    elif offer_filter.cleaned_data['offer']:
+        query = query.filter(offer=offer_filter.cleaned_data['offer'])
     pairs = list(query)
     evaluations = MatchEvaluation.objects.in_bulk(
         [pair.latest_evaluation_id for pair in pairs if pair.latest_evaluation_id]
@@ -123,6 +142,18 @@ def dashboard(request):
                 result=present(evaluation.result, language) if evaluation else None,
             )
         )
+    entries = [
+        entry
+        for entry in entries
+        if not entry['result']
+        or not entry['result']['blocked']
+        or entry['manual']
+        or entry['pair'].decision != 'pending'
+    ]
+    entries.sort(
+        key=lambda entry: entry['result']['established'] if entry['result'] else -1,
+        reverse=True,
+    )
     return render(
         request,
         'matching/team_dashboard.html',
@@ -130,6 +161,7 @@ def dashboard(request):
             adviser_mode=True,
             members=members,
             entries=entries,
+            offer_filter=offer_filter,
             can_invite=can_manage_employers(request.user),
             page_language=language,
         ),

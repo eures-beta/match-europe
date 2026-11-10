@@ -1,3 +1,16 @@
+## 10 novembre 2026 — calcul à l’enregistrement d’une offre pour l’équipe unique
+
+Eric confirme une seule équipe et un classement par score sans seuil minimum.
+Le calcul suit le rattachement à un établissement ou la sauvegarde d’une offre
+complète dans l’espace employeur. Il ne dépend pas du parcours AGLAE historique,
+du mode démo ou des comptes de test. Les brouillons privés et les copies avant
+leur première modification restent hors calcul. Le rattachement automatique
+exige exactement une équipe active, conserve les rattachements existants et ne
+crée aucun droit conseiller. Le tableau peut filtrer par offre et classe les
+résultats par score. Les propositions automatiques bloquées sont masquées.
+Les paires manuelles et les décisions passées restent accessibles. Albert et le
+Push relèvent de lots distincts.
+
 ## 9 novembre 2026 — questionnaire ouvert, email à la fin
 
 PR fille de #132, en remplacement de #164 fermée sans fusion. Entrée anonyme,

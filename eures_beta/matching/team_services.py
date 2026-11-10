@@ -1,8 +1,9 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from . import services
-from .models import MatchPair, TeamOffer, TeamCandidate
-from .team_access import require_member, team_candidates, team_offers
+from .models import MatchPair, MatchingTeam, TeamOffer, TeamCandidate
+from .team_access import require_member, team_candidates, team_enabled, team_offers
+from .access import candidates, offers
 
 
 def locked_scope(user, team_id, candidate_id, offer_id):
@@ -84,4 +85,42 @@ def decide(
         reason=reason,
         decided_by=user,
         team=member.team,
+    )
+
+
+@transaction.atomic
+def calculate_for_saved_offer(offer_id, revision):
+    if not team_enabled():
+        return
+    teams = list(
+        MatchingTeam.objects.select_for_update().filter(active=True).order_by('pk')[:2]
+    )
+    if len(teams) != 1:
+        return
+    team = teams[0]
+    offer = offers().filter(pk=offer_id, revision=revision).first()
+    if offer is None:
+        return
+    assignment, _ = TeamOffer.objects.get_or_create(
+        offer=offer, defaults={'team': team}
+    )
+    if assignment.team_id != team.pk:
+        return
+    for candidate in candidates().order_by('pk'):
+        TeamCandidate.objects.get_or_create(team=team, candidate=candidate)
+        pair, _ = MatchPair.objects.get_or_create(
+            candidate=candidate, offer=offer, defaults={'team': team}
+        )
+        if pair.team_id is None:
+            pair.team = team
+            pair.save(update_fields=['team'])
+        if pair.team_id == team.pk:
+            services.calculate(candidate, offer, reuse_current=True)
+
+
+def schedule_offer_matching(offer):
+    offer_id, revision = offer.pk, offer.revision
+    transaction.on_commit(
+        lambda: calculate_for_saved_offer(offer_id, revision),
+        robust=True,
     )

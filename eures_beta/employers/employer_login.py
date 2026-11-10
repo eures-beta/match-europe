@@ -298,6 +298,9 @@ def attach_draft(request):
         # Session ownership must no longer provide an alternative access path.
         draft.session_key = ''
         draft.save(update_fields=['company', 'created_by', 'session_key', 'updated'])
+        from eures_beta.matching.team_services import schedule_offer_matching
+
+        schedule_offer_matching(draft)
     request.session.pop('employer_claim_import', None)
     request.session['employer_attached'] = company.name
     return redirect('employer_connected')

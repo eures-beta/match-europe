@@ -8,6 +8,7 @@ from django.db import close_old_connections
 from django.test import TestCase, TransactionTestCase, Client, override_settings
 from django.urls import reverse
 from eures_beta.users.test_accounts import prepared_user
+from eures_beta.employers.models import Company
 from eures_beta.matching import team_services, services
 from eures_beta.matching.models import (
     MatchPair,
@@ -69,6 +70,45 @@ class TeamTests(TestCase):
         )
         payload.update(extra)
         return self.client.post(self.detail(pair), payload)
+
+    @override_settings(DJANGO_ENVIRONMENT="production", TEST_ACCOUNTS_ENABLED=False)
+    def test_saved_offer_calculates_only_with_a_single_active_team(self):
+        original = self.pair().offer
+        offer = type(original).objects.create(
+            created_by=original.created_by,
+            preparation_agreed_at=original.preparation_agreed_at,
+            data={
+                **original.data,
+                'title': 'Nouvelle offre de recette',
+                'description': 'Description fictive de recette.',
+            },
+        )
+        MatchingTeam.objects.exclude(pk=self.team.pk).update(active=False)
+        team_services.calculate_for_saved_offer(offer.pk, offer.revision)
+        self.assertFalse(TeamOffer.objects.filter(offer=offer).exists())
+
+        offer.company = Company.objects.create(name='Établissement fictif')
+        offer.save(update_fields=['company'])
+        MatchingTeam.objects.exclude(pk=self.team.pk).update(active=True)
+        team_services.calculate_for_saved_offer(offer.pk, offer.revision)
+        self.assertFalse(TeamOffer.objects.filter(offer=offer).exists())
+
+        MatchingTeam.objects.exclude(pk=self.team.pk).update(active=False)
+        for _ in range(2):
+            team_services.calculate_for_saved_offer(offer.pk, offer.revision)
+        pairs = MatchPair.objects.filter(offer=offer)
+        self.assertGreater(pairs.count(), 1)
+        self.assertEqual(TeamOffer.objects.get(offer=offer).team, self.team)
+        self.assertEqual(
+            Evaluation.objects.filter(pair__in=pairs).count(), pairs.count()
+        )
+        page = self.client.get(reverse('dashboard'), {'offer': offer.pk})
+        entries = page.context['entries']
+        scores = [entry['result']['established'] for entry in entries]
+        self.assertTrue(scores)
+        self.assertEqual(scores, sorted(scores, reverse=True))
+        self.assertTrue(all(entry['pair'].offer_id == offer.pk for entry in entries))
+        self.assertTrue(all(not entry['result']['blocked'] for entry in entries))
 
     def test_shared_dashboard_and_other_team_isolation(self):
         for person in (self.a, self.b):
