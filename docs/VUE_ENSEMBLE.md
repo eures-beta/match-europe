@@ -49,7 +49,7 @@ TRANSVERSE / EMPLOYEURS / CANDIDATS : préparation de deux JSON compatibles avec
 le pilote #154, sept métiers existants conservés et 43 ajouts officiels ESCO 1.2.1.
 La liste et les sélections éditoriales restent proposées à Eric. Aucun profil,
 offre ou matching raccordé ; mêmes protections de recette locale. Voir
-[liste et identifiants](SKILLS_CATALOGUE_50.md) et [contrôles](SKILLS_PILOT.md).
+[liste et identifiants](SKILLS_CATALOGUE_50.md) et [contrôles](SKILLS.md).
 
 ## 6 novembre 2026 — pilote local des compétences
 
@@ -57,7 +57,7 @@ TRANSVERSE / EMPLOYEURS / CANDIDATS : parcours de recette autonome dans Django,
 `/skills-pilot/`, désactivé par défaut et réservé au loopback local. Six métiers,
 références ESCO FR/EN/DE partagées et sélections temporaires distinctes. Aucune
 connexion aux offres, profils durables, conseillers ou matching existants.
-La validation utilisateur et le push sont à venir. Voir [périmètre et recette](SKILLS_PILOT.md).
+La validation utilisateur et le push sont à venir. Voir [périmètre et recette](SKILLS.md).
 
 ## 6 novembre 2026 — essai Albert pour les offres employeurs
 

@@ -100,7 +100,7 @@ navigateur réalisée sur les parcours employeur et candidat, plafonds, relectur
 conservation FR/EN/DE et action clavier ; contrôle à 375 pixels sans débordement
 horizontal constaté. Ce contrôle n’est pas un audit WCAG exhaustif. La sélection
 éditoriale et les libellés sont à revoir avec Eric. Voir
-[les limites et commandes](docs/SKILLS_PILOT.md). Aucun push, fusion ou déploiement.
+[les limites et commandes](docs/SKILLS.md). Aucun push, fusion ou déploiement.
 
 ## 6 novembre 2026 — accroches accueil, candidat et employeur
 
