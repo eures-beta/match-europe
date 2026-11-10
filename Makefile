@@ -1,6 +1,14 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+# Docker limite réellement le serveur Linux ; aucun secret ni service distant.
+.PHONY: e2e-test e2e-regression
+e2e-test: ## Tester les parcours HTTP sur Gunicorn/PostgreSQL, serveur plafonné à 256 Mio
+	python3 -m eures_beta.system_tests.run
+
+e2e-regression: ## Vérifier que le même banc détecte l'OOM de l'ancien code avant #177
+	python3 -m eures_beta.system_tests.run --legacy-control
+
 .PHONY: confirmations-migrations-test
 confirmations-migrations-test: ## Vérifier l'upgrade de l'ancien schéma de confirmations sans perte
 	@$(MANAGE) test eures_beta.matching.tests.test_confirmation_migration --noinput $(TEST_ARGS)
