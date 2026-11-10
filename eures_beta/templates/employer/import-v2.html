@@ -1169,7 +1169,7 @@
                    maxlength="2048"
                    aria-describedby="url-error url-help">
             <div id="url-error" class="import-error url-error-box" role="alert" hidden></div>
-            <p id="url-help" class="mini-note">{% translate "This demonstration does not visit the link yet. Reading the page will be connected in the next step." context "employer import-v2" %}</p>
+            <p id="url-help" class="mini-note">{% translate "Enter the public link to your job offer. If it cannot be read, upload a document or paste the text." context "employer import-v2" %}</p>
             <div class="landing-actions">
               <button type="submit"
                       class="primary-action">{% translate "Continue" context "employer import-v2" %}</button>
@@ -1215,7 +1215,8 @@
                    maxlength="254"
                    placeholder="recrutement@example.invalid"
                    aria-describedby="email-help">
-            <p id="email-help" class="mini-note">{% translate "Use a fictional address for this demonstration. No email is sent." context "employer import-v2" %}</p>
+            <p id="email-help"
+               class="mini-note">{% translate "Enter your email address to continue." context "employer import-v2" %}</p>
             <p>
               <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer import-v2" %}</a>
             </p>
@@ -1626,7 +1627,7 @@
             <section class="review-provenance review-privacy-compact alt-privacy">
               <h2>{% translate "Use of your information" context "employer import-v2" %}</h2>
               <p>{% translate "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human." context "employer import-v2" %}</p>
-              <p>{% translate "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" %}</p>
+              <p>{% translate "Confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" %}</p>
               <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Read the data protection notice" context "employer import-v2" %}</a>
             </section>
             <label class="review-check review-confirm">
@@ -1712,7 +1713,7 @@
   "validate": "{% translate "Validate my offer" context "employer import-v2" as translated_value_47 %}{{ translated_value_47|escapejs }}",
   "back": "{% translate "Back to my email" context "employer import-v2" as translated_value_48 %}{{ translated_value_48|escapejs }}",
   "draftSaved": "{% translate "Draft downloaded as JSON. Keep the file on your computer: nothing is saved on the server." context "employer import-v2" as translated_value_49 %}{{ translated_value_49|escapejs }}",
-  "validated": "{% translate "Offer validated in this demonstration. You can download the validated summary. No the preparation service update, search or candidate contact has occurred." context "employer import-v2" as translated_value_50 %}{{ translated_value_50|escapejs }}",
+  "validated": "{% translate "Your summary is ready to download. Downloading it does not update the preparation service or contact candidates." context "employer import-v2" as translated_value_50 %}{{ translated_value_50|escapejs }}",
   "downloadValidated": "{% translate "Download validated summary" context "employer import-v2" as translated_value_51 %}{{ translated_value_51|escapejs }}",
   "changed": "{% translate "The offer has changed: review and confirm again before validating." context "employer import-v2" as translated_value_52 %}{{ translated_value_52|escapejs }}",
   "required": "{% translate "Complete job title, company, location, description and contract type, then confirm. Every selected question must contain text." context "employer import-v2" as translated_value_53 %}{{ translated_value_53|escapejs }}",
@@ -1722,7 +1723,7 @@
   "liveValidate": "{% translate "Confirm my offer" context "employer import-v2" as translated_value_57 %}{{ translated_value_57|escapejs }}",
   "liveSynced": "{% translate "Your offer has been saved." context "employer import-v2" as translated_value_58 %}{{ translated_value_58|escapejs }}",
   "liveOrigin": "{% translate "AI-assisted offer summary. Review all information and clarify missing details." context "employer import-v2" as translated_value_59 %}{{ translated_value_59|escapejs }}",
-  "liveNote": "{% translate "An initial inactive offer has been sent to the preparation service. Corrections stay local until you validate the update. Your email is not sent to the preparation service." context "employer import-v2" as translated_value_60 %}{{ translated_value_60|escapejs }}",
+  "liveNote": "{% translate "An initial inactive offer has been sent to the preparation service. Validate your corrections to update it. Your email is not sent to the preparation service." context "employer import-v2" as translated_value_60 %}{{ translated_value_60|escapejs }}",
   "liveConfirmation": "{% translate "I confirm the corrected offer information and request that it be saved. No candidate search or contact will start." context "employer import-v2" as translated_value_61 %}{{ translated_value_61|escapejs }}",
   "locate": "{% translate "Check on OpenStreetMap" context "employer import-v2" as translated_value_62 %}{{ translated_value_62|escapejs }}",
   "locationConfirm": "{% translate "I checked the proposed point and confirm it matches the workplace." context "employer import-v2" as translated_value_63 %}{{ translated_value_63|escapejs }}",
@@ -1739,16 +1740,16 @@
   ],
   "errors": {
     "invalid_contact": "{% translate "Complete and save the company contact before validating the offer." context "employer import-v2" as translated_value_73 %}{{ translated_value_73|escapejs }}",
-    "sandbox_error": "{% translate "Sandbox did not confirm complete storage. Corrections are saved; retry." context "employer import-v2" as translated_value_74 %}{{ translated_value_74|escapejs }}",
-    "api_key_missing": "{% translate "Sandbox key is missing from the local server." context "employer import-v2" as translated_value_75 %}{{ translated_value_75|escapejs }}",
+    "sandbox_error": "{% translate "The preparation service did not confirm complete storage. Corrections are saved; retry." context "employer import-v2" as translated_value_74 %}{{ translated_value_74|escapejs }}",
+    "api_key_missing": "{% translate "The preparation service is not configured. You can enter the information manually." context "employer import-v2" as translated_value_75 %}{{ translated_value_75|escapejs }}",
     "geocode_error": "{% translate "Location not found. Specify city, country and street if possible." context "employer import-v2" as translated_value_76 %}{{ translated_value_76|escapejs }}",
     "location_required": "{% translate "Check the map point and confirm the workplace." context "employer import-v2" as translated_value_77 %}{{ translated_value_77|escapejs }}",
     "required": "{% translate "Complete essential fields and confirm." context "employer import-v2" as translated_value_78 %}{{ translated_value_78|escapejs }}",
     "conflict": "{% translate "Draft changed in another tab. Reload it first." context "employer import-v2" as translated_value_79 %}{{ translated_value_79|escapejs }}",
     "invalid_data": "{% translate "Check fields, questions and lengths." context "employer import-v2" as translated_value_80 %}{{ translated_value_80|escapejs }}",
-    "network": "{% translate "Local server unavailable. Entries remain on screen." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}",
+    "network": "{% translate "The service is unavailable. Your entries remain on screen." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}",
     "initial_required": "{% translate "the preparation service requires a job title, company, location and description. Complete missing fields to send an initial inactive version. You will then review its response and questions." context "employer import-v2" as translated_value_82 %}{{ translated_value_82|escapejs }}",
-    "local_review_only": "{% translate "Local test: external services are disabled. You can save the draft." context "employer import-v2" as translated_value_83 %}{{ translated_value_83|escapejs }}",
+    "local_review_only": "{% translate "External saving is unavailable. You can save the draft in Match Europe." context "employer import-v2" as translated_value_83 %}{{ translated_value_83|escapejs }}",
     "search_started": "{% translate "Candidate search has started. To change your needs, duplicate this offer from your employer space." context "employer shared browser" as finish_search_started %}{{ finish_search_started|escapejs }}"
   },
   "prepareTitle": "{% translate "Some information before sending to the preparation service" context "employer import-v2" as translated_value_84 %}{{ translated_value_84|escapejs }}",
@@ -1809,7 +1810,7 @@
     "questionArrival": "{% translate "When could you start and, if needed, relocate near the workplace?" context "employer import-v2" as translated_value_128 %}{{ translated_value_128|escapejs }}",
     "privacyTitle": "{% translate "Use of your information" context "employer import-v2" as translated_value_129 %}{{ translated_value_129|escapejs }}",
     "privacyText": "{% translate "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human." context "employer import-v2" as translated_value_130 %}{{ translated_value_130|escapejs }}",
-    "privacyLocal": "{% translate "In this local trial, confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" as translated_value_131 %}{{ translated_value_131|escapejs }}",
+    "privacyLocal": "{% translate "Confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import-v2" as translated_value_131 %}{{ translated_value_131|escapejs }}",
     "privacyLink": "{% translate "Read the data protection notice" context "employer import-v2" as translated_value_132 %}{{ translated_value_132|escapejs }}",
     "permits": {
       "B": "{% translate "Licence B" context "employer import-v2" as translated_value_133 %}{{ translated_value_133|escapejs }}",
@@ -1830,7 +1831,7 @@
       "{% translate "The next step in the journey will be candidate prequalification: availability, skills and job requirements." context "employer import-v2" as translated_value_143 %}{{ translated_value_143|escapejs }}",
       "{% translate "An introduction will then require agreement from you and the candidate, with support from an adviser." context "employer import-v2" as translated_value_144 %}{{ translated_value_144|escapejs }}"
     ],
-    "local": "{% translate "This local trial stops here: no candidate search, prequalification or contact is started. No confirmation email is sent." context "employer import-v2" as translated_value_145 %}{{ translated_value_145|escapejs }}",
+    "local": "{% translate "Saving the offer does not start a candidate search, prequalification or contact." context "employer import-v2" as translated_value_145 %}{{ translated_value_145|escapejs }}",
     "view": "{% translate "View my offer" context "employer import-v2" as translated_value_146 %}{{ translated_value_146|escapejs }}",
     "another": "{% translate "Add another offer" context "employer import-v2" as translated_value_147 %}{{ translated_value_147|escapejs }}",
     "home": "{% translate "Back to the employer home" context "employer import-v2" as translated_value_148 %}{{ translated_value_148|escapejs }}"
@@ -1840,10 +1841,10 @@
   "albertSource": "{% translate "View the source text to check the extracted information" context "employer albert" as albert_albertSource %}{{ albert_albertSource|escapejs }}",
   "albertNote": "{% translate "Prepared with Albert AI (DINUM) from your offer text. Check every field before saving." context "employer albert" as albert_albertNote %}{{ albert_albertNote|escapejs }}",
   "albertFallback": "{% translate "Albert could not prepare this offer. The source text is preserved below; complete the fields manually or try again." context "employer albert" as albert_albertFallback %}{{ albert_albertFallback|escapejs }}",
-  "localReaderNote": "{% translate "Local reading using text extraction, without generative AI. The result may contain errors." context "employer import-v2" as translated_value_150 %}{{ translated_value_150|escapejs }}",
+  "localReaderNote": "{% translate "Text extraction without generative AI. Check and correct the result before saving." context "employer import-v2" as translated_value_150 %}{{ translated_value_150|escapejs }}",
   "localSave": "{% translate "Save and continue" context "employer import-v2" as translated_value_151 %}{{ translated_value_151|escapejs }}",
-  "localPrivacy": "{% translate "During this trial, the draft is saved only in the local database. No publication, candidate search or transfer to EURES partners." context "employer import-v2" as translated_value_152 %}{{ translated_value_152|escapejs }}",
-  "localSaved": "{% translate "Your offer has been saved locally." context "employer import-v2" as translated_value_153 %}{{ translated_value_153|escapejs }}",
+  "localPrivacy": "{% translate "The draft is saved in Match Europe. Saving does not publish the offer or start a candidate search." context "employer import-v2" as translated_value_152 %}{{ translated_value_152|escapejs }}",
+  "localSaved": "{% translate "Your offer has been saved in Match Europe." context "employer import-v2" as translated_value_153 %}{{ translated_value_153|escapejs }}",
   "documentWarnings": {
     "title": "{% translate "Document information to check" context "employer import-v2" as translated_value_154 %}{{ translated_value_154|escapejs }}",
     "hours": "{% translate "Conflicting hours — please confirm" context "employer import-v2" as translated_value_155 %}{{ translated_value_155|escapejs }}",
@@ -1901,7 +1902,7 @@
             <li>{% translate "For shortlisted candidates, we check availability, interest and continued acceptance of the proposed conditions." context "employer import-v2" %}</li>
             <li>{% translate "After review by an adviser and agreement from both parties, a discussion dedicated to this offer opens in your Match Europe space, with the candidate and adviser." context "employer import-v2" %}</li>
           </ol>
-          <p id="notification-local-note" class="review-provenance">{% translate "Local trial: notification activation and trial enrolment are not connected yet. No matching, prequalification or introductions are started." context "employer import-v2" %}</p>
+          <p id="notification-local-note" class="review-provenance">{% translate "Notification activation is not available yet. This action does not start matching, prequalification or introductions." context "employer import-v2" %}</p>
           <details id="completed-offer">
             <summary>{% translate "View my offer" context "employer import-v2" %}</summary>
             <dl id="completed-offer-data">
@@ -1951,16 +1952,16 @@
   "emailTitle": "{% translate "Save your offer" context "employer import-v2" as translated_value_12 %}{{ translated_value_12|escapejs }}",
   "emailIntro": "{% translate "Your offer is ready. Enter your email and company contact to save it and return to it later." context "employer import-v2" as translated_value_13 %}{{ translated_value_13|escapejs }}",
   "emailLabel": "{% translate "Your work email" context "employer import-v2" as translated_value_14 %}{{ translated_value_14|escapejs }}",
-  "emailHelp": "{% translate "Use a fictional address for this demonstration. No email is sent." context "employer import-v2" as translated_value_15 %}{{ translated_value_15|escapejs }}",
+  "emailHelp": "{% translate "Enter your email address to continue." context "employer import-v2" as translated_value_15 %}{{ translated_value_15|escapejs }}",
   "next": "{% translate "Save and continue" context "employer import-v2" as translated_value_16 %}{{ translated_value_16|escapejs }}",
   "readyTitle": "{% translate "Next step: review your offer" context "employer import-v2" as translated_value_17 %}{{ translated_value_17|escapejs }}",
   "ready": "{% translate "PDF, link or manual entry and the email step can be tested. Reading documents and web pages is not connected yet. No offer or email has been sent or saved, and no job website has been contacted." context "employer import-v2" as translated_value_18 %}{{ translated_value_18|escapejs }}",
   "restart": "{% translate "Start again" context "employer import-v2" as translated_value_19 %}{{ translated_value_19|escapejs }}",
-  "notice": "{% translate "Local demonstration: no the preparation service request. You may voluntarily download the test summary to your computer. Email is not saved." context "employer import-v2" as translated_value_20 %}{{ translated_value_20|escapejs }}",
+  "notice": "{% translate "Check your information before saving. You can also download a summary to your computer." context "employer import-v2" as translated_value_20 %}{{ translated_value_20|escapejs }}",
   "invalid": "{% translate "Choose one PDF or PNG/JPEG images of the same job." context "employer import-v2" as translated_value_21 %}{{ translated_value_21|escapejs }}",
   "large": "{% translate "Limit: 8 images and 10 MB total, or one 10 MB PDF." context "employer import-v2" as translated_value_22 %}{{ translated_value_22|escapejs }}",
   "missing": "{% translate "Choose a PDF or images to continue." context "employer import-v2" as translated_value_23 %}{{ translated_value_23|escapejs }}",
-  "unreadable": "{% translate "Unreadable, protected or excessive document, or local OCR unavailable. Try another file or paste the text." context "employer import-v2" as translated_value_24 %}{{ translated_value_24|escapejs }}",
+  "unreadable": "{% translate "The document could not be read. Try another file or paste the text." context "employer import-v2" as translated_value_24 %}{{ translated_value_24|escapejs }}",
   "emptyManual": "{% translate "Enter your offer text to continue." context "employer import-v2" as translated_value_25 %}{{ translated_value_25|escapejs }}",
   "steps": [
     "{% translate "Your offer" context "employer import-v2" as translated_value_26 %}{{ translated_value_26|escapejs }}",
@@ -1972,11 +1973,11 @@
   "consentTitle": "{% translate "Your agreement to prepare the offer" context "employer import-v2" as translated_value_31 %}{{ translated_value_31|escapejs }}",
   "consentLabel": "{% translate "I request AI-assisted preparation of my offer. Offer information is sent to a technical service provider to prepare a summary for my review. My email is not sent to that provider." context "employer import-v2" as translated_value_32 %}{{ translated_value_32|escapejs }}",
   "consentHelp": "{% translate "Artificial intelligence helps structure your offer and identify information to clarify. It can make mistakes: you will review and correct the summary before confirming it." context "employer import-v2" as translated_value_33 %}{{ translated_value_33|escapejs }}",
-  "consentNotice": "{% translate "In this demonstration, agreement is simulated and is not recorded. The legal basis and final wording remain to be confirmed with France Travail." context "employer import-v2" as translated_value_34 %}{{ translated_value_34|escapejs }}",
+  "consentNotice": "{% translate "Read the privacy notice before continuing." context "employer import-v2" as translated_value_34 %}{{ translated_value_34|escapejs }}",
   "urlChoice": "{% translate "Use a job offer link" context "employer import-v2" as translated_value_35 %}{{ translated_value_35|escapejs }}",
   "urlTitle": "{% translate "Add your job offer link" context "employer import-v2" as translated_value_36 %}{{ translated_value_36|escapejs }}",
   "urlLabel": "{% translate "Link to a publicly accessible job offer" context "employer import-v2" as translated_value_37 %}{{ translated_value_37|escapejs }}",
-  "urlHelp": "{% translate "This demonstration does not visit the link yet. Reading the page will be connected in the next step." context "employer import-v2" as translated_value_38 %}{{ translated_value_38|escapejs }}",
+  "urlHelp": "{% translate "Enter the public link to your job offer. If it cannot be read, upload a document or paste the text." context "employer import-v2" as translated_value_38 %}{{ translated_value_38|escapejs }}",
   "urlInvalid": "{% translate "Enter an HTTPS link to a public website, without credentials or a local address." context "employer import-v2" as translated_value_39 %}{{ translated_value_39|escapejs }}",
   "choiceTitle": "{% translate "How would you like to add your offer?" context "employer import-v2" as translated_value_40 %}{{ translated_value_40|escapejs }}",
   "choiceIntro": "{% translate "Choose the format you already have. You can then check and complete the information." context "employer import-v2" as translated_value_41 %}{{ translated_value_41|escapejs }}",
@@ -1987,8 +1988,8 @@
   "textChoice": "{% translate "Enter or paste text" context "employer import-v2" as translated_value_46 %}{{ translated_value_46|escapejs }}",
   "textDescription": "{% translate "You prefer to paste your advert or write it here." context "employer import-v2" as translated_value_47 %}{{ translated_value_47|escapejs }}",
   "pdfIntro": "{% translate "Import your offer as a PDF. You can check the information before any candidate search." context "employer import-v2" as translated_value_48 %}{{ translated_value_48|escapejs }}",
-  "demoNotice": "{% translate "Local trial: documents read without an external service. No publication or candidate search." context "employer import-v2" as translated_value_49 %}{{ translated_value_49|escapejs }}",
-  "liveEmailHelp": "{% translate "Your email is saved in your local draft. No sign-in email is sent during this trial." context "employer import-v2" as translated_value_50 %}{{ translated_value_50|escapejs }}",
+  "demoNotice": "{% translate "Check the extracted information before saving. Reading a document does not publish an offer or start a candidate search." context "employer import-v2" as translated_value_49 %}{{ translated_value_49|escapejs }}",
+  "liveEmailHelp": "{% translate "Your email is saved with your draft." context "employer import-v2" as translated_value_50 %}{{ translated_value_50|escapejs }}",
   "liveConsentHelp": "{% translate "No application is assessed or rejected at this step." context "employer import-v2" as translated_value_51 %}{{ translated_value_51|escapejs }}",
   "liveUrl": "{% translate "The page will be checked before we ask for your email." context "employer import-v2" as translated_value_52 %}{{ translated_value_52|escapejs }}",
   "busy": "{% translate "Reading and preparing your offer…" context "employer import-v2" as translated_value_53 %}{{ translated_value_53|escapejs }}",
@@ -1997,7 +1998,7 @@
   "errors": {
     "unsafe_url": "{% translate "Use a public HTTPS page without credentials or internal addresses." context "employer import-v2" as translated_value_56 %}{{ translated_value_56|escapejs }}",
     "unreadable_url": "{% translate "The site is unavailable or does not allow this page to be read automatically." context "employer import-v2" as translated_value_57 %}{{ translated_value_57|escapejs }}",
-    "unreadable": "{% translate "Unreadable, protected or excessive document, or local OCR unavailable. Try another file or paste the text." context "employer import-v2" as translated_value_58 %}{{ translated_value_58|escapejs }}",
+    "unreadable": "{% translate "The document could not be read. Try another file or paste the text." context "employer import-v2" as translated_value_58 %}{{ translated_value_58|escapejs }}",
     "invalid": "{% translate "Choose one PDF or PNG/JPEG images of the same job." context "employer import-v2" as translated_value_59 %}{{ translated_value_59|escapejs }}",
     "large": "{% translate "Limit: 8 images and 10 MB total, or one 10 MB PDF." context "employer import-v2" as translated_value_60 %}{{ translated_value_60|escapejs }}",
     "agreement_required": "{% translate "Confirm agreement to prepare the offer." context "employer import-v2" as translated_value_61 %}{{ translated_value_61|escapejs }}",
@@ -2005,10 +2006,10 @@
     "invalid_data": "{% translate "Check the fields and text length." context "employer import-v2" as translated_value_63 %}{{ translated_value_63|escapejs }}",
     "limit": "{% translate "This session has reached 30 drafts." context "employer import-v2" as translated_value_64 %}{{ translated_value_64|escapejs }}",
     "not_found": "{% translate "This draft is unavailable in this session." context "employer import-v2" as translated_value_65 %}{{ translated_value_65|escapejs }}",
-    "network": "{% translate "The local server is unavailable. Your entries remain on screen." context "employer import-v2" as translated_value_66 %}{{ translated_value_66|escapejs }}",
+    "network": "{% translate "The service is unavailable. Your entries remain on screen." context "employer import-v2" as translated_value_66 %}{{ translated_value_66|escapejs }}",
     "individual_offer_required": "{% translate "This link opens a list of offers. Open the individual advert on France Travail and copy its specific link." context "employer import-v2" as translated_value_67 %}{{ translated_value_67|escapejs }}",
     "invalid_contact": "{% translate "Check the company contact name and email." context "employer import-v2" as translated_value_68 %}{{ translated_value_68|escapejs }}",
-    "local_review_only": "{% translate "Local test: external services are disabled. You can save the draft." context "employer import-v2" as translated_value_69 %}{{ translated_value_69|escapejs }}",
+    "local_review_only": "{% translate "External saving is unavailable. You can save the draft in Match Europe." context "employer import-v2" as translated_value_69 %}{{ translated_value_69|escapejs }}",
     "session_expired": "{% translate "Your session expired. Sign in, then read the document or link again. Your edits remain visible on this page." context "employer shared browser" as finish_session_expired %}{{ finish_session_expired|escapejs }}"
   },
   "readUrl": "{% translate "Read this offer" context "employer import-v2" as translated_value_70 %}{{ translated_value_70|escapejs }}",
@@ -2018,9 +2019,9 @@
   "urlFallback": "{% translate "Choose another method: import a PDF or paste the offer text." context "employer import-v2" as translated_value_74 %}{{ translated_value_74|escapejs }}",
   "readPdf": "{% translate "Read documents" context "employer import-v2" as translated_value_75 %}{{ translated_value_75|escapejs }}",
   "readingPdf": "{% translate "Reading documents…" context "employer import-v2" as translated_value_76 %}{{ translated_value_76|escapejs }}",
-  "readPdfAgreement": "{% if albert_import %}{% translate "By continuing, you request AI-assisted preparation by Albert (DINUM). The text of your document or pasted offer is sent to Albert. Check the proposed information before saving. No publication or candidate search will be started." context "employer albert" as albert_albertAgreement %}{{ albert_albertAgreement|escapejs }}{% else %}{% translate "By clicking “Read documents”, you request preparation of your offer. The result may contain errors: check and correct it before validation. This trial uses local text extraction, without generative AI or transfer to a provider. No publication or candidate search will be started." context "employer import-v2" as translated_value_77 %}{{ translated_value_77|escapejs }}{% endif %}",
+  "readPdfAgreement": "{% if albert_import %}{% translate "By continuing, you request AI-assisted preparation by Albert (DINUM). The text of your document or pasted offer is sent to Albert. Check the proposed information before saving. No publication or candidate search will be started." context "employer albert" as albert_albertAgreement %}{{ albert_albertAgreement|escapejs }}{% else %}{% translate "By clicking “Read documents”, you request text extraction without generative AI. Check and correct the result before saving. This action does not publish the offer or start a candidate search." context "employer import-v2" as translated_value_77 %}{{ translated_value_77|escapejs }}{% endif %}",
   "documentLabel": "{% translate "Choose a PDF or images" context "employer import-v2" as translated_value_78 %}{{ translated_value_78|escapejs }}",
-  "documentHelp": "{% translate "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total. Local reading of images and scanned pages." context "employer import-v2" as translated_value_79 %}{{ translated_value_79|escapejs }}",
+  "documentHelp": "{% translate "One PDF or up to 8 PNG/JPEG images of the same job, in reading order · 10 MB total." context "employer import-v2" as translated_value_79 %}{{ translated_value_79|escapejs }}",
   "documentChoice": "{% translate "Import a PDF or images" context "employer import-v2" as translated_value_80 %}{{ translated_value_80|escapejs }}",
   "documentDescription": "{% translate "Your job is in a document or screenshots." context "employer import-v2" as translated_value_81 %}{{ translated_value_81|escapejs }}",
   "connectedContactTitle": "{% translate "Contact for the adviser" context "employer shared browser" as finish_connectedContactTitle %}{{ finish_connectedContactTitle|escapejs }}",

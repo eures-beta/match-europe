@@ -12,7 +12,7 @@
   <body>
     {% include "employer/development_notice.html" %}
     <p class="shell" role="note">
-      {% translate "Existing notice dated 3 August 2026 — needs updating for the offer import journey. Local copy, not validated for this new journey." context "employer privacy" %}
+      {% translate "Notice dated 3 August 2026 — needs updating and validation for the offer import journey." context "employer privacy" %}
       <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer privacy" %}</a>
     </p>
     <header class="site-header">
@@ -61,8 +61,8 @@
         </header>
         <section class="panel privacy-section">
           <div>
-            <h2>{% translate "Company contact in the local trial" context "employer privacy" %}</h2>
-            <p>{% translate "The contact name and email, plus the optional phone and role, are stored with the local draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates or included in the offer export. Retention and the production notice remain to be defined; this historical copy does not validate the new journey." context "employer privacy" %}</p>
+            <h2>{% translate "Company contact" context "employer privacy" %}</h2>
+            <p>{% translate "The contact name and email, plus the optional phone and role, are stored with the draft so the adviser can contact you. The employer can view and edit them in this browser. The assigned adviser and administrators can view them in their workspaces. These fields are not shown to candidates or included in the offer export. Retention and the privacy notice remain to be defined; this historical copy does not validate the new journey." context "employer privacy" %}</p>
           </div>
         </section>
         <div class="privacy-sections">
