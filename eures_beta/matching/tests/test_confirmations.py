@@ -30,11 +30,15 @@ class ConfirmationTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         call_command('seed_matching_trial', stdout=StringIO())
-        cls.adviser = User.objects.create(email='adviser@matching-trial.invalid', kind='adviser')
-        cls.adviser.user_permissions.add(*Permission.objects.filter(
-            content_type__app_label='matching',
-            codename__in=('view_matchpair', 'change_matchpair'),
-        ))
+        cls.adviser = User.objects.create(
+            email='adviser@matching-trial.invalid', kind='adviser'
+        )
+        cls.adviser.user_permissions.add(
+            *Permission.objects.filter(
+                content_type__app_label='matching',
+                codename__in=('view_matchpair', 'change_matchpair'),
+            )
+        )
 
     def setUp(self):
         self.pair = MatchPair.objects.select_related('candidate__user', 'offer').get(
@@ -293,7 +297,7 @@ class ConfirmationTests(TestCase):
 
     def test_profile_verification_revocation_removes_candidate_access(self):
         self.pair.candidate.email_verified_at = None
-        self.pair.candidate.save(update_fields=['email_verified_at'])
+        self.pair.candidate.save()
         self.assertEqual(self.client.get(self.url).status_code, 404)
 
     def test_offer_validation_revocation_removes_candidate_access(self):
@@ -302,13 +306,30 @@ class ConfirmationTests(TestCase):
         self.assertEqual(self.client.get(self.url).status_code, 404)
 
     def test_adviser_must_have_current_decision_right(self):
-        self.adviser.user_permissions.remove(Permission.objects.get(
-            content_type__app_label='matching', codename='change_matchpair',
-        ))
-        self.adviser.refresh_from_db()
+        self.adviser.user_permissions.remove(
+            Permission.objects.get(
+                content_type__app_label='matching',
+                codename='change_matchpair',
+            )
+        )
         self.adviser = User.objects.get(pk=self.adviser.pk)
         with self.assertRaises(PermissionDenied):
             service.request_confirmation(self.adviser, self.pair.pk)
+
+    def test_adviser_can_request_confirmation_from_matching_detail(self):
+        pair = MatchPair.objects.get(
+            candidate__user__email='unknown@matching-trial.invalid'
+        )
+        url = reverse('request_candidate_confirmation', args=[pair.pk])
+        self.client.force_login(self.adviser)
+        self.assertEqual(self.client.get(url).status_code, 405)
+        self.assertFalse(hasattr(pair, 'confirmation_request'))
+        self.assertRedirects(
+            self.client.post(url + '?lang=en'),
+            reverse('matching_detail', args=[pair.pk]) + '?lang=en',
+        )
+        pair.refresh_from_db()
+        self.assertEqual(pair.confirmation_request.requested_by, self.adviser)
 
     def test_get_and_missing_csrf_never_write(self):
         self.client.get(self.url, {'action': 'answer', 'value': 'yes'})

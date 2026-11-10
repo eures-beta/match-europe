@@ -110,9 +110,7 @@ def invite(request, pk):
     except ObjectDoesNotExist:
         raise Http404
     return redirect(
-        reverse('matching_detail', args=[pk])
-        + '?lang='
-        + selected_language(request)
+        reverse('matching_detail', args=[pk]) + '?lang=' + selected_language(request)
     )
 
 

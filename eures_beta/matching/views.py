@@ -135,14 +135,14 @@ def detail(request, pk):
                     400,
                 )
         confirmation = ConfirmationRequest.objects.filter(pair=pair).first()
-        confirmation_state = review(confirmation) if confirmation else None
-        if confirmation_state:
-            display_rows(confirmation_state['rows'], language)
         evaluation = pair.evaluations.order_by('-id').first()
         try:
             input_data, current = inputs(pair)
+            confirmation_state = review(confirmation) if confirmation else None
         except ObjectDoesNotExist:
             raise Http404
+        if confirmation_state:
+            display_rows(confirmation_state['rows'], language)
         stale = bool(evaluation and evaluation.fingerprint != current)
         result = present(evaluation.result, language) if evaluation else None
         return render(

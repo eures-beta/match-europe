@@ -1,3 +1,9 @@
+## 10 novembre 2026 — confirmations candidat sur le matching de main
+
+La #162 reprend les permissions existantes du matching et ajoute la confirmation
+par offre et l’accord de transmission séparé. Le portefeuille et le modèle
+d’équipe de la #161 sont reportés. Voir [le parcours et la migration](docs/CANDIDATE_OFFER_CONFIRMATIONS.md).
+
 ## 9 novembre 2026 — questionnaire ouvert, email à la fin
 
 PR fille de #132, en remplacement de #164 fermée sans fusion. Entrée anonyme,
