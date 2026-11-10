@@ -2,4 +2,4 @@
 
 {% translate "Use this personal link within one hour, then confirm on the page to create your candidate account and save your answers. Opening the link alone changes nothing. If you did not request this, ignore this message." %}
 
-{{ link }}
+{% autoescape off %}{{ link }}{% endautoescape %}

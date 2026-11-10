@@ -24,7 +24,7 @@ from django.views.decorators.http import require_http_methods, require_POST, req
 from sesame.utils import get_query_string, get_user
 
 from .forms import LoginForm
-from eures_beta.emails.backend import real_email_allowed
+from eures_beta.emails.backend import email_transport_ready
 from .rate_limits import allow_request
 from .login_return import remember, consume, IMPORT_PATHS
 
@@ -60,7 +60,7 @@ def dashboard(request):
 def email_ready():
     origin = urlsplit(settings.LOGIN_EMAIL_ORIGIN)
     return bool(
-        real_email_allowed()
+        email_transport_ready()
         and settings.LOGIN_EMAIL_ENABLED
         and origin.scheme == 'https'
         and origin.hostname in settings.ALLOWED_HOSTS
@@ -69,8 +69,6 @@ def email_ready():
         and origin.path in ('', '/')
         and not origin.query
         and not origin.fragment
-        and settings.EMAIL_HOST
-        and settings.DEFAULT_FROM_EMAIL
     )
 
 

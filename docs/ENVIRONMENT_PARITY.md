@@ -21,7 +21,7 @@ Albert nécessite une clé privée et son modèle configuré. Les simulations `A
 
 Les compétences hors des fiches intégrées nécessitent les sources officielles ESCO épinglées : les préparer pendant la construction de l’environnement avec `make continuous-source-prepare`, puis les vérifier avec `make skills-source-check`. Ne pas télécharger ces archives pendant une requête utilisateur. Leur absence doit produire une indisponibilité explicite, jamais des références inventées.
 
-Les e-mails nécessitent `EMAIL_DELIVERY_ENABLED=1`, `LOGIN_EMAIL_ENABLED=1`, une origine HTTPS de confiance et le transport SMTP configuré. Aucun identifiant ni destinataire n’est inscrit dans le dépôt. Les outils de comptes fictifs et de peuplement restent explicitement réservés aux bases d’essai, incompatibles avec l’envoi réel ; ils ne conditionnent pas le parcours métier.
+Les e-mails nécessitent `EMAIL_DELIVERY_ENABLED=1`, `LOGIN_EMAIL_ENABLED=1`, une origine HTTPS de confiance et un transport configuré (SMTP ou API Brevo). Aucun identifiant ni destinataire n’est inscrit dans le dépôt. Les outils de comptes fictifs et de peuplement restent explicitement réservés aux bases d’essai, incompatibles avec l’envoi réel ; ils ne conditionnent pas le parcours métier.
 
 ## Vérifications
 

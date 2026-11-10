@@ -1,6 +1,6 @@
 {% load i18n %}{% translate "An EURES adviser has invited you to Match Europe as an employer." %}
 
 {% translate "Open your personal link, then confirm to create your account and sign in:" %}
-{{ link }}
+{% autoescape off %}{{ link }}{% endautoescape %}
 
 {% translate "This invitation is valid for seven days and can be used once. Do not forward it. If you did not expect it, ignore this message." %}

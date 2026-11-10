@@ -75,7 +75,15 @@ if TEST_ACCOUNTS_ENABLED and (
     raise ImproperlyConfigured(
         'Test accounts require local/preview and disabled real email delivery.'
     )
-EMAIL_BACKEND = 'eures_beta.emails.backend.ProductionEmailBackend'
+EMAIL_TRANSPORT = os.environ.get('EMAIL_TRANSPORT', 'smtp')
+EMAIL_BACKEND = {
+    'smtp': 'eures_beta.emails.backend.ProductionEmailBackend',
+    'brevo': 'eures_beta.emails.brevo.BrevoEmailBackend',
+}[EMAIL_TRANSPORT]
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY', '')
+BREVO_FROM_NAME = os.environ.get('BREVO_FROM_NAME', '')
+BREVO_REPLY_TO_EMAIL = os.environ.get('BREVO_REPLY_TO_EMAIL', '')
+BREVO_REPLY_TO_NAME = os.environ.get('BREVO_REPLY_TO_NAME', '')
 EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', '1') == '1'

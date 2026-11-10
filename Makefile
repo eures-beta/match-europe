@@ -415,5 +415,5 @@ confirmations-run: ## Essayer les confirmations locales sur 9043, sans aucun env
 	@$(LOAD_ENV) REQUEST_METRICS_ENABLED=0 MATCHING_LOCAL_ENABLED=1 MATCHING_TEAMS_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9043 --noreload
 
 .PHONY: emails-test
-emails-test: ## Vérifier le transport SMTP partagé et les protections sans envoi réel
+emails-test: ## Vérifier les transports e-mail partagés et les protections sans envoi réel
 	@$(MANAGE) test eures_beta.emails.tests --noinput $(TEST_ARGS)
