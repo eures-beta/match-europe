@@ -66,7 +66,8 @@ la même condition indépendamment.
 ## CI et diagnostics
 
 Le job « Parcours HTTP — 256 Mio » appartient au workflow de vérification de main
-avant déploiement. Il tourne sur les PR et les changements de main : le workflow
+avant déploiement. Il tourne sur les PR, les pushes des branches `codex/**` et
+les changements de main : le workflow
 ne réussit que si les tests PostgreSQL et ces parcours passent. Le témoin ancien
 est également exécuté pour vérifier que le détecteur reste sensible au défaut.
 
@@ -74,3 +75,7 @@ Les rapports `.runtime/e2e-report.json` et `.runtime/e2e-legacy-report.json`
 contiennent phases, durées, compteurs OOM et pic du cgroup. Seuls ces rapports
 sont archivés par la CI, jamais les emails, cookies, liens magiques, certificats
 ou clés éphémères. La suite ne remplace pas les tests unitaires et de migrations.
+
+Les événements push et PR d’une même révision partagent un groupe de concurrence
+pour éviter des exécutions doublonnées. Les checks d’une branche empilée ne
+déclenchent pas de production : le relais vérifie toujours un push réussi sur main.
