@@ -9808,3 +9808,36 @@ msgstr "Cet accord concerne uniquement cet employeur et cette offre. Les réserv
 
 msgid "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer."
 msgstr "Albert reçoit cette condition, vos déclarations associées et vos réponses. Vérifiez ses propositions avant de les enregistrer. Rien n’est envoyé à l’employeur."
+
+msgid "Install Match Europe on your phone"
+msgstr "Installer Match Europe sur votre téléphone"
+
+msgid "Sign in to your candidate account"
+msgstr "Se connecter à son compte candidat"
+
+msgid "Next step on your phone"
+msgstr "Prochaine étape sur votre téléphone"
+
+msgid "I am on a computer or tablet"
+msgstr "Je suis sur un ordinateur ou une tablette"
+
+msgid "Copy this installation link and open it on your phone."
+msgstr "Copiez ce lien d’installation et ouvrez-le sur votre téléphone."
+
+msgid "I am already on my phone"
+msgstr "Je suis déjà sur mon téléphone"
+
+msgid "Match Europe is open as an app."
+msgstr "Match Europe est ouvert en mode application."
+
+msgid "When notifications become available, allow them in Match Europe to be alerted when an offer is ready to confirm."
+msgstr "Quand les notifications seront disponibles, autorisez-les dans Match Europe pour être prévenu lorsqu’une offre sera à confirmer."
+
+msgid "iPhone: in Safari, open Share and choose Add to Home Screen. If Open as Web App appears, leave it on."
+msgstr "Sur iPhone, ouvrez le menu Partager dans Safari et choisissez « Sur l’écran d’accueil ». Si l’option « Ouvrir comme app web » apparaît, laissez-la activée."
+
+msgid "Android: in Chrome, open the menu and choose Install or Add to Home screen."
+msgstr "Sur Android, ouvrez le menu de Chrome et choisissez « Installer » ou « Ajouter à l’écran d’accueil »."
+
+msgid "Open Match Europe from its icon and sign in with the same email address."
+msgstr "Ouvrez Match Europe depuis son icône et connectez-vous avec la même adresse e-mail."
