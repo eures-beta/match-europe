@@ -1,6 +1,6 @@
 from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
-from .models import MatchPair, Evaluation, Decision, OfferRequirements
+from .models import MatchPair, MatchEvaluation, Decision, OfferRequirements
 
 
 @admin.register(MatchPair)
@@ -9,8 +9,8 @@ class MatchPairAdmin(MetadataOnlyAdmin):
     exclude = ('candidate', 'offer', 'candidate_facts')
 
 
-@admin.register(Evaluation)
-class EvaluationAdmin(MetadataOnlyAdmin):
+@admin.register(MatchEvaluation)
+class MatchEvaluationAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'rules_version', 'created_at')
     exclude = ('pair', 'fingerprint', 'result')
 

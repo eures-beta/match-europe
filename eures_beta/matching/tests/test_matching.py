@@ -11,7 +11,7 @@ from django.utils import timezone
 from eures_beta.matching import engine, services, validation
 from eures_beta.matching.models import (
     MatchPair,
-    Evaluation,
+    MatchEvaluation,
     Decision,
     OfferRequirements,
 )
@@ -283,7 +283,7 @@ class LocalMatchingTests(TestCase):
             )
         call_command('seed_matching_trial', stdout=StringIO())
         self.assertEqual(MatchPair.objects.count(), 5)
-        self.assertEqual(Evaluation.objects.count(), 5)
+        self.assertEqual(MatchEvaluation.objects.count(), 5)
 
     def test_post_calculates_real_models_without_mutating_profile_or_offer(self):
         pair = self.pair()
@@ -511,7 +511,7 @@ class LocalMatchingTests(TestCase):
     ):
         pair = self.pair('date')
         evaluation = pair.evaluations.latest('id')
-        before = Evaluation.objects.count()
+        before = MatchEvaluation.objects.count()
         pair.offer.revision += 1
         pair.offer.save(update_fields=['revision'])
         response = self.client.get(reverse('matching_local'), {'lang': 'fr'})
@@ -525,7 +525,7 @@ class LocalMatchingTests(TestCase):
             entry['result']['established'], evaluation.result['established']
         )
         self.assertTrue(entry['stale'])
-        self.assertEqual(Evaluation.objects.count(), before)
+        self.assertEqual(MatchEvaluation.objects.count(), before)
         self.assertEqual(Decision.objects.count(), 0)
 
     def test_detail_score_is_visible_without_an_expand_action(self):

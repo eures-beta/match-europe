@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 from .access import guard, candidates, offers
-from .models import MatchPair, Evaluation
+from .models import MatchPair, MatchEvaluation
 from .services import calculate, decide, inputs, StaleEvaluation
 from .presentation import present, DECISIONS
 from eures_beta.candidates.occupation_choices import resolve_reference
@@ -53,7 +53,7 @@ def index(request):
             .select_related('candidate', 'offer')
             .annotate(
                 latest_evaluation_id=Subquery(
-                    Evaluation.objects.filter(pair_id=OuterRef('pk'))
+                    MatchEvaluation.objects.filter(pair_id=OuterRef('pk'))
                     .order_by('-id')
                     .values('pk')[:1]
                 )
@@ -61,7 +61,7 @@ def index(request):
             .order_by('-created_at')
         )
         pairs = list(pairs)
-        evaluations = Evaluation.objects.in_bulk(
+        evaluations = MatchEvaluation.objects.in_bulk(
             [p.latest_evaluation_id for p in pairs if p.latest_evaluation_id]
         )
         entries = []

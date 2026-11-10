@@ -89,7 +89,7 @@ Migration additive `matching.0001_initial`, quatre modèles :
 
 - `MatchPair` : paire unique candidat/offre, décision courante et faits fictifs
   explicites de recette ;
-- `Evaluation` : résultat, version, date et empreinte des entrées ; aucune copie
+- `MatchEvaluation` : résultat, version, date et empreinte des entrées ; aucune copie
   complète de profil ni coordonnées ;
 - `Decision` : événement de décision rattaché au calcul, daté, opérateur local
   explicite ; ce n’est pas un compte conseiller ni une identité usurpée ;
