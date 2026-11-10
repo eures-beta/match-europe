@@ -1279,3 +1279,9 @@ la table PostgreSQL, les identifiants, les suggestions et les permissions.
 ## 7 novembre 2026 — secteurs et savoir-être lisibles
 
 Demande d’Eric : voir d’abord les secteurs dans le mode candidat ouvert, puis déplier leurs compétences ; simplifier les savoir-être. Branche `codex/candidate-sectors-readable` sur le sommet #158 `4d171a9` revérifié. Deux listes techniques par secteurs fermés, recherche avec ouverture temporaire et choix conservés ; treize savoir-être avec formulations simples et exemples FR/EN/DE en trois groupes. Identifiants, règles et stockage inchangés, aucune migration. Voir `docs/CANDIDATE_OPEN_SKILLS.md`. La recette distante #158 reste distincte de cette branche tant qu’une nouvelle recette n’est pas ouverte.
+# 10 novembre 2026 — lecture des aides aux savoir-être (#159)
+
+Les entrées éditoriales ont des clés lisibles et des champs nommés : groupe,
+libellé, description et identifiant ESCO. Identifiants externes, textes gettext,
+ordre des groupes et choix enregistrés conservés. Aucun modèle ni migration.
+Validation : 506 tests PostgreSQL, Django/migrations, Black et traductions réussis.
