@@ -91,7 +91,7 @@ Migration additive `matching.0001_initial`, quatre modèles :
   explicites de recette ;
 - `MatchEvaluation` : résultat, version, date et empreinte des entrées ; aucune copie
   complète de profil ni coordonnées ;
-- `Decision` : événement de décision rattaché au calcul, daté, opérateur local
+- `MatchDecision` : événement de décision rattaché au calcul, daté, opérateur local
   explicite ; ce n’est pas un compte conseiller ni une identité usurpée ;
 - `OfferRequirements` : supplément structuré des scénarios fictifs, distinct du
   JSON d’offre habituel et sans inférence de texte. Validation des codes et types.
