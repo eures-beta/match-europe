@@ -1,6 +1,10 @@
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+.PHONY: confirmations-migrations-test
+confirmations-migrations-test: ## Vérifier l'upgrade de l'ancien schéma de confirmations sans perte
+	@$(MANAGE) test eures_beta.matching.tests.test_confirmation_migration --noinput $(TEST_ARGS)
+
 .PHONY: matching-format-html
 matching-format-html: ## Formater uniquement le template du matching
 	$(QUALITY_PYTHON) -m djlint eures_beta/matching/templates --reformat
