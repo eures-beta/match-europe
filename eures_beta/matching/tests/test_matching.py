@@ -292,7 +292,7 @@ class LocalMatchingTests(TestCase):
             patch('requests.sessions.Session.request') as external,
         ):
             response = self.client.post(
-                reverse('matching_local'),
+                reverse('matching'),
                 {'candidate': pair.candidate_id, 'offer': pair.offer_id},
             )
         self.assertEqual(response.status_code, 302)
@@ -362,7 +362,7 @@ class LocalMatchingTests(TestCase):
         self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_all_environments_and_remote_clients_keep_explicit_permissions(self):
-        path = reverse('matching_local')
+        path = reverse('matching')
         for environment in ('local', 'preview', 'production'):
             with (
                 self.subTest(environment=environment),
@@ -407,7 +407,7 @@ class LocalMatchingTests(TestCase):
         )
         self.assertEqual(
             self.client.post(
-                reverse('matching_local'),
+                reverse('matching'),
                 {'candidate': pair.candidate_id, 'offer': pair.offer_id},
             ).status_code,
             400,
@@ -436,7 +436,7 @@ class LocalMatchingTests(TestCase):
             'de': 'Lokales Matching',
         }
         for language, title in titles.items():
-            response = self.client.get(reverse('matching_local'), {'lang': language})
+            response = self.client.get(reverse('matching'), {'lang': language})
             self.assertContains(response, title)
             pair = self.pair('date')
             response = self.client.get(
@@ -511,7 +511,7 @@ class LocalMatchingTests(TestCase):
         before = MatchEvaluation.objects.count()
         pair.offer.revision += 1
         pair.offer.save(update_fields=['revision'])
-        response = self.client.get(reverse('matching_local'), {'lang': 'fr'})
+        response = self.client.get(reverse('matching'), {'lang': 'fr'})
         self.assertContains(response, 'Résultats du matching')
         self.assertContains(response, 'Évaluation périmée')
         self.assertContains(response, 'Bloqué pour cette offre')
