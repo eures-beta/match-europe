@@ -107,6 +107,13 @@ occupations-sync-esco-rome: ## Préparer les correspondances officielles ESCO/RO
 .PHONY: occupations-build occupations-validate occupations-test
 .PHONY: occupations-performance-test
 .PHONY: occupations-benchmark
+.PHONY: occupations-memory-benchmark occupations-memory-test
+occupations-memory-benchmark: ## Mesurer le pic mémoire du POST Django à froid, sans réseau ni base
+	$(PYTHON) -m eures_beta.occupations.tools.benchmark_memory
+
+occupations-memory-test: ## Vérifier le budget mémoire d’une recherche indépendante à froid
+	@$(MANAGE) test eures_beta.occupations.tests.test_search_memory --noinput $(TEST_ARGS)
+
 occupations-benchmark: ## Mesurer hors ligne le nettoyage et la recherche sur des intitulés fictifs (délai limité)
 	$(PYTHON) -m eures_beta.occupations.tools.benchmark_search
 
