@@ -2,12 +2,19 @@ name: Vérification de main avant déploiement
 
 on:
   push:
-    branches: [main]
+    # Validate stack heads even when GitHub has not refreshed their PR merge ref.
+    branches: [main, 'codex/**']
   # Stacked delivery PRs must run the same PostgreSQL checks before reaching main.
   pull_request:
 
 permissions:
   contents: read
+
+# A push and its PR event can target the same source revision. Keep one check;
+# the production relay still accepts only a successful push on main.
+concurrency:
+  group: readiness-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: true
 
 jobs:
   e2e-memory:
