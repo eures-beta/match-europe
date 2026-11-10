@@ -5,6 +5,25 @@ from django.db import migrations
 
 def forwards(apps, schema_editor):
     alias = schema_editor.connection.alias
+    # The retired prototype also used matching.0001_initial. Its recorder row
+    # survives retirement, so Django may skip our new initial schema entirely.
+    # Only bootstrap an entirely absent schema; never guess at a partial one.
+    models = [
+        apps.get_model('matching', name)
+        for name in (
+            'MatchPair',
+            'MatchEvaluation',
+            'MatchDecision',
+            'OfferRequirements',
+        )
+    ]
+    tables = set(schema_editor.connection.introspection.table_names())
+    present = {model._meta.db_table for model in models} & tables
+    if not present:
+        for model in models:
+            schema_editor.create_model(model)
+    elif len(present) != len(models):
+        raise RuntimeError('Partial matching schema: inspect before migrating.')
     Requirements = apps.get_model('matching', 'OfferRequirements')
     Offer = apps.get_model('employers', 'JobOffer')
     for row in Requirements.objects.using(alias).iterator():

@@ -112,6 +112,21 @@ class OfferRequirementsMigrationTests(TransactionTestCase):
                     for model in models:
                         editor.create_model(model)
 
+    def test_partial_schema_is_refused_without_touching_existing_pairs(self):
+        apps, pk, payload, updated = self.prepare()
+        Requirements = apps.get_model('matching', 'OfferRequirements')
+        Pair = apps.get_model('matching', 'MatchPair')
+        pair_ids = list(Pair.objects.values_list('pk', flat=True))
+        with connection.schema_editor() as editor:
+            editor.delete_model(Requirements)
+        try:
+            with self.assertRaisesMessage(RuntimeError, 'Partial matching schema'):
+                self.migrate('0004_merge_offer_requirements')
+            self.assertEqual(list(Pair.objects.values_list('pk', flat=True)), pair_ids)
+        finally:
+            with connection.schema_editor() as editor:
+                editor.create_model(Requirements)
+
     def test_conflicting_existing_values_are_not_overwritten(self):
         apps, pk, payload, _ = self.prepare()
         Offer = apps.get_model('employers', 'JobOffer')
