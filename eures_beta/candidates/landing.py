@@ -15,3 +15,11 @@ def landing(request):
         language = 'fr'
     with translation.override(language):
         return render(request, 'candidates/landing.html')
+
+
+@require_safe
+def install(request):
+    from eures_beta.users.views import selected_language
+
+    with translation.override(selected_language(request)):
+        return render(request, 'candidates/install.html')

@@ -9750,3 +9750,36 @@ msgstr "Diese Zustimmung gilt nur für diesen Arbeitgeber und dieses Angebot. Vo
 
 msgid "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer."
 msgstr "Albert erhält diese Bedingung, Ihre zugehörigen Angaben und Ihre Antworten. Prüfen Sie die Vorschläge vor dem Speichern. Nichts wird an den Arbeitgeber gesendet."
+
+msgid "Install Match Europe on your phone"
+msgstr "Match Europe auf Ihrem Smartphone installieren"
+
+msgid "Sign in to your candidate account"
+msgstr "Bei Ihrem Bewerberkonto anmelden"
+
+msgid "Next step on your phone"
+msgstr "Nächster Schritt auf Ihrem Smartphone"
+
+msgid "I am on a computer or tablet"
+msgstr "Ich bin am Computer oder Tablet"
+
+msgid "Copy this installation link and open it on your phone."
+msgstr "Kopieren Sie diesen Installationslink und öffnen Sie ihn auf Ihrem Smartphone."
+
+msgid "I am already on my phone"
+msgstr "Ich bin bereits am Smartphone"
+
+msgid "Match Europe is open as an app."
+msgstr "Match Europe ist als App geöffnet."
+
+msgid "When notifications become available, allow them in Match Europe to be alerted when an offer is ready to confirm."
+msgstr "Sobald Benachrichtigungen verfügbar sind, erlauben Sie diese in Match Europe. So erfahren Sie, wenn Sie ein Stellenangebot bestätigen können."
+
+msgid "iPhone: in Safari, open Share and choose Add to Home Screen. If Open as Web App appears, leave it on."
+msgstr "Öffnen Sie auf dem iPhone in Safari das Teilen-Menü und wählen Sie „Zum Home-Bildschirm“. Wenn „Als Web-App öffnen“ erscheint, lassen Sie die Option aktiviert."
+
+msgid "Android: in Chrome, open the menu and choose Install or Add to Home screen."
+msgstr "Öffnen Sie unter Android das Menü in Chrome und wählen Sie „Installieren“ oder „Zum Startbildschirm hinzufügen“."
+
+msgid "Open Match Europe from its icon and sign in with the same email address."
+msgstr "Öffnen Sie Match Europe über das Symbol und melden Sie sich mit derselben E-Mail-Adresse an."
