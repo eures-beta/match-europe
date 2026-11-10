@@ -3,123 +3,271 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+from django.db.migrations.recorder import MigrationRecorder
+from django.db.migrations.state import ProjectState
+
+CREATE_MODELS = [
+    migrations.CreateModel(
+        name='ConfirmationRequest',
+        fields=[
+            (
+                'id',
+                models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID',
+                ),
+            ),
+            ('created_at', models.DateTimeField(auto_now_add=True)),
+            (
+                'pair',
+                models.OneToOneField(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='confirmation_request',
+                    to='matching.matchpair',
+                ),
+            ),
+            (
+                'requested_by',
+                models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to=settings.AUTH_USER_MODEL,
+                ),
+            ),
+        ],
+    ),
+    migrations.CreateModel(
+        name='ConfirmationAnswer',
+        fields=[
+            (
+                'id',
+                models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID',
+                ),
+            ),
+            ('question_key', models.CharField(max_length=250)),
+            ('fingerprint', models.CharField(max_length=64)),
+            ('presented', models.JSONField()),
+            (
+                'value',
+                models.CharField(
+                    choices=[
+                        ('yes', 'Yes'),
+                        ('conditional', 'Under conditions'),
+                        ('no', 'Not for this offer'),
+                        ('changed', 'My situation changed'),
+                        ('clarify', 'More details needed'),
+                    ],
+                    max_length=12,
+                ),
+            ),
+            ('detail', models.TextField(blank=True, max_length=2000)),
+            ('created_at', models.DateTimeField(auto_now_add=True)),
+            (
+                'actor',
+                models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to=settings.AUTH_USER_MODEL,
+                ),
+            ),
+            (
+                'request',
+                models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='answers',
+                    to='matching.confirmationrequest',
+                ),
+            ),
+        ],
+    ),
+    migrations.CreateModel(
+        name='TransmissionAgreement',
+        fields=[
+            (
+                'id',
+                models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID',
+                ),
+            ),
+            ('fingerprint', models.CharField(max_length=64)),
+            ('agreed', models.BooleanField()),
+            ('created_at', models.DateTimeField(auto_now_add=True)),
+            (
+                'actor',
+                models.ForeignKey(
+                    on_delete=django.db.models.deletion.PROTECT,
+                    to=settings.AUTH_USER_MODEL,
+                ),
+            ),
+            (
+                'request',
+                models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='agreements',
+                    to='matching.confirmationrequest',
+                ),
+            ),
+        ],
+    ),
+]
+
+LEGACY = '0003_confirmationrequest_confirmationanswer_and_more'
+
+
+def confirmation_models(apps):
+    # Derive the expected schema from this frozen migration, never live models.
+    state = ProjectState.from_apps(apps)
+    for operation in CREATE_MODELS:
+        operation.state_forwards('matching', state)
+    return [
+        state.apps.get_model('matching', operation.name) for operation in CREATE_MODELS
+    ]
+
+
+def legacy_applied(connection):
+    return ('matching', LEGACY) in MigrationRecorder(connection).applied_migrations()
+
+
+def validate_schema(connection, model):
+    """Adopt only the complete, structurally equivalent PostgreSQL schema."""
+    table = model._meta.db_table
+    expected_columns = []
+    for field in model._meta.local_fields:
+        data_type = field.db_type(connection).replace('varchar(', 'character varying(')
+        data_type = data_type.replace('timestamptz', 'timestamp with time zone')
+        identity = 'd' if isinstance(field, models.AutoField) else ''
+        expected_columns.append(
+            (field.column, data_type, field.null, identity, None, False)
+        )
+    with connection.cursor() as cursor:
+        cursor.execute(
+            'SELECT a.attname, format_type(a.atttypid,a.atttypmod), NOT a.attnotnull, '
+            'a.attidentity, pg_get_expr(d.adbin,d.adrelid), '
+            'a.attcollation <> t.typcollation '
+            'FROM pg_attribute a JOIN pg_type t ON t.oid=a.atttypid '
+            'LEFT JOIN pg_attrdef d ON d.adrelid=a.attrelid AND d.adnum=a.attnum '
+            'WHERE a.attrelid=%s::regclass AND a.attnum>0 AND NOT a.attisdropped '
+            'ORDER BY a.attnum',
+            [table],
+        )
+        columns = cursor.fetchall()
+        constraints = connection.introspection.get_constraints(cursor, table)
+        cursor.execute(
+            'SELECT EXISTS (SELECT 1 FROM pg_constraint c '
+            'JOIN pg_class r ON r.oid=c.confrelid '
+            'JOIN pg_namespace n ON n.oid=r.relnamespace '
+            "WHERE c.conrelid=%s::regclass AND c.contype='f' AND "
+            "(NOT c.convalidated OR NOT c.condeferrable OR NOT c.condeferred "
+            "OR c.confdeltype<>'a' OR c.confupdtype<>'a' OR n.nspname<>'public'))",
+            [table],
+        )
+        invalid_fk = cursor.fetchone()[0]
+        cursor.execute(
+            'SELECT EXISTS (SELECT 1 FROM pg_constraint WHERE conrelid=%s::regclass '
+            "AND ((contype IN ('p','u') AND "
+            '(condeferrable OR condeferred OR NOT convalidated)) '
+            "OR contype NOT IN ('p','u','f','n')))",
+            [table],
+        )
+        invalid_constraint = cursor.fetchone()[0]
+        cursor.execute(
+            'SELECT EXISTS (SELECT 1 FROM pg_index i '
+            'JOIN pg_class r ON r.oid=i.indexrelid JOIN pg_am a ON a.oid=r.relam '
+            'WHERE i.indrelid=%s::regclass AND (NOT i.indisvalid OR NOT i.indisready '
+            "OR i.indpred IS NOT NULL OR i.indexprs IS NOT NULL OR a.amname<>'btree' "
+            'OR i.indnatts<>i.indnkeyatts))',
+            [table],
+        )
+        invalid_index = cursor.fetchone()[0]
+    actual_pk = sorted(
+        tuple(c['columns']) for c in constraints.values() if c['primary_key']
+    )
+    actual_unique = sorted(
+        tuple(c['columns'])
+        for c in constraints.values()
+        if c['unique'] and not c['primary_key']
+    )
+    actual_fk = sorted(
+        (tuple(c['columns']), c['foreign_key'])
+        for c in constraints.values()
+        if c['foreign_key']
+    )
+    actual_index = sorted(
+        tuple(c['columns'])
+        for c in constraints.values()
+        if c['index'] and not c['unique'] and not c['primary_key']
+    )
+    fields = model._meta.local_fields
+    expected_pk = [(model._meta.pk.column,)]
+    expected_unique = sorted(
+        (f.column,) for f in fields if f.unique and not f.primary_key
+    )
+    expected_fk = sorted(
+        ((f.column,), (f.remote_field.model._meta.db_table, f.target_field.column))
+        for f in fields
+        if f.remote_field and f.db_constraint
+    )
+    expected_index = sorted((f.column,) for f in fields if f.db_index and not f.unique)
+    if (
+        columns != expected_columns
+        or actual_pk != expected_pk
+        or actual_unique != expected_unique
+        or actual_fk != expected_fk
+        or actual_index != expected_index
+        or invalid_fk
+        or invalid_constraint
+        or invalid_index
+        or any(c['check'] for c in constraints.values())
+    ):
+        raise RuntimeError(
+            f'Legacy confirmation schema mismatch: {table}; inspect before migrating.'
+        )
+
+
+def forwards(apps, schema_editor):
+    connection = schema_editor.connection
+    models_to_create = confirmation_models(apps)
+    expected = {model._meta.db_table for model in models_to_create}
+    present = expected & set(connection.introspection.table_names())
+    legacy = legacy_applied(connection)
+    if not present and not legacy:
+        for model in models_to_create:
+            schema_editor.create_model(model)
+        return
+    # Existing tables without the exact legacy record, or a partial schema,
+    # must never be silently skipped, rebuilt, or accepted through --fake.
+    if present != expected or not legacy:
+        raise RuntimeError('Unexpected confirmation schema: inspect before migrating.')
+    for model in models_to_create:
+        validate_schema(connection, model)
+
+
+def backwards(apps, schema_editor):
+    models_to_remove = confirmation_models(apps)
+    if legacy_applied(schema_editor.connection):
+        # Rolling back the alias leaves the original migration and its data valid.
+        for model in models_to_remove:
+            validate_schema(schema_editor.connection, model)
+        return
+    for model in reversed(models_to_remove):
+        schema_editor.delete_model(model)
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('matching', '0004_merge_offer_requirements'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
-
     operations = [
-        migrations.CreateModel(
-            name='ConfirmationRequest',
-            fields=[
-                (
-                    'id',
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name='ID',
-                    ),
-                ),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                (
-                    'pair',
-                    models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name='confirmation_request',
-                        to='matching.matchpair',
-                    ),
-                ),
-                (
-                    'requested_by',
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
-            name='ConfirmationAnswer',
-            fields=[
-                (
-                    'id',
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name='ID',
-                    ),
-                ),
-                ('question_key', models.CharField(max_length=250)),
-                ('fingerprint', models.CharField(max_length=64)),
-                ('presented', models.JSONField()),
-                (
-                    'value',
-                    models.CharField(
-                        choices=[
-                            ('yes', 'Yes'),
-                            ('conditional', 'Under conditions'),
-                            ('no', 'Not for this offer'),
-                            ('changed', 'My situation changed'),
-                            ('clarify', 'More details needed'),
-                        ],
-                        max_length=12,
-                    ),
-                ),
-                ('detail', models.TextField(blank=True, max_length=2000)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                (
-                    'actor',
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-                (
-                    'request',
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name='answers',
-                        to='matching.confirmationrequest',
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
-            name='TransmissionAgreement',
-            fields=[
-                (
-                    'id',
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name='ID',
-                    ),
-                ),
-                ('fingerprint', models.CharField(max_length=64)),
-                ('agreed', models.BooleanField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                (
-                    'actor',
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-                (
-                    'request',
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name='agreements',
-                        to='matching.confirmationrequest',
-                    ),
-                ),
-            ],
+        migrations.SeparateDatabaseAndState(
+            state_operations=CREATE_MODELS,
+            database_operations=[migrations.RunPython(forwards, backwards)],
         ),
     ]
