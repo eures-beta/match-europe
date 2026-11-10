@@ -18,7 +18,6 @@ class SharedBrandTests(TestCase):
                 '/journal/',
                 f'/employer/pages/{language}.html',
                 f'/employer/pages/import-{language}.html',
-                f'/employer/pages/import-v2-{language}.html',
                 f'/employer/pages/privacy-{language}.html',
             ):
                 with self.subTest(language=language, path=path):

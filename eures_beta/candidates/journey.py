@@ -239,11 +239,11 @@ class MobilityForm(GuidedForm):
     licences_held = multiple(
         _('Which licences or authorisations do you currently hold?'),
         [
-            ('B', pgettext_lazy('employer import-v2', 'Licence B')),
-            ('C', pgettext_lazy('employer import-v2', 'Licence C')),
-            ('CE', pgettext_lazy('employer import-v2', 'Licence CE')),
-            ('D', pgettext_lazy('employer import-v2', 'Licence D')),
-            ('DE', pgettext_lazy('employer import-v2', 'Licence DE')),
+            ('B', pgettext_lazy('employer import', 'Licence B')),
+            ('C', pgettext_lazy('employer import', 'Licence C')),
+            ('CE', pgettext_lazy('employer import', 'Licence CE')),
+            ('D', pgettext_lazy('employer import', 'Licence D')),
+            ('DE', pgettext_lazy('employer import', 'Licence DE')),
             ('CACES', 'CACES'),
             OTHER,
             ('none', _('None')),
@@ -357,20 +357,20 @@ class ConditionsForm(GuidedForm):
             ('day', _('Daytime work')),
             (
                 'early',
-                pgettext_lazy('employer import-v2', 'Early starts or unusual hours'),
+                pgettext_lazy('employer import', 'Early starts or unusual hours'),
             ),
-            ('night', pgettext_lazy('employer import-v2', 'Evening or night work')),
+            ('night', pgettext_lazy('employer import', 'Evening or night work')),
             (
                 'weekend',
                 _('Weekend work'),
             ),
-            ('variable', pgettext_lazy('employer import-v2', 'Variable hours')),
-            ('shift', pgettext_lazy('employer import-v2', 'Shift work')),
-            ('split', pgettext_lazy('employer import-v2', 'Split shifts')),
-            ('physical', pgettext_lazy('employer import-v2', 'Physical work')),
-            ('standing', pgettext_lazy('employer import-v2', 'Prolonged standing')),
-            ('outdoor', pgettext_lazy('employer import-v2', 'Outdoor work')),
-            ('travel', pgettext_lazy('employer import-v2', 'Frequent travel')),
+            ('variable', pgettext_lazy('employer import', 'Variable hours')),
+            ('shift', pgettext_lazy('employer import', 'Shift work')),
+            ('split', pgettext_lazy('employer import', 'Split shifts')),
+            ('physical', pgettext_lazy('employer import', 'Physical work')),
+            ('standing', pgettext_lazy('employer import', 'Prolonged standing')),
+            ('outdoor', pgettext_lazy('employer import', 'Outdoor work')),
+            ('travel', pgettext_lazy('employer import', 'Frequent travel')),
             ('none', _('None of these conditions')),
             DISCUSS,
         ],
@@ -483,7 +483,7 @@ class ConditionsForm(GuidedForm):
                 data[name] = list(dict.fromkeys(values))
         conflict_labels = {
             'day': _('Daytime work'),
-            'night': pgettext_lazy('employer import-v2', 'Evening or night work'),
+            'night': pgettext_lazy('employer import', 'Evening or night work'),
             'weekend': _('Weekend work'),
         }
         conflicts = inconsistent_conditions(data)

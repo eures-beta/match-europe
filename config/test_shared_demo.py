@@ -13,7 +13,7 @@ from eures_beta.employers.offer_ingestion import ImportFailure
 class SharedDemoTests(TestCase):
     def test_remote_page_and_api_keep_account_guards(self):
         response = self.client.get(
-            "/employer/pages/import-v2-fr.html",
+            "/employer/pages/import-fr.html",
             secure=True,
             REMOTE_ADDR="192.0.2.42",
         )
@@ -82,7 +82,7 @@ class SharedDemoTests(TestCase):
             with translation.override(language):
                 self.assertIn(expected, shared_notice())
             response = self.client.get(
-                f"/employer/pages/import-v2-{language}.html", secure=True
+                f"/employer/pages/import-{language}.html", secure=True
             )
             self.assertContains(response, employer_status)
             self.assertNotContains(response, expected)

@@ -71,7 +71,6 @@ class PublicNavigationTests(TestCase):
                 reverse('candidate_landing'),
                 f'/employer/pages/{language}.html',
                 f'/employer/pages/import-{language}.html',
-                f'/employer/pages/import-v2-{language}.html',
                 f'/employer/pages/privacy-{language}.html',
             ):
                 with self.subTest(path=path, language=language):

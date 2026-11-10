@@ -24,13 +24,13 @@ class ImportAccessTests(TestCase):
             email='adviser@example.invalid', kind='adviser'
         )
 
-    def test_landing_remains_public_but_all_import_versions_require_employer(self):
+    def test_landing_remains_public_but_import_requires_employer(self):
         for language in ('fr', 'en', 'de'):
             self.assertContains(
                 self.client.get(f'/employer/pages/{language}.html', secure=True),
                 'import-' + language + '.html',
             )
-            for prefix in ('import-', 'import-v2-'):
+            for prefix in ('import-',):
                 path = f'/employer/pages/{prefix}{language}.html'
                 for user in (None, self.adviser):
                     if user:

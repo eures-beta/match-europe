@@ -18,7 +18,13 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import transaction, connection
-from django.http import JsonResponse, HttpResponse, FileResponse, Http404
+from django.http import (
+    JsonResponse,
+    HttpResponse,
+    FileResponse,
+    Http404,
+    HttpResponsePermanentRedirect,
+)
 from django.template.loader import get_template
 from django.utils import timezone
 from django.utils import translation
@@ -71,6 +77,14 @@ def employer_page(request, path):
 
 
 def _employer_page(request, path):
+    from eures_beta.redirects import EMPLOYER_IMPORT_ALIASES
+
+    if path in EMPLOYER_IMPORT_ALIASES:
+        destination = '/employer/pages/' + EMPLOYER_IMPORT_ALIASES[path]
+        query = request.META.get('QUERY_STRING')
+        if query:
+            destination += '?' + query
+        return HttpResponsePermanentRedirect(destination)
     public_pages = (
         'fr.html',
         'en.html',
@@ -87,8 +101,6 @@ def _employer_page(request, path):
         template_name = 'privacy.html'
     if path in ('import-en.html', 'import-fr.html', 'import-de.html'):
         template_name = 'import.html'
-    if path in ('import-v2-en.html', 'import-v2-fr.html', 'import-v2-de.html'):
-        template_name = 'import-v2.html'
     candidate = (base / template_name).resolve()
     if (
         not candidate.is_relative_to(base.resolve())
@@ -127,7 +139,7 @@ def _employer_page(request, path):
             context['continuous_skills'] = trial_request(request)
             if context['continuous_skills']:
                 context['albert_import'] = False
-            if authenticated and template_name in ('import.html', 'import-v2.html'):
+            if authenticated and template_name == 'import.html':
                 from .response_practice_views import page_context
 
                 context.update(page_context(person))
