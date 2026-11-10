@@ -7,6 +7,20 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 10 novembre 2026 — parcours HTTP sous plafond mémoire
+
+TRANSVERSE : `make e2e-test` lance les parcours employeur, conseiller et candidat
+sur Gunicorn/PostgreSQL isolés, avec un plafond cgroup de 256 Mio pour le serveur.
+Quatre recherches ordinaires simultanées à froid utilisent les JSON complets ;
+PDF, client Albert HTTPS, emails capturés, confirmations et sauvegardes sont
+vérifiés. Albert et le transport email sont des frontières externes simulées.
+`make e2e-regression` exécute le code historique avant #177 : OOM/SIGKILL détecté,
+alors que le code corrigé passe. Une recherche seule ne reproduit pas le kill
+localement ; le témoin porte explicitement sur quatre recherches concurrentes.
+Ce sont des parcours HTTP, sans exécution JavaScript de navigateur. Le job ajouté
+au workflow avant déploiement vérifie les deux cas. Aucun modèle, migration,
+secret ou comportement applicatif modifié. Voir [le guide](docs/SYSTEM_TESTS.md).
+
 ## 10 novembre 2026 — formatage des CSS autonomes
 
 TRANSVERSE : le même Prettier que le JavaScript couvre les feuilles `.css` du
