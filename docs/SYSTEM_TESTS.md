@@ -13,7 +13,7 @@ Aucun port n'est publié sur l'hôte, aucun secret personnel n'est transmis.
 
 ## Parcours couverts
 
-- Quatre recherches métiers simultanées à froid, puis recherche dans les vrais
+- Huit recherches métiers simultanées à froid (une par thread), puis recherche dans les vrais
   catalogues en français, anglais et allemand. Comparaison des réponses, refus
   d'un POST sans CSRF, détection des workers tués ou redémarrés.
 - Pages publiques d'accueil, candidat et employeur dans les trois langues.
@@ -44,7 +44,7 @@ garde-fou réel, pas une garantie générale de capacité.
 et y ajoute seulement le banc de test. Aucun ancien chargeur ni catalogue n'est
 modifié. Il faut disposer de ce commit localement (checkout CI complet).
 
-Le serveur historique doit démarrer et recevoir les mêmes quatre recherches
+Le serveur historique doit démarrer et recevoir les mêmes huit recherches
 ordinaires à froid. La commande ne réussit que si les requêtes échouent **et**
 que le cgroup constate une mise à mort pour manque de mémoire pendant cette
 phase. Un échec de build, de migration ou de démarrage ne valide pas ce témoin.
@@ -54,8 +54,10 @@ Mesures locales Docker Linux/arm64 du 10 novembre 2026 : ancien code, plafond
 268 435 456 octets atteint, `oom_kill=1`, SIGKILL et redémarrage du worker ; code
 corrigé, cinq parcours réussis, pic 165 363 712 octets (157,7 Mio), aucun OOM ni
 redémarrage. Une requête isolée sur l'ancien code n'a pas reproduit le défaut
-dans ce banc : la preuve porte sur quatre requêtes simultanées, sans remplissage
-artificiel de mémoire. La CI Linux/amd64 vérifie la même condition indépendamment.
+dans ce banc. Quatre requêtes suffisent sur arm64, mais atteignent seulement
+240 Mio sur le premier essai CI amd64. La suite utilise donc les huit threads
+du serveur, sans remplissage artificiel de mémoire. La CI Linux/amd64 vérifie
+la même condition indépendamment.
 
 ## CI et diagnostics
 

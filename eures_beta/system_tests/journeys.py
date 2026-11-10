@@ -163,9 +163,10 @@ def run(search_only=False):
             'independent': True,
             'context': 'maintain electrical equipment and repair industrial machines',
         }
-        # Four ordinary searches arriving at a cold eight-thread worker model
+        # Eight ordinary searches arriving at a cold eight-thread worker model
         # simultaneous users, without synthetic padding or a reduced catalog.
-        clients = [browser, Browser(), Browser(), Browser()]
+        clients = [browser, *[Browser() for _ in range(7)]]
+        report['cold_search_concurrency'] = len(clients)
         for client in clients[1:]:
             client.request('/accounts/login/?lang=en')
         barrier = threading.Barrier(len(clients))
@@ -181,7 +182,6 @@ def run(search_only=False):
             'results' in result and 'rome_results' in result for result in results
         )
         assert all(result == results[0] for result in results)
-        report['cold_search_concurrency'] = len(clients)
         report['cold_search_seconds'] = round(time.monotonic() - before, 3)
         report['completed'].append('occupation-cold')
         if not search_only:
