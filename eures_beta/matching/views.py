@@ -86,7 +86,7 @@ def index(request):
             )
         return render(
             request,
-            'matching/local.html',
+            'matching/results.html',
             dict(form=form, entries=entries, page_language=language),
             status=400 if form.errors else 200,
         )
@@ -141,7 +141,7 @@ def detail(request, pk):
         result = present(evaluation.result, language) if evaluation else None
         return render(
             request,
-            'matching/local.html',
+            'matching/results.html',
             dict(
                 pair=pair,
                 occupation_labels=[
