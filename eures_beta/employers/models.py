@@ -1,4 +1,5 @@
 import uuid
+from .offer_requirements import validate_requirements
 from .response_practice import RESPONSE_COVERAGE, RESPONSE_TIME
 from django.conf import settings
 from django.db import models
@@ -89,6 +90,9 @@ class JobOffer(models.Model):
     source_kind = models.CharField(max_length=10)
     source_url = models.URLField(max_length=2048, blank=True)
     data = models.JSONField(default=dict)
+    structured_requirements = models.JSONField(
+        default=dict, blank=True, validators=[validate_requirements]
+    )
     validated_at = models.DateTimeField(null=True)
     initial_sent_at = models.DateTimeField(null=True)
     synced_at = models.DateTimeField(null=True)
@@ -96,6 +100,10 @@ class JobOffer(models.Model):
     revision = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        validate_requirements(self.structured_requirements)
+        return super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'journeys_employerimport'

@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 from . import engine, validation
 from .access import candidates, offers, enabled
-from .models import MatchPair, MatchEvaluation, MatchDecision, OfferRequirements
+from .models import MatchPair, MatchEvaluation, MatchDecision
 
 
 class StaleEvaluation(ValueError):
@@ -35,12 +35,7 @@ def inputs(pair, *, lock=False):
         for field in candidate._meta.fields
         if field.name not in excluded
     }
-    requirements = (
-        OfferRequirements.objects.filter(offer=offer)
-        .values_list('data', flat=True)
-        .first()
-        or {}
-    )
+    requirements = offer.structured_requirements
     validation.requirements(requirements)
     validation.candidate_facts(pair.candidate_facts)
     data = dict(

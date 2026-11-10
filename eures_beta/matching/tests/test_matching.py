@@ -13,7 +13,6 @@ from eures_beta.matching.models import (
     MatchPair,
     MatchEvaluation,
     MatchDecision,
-    OfferRequirements,
 )
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
@@ -344,9 +343,8 @@ class LocalMatchingTests(TestCase):
         with self.assertRaises(services.StaleEvaluation):
             services.decide(pair.pk, old.pk, 'retained')
         new = services.calculate(pair.candidate, pair.offer)
-        supplement = pair.offer.matching_requirements
-        supplement.data['country'] = 'DE'
-        supplement.save()
+        pair.offer.structured_requirements['country'] = 'DE'
+        pair.offer.save(update_fields=['structured_requirements'])
         with self.assertRaises(services.StaleEvaluation):
             services.decide(pair.pk, new.pk, 'retained')
 
@@ -486,7 +484,6 @@ class LocalMatchingTests(TestCase):
         for obj in (
             pair,
             pair.evaluations.latest('id'),
-            pair.offer.matching_requirements,
         ):
             self.assertIsInstance(admin.site._registry[type(obj)], MetadataOnlyAdmin)
             name = obj._meta.model_name

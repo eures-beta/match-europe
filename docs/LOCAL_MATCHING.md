@@ -85,16 +85,24 @@ Adaptation aux données existantes :
 
 ## Données et accès locaux
 
-Migration additive `matching.0001_initial`, quatre modèles :
+Trois modèles de matching après consolidation des exigences dans l'offre :
 
 - `MatchPair` : paire unique candidat/offre, décision courante et faits fictifs
   explicites de recette ;
 - `MatchEvaluation` : résultat, version, date et empreinte des entrées ; aucune copie
   complète de profil ni coordonnées ;
 - `MatchDecision` : événement de décision rattaché au calcul, daté, opérateur local
-  explicite ; ce n’est pas un compte conseiller ni une identité usurpée ;
-- `OfferRequirements` : supplément structuré des scénarios fictifs, distinct du
-  JSON d’offre habituel et sans inférence de texte. Validation des codes et types.
+  explicite ; ce n’est pas un compte conseiller ni une identité usurpée.
+
+Les exigences explicites appartiennent à `JobOffer.structured_requirements`,
+validées dans `employers` : langues, pays, date, horaires, permis et salaire.
+Aucune contrainte n'est inférée automatiquement d'un texte libre.
+`employers.0006` ajoute ce champ, puis `matching.0004` copie les valeurs de
+l'ancien `OfferRequirements` avant de supprimer sa table. Les offres, leurs dates,
+les paires et leurs calculs restent intacts ; des valeurs contradictoires font
+échouer la migration. Le retour arrière restaure les valeurs structurées dans
+l'ancienne table, avec de nouveaux identifiants et dates techniques de ces lignes.
+Les exigences sont aussi recopiées lors de la duplication explicite d'une offre.
 
 La paire et les suppléments sont dans PostgreSQL. Les décisions ne sont pas
 écrasées par le recalcul. Une décision exige la dernière évaluation et des
