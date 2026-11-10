@@ -116,7 +116,6 @@ def decide(pair_id, evaluation_id, value):
     return pair
 
 
-
 def calculate_for_saved_offer(offer_id, revision):
     if not enabled():
         return

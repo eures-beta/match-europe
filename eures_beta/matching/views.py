@@ -62,7 +62,9 @@ def index(request):
             evaluation = calculate(**form.cleaned_data)
             return redirect(destination(evaluation.pair, language))
         pairs = (
-            CandidateOfferMatch.objects.filter(candidate__in=candidates(), offer__in=matchable_offers())
+            CandidateOfferMatch.objects.filter(
+                candidate__in=candidates(), offer__in=matchable_offers()
+            )
             .select_related('candidate', 'offer')
             .annotate(
                 latest_evaluation_id=Subquery(
@@ -73,7 +75,7 @@ def index(request):
             )
             .order_by('-created_at')
         )
-        offer_filter = OfferFilter(request.GET)
+        offer_filter = OfferFilter(request.GET, auto_id="filter_%s")
         if not offer_filter.is_valid():
             pairs = pairs.none()
         elif offer_filter.cleaned_data['offer']:
@@ -109,7 +111,12 @@ def index(request):
         return render(
             request,
             'matching/results.html',
-            dict(form=form, entries=entries, offer_filter=offer_filter, page_language=language),
+            dict(
+                form=form,
+                entries=entries,
+                offer_filter=offer_filter,
+                page_language=language,
+            ),
             status=400 if form.errors else 200,
         )
 
@@ -174,7 +181,8 @@ def detail(request, pk):
             'matching/results.html',
             dict(
                 pair=pair,
-                can_request_confirmation=bool(pair.offer.validated_at) and can_change_pair(request.user),
+                can_request_confirmation=bool(pair.offer.validated_at)
+                and can_change_pair(request.user),
                 confirmation=confirmation,
                 confirmation_state=confirmation_state,
                 occupation_labels=[

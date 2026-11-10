@@ -15,7 +15,7 @@ from eures_beta.matching.models import (
     MatchDecision,
 )
 from eures_beta.candidates.models import CandidateProfile
-from eures_beta.employers.models import JobOffer
+from eures_beta.employers.models import Company, JobOffer
 
 
 class MatchingRouteTests(SimpleTestCase):
@@ -287,6 +287,47 @@ class LocalMatchingTests(TestCase):
         call_command('seed_matching_trial', stdout=StringIO())
         self.assertEqual(CandidateOfferMatch.objects.count(), 5)
         self.assertEqual(MatchEvaluation.objects.count(), 5)
+
+    def test_saved_offer_reuses_evaluations_and_filters_by_offer(self):
+        original = self.pair().offer
+        offer = JobOffer.objects.create(
+            created_by=original.created_by,
+            preparation_agreed_at=original.preparation_agreed_at,
+            data={**original.data, 'description': 'Fictional offer description'},
+            duplicated_from=original,
+        )
+        pairs = MatchPair.objects.filter(offer=offer)
+        services.calculate_for_saved_offer(offer.pk, offer.revision)
+        self.assertFalse(pairs.exists())
+
+        offer.company = Company.objects.create(name='Fictional establishment')
+        offer.save()
+        services.calculate_for_saved_offer(offer.pk, offer.revision)
+        self.assertFalse(pairs.exists())
+
+        offer.revision += 1
+        offer.save()
+        services.calculate_for_saved_offer(offer.pk, offer.revision - 1)
+        self.assertFalse(pairs.exists())
+        for _ in range(2):
+            services.calculate_for_saved_offer(offer.pk, offer.revision)
+
+        self.assertEqual(pairs.count(), 5)
+        self.assertEqual(MatchEvaluation.objects.filter(pair__in=pairs).count(), 5)
+        page = self.client.get(reverse('matching'), {'offer': offer.pk})
+        entries = page.context['entries']
+        scores = [entry['result']['established'] for entry in entries]
+        self.assertEqual(len(scores), 5)
+        self.assertEqual(scores, sorted(scores, reverse=True))
+        self.assertTrue(all(entry['pair'].offer_id == offer.pk for entry in entries))
+
+        pair = pairs.first()
+        detail = self.client.get(reverse('matching_detail', args=[pair.pk]))
+        self.assertFalse(detail.context['can_request_confirmation'])
+        response = self.client.post(
+            reverse('request_candidate_confirmation', args=[pair.pk])
+        )
+        self.assertEqual(response.status_code, 404)
 
     def test_post_calculates_real_models_without_mutating_profile_or_offer(self):
         pair = self.pair()
