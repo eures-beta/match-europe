@@ -113,7 +113,7 @@ Le bouton « Retenir pour examen » reste indisponible si blocage, données pér
 ou aucune correspondance. Un refus peut être révisé explicitement par l’opérateur,
 avec un nouvel événement. Aucun consentement ni transmission n’en découle.
 
-Accès fermé par défaut. `/matching-local/` exige `MATCHING_ENABLED=1`,
+Accès fermé par défaut. `/matching/` exige `MATCHING_ENABLED=1`,
 environnement `local`, aucun email activé, aucune démo partagée et connexion
 loopback réelle. Les en-têtes de proxy ne permettent pas de contourner ce contrôle.
 POST avec CSRF pour calcul et décisions. Seuls les profils confirmés de comptes
@@ -141,7 +141,7 @@ Définir une clé Django locale, `DJANGO_DEBUG=1`, `MATCHING_ENABLED=1`,
 
 Puis `make db-create`, `make migrate`, `make matching-translations`,
 `make matching-seed` et `make matching-run`.
-Ouvrir http://127.0.0.1:9041/matching-local/ et choisir une paire ou un scénario.
+Ouvrir http://127.0.0.1:9041/matching/ et choisir une paire ou un scénario.
 Le peuplement ne remplace pas les réponses ni les décisions existantes.
 Scénarios : correspondances favorables, inconnus/apprentissage, date bloquante,
 horaires bloquants, autorisation explicitement absente à la date requise.
