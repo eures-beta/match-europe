@@ -17,6 +17,10 @@
   `make format-js-check` ; vérifier la syntaxe avec `make check-js`. Respecter
   la configuration Prettier du dépôt (deux espaces, largeur cible 100 caractères).
   Ne pas compacter les sources à la main ; Black ne formate pas le JavaScript.
+- Pour les CSS autonomes, utiliser le même Prettier avec `make format-css` et
+  `make format-css-check`. Garder une déclaration par ligne ; ne pas compacter
+  les règles à la main. Les ressources tierces sous `eures_beta/static/vendor/`
+  sont exclues. djLint reste chargé des blocs `<style>` dans les templates.
 - Utiliser les cibles existantes directement : `make test` pour la suite complète,
   `make employer-test` pour les modules de tests du parcours employeur, `make check`
   pour Django et les migrations. Le filtre employeur ne remplace pas la suite

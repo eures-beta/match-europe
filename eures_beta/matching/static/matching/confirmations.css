@@ -17,24 +17,25 @@
   min-width: 0;
 }
 
-.confirmation-form legend, .confirmation-form label {
+.confirmation-form legend,
+.confirmation-form label {
   font-weight: 700;
 }
 
 .confirmation-form label {
   display: block;
-  margin-bottom: .4rem;
+  margin-bottom: 0.4rem;
 }
 
-.confirmation-form label:has(input[type="radio"]) {
+.confirmation-form label:has(input[type='radio']) {
   display: flex;
   align-items: center;
-  gap: .65rem;
+  gap: 0.65rem;
   min-height: 44px;
-  padding: .65rem;
-  margin-block: .4rem;
+  padding: 0.65rem;
+  margin-block: 0.4rem;
   border: 1px solid var(--line);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   font-weight: 400;
   cursor: pointer;
 }
@@ -45,12 +46,12 @@
   max-width: 100%;
   min-height: 7rem;
   resize: vertical;
-  padding: .75rem;
+  padding: 0.75rem;
   border: 1px solid var(--muted);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
-.confirmation-form input[type="radio"] {
+.confirmation-form input[type='radio'] {
   flex: 0 0 auto;
   width: 1.1rem;
   height: 1.1rem;
@@ -58,7 +59,7 @@
 
 .confirmation-form .helptext {
   display: block;
-  margin-top: .4rem;
+  margin-top: 0.4rem;
   color: var(--muted);
 }
 
@@ -68,18 +69,18 @@
 }
 
 .confirmation-flow details {
-  padding-block: .6rem;
+  padding-block: 0.6rem;
 }
 
 .confirmation-flow summary {
   cursor: pointer;
   min-height: 44px;
-  padding-block: .5rem;
+  padding-block: 0.5rem;
 }
 
 .confirmation-flow dd {
   margin-inline-start: 0;
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
 }
 
 .confirmation-flow dt {

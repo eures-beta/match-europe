@@ -7,6 +7,18 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 10 novembre 2026 — formatage des CSS autonomes
+
+TRANSVERSE : le même Prettier que le JavaScript couvre les feuilles `.css` du
+projet via `make format-css` et `make format-css-check`, exécuté aussi en CI.
+Les ressources tierces sous `eures_beta/static/vendor/` restent exclues et intactes.
+Les feuilles existantes sont reformatées ; aucun changement de style voulu,
+modèle, donnée ou dépendance ajouté. djLint conserve les styles dans les templates.
+Validation locale : format et stabilité des 16 CSS, format et syntaxe JavaScript,
+14 tests JS de `make check-js` réussis. Suite Django non rejouée pour ce lot
+limité au formatage et à l'outillage. Aucune fusion ni opération de production.
+Voir [le guide](docs/JAVASCRIPT_FORMATTING.md).
+
 ## 10 novembre 2026 — calcul à l’enregistrement d’une offre (#180)
 
 Une offre complète rattachée à un établissement déclenche le calcul après

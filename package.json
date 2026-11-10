@@ -1,7 +1,7 @@
 {
   "name": "match-europe-quality",
   "private": true,
-  "description": "Outillage de développement JavaScript uniquement",
+  "description": "Outillage de développement JavaScript et CSS",
   "devDependencies": {
     "prettier": "3.9.10"
   }

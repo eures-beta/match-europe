@@ -17,3 +17,7 @@ Le contrôle complémentaire `eures_beta.template_layout`, exécuté par
 contenant plusieurs éléments HTML ouvrants. Déplier ces blocs manuellement,
 puis relancer `make format-html`. Les scripts, styles, textes préformatés et
 messages gettext indivisibles sont exclus de ce contrôle de structure.
+
+Les blocs `<style>` sont formatés par djLint (`format_css` activé). Les feuilles
+CSS autonomes sont traitées par le même Prettier que le JavaScript, avec
+`make format-css` et `make format-css-check` ; voir [le guide](JAVASCRIPT_FORMATTING.md).
