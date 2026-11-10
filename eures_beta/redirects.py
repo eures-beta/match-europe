@@ -9,12 +9,17 @@ LEGACY_EMPLOYER_PAGES = {
     for language in ('fr', 'en', 'de')
 }
 
+EMPLOYER_IMPORT_ALIASES = {
+    f'import-v2-{language}.html': f'import-{language}.html'
+    for language in ('fr', 'en', 'de')
+}
+
 
 @require_safe
 def legacy_employer_page(request, path):
     if path not in LEGACY_EMPLOYER_PAGES:
         raise Http404
-    url = '/employer/pages/' + path
+    url = '/employer/pages/' + EMPLOYER_IMPORT_ALIASES.get(path, path)
     query = request.META.get('QUERY_STRING')
     if query:
         url += '?' + query

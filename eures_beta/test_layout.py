@@ -38,7 +38,7 @@ class UnifiedLayoutTests(TestCase):
             )
         )
         for language in ("fr", "en", "de"):
-            for prefix in ("", "import-", "import-v2-", "privacy-"):
+            for prefix in ("", "import-", "privacy-"):
                 page = prefix + language + ".html"
                 response = self.client.get("/employer/pages/" + page, secure=True)
                 self.assertEqual(response.status_code, 200, page)

@@ -241,8 +241,8 @@ class EndpointTests(TestCase):
         )
         model.assert_not_called()
 
-    def test_ai_disclosure_in_both_templates_and_all_languages(self):
-        for variant in ('import', 'import-v2'):
+    def test_ai_disclosure_in_import_and_all_languages(self):
+        for variant in ('import',):
             for language in ('fr', 'en', 'de'):
                 page = self.client.get(f'/employer/pages/{variant}-{language}.html')
                 self.assertContains(page, 'Albert')

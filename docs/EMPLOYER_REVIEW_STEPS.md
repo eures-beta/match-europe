@@ -39,8 +39,8 @@ Aucune migration, nouvelle dépendance ou intégration externe. Le contact reste
 un formulaire séparé, accessible à la dernière étape et enregistré séparément.
 Le parcours candidat n’est pas modifié.
 
-Les cinq étapes concernent import.html ; import-v2.html reçoit seulement le
-choix coupure pour conserver la cohérence des conditions. Les règles visuelles
+Les cinq étapes concernent l’unique template import.html. Les anciennes adresses
+de la variante abandonnée redirigent vers ce parcours. Les règles visuelles
 existantes et les assets officiels EURES sont conservés. Navigation et textes
 existent en FR/EN/DE ; le focus est déplacé vers le titre de l’étape affichée.
 

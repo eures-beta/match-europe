@@ -202,7 +202,7 @@ class ResponsePracticeTests(TestCase):
                 'Meine Antworten ändern',
             ),
         ):
-            for prefix in ('import-', 'import-v2-'):
+            for prefix in ('import-',):
                 path = f'/employer/pages/{prefix}{language}.html'
                 page = self.client.get(path, secure=True)
                 self.assertContains(page, label)
@@ -210,7 +210,7 @@ class ResponsePracticeTests(TestCase):
                 self.assertContains(page, 'id="response-practice-summary" hidden')
                 self.assertNotContains(page, 'id="response-practice-form" hidden')
         self.save()
-        for prefix in ('import-', 'import-v2-'):
+        for prefix in ('import-',):
             page = self.client.get(f'/employer/pages/{prefix}fr.html', secure=True)
             self.assertContains(page, 'Oui, à toutes les candidatures')
             self.assertContains(page, 'Entre 1 et 2 semaines')

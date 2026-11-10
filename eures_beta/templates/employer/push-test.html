@@ -82,8 +82,7 @@
       <button id="stop" disabled>{% translate "Stop the test" context "push diagnostic" %}</button>
       <small>{% translate "This browser's subscription is kept in your local session. The test message goes through the browser's notification service (Google for Chrome). No offer content or email is sent." context "push diagnostic" %}</small>
       <p>
-        <a href="import-v2-{{ page_language }}.html">{% translate "Back to the employer journey" context "push diagnostic" %}
-        </a>
+        <a href="import-{{ page_language }}.html">{% translate "Back to the employer journey" context "push diagnostic" %}</a>
       </p>
     </main>
     {{ push_strings|json_script:"push-test-strings" }}<script src="/static/employer/push-test.js" defer></script>

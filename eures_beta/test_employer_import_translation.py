@@ -53,5 +53,55 @@ class JobOfferTranslationTests(TestCase):
                 self.assertNotIn('{%', html)
 
 
-class JobOfferV2TranslationTests(JobOfferTranslationTests):
-    page = "import-v2"
+class JobOfferCompatibilityTests(TestCase):
+    def test_abandoned_variant_redirects_to_the_single_journey_in_all_languages(self):
+        from django.contrib.auth import get_user_model
+
+        employer = get_user_model().objects.create_user(
+            email='canonical-import@example.invalid', kind='employer'
+        )
+        for authenticated in (False, True):
+            if authenticated:
+                self.client.force_login(employer)
+            for language in ('fr', 'en', 'de'):
+                with self.subTest(authenticated=authenticated, language=language):
+                    old = f'/employer/pages/import-v2-{language}.html'
+                    canonical = f'/employer/pages/import-{language}.html'
+                    response = self.client.get(old + '?example=one%20two', secure=True)
+                    self.assertRedirects(
+                        response,
+                        canonical + '?example=one%20two',
+                        status_code=301,
+                        fetch_redirect_response=False,
+                    )
+                    page = self.client.get(canonical, secure=True)
+                    self.assertTemplateUsed(
+                        page,
+                        (
+                            'employer/import.html'
+                            if authenticated
+                            else 'employer/import_access.html'
+                        ),
+                    )
+                    self.assertNotContains(page, 'href="import-v2-')
+        self.assertEqual(
+            self.client.get('/employer/pages/import-v2.html').status_code, 404
+        )
+
+    def test_old_login_destinations_are_normalized_without_allowing_external_urls(self):
+        from django.test import RequestFactory
+        from eures_beta.users.login_return import consume, remember
+
+        for language in ('fr', 'en', 'de'):
+            old = f'/employer/pages/import-v2-{language}.html'
+            canonical = f'/employer/pages/import-{language}.html'
+            request = RequestFactory().get('/accounts/login/', {'next': old})
+            request.session = {}
+            remember(request)
+            self.assertEqual(request.session['login_return_path'], canonical)
+            request.session['login_return_path'] = old
+            self.assertEqual(consume(request, '/accounts/dashboard/'), canonical)
+        request.session['login_return_path'] = 'https://attacker.invalid/'
+        self.assertEqual(
+            consume(request, '/accounts/dashboard/'), '/accounts/dashboard/'
+        )

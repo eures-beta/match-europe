@@ -119,13 +119,13 @@ class ConnectedEmployerTests(TestCase):
             404,
         )
 
-    def test_v2_connection_button_and_server_session_state(self):
+    def test_import_connection_button_and_server_session_state(self):
         for lang, label in [
             ('fr', 'Se connecter'),
             ('en', 'Sign in'),
             ('de', 'Anmelden'),
         ]:
-            path = '/employer/pages/import-v2-' + lang + '.html'
+            path = '/employer/pages/import-' + lang + '.html'
             self.assertContains(self.client.get(path), label)
         self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get(path), 'data-employer-connected="true"')
