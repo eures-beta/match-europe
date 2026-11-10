@@ -203,6 +203,19 @@ class WorkspaceTests(TestCase):
         self.offer.refresh_from_db()
         self.assertEqual(self.offer.revision, 1)
 
+    def test_workspace_save_schedules_matching_after_commit(self):
+        with (
+            patch(
+                'eures_beta.matching.services.calculate_for_saved_offer'
+            ) as calculate,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            response = self.client.post(self.url('employer_offer_edit'), self.payload())
+        self.assertEqual(response.status_code, 302)
+        self.offer.refresh_from_db()
+        self.assertIsNone(self.offer.synced_at)
+        calculate.assert_called_once_with(self.offer.pk, self.offer.revision)
+
     def test_sent_or_validated_is_not_search_started(self):
         self.offer.initial_sent_at = self.offer.synced_at = self.offer.validated_at = (
             timezone.now()

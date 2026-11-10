@@ -8,7 +8,7 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
-from .access import guard, candidates, offers, can_change_pair
+from .access import guard, candidates, matchable_offers, can_change_pair
 from .confirmation_services import review
 from .confirmation_views import display_rows
 from .models import CandidateOfferMatch, MatchEvaluation, CandidateOfferReview
@@ -25,8 +25,19 @@ class PairForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['candidate'].queryset = candidates().order_by('display_name', 'pk')
         self.fields['candidate'].label_from_instance = lambda obj: obj.display_name
-        self.fields['offer'].queryset = offers().order_by('created', 'pk')
+        self.fields['offer'].queryset = matchable_offers().order_by('created', 'pk')
         self.fields['offer'].label_from_instance = lambda obj: obj.data.get(
+            'title'
+        ) or str(_('Untitled offer'))
+
+
+class OfferFilter(forms.Form):
+    offer = forms.ModelChoiceField(label=_('Job offer'), queryset=None, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['offer'].queryset = matchable_offers().order_by('-created', '-pk')
+        self.fields['offer'].label_from_instance = lambda offer: offer.data.get(
             'title'
         ) or str(_('Untitled offer'))
 
@@ -51,9 +62,7 @@ def index(request):
             evaluation = calculate(**form.cleaned_data)
             return redirect(destination(evaluation.pair, language))
         pairs = (
-            CandidateOfferMatch.objects.filter(
-                candidate__in=candidates(), offer__in=offers()
-            )
+            CandidateOfferMatch.objects.filter(candidate__in=candidates(), offer__in=matchable_offers())
             .select_related('candidate', 'offer')
             .annotate(
                 latest_evaluation_id=Subquery(
@@ -64,6 +73,11 @@ def index(request):
             )
             .order_by('-created_at')
         )
+        offer_filter = OfferFilter(request.GET)
+        if not offer_filter.is_valid():
+            pairs = pairs.none()
+        elif offer_filter.cleaned_data['offer']:
+            pairs = pairs.filter(offer=offer_filter.cleaned_data['offer'])
         pairs = list(pairs)
         evaluations = MatchEvaluation.objects.in_bulk(
             [p.latest_evaluation_id for p in pairs if p.latest_evaluation_id]
@@ -88,10 +102,14 @@ def index(request):
                     stale=stale,
                 )
             )
+        entries.sort(
+            key=lambda entry: entry['result']['established'] if entry['result'] else -1,
+            reverse=True,
+        )
         return render(
             request,
             'matching/results.html',
-            dict(form=form, entries=entries, page_language=language),
+            dict(form=form, entries=entries, offer_filter=offer_filter, page_language=language),
             status=400 if form.errors else 200,
         )
 
@@ -102,7 +120,7 @@ def detail(request, pk):
     guard(request)
     pair = get_object_or_404(
         CandidateOfferMatch.objects.filter(
-            candidate__in=candidates(), offer__in=offers()
+            candidate__in=candidates(), offer__in=matchable_offers()
         ).select_related('candidate', 'offer'),
         pk=pk,
     )
@@ -136,7 +154,11 @@ def detail(request, pk):
                     _('This action is unavailable. Review the blocking points first.'),
                     400,
                 )
-        confirmation = CandidateOfferReview.objects.filter(pair=pair).first()
+        confirmation = (
+            CandidateOfferReview.objects.filter(pair=pair).first()
+            if pair.offer.validated_at
+            else None
+        )
         evaluation = pair.evaluations.order_by('-id').first()
         try:
             input_data, current = inputs(pair)
@@ -152,7 +174,7 @@ def detail(request, pk):
             'matching/results.html',
             dict(
                 pair=pair,
-                can_request_confirmation=can_change_pair(request.user),
+                can_request_confirmation=bool(pair.offer.validated_at) and can_change_pair(request.user),
                 confirmation=confirmation,
                 confirmation_state=confirmation_state,
                 occupation_labels=[

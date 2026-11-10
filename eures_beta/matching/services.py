@@ -1,10 +1,11 @@
 import hashlib
 import json
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.utils import timezone
 from . import engine, validation
-from .access import candidates, offers, enabled
+from .access import candidates, enabled, matchable_offers
 from .models import CandidateOfferMatch, MatchEvaluation, MatchDecision
 
 
@@ -12,9 +13,11 @@ class StaleEvaluation(ValueError):
     pass
 
 
-def inputs(pair, *, lock=False):
+def inputs(pair, *, lock=False, offer_revision=None):
     # Re-read eligible objects: disablement/revocation also invalidates matching access.
-    candidate_query, offer_query = candidates(), offers()
+    candidate_query, offer_query = candidates(), matchable_offers()
+    if offer_revision is not None:
+        offer_query = offer_query.filter(revision=offer_revision)
     if lock:
         candidate_query = candidate_query.select_for_update(of=('self',))
         offer_query = offer_query.select_for_update(of=('self',))
@@ -55,14 +58,16 @@ def inputs(pair, *, lock=False):
 
 
 @transaction.atomic
-def calculate(candidate, offer):
+def calculate(candidate, offer, *, offer_revision=None):
     if not enabled():
         raise ValueError('Matching is disabled')
-    pair, _ = CandidateOfferMatch.objects.get_or_create(
-        candidate=candidate, offer=offer
-    )
+    pair, _ = CandidateOfferMatch.objects.get_or_create(candidate=candidate, offer=offer)
     pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair.pk)
-    data, fingerprint = inputs(pair, lock=True)
+    data, fingerprint = inputs(pair, lock=True, offer_revision=offer_revision)
+    if offer_revision is not None:
+        latest = pair.evaluations.order_by('-id').first()
+        if latest and latest.fingerprint == fingerprint:
+            return latest
     result = engine.evaluate(
         data['candidate'],
         data['offer'],
@@ -109,3 +114,27 @@ def decide(pair_id, evaluation_id, value):
         pair.save(update_fields=['decision'])
         MatchDecision.objects.create(pair=pair, evaluation=evaluation, value=value)
     return pair
+
+
+
+def calculate_for_saved_offer(offer_id, revision):
+    if not enabled():
+        return
+    offer = matchable_offers().filter(pk=offer_id, revision=revision).first()
+    if offer is None:
+        return
+    for candidate in candidates().order_by('pk').iterator():
+        try:
+            calculate(candidate, offer, offer_revision=revision)
+        except ObjectDoesNotExist:
+            # The offer or candidate can become ineligible after scheduling.
+            continue
+
+
+def schedule_offer_matching(offer):
+    if enabled():
+        offer_id, revision = offer.pk, offer.revision
+        transaction.on_commit(
+            lambda: calculate_for_saved_offer(offer_id, revision),
+            robust=True,
+        )
