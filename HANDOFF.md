@@ -7,6 +7,16 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 10 novembre 2026 — calcul à l’enregistrement d’une offre (#180)
+
+Une offre complète rattachée à un établissement déclenche le calcul après
+enregistrement pour les profils actifs et vérifiés. Le tableau du matching
+existant permet de filtrer par offre et de trier les résultats par score.
+Les brouillons privés et les copies non modifiées restent hors calcul. Les
+décisions sont conservées et les confirmations candidat exigent toujours
+une offre validée. Le calcul s’effectue après validation de la transaction,
+dans la requête employeur. Son coût augmente avec le nombre de profils éligibles.
+
 ## 10 novembre 2026 — reprise du schéma historique des confirmations
 
 Correctif de #162 : un premier commit reproduit en PostgreSQL la collision
