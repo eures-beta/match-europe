@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 from . import engine, validation
 from .access import candidates, offers, enabled
-from .models import MatchPair, Evaluation, Decision, OfferRequirements
+from .models import MatchPair, MatchEvaluation, Decision, OfferRequirements
 
 
 class StaleEvaluation(ValueError):
@@ -73,7 +73,7 @@ def calculate(candidate, offer):
         data['facts'],
         today=timezone.localdate(),
     )
-    evaluation = Evaluation.objects.create(
+    evaluation = MatchEvaluation.objects.create(
         pair=pair,
         fingerprint=fingerprint,
         rules_version=engine.VERSION,

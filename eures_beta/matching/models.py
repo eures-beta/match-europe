@@ -49,7 +49,7 @@ class MatchPair(models.Model):
         ]
 
 
-class Evaluation(models.Model):
+class MatchEvaluation(models.Model):
     pair = models.ForeignKey(
         MatchPair, on_delete=models.CASCADE, related_name='evaluations'
     )
@@ -58,12 +58,15 @@ class Evaluation(models.Model):
     result = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'matching_evaluation'
+
 
 class Decision(models.Model):
     pair = models.ForeignKey(
         MatchPair, on_delete=models.CASCADE, related_name='decisions'
     )
-    evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE)
+    evaluation = models.ForeignKey(MatchEvaluation, on_delete=models.CASCADE)
     value = models.CharField(
         max_length=12, choices=[('retained', 'Retained'), ('refused', 'Refused')]
     )
