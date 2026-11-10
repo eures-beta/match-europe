@@ -9038,342 +9038,342 @@ msgid_plural "%(total)s skills"
 msgstr[0] "%(total)s compétence"
 msgstr[1] "%(total)s compétences"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "A recalculation preserves the previous human decision. Retaining a pair does not authorise transmission."
 msgstr "Un recalcul conserve la décision humaine précédente. Retenir une paire n’autorise aucune transmission."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Availability and conditions"
 msgstr "Disponibilité et conditions"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Based on explicit declarations, not certification."
 msgstr "Fondé sur les déclarations explicites, sans certification."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Blocked for this offer"
 msgstr "Bloqué pour cette offre"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Blocking point for this offer"
 msgstr "Point bloquant pour cette offre"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Calculate correspondence"
 msgstr "Calculer la correspondance"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Choose an offer and a candidate to examine their correspondence."
 msgstr "Choisissez une offre et un candidat pour examiner leur correspondance."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Choose another pair"
 msgstr "Choisir une autre paire"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Clarify the start date and whether it is mandatory."
 msgstr "Préciser la date de début et son caractère impératif."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Comparable information is missing."
 msgstr "Les informations comparables manquent."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Confirm comparable pay amounts, currency, gross/net basis and working hours."
 msgstr "Confirmer des salaires comparables, la devise, le brut/net et la durée de travail."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Confirm exact attendance times and whether they are mandatory."
 msgstr "Confirmer les horaires précis et leur caractère obligatoire."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Confirm interest in this contract. An unchecked choice is not a refusal."
 msgstr "Confirmer l’intérêt pour ce contrat. Un choix non coché ne vaut pas refus."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Confirm the workplace and the candidate’s interest in this location."
 msgstr "Confirmer le lieu de travail et l’intérêt du candidat pour ce lieu."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Confirmed availability compared with the latest start date."
 msgstr "Disponibilité confirmée comparée à la date limite de début."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Country preference"
 msgstr "Pays souhaité"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Declared level compared with the explicitly required level."
 msgstr "Niveau déclaré comparé au niveau explicitement demandé."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Declared skill"
 msgstr "Compétence déclarée"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Declared skills"
 msgstr "Compétences déclarées"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Established correspondence"
 msgstr "Correspondance établie"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Established points"
 msgstr "Points établis"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Experimental points — not a probability or a ranking"
 msgstr "Points expérimentaux — ni probabilité ni classement"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Explicit incompatibility"
 msgstr "Incompatibilité explicite"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Fictional candidate"
 msgstr "Candidat fictif"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Fictional data only. No message, notification or introduction is sent."
 msgstr "Données fictives uniquement. Aucun message, notification ou mise en relation n’est envoyé."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Fictional offer"
 msgstr "Offre fictive"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Hourly amounts compared in the same currency and gross/net basis."
 msgstr "Montants horaires comparés dans la même devise et sur la même base brut/net."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Human decision"
 msgstr "Décision humaine"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Language level"
 msgstr "Niveau de langue"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Languages"
 msgstr "Langues"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Local matching"
 msgstr "Matching local"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Missing information earns no points and remains unknown. These figures must not be used to reject a candidate."
 msgstr "Une information absente ne rapporte aucun point et reste inconnue. Ces chiffres ne doivent pas servir à rejeter un candidat."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "More information needed"
 msgstr "Informations à compléter"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "No confirmed blocking point does not mean all requirements are satisfied."
 msgstr "L’absence de blocage confirmé ne signifie pas que toutes les exigences sont satisfaites."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "No evaluation yet."
 msgstr "Aucune évaluation pour le moment."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "No requirement"
 msgstr "Sans exigence"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Not declared does not mean absent. Ask the candidate."
 msgstr "Non déclaré ne signifie pas absent. Demander au candidat."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Not reviewed"
 msgstr "Non examiné"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Occupation preferences are shown for discussion and do not add points."
 msgstr "Les métiers souhaités sont présentés pour discussion et ne rapportent pas de points."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Pairs already examined"
 msgstr "Paires déjà examinées"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Possible correspondence — human review needed"
 msgstr "Correspondance possible — examen humain nécessaire"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Reasons and points to verify"
 msgstr "Motifs et points à vérifier"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Recalculate"
 msgstr "Recalculer"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Refuse this pair"
 msgstr "Refuser cette paire"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Refused by the local operator"
 msgstr "Refusé par l’opérateur local"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Required attendance compared with the candidate’s declared time slots."
 msgstr "Présence exigée comparée aux créneaux déclarés par le candidat."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Required authorisation"
 msgstr "Autorisation requise"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Required time slots"
 msgstr "Créneaux exigés"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Requirements evaluated"
 msgstr "Exigences évaluées"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Retain for review"
 msgstr "Retenir pour examen"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Retained for review"
 msgstr "Retenu pour examen"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Several occupations are selected: clarify which skills apply to this position."
 msgstr "Plusieurs métiers sont sélectionnés : préciser les compétences qui concernent ce poste."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "The answers or evaluation changed. Recalculate before deciding."
 msgstr "Les réponses ou l’évaluation ont changé. Recalculer avant de décider."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "The candidate explicitly declared not holding this authorisation at the required start date."
 msgstr "Le candidat a explicitement déclaré ne pas détenir cette autorisation à la date de prise de poste requise."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "The candidate wants to learn this activity; mastery is not confirmed."
 msgstr "Le candidat souhaite apprendre cette activité ; sa maîtrise n’est pas confirmée."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "The country is among the candidate’s choices. The journey still needs checking."
 msgstr "Le pays figure dans les choix du candidat. Le trajet reste à vérifier."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "The employer explicitly declares no requirement on this point."
 msgstr "L’employeur déclare explicitement ne pas avoir d’exigence sur ce point."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "The generic “other” authorisation cannot establish compatibility."
 msgstr "L’autorisation générique « autre » ne permet pas d’établir la compatibilité."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "This action is unavailable. Review the blocking points first."
 msgstr "Cette action est indisponible. Examiner les points bloquants d’abord."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "This evaluation is out of date. Recalculate before making a decision."
 msgstr "Cette évaluation est périmée. Recalculer avant de décider."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "To verify"
 msgstr "À vérifier"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Unknown points will support the future candidate dialogue. Albert is not connected here."
 msgstr "Les points inconnus serviront au futur dialogue avec le candidat. Albert n’est pas raccordé ici."
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Unresolved point budget"
 msgstr "Points restant à déterminer"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Working condition"
 msgstr "Condition de travail"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Candidate declaration"
 msgstr "Déclaration du candidat"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Mobility"
 msgstr "Mobilité"
 
-#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/local.html
+#: eures_beta/matching/presentation.py eures_beta/matching/templates/matching/results.html
 msgid "Offer declaration"
 msgstr "Déclaration de l’offre"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Matching results"
 msgstr "Résultats du matching"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Scores are experimental. Blocking points and unknown information remain separate from the score."
 msgstr "Scores expérimentaux. Les blocages et les informations inconnues restent distincts du score."
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Employer and position"
 msgstr "Employeur et poste"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Outdated evaluation"
 msgstr "Évaluation périmée"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Details"
 msgstr "Détails"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Calculated on"
 msgstr "Calculé le"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Compare and decide"
 msgstr "Comparer et décider"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Calculate another pair"
 msgstr "Calculer une autre paire"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Matching summary"
 msgstr "Synthèse du matching"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Global score"
 msgstr "Score global"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Experimental"
 msgstr "Expérimental"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Scoring details"
 msgstr "Détail du score"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Strengths"
 msgstr "Points forts"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Explicit incompatibilities"
 msgstr "Incompatibilités explicites"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "Points to confirm"
 msgstr "Points à confirmer"
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "No established correspondence yet."
 msgstr "Aucune correspondance établie pour le moment."
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "No explicit incompatibility identified."
 msgstr "Aucune incompatibilité explicite identifiée."
 
-#: eures_beta/matching/templates/matching/local.html eures_beta/matching/templates/matching/notes.html
+#: eures_beta/matching/templates/matching/results.html eures_beta/matching/templates/matching/notes.html
 msgid "No unknown point in the evaluated criteria."
 msgstr "Aucun point inconnu parmi les critères évalués."
