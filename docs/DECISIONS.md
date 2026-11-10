@@ -278,7 +278,7 @@ et ses limites](MAGIC_LOGIN.md).
 
 ## 2 novembre 2026 — proposition locale candidat
 
-Eric demande la version locale du parcours proposé : CV facultatif, projet explicite, parcours vérifiable, conditions puis relecture. Utiliser des noms métier et abandonner les identifiants historiques dans les nouveaux champs. Cette autorisation couvre la recette locale, pas une collecte réelle, publication ou sauvegarde durable. Le détail des questions reste une proposition à essayer. Voir [recette](CANDIDATE_LOCAL_JOURNEY.md).
+Eric demande la version locale du parcours proposé : CV facultatif, projet explicite, parcours vérifiable, conditions puis relecture. Utiliser des noms métier et abandonner les identifiants historiques dans les nouveaux champs. Cette autorisation couvre la recette locale, pas une collecte réelle, publication ou sauvegarde durable. Le détail des questions reste une proposition à essayer. Voir [recette](CANDIDATE_JOURNEY.md).
 
 
 ### Ajustement du 2 novembre — choix guidés candidat

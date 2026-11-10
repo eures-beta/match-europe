@@ -1,4 +1,4 @@
-# Questionnaire candidat local — 2 novembre 2026
+# Parcours candidat
 
 ## Version actuelle : projet guidé sans CV
 
@@ -13,7 +13,9 @@
 1. **Projet** : recherche ESCO FR/EN/DE et ROME direct en français, sélections multiples indépendantes ; pays proposés, précision de lieux et métier libre si nécessaire.
 2. **Mobilité et langues** : déplacements depuis le domicile ou installation ; durée maximale de trajet et transports conditionnels ; niveaux de langue déclarés, permis détenus et autre autorisation. Aucun permis n’est déduit du choix voiture.
 3. **Conditions** : disponibilité, contrats et quotité séparés, horaires variés ou grille hebdomadaire, conditions acceptées et attente salariale éventuelle structurée.
-4. **Récapitulatif** : relecture modifiable et confirmation de démonstration. Nom fictif demandé ; email fictif facultatif. Aucun compte créé ni sauvegarde métier durable.
+4. **Récapitulatif** : relecture modifiable et confirmation explicite. La création du compte et du profil durable est
+   soumise à la vérification de l’adresse e-mail et à une confirmation POST.
+   Voir [l’inscription candidat](CANDIDATE_EMAIL_REGISTRATION.md).
 
 Les descriptions de parcours et l’envoi de fichier ne sont plus acceptés. Le lecteur brut et les tests introduits spécifiquement pour l’essai CV ont été retirés ; aucun changement du lecteur PDF/image employeur.
 
@@ -27,7 +29,13 @@ Source historique locale consultée : `forms/eures-beta/app.js`, module horaires
 
 ### Accès et conservation
 
-Démonstration uniquement, via les protections du socle (mode démo et loopback explicites ou démo partagée HTTPS). CSRF, jeton et validation des choix côté serveur. Aucun appel externe, profil métier, compte, matching, email ou transmission. Brouillon privé à la session, accès limité à 2 heures sans activité (délai remis à zéro à chaque page du parcours, avertissement 2 minutes avant avec bouton de prolongation) et suppression explicite possible. L’expiration est vérifiée lors d’une requête ; sans requête ultérieure, la ligne de session reste jusqu’au nettoyage technique Django. Ce délai ne constitue pas une purge planifiée.
+Le parcours est disponible dans tous les environnements, sans restriction
+loopback ou mode démo. Les choix sont validés côté serveur, avec CSRF et jeton
+de brouillon. La confirmation d'inscription est distincte du brouillon ; elle
+crée un compte et un profil après vérification, selon le contrat d'inscription.
+Le transport e-mail reste configuré séparément et protégé côté serveur.
+
+Brouillon privé à la session, accès limité à 2 heures sans activité (délai remis à zéro à chaque page du parcours, avertissement 2 minutes avant avec bouton de prolongation) et suppression explicite possible. L’expiration est vérifiée lors d’une requête ; sans requête ultérieure, la ligne de session reste jusqu’au nettoyage technique Django. Ce délai ne constitue pas une purge planifiée.
 
 Lors de la reprise d’un ancien brouillon, texte CV, sources d’extraction et champs supprimés sont retirés de la session active ; les réponses encore utiles (projet et préférences) sont conservées. La nouvelle structure recommence à la première étape pour relecture, avec un nouveau jeton. Cela ne constitue pas une purge des anciennes sessions inactives ou des sauvegardes techniques.
 
@@ -42,7 +50,8 @@ champs en cours de saisie restent dans le formulaire du navigateur jusqu'à
 leur validation. `make candidate-ui-test` vérifie ces annonces, y compris une
 réponse HTML ou dépourvue de confirmation.
 
-FR/EN/DE, contrôles serveur des réponses conditionnelles, des choix incompatibles, des créneaux et des montants. Notice et politique de conservation à finaliser avant toute collecte réelle. Coque et logos conservés ; aucun audit complet WCAG ni certification graphique. Aucun push, fusion, publication ou déploiement.
+FR/EN/DE, contrôles serveur des réponses conditionnelles, des choix incompatibles, des créneaux et des montants. Consulter la notice `/privacy/` et le contrat d’inscription pour la conservation. Coque et logos conservés ; aucun audit complet WCAG ni certification graphique. Les anciennes validations chiffrées ci-dessous décrivent des étapes historiques,
+pas la validation de la version courante.
 
 Validation de cette version : 232 tests PostgreSQL réussis, dont 18 tests ciblés candidat. Contrôles Django/migrations, traductions FR/DE, syntaxe JavaScript et formatage des templates réussis. Accueil simplifié vérifié dans le navigateur.
 

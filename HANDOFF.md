@@ -983,12 +983,12 @@ pour employeur, conseiller et conseiller staff.
 
 ## 2 novembre 2026 — parcours candidat local
 
-Branche `codex/candidate-local-journey` créée dans la copie courante, qui ne reste donc plus une référence détachée inchangée. Parcours avec/sans CV, profil commun en cinq étapes et récapitulatif ; interface FR/EN/DE. Lecture brute PDF/image partagée dans `documents`, brouillon de session uniquement, sans migration ni changement employeur. 231 tests PostgreSQL passent, dont 10 nouveaux. Recette : `make candidate-run`. Voir [périmètre, conservation et limites](docs/CANDIDATE_LOCAL_JOURNEY.md). Aucun push, fusion ou déploiement.
+Branche `codex/candidate-local-journey` créée dans la copie courante, qui ne reste donc plus une référence détachée inchangée. Parcours avec/sans CV, profil commun en cinq étapes et récapitulatif ; interface FR/EN/DE. Lecture brute PDF/image partagée dans `documents`, brouillon de session uniquement, sans migration ni changement employeur. 231 tests PostgreSQL passent, dont 10 nouveaux. Recette : `make candidate-run`. Voir [périmètre, conservation et limites](docs/CANDIDATE_JOURNEY.md). Aucun push, fusion ou déploiement.
 
 
 ### Ajustement local candidat — choix guidés et métiers
 
-Recherche ESCO/ROME indépendante raccordée à l’API locale existante, sélection multiple conservée et validée côté serveur, relecture avec libellés canoniques. Pays, langues, permis, disponibilité, mobilité, contrats, quotité, conditions et salaire guidés. Contrôles serveur et détails conditionnels. 235 tests PostgreSQL réussis, recette navigateur jusqu’au récapitulatif. Voir `docs/CANDIDATE_LOCAL_JOURNEY.md`. Aucun changement employeur, migration, push ou déploiement.
+Recherche ESCO/ROME indépendante raccordée à l’API locale existante, sélection multiple conservée et validée côté serveur, relecture avec libellés canoniques. Pays, langues, permis, disponibilité, mobilité, contrats, quotité, conditions et salaire guidés. Contrôles serveur et détails conditionnels. 235 tests PostgreSQL réussis, recette navigateur jusqu’au récapitulatif. Voir `docs/CANDIDATE_JOURNEY.md`. Aucun changement employeur, migration, push ou déploiement.
 
 
 ### Correction locale — reprise sans CV
@@ -1003,7 +1003,7 @@ Le lien « Commencer sans CV » ouvre toujours le projet (étape 2), même avec 
 
 ## 2 novembre 2026 — candidat sans CV ni historique professionnel
 
-Décision d’Eric : reprendre l’esprit du questionnaire historique FT et garder ESCO/ROME ; retirer import CV, expériences, formations/diplômes et compétences. Quatre étapes, bouton de démarrage unique. Choix historiques de trajet et transports ajoutés conditionnellement à mobilité/langues ; horaires hebdomadaires conservés. Retrait du lecteur introduit uniquement pour l’essai CV et refus serveur des fichiers. Nettoyage des champs retirés à la reprise des anciennes sessions, projet/préférences conservés pour relecture. Aucun changement du lecteur employeur, du modèle ou du matching. Voir `docs/CANDIDATE_LOCAL_JOURNEY.md`.
+Décision d’Eric : reprendre l’esprit du questionnaire historique FT et garder ESCO/ROME ; retirer import CV, expériences, formations/diplômes et compétences. Quatre étapes, bouton de démarrage unique. Choix historiques de trajet et transports ajoutés conditionnellement à mobilité/langues ; horaires hebdomadaires conservés. Retrait du lecteur introduit uniquement pour l’essai CV et refus serveur des fichiers. Nettoyage des champs retirés à la reprise des anciennes sessions, projet/préférences conservés pour relecture. Aucun changement du lecteur employeur, du modèle ou du matching. Voir `docs/CANDIDATE_JOURNEY.md`.
 
 
 ### Langues candidat — module partagé
