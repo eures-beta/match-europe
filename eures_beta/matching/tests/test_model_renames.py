@@ -96,3 +96,11 @@ class MatchModelRenameTests(TransactionTestCase):
             'Evaluation',
             'MatchEvaluation',
         )
+
+    def test_decision_rename_and_rollback_preserve_data(self):
+        self.assert_rename_preserves_data(
+            '0002_rename_match_evaluation',
+            '0003_rename_match_decision',
+            'Decision',
+            'MatchDecision',
+        )

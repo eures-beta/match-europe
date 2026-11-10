@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 from . import engine, validation
 from .access import candidates, offers, enabled
-from .models import MatchPair, MatchEvaluation, Decision, OfferRequirements
+from .models import MatchPair, MatchEvaluation, MatchDecision, OfferRequirements
 
 
 class StaleEvaluation(ValueError):
@@ -110,5 +110,5 @@ def decide(pair_id, evaluation_id, value):
     ):
         pair.decision = value
         pair.save(update_fields=['decision'])
-        Decision.objects.create(pair=pair, evaluation=evaluation, value=value)
+        MatchDecision.objects.create(pair=pair, evaluation=evaluation, value=value)
     return pair

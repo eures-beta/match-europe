@@ -12,7 +12,7 @@ from eures_beta.matching import engine, services, validation
 from eures_beta.matching.models import (
     MatchPair,
     MatchEvaluation,
-    Decision,
+    MatchDecision,
     OfferRequirements,
 )
 from eures_beta.candidates.models import CandidateProfile
@@ -308,7 +308,7 @@ class LocalMatchingTests(TestCase):
         evaluation = pair.evaluations.latest('id')
         services.decide(pair.pk, evaluation.pk, 'refused')
         services.decide(pair.pk, evaluation.pk, 'refused')
-        self.assertEqual(Decision.objects.count(), 1)
+        self.assertEqual(MatchDecision.objects.count(), 1)
         services.calculate(pair.candidate, pair.offer)
         pair.refresh_from_db()
         self.assertEqual(pair.decision, 'refused')
@@ -318,7 +318,7 @@ class LocalMatchingTests(TestCase):
         pair = self.pair('date')
         with self.assertRaises(ValueError):
             services.decide(pair.pk, pair.evaluations.latest('id').pk, 'retained')
-        self.assertEqual(Decision.objects.count(), 0)
+        self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_latest_evaluation_and_current_answers_required(self):
         pair = self.pair()
@@ -361,7 +361,7 @@ class LocalMatchingTests(TestCase):
             403,
         )
         self.assertEqual(self.client.post(path, {'action': 'send'}).status_code, 400)
-        self.assertEqual(Decision.objects.count(), 0)
+        self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_all_environments_and_remote_clients_keep_explicit_permissions(self):
         path = reverse('matching_local')
@@ -526,7 +526,7 @@ class LocalMatchingTests(TestCase):
         )
         self.assertTrue(entry['stale'])
         self.assertEqual(MatchEvaluation.objects.count(), before)
-        self.assertEqual(Decision.objects.count(), 0)
+        self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_detail_score_is_visible_without_an_expand_action(self):
         pair = self.pair('unknown')

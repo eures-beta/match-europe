@@ -1316,3 +1316,17 @@ Les entrées éditoriales ont des clés lisibles et des champs nommés : groupe,
 libellé, description et identifiant ESCO. Identifiants externes, textes gettext,
 ordre des groupes et choix enregistrés conservés. Aucun modèle ni migration.
 Validation : 506 tests PostgreSQL, Django/migrations, Black et traductions réussis.
+
+## 10 novembre 2026 — noms explicites des modèles de matching (#160)
+
+À la demande de dejafait, deux commits distincts renomment Evaluation en
+MatchEvaluation puis Decision en MatchDecision. Deux migrations réversibles
+conservent les tables physiques matching_evaluation / matching_decision et leurs
+lignes, identifiants et relations ; les ContentType et permissions sont renommés
+sans changer leurs identifiants ni les attributions de groupe. Collision de
+métadonnées refusée, pas de fusion silencieuse. Aucun calcul ni décision métier
+modifié. Les migrations et imports des PR descendantes devront être adaptés à
+ces noms lors de leur prochain rafraîchissement ; elles ne sont pas modifiées ici.
+Validation : 537 tests après le premier commit, 538 après le second, PostgreSQL,
+Django/migrations et Black ; tests aller-retour avec lignes et permissions.
+Aucune fusion ni opération sur une base distante.

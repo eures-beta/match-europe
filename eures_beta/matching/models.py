@@ -62,7 +62,7 @@ class MatchEvaluation(models.Model):
         db_table = 'matching_evaluation'
 
 
-class Decision(models.Model):
+class MatchDecision(models.Model):
     pair = models.ForeignKey(
         MatchPair, on_delete=models.CASCADE, related_name='decisions'
     )
@@ -73,3 +73,6 @@ class Decision(models.Model):
     # No actor impersonation: this prototype has an explicit local operator only.
     actor = models.CharField(max_length=32, default='local_operator', editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'matching_decision'
