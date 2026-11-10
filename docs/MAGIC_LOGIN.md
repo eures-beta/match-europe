@@ -49,8 +49,9 @@ de test n’est exposé par les nouvelles routes publiques.
 
 ## Configuration e-mail, sans secret dans Git
 
-Par défaut, l’envoi est désactivé et l’écran le dit explicitement. La recette peut
-être relue sans compte ni accès SMTP. Les tests utilisent une boîte en mémoire.
+Par défaut, l’envoi est désactivé côté serveur. Le formulaire et sa confirmation
+gardent le même affichage dans les trois environnements, avec ou sans transport
+configuré. Aucun lien secret n’est exposé. Les tests utilisent une boîte en mémoire.
 
 L’activation nécessite `LOGIN_EMAIL_ENABLED=1`, une origine HTTPS fixe
 `LOGIN_EMAIL_ORIGIN` dont l’hôte figure dans `DJANGO_ALLOWED_HOSTS`,
@@ -75,7 +76,7 @@ Utiliser `make check`, `make format-check`, `make format-html-check`,
 `make format-js-check`, `make check-js` et `make translations-check` pour les contrôles.
 
 En recette, ouvrir les onglets publics puis le bouton de connexion, changer de
-langue et vérifier le message d’inscription sur invitation et l’envoi désactivé.
+langue et vérifier le message d’inscription sur invitation et la confirmation de demande.
 L’envoi réel ne sera validé qu’après configuration privée du prestataire.
 
 ## Transport réservé à la production
@@ -93,8 +94,8 @@ existante. Ces indicateurs sont de la configuration de déploiement : aucune
 détection à partir du mode démo ou de DEBUG, communs à plusieurs environnements.
 
 Le backend refuse un envoi interdit avec une erreur de configuration, avant
-d’ouvrir SMTP, y compris avec une connexion déjà fournie. Les vues affichent
-l’état « envoi indisponible ». Les tests utilisent des transports simulés et
+d’ouvrir SMTP, y compris avec une connexion déjà fournie. La configuration ne
+modifie pas les textes du parcours. Les tests utilisent des transports simulés et
 n’envoient aucun e-mail réel. Une liste blanche d’équipe n’est pas implémentée.
 
 Pour Brevo, utiliser le SMTP Django standard : serveur `smtp-relay.brevo.com`,

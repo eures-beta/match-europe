@@ -840,6 +840,11 @@ The five permanent quality pillars for every user-facing feature are:
 
 ## Parité fonctionnelle des environnements
 
+- Les parcours ont le même affichage en local, en recette et en production,
+  y compris lorsque le transport d’e-mails est désactivé. Ne pas ajouter de
+  bandeau « aucun e-mail envoyé » ni désactiver le formulaire de connexion pour
+  présenter une recette. Les protections d’envoi restent côté serveur ; aucun
+  lien secret ne doit être affiché pour remplacer un e-mail.
 - Une fonctionnalité métier livrée fonctionne en local, en recette jetable et en production. Ne pas la conditionner au nom de l’environnement, au mode démo, à une adresse loopback, à une adresse fictive ou à la désactivation des e-mails.
 - Les fonctionnalités sont actives par défaut. Les secrets, origines de confiance et connexions aux services restent configurables ; leur absence doit produire un état explicite ou un repli prévu, pas une simulation silencieuse.
 - Les simulations et outils de peuplement fictif restent des outils de test explicitement activés et isolés. Ils ne constituent jamais une condition d’accès au parcours métier.

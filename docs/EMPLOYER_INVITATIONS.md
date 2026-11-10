@@ -45,8 +45,8 @@ qui ne crée jamais de compte : aucune inscription autonome n'est ouverte.
 
 ## Simulation privée des messages
 
-Aucun prestataire n'est configuré et l'envoi reste désactivé par défaut. Le
-formulaire réserve l'invitation et annonce explicitement l'absence d'envoi.
+L'envoi reste désactivé par défaut. Le formulaire confirme l'enregistrement
+de l'invitation avec le même texte, quelle que soit la configuration du transport.
 Un opérateur peut utiliser la référence UUID affichée :
 
 ```bash

@@ -45,14 +45,15 @@ class EmployerLoginTests(TestCase):
             self.client.get('/employer/connected/'), 'Mon espace employeur'
         )
 
-    def test_sent_page_separates_test_inbox(self):
+    def test_sent_page_does_not_expose_test_inbox(self):
         response = self.client.post(
             '/employer/access/', {'email': 'screen@example.invalid'}
         )
         self.assertRedirects(response, '/employer/email-sent/')
         response = self.client.get('/employer/email-sent/?lang=fr')
         self.assertContains(response, 'Consultez votre email')
-        self.assertContains(response, 'Pour le test : voir l’email simulé')
+        self.assertNotContains(response, 'Pour le test : voir l’email simulé')
+        self.assertNotContains(response, '/employer/test-inbox/')
         self.assertNotContains(response, '/employer/confirm/')
 
     def test_expired_and_invalid_links(self):

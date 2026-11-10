@@ -105,7 +105,9 @@ def login(request):
     ready = email_ready()
     if valid:
         if not ready:
-            return page(request, 'unavailable', form=form, email_ready=False)
+            # Transport configuration must not change the previewed login journey.
+            # Keep sending disabled, without exposing links or account existence.
+            return page(request, 'sent', email_ready=False)
         email = form.cleaned_data['email'].strip().lower()
         if allow_request(request, email):
             user = (

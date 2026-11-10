@@ -5,13 +5,7 @@
   <section class="account-panel" aria-labelledby="invite-title">
     <h1 id="invite-title">{% translate "Invite an employer" %}</h1>
     {% if invitation %}
-      <p role="status">
-        {% if sent %}
-          {% translate "The invitation email has been sent." %}
-        {% else %}
-          {% translate "Invitation saved. No email has been sent; delivery is not available. An operator can simulate the email privately." %}
-        {% endif %}
-      </p>
+      <p role="status">{% translate "Invitation saved." %}</p>
       <p>{{ invitation.email }} — {% translate "Expires on" %} <time datetime="{{ invitation.expires_at|date:'c' }}">{{ invitation.expires_at|date:"SHORT_DATETIME_FORMAT" }}</time></p>
       <p>{% translate "Invitation reference" %} : <code>{{ invitation.pk }}</code></p>
     {% else %}
