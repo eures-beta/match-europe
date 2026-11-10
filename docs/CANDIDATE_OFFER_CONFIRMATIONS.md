@@ -20,10 +20,25 @@ Elle devient périmée si les réponses ou les informations pertinentes changent
 La sollicitation et l’accord ne déclenchent aucun envoi ni accès employeur.
 Les pages sont privées et les formulaires protègent contre les réponses périmées.
 
-La migration additive `matching.0005_offer_confirmations` crée les demandes,
-réponses et accords au-dessus du schéma de `main`. Les aperçus ayant appliqué
-les migrations de l’ancienne pile doivent être examinés séparément avant
-réutilisation. La migration n’importe pas les données de cette pile.
+La migration `matching.0005_offer_confirmations` crée les demandes, réponses et
+accords sur une installation vierge. Elle reconnaît aussi l’ancienne migration
+`0003_confirmationrequest_confirmationanswer_and_more`, déjà exécutée dans
+certaines recettes avant le réagencement de la pile.
+
+Dans ce cas, elle vérifie les trois tables : colonnes et types, nullabilité,
+identités et valeurs par défaut, clés primaires, unicité, clés étrangères et
+index. Si le schéma correspond, Django conserve les tables, leurs données,
+identifiants et séquences, puis enregistre normalement la nouvelle migration.
+L’ancien enregistrement est conservé. Aucun `--fake` ni effacement n’est requis.
+Un schéma partiel, incompatible ou sans cet historique précis est refusé.
+
+Le retour arrière d’une migration ayant repris le schéma historique conserve
+ces tables et leur ancien historique ; une installation neuve conserve le retour
+arrière habituel avec suppression des trois tables nouvellement créées.
+
+`make confirmations-migrations-test` reproduit l’ancien schéma à partir de sa
+migration figée, avec des données non vides. Il vérifie leur conservation,
+l’aller-retour, les séquences, la création vierge et le refus des divergences.
 
 Utiliser `make confirmations-test` pour les tests ciblés, `make test` pour
 la suite PostgreSQL et `make check` pour les contrôles Django et de migration.

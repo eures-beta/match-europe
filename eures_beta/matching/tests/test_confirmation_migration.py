@@ -108,3 +108,113 @@ class ConfirmationMigrationTests(TransactionTestCase):
         self.assertIn(
             ('matching', OLD), MigrationRecorder(connection).applied_migrations()
         )
+        self.migrate('0004_merge_offer_requirements')
+        self.assertEqual(self.snapshot(), before)
+        state = self.migrate(NEW)
+        self.assertEqual(self.snapshot(), before)
+        Answer = state.apps.get_model('matching', 'ConfirmationAnswer')
+        old = Answer.objects.first()
+        new = Answer.objects.create(
+            request_id=old.request_id,
+            actor_id=old.actor_id,
+            question_key='another-condition',
+            fingerprint='c' * 64,
+            presented={'text': 'Another condition'},
+            value='yes',
+            detail='',
+        )
+        self.assertGreater(new.pk, old.pk)
+
+    def assert_refused(self, message='Legacy confirmation schema mismatch'):
+        before = self.snapshot()
+        with self.assertRaisesMessage(RuntimeError, message):
+            self.migrate(NEW)
+        self.assertEqual(self.snapshot(), before)
+        self.assertNotIn(
+            ('matching', NEW), MigrationRecorder(connection).applied_migrations()
+        )
+
+    def test_existing_tables_without_legacy_record_are_refused(self):
+        self.legacy()
+        MigrationRecorder(connection).record_unapplied('matching', OLD)
+        self.assert_refused('Unexpected confirmation schema')
+
+    def test_column_type_drift_is_refused_without_changing_rows(self):
+        self.legacy()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                'ALTER TABLE matching_confirmationanswer ALTER COLUMN question_key TYPE varchar(249)'
+            )
+        self.assert_refused()
+
+    def test_nullable_column_drift_is_refused_without_changing_rows(self):
+        self.legacy()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                'ALTER TABLE matching_confirmationanswer ALTER COLUMN question_key DROP NOT NULL'
+            )
+        self.assert_refused()
+
+    def test_missing_foreign_key_is_refused_without_changing_rows(self):
+        self.legacy()
+        with connection.cursor() as cursor:
+            constraints = connection.introspection.get_constraints(
+                cursor, 'matching_confirmationanswer'
+            )
+            name = next(
+                name for name, value in constraints.items() if value['foreign_key']
+            )
+            cursor.execute(
+                'ALTER TABLE matching_confirmationanswer DROP CONSTRAINT '
+                + connection.ops.quote_name(name)
+            )
+        self.assert_refused()
+
+    def test_missing_uniqueness_is_refused_without_changing_rows(self):
+        self.legacy()
+        with connection.cursor() as cursor:
+            constraints = connection.introspection.get_constraints(
+                cursor, 'matching_confirmationrequest'
+            )
+            name = next(
+                name
+                for name, value in constraints.items()
+                if value['unique'] and not value['primary_key']
+            )
+            cursor.execute(
+                'ALTER TABLE matching_confirmationrequest DROP CONSTRAINT '
+                + connection.ops.quote_name(name)
+            )
+        self.assert_refused()
+
+    def test_partial_schema_is_refused(self):
+        state = self.legacy()
+        Request = state.apps.get_model('matching', 'ConfirmationRequest')
+        before = list(Request.objects.values())
+        with connection.schema_editor() as editor:
+            editor.delete_model(
+                state.apps.get_model('matching', 'TransmissionAgreement')
+            )
+        with self.assertRaisesMessage(RuntimeError, 'Unexpected confirmation schema'):
+            self.migrate(NEW)
+        self.assertEqual(list(Request.objects.values()), before)
+
+    def test_empty_schema_with_legacy_record_is_refused(self):
+        state = self.legacy()
+        with connection.schema_editor() as editor:
+            for name in reversed(NAMES):
+                editor.delete_model(state.apps.get_model('matching', name))
+        with self.assertRaisesMessage(RuntimeError, 'Unexpected confirmation schema'):
+            self.migrate(NEW)
+
+    def test_fresh_schema_can_be_created_reversed_and_created_again(self):
+        self.migrate('0004_merge_offer_requirements')
+        state = self.migrate(NEW)
+        tables = {
+            state.apps.get_model('matching', name)._meta.db_table for name in NAMES
+        }
+        self.assertTrue(tables <= set(connection.introspection.table_names()))
+        self.migrate('0004_merge_offer_requirements')
+        self.assertFalse(tables & set(connection.introspection.table_names()))
+        self.migrate(NEW)
+        self.assertTrue(tables <= set(connection.introspection.table_names()))

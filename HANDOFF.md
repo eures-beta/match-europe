@@ -1,3 +1,13 @@
+## 10 novembre 2026 — reprise du schéma historique des confirmations
+
+Correctif de #162 : un premier commit reproduit en PostgreSQL la collision
+« matching_confirmationrequest already exists » ; le suivant adapte la migration
+0005 pour reprendre les trois tables de l’ancienne 0003 uniquement après contrôle
+du schéma et de son enregistrement. Aucun effacement ni fake. Neuf tests vérifient
+les données non vides, les identifiants et tables conservés, l’aller-retour, les
+séquences, l’installation vierge et le refus des divergences. Voir
+[le contrat de migration](docs/CANDIDATE_OFFER_CONFIRMATIONS.md).
+
 ## 10 novembre 2026 — confirmations candidat sur le matching de main
 
 La #162 reprend les permissions existantes du matching et ajoute la confirmation
