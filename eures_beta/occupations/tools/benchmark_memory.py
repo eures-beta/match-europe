@@ -6,6 +6,7 @@ import sys
 
 PROGRAM = '''
 import json, os, resource, sys, time
+from pathlib import Path
 os.environ.update(DJANGO_SETTINGS_MODULE='config.settings', DJANGO_SECRET_KEY='memory-test-only', DJANGO_ALLOWED_HOSTS='testserver', EMAIL_DELIVERY_ENABLED='0', LOGIN_EMAIL_ENABLED='0')
 import django
 django.setup()
@@ -16,8 +17,13 @@ response = Client().post('/api/occupations/', query, content_type='application/j
 assert response.status_code == 200, response.status_code
 data = response.json()
 peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-if sys.platform != 'darwin':
-    peak *= 1024
+if sys.platform.startswith('linux'):
+    # Linux ru_maxrss can retain the pre-exec child's inherited high-water mark
+    # from a large test runner. VmHWM belongs to this executable's address space.
+    status = Path('/proc/self/status').read_text().splitlines()
+    peak = int(next(line.split()[1] for line in status if line.startswith('VmHWM:'))) * 1024
+elif sys.platform != 'darwin':
+    raise RuntimeError('Memory measurement supported on Linux and macOS only')
 print(json.dumps({'seconds': round(time.monotonic()-started, 3), 'peak_mib': round(peak/1048576, 2), 'esco': len(data['results']), 'rome': len(data['rome_results'])}))
 '''
 

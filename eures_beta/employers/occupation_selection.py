@@ -5,7 +5,7 @@ from eures_beta.occupations.catalog import (
     catalog,
     occupation_index,
     present,
-    rome_catalog,
+    rome_search_catalog,
 )
 
 
@@ -21,7 +21,7 @@ def clean_selection(value, title):
         not isinstance(rome_codes, list)
         or len(rome_codes) > 20
         or any(
-            not isinstance(code, str) or code not in rome_catalog()['fiches']
+            not isinstance(code, str) or code not in rome_search_catalog()['fiches']
             for code in rome_codes
         )
         or language not in LANGUAGES
@@ -45,7 +45,7 @@ def clean_selection(value, title):
         'personal': personal.strip(),
         'rome_codes': list(dict.fromkeys(rome_codes)),
         'rome_jobs': [
-            rome_catalog()['fiches'][code] for code in dict.fromkeys(rome_codes)
+            rome_search_catalog()['fiches'][code] for code in dict.fromkeys(rome_codes)
         ],
         'rome_version': '26M10',
         'jobs': [present(occupation_index()[uri], language) for uri in uris],
