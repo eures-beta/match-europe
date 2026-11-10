@@ -11,12 +11,13 @@ modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
 TRANSVERSE : `make e2e-test` lance les parcours employeur, conseiller et candidat
 sur Gunicorn/PostgreSQL isolés, avec un plafond cgroup de 256 Mio pour le serveur.
-Quatre recherches ordinaires simultanées à froid utilisent les JSON complets ;
+Huit recherches ordinaires simultanées à froid utilisent les JSON complets ;
 PDF, client Albert HTTPS, emails capturés, confirmations et sauvegardes sont
 vérifiés. Albert et le transport email sont des frontières externes simulées.
 `make e2e-regression` exécute le code historique avant #177 : OOM/SIGKILL détecté,
 alors que le code corrigé passe. Une recherche seule ne reproduit pas le kill
-localement ; le témoin porte explicitement sur quatre recherches concurrentes.
+localement ; le témoin porte explicitement sur huit recherches concurrentes,
+une par thread (quatre ne suffisent pas sur le premier essai CI amd64).
 Ce sont des parcours HTTP, sans exécution JavaScript de navigateur. Le job ajouté
 au workflow avant déploiement vérifie les deux cas. Aucun modèle, migration,
 secret ou comportement applicatif modifié. Voir [le guide](docs/SYSTEM_TESTS.md).
