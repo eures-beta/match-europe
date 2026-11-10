@@ -9583,3 +9583,7 @@ msgstr "Votre profil est enregistré. Examiner une offre ne le transmet pas à u
 
 msgid "Latest start date"
 msgstr "Date limite de prise de poste"
+
+#: eures_beta/matching/confirmation_views.py:222
+msgid "Maximum"
+msgstr "Maximum"
