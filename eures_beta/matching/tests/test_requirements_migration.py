@@ -82,6 +82,36 @@ class OfferRequirementsMigrationTests(TransactionTestCase):
             payload,
         )
 
+    def test_retired_initial_migration_record_without_matching_tables(self):
+        apps, pk, payload, updated = self.prepare()
+        names = ('MatchPair', 'MatchEvaluation', 'MatchDecision', 'OfferRequirements')
+        models = [apps.get_model('matching', name) for name in names]
+        # Production kept the old app migration record after retiring its tables.
+        with connection.schema_editor() as editor:
+            for model in reversed(models):
+                editor.delete_model(model)
+        try:
+            current = self.migrate('0004_merge_offer_requirements')
+            offer = current.get_model('employers', 'JobOffer').objects.get(pk=pk)
+            self.assertEqual(offer.structured_requirements, {})
+            self.assertEqual(offer.updated, updated)
+            self.assertEqual(
+                current.get_model('matching', 'MatchPair').objects.count(), 0
+            )
+            self.assertNotIn(
+                'matching_offerrequirements', connection.introspection.table_names()
+            )
+        finally:
+            # Restore the historical schema if the regression still fails, so
+            # teardown can migrate normally without masking the first failure.
+            if not any(
+                model._meta.db_table in connection.introspection.table_names()
+                for model in models
+            ):
+                with connection.schema_editor() as editor:
+                    for model in models:
+                        editor.create_model(model)
+
     def test_conflicting_existing_values_are_not_overwritten(self):
         apps, pk, payload, _ = self.prepare()
         Offer = apps.get_model('employers', 'JobOffer')
