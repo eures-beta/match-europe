@@ -55,7 +55,7 @@ vérifié à `d12374c` : 50 métiers distincts, sept existants conservés et 43 
 La liste détaillée et les sélections sont proposées à la relecture, pas validées
 individuellement par Eric. Architecture des deux JSON et protections locales
 conservées ; aucune correspondance ROME ou statistique de recrutement ajoutée.
-Voir [la liste](SKILLS_CATALOGUE_50.md) et [les contrôles](SKILLS_PILOT.md).
+Voir [la liste](SKILLS_CATALOGUE_50.md) et [les contrôles](SKILLS.md).
 
 ## 6 novembre 2026 — pilote commun de sélection des compétences
 
@@ -65,7 +65,7 @@ parcours local employeur/candidat pour tester et valider avant push.
 Le catalogue et les identifiants sont communs ; les questions et les réponses
 restent distinctes par rôle. Les plafonds de cinq compétences et trois savoir-être
 restent à éprouver en recette. Aucune publication, fusion ni production autorisée
-par cette étape. Voir [le pilote local](SKILLS_PILOT.md).
+par cette étape. Voir [les compétences](SKILLS.md).
 
 ## 6 novembre 2026 — évaluer Albert localement avant publication
 
