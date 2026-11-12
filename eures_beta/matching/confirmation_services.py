@@ -7,6 +7,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from . import access
 from .models import (
     CandidateOfferMatch,
@@ -54,6 +55,16 @@ def request_confirmation(user, pair_id):
         pair=pair, defaults={'requested_by': user}
     )
     return request
+
+
+def short_question(row):
+    if (
+        row['kind'] == 'schedule'
+        and row['askable']
+        and row['presented']['expected']['slots'] == ['saturday:morning']
+    ):
+        return _('Are you available on Saturday morning?')
+    return ''
 
 
 def questions(request):

@@ -1,7 +1,9 @@
+import json
 import os
 import subprocess
 import sys
 from io import StringIO
+from urllib.parse import parse_qs, urlsplit
 
 from django.contrib.auth import get_user_model
 from django.core import mail
@@ -115,8 +117,17 @@ class TestAccountAccessTests(TestCase):
             send.assert_called_once()
         confirmation = ConfirmationRequest.objects.get(pair=pair)
         dialogue = reverse('candidate_offer_dialogue', args=[confirmation.pk])
-        self.assertIn(dialogue, send.call_args.kwargs['data'])
-        self.assertEqual(candidate.get(dialogue).status_code, 200)
+        payload = json.loads(send.call_args.kwargs['data'])
+        self.assertTrue(payload['body'])
+        target = urlsplit(payload['url'])
+        self.assertEqual(target.path, dialogue)
+        self.assertEqual(target.fragment, 'question-title')
+        page = candidate.get(payload['url'])
+        self.assertEqual(page.status_code, 200)
+        self.assertEqual(page.context['current']['kind'], 'schedule')
+        self.assertEqual(
+            parse_qs(target.query)['question'], [page.context['current']['key']]
+        )
 
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):

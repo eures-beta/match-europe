@@ -7264,3 +7264,9 @@ msgstr "Aktiviere Benachrichtigungen, damit du erfährst, wenn die Beratung dein
 
 msgid "Phone ready for the test. You can close the app and validate the match on your computer."
 msgstr "Das Telefon ist bereit für den Test. Du kannst die App schließen und das Matching am Computer bestätigen."
+
+msgid "Are you available on Saturday morning?"
+msgstr "Bist du am Samstagmorgen verfügbar?"
+
+msgid "Send"
+msgstr "Senden"
