@@ -6,6 +6,7 @@
     <nav aria-label="Tableau de bord conseiller">
       <a class="primary-action"
          href="{% url 'adviser_invitations' %}?lang={{ page_language }}">Inviter</a>
+      <a href="{% url 'dashboard' %}?lang={{ page_language }}&amp;tab=history">Données et historique</a>
     </nav>
     <h2>{% translate "Employer accounts" %}</h2>
     <div class="account-table-scroll">
