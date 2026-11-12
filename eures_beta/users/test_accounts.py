@@ -28,6 +28,23 @@ ACCOUNTS = {
     },
 }
 
+PWA_ACCOUNTS = {
+    'candidate-pwa': {
+        'email': 'compatible@matching-trial.invalid',
+        'kind': User.Kind.CANDIDATE,
+        'is_staff': False,
+        'is_superuser': False,
+        'label': _('Test candidate'),
+    },
+    'candidate-pwa-replay': {
+        'email': 'unknown@matching-trial.invalid',
+        'kind': User.Kind.CANDIDATE,
+        'is_staff': False,
+        'is_superuser': False,
+        'label': _('Second test candidate'),
+    },
+}
+
 
 def enabled():
     return bool(
@@ -47,7 +64,7 @@ def fictional_database():
 
 
 def prepared_user(key):
-    specification = ACCOUNTS.get(key)
+    specification = ACCOUNTS.get(key) or PWA_ACCOUNTS.get(key)
     if not specification:
         return None
     user = User.objects.filter(email__iexact=specification['email']).first()

@@ -7240,3 +7240,9 @@ msgstr "Noch zu klären"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Test candidate"
+msgstr "Testbewerber"
+
+msgid "Second test candidate"
+msgstr "Zweiter Testbewerber"

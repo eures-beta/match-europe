@@ -34,6 +34,34 @@ class TestAccountAccessTests(TestCase):
         self.assertFalse(User.objects.exists())
         self.assertIn('no-store', page['Cache-Control'])
 
+    @override_settings(
+        DJANGO_ENVIRONMENT='preview', MATCHING_ENABLED=True, LOGIN_EMAIL_ENABLED=False
+    )
+    def test_preview_candidates_can_reopen_their_own_offer(self):
+        from eures_beta.matching.confirmation_services import candidate_requests
+        from eures_beta.matching.models import ConfirmationRequest
+
+        self.seed()
+        self.seed()
+        self.assertEqual(ConfirmationRequest.objects.count(), 2)
+        for key in ('candidate-pwa', 'candidate-pwa-replay'):
+            client = Client()
+            response = client.post(
+                reverse('test_account_sign_in'), {'account': key}, follow=True
+            )
+            self.assertEqual(response.request['PATH_INFO'], '/candidate/profile/')
+            user = prepared_user(key)
+            self.assertEqual(client.session['_auth_user_id'], str(user.pk))
+            request = candidate_requests(user).get()
+            self.assertEqual(request.pair.candidate.user, user)
+            self.assertEqual(
+                client.get(
+                    reverse('candidate_offer_confirmation', args=[request.pk])
+                ).status_code,
+                200,
+            )
+
+    @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
         self.assertEqual(User.objects.count(), 3)
