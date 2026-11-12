@@ -7270,3 +7270,6 @@ msgstr "Bist du am Samstagmorgen verfügbar?"
 
 msgid "Send"
 msgstr "Senden"
+
+msgid "It depends / I have a question"
+msgstr "Kommt darauf an / Ich habe eine Frage"

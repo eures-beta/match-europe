@@ -7270,3 +7270,6 @@ msgstr "Es-tu disponible le samedi matin ?"
 
 msgid "Send"
 msgstr "Envoyer"
+
+msgid "It depends / I have a question"
+msgstr "Ça dépend / J’ai une question"
