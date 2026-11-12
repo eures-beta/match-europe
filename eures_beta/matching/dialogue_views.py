@@ -72,14 +72,15 @@ def conversation(request, pk):
         if key
         else state['pending']
     )
-    prompt = next(
-        (
-            confirmations.short_question(row)
-            for row in state['rows']
-            if current and row['key'] == current['key']
-        ),
-        '',
+    prompts = {row['key']: confirmations.short_question(row) for row in state['rows']}
+    answered = sorted(
+        (row for row in rows if row['answer'] and row != current),
+        key=lambda row: row['answer'].pk,
     )
+    for row in answered:
+        row['prompt'] = prompts[row['key']] or row['label']
+        if row['answer'].value in ('yes', 'no'):
+            row['answer_label'] = _('Yes') if row['answer'].value == 'yes' else _('No')
     proposal, error, status = None, '', 200
     clarification, turns = '', []
     form = ReplyForm(
@@ -238,7 +239,8 @@ def conversation(request, pk):
         dict(
             obj=obj,
             current=current,
-            prompt=prompt,
+            prompt=prompts[current['key']] if current else '',
+            answered=answered,
             form=form,
             proposal=proposal,
             changes=changes,
