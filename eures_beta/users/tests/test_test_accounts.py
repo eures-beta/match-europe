@@ -37,13 +37,13 @@ class TestAccountAccessTests(TestCase):
     @override_settings(
         DJANGO_ENVIRONMENT='preview', MATCHING_ENABLED=True, LOGIN_EMAIL_ENABLED=False
     )
-    def test_preview_candidates_can_reopen_their_own_offer(self):
-        from eures_beta.matching.confirmation_services import candidate_requests
+    def test_preview_candidates_are_ready_for_adviser_review(self):
+        from eures_beta.users.adviser_matching import pending_pairs
         from eures_beta.matching.models import CandidateOfferReview
 
         self.seed()
         self.seed()
-        self.assertEqual(CandidateOfferReview.objects.count(), 2)
+        self.assertFalse(CandidateOfferReview.objects.exists())
         for key in ('candidate-pwa', 'candidate-pwa-replay'):
             client = Client()
             response = client.post(
@@ -52,14 +52,71 @@ class TestAccountAccessTests(TestCase):
             self.assertEqual(response.request['PATH_INFO'], '/candidate/profile/')
             user = prepared_user(key)
             self.assertEqual(client.session['_auth_user_id'], str(user.pk))
-            request = candidate_requests(user).get()
-            self.assertEqual(request.pair.candidate.user, user)
-            self.assertEqual(
-                client.get(
-                    reverse('candidate_offer_confirmation', args=[request.pk])
-                ).status_code,
-                200,
-            )
+            self.assertTrue(pending_pairs().filter(candidate__user=user).exists())
+            self.assertContains(response, 'data-preview-push')
+
+    @override_settings(
+        MATCHING_ENABLED=True,
+        LOGIN_EMAIL_ENABLED=False,
+        CONFIRMATION_DIALOGUE_SIMULATED=True,
+    )
+    def test_preview_push_starts_only_after_adviser_validation(self):
+        import base64
+        from unittest.mock import patch
+
+        from cryptography.hazmat.primitives.asymmetric import ec
+        from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+        from eures_beta.matching.models import ConfirmationRequest
+        from eures_beta.users.adviser_matching import pending_pairs
+
+        self.seed()
+        user = prepared_user('candidate-pwa')
+        pair = pending_pairs().get(candidate__user=user)
+        adviser = Client()
+        adviser.force_login(prepared_user('adviser'))
+        detail = reverse('adviser_match', args=[pair.pk])
+        decision = {'action': 'retained', 'evaluation': pair.evaluation_id}
+        self.assertEqual(adviser.post(detail, decision).status_code, 400)
+        self.assertFalse(ConfirmationRequest.objects.exists())
+
+        candidate = Client()
+        candidate.force_login(user)
+        point = (
+            ec.generate_private_key(ec.SECP256R1())
+            .public_key()
+            .public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)
+        )
+        payload = {
+            'endpoint': 'https://fcm.googleapis.com/fcm/send/fictional',
+            'keys': {
+                'p256dh': base64.urlsafe_b64encode(point).decode(),
+                'auth': base64.urlsafe_b64encode(bytes(16)).decode(),
+            },
+        }
+        subscription = reverse('candidate_preview_push')
+        self.assertEqual(
+            candidate.post(
+                subscription,
+                {**payload, 'endpoint': 'https://localhost/'},
+                content_type='application/json',
+            ).status_code,
+            400,
+        )
+        self.assertEqual(
+            candidate.post(
+                subscription, payload, content_type='application/json'
+            ).status_code,
+            200,
+        )
+        with patch('eures_beta.candidates.preview_push.webpush') as send:
+            with self.captureOnCommitCallbacks(execute=True):
+                self.assertEqual(adviser.post(detail, decision).status_code, 302)
+                send.assert_not_called()
+            send.assert_called_once()
+        confirmation = ConfirmationRequest.objects.get(pair=pair)
+        dialogue = reverse('candidate_offer_dialogue', args=[confirmation.pk])
+        self.assertIn(dialogue, send.call_args.kwargs['data'])
+        self.assertEqual(candidate.get(dialogue).status_code, 200)
 
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):

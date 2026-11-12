@@ -170,6 +170,7 @@ def owned_profile(request):
 def profile(request):
     obj = owned_profile(request)
     from eures_beta.matching.confirmation_services import candidate_requests
+    from .preview_push import public_key, available
 
     with translation.override(selected_language(request)):
         return render(
@@ -177,6 +178,7 @@ def profile(request):
             'candidates/profile.html',
             {
                 'profile': obj,
+                'preview_push_key': public_key() if available() else '',
                 'groups': answer_groups(
                     registration.profile_answers(obj), selected_language(request)
                 ),

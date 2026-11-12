@@ -1,8 +1,11 @@
 from django.urls import path
-from eures_beta.candidates import landing, journey
+from eures_beta.candidates import landing, journey, preview_push
 from eures_beta.candidates import registration_views
 
 urlpatterns = [
+    path(
+        'candidate/preview-push/', preview_push.subscribe, name='candidate_preview_push'
+    ),
     path(
         'candidate/profile/compare/',
         registration_views.compare,
