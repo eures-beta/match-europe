@@ -51,6 +51,27 @@ class AcceptForm(forms.Form):
     )
 
 
+def question_order(row):
+    kind = row['kind']
+    if kind in {'schedule', 'availability', 'working_time', 'work_condition'}:
+        group = 0
+    elif kind in {'skill', 'skills', 'language', 'languages'}:
+        group = 2
+    else:
+        group = 1
+    expected = row['presented']['expected']
+    mandatory = isinstance(expected, dict) and expected.get('mandatory')
+    return group, not mandatory, row.get('priority', 1), kind != 'schedule'
+
+
+def question_text(row):
+    return str(
+        confirmations.short_question(row)
+        or _('%(condition)s — %(requirement)s. Is that possible for you?')
+        % {'condition': row['label'], 'requirement': row['expected']}
+    )
+
+
 @entry_candidate
 @sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
@@ -70,17 +91,34 @@ def conversation(request, pk):
     current = (
         next((r for r in rows if r['key'] == key and r['askable']), None)
         if key
-        else state['pending']
+        else min(
+            (row for row in rows if row['askable'] and not row['answer']),
+            key=question_order,
+            default=None,
+        )
     )
-    prompts = {row['key']: confirmations.short_question(row) for row in state['rows']}
-    answered = sorted(
-        (row for row in rows if row['answer'] and row != current),
-        key=lambda row: row['answer'].pk,
-    )
-    for row in answered:
-        row['prompt'] = prompts[row['key']] or row['label']
-        if row['answer'].value in ('yes', 'no'):
-            row['answer_label'] = _('Yes') if row['answer'].value == 'yes' else _('No')
+    prompt = question_text(current) if current else ''
+    rows_by_key = {row['key']: row for row in rows}
+    answered = []
+    for answer in obj.answers.order_by('pk'):
+        row = rows_by_key.get(answer.question_key)
+        saved_prompt = answer.dialogue.get('prompt')
+        if not saved_prompt and (not row or row['answer'] != answer or row == current):
+            continue
+        label = {
+            'yes': _('Yes'),
+            'no': _('No'),
+            'conditional': _('Under conditions'),
+            'changed': _('My situation changed'),
+            'clarify': _('More details needed'),
+        }[answer.value]
+        answered.append(
+            {
+                'answer': answer,
+                'prompt': saved_prompt or question_text(row),
+                'answer_label': label,
+            }
+        )
     proposal, error, status = None, '', 200
     clarification, turns = '', []
     form = ReplyForm(
@@ -98,7 +136,9 @@ def conversation(request, pk):
                     or quick.cleaned_data['detail']
                 ):
                     raise ValueError
-                confirmations.answer(request.user, pk, **quick.cleaned_data)
+                confirmations.answer(
+                    request.user, pk, **quick.cleaned_data, dialogue={'prompt': prompt}
+                )
                 return redirect(
                     reverse('candidate_offer_dialogue', args=[pk])
                     + '?lang='
@@ -150,7 +190,11 @@ def conversation(request, pk):
                 )
             elif request.POST.get('action') == 'reply' and form.is_valid():
                 proposed = dialogue.make_proposal(
-                    request.user, pk, **form.cleaned_data, language=language
+                    request.user,
+                    pk,
+                    **form.cleaned_data,
+                    language=language,
+                    prompt=prompt,
                 )
                 if proposed:
                     token, result = proposed
@@ -239,7 +283,7 @@ def conversation(request, pk):
         dict(
             obj=obj,
             current=current,
-            prompt=prompts[current['key']] if current else '',
+            prompt=prompt,
             answered=answered,
             form=form,
             proposal=proposal,
