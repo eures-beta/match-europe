@@ -34,6 +34,14 @@
         <p role="alert">{% translate "Review the conditions before recording your answer." %}</p>
       {% endif %}
     </section>
+    {% if answered %}
+      <div class="conversation-thread">
+        {% for row in answered %}
+          <p class="dialogue-bubble">{{ row.prompt }}</p>
+          <p class="dialogue-bubble dialogue-bubble-reply">{{ row.answer.detail|default:row.answer_label|linebreaksbr }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% if proposal %}
       <section class="conversation-thread" aria-labelledby="proposal-title">
         <h2 id="proposal-title">{% translate "Review what I understood" %}</h2>
