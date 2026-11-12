@@ -2,12 +2,13 @@ const form = document.querySelector('[data-preview-push]');
 const button = form.querySelector('button');
 const status = form.querySelector('[role="status"]');
 
+const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+form.closest('[data-preview-push-step]').hidden = !standalone;
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   button.disabled = true;
   try {
-    const standalone =
-      window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
     if (!standalone || !('PushManager' in window) || !('Notification' in window)) {
       throw new Error('Push is unavailable');
     }

@@ -7258,3 +7258,9 @@ msgstr "Ouvre l’application installée et autorise les notifications pour pour
 
 msgid "Enable notifications on the test candidate’s phone first."
 msgstr "Activez d’abord les notifications sur le téléphone du candidat de test."
+
+msgid "Enable notifications to be alerted when the adviser validates your match."
+msgstr "Active les notifications pour être averti quand le conseiller valide ton matching."
+
+msgid "Phone ready for the test. You can close the app and validate the match on your computer."
+msgstr "Téléphone prêt pour le test. Tu peux fermer l’application et valider le matching sur ton ordinateur."
