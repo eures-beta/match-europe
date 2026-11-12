@@ -62,6 +62,22 @@ class DialogueTests(TestCase):
         self.assertEqual(page.status_code, 200)
         return page.context['proposal']
 
+    def test_quick_choices_save_without_albert_or_transmission(self):
+        self.assertContains(
+            self.client.get(self.url, {'question': self.row['key']}),
+            'name="value" value="yes"',
+        )
+        with patch.object(dialogue, 'make_proposal') as proposal:
+            for value in ('yes', 'no'):
+                data = self.data()
+                page = self.client.post(
+                    self.url, {**data, 'action': 'quick', 'value': value}
+                )
+                self.assertEqual(page.status_code, 302)
+                self.assertEqual(self.obj.answers.latest('pk').value, value)
+            proposal.assert_not_called()
+        self.assertFalse(self.obj.agreements.exists())
+
     def test_free_reply_is_only_a_proposal_until_confirmed(self):
         with patch('urllib.request.OpenerDirector.open') as network:
             proposal = self.propose('un samedi sur deux', 'offer')
