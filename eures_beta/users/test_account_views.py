@@ -35,7 +35,20 @@ def account_list(request):
             for key, specification in {**ACCOUNTS, **PWA_ACCOUNTS}.items()
             if prepared_user(key)
         ]
-        return render(request, 'users/test_accounts.html', {'accounts': accounts})
+        return render(
+            request,
+            'users/test_accounts.html',
+            {
+                'accounts': accounts,
+                'compact_preview': settings.DJANGO_ENVIRONMENT == 'preview',
+                'page_language': selected_language(request),
+                'account_base': (
+                    'conversation_base.html'
+                    if settings.DJANGO_ENVIRONMENT == 'preview'
+                    else 'users/dashboard.html'
+                ),
+            },
+        )
 
 
 @never_cache

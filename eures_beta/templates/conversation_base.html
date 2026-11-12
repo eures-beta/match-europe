@@ -1,0 +1,17 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="{{ page_language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "includes/pwa_head.html" %}
+    <title>{% block page_title %}Match Europe{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'matching/confirmations.css' %}">
+    <link rel="stylesheet" href="{% static 'matching/conversation.css' %}">
+  </head>
+  <body class="conversation-app">
+    <main class="conversation-screen">
+      {% block public_content %}{% endblock %}
+    </main>
+  </body>
+</html>

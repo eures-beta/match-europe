@@ -1,9 +1,15 @@
-{% extends "users/dashboard.html" %}
+{% extends account_base %}
 {% load i18n %}
 {% block page_title %}{% translate "Choose a test account" %} — Match Europe{% endblock %}
 {% block public_content %}
-  <section class="account-panel" aria-labelledby="test-accounts-title">
-    <h1 id="test-accounts-title">{% translate "Choose a test account" %}</h1>
+  {% if compact_preview %}
+    <header class="conversation-header">
+      <h1>Match Europe</h1>
+    </header>
+  {% endif %}
+  <section class="{% if compact_preview %}conversation-thread{% else %}account-panel{% endif %}"
+           aria-labelledby="test-accounts-title">
+    <h2 id="test-accounts-title">{% translate "Choose a test account" %}</h2>
     <p>{% translate "These shared accounts contain fictional data. Anyone testing this environment can access them. Changes disappear when the test environment is deleted." %}</p>
     {% for account in accounts %}
       <form method="post"
@@ -12,8 +18,7 @@
         <input type="hidden" name="account" value="{{ account.key }}">
         <p>
           <button type="submit" class="primary-action">{{ account.label }}</button>
-          <br>
-          {{ account.email }}
+          {% if not compact_preview %}<br>{{ account.email }}{% endif %}
         </p>
       </form>
     {% empty %}
