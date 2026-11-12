@@ -72,6 +72,14 @@ def conversation(request, pk):
         if key
         else state['pending']
     )
+    prompt = next(
+        (
+            confirmations.short_question(row)
+            for row in state['rows']
+            if current and row['key'] == current['key']
+        ),
+        '',
+    )
     proposal, error, status = None, '', 200
     clarification, turns = '', []
     form = ReplyForm(
@@ -215,6 +223,7 @@ def conversation(request, pk):
         dict(
             obj=obj,
             current=current,
+            prompt=prompt,
             form=form,
             proposal=proposal,
             changes=changes,
