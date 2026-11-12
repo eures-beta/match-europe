@@ -34,6 +34,11 @@
         <p role="alert">{% translate "Review the conditions before recording your answer." %}</p>
       {% endif %}
     </section>
+    <div class="conversation-thread">
+      <p class="dialogue-bubble">
+        {% blocktranslate with title=obj.pair.offer.data.title city=obj.pair.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
+      </p>
+    </div>
     {% if answered %}
       <div class="conversation-thread">
         {% for row in answered %}
@@ -81,11 +86,6 @@
       </section>
     {% elif current %}
       <section class="conversation-thread" aria-labelledby="question-title">
-        {% if not answered and not current.answer %}
-          <p class="dialogue-bubble">
-            {% blocktranslate with title=obj.pair.offer.data.title city=obj.pair.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
-          </p>
-        {% endif %}
         <h2 id="question-title" class="dialogue-bubble">{{ prompt }}</h2>
         {% for turn in turns %}
           <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">
