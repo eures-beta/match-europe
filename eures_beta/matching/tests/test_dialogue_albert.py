@@ -84,6 +84,7 @@ class AlbertAdapterTests(TestCase):
         )
         self.assertEqual(page.status_code, 200)
         self.assertEqual(len(ask.call_args.args[-1]), 3)
+        self.assertTrue(ask.call_args.args[0]['question'])
         proposal = page.context['proposal']
         with patch.object(adapter, 'ask') as ask:
             accepted = self.client.post(

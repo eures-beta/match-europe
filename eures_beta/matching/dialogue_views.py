@@ -65,11 +65,36 @@ def question_order(row):
 
 
 def question_text(row):
-    return str(
-        confirmations.short_question(row)
-        or _('%(condition)s — %(requirement)s. Is that possible for you?')
-        % {'condition': row['label'], 'requirement': row['expected']}
+    short = confirmations.short_question(row)
+    if short:
+        return str(short)
+    requirement = row['expected']
+    prompts = {
+        'schedule': _('Can you work these hours: %(requirement)s?'),
+        'availability': _(
+            'Can you start within the timeframe stated in the offer: %(requirement)s?'
+        ),
+        'working_time': _('Would this working arrangement suit you: %(requirement)s?'),
+        'work_condition': _(
+            'The offer mentions this working condition: %(requirement)s. Would it suit you?'
+        ),
+        'mobility': _(
+            'Can you get to the workplace under these conditions: %(requirement)s?'
+        ),
+        'contract': _('Would this type of contract suit you: %(requirement)s?'),
+        'salary': _(
+            'Does the pay stated in the offer meet your expectations: %(requirement)s?'
+        ),
+        'permit': _('Do you have the permit stated in the offer: %(requirement)s?'),
+        'skill': _('Can you use this skill on the job: %(requirement)s?'),
+        'language': _(
+            'Can you work in the language and at the level stated: %(requirement)s?'
+        ),
+    }
+    template = prompts.get(
+        row['kind'], _('%(condition)s: %(requirement)s. Would that suit you?')
     )
+    return str(template % {'condition': row['label'], 'requirement': requirement})
 
 
 @entry_candidate

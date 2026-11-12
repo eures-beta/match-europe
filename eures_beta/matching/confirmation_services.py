@@ -62,10 +62,9 @@ def short_question(row):
         row['kind'] == 'schedule'
         and row['askable']
         and row['presented']['expected']['slots'] == ['saturday:morning']
+        and row['presented']['expected']['mandatory']
     ):
-        return _(
-            'The job requires working on Saturday mornings. Is that possible for you?'
-        )
+        return _('The job requires Saturday mornings. Can you work those hours?')
     return ''
 
 
