@@ -1550,3 +1550,14 @@ partiels, fichier JavaScript, attributs techniques et références sont recâbl�
 Textes visibles FR/EN/DE inchangés ; aucun modèle ou migration modifié.
 L’ancienne URL propre à la PR n’était pas livrée dans main, donc pas de
 redirection de compatibilité ajoutée.
+
+## 12 novembre 2026 — onglet conseiller Inviter
+
+Recette Django locale sur la PR #187 (`8b9a4ce`). Saisie et CSV, aperçu des
+modèles génériques français adaptés de Flask, dépôt local, relance et
+suppression avant acceptation. Modèle conseiller ajouté, accessible aux conseillers habilités à gérer les
+invitations. Le candidat invité peut terminer
+son profil après vérification de son adresse par le lien d’invitation.
+L’aperçu employeur a été contrôlé dans le navigateur. Voir
+[la recette et le contrat](docs/EMPLOYER_INVITATIONS.md). Le SMTP réel de Brevo
+reste à vérifier dans un environnement explicitement autorisé.

@@ -1,0 +1,159 @@
+{% extends "users/adviser_workspace.html" %}
+{% block page_title %}Inviter — Match Europe{% endblock %}
+{% block invite_current %}aria-current="page"{% endblock %}
+{% block adviser_heading %}
+  <h1>Inviter</h1>
+  <p>Préparez vos invitations et suivez les réponses depuis votre espace conseiller.</p>
+  {% if local_outbox %}<p class="invitation-notice">Recette locale · Les e-mails sont déposés dans la boîte de test.</p>{% endif %}
+{% endblock %}
+{% block adviser_content %}
+  {% for message in messages %}<p class="invitation-notice" role="status">{{ message }}</p>{% endfor %}
+  {% for error in errors %}<p class="invitation-error" role="alert">{{ error }}</p>{% endfor %}
+  <div class="invitation-compose">
+    <section class="invitation-card" aria-labelledby="compose-title">
+      <h2 id="compose-title">Nouvelle invitation</h2>
+      <nav class="invitation-modes" aria-label="Mode de saisie">
+        <a href="?lang={{ dashboard_language }}&amp;mode=manual"
+           {% if mode == "manual" %}aria-current="page"{% endif %}>Saisie manuelle</a>
+        <a href="?lang={{ dashboard_language }}&amp;mode=csv"
+           {% if mode == "csv" %}aria-current="page"{% endif %}>Importer un CSV</a>
+      </nav>
+      <form method="post"
+            enctype="multipart/form-data"
+            action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}&amp;mode={{ mode }}#preview-title">
+        {% csrf_token %}
+        <label for="audience">Type de destinataire</label>
+        <select name="audience" id="audience">
+          {% for value, label in audiences %}<option value="{{ value }}"
+        {% if value == audience %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+        {% if mode == "csv" %}
+          <label for="csv">Fichier CSV</label>
+          <input id="csv"
+                 type="file"
+                 name="csv"
+                 accept=".csv,text/csv"
+                 aria-describedby="csv-help"
+                 required>
+          <p id="csv-help" class="invitation-hint">CSV UTF-8, 10 destinataires maximum. Colonne <code>email</code> obligatoire. Colonnes <code>prénom</code> et <code>nom</code> facultatives.</p>
+          <button class="primary-action" name="action" value="import">Vérifier et prévisualiser</button>
+        {% else %}
+          <div class="invitation-names">
+            <div>{{ form.first_name.label_tag }}{{ form.first_name }}{{ form.first_name.errors }}</div>
+            <div>{{ form.last_name.label_tag }}{{ form.last_name }}{{ form.last_name.errors }}</div>
+          </div>
+          {{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}
+          <p class="invitation-hint">Seule l’adresse e-mail est obligatoire.</p>
+          <button class="primary-action" name="action" value="preview">Prévisualiser l’e-mail</button>
+        {% endif %}
+      </form>
+    </section>
+    <section class="invitation-card invitation-preview"
+             aria-labelledby="preview-title">
+      <h2 id="preview-title">Aperçu de l’e-mail</h2>
+      {% if previews %}
+        <p class="invitation-hint">{{ preview_audience }} · {{ previews|length }} destinataire{{ previews|length|pluralize }}</p>
+        {% for preview in previews %}
+          <details {% if forloop.first %}open{% endif %}>
+            <summary>{{ preview.recipient.email }}</summary>
+            <p><strong>{{ preview.subject }}</strong></p>
+            <iframe title="Aperçu pour {{ preview.recipient.email }}"
+                    sandbox
+                    srcdoc="{{ preview.html|force_escape }}"></iframe>
+          </details>
+        {% endfor %}
+        <form method="post"
+              action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}">
+          {% csrf_token %}
+          <input type="hidden" name="preview" value="{{ preview_token }}">
+          <button class="primary-action" name="action" value="send">{% if reminder_preview %}Confirmer l’envoi{% else %}Envoyer {{ previews|length }} invitation{{ previews|length|pluralize }}{% endif %}</button>
+        </form>
+      {% else %}
+        <div class="invitation-empty">
+          <p>Prévisualisez une invitation pour vérifier le destinataire, l’objet et le contenu avant l’envoi.</p>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+  <section class="invitation-card invitation-history"
+           aria-labelledby="history-title">
+    <div class="invitation-history-heading">
+      <div>
+        <h2 id="history-title">Suivi des invitations</h2>
+        <p class="invitation-hint">{{ invitations.paginator.count }} invitation{{ invitations.paginator.count|pluralize }}</p>
+      </div>
+      <form method="get" class="invitation-search">
+        <input type="hidden" name="lang" value="{{ dashboard_language }}">
+        <label for="invitation-search">Rechercher par e-mail</label>
+        <div>
+          <input id="invitation-search"
+                 name="q"
+                 type="search"
+                 value="{{ search }}"><button type="submit">Rechercher</button>
+        </div>
+      </form>
+    </div>
+    <div class="account-table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Destinataire</th>
+            <th scope="col">Type</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Dernier envoi</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for invitation in invitations %}
+            <tr>
+              <td>
+                {% if invitation.first_name or invitation.last_name %}<strong>{{ invitation.first_name }} {{ invitation.last_name }}</strong><br>{% endif %}
+                {{ invitation.email }}
+              </td>
+              <td>{{ invitation.get_audience_display }}</td>
+              <td>
+              {% if invitation.accepted_at %}<span class="invitation-status accepted">Acceptée</span>
+          {% elif invitation.expired %}<span class="invitation-status muted">Expirée</span>
+          {% elif invitation.email_sent_at %}<span class="invitation-status">Sans réponse</span>
+{% else %}<span class="invitation-status muted">Envoi en attente</span>{% endif %}
+  </td>
+  <td>{% firstof invitation.reminder_sent_at|date:"d/m/Y H:i" invitation.email_sent_at|date:"d/m/Y H:i" "—" %}</td>
+  <td>
+    {% if not invitation.accepted_at %}
+      <form method="post"
+            class="invitation-actions"
+            action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}&amp;mode={{ mode }}#preview-title">
+        {% csrf_token %}
+        <input type="hidden" name="invitation" value="{{ invitation.pk }}">
+        <button name="action"
+                value="preview_reminder">{% if invitation.email_sent_at %}Relancer{% else %}Réessayer{% endif %}</button>
+      </form>
+      <details class="invitation-remove">
+        <summary>Supprimer</summary>
+        <form method="post"
+              action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}">
+          {% csrf_token %}
+          <input type="hidden" name="invitation" value="{{ invitation.pk }}">
+          <p>Le lien sera révoqué.</p>
+          <button name="action" value="remove">Confirmer la suppression</button>
+        </form>
+      </details>
+{% else %}—{% endif %}
+  </td>
+  </tr>
+{% empty %}
+  <tr><td colspan="5">{% if search %}Aucune invitation pour cette recherche.{% else %}Aucune invitation enregistrée.{% endif %}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% if invitations.has_other_pages %}
+  <nav class="invitation-pages" aria-label="Pages des invitations">
+    {% if invitations.has_previous %}<a href="?lang={{ dashboard_language }}&amp;q={{ search|urlencode }}&amp;page={{ invitations.previous_page_number }}">Précédente</a>{% endif %}
+    <span>{{ invitations.number }} / {{ invitations.paginator.num_pages }}</span>
+    {% if invitations.has_next %}<a href="?lang={{ dashboard_language }}&amp;q={{ search|urlencode }}&amp;page={{ invitations.next_page_number }}">Suivante</a>{% endif %}
+  </nav>
+{% endif %}
+</section>
+{% endblock %}

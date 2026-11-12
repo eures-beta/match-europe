@@ -1,0 +1,28 @@
+{% autoescape off %}{{ greeting }}{% endautoescape %}
+
+Des employeurs recrutent actuellement
+
+Votre profil pourrait toujours correspondre à des besoins en cours.
+
+Si vous êtes toujours disponible ou intéressé par des opportunités, vous pouvez encore compléter le questionnaire ci-dessous.
+Il nous permet de vérifier rapidement si votre profil peut être proposé à des employeurs partenaires.
+
+Voir si mon profil correspond : {{ link }}
+
+Le questionnaire prend 2 à 3 minutes.
+
+Pourquoi répondre
+- Des recrutements sont en cours
+- Réponse rapide en 2 à 3 minutes
+- Première étape avant proposition à des employeurs partenaires
+
+Ce rappel vous est adressé dans le cadre de l’expérimentation EURES beta portée par France Travail et EURES.
+
+EURES est le réseau européen de coopération pour l’emploi, qui facilite les recrutements et les opportunités professionnelles en Europe.
+
+Informations sur vos données : {{ privacy }}
+
+Cordialement,
+
+Équipe Match Europe
+Conseiller EURES - France Travail

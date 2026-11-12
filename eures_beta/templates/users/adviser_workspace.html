@@ -1,0 +1,20 @@
+{% extends "users/dashboard.html" %}
+{% load static %}
+{% block extra_head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'users/invitations.css' %}">
+{% endblock %}
+{% block public_content %}
+  <div class="invitations">
+    <header class="invitations-header">
+      <nav aria-label="Tableau de bord conseiller">
+        <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}"
+           {% block invite_current %}
+           {% endblock %}>Inviter</a>
+        {% block adviser_tabs %}{% endblock %}
+      </nav>
+      {% block adviser_heading %}{% endblock %}
+    </header>
+    {% block adviser_content %}{% endblock %}
+  </div>
+{% endblock %}

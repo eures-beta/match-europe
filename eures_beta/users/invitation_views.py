@@ -16,7 +16,7 @@ from django.views.decorators.http import require_http_methods
 
 from .forms import EmployerInvitationForm
 from .invitations import create_invitation, find_invitation, invitation_message
-from .models import User
+from .models import EmployerInvitation, User
 from .permissions import can_manage_employers
 from .views import email_ready, selected_language
 
@@ -79,15 +79,14 @@ def invite(request):
 def adviser_dashboard(request):
     if not can_manage_employers(request.user):
         raise PermissionDenied
-    from .models import EmployerInvitation
 
     employers = Paginator(
         User.objects.filter(kind=User.Kind.EMPLOYER).order_by('email'), 25
     ).get_page(request.GET.get('employers_page'))
     invitations = Paginator(
-        EmployerInvitation.objects.filter(accepted_at__isnull=True).order_by(
-            '-created_at'
-        ),
+        EmployerInvitation.objects.filter(
+            accepted_at__isnull=True, audience=EmployerInvitation.Audience.EMPLOYER
+        ).order_by('-created_at'),
         25,
     ).get_page(request.GET.get('invitations_page'))
     return render(
@@ -97,9 +96,13 @@ def adviser_dashboard(request):
     )
 
 
-def confirmation_page(request, stage):
+def confirmation_page(request, stage, invitation=None):
     with translation.override(selected_language(request)):
-        response = render(request, 'users/accept_invitation.html', {'stage': stage})
+        response = render(
+            request,
+            'users/accept_invitation.html',
+            {'stage': stage, 'invitation': invitation},
+        )
     response['Referrer-Policy'] = 'same-origin'
     return response
 
@@ -118,13 +121,10 @@ def confirm(request):
             response = redirect('employer_invitation_confirm')
             response['Referrer-Policy'] = 'no-referrer'
             return response
+        token = request.session.get('employer_invitation_token')
+        invitation = find_invitation(token) if token else None
         return confirmation_page(
-            request,
-            (
-                'confirm'
-                if request.session.get('employer_invitation_token')
-                else 'invalid'
-            ),
+            request, 'confirm' if invitation else 'invalid', invitation
         )
     token = request.session.pop('employer_invitation_token', '')
     language = selected_language(request)
@@ -138,16 +138,27 @@ def confirm(request):
                 or User.objects.filter(email__iexact=invitation.email).exists()
             ):
                 return confirmation_page(request, 'invalid')
+            if (
+                invitation.audience == EmployerInvitation.Audience.ADVISER
+                and not can_manage_employers(invitation.invited_by)
+            ):
+                return confirmation_page(request, 'invalid')
             employer = User.objects.create_user(
-                email=invitation.email, kind=User.Kind.EMPLOYER
+                email=invitation.email,
+                kind=invitation.audience,
+                first_name=invitation.first_name,
+                last_name=invitation.last_name,
             )
             invitation.accepted_at = timezone.now()
             invitation.employer = employer
             invitation.save(update_fields=['accepted_at', 'employer'])
             auth_login(request, employer, backend='sesame.backends.ModelBackend')
             request.session['login_language'] = language
-            request.session['employer_welcome'] = True
+            if invitation.audience == EmployerInvitation.Audience.EMPLOYER:
+                request.session['employer_welcome'] = True
             request.session.set_expiry(settings.SESSION_COOKIE_AGE)
     except IntegrityError:
         return confirmation_page(request, 'invalid')
+    if invitation.audience == EmployerInvitation.Audience.CANDIDATE:
+        return redirect("candidate_prepare")
     return redirect(settings.LOGIN_REDIRECT_URL)

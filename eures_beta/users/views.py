@@ -45,12 +45,17 @@ def account(request):
 def dashboard(request):
     with translation.override(selected_language(request)):
         if request.user.kind == 'adviser':
+            from .adviser_invitations import invitations_tab
             from .invitation_views import adviser_dashboard
 
-            return adviser_dashboard(request)
+            if request.GET.get('tab') == 'employers':
+                return adviser_dashboard(request)
+            return invitations_tab(request)
         if request.user.kind == 'candidate':
             if hasattr(request.user, 'candidate_profile'):
                 return redirect('candidate_profile')
+            if request.user.has_candidate_invitation:
+                return redirect('candidate_prepare')
             return render(request, 'users/dashboard.html')
         from eures_beta.employers.dashboard import employer_dashboard
 

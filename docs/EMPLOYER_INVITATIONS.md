@@ -1,8 +1,44 @@
-# Invitations employeurs
+# Invitations
+
+## Onglet conseiller « Inviter »
+
+La recette locale Django est basée sur le sommet de la pile #187. Depuis le
+tableau de bord `/accounts/dashboard/`, l’onglet **Inviter** s’ouvre par défaut. Il permet de préparer une invitation
+employeur, candidat ou conseiller, puis de vérifier l’objet, le destinataire
+et le rendu HTML avant confirmation. Prénom et nom sont facultatifs. Le CSV
+UTF-8 accepte les séparateurs virgule et point-virgule et les colonnes
+`email`, `prénom` (ou `prenom`) et `nom`. Un fichier contient au plus dix
+destinataires, tous du même type. Les erreurs de saisie sont affichées avant
+tout envoi, et les conflits détectés à l’envoi sont signalés par destinataire.
+
+Le suivi affiche les invitations en attente d’envoi, sans réponse, expirées
+ou acceptées. Une relance confirmée renouvelle le lien pour sept jours et
+révoque le précédent. Les nouveaux envois et les relances partagent le
+quota existant de dix opérations par conseiller et par heure.
+La suppression révoque le lien d’une invitation non acceptée. L’invitation
+d’un conseiller est ouverte aux conseillers habilités à gérer les invitations
+et crée un compte conseiller ordinaire, sans accès à l’administration. Le candidat
+invité peut terminer son questionnaire avec l’adresse déjà vérifiée par
+l’invitation.
+
+Les modèles génériques français Flask d’invitation et de relance pour candidats
+et employeurs ont été adaptés à Django. Un modèle conseiller a été créé, faute
+de modèle correspondant dans l’export. Le code conserve une version texte et
+une version HTML. Le transport réel réutilise le SMTP commun, destiné à être
+configuré pour Brevo. En recette locale, la boîte de test est
+`.runtime/invitation-outbox/`. Elle contient des liens de test à usage unique.
+
+Pour essayer le parcours, utiliser `make run PORT=9060` dans la copie locale
+configurée, puis ouvrir `/accounts/test-accounts/`. Le conseiller
+fictif permet de tester les trois types. `make adviser-invitations-test` couvre
+l’aperçu, le CSV, le dépôt local, la confirmation et la révocation.
+
+## Parcours employeur historique
 
 Les conseillers actifs voient les comptes employeurs et les invitations
-en attente sur `/accounts/dashboard/` (25 lignes par liste). Le bouton d'invitation
-ouvre `/accounts/employers/invite/` : e-mail et langue du message. Le tableau de
+en attente sur `/accounts/dashboard/?tab=employers` (25 lignes par liste). L’ancienne route
+`/accounts/employers/invite/` reste disponible pour le formulaire employeur
+multilingue. Le tableau de
 bord employeur reste en construction. Tous les conseillers voient les
 comptes employeurs, sans périmètre individuel dans cette première version.
 

@@ -1,0 +1,20 @@
+{% autoescape off %}{{ greeting }}{% endautoescape %}
+
+Je me permets de revenir vers vous concernant mon précédent message relatif à EURES beta.
+
+Si vous avez toujours un besoin de recrutement à partager, ce court questionnaire nous permet de mieux comprendre vos critères et d'identifier plus rapidement des profils susceptibles de correspondre.
+
+Il vous prendra seulement quelques minutes.
+
+Accéder au questionnaire: {{ link }}
+
+Ce questionnaire permet de préciser votre besoin, vos contraintes de recrutement et les conditions proposées, afin d'étudier ensuite d'éventuelles mises en relation avec des candidats pertinents.
+
+EURES est le réseau européen de coopération pour l'emploi, qui facilite les recrutements et les opportunités professionnelles en Europe.
+
+Informations sur vos données : {{ privacy }}
+
+Cordialement,
+
+Équipe Match Europe
+Conseiller EURES - France Travail

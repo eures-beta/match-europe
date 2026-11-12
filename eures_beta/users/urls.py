@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from . import invitation_views
+from . import adviser_invitations, invitation_views
 from . import test_account_views
 
 urlpatterns = [
@@ -17,6 +17,11 @@ urlpatterns = [
         'accounts/invitations/confirm/',
         invitation_views.confirm,
         name='employer_invitation_confirm',
+    ),
+    path(
+        'accounts/dashboard/invitations/',
+        adviser_invitations.invitations_tab,
+        name='adviser_invitations',
     ),
     path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('accounts/me/', views.account, name='account'),

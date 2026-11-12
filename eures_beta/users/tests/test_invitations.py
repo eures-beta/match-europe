@@ -55,17 +55,17 @@ class InvitationTests(TestCase):
 
     def test_dashboard_lists_employers_only_and_employer_keeps_placeholder(self):
         invitation = self.create()
-        page = self.client.get(reverse('dashboard'), {'lang': 'en'})
+        page = self.client.get(reverse('dashboard'), {'lang': 'en', 'tab': 'employers'})
         self.assertContains(page, self.employer.email)
         self.assertContains(page, invitation.email)
-        self.assertContains(page, 'Invite an employer')
+        self.assertContains(page, 'Inviter')
         self.assertContains(page, 'Invitation pending')
         self.assertEqual(list(page.context['employers']), [self.employer])
         self.client.force_login(self.employer)
         page = self.client.get(reverse('dashboard'), {'lang': 'en'})
         self.assertContains(page, 'Your offers')
         self.assertNotContains(page, invitation.email)
-        self.assertNotContains(page, 'Invite an employer')
+        self.assertNotContains(page, reverse('adviser_invitations'))
 
     def test_anonymous_employer_and_inactive_adviser_cannot_invite(self):
         clients = [Client()]
@@ -193,10 +193,9 @@ class InvitationTests(TestCase):
             ('en', 'Invite an employer', 'Your invitation to Match Europe'),
             ('de', 'Arbeitgeber einladen', 'Ihre Einladung zu Match Europe'),
         ):
-            for name in ('dashboard', 'employer_invite'):
-                self.assertContains(
-                    self.client.get(reverse(name), {'lang': language}), label
-                )
+            self.assertContains(
+                self.client.get(reverse('employer_invite'), {'lang': language}), label
+            )
             invitation = self.create(
                 email=f'{language}@example.invalid', language=language
             )

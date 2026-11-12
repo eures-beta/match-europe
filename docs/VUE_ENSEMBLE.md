@@ -6,6 +6,12 @@ permission Django ou groupe supplémentaire. Les protections candidat/employeur
 et l'administration Django restent distinctes. Voir [la décision](DECISIONS.md)
 et [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
 
+## 12 novembre 2026 — onglet Inviter en recette locale
+
+CONSEILLERS : l’onglet Django réunit la préparation, l’aperçu et le suivi des
+invitations employeurs, candidats et conseillers. La recette utilise des comptes
+fictifs et une boîte locale. Voir [les invitations](EMPLOYER_INVITATIONS.md).
+
 ## 10 novembre 2026 — retrait des anciens parcours de présentation
 
 TRANSVERSE / EMPLOYEURS : connexion indépendante avec boîte simulée, diagnostic
