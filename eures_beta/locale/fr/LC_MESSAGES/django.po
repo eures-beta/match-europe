@@ -7297,3 +7297,39 @@ msgstr "Le service de notifications a accepté l’envoi."
 
 msgid "The notification could not be sent. Enable notifications again on the candidate’s phone."
 msgstr "La notification n’a pas pu être envoyée. Réactive les notifications sur le téléphone du candidat."
+
+msgid "The job requires Saturday mornings. Can you work those hours?"
+msgstr "Le poste demande de travailler le samedi matin. Es-tu disponible sur ce créneau ?"
+
+msgid "Can you work these hours: %(requirement)s?"
+msgstr "Peux-tu travailler à ces horaires : %(requirement)s ?"
+
+msgid "Can you start within the timeframe stated in the offer: %(requirement)s?"
+msgstr "Peux-tu commencer dans le délai indiqué : %(requirement)s ?"
+
+msgid "Would this working arrangement suit you: %(requirement)s?"
+msgstr "Ce rythme de travail te convient-il : %(requirement)s ?"
+
+msgid "The offer mentions this working condition: %(requirement)s. Would it suit you?"
+msgstr "L’offre mentionne cette condition de travail : %(requirement)s. Te convient-elle ?"
+
+msgid "Can you get to the workplace under these conditions: %(requirement)s?"
+msgstr "Peux-tu te rendre sur le lieu de travail dans ces conditions : %(requirement)s ?"
+
+msgid "Would this type of contract suit you: %(requirement)s?"
+msgstr "Ce type de contrat te convient-il : %(requirement)s ?"
+
+msgid "Does the pay stated in the offer meet your expectations: %(requirement)s?"
+msgstr "La rémunération indiquée correspond-elle à tes attentes : %(requirement)s ?"
+
+msgid "Do you have the permit stated in the offer: %(requirement)s?"
+msgstr "As-tu le permis indiqué dans l’offre : %(requirement)s ?"
+
+msgid "Can you use this skill on the job: %(requirement)s?"
+msgstr "Sais-tu utiliser cette compétence dans ton travail : %(requirement)s ?"
+
+msgid "Can you work in the language and at the level stated: %(requirement)s?"
+msgstr "Peux-tu travailler dans la langue et au niveau indiqués : %(requirement)s ?"
+
+msgid "%(condition)s: %(requirement)s. Would that suit you?"
+msgstr "%(condition)s : %(requirement)s. Cette condition te convient-elle ?"
