@@ -13,7 +13,8 @@
         <a href="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}"
            {% block invite_current %}
            {% endblock %}>{% translate "Invite" %}</a>
-        <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;tab=history"{% if history_tab %} aria-current="page"{% endif %}>Données et historique</a>
+        <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;tab=history"
+           {% if history_tab %} aria-current="page"{% endif %}>Données et historique</a>
         {% block adviser_tabs %}{% endblock %}
       </nav>
     </header>
