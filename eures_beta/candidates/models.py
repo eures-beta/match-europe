@@ -138,3 +138,9 @@ class CandidateProfile(models.Model):
         if kwargs.get('update_fields') is not None:
             raise ValueError('Candidate profiles require a complete save.')
         return super().save(*args, **kwargs)
+
+
+class PreviewPushSubscription(models.Model):
+    candidate = models.OneToOneField(CandidateProfile, on_delete=models.CASCADE)
+    endpoint = models.URLField(max_length=2048, unique=True)
+    keys = models.JSONField()

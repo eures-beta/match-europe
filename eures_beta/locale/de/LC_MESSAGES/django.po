@@ -7246,3 +7246,15 @@ msgstr "Testbewerber"
 
 msgid "Second test candidate"
 msgstr "Zweiter Testbewerber"
+
+msgid "Enable notifications"
+msgstr "Benachrichtigungen aktivieren"
+
+msgid "Notifications are enabled on this device."
+msgstr "Benachrichtigungen sind auf diesem Gerät aktiviert."
+
+msgid "Open the installed app and allow notifications to continue the test."
+msgstr "Öffne die installierte App und erlaube Benachrichtigungen, um den Test fortzusetzen."
+
+msgid "Enable notifications on the test candidate’s phone first."
+msgstr "Aktivieren Sie zuerst die Benachrichtigungen auf dem Telefon des Testbewerbers."
