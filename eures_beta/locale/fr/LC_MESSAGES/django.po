@@ -7273,3 +7273,15 @@ msgstr "Envoyer"
 
 msgid "It depends / I have a question"
 msgstr "Ça dépend / J’ai une question"
+
+msgid "The job requires working on Saturday mornings. Is that possible for you?"
+msgstr "Le poste demande de travailler le samedi matin. Est-ce possible pour toi ?"
+
+msgid "%(condition)s — %(requirement)s. Is that possible for you?"
+msgstr "%(condition)s — %(requirement)s. Est-ce possible pour toi ?"
+
+msgid "An offer might suit you. Tap to see the job and answer a few questions."
+msgstr "Une offre pourrait te convenir. Appuie pour découvrir le poste et répondre à quelques questions."
+
+msgid "An offer is available: %(title)s · %(city)s. I’ll go over the job conditions with you so you can decide if it suits you."
+msgstr "Un poste est disponible. %(title)s · %(city)s. Je vais te présenter les conditions pour que tu puisses décider si le poste te convient."

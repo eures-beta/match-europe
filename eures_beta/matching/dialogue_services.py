@@ -118,6 +118,7 @@ def make_proposal(
     scope='',
     language='fr',
     history_token='',
+    prompt='',
 ):
     if not enabled():
         raise PermissionDenied
@@ -181,6 +182,7 @@ def make_proposal(
             reply=model['reply'],
             evidence=model['evidence'],
             provider='albert',
+            turns=history,
         )
     else:
         result = interpret(text, row, scope)
@@ -196,6 +198,7 @@ def make_proposal(
         'fingerprint': fingerprint,
         'context': context,
         'previous': previous,
+        'prompt': prompt,
         **result,
         'provider': 'albert' if live() else 'simulation',
     }
@@ -245,6 +248,10 @@ def accept(user, pk, token):
         result['value'],
         result['text'],
         previous=payload['previous'],
+        dialogue={
+            'prompt': payload.get('prompt', ''),
+            'turns': payload.get('turns', []),
+        },
     )
     return event, patch
 

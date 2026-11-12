@@ -38,7 +38,11 @@
       <div class="conversation-thread">
         {% for row in answered %}
           <p class="dialogue-bubble">{{ row.prompt }}</p>
-          <p class="dialogue-bubble dialogue-bubble-reply">{{ row.answer.detail|default:row.answer_label|linebreaksbr }}</p>
+          {% for turn in row.answer.dialogue.turns %}
+            <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">{{ turn.text|linebreaksbr }}</p>
+          {% empty %}
+            <p class="dialogue-bubble dialogue-bubble-reply">{{ row.answer.detail|default:row.answer_label|linebreaksbr }}</p>
+          {% endfor %}
         {% endfor %}
       </div>
     {% endif %}
@@ -77,8 +81,12 @@
       </section>
     {% elif current %}
       <section class="conversation-thread" aria-labelledby="question-title">
-        <h2 id="question-title" class="dialogue-bubble">{{ prompt|default:current.label }}</h2>
-        {% if not prompt %}<p>{{ current.expected }}</p>{% endif %}
+        {% if not answered and not current.answer %}
+          <p class="dialogue-bubble">
+            {% blocktranslate with title=obj.pair.offer.data.title city=obj.pair.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
+          </p>
+        {% endif %}
+        <h2 id="question-title" class="dialogue-bubble">{{ prompt }}</h2>
         {% for turn in turns %}
           <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">
             <strong>{% if turn.role == "candidate" %}{% translate "Your reply" %}{% else %}Albert{% endif %}</strong>

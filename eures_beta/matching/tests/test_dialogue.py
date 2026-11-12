@@ -74,7 +74,12 @@ class DialogueTests(TestCase):
                     self.url, {**data, 'action': 'quick', 'value': value}
                 )
                 self.assertEqual(page.status_code, 302)
-                self.assertEqual(self.obj.answers.latest('pk').value, value)
+                answer = self.obj.answers.latest('pk')
+                self.assertEqual(answer.value, value)
+                self.assertTrue(answer.dialogue['prompt'])
+                self.assertContains(
+                    self.client.get(page.url), answer.dialogue['prompt']
+                )
             proposal.assert_not_called()
         self.assertFalse(self.obj.agreements.exists())
 

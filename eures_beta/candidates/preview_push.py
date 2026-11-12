@@ -6,7 +6,7 @@ import hashlib
 import hmac
 import json
 import logging
-from urllib.parse import urlencode, urlsplit
+from urllib.parse import urlsplit
 
 import requests
 from django.conf import settings
@@ -14,10 +14,9 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
 from django.http import Http404, JsonResponse
 from django.urls import reverse
-from django.utils.translation import override
+from django.utils.translation import gettext, override
 from django.views.decorators.http import require_POST
 
-from eures_beta.matching.confirmation_services import questions, short_question
 from .models import PreviewPushSubscription
 from .registration_views import owned_profile
 
@@ -131,18 +130,13 @@ class PushSession(requests.Session):
 
 
 def notification_payload(confirmation):
-    url = reverse('candidate_offer_dialogue', args=[confirmation.pk])
-    payload = {'url': url}
-    for row in questions(confirmation):
-        prompt = short_question(row)
-        if prompt:
-            payload['url'] = (
-                f"{url}?{urlencode({'question': row['key']})}#question-title"
-            )
-            with override(confirmation.pair.candidate.language):
-                payload['body'] = str(prompt)
-            break
-    return payload
+    with override(confirmation.pair.candidate.language):
+        return {
+            'url': reverse('candidate_offer_dialogue', args=[confirmation.pk]),
+            'body': gettext(
+                'An offer might suit you. Tap to see the job and answer a few questions.'
+            ),
+        }
 
 
 def notify(confirmation):

@@ -92,7 +92,17 @@ class AlbertAdapterTests(TestCase):
             self.assertEqual(accepted.status_code, 302)
             ask.assert_not_called()
         self.assertEqual(self.obj.answers.get().value, 'conditional')
-        self.assertIn('samedi sur deux', self.obj.answers.get().detail)
+        answer = self.obj.answers.get()
+        self.assertIn('samedi sur deux', answer.detail)
+        self.assertEqual(
+            [turn['role'] for turn in answer.dialogue['turns']],
+            [
+                'candidate',
+                'assistant',
+                'candidate',
+            ],
+        )
+        self.assertContains(self.client.get(self.url), clarify['reply'])
         self.assertFalse(self.obj.agreements.exists())
 
     def test_http_payload_is_minimal_and_bounded(self):
