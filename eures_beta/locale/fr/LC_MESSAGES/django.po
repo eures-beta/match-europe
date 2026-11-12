@@ -7285,3 +7285,15 @@ msgstr "Une offre pourrait te convenir. Appuie pour découvrir le poste et répo
 
 msgid "An offer is available: %(title)s · %(city)s. I’ll go over the job conditions with you so you can decide if it suits you."
 msgstr "Un poste est disponible. %(title)s · %(city)s. Je vais te présenter les conditions pour que tu puisses décider si le poste te convient."
+
+msgid "Resend notification"
+msgstr "Renvoyer la notification"
+
+msgid "Wait a moment before resending."
+msgstr "Attends un instant avant de renvoyer la notification."
+
+msgid "The push service accepted the notification."
+msgstr "Le service de notifications a accepté l’envoi."
+
+msgid "The notification could not be sent. Enable notifications again on the candidate’s phone."
+msgstr "La notification n’a pas pu être envoyée. Réactive les notifications sur le téléphone du candidat."

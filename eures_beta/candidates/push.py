@@ -147,7 +147,7 @@ def notify(confirmation):
         candidate=confirmation.pair.candidate
     ).first()
     if not subscription or not valid_endpoint(subscription.endpoint):
-        return
+        return False
     # Ordinary page loads and catalogue searches do not need the Push SDK.
     from py_vapid import Vapid
     from pywebpush import WebPushException, webpush
@@ -155,7 +155,7 @@ def notify(confirmation):
     key = Vapid(private_key())
     try:
         with PushSession() as session:
-            webpush(
+            response = webpush(
                 subscription_info={
                     'endpoint': subscription.endpoint,
                     'keys': subscription.keys,
@@ -167,6 +167,7 @@ def notify(confirmation):
                 ttl=300,
                 timeout=5,
             )
+        return 200 <= response.status_code < 300
     except WebPushException as exc:
         status = exc.response.status_code if exc.response is not None else None
         if status in (404, 410):
@@ -176,3 +177,4 @@ def notify(confirmation):
         logger.warning('Candidate push failed (status=%s).', status)
     except (requests.RequestException, ValueError):
         logger.warning('Candidate push could not be sent.')
+    return False
