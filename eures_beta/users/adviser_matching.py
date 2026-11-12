@@ -12,6 +12,8 @@ from django.utils.translation import get_language_info, gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods
 
+from eures_beta.candidates import preview_push
+from eures_beta.candidates.models import PreviewPushSubscription
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.matching import (
     access,
@@ -26,6 +28,7 @@ from eures_beta.matching.models import (
     CandidateOfferMatch,
 )
 from eures_beta.matching.presentation import present
+from .test_accounts import PWA_ACCOUNTS
 from .views import selected_language
 
 
@@ -127,13 +130,30 @@ def record_review(user, pair, evaluation_id, action):
     if action == 'refresh':
         services.calculate(pair.candidate, pair.offer)
         return
+    push_preview = (
+        action == 'retained'
+        and preview_push.available()
+        and pair.candidate.user.email
+        in {account['email'] for account in PWA_ACCOUNTS.values()}
+    )
+    if (
+        push_preview
+        and not PreviewPushSubscription.objects.filter(
+            candidate=pair.candidate
+        ).exists()
+    ):
+        raise ValidationError(
+            _('Enable notifications on the test candidate’s phone first.')
+        )
     if action == 'retained' and not dialogue_services.enabled():
         raise ValidationError(_('Albert is currently unavailable. Try again later.'))
     services.decide(pair.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
     if action == 'retained':
-        CandidateOfferReview.objects.get_or_create(
+        confirmation, _ = CandidateOfferReview.objects.get_or_create(
             pair=pair, defaults={'requested_by': user}
         )
+        if push_preview:
+            transaction.on_commit(lambda: preview_push.notify(confirmation))
 
 
 @never_cache
