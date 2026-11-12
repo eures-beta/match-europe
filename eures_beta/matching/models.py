@@ -98,6 +98,7 @@ class CandidateOfferReviewAnswer(models.Model):
         ],
     )
     detail = models.TextField(max_length=2000, blank=True)
+    dialogue = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
