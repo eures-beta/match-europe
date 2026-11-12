@@ -418,3 +418,7 @@ confirmations-test: ## Tester les confirmations par offre et les accords distinc
 .PHONY: emails-test
 emails-test: ## Vérifier le transport SMTP partagé et les protections sans envoi réel
 	@$(MANAGE) test eures_beta.emails.tests --noinput $(TEST_ARGS)
+
+.PHONY: adviser-invitations-test
+adviser-invitations-test: ## Tester le tableau de bord conseiller et les invitations
+	@$(MANAGE) test eures_beta.users.tests.test_adviser_invitations eures_beta.users.tests.test_invitations eures_beta.candidates.tests.test_registration --noinput $(TEST_ARGS)

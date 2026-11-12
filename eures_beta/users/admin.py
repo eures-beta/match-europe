@@ -42,6 +42,7 @@ class AccountAdmin(ReadOnlyAdmin):
 class InvitationAdmin(ReadOnlyAdmin):
     list_display = (
         'email',
+        'audience',
         'language',
         'invited_by',
         'created_at',
@@ -49,7 +50,7 @@ class InvitationAdmin(ReadOnlyAdmin):
         'accepted_at',
         'email_sent_at',
     )
-    list_filter = ('language', 'accepted_at')
+    list_filter = ('audience', 'language', 'accepted_at')
     search_fields = ('email', 'invited_by__email')
     list_select_related = ('invited_by',)
     ordering = ('-created_at',)

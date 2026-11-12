@@ -1,11 +1,17 @@
 {% extends "users/dashboard.html" %}
 {% load i18n %}
-{% block page_title %}{% translate "Employer invitation" %} — Match Europe{% endblock %}
+{% block page_title %}
+  {% if invitation and invitation.audience != "employer" %}Invitation{% else %}{% translate "Employer invitation" %}{% endif %} — Match Europe
+{% endblock %}
 {% block public_content %}
   <section class="account-panel" aria-labelledby="accept-title">
-    <h1 id="accept-title">{% translate "Employer invitation" %}</h1>
+    <h1 id="accept-title">{% if invitation and invitation.audience != "employer" %}Invitation Match Europe{% else %}{% translate "Employer invitation" %}{% endif %}</h1>
     {% if stage == "confirm" %}
-      <p>{% translate "Confirm this invitation to create your employer account and sign in on this device. Do not share your personal link." %}</p>
+      {% if invitation.audience == "employer" %}
+        <p>{% translate "Confirm this invitation to create your employer account and sign in on this device. Do not share your personal link." %}</p>
+      {% else %}
+        <p>Confirmez pour créer votre compte {{ invitation.get_audience_display|lower }} et vous connecter à Match Europe.</p>
+      {% endif %}
       <form method="post" action="{% url 'employer_invitation_confirm' %}">
         {% csrf_token %}
         <button class="primary-action" type="submit">{% translate "Accept invitation and sign in" %}</button>

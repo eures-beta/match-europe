@@ -100,22 +100,29 @@ def confirm_registration(token):
         return Confirmation(None, pending, 'role')
     if user is None:
         user = User.objects.create_user(email=pending.email, kind=User.Kind.CANDIDATE)
-    answers = validated_answers(pending.answers, pending.language)
+    created = create_verified_profile(
+        user, pending.answers, pending.language, pending.created_at
+    )
+    pending.delete()
+    return Confirmation(user, pending, 'created' if created else 'review')
+
+
+def create_verified_profile(user, data, language, notice_read_at):
+    answers = validated_answers(data, language)
     for name in ('salary_amount', 'available_from'):
         if answers.get(name) == '':
             answers[name] = None
-    existing = CandidateProfile.objects.filter(user=user).exists()
-    if not existing:
-        CandidateProfile.objects.create(
-            user=user,
-            language=pending.language,
-            email_verified_at=timezone.now(),
-            notice_read_at=pending.created_at,
-            notice_version='2026-11-05',
+    _, created = CandidateProfile.objects.get_or_create(
+        user=user,
+        defaults={
             **answers,
-        )
-    pending.delete()
-    return Confirmation(user, pending, 'review' if existing else 'created')
+            'language': language,
+            'email_verified_at': timezone.now(),
+            'notice_read_at': notice_read_at,
+            'notice_version': '2026-11-05',
+        },
+    )
+    return created
 
 
 def confirmation_message(pending, origin):

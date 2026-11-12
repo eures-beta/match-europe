@@ -20,6 +20,18 @@ def invitation_expiry():
 
 
 class EmployerInvitation(models.Model):
+    class Audience(models.TextChoices):
+        EMPLOYER = 'employer', 'Employeur'
+        CANDIDATE = 'candidate', 'Candidat'
+        ADVISER = 'adviser', 'Conseiller'
+
+    audience = models.CharField(
+        max_length=10, choices=Audience.choices, default=Audience.EMPLOYER
+    )
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
+    reminder_sent_at = models.DateTimeField(null=True, blank=True)
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nonce = models.UUIDField(default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
@@ -74,6 +86,15 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    @property
+    def has_candidate_invitation(self):
+        return (
+            self.kind == self.Kind.CANDIDATE
+            and hasattr(self, 'employer_invitation')
+            and self.employer_invitation.audience
+            == EmployerInvitation.Audience.CANDIDATE
+        )
+
     class Kind(models.TextChoices):
         ADVISER = 'adviser', _('Adviser')
         EMPLOYER = 'employer', _('Employer')

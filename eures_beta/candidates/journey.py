@@ -656,6 +656,13 @@ def workflow(request, language):
             return HttpResponseBadRequest()
     form_class = FORMS[step]
     initial = draft['data']
+    invited_candidate = (
+        request.user.is_authenticated
+        and request.user.has_candidate_invitation
+        and not hasattr(request.user, 'candidate_profile')
+    )
+    if step == 4 and invited_candidate:
+        initial = {**initial, 'contact_email': request.user.email}
     if step == 4 and draft.get('editing_user'):
         if (
             not request.user.is_authenticated
@@ -670,8 +677,9 @@ def workflow(request, language):
             {'language': language, 'partial': action == 'language'} if step == 1 else {}
         ),
     )
-    if step == 4 and draft.get('editing_user'):
+    if step == 4 and (draft.get('editing_user') or invited_candidate):
         form.fields['contact_email'].disabled = True
+        form.fields['contact_email'].label = _('Email address')
     if action == 'language' and form.is_valid():
         # Keep incomplete choices across languages without unlocking registration.
         complete = ProjectForm(form.cleaned_data, language=language)
@@ -716,6 +724,14 @@ def workflow(request, language):
                         status=409,
                     )
                 destination = 'candidate_profile'
+            elif invited_candidate:
+                from django.utils import timezone
+
+                registration.create_verified_profile(
+                    request.user, draft['data'], language, timezone.now()
+                )
+                request.session.pop(KEY, None)
+                return redirect('candidate_profile')
             else:
                 from eures_beta.users.rate_limits import allow_request
 
@@ -877,6 +893,7 @@ def workflow(request, language):
         'candidates/journey.html',
         {
             'form': form,
+            'invited_candidate': invited_candidate,
             'continuous_skills': continuous_trial_request(request),
             'skill_sections': (
                 skill_choices.sections(form, language) if step == 1 else []

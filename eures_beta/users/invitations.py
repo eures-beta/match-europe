@@ -50,16 +50,8 @@ def find_invitation(token, *, lock=False):
     ).first()
 
 
-@transaction.atomic
-def create_invitation(adviser, email, language):
-    # Serialize simultaneous invitations by one adviser, including the rate limit.
-    adviser = User.objects.select_for_update().get(pk=adviser.pk)
-    if not can_manage_employers(adviser):
-        raise ValidationError(_('You are not allowed to invite employers.'))
-    email = email.strip().lower()
-    if User.objects.filter(email__iexact=email).exists():
-        raise ValidationError(_('An account already exists for this email address.'))
-    now = timezone.now()
+def record_invitation_attempt(adviser, now):
+    """Charge the shared quota while the caller holds the adviser's row lock."""
     key = salted_hmac('employer-invitation-limit', str(adviser.pk)).hexdigest()
     bucket, _created = LoginRateLimit.objects.get_or_create(
         key=key, defaults={'expires': now + timedelta(hours=1)}
@@ -69,6 +61,29 @@ def create_invitation(adviser, email, language):
         bucket.expires = now + timedelta(hours=1)
     if bucket.attempts >= 10:
         raise ValidationError(_('Too many invitations. Please try again later.'))
+    bucket.attempts += 1
+    bucket.save(update_fields=['attempts', 'expires'])
+
+
+@transaction.atomic
+def create_invitation(
+    adviser,
+    email,
+    language,
+    *,
+    audience=EmployerInvitation.Audience.EMPLOYER,
+    first_name='',
+    last_name='',
+):
+    # Serialize simultaneous invitations by one adviser, including the rate limit.
+    adviser = User.objects.select_for_update().get(pk=adviser.pk)
+    if not can_manage_employers(adviser):
+        raise ValidationError(_('You are not allowed to invite employers.'))
+    email = email.strip().lower()
+    if User.objects.filter(email__iexact=email).exists():
+        raise ValidationError(_('An account already exists for this email address.'))
+    now = timezone.now()
+    record_invitation_attempt(adviser, now)
     invitation = (
         EmployerInvitation.objects.select_for_update()
         .filter(email__iexact=email)
@@ -83,13 +98,20 @@ def create_invitation(adviser, email, language):
         invitation.invited_by = adviser
         invitation.language = language
         invitation.email_sent_at = None
+        invitation.audience = audience
+        invitation.first_name = first_name
+        invitation.last_name = last_name
+        invitation.reminder_sent_at = None
         invitation.save()
     else:
         invitation = EmployerInvitation.objects.create(
-            email=email, language=language, invited_by=adviser
+            email=email,
+            language=language,
+            invited_by=adviser,
+            audience=audience,
+            first_name=first_name,
+            last_name=last_name,
         )
-    bucket.attempts += 1
-    bucket.save(update_fields=['attempts', 'expires'])
     return invitation
 
 

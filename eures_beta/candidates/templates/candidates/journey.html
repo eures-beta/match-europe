@@ -212,7 +212,7 @@
                       name="action"
                       value="{% if step == 4 %}finish{% else %}continue{% endif %}">
                 {% if step == 4 %}
-                  {% if draft.editing_user %}
+                  {% if draft.editing_user or invited_candidate %}
                     {% translate "Save my profile" %}
                   {% else %}
                     {% translate "Verify my email and save my profile" %}

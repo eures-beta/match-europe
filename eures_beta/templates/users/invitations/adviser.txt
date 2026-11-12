@@ -1,0 +1,11 @@
+{% autoescape off %}{{ greeting }}{% endautoescape %}
+
+{% if reminder %}Nous revenons vers vous au sujet de votre invitation à rejoindre l’équipe de conseillers Match Europe.{% else %}Nous vous invitons à rejoindre l’équipe de conseillers Match Europe.{% endif %}
+Depuis votre espace, vous pourrez accompagner les candidats et les employeurs dans leurs démarches.
+
+Rejoindre l’équipe : {{ link }}
+
+Informations sur vos données : {{ privacy }}
+
+Cordialement,
+Équipe Match Europe

@@ -43,7 +43,7 @@ class DashboardTests(TestCase):
                 if kind == 'employer':
                     self.assertContains(response, notice)
                 else:
-                    self.assertContains(response, '/accounts/employers/invite/')
+                    self.assertContains(response, reverse('adviser_invitations'))
                 self.assertContains(response, f'href="/accounts/me/?lang={language}"')
                 self.assertContains(
                     response, f'href="/accounts/dashboard/?lang={language}"'
@@ -103,4 +103,4 @@ class DashboardTests(TestCase):
         self.assertEqual(self.client.session['_auth_user_id'], str(adviser.pk))
         self.assertEqual(self.client.session['login_language'], 'fr')
         self.assertContains(response, '<html lang="fr">')
-        self.assertContains(response, '/accounts/employers/invite/')
+        self.assertContains(response, reverse('adviser_invitations'))

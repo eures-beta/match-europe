@@ -1,0 +1,222 @@
+.invitations {
+  --invite-ink: #152d48;
+  --invite-blue: #004494;
+  --invite-line: #dce5ee;
+  --invite-paper: #f4f7fb;
+  width: min(100% - 2rem, 73rem);
+  margin: 2rem auto 4rem;
+  color: var(--invite-ink);
+}
+
+.invitations-header {
+  padding: clamp(1.25rem, 4vw, 2.75rem);
+  border: 1px solid var(--invite-line);
+  border-radius: 1.25rem;
+  background: linear-gradient(120deg, #edf5ff, #f7fafc 70%);
+}
+
+.invitations-header nav,
+.invitation-modes,
+.invitation-pages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invitations-header nav a,
+.invitation-modes a {
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  color: var(--invite-blue);
+  font-weight: 650;
+}
+
+.invitations a[aria-current='page'] {
+  background: #dceafa;
+  text-decoration: none;
+}
+
+.invitations-header h1 {
+  margin: 1rem 0 0.35rem;
+  font-size: clamp(2.1rem, 5vw, 3.3rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.invitations-header p {
+  margin: 0.5rem 0 0;
+}
+
+.invitation-compose {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 1rem;
+  margin-block: 1rem;
+  align-items: start;
+}
+
+.invitation-card {
+  min-width: 0;
+  padding: clamp(1rem, 3vw, 1.6rem);
+  border: 1px solid var(--invite-line);
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 6px 22px rgb(22 45 72 / 5%);
+}
+
+.invitation-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.3rem;
+}
+
+.invitation-modes {
+  margin-bottom: 1rem;
+}
+
+.invitation-card label {
+  display: block;
+  margin-block: 0.65rem 0.25rem;
+  font-weight: 650;
+}
+
+.invitation-card input:not([type='hidden']),
+.invitation-card select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #8c9cb0;
+  border-radius: 0.5rem;
+  background: white;
+  color: var(--invite-ink);
+  font: inherit;
+}
+
+.invitation-names {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.invitation-hint {
+  margin-block: 0.5rem 0.9rem;
+  color: #435971;
+  font-size: 0.9rem;
+}
+
+.invitation-notice,
+.invitation-error {
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.55rem;
+  background: #e8f2fd;
+}
+
+.invitation-error {
+  background: #fdecee;
+  color: #861d31;
+}
+
+.invitation-empty {
+  display: grid;
+  min-height: 12rem;
+  place-items: center;
+  border: 1px dashed #b1c3d6;
+  border-radius: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--invite-paper);
+  text-align: center;
+}
+
+.invitation-preview details {
+  margin-bottom: 0.7rem;
+  border: 1px solid var(--invite-line);
+  border-radius: 0.65rem;
+  padding: 0.65rem;
+  overflow-wrap: anywhere;
+}
+
+.invitation-preview iframe {
+  width: 100%;
+  height: 25rem;
+  border: 0;
+  background: var(--invite-paper);
+}
+
+.invitations summary {
+  cursor: pointer;
+  color: var(--invite-blue);
+}
+
+.invitation-history-heading,
+.invitation-search div {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.invitation-history-heading {
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.invitation-history table {
+  width: 100%;
+  min-width: 42rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.invitation-history th,
+.invitation-history td {
+  border-bottom: 1px solid var(--invite-line);
+  padding: 0.65rem;
+  vertical-align: top;
+}
+
+.invitation-history th {
+  background: var(--invite-paper);
+}
+
+.invitation-history button {
+  border: 1px solid #8c9cb0;
+  border-radius: 0.45rem;
+  padding: 0.42rem 0.65rem;
+  background: white;
+  color: var(--invite-blue);
+  font: inherit;
+  cursor: pointer;
+}
+
+.invitation-status {
+  display: inline-block;
+  border-radius: 1rem;
+  padding: 0.24rem 0.65rem;
+  background: #e8f2fd;
+  white-space: nowrap;
+}
+
+.invitation-status.accepted {
+  background: #def5e8;
+  color: #125338;
+}
+
+.invitation-status.muted {
+  background: #fff1d6;
+  color: #674500;
+}
+
+.invitation-remove {
+  margin-top: 0.35rem;
+}
+
+.invitation-pages {
+  margin-top: 1rem;
+}
+
+@media (max-width: 760px) {
+  .invitation-compose {
+    grid-template-columns: 1fr;
+  }
+}

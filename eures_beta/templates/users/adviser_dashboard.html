@@ -3,8 +3,9 @@
 {% block public_content %}
   <section class="account-panel" aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
-    <p><a class="primary-action"
-   href="{% url 'employer_invite' %}?lang={{ page_language }}">{% translate "Invite an employer" %}</a></p>
+    <nav aria-label="Tableau de bord conseiller">
+      <a class="primary-action" href="{% url 'dashboard' %}?lang={{ page_language }}">Inviter</a>
+    </nav>
     <h2>{% translate "Employer accounts" %}</h2>
     <div class="account-table-scroll">
       <table>
@@ -40,10 +41,10 @@
       </table>
     </div>
     {% if employers.has_previous %}
-      <a href="?lang={{ page_language }}&amp;employers_page={{ employers.previous_page_number }}">{% translate "Previous accounts" %}</a>
+      <a href="?lang={{ page_language }}&amp;tab=employers&amp;employers_page={{ employers.previous_page_number }}">{% translate "Previous accounts" %}</a>
     {% endif %}
     {% if employers.has_next %}
-      <a href="?lang={{ page_language }}&amp;employers_page={{ employers.next_page_number }}">{% translate "Next accounts" %}</a>
+      <a href="?lang={{ page_language }}&amp;tab=employers&amp;employers_page={{ employers.next_page_number }}">{% translate "Next accounts" %}</a>
     {% endif %}
     <h2>{% translate "Employer invitations" %}</h2>
     <div class="account-table-scroll">
@@ -84,10 +85,10 @@
       </table>
     </div>
     {% if invitations.has_previous %}
-      <a href="?lang={{ page_language }}&amp;invitations_page={{ invitations.previous_page_number }}">{% translate "Previous invitations" %}</a>
+      <a href="?lang={{ page_language }}&amp;tab=employers&amp;invitations_page={{ invitations.previous_page_number }}">{% translate "Previous invitations" %}</a>
     {% endif %}
     {% if invitations.has_next %}
-      <a href="?lang={{ page_language }}&amp;invitations_page={{ invitations.next_page_number }}">{% translate "Next invitations" %}</a>
+      <a href="?lang={{ page_language }}&amp;tab=employers&amp;invitations_page={{ invitations.next_page_number }}">{% translate "Next invitations" %}</a>
     {% endif %}
   </section>
 {% endblock %}
