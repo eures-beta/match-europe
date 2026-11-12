@@ -7285,3 +7285,15 @@ msgstr "Ein Angebot könnte zu dir passen. Tippe darauf, um die Stelle zu sehen 
 
 msgid "An offer is available: %(title)s · %(city)s. I’ll go over the job conditions with you so you can decide if it suits you."
 msgstr "Eine Stelle ist frei. %(title)s · %(city)s. Ich zeige dir die Arbeitsbedingungen, damit du entscheiden kannst, ob die Stelle zu dir passt."
+
+msgid "Resend notification"
+msgstr "Benachrichtigung erneut senden"
+
+msgid "Wait a moment before resending."
+msgstr "Warte einen Moment, bevor du die Benachrichtigung erneut sendest."
+
+msgid "The push service accepted the notification."
+msgstr "Der Push-Dienst hat die Benachrichtigung angenommen."
+
+msgid "The notification could not be sent. Enable notifications again on the candidate’s phone."
+msgstr "Die Benachrichtigung konnte nicht gesendet werden. Aktiviere sie erneut auf dem Telefon."
