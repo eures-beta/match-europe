@@ -161,7 +161,9 @@ def make_proposal(
         if len(source) > 2000:
             raise dialogue_albert.Unavailable
         allow_call(user)
-        model = dialogue_albert.ask(row, source, scope, language, history)
+        model = dialogue_albert.ask(
+            {**row, 'question': prompt}, source, scope, language, history
+        )
         if model['outcome'] == 'clarify':
             history.append({'role': 'assistant', 'text': model['reply']})
             token = signing.dumps(
