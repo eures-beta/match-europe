@@ -35,11 +35,15 @@ def history(request):
         raise Http404
     search = request.GET.get('q', '').strip()[:254]
     language = selected_language(request)
-    page = Paginator(history_rows(section, search), 20).get_page(request.GET.get('page'))
+    page = Paginator(history_rows(section, search), 20).get_page(
+        request.GET.get('page')
+    )
     selected = request.GET.get('entry')
     selected_entry = None
     if selected and section in ('candidates', 'employers'):
-        selected_entry = next((entry for entry in page if str(entry.pk) == selected), None)
+        selected_entry = next(
+            (entry for entry in page if str(entry.pk) == selected), None
+        )
     candidate_answers = (
         answer_groups(profile_answers(selected_entry), language)
         if selected_entry and section == 'candidates'
@@ -64,21 +68,33 @@ def history(request):
 
 def history_rows(section, search):
     if section == 'candidates':
-        return access.candidates().filter(
-            Q(display_name__icontains=search) | Q(user__email__icontains=search)
-        ).order_by('-updated_at', '-pk')
+        return (
+            access.candidates()
+            .filter(
+                Q(display_name__icontains=search) | Q(user__email__icontains=search)
+            )
+            .order_by('-updated_at', '-pk')
+        )
     if section == 'employers':
-        return access.offers().filter(
-            Q(data__title__icontains=search)
-            | Q(data__companyName__icontains=search)
-            | Q(email__icontains=search)
-        ).order_by('-validated_at', '-pk')
+        return (
+            access.offers()
+            .filter(
+                Q(data__title__icontains=search)
+                | Q(data__companyName__icontains=search)
+                | Q(email__icontains=search)
+            )
+            .order_by('-validated_at', '-pk')
+        )
     if section == 'invitations':
-        return EmployerInvitation.objects.filter(email_sent_at__isnull=False).filter(
-            Q(email__icontains=search)
-            | Q(first_name__icontains=search)
-            | Q(last_name__icontains=search)
-        ).order_by('-email_sent_at', '-pk')
+        return (
+            EmployerInvitation.objects.filter(email_sent_at__isnull=False)
+            .filter(
+                Q(email__icontains=search)
+                | Q(first_name__icontains=search)
+                | Q(last_name__icontains=search)
+            )
+            .order_by('-email_sent_at', '-pk')
+        )
 
     latest = MatchEvaluation.objects.filter(pair_id=OuterRef('pk')).order_by('-pk')
     return (

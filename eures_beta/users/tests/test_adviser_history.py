@@ -13,7 +13,9 @@ class AdviserHistoryTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         synchronize_permissions()
-        cls.adviser = User.objects.create_user('adviser@example.invalid', kind='adviser')
+        cls.adviser = User.objects.create_user(
+            'adviser@example.invalid', kind='adviser'
+        )
         cls.candidate = User.objects.create_user(
             'candidate@example.invalid', kind='candidate'
         )
