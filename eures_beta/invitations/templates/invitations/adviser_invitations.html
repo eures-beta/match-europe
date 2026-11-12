@@ -1,21 +1,26 @@
 {% extends "users/adviser_workspace.html" %}
+{% load i18n %}
 {% block page_title %}Inviter — Match Europe{% endblock %}
 {% block invite_current %}aria-current="page"{% endblock %}
-{% block adviser_heading %}
-  <h1>Inviter</h1>
-  <p>Préparez vos invitations et suivez les réponses depuis votre espace conseiller.</p>
-  {% if local_outbox %}<p class="invitation-notice">Recette locale · Les e-mails sont déposés dans la boîte de test.</p>{% endif %}
+{% block adviser_subnav %}
+  <nav aria-label="{% translate 'Invite' %}">
+    <a href="{{ create_url }}"{% if not tracking %} aria-current="page"{% endif %}>{% translate "Create an invitation" %}</a>
+    <a href="{{ history_url }}"{% if tracking %} aria-current="page"{% endif %}>{% translate "Track an invitation" %}</a>
+  </nav>
 {% endblock %}
 {% block adviser_content %}
+  {% if local_outbox %}<p class="invitation-notice">Recette locale · Les e-mails sont déposés dans la boîte de test.</p>{% endif %}
   {% for message in messages %}<p class="invitation-notice" role="status">{{ message }}</p>{% endfor %}
   {% for error in errors %}<p class="invitation-error" role="alert">{{ error }}</p>{% endfor %}
-  <div class="invitation-compose">
+  {% if not tracking or reminder_preview %}
+  <div class="{% if tracking %}invitation-history{% else %}invitation-compose{% endif %}">
+    {% if not tracking %}
     <section class="invitation-card" aria-labelledby="compose-title">
       <h2 id="compose-title">Nouvelle invitation</h2>
       <nav class="invitation-modes" aria-label="Mode de saisie">
-        <a href="?lang={{ dashboard_language }}&amp;mode=manual"
+        <a href="?tab=invite&amp;lang={{ dashboard_language }}&amp;mode=manual"
            {% if mode == "manual" %}aria-current="page"{% endif %}>Saisie manuelle</a>
-        <a href="?lang={{ dashboard_language }}&amp;mode=csv"
+        <a href="?tab=invite&amp;lang={{ dashboard_language }}&amp;mode=csv"
            {% if mode == "csv" %}aria-current="page"{% endif %}>Importer un CSV</a>
       </nav>
       <form method="post"
@@ -48,6 +53,7 @@
         {% endif %}
       </form>
     </section>
+    {% endif %}
     <section class="invitation-card invitation-preview"
              aria-labelledby="preview-title">
       <h2 id="preview-title">Aperçu de l’e-mail</h2>
@@ -63,7 +69,7 @@
           </details>
         {% endfor %}
         <form method="post"
-              action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}">
+              action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}{% if tracking %}&amp;view=history{% endif %}">
           {% csrf_token %}
           <input type="hidden" name="preview" value="{{ preview_token }}">
           <button class="primary-action" name="action" value="send">{% if reminder_preview %}Confirmer l’envoi{% else %}Envoyer {{ previews|length }} invitation{{ previews|length|pluralize }}{% endif %}</button>
@@ -75,6 +81,8 @@
       {% endif %}
     </section>
   </div>
+  {% endif %}
+  {% if tracking %}
   <section class="invitation-card invitation-history"
            aria-labelledby="history-title">
     <div class="invitation-history-heading">
@@ -83,6 +91,8 @@
         <p class="invitation-hint">{{ invitations.paginator.count }} invitation{{ invitations.paginator.count|pluralize }}</p>
       </div>
       <form method="get" class="invitation-search">
+        <input type="hidden" name="tab" value="invite">
+        <input type="hidden" name="view" value="history">
         <input type="hidden" name="lang" value="{{ dashboard_language }}">
         <label for="invitation-search">Rechercher par e-mail</label>
         <div>
@@ -123,7 +133,7 @@
     {% if not invitation.accepted_at %}
       <form method="post"
             class="invitation-actions"
-            action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}&amp;mode={{ mode }}#preview-title">
+            action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}&amp;view=history#preview-title">
         {% csrf_token %}
         <input type="hidden" name="invitation" value="{{ invitation.pk }}">
         <button name="action"
@@ -132,7 +142,7 @@
       <details class="invitation-remove">
         <summary>Supprimer</summary>
         <form method="post"
-              action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}">
+              action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}&amp;view=history">
           {% csrf_token %}
           <input type="hidden" name="invitation" value="{{ invitation.pk }}">
           <p>Le lien sera révoqué.</p>
@@ -158,10 +168,11 @@
 </div>
 {% if invitations.has_other_pages %}
   <nav class="invitation-pages" aria-label="Pages des invitations">
-    {% if invitations.has_previous %}<a href="?lang={{ dashboard_language }}&amp;q={{ search|urlencode }}&amp;page={{ invitations.previous_page_number }}">Précédente</a>{% endif %}
+    {% if invitations.has_previous %}<a href="?tab=invite&amp;view=history&amp;lang={{ dashboard_language }}&amp;q={{ search|urlencode }}&amp;page={{ invitations.previous_page_number }}">Précédente</a>{% endif %}
     <span>{{ invitations.number }} / {{ invitations.paginator.num_pages }}</span>
-    {% if invitations.has_next %}<a href="?lang={{ dashboard_language }}&amp;q={{ search|urlencode }}&amp;page={{ invitations.next_page_number }}">Suivante</a>{% endif %}
+    {% if invitations.has_next %}<a href="?tab=invite&amp;view=history&amp;lang={{ dashboard_language }}&amp;q={{ search|urlencode }}&amp;page={{ invitations.next_page_number }}">Suivante</a>{% endif %}
   </nav>
 {% endif %}
 </section>
+{% endif %}
 {% endblock %}

@@ -7096,3 +7096,141 @@ msgstr "Ihre E-Mail-Signatur wurde gespeichert."
 
 msgid "Organisation"
 msgstr "Organisation"
+
+msgid "Adviser workspace"
+msgstr "Beratungsbereich"
+
+msgid "TO REVIEW"
+msgstr "ZU BEARBEITEN"
+
+msgid "Invite"
+msgstr "Einladen"
+
+msgid "Pending matchings"
+msgstr "Offene Zuordnungen"
+
+msgid "Open conversations"
+msgstr "Offene Gespräche"
+
+msgid "Matching review is unavailable for your account."
+msgstr "Ihr Konto kann keine Zuordnungen bearbeiten."
+
+msgid "Matching score"
+msgstr "Übereinstimmungswert"
+
+msgid "No open conversation."
+msgstr "Keine offenen Gespräche."
+
+msgid "No matching to review."
+msgstr "Keine Zuordnungen zur Prüfung."
+
+msgid "Pages"
+msgstr "Seiten"
+
+msgid "Matching criteria"
+msgstr "Zuordnungskriterien"
+
+msgid "Criterion"
+msgstr "Kriterium"
+
+msgid "Expected"
+msgstr "Erwartet"
+
+msgid "Declared"
+msgstr "Angegeben"
+
+msgid "Refresh evaluation"
+msgstr "Bewertung aktualisieren"
+
+msgid "Validate and open conversation"
+msgstr "Bestätigen und Gespräch öffnen"
+
+msgid "Albert is currently unavailable. Try again later."
+msgstr "Albert ist derzeit nicht verfügbar. Versuchen Sie es später erneut."
+
+msgid "Refuse matching"
+msgstr "Zuordnung ablehnen"
+
+msgid "Opened on"
+msgstr "Geöffnet am"
+
+msgid "Waiting for candidate reply"
+msgstr "Antwort der Bewerberin oder des Bewerbers steht aus"
+
+msgid "Select a valid matching decision."
+msgstr "Wählen Sie eine gültige Entscheidung."
+
+msgid "This matching has changed. Refresh the evaluation before deciding."
+msgstr "Diese Zuordnung hat sich geändert. Aktualisieren Sie die Bewertung vor Ihrer Entscheidung."
+
+msgid "Review matching"
+msgstr "Zuordnung prüfen"
+
+msgid "Follow conversation"
+msgstr "Gespräch verfolgen"
+
+msgid "Matching decision"
+msgstr "Entscheidung zur Zuordnung"
+
+msgid "To review"
+msgstr "Zu bearbeiten"
+
+msgid "Created on"
+msgstr "Erstellt am"
+
+msgid "Occupations"
+msgstr "Berufe"
+
+msgid "Recruitment need"
+msgstr "Personalbedarf"
+
+msgid "Work location"
+msgstr "Arbeitsort"
+
+msgid "Create an invitation"
+msgstr "Einladung erstellen"
+
+msgid "Track an invitation"
+msgstr "Einladung verfolgen"
+
+msgid "Score to update"
+msgstr "Bewertung aktualisieren"
+
+msgid "Not recommended"
+msgstr "Nicht empfohlen"
+
+msgid "Recommended"
+msgstr "Empfohlen"
+
+msgid "Borderline"
+msgstr "Grenzfall"
+
+msgid "Incompatibilities"
+msgstr "Unvereinbarkeiten"
+
+msgid "To confirm"
+msgstr "Zu bestätigen"
+
+msgid "Compatible points"
+msgstr "Passende Kriterien"
+
+msgid "Information to clarify"
+msgstr "Zu klärende Angaben"
+
+msgid "The information available about the offer or the candidate is insufficient to assess these points."
+msgstr "Die Angaben zur Stelle oder zur Bewerbung reichen für die Bewertung dieser Punkte nicht aus."
+
+msgid "Score breakdown"
+msgstr "Aufschlüsselung der Punktzahl"
+
+msgid "Compare answers"
+msgstr "Angaben vergleichen"
+
+msgid "Employer expectations"
+msgstr "Anforderungen des Arbeitgebers"
+
+msgid "Unavailable in the evaluation"
+msgstr "In der Bewertung nicht verfügbar"
+
+msgid "No comparable information is available for this matching."
+msgstr "Für diese Zuordnung liegen keine vergleichbaren Angaben vor."

@@ -5,6 +5,7 @@ import json
 from django.core.exceptions import PermissionDenied
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone
 from . import access
 from .models import (
@@ -36,7 +37,9 @@ def candidate_requests(user):
         return CandidateOfferReview.objects.none()
     return CandidateOfferReview.objects.filter(
         pair__candidate__in=access.candidates().filter(user=user),
-        pair__offer__in=access.offers(),
+    ).filter(
+        Q(pair__offer__in=access.offers())
+        | Q(pair__decision='retained', pair__offer__in=access.matchable_offers())
     )
 
 

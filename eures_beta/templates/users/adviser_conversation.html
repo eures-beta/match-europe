@@ -1,0 +1,27 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block adviser_heading %}
+  <h1>{{ pair.offer.data.title }}</h1>
+  <p>{{ pair.offer.data.companyName }} · {{ pair.offer.data.city }}</p>
+{% endblock %}
+{% block adviser_content %}
+  <section class="invitation-card invitation-history" aria-labelledby="conversation-title">
+    <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations">{% translate "Open conversations" %}</a>
+    <h2 id="conversation-title">{{ pair.candidate.display_name|default:pair.candidate.user.email }}</h2>
+    <p>{% translate "Opened on" %} <time datetime="{{ conversation.created_at|date:'c' }}">{{ conversation.created_at|date:"SHORT_DATETIME_FORMAT" }}</time></p>
+    <dl>
+      {% for row in rows %}
+        <dt>{{ row.label }}</dt>
+        <dd>
+          {% if row.answer %}
+            {{ row.answer_label }}{% if row.answer.detail %} · {{ row.answer.detail }}{% endif %}
+          {% elif row.askable %}
+            {% translate "Waiting for candidate reply" %}
+          {% else %}
+            {% translate "To clarify" %}
+          {% endif %}
+        </dd>
+      {% endfor %}
+    </dl>
+  </section>
+{% endblock %}
