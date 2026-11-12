@@ -108,6 +108,7 @@ class TestAccountAccessTests(TestCase):
             200,
         )
         with patch('pywebpush.webpush') as send:
+            send.return_value.status_code = 201
             with self.captureOnCommitCallbacks(execute=True):
                 self.assertEqual(adviser.post(detail, decision).status_code, 302)
                 send.assert_not_called()
@@ -120,6 +121,17 @@ class TestAccountAccessTests(TestCase):
         page = candidate.get(payload['url'])
         self.assertEqual(page.status_code, 200)
         self.assertEqual(page.context['current']['kind'], 'schedule')
+        follow = reverse('adviser_conversation', args=[confirmation.pk])
+        with patch(
+            'eures_beta.candidates.preview_push.notify', return_value=True
+        ) as resend:
+            self.assertEqual(
+                adviser.post(follow, {'action': 'resend'}).status_code, 200
+            )
+            self.assertEqual(
+                adviser.post(follow, {'action': 'resend'}).status_code, 429
+            )
+            resend.assert_called_once_with(confirmation)
 
     @override_settings(MATCHING_ENABLED=True, CONFIRMATION_DIALOGUE_SIMULATED=True)
     def test_push_is_universal_and_subscription_is_optional(self):
