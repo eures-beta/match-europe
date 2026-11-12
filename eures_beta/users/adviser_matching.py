@@ -149,10 +149,10 @@ def record_review(user, pair, evaluation_id, action):
         raise ValidationError(_('Albert is currently unavailable. Try again later.'))
     services.decide(pair.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
     if action == 'retained':
-        confirmation, _ = CandidateOfferReview.objects.get_or_create(
+        confirmation, created = CandidateOfferReview.objects.get_or_create(
             pair=pair, defaults={'requested_by': user}
         )
-        if push_preview:
+        if push_preview and created:
             transaction.on_commit(lambda: preview_push.notify(confirmation))
 
 
