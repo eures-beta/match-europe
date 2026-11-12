@@ -250,13 +250,16 @@ def display_rows(rows, language):
 @entry_candidate
 @require_http_methods(['GET'])
 def inbox(request):
+    from . import dialogue_services
+
     return render(
         request,
         'matching/confirmation_inbox.html',
         dict(
             entries=service.candidate_requests(request.user).select_related(
-                'pair__offer'
+                'pair__offer', 'pair'
             ),
+            albert_available=dialogue_services.enabled(),
             page_language=selected_language(request),
         ),
     )

@@ -88,7 +88,7 @@ def calculate(candidate, offer, *, offer_revision=None):
 
 
 @transaction.atomic
-def decide(pair_id, evaluation_id, value):
+def decide(pair_id, evaluation_id, value, *, actor='local_operator'):
     if not enabled() or value not in ('retained', 'refused'):
         raise ValueError('Invalid matching decision')
     pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair_id)
@@ -114,7 +114,9 @@ def decide(pair_id, evaluation_id, value):
     ):
         pair.decision = value
         pair.save(update_fields=['decision'])
-        MatchDecision.objects.create(pair=pair, evaluation=evaluation, value=value)
+        MatchDecision.objects.create(
+            pair=pair, evaluation=evaluation, value=value, actor=actor
+        )
     return pair
 
 

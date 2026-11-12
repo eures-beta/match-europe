@@ -1,0 +1,16 @@
+{% load i18n %}
+<li class="adviser-matching-card">
+  {% with candidate=pair.candidate.display_name|default:pair.candidate.user.email %}
+    <div>
+      <h3>{{ pair.offer.data.title }}</h3>
+      <p class="invitation-hint">{{ pair.offer.data.companyName }} · {{ pair.offer.data.city }}</p>
+      <p>{{ candidate }}</p>
+    </div>
+    <div class="adviser-match-actions">
+      {% translate "Follow conversation" as action_label %}
+      <a class="primary-action"
+         href="{{ entry_url }}?lang={{ dashboard_language }}"
+         aria-label="{{ action_label }} — {{ candidate }} — {{ pair.offer.data.title }}">{{ action_label }}</a>
+    </div>
+  {% endwith %}
+</li>

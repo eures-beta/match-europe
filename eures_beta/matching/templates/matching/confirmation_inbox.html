@@ -11,7 +11,7 @@
       <p>{% translate "Confirm the conditions for each offer. This does not change your general profile or send it to an employer." %}</p>
       <ul>
         {% for entry in entries %}
-          <li><a href="{% url 'candidate_offer_confirmation' entry.pk %}?lang={{ page_language }}">{{ entry.pair.offer.data.title }} — {{ entry.pair.offer.data.companyName }} — {{ entry.pair.offer.data.city }}</a></li>
+          <li><a href="{% if albert_available and entry.pair.decision == 'retained' %}{% url 'candidate_offer_dialogue' entry.pk %}{% else %}{% url 'candidate_offer_confirmation' entry.pk %}{% endif %}?lang={{ page_language }}">{{ entry.pair.offer.data.title }} — {{ entry.pair.offer.data.companyName }} — {{ entry.pair.offer.data.city }}</a></li>
         {% empty %}
           <li>{% translate "No offer is awaiting your confirmation." %}</li>
         {% endfor %}

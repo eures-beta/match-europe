@@ -67,7 +67,11 @@ def dashboard(request):
 
             if request.GET.get('tab') == 'employers':
                 return adviser_dashboard(request)
-            return invitations_tab(request)
+            if request.GET.get('tab') == 'invite':
+                return invitations_tab(request)
+            from .adviser_matching import queue
+
+            return queue(request)
         if request.user.kind == 'candidate':
             if hasattr(request.user, 'candidate_profile'):
                 return redirect('candidate_profile')

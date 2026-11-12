@@ -56,7 +56,7 @@ class MatchDecision(models.Model):
     value = models.CharField(
         max_length=12, choices=[('retained', 'Retained'), ('refused', 'Refused')]
     )
-    # No actor impersonation: this prototype has an explicit local operator only.
+    # Preserve the legacy actor for decisions recorded by the operator workflow.
     actor = models.CharField(max_length=32, default='local_operator', editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

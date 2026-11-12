@@ -421,4 +421,4 @@ emails-test: ## Vérifier le transport SMTP partagé et les protections sans env
 
 .PHONY: adviser-invitations-test
 adviser-invitations-test: ## Tester le tableau de bord conseiller et les invitations
-	@$(MANAGE) test eures_beta.invitations.tests.test_adviser_invitations eures_beta.invitations.tests.test_invitations eures_beta.candidates.tests.test_registration --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.users.tests.test_adviser_matching eures_beta.invitations.tests.test_adviser_invitations eures_beta.invitations.tests.test_invitations eures_beta.candidates.tests.test_registration --noinput $(TEST_ARGS)
