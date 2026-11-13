@@ -15,7 +15,7 @@ l’administration Django existante ; ses permissions continuent à s’applique
 Le bouton de connexion reste visible pour les visiteurs anonymes et la
 déconnexion exige toujours un POST protégé par CSRF.
 
-`make test TESTS=eures_beta.users.tests` couvre les tests du domaine utilisateurs, dont cette page.
+`make test TESTS=tests.users` couvre les tests du domaine utilisateurs, dont cette page.
 `make test` vérifie aussi la cohérence avec les autres parcours. Vérifier la
 fiche et les liens en FR/EN/DE avec un compte employeur, un conseiller ordinaire
 et un conseiller staff. Aucun changement de schéma ni de droit métier.

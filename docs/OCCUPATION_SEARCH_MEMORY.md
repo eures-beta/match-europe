@@ -24,7 +24,7 @@ de construction : plusieurs premiers appels ne fabriquent plus plusieurs copies.
   synthétique `industrial electrician`, langue FR, contexte de maintenance
   électrique, recherche indépendante ESCO/ROME. Aucun réseau, compte ou accès
   à une base n'est nécessaire. Le pic RSS inclut le démarrage de Django.
-- `make test TESTS=eures_beta.occupations.tests.test_search_memory` : budget de 145 Mio, égalité des quatre fichiers
+- `make test TESTS=tests.occupations.test_search_memory` : budget de 145 Mio, égalité des quatre fichiers
   décodés avec le parseur standard, huit recherches simultanées avec chargement
   unique et résultats identiques.
 - `make occupations-memory-serve` : serveur HTTP local sur `127.0.0.1:9048`,

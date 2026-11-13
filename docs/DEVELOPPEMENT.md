@@ -73,7 +73,7 @@ les tests simulent les frontières externes et n'utilisent aucun secret réel.
 ```bash
 make check
 make test
-make test TESTS=config.test_retired_paths
+make test TESTS=tests.config.test_retired_paths
 make format-check
 make format-html-check
 make format-js-check
@@ -85,7 +85,7 @@ make translations-check
 `make test` utilise PostgreSQL et une base de test distincte. Le contrôle des
 anciens parcours vérifie leur absence, la connexion commune et les protections
 CSRF. `make e2e-test` exécute les parcours HTTP réels et le contrôle mémoire dans
-Docker ; voir [le banc système](SYSTEM_TESTS.md).
+Docker ; voir [le banc système](E2E_TESTS.md).
 Les migrations se vérifient depuis une base neuve et lors des transitions prises
 en charge. Ne pas réécrire les migrations appliquées.
 

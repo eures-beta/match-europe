@@ -80,7 +80,7 @@ Environnement local isolé déjà préparé pour #162 ; voir
   Un conseiller de recette habilité sollicite la confirmation depuis le détail de la paire.
 - `make run PORT=9044` : serveur sur loopback, port 9044. Pour simuler sans Albert réel,
   définir `CONFIRMATION_DIALOGUE_SIMULATED=1` dans le `.env` du worktree.
-- `make test TESTS=eures_beta.matching.tests.test_dialogue` : protections, corpus trilingue, validation et mise à jour
+- `make test TESTS=tests.matching.test_dialogue` : protections, corpus trilingue, validation et mise à jour
   complète du profil sur PostgreSQL jetable.
 - `make test`, `make check`, `make format-check`, `make format-html-check`,
   `make translations-check` : suite et contrôles existants.

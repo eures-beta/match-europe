@@ -87,7 +87,7 @@ jobs:
           make translations-check
           make translations-compile
       - name: Vérifier les imports des tests dans cet environnement
-        run: make test TESTS=config.test_test_collection
+        run: make test TESTS=tests.config.test_test_collection
       - name: Vérifier Django et les migrations
         run: make check
       - name: Exécuter les tests PostgreSQL

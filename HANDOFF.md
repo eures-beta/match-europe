@@ -45,6 +45,23 @@ historique, Django/migrations, Black, HTML, JS et gettext verts. Cinq parcours
 HTTPS Docker réussis sous 256 Mio (pic 179027968 octets), aucun OOM/SIGKILL.
 Services externes simulés ; aucune fusion ni modification de base distante.
 
+## 13 novembre 2026 — tests centralisés à la racine
+
+TRANSVERSE : tous les tests automatisés Python et JavaScript sont sous
+`tests/`, classés par domaine. Les contrôles communs sont dans `tests/common/`,
+ceux du socle dans `tests/config/`, le banc HTTP Docker dans `tests/e2e/`.
+Ce sont des paquets de tests, sans application Django supplémentaire.
+Imports, fixtures, sélection Make, CI et guides suivent les nouveaux chemins.
+Le peuplement fictif utilisable par les recettes reste du code applicatif.
+Aucun changement métier, modèle, migration ou donnée persistante.
+Voir [le guide des tests](docs/TESTS.md).
+
+Validation : inventaire identique de 635 tests Python distincts avant/après
+déplacement ; suite PostgreSQL et 21 tests Node réussis. Le banc HTTP Docker
+passe ses cinq groupes sous 256 Mio sans OOM (pic local arm64 : 181 874 688 octets),
+et le témoin historique détecte toujours l'OOM attendu. Mise à niveau historique
+des comptes réussie ; Black, djLint, Prettier JS/CSS, syntaxe JS et gettext verts.
+
 ## 13 novembre 2026 — conversations partagées compatibles avec les modèles actuels
 
 CONSEILLERS / CANDIDATS / EMPLOYEURS : les fils partagés utilisent
@@ -123,7 +140,7 @@ activés restent des outils de test isolés ; les modes de présentation sont re
 Les actions AGLAE sandbox/géocodage restent explicites et configurées ; la lecture
 et la sauvegarde seules ne les appellent pas. Aucun service réel activé ou appelé.
 
-Tests adaptés aux comptes réels de fixtures ; make test TESTS=config.test_retired_paths remplace
+Tests adaptés aux comptes réels de fixtures ; make test TESTS=tests.config.test_retired_paths remplace
 l'ancien contrôle de modes. Dépendances Web Push retirées ; cryptography est déclarée
 explicitement pour le fixture TLS E2E qui la recevait indirectement. Guides actifs
 réécrits et traductions inutilisées retirées, notamment les avertissements hérités.
@@ -143,7 +160,7 @@ Aucune fusion ni opération de production autorisée/exécutée dans ce lot.
 Le banc est réancré sur #181, sans reprendre le transport Brevo de #182 fermée.
 Les trois commits initiaux sont conservés. Un défaut du lecteur d’e-mails de test
 est corrigé : plusieurs messages peuvent partager le même fichier Django.
-`make test TESTS=eures_beta.system_tests.test_journeys` reproduit ce cas ; échec observé avant correction, puis succès.
+`make test TESTS=tests.e2e.test_journeys` reproduit ce cas ; échec observé avant correction, puis succès.
 Validation après réancrage : 615 tests PostgreSQL et contrôles de qualité réussis.
 Les cinq parcours Docker passent sous 256 Mio ; le témoin historique constate
 l’OOM attendu à huit recherches simultanées. Aucune fusion ou production effectuée.
@@ -237,7 +254,7 @@ Même protocole, mêmes délais/limites et mêmes protections ; aucun appel rée
 Déplacement sans changement fonctionnel de `users/email_backend.py` vers
 `emails/backend.py`, avec réglages, imports et tests recâblés. SMTP Django
 indépendant de Brevo ; activation explicite identique dans tous les environnements.
-Aucun secret, modèle ou migration modifié. Tests : `make test TESTS=eures_beta.emails.tests`.
+Aucun secret, modèle ou migration modifié. Tests : `make test TESTS=tests.emails`.
 
 ## 9 novembre 2026 — profil du compte employeur (#133)
 
@@ -441,7 +458,7 @@ consultables par les superadministrateurs. Administration entièrement en lectur
 seule, y compris les comptes ; création de conseiller par admin retirée.
 Invitations employeurs hors admin inchangées. Secrets exclus, sessions et journal
 limités à leurs métadonnées. Aucune migration ou donnée de production modifiée.
-Voir docs/ADMIN_READONLY.md et `make test TESTS=eures_beta.users.tests.test_readonly_admin`.
+Voir docs/ADMIN_READONLY.md et `make test TESTS=tests.users.test_readonly_admin`.
 
 ## 2 novembre 2026 — invitations employeurs (nouvelle PR)
 
@@ -1258,7 +1275,7 @@ Pas de modification responsive, des adresses e-mail ou de la barre gauche.
 
 Sélecteur traduit et peuplement idempotent : voir [TEST_ACCOUNTS](docs/TEST_ACCOUNTS.md).
 Trois rôles fixes et deux offres ; aucun modèle/migration nouveau. La production
-doit rester désactivée. `make test TESTS=eures_beta.users.tests.test_test_accounts` couvre les garde-fous et la CSRF.
+doit rester désactivée. `make test TESTS=tests.users.test_test_accounts` couvre les garde-fous et la CSRF.
 
 ## 3 novembre 2026 — compteurs de modèles sur l’accueil admin
 
@@ -1317,7 +1334,7 @@ Défaut exponentiel reproduit dans `occupations.catalog.search_title` sur une
 parenthèse mal formée courte. Test isolé rouge puis correctif sans quantificateurs
 imbriqués ; classements, données et intitulés stockés conservés. Mesures et limites
 dans [OCCUPATION_SEARCH_PERFORMANCE](docs/OCCUPATION_SEARCH_PERFORMANCE.md).
-Commandes : `make test TESTS=eures_beta.occupations.tests.test_search_performance`, `make occupations-benchmark`.
+Commandes : `make test TESTS=tests.occupations.test_search_performance`, `make occupations-benchmark`.
 # 4 novembre 2026 — stockage structuré candidat
 
 Préparation au-dessus de la PR #127 (`4892caa`) : modèle `CandidateProfile`,
