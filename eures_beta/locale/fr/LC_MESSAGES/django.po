@@ -7333,3 +7333,12 @@ msgstr "Peux-tu travailler dans la langue et au niveau indiqués : %(requirement
 
 msgid "%(condition)s: %(requirement)s. Would that suit you?"
 msgstr "%(condition)s : %(requirement)s. Cette condition te convient-elle ?"
+
+msgid "Under conditions"
+msgstr "Sous conditions"
+
+msgid "My situation changed"
+msgstr "Ma situation a changé"
+
+msgid "More details needed"
+msgstr "Précisions nécessaires"
