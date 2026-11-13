@@ -51,15 +51,20 @@ def _public_page(request, template, context=None):
 
 @require_safe
 def manifest(request):
+    from eures_beta.users.test_accounts import enabled, fictional_database
+
+    preview = (
+        settings.DJANGO_ENVIRONMENT == 'preview' and enabled() and fictional_database()
+    )
     return JsonResponse(
         {
             'name': 'Match Europe',
             'short_name': 'Match Europe',
             'id': '/',
-            'start_url': reverse('home'),
+            'start_url': reverse('test_accounts' if preview else 'home'),
             'scope': '/',
             'display': 'standalone',
-            'theme_color': '#003399',
+            'theme_color': '#125640' if preview else '#003399',
             'background_color': '#f5f7fb',
             'icons': [
                 {

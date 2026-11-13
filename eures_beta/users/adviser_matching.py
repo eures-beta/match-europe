@@ -1,16 +1,18 @@
 """Adviser review of Django matchings and follow-up of candidate conversations."""
 
 from django import forms
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Exists, OuterRef, Subquery
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import get_language_info, gettext as _
 from django.views.decorators.cache import never_cache
-from django.views.decorators.http import require_GET, require_http_methods
+from django.views.decorators.http import require_http_methods
 
 from eures_beta.candidates import preview_push
 from eures_beta.candidates.occupation_choices import resolve_reference
@@ -249,15 +251,34 @@ def matching_context(request, pair, evaluation):
 
 
 @never_cache
-@require_GET
+@require_http_methods(['GET', 'POST'])
 def follow(request, pk):
     access.guard(request)
     with translation.override(selected_language(request)):
         conversation = get_object_or_404(open_conversations(), pk=pk)
+        can_resend = access.can_change_pair(request.user)
+        result, status = '', 200
+        if request.method == 'POST':
+            if not can_resend or request.POST.get('action') != 'resend':
+                raise Http404
+            if not cache.add(f'preview-push-resend:{pk}', True, 30):
+                result, status = _('Wait a moment before resending.'), 429
+            elif preview_push.notify(conversation):
+                result = _('The push service accepted the notification.')
+            else:
+                result, status = (
+                    _(
+                        'The notification could not be sent. Enable notifications again on the candidate’s phone.'
+                    ),
+                    503,
+                )
         state = confirmation_services.review(conversation)
         return render_workspace(
             request,
             'adviser_conversation.html',
+            status=status,
+            can_resend=can_resend,
+            resend_result=result,
             conversation=conversation,
             tracking=True,
             pair=conversation.pair,

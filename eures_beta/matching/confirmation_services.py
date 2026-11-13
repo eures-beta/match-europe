@@ -62,8 +62,9 @@ def short_question(row):
         row['kind'] == 'schedule'
         and row['askable']
         and row['presented']['expected']['slots'] == ['saturday:morning']
+        and row['presented']['expected']['mandatory']
     ):
-        return _('Are you available on Saturday morning?')
+        return _('The job requires Saturday mornings. Can you work those hours?')
     return ''
 
 
@@ -325,7 +326,7 @@ def locked_request(user, pk):
 
 
 @transaction.atomic
-def answer(user, pk, key, fingerprint, value, detail='', previous=0):
+def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue=None):
     request = locked_request(user, pk)
     row = next(
         (row for row in questions(request) if row['key'] == key and row['askable']),
@@ -358,6 +359,7 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0):
         presented=row['presented'],
         value=value,
         detail=detail.strip(),
+        dialogue=dialogue or {},
     )
 
 

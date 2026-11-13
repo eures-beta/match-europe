@@ -45,6 +45,19 @@ historique, Django/migrations, Black, HTML, JS et gettext verts. Cinq parcours
 HTTPS Docker réussis sous 256 Mio (pic 179027968 octets), aucun OOM/SIGKILL.
 Services externes simulés ; aucune fusion ni modification de base distante.
 
+## 13 novembre 2026 — migration du dialogue après renommage des modèles
+
+CANDIDATS / TRANSVERSE : le champ JSON `CandidateOfferReviewAnswer.dialogue`
+est ajouté par `matching.0007_candidate_offer_review_answer_dialogue`, après
+le renommage déjà livré dans `0006_candidate_offer_model_names`. Une ancienne
+recette ayant appliqué `0006_confirmationanswer_dialogue` garde sa colonne et
+son contenu : adoption uniquement avec cet enregistrement exact et un schéma
+JSONB non nullable sans défaut persistant. Une colonne inattendue, manquante ou
+incompatible bloque la migration sans écrasement. Le retour arrière d’une
+adoption conserve la colonne historique ; celui d’une création neuve la retire.
+Tests PostgreSQL dédiés : création neuve, adoption non vide, retours arrière
+et refus des schémas inattendus. Aucun changement de base distante.
+
 ## 13 novembre 2026 — transport Albert commun à tous les usages
 
 TRANSVERSE : import d’offre, dialogue candidat et compétences ESCO passent par

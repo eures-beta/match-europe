@@ -1,19 +1,18 @@
-{% extends "public_base.html" %}
+{% extends "conversation_base.html" %}
 {% load i18n static %}
 {% block page_title %}{% if live_dialogue %}{% translate "Dialogue with Albert" %}{% else %}{% translate "Simulated Albert dialogue" %}{% endif %} — Match Europe{% endblock %}
-{% block extra_head %}
-  <link rel="stylesheet" href="{% static 'matching/confirmations.css' %}">
-{% endblock %}
 {% block public_content %}
   <div class="confirmation-flow">
-    <section class="surface-card home-section">
-      <h1>
-        {% if live_dialogue %}
-          {% translate "Dialogue with Albert" %}
-        {% else %}
-          {% translate "Simulated Albert dialogue" %}
-        {% endif %}
-      </h1>
+    <header class="conversation-header">
+      <a class="conversation-back"
+         href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}"
+         aria-label="{% translate 'Offers to confirm' %}">‹</a>
+      <div>
+        <h1>Albert</h1>
+        <p>{{ obj.pair.offer.data.title }}</p>
+      </div>
+    </header>
+    <section class="conversation-info">
       <details>
         <summary>{% translate "Offer details" %}</summary>
         <p role="note">
@@ -23,21 +22,39 @@
             {% translate "Test simulation: no AI service is called. Nothing is sent to the employer." %}
           {% endif %}
         </p>
-        <h2>{{ obj.pair.offer.data.title }}</h2>
         <p>{{ obj.pair.offer.data.companyName }} · {{ obj.pair.offer.data.city }}</p>
         <p><a href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Use the guided form" %}</a></p>
+        {% if current %}
+          <h2>{% translate "You previously declared" %}</h2>
+          <dl>{% for label, value in current.declared %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+        {% endif %}
       </details>
       {% if error %}<p role="alert">{{ error }}</p>{% endif %}
       {% if form.errors %}
         <p role="alert">{% translate "Review the conditions before recording your answer." %}</p>
       {% endif %}
     </section>
+    <div class="conversation-thread">
+      <p class="dialogue-bubble">
+        {% blocktranslate with title=obj.pair.offer.data.title city=obj.pair.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
+      </p>
+    </div>
+    {% if answered %}
+      <div class="conversation-thread">
+        {% for row in answered %}
+          <p class="dialogue-bubble">{{ row.prompt }}</p>
+          {% for turn in row.answer.dialogue.turns %}
+            <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">{{ turn.text|linebreaksbr }}</p>
+          {% empty %}
+            <p class="dialogue-bubble dialogue-bubble-reply">{{ row.answer.detail|default:row.answer_label|linebreaksbr }}</p>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
     {% if proposal %}
-      <section class="surface-card home-section" aria-labelledby="proposal-title">
+      <section class="conversation-thread" aria-labelledby="proposal-title">
         <h2 id="proposal-title">{% translate "Review what I understood" %}</h2>
-        <blockquote>
-          {{ proposal.text|linebreaksbr }}
-        </blockquote>
+        <p class="dialogue-bubble">{{ proposal.text|linebreaksbr }}</p>
         <p>{{ proposal.explanation }}</p>
         {% if proposal.patch %}
           <h3>{% translate "Proposed profile update" %}</h3>
@@ -68,13 +85,8 @@
         <p><a href="?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Correct or cancel this proposal" %}</a></p>
       </section>
     {% elif current %}
-      <section class="surface-card home-section" aria-labelledby="question-title">
-        <h2 id="question-title" class="dialogue-bubble">{{ prompt|default:current.label }}</h2>
-        {% if not prompt %}<p>{{ current.expected }}</p>{% endif %}
-        <details>
-          <summary>{% translate "You previously declared" %}</summary>
-          <dl>{% for label, value in current.declared %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
-        </details>
+      <section class="conversation-thread" aria-labelledby="question-title">
+        <h2 id="question-title" class="dialogue-bubble">{{ prompt }}</h2>
         {% for turn in turns %}
           <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">
             <strong>{% if turn.role == "candidate" %}{% translate "Your reply" %}{% else %}Albert{% endif %}</strong>

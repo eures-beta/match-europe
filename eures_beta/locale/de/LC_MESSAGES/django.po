@@ -7273,3 +7273,72 @@ msgstr "Senden"
 
 msgid "It depends / I have a question"
 msgstr "Kommt darauf an / Ich habe eine Frage"
+
+msgid "The job requires working on Saturday mornings. Is that possible for you?"
+msgstr "Für diese Stelle ist Samstagsarbeit am Vormittag erforderlich. Ist das für dich möglich?"
+
+msgid "%(condition)s — %(requirement)s. Is that possible for you?"
+msgstr "%(condition)s — %(requirement)s. Ist das für dich möglich?"
+
+msgid "An offer might suit you. Tap to see the job and answer a few questions."
+msgstr "Ein Angebot könnte zu dir passen. Tippe darauf, um die Stelle zu sehen und ein paar Fragen zu beantworten."
+
+msgid "An offer is available: %(title)s · %(city)s. I’ll go over the job conditions with you so you can decide if it suits you."
+msgstr "Eine Stelle ist frei. %(title)s · %(city)s. Ich zeige dir die Arbeitsbedingungen, damit du entscheiden kannst, ob die Stelle zu dir passt."
+
+msgid "Resend notification"
+msgstr "Benachrichtigung erneut senden"
+
+msgid "Wait a moment before resending."
+msgstr "Warte einen Moment, bevor du die Benachrichtigung erneut sendest."
+
+msgid "The push service accepted the notification."
+msgstr "Der Push-Dienst hat die Benachrichtigung angenommen."
+
+msgid "The notification could not be sent. Enable notifications again on the candidate’s phone."
+msgstr "Die Benachrichtigung konnte nicht gesendet werden. Aktiviere sie erneut auf dem Telefon."
+
+msgid "The job requires Saturday mornings. Can you work those hours?"
+msgstr "Für die Stelle ist Samstagsarbeit am Vormittag erforderlich. Kannst du zu dieser Zeit arbeiten?"
+
+msgid "Can you work these hours: %(requirement)s?"
+msgstr "Kannst du zu diesen Zeiten arbeiten: %(requirement)s?"
+
+msgid "Can you start within the timeframe stated in the offer: %(requirement)s?"
+msgstr "Kannst du innerhalb der angegebenen Frist anfangen: %(requirement)s?"
+
+msgid "Would this working arrangement suit you: %(requirement)s?"
+msgstr "Passt dieses Arbeitszeitmodell für dich: %(requirement)s?"
+
+msgid "The offer mentions this working condition: %(requirement)s. Would it suit you?"
+msgstr "Im Angebot steht diese Arbeitsbedingung: %(requirement)s. Passt das für dich?"
+
+msgid "Can you get to the workplace under these conditions: %(requirement)s?"
+msgstr "Kannst du den Arbeitsort unter diesen Bedingungen erreichen: %(requirement)s?"
+
+msgid "Would this type of contract suit you: %(requirement)s?"
+msgstr "Passt diese Vertragsart für dich: %(requirement)s?"
+
+msgid "Does the pay stated in the offer meet your expectations: %(requirement)s?"
+msgstr "Entspricht die angegebene Vergütung deinen Erwartungen: %(requirement)s?"
+
+msgid "Do you have the permit stated in the offer: %(requirement)s?"
+msgstr "Hast du die im Angebot genannte Fahrerlaubnis: %(requirement)s?"
+
+msgid "Can you use this skill on the job: %(requirement)s?"
+msgstr "Kannst du diese Fähigkeit bei der Arbeit einsetzen: %(requirement)s?"
+
+msgid "Can you work in the language and at the level stated: %(requirement)s?"
+msgstr "Kannst du in der angegebenen Sprache und auf diesem Niveau arbeiten: %(requirement)s?"
+
+msgid "%(condition)s: %(requirement)s. Would that suit you?"
+msgstr "%(condition)s: %(requirement)s. Passt diese Bedingung für dich?"
+
+msgid "Under conditions"
+msgstr "Unter Bedingungen"
+
+msgid "My situation changed"
+msgstr "Meine Situation hat sich geändert"
+
+msgid "More details needed"
+msgstr "Weitere Angaben erforderlich"

@@ -1,0 +1,34 @@
+{% extends "conversation_base.html" %}
+{% load i18n static %}
+{% block page_title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <header class="conversation-header">
+    <a class="conversation-back"
+       href="{% url 'dashboard' %}?lang={{ page_language }}"
+       aria-label="{% translate 'Dashboard' context 'account navigation' %}">‹</a>
+    <h1>{{ profile.display_name }}</h1>
+  </header>
+  <div class="conversation-thread">
+    {% if preview_push_key %}
+      <section class="surface-card home-section" data-preview-push-step hidden>
+        <p>{% translate "Enable notifications to be alerted when the adviser validates your match." %}</p>
+        <form method="post"
+              action="{% url 'candidate_push_subscriptions' %}"
+              data-preview-push="{{ preview_push_key }}"
+              data-success="{% translate 'Phone ready for the test. You can close the app and validate the match on your computer.' %}"
+              data-failure="{% translate 'Open the installed app and allow notifications to continue the test.' %}">
+          {% csrf_token %}
+          <button class="primary-action" type="submit">{% translate "Enable notifications" %}</button>
+          <p role="status"></p>
+        </form>
+        <script src="{% static 'pwa/preview-push.js' %}" defer></script>
+      </section>
+    {% endif %}
+    {% if offer_confirmations_available %}
+      <p><a class="primary-action"
+   href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a></p>
+    {% endif %}
+    {% include "candidates/install_pwa_next_step.html" %}
+  </div>
+  {% include "candidates/profile_details.html" %}
+{% endblock %}

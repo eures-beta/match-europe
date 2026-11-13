@@ -172,16 +172,21 @@ def profile(request):
     from eures_beta.matching.confirmation_services import candidate_requests
     from .preview_push import public_key, available
 
-    with translation.override(selected_language(request)):
+    language = selected_language(request)
+    push_key = public_key() if available() else ''
+    with translation.override(language):
         return render(
             request,
-            'candidates/profile.html',
+            (
+                'candidates/preview_profile.html'
+                if push_key
+                else 'candidates/profile.html'
+            ),
             {
                 'profile': obj,
-                'preview_push_key': public_key() if available() else '',
-                'groups': answer_groups(
-                    registration.profile_answers(obj), selected_language(request)
-                ),
+                'preview_push_key': push_key,
+                'page_language': language,
+                'groups': answer_groups(registration.profile_answers(obj), language),
                 'offer_confirmations_available': candidate_requests(
                     request.user
                 ).exists(),

@@ -1,0 +1,119 @@
+.conversation-app {
+  --line: #d5dfd8;
+  --muted: #4a6057;
+  --accent: #17644e;
+  margin: 0;
+  background: #e6eee8;
+  color: #142e25;
+  font:
+    1rem/1.45 system-ui,
+    sans-serif;
+}
+
+.conversation-app * {
+  box-sizing: border-box;
+}
+
+.conversation-screen {
+  width: min(100%, 42rem);
+  min-height: 100dvh;
+  margin-inline: auto;
+  background: #f0f4ef;
+}
+
+.conversation-header {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.75rem;
+  padding: 0.5rem 1rem;
+  background: #125640;
+  color: white;
+}
+
+.conversation-header h1,
+.conversation-header p {
+  margin: 0;
+}
+
+.conversation-header h1 {
+  font-size: 1.1rem;
+}
+
+.conversation-header p {
+  font-size: 0.85rem;
+}
+
+.conversation-back {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  color: inherit;
+  font-size: 2rem;
+  text-decoration: none;
+}
+
+.conversation-info,
+.conversation-thread {
+  padding: 0 1rem;
+}
+
+.conversation-thread {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.conversation-info {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.conversation-app .dialogue-bubble {
+  border: 0;
+  background: white;
+  box-shadow: 0 1px 2px #142e251a;
+  scroll-margin-top: 4.5rem;
+}
+
+.conversation-app .dialogue-bubble-reply {
+  background: #d8efdd;
+}
+
+.conversation-app .primary-action {
+  display: inline-grid;
+  min-height: 44px;
+  place-items: center;
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  border-radius: 2rem;
+  background: #17644e;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+}
+
+.conversation-app .dialogue-quick-replies {
+  justify-content: flex-end;
+  margin-top: 0.9rem;
+}
+
+.conversation-app .dialogue-precision > summary {
+  margin-inline-start: auto;
+  color: #17644e;
+}
+
+.conversation-app textarea {
+  color: inherit;
+  font: inherit;
+}
+
+@media (display-mode: standalone) {
+  .conversation-app [data-candidate-install] {
+    display: none;
+  }
+}
