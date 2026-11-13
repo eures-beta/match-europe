@@ -146,7 +146,7 @@ class TestAccountAccessTests(TestCase):
         from unittest.mock import patch
         from eures_beta.candidates import preview_push
         from eures_beta.matching.models import CandidateOfferReview
-        from eures_beta.users.adviser_matching import pending_pairs, record_review
+        from eures_beta.www.adviser.matching import pending_pairs, record_review
 
         self.seed()
         user = prepared_user("candidate-pwa")
