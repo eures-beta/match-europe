@@ -11,8 +11,16 @@ urlpatterns = [
         test_account_views.sign_in,
         name='test_account_sign_in',
     ),
-    path("accounts/dashboard/matching/<int:pk>/", adviser_matching.detail, name="adviser_match"),
-    path("accounts/dashboard/conversations/<int:pk>/", adviser_matching.follow, name="adviser_conversation"),
+    path(
+        "accounts/dashboard/matching/<int:pk>/",
+        adviser_matching.detail,
+        name="adviser_match",
+    ),
+    path(
+        "accounts/dashboard/conversations/<int:pk>/",
+        adviser_matching.follow,
+        name="adviser_conversation",
+    ),
     path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('accounts/me/', views.account, name='account'),
     path('accounts/login/', views.login, name='magic_login'),
