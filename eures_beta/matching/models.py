@@ -116,3 +116,42 @@ class CandidateProfileSharing(models.Model):
 
     class Meta:
         db_table = 'matching_transmissionagreement'
+
+class SharedConversation(models.Model):
+    class State(models.TextChoices):
+        REQUESTED = 'requested'
+        APPROVED = 'approved'
+        DECLINED = 'declined'
+        OPEN = 'open'
+
+    confirmation = models.OneToOneField(
+        CandidateOfferReview,
+        on_delete=models.CASCADE,
+        related_name='shared_conversation',
+    )
+    adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+'
+    )
+    candidate = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+'
+    )
+    employer = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+'
+    )
+    state = models.CharField(
+        max_length=12, choices=State.choices, default=State.REQUESTED
+    )
+    introduction = models.TextField(max_length=2000)
+    consent_at = models.DateTimeField(null=True, blank=True)
+    adviser_read = models.PositiveBigIntegerField(default=0)
+    candidate_read = models.PositiveBigIntegerField(default=0)
+    employer_read = models.PositiveBigIntegerField(default=0)
+
+
+class SharedMessage(models.Model):
+    conversation = models.ForeignKey(
+        SharedConversation, on_delete=models.CASCADE, related_name='messages'
+    )
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    body = models.TextField(max_length=2000)
+    created_at = models.DateTimeField(auto_now_add=True)

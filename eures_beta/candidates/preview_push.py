@@ -140,9 +140,25 @@ def notification_payload(confirmation):
 
 
 def notify(confirmation):
-    subscription = PreviewPushSubscription.objects.filter(
-        candidate=confirmation.pair.candidate
-    ).first()
+    return send(confirmation.pair.candidate, notification_payload(confirmation))
+
+
+def notify_shared(thread, *, invitation=False):
+    candidate = thread.confirmation.pair.candidate
+    with override(candidate.language):
+        payload = {
+            'url': reverse('shared_conversation', args=[thread.pk]),
+            'body': (
+                gettext('The adviser invites you to join a shared conversation.')
+                if invitation
+                else gettext('You have a new message in a shared conversation.')
+            ),
+        }
+    return send(candidate, payload)
+
+
+def send(candidate, payload):
+    subscription = PreviewPushSubscription.objects.filter(candidate=candidate).first()
     if not subscription or not valid_endpoint(subscription.endpoint):
         return False
     # Ordinary page loads and catalogue searches do not need the Push SDK.
@@ -157,7 +173,7 @@ def notify(confirmation):
                     'endpoint': subscription.endpoint,
                     'keys': subscription.keys,
                 },
-                data=json.dumps(notification_payload(confirmation)),
+                data=json.dumps(payload),
                 vapid_private_key=key,
                 vapid_claims={'sub': 'https://' + settings.ALLOWED_HOSTS[0]},
                 requests_session=session,

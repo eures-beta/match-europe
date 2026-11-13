@@ -3,6 +3,7 @@
 {% block public_content %}
   <section class="account-panel" aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
+    {% include "matching/shared_list.html" with shared_language=page_language %}
     {% if welcome %}
       <div class="account-welcome" role="status">
         <p>

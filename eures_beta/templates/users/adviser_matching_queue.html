@@ -1,6 +1,7 @@
 {% extends "users/adviser_workspace.html" %}
 {% load i18n %}
 {% block adviser_content %}
+  {% include "matching/shared_list.html" with shared_language=dashboard_language %}
   <section class="invitation-card invitation-history"
            aria-labelledby="queue-title">
     <h2 id="queue-title">

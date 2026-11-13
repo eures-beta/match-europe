@@ -46,6 +46,21 @@ PWA_ACCOUNTS = {
 }
 
 
+MATCHING_EMPLOYER = {
+    'matching-employer': {
+        'email': 'employer@matching-trial.invalid',
+        'kind': User.Kind.EMPLOYER,
+        'is_staff': False,
+        'is_superuser': False,
+        'label': _('Employer for the matching trial'),
+    },
+}
+
+
+def account_specs():
+    return {**ACCOUNTS, **PWA_ACCOUNTS, **MATCHING_EMPLOYER}
+
+
 def enabled():
     return bool(
         settings.TEST_ACCOUNTS_ENABLED
@@ -64,7 +79,7 @@ def fictional_database():
 
 
 def prepared_user(key):
-    specification = ACCOUNTS.get(key) or PWA_ACCOUNTS.get(key)
+    specification = account_specs().get(key)
     if not specification:
         return None
     user = User.objects.filter(email__iexact=specification['email']).first()

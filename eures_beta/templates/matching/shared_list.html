@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if shared_conversations %}
+  <section class="surface-card home-section">
+    <h2>{% translate "Three-way conversations" %}</h2>
+    <ul>
+      {% for thread in shared_conversations %}
+        <li>
+          <a href="{% url 'shared_conversation' thread.pk %}?lang={{ shared_language }}">{{ thread.confirmation.pair.offer.data.title }}</a>
+          {% if thread.unread %} · {% translate "Unread messages" %}{% endif %}
+          {% if thread.state == "requested" %} · {% translate "Agreement requested" %}{% endif %}
+          {% if thread.state == "approved" %} · {% translate "Ready to open" %}{% endif %}
+          {% if thread.state == "declined" %} · {% translate "Declined" %}{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
