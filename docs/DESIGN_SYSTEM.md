@@ -50,6 +50,21 @@ Les écrans existants (`employer/site.css`, `candidate/candidate.css`…) ne son
 Ils seront repris écran par écran, en petites PR. **Ne pas copier leurs valeurs** : elles datent
 d’avant le design system (ancien bleu `#004494`, police Georgia, une vingtaine d’arrondis).
 
+## Directions visuelles en discussion
+
+Trois directions sont à l’essai sur `/design-system/exemple/`, avec le même HTML :
+
+1. **EURES strict** (par défaut, `tokens.css`) : valeurs ECL, Arial, arrondis de 4 px, fond uni.
+2. **Continuité** (`themes/continuite.css`) : l’esprit des écrans actuels, remis au propre. Serif,
+   bleu `#004494`, boutons en pilule, cartes arrondies et ombrées, fond en dégradé léger.
+3. **Hybride** (`themes/hybride.css`) : le socle EURES avec des titres en serif, des arrondis
+   moyens et des ombres discrètes.
+
+Une direction ne change que des tokens de rôle déjà définis dans `tokens.css` : couleurs, police,
+arrondis, ombres, fond de page. Toutes passent les contrastes WCAG AA (vérifié par
+`test_design_system.py`). L’équipe et Eric en retiendront **une seule** ; les autres fichiers
+seront alors supprimés. D’ici là, une nouvelle interface suit la direction 1 (EURES strict).
+
 ## Tokens
 
 Deux niveaux :
@@ -101,8 +116,10 @@ seule : ajouter un texte ou une icône.
 ### Espacements, formes, contrôles
 
 - Espacements : `--me-space-2xs` (4 px) à `--me-space-4xl` (64 px).
-- Arrondis : `--me-radius-m` (4 px) pour les boutons et les champs, `--me-radius-l` (8 px) pour
-  les cartes et les panneaux, `--me-radius-round` pour les avatars. **Pas de bouton en pilule.**
+- Arrondis : les composants lisent les tokens d’usage, jamais l’échelle directement.
+  `--me-radius-control` pour les boutons et les champs (4 px), `--me-radius-card` pour les cartes,
+  panneaux et alertes (8 px), `--me-radius-badge` pour les étiquettes, `--me-radius-round` pour
+  les avatars. Ombre des cartes : `--me-shadow-card` (aucune par défaut).
 - Hauteur minimale d’un bouton ou d’un champ : `--me-control-min-height` (48 px).
 - Focus : contour plein de 2 px (`--me-focus-outline-width`), jamais supprimé.
 

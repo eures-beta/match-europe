@@ -1,0 +1,16 @@
+/*
+ * Direction 3, "hybride": the EURES base (Arial text, ECL blue and statuses) with a Match Europe
+ * touch: serif headings, medium radii, light shadows, a pale blue page.
+ * Proposal for the team decision only. Overrides role tokens, never the HTML.
+ */
+
+:root.ds-direction-hybride {
+  --me-font-family-heading: 'Gelasio', Georgia, serif;
+
+  --me-page-background: var(--me-palette-primary-5);
+
+  --me-radius-control: var(--me-radius-l); /* 8px */
+  --me-radius-card: 0.75rem; /* 12px */
+  --me-radius-badge: var(--me-radius-l);
+  --me-shadow-card: 0 0.125rem 0.5rem color-mix(in srgb, var(--me-palette-dark-100) 8%, transparent);
+}
