@@ -65,7 +65,7 @@ relecture, sans écraser la version récente.
 
 Pas de table ni de migration ajoutée. Pas d’historique libre de conversation
 stocké côté serveur : proposition signée dans le formulaire, puis seulement la
-réponse explicitement validée dans `ConfirmationAnswer`. Le brouillon utilise
+réponse explicitement validée dans `CandidateOfferReviewAnswer`. Le brouillon utilise
 la session existante du profil, avec sa durée de vie habituelle. Réponses privées
 sans cache, POST/CSRF, textes échappés et paramètres POST sensibles masqués dans
 les pages de débogage. La rétention et la purge pour un usage réel restent à définir.
