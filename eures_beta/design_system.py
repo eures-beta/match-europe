@@ -19,12 +19,8 @@ def read_css(path):
     return COMMENT.sub('', path.read_text(encoding='utf-8'))
 
 
-THEMES_DIR = DESIGN_SYSTEM_DIR / 'themes'
-DIRECTIONS = ('eures', 'continuite', 'hybride')
-
-
 def css_files():
-    """Every stylesheet of the design system, themes included."""
+    """Every stylesheet of the design system."""
     return sorted(DESIGN_SYSTEM_DIR.rglob('*.css'))
 
 
@@ -32,12 +28,8 @@ def _declarations(path):
     return {name: value.strip() for name, value in DECLARATION.findall(read_css(path))}
 
 
-def token_declarations(direction='eures'):
-    """Tokens of tokens.css, with a direction's overrides applied on top."""
-    declarations = _declarations(TOKENS)
-    if direction != 'eures':
-        declarations.update(_declarations(THEMES_DIR / f'{direction}.css'))
-    return declarations
+def token_declarations():
+    return _declarations(TOKENS)
 
 
 def resolve(name, declarations):
@@ -76,9 +68,9 @@ TEXT_BACKGROUNDS = {
 }
 
 
-def colour_tokens(prefix, direction='eures'):
+def colour_tokens(prefix):
     """Colour tokens with their raw value and contrast on their background, in file order."""
-    declarations = token_declarations(direction)
+    declarations = token_declarations()
     rows = []
     for name in declarations:
         if not name.startswith(prefix) or name.endswith('-rgb'):
