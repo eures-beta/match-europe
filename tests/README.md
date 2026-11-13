@@ -23,3 +23,6 @@ Les contrats des nouveaux outils sont dans
 [config/test_pr_description.py](config/test_pr_description.py).
 
 Voir [le guide des commandes et sélections](../docs/TESTS.md).
+
+`common/test_workspace_routes.py` vérifie les adresses canoniques des espaces,
+les deux interfaces matching et les redirections de compatibilité sans perte de POST.

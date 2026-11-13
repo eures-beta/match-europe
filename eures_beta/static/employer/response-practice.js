@@ -59,7 +59,7 @@
           .split('; ')
           .find((part) => part.startsWith('csrftoken='))
           ?.split('=')[1] || '';
-      const response = await fetch('/api/employer/response-practice/', {
+      const response = await fetch('/api/employer/profile/', {
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },

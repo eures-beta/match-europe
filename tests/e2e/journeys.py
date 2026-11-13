@@ -255,9 +255,9 @@ def run(search_only=False):
             report['phase'] = 'adviser-invites-employer'
             adviser = Browser()
             adviser.login('adviser')
-            adviser.request('/accounts/employers/invite/?lang=en')
+            adviser.request('/adviser/invitations/new/?lang=en')
             adviser.request(
-                '/accounts/employers/invite/?lang=en',
+                '/adviser/invitations/new/?lang=en',
                 {'email': 'invited@example.invalid', 'language': 'en'},
             )
             invited = Browser()

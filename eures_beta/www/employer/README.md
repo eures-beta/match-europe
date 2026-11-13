@@ -17,3 +17,5 @@ Import, relecture, offres et tableau de bord de l’employeur.
 - [response_practice.py](response_practice.py) — Expose les habitudes de réponse de l’employeur via HTTP.
 - [urls.py](urls.py) — Déclare les routes canoniques nommées ; les vestiges sont isolés dans public/legacy_urls.py.
 - [workspace.py](workspace.py) — Présente les offres et traite les actions de leur propriétaire autorisé.
+
+Les habitudes de réponse du profil employeur passent par `/api/employer/profile/`, sans modification du modèle.
