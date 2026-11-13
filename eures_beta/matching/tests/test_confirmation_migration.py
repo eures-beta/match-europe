@@ -35,6 +35,11 @@ class ConfirmationMigrationTests(TransactionTestCase):
     def tearDown(self):
         # Only the isolated test DB: restore a clean current schema even if the
         # expected regression failed before Django could record the migration.
+        # Unapply later model renames before manipulating the historical tables.
+        if ('matching', '0006_candidate_offer_model_names') in (
+            MigrationRecorder(connection).applied_migrations()
+        ):
+            self.migrate(NEW)
         recorder = MigrationRecorder(connection)
         recorder.record_unapplied('matching', OLD)
         state = MigrationExecutor(connection).loader.project_state([('matching', NEW)])

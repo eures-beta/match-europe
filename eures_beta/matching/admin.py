@@ -1,17 +1,17 @@
 from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from .models import (
-    MatchPair,
+    CandidateOfferMatch,
     MatchEvaluation,
     MatchDecision,
-    ConfirmationRequest,
-    ConfirmationAnswer,
-    TransmissionAgreement,
+    CandidateOfferReview,
+    CandidateOfferReviewAnswer,
+    CandidateProfileSharing,
 )
 
 
-@admin.register(MatchPair)
-class MatchPairAdmin(MetadataOnlyAdmin):
+@admin.register(CandidateOfferMatch)
+class CandidateOfferMatchAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'decision', 'created_at')
     exclude = ('candidate', 'offer', 'candidate_facts')
 
@@ -28,6 +28,8 @@ class MatchDecisionAdmin(MetadataOnlyAdmin):
     exclude = ('pair', 'evaluation', 'actor')
 
 
-@admin.register(ConfirmationRequest, ConfirmationAnswer, TransmissionAgreement)
+@admin.register(
+    CandidateOfferReview, CandidateOfferReviewAnswer, CandidateProfileSharing
+)
 class ConfirmationMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'created_at')

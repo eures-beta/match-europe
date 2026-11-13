@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods
 from .access import guard, candidates, offers, can_change_pair
 from .confirmation_services import review
 from .confirmation_views import display_rows
-from .models import MatchPair, MatchEvaluation, ConfirmationRequest
+from .models import CandidateOfferMatch, MatchEvaluation, CandidateOfferReview
 from .services import calculate, decide, inputs, StaleEvaluation
 from .presentation import present, DECISIONS
 from eures_beta.candidates.occupation_choices import resolve_reference
@@ -51,7 +51,9 @@ def index(request):
             evaluation = calculate(**form.cleaned_data)
             return redirect(destination(evaluation.pair, language))
         pairs = (
-            MatchPair.objects.filter(candidate__in=candidates(), offer__in=offers())
+            CandidateOfferMatch.objects.filter(
+                candidate__in=candidates(), offer__in=offers()
+            )
             .select_related('candidate', 'offer')
             .annotate(
                 latest_evaluation_id=Subquery(
@@ -99,7 +101,7 @@ def index(request):
 def detail(request, pk):
     guard(request)
     pair = get_object_or_404(
-        MatchPair.objects.filter(
+        CandidateOfferMatch.objects.filter(
             candidate__in=candidates(), offer__in=offers()
         ).select_related('candidate', 'offer'),
         pk=pk,
@@ -134,7 +136,7 @@ def detail(request, pk):
                     _('This action is unavailable. Review the blocking points first.'),
                     400,
                 )
-        confirmation = ConfirmationRequest.objects.filter(pair=pair).first()
+        confirmation = CandidateOfferReview.objects.filter(pair=pair).first()
         evaluation = pair.evaluations.order_by('-id').first()
         try:
             input_data, current = inputs(pair)

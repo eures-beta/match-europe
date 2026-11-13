@@ -1,3 +1,13 @@
+## 13 novembre 2026 — noms explicites des modèles de rapprochement et revue
+
+Choix validé par dejafait dans la PR #162 : `MatchPair` devient
+`CandidateOfferMatch`, `ConfirmationRequest` devient `CandidateOfferReview`,
+`ConfirmationAnswer` devient `CandidateOfferReviewAnswer` et
+`TransmissionAgreement` devient `CandidateProfileSharing`. Le dernier nom
+n’inclut ni Consent ni Decision ; il conserve aussi les refus et retraits.
+Les trois modèles de revue restent séparés. Migration réversible supplémentaire,
+tables physiques et données existantes conservées, migrations historiques inchangées.
+
 ## 13 novembre 2026 — droits métier identiques pour les conseillers
 
 Décision de dejafait : tous les conseillers connectés et actifs ont les mêmes

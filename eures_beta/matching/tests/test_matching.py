@@ -10,7 +10,7 @@ from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
 from eures_beta.matching import engine, services, validation
 from eures_beta.matching.models import (
-    MatchPair,
+    CandidateOfferMatch,
     MatchEvaluation,
     MatchDecision,
 )
@@ -268,7 +268,7 @@ class LocalMatchingTests(TestCase):
         self.client.force_login(self.operator)
 
     def pair(self, name='compatible'):
-        return MatchPair.objects.select_related('candidate', 'offer').get(
+        return CandidateOfferMatch.objects.select_related('candidate', 'offer').get(
             candidate__user__email=name + '@matching-trial.invalid'
         )
 
@@ -285,7 +285,7 @@ class LocalMatchingTests(TestCase):
                 self.pair(key).evaluations.latest('id').result['status'], state
             )
         call_command('seed_matching_trial', stdout=StringIO())
-        self.assertEqual(MatchPair.objects.count(), 5)
+        self.assertEqual(CandidateOfferMatch.objects.count(), 5)
         self.assertEqual(MatchEvaluation.objects.count(), 5)
 
     def test_post_calculates_real_models_without_mutating_profile_or_offer(self):
