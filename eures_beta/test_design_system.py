@@ -80,32 +80,59 @@ class DesignSystemTokenTests(SimpleTestCase):
 
 class DesignSystemPageTests(TestCase):
     url = '/design-system/'
+    urls = (
+        '/design-system/',
+        '/design-system/exemple/',
+        '/design-system/exemple/mes-offres/',
+        '/design-system/exemple/connexion/',
+        '/design-system/exemple/candidat/',
+        '/design-system/exemple/conseiller/',
+    )
+
+    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
+    def test_unknown_example_screen_is_not_found(self):
+        response = self.client.get('/design-system/exemple/admin/', secure=True)
+        self.assertEqual(response.status_code, 404)
 
     @override_settings(DEMO_MODE=False, SHARED_DEMO=False)
-    def test_page_is_hidden_outside_demo_mode(self):
-        response = self.client.get(self.url, secure=True)
-        self.assertEqual(response.status_code, 404)
+    def test_pages_are_hidden_outside_demo_mode(self):
+        for url in self.urls:
+            with self.subTest(url=url):
+                response = self.client.get(url, secure=True)
+                self.assertEqual(response.status_code, 404)
 
     @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
-    def test_page_requires_https_on_shared_demo(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 404)
+    def test_pages_require_https_on_shared_demo(self):
+        for url in self.urls:
+            with self.subTest(url=url):
+                self.assertEqual(self.client.get(url).status_code, 404)
 
     @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
-    def test_page_loads_the_three_stylesheets_in_order(self):
-        response = self.client.get(self.url, secure=True)
-        self.assertEqual(response.status_code, 200)
-        page = response.content.decode()
-        positions = [
-            page.index(f'/static/{path}')
-            for path in (
-                'vendor/bootstrap/bootstrap.min.css',
-                'design-system/tokens.css',
-                'design-system/bootstrap-theme.css',
-            )
-        ]
-        self.assertEqual(positions, sorted(positions))
-        self.assertNotIn('employer/site.css', page)
+    def test_pages_load_the_three_stylesheets_in_order(self):
+        for url in self.urls:
+            with self.subTest(url=url):
+                response = self.client.get(url, secure=True)
+                self.assertEqual(response.status_code, 200)
+                page = response.content.decode()
+                positions = [
+                    page.index(f'/static/{path}')
+                    for path in (
+                        'vendor/bootstrap/bootstrap.min.css',
+                        'design-system/tokens.css',
+                        'design-system/bootstrap-theme.css',
+                    )
+                ]
+                self.assertEqual(positions, sorted(positions))
+                self.assertNotIn('employer/site.css', page)
+
+    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
+    def test_example_previews_only_known_heading_fonts(self):
+        url = '/design-system/exemple/'
+        response = self.client.get(url, {'titres': 'gelasio'}, secure=True)
+        self.assertContains(response, 'ds-heading-gelasio')
+        response = self.client.get(url, {'titres': '"><script>'}, secure=True)
+        self.assertContains(response, 'ds-heading-arial')
+        self.assertNotContains(response, '<script>')
 
     @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
     def test_page_shows_every_colour_token(self):

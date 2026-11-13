@@ -89,6 +89,10 @@ seule : ajouter un texte ou une icône.
 
 - Police unique : **Arial** (`--me-font-family`), comme sur tous les sites Europa. Pas de Georgia,
   pas de Marianne (police de l’État français, hors sujet pour un service commun à trois pays).
+- Titres : token à part, `--me-font-family-heading`, égal à Arial pour l’instant. Une police serif
+  pour les titres (Gelasio ou Playfair Display, libres sous licence OFL) est à l’essai sur
+  `/design-system/exemple/` ; la décision revient à l’équipe et à Eric. Ne pas utiliser ces
+  polices ailleurs avant cette décision.
 - Tailles : `--me-font-size-s` (14 px) à `--me-font-size-5xl` (42 px). Le texte courant et les
   champs sont en `--me-font-size-m` (16 px) : en dessous, iOS zoome sur le champ.
   `--me-font-size-xs` (12 px) est réservé aux mentions légales.

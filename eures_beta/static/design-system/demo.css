@@ -90,6 +90,147 @@
   border-radius: var(--me-radius-l);
 }
 
+/*
+ * Heading font candidates, for the team decision only. Both under SIL Open Font License,
+ * from github.com/google/fonts, served by Match Europe (no call to Google).
+ */
+@font-face {
+  font-family: 'Gelasio';
+  src: url('fonts/Gelasio-wght.ttf') format('truetype');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-wght.ttf') format('truetype');
+  font-weight: 400 900;
+  font-display: swap;
+}
+
+.ds-heading-georgia {
+  --me-font-family-heading: Georgia, 'Times New Roman', serif;
+}
+
+.ds-heading-gelasio {
+  --me-font-family-heading: 'Gelasio', Georgia, serif;
+}
+
+.ds-heading-playfair {
+  --me-font-family-heading: 'Playfair Display', Georgia, serif;
+}
+
+.ds-font-switch {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs);
+  margin-left: var(--me-space-s);
+}
+
+.ds-font-switch [aria-current='true'] {
+  font-weight: var(--me-font-weight-bold);
+  text-decoration: none;
+}
+
+/* Example screen (/design-system/exemple/) */
+
+.ds-example-body {
+  background: var(--me-color-surface-subtle);
+}
+
+.ds-demo-banner {
+  padding-block: var(--me-space-xs);
+  font-size: var(--me-font-size-s);
+  background: var(--me-color-surface-highlight);
+  border-bottom: var(--me-border-width) solid var(--me-color-accent);
+}
+
+.ds-app-header {
+  padding-block: var(--me-space-xs);
+  background: var(--me-color-surface);
+  border-top: var(--me-space-2xs) solid var(--me-color-action);
+  border-bottom: var(--me-border-width) solid var(--me-color-border);
+}
+
+.ds-app-name {
+  font-size: var(--me-font-size-l);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-action);
+}
+
+.ds-card {
+  padding: var(--me-space-l);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-l);
+}
+
+.ds-card-brand {
+  background: var(--me-color-surface-brand);
+}
+
+.ds-prefilled {
+  margin-left: var(--me-space-xs);
+  color: var(--me-color-text);
+  font-weight: var(--me-font-weight-regular);
+  background: var(--me-color-warning-surface);
+  border: var(--me-border-width) solid var(--me-color-warning);
+}
+
+/* Status label: dark text, the colour is only the border (ECL status colours fail AA as text) */
+.ds-status {
+  display: inline-block;
+  padding: var(--me-space-2xs) var(--me-space-xs);
+  font-size: var(--me-font-size-s);
+  line-height: var(--me-line-height-s);
+  color: var(--me-color-text);
+  background: var(--me-color-surface-subtle);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-m);
+}
+
+.ds-status-warning {
+  background: var(--me-color-warning-surface);
+  border-color: var(--me-color-warning);
+}
+
+.ds-status-info {
+  background: var(--me-color-info-surface);
+  border-color: var(--me-color-info);
+}
+
+.ds-status-success {
+  background: var(--me-color-success-surface);
+  border-color: var(--me-color-success);
+}
+
+.ds-stat {
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-3xl);
+  font-weight: var(--me-font-weight-bold);
+  line-height: var(--me-line-height-3xl);
+  color: var(--me-color-action);
+}
+
+.ds-progress-half {
+  width: 50%;
+}
+
+.ds-empty {
+  padding: var(--me-space-l);
+  text-align: center;
+  border: var(--me-border-width-strong) dashed var(--me-color-border);
+  border-radius: var(--me-radius-l);
+}
+
+.ds-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-s);
+  padding-top: var(--me-space-l);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+
 .ds-code summary {
   color: var(--me-color-link);
   cursor: pointer;

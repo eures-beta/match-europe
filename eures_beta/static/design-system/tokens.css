@@ -102,6 +102,8 @@
 
   /* Typography: Arial only, as on every Europa site */
   --me-font-family: Arial, sans-serif;
+  /* Headings: Arial until the team decides (serif candidates on /design-system/exemple/) */
+  --me-font-family-heading: var(--me-font-family);
   --me-font-weight-regular: 400;
   --me-font-weight-bold: 700;
 

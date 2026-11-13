@@ -1,0 +1,110 @@
+{% extends "design_system/example_base.html" %}
+{% block header_nav %}
+  <a class="btn btn-link" href="#">Mon entreprise</a>
+  <a class="btn btn-link" href="#">Se déconnecter</a>
+{% endblock %}
+{% block content %}
+  <nav aria-label="Fil d’Ariane">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">Mes offres</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Vérifier l’offre importée</li>
+    </ol>
+  </nav>
+  <h1>Vérifier l’offre importée</h1>
+  <p class="lead">Relisez chaque champ avant de transmettre l’offre à un conseiller EURES.</p>
+  <div class="alert alert-warning" role="status">
+    <strong>À vérifier :</strong> trois champs ont été pré-remplis automatiquement à partir de votre document.
+    Ils portent la mention « Pré-rempli ».
+  </div>
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <form class="ds-card" novalidate>
+        <h2 class="h4">Le poste</h2>
+        <div class="mb-4">
+          <label class="form-label" for="ex-title">
+            Intitulé du poste <span class="badge ds-prefilled">Pré-rempli</span>
+          </label>
+          <input class="form-control"
+                 id="ex-title"
+                 type="text"
+                 value="Soudeur ou soudeuse TIG"
+                 aria-describedby="ex-title-help">
+          <div class="form-text" id="ex-title-help">Tel qu’il apparaîtra aux candidats.</div>
+        </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label" for="ex-country">
+              Pays du poste <span class="badge ds-prefilled">Pré-rempli</span>
+            </label>
+            <select class="form-select" id="ex-country">
+              <option>France</option>
+              <option>Belgique</option>
+              <option selected>Luxembourg</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="ex-start">Date de début</label>
+            <input class="form-control" id="ex-start" type="date">
+          </div>
+        </div>
+        <fieldset class="mb-4">
+          <legend class="form-label fs-6">
+            Type de contrat <span class="badge ds-prefilled">Pré-rempli</span>
+          </legend>
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="ex-contract"
+                   id="ex-permanent"
+                   checked>
+            <label class="form-check-label" for="ex-permanent">CDI</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="radio"
+                   name="ex-contract"
+                   id="ex-fixed">
+            <label class="form-check-label" for="ex-fixed">CDD</label>
+          </div>
+        </fieldset>
+        <h2 class="h4">Le contact</h2>
+        <div class="mb-4">
+          <label class="form-label" for="ex-email">Adresse e-mail de contact</label>
+          <input class="form-control is-invalid"
+                 id="ex-email"
+                 type="email"
+                 value="rh@"
+                 aria-invalid="true"
+                 aria-describedby="ex-email-error">
+          <div class="invalid-feedback" id="ex-email-error">
+            Saisissez une adresse e-mail complète, par exemple nom@exemple.eu.
+          </div>
+        </div>
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="ex-languages">
+          <label class="form-check-label" for="ex-languages">Accepter les candidatures en anglais et en allemand</label>
+        </div>
+        <div class="ds-actions">
+          <button type="button" class="btn btn-primary">Transmettre au conseiller</button>
+          <button type="button" class="btn btn-outline-primary">Enregistrer le brouillon</button>
+          <a class="btn btn-link" href="#">Annuler</a>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-4">
+      <aside class="ds-card ds-card-brand" aria-labelledby="ex-next">
+        <h2 class="h5" id="ex-next">Et ensuite ?</h2>
+        <ol class="mb-0">
+          <li>Un conseiller EURES relit l’offre.</li>
+          <li>Il vous propose des candidats.</li>
+          <li>Vous choisissez qui rencontrer.</li>
+        </ol>
+      </aside>
+      <div class="alert alert-info mt-4" role="status">
+        <strong>Information :</strong> aucune recherche de candidats ne démarre sans la validation d’un conseiller.
+      </div>
+    </div>
+  </div>
+{% endblock %}
