@@ -1,0 +1,152 @@
+{% load i18n %}
+{% with pair=matching.pair evaluation=matching.evaluation criteria=matching.criteria rating=matching.rating occupations=matching.occupations languages=matching.languages can_decide=matching.can_decide stale=matching.stale albert_available=matching.albert_available %}
+  <article class="adviser-matching-panel" aria-labelledby="match-{{ pair.pk }}">
+    <header class="invitations-header">
+      {% with candidate=pair.candidate.display_name|default:pair.candidate.user.email %}
+        <div class="adviser-match-heading">
+          <div>
+            <h2 id="match-{{ pair.pk }}">{{ pair.offer.data.title }} · {{ candidate }}</h2>
+            <p>{{ pair.offer.data.companyName }}</p>
+          </div>
+          <p class="adviser-match-score adviser-match-score--{{ rating.0 }}">
+            <span>{% translate "Matching score" %}</span>
+            <strong>{{ evaluation.result.established|floatformat:"-2" }}/100</strong>
+            <span>{{ rating.1 }}</span>
+          </p>
+        </div>
+      {% endwith %}
+      <div class="adviser-match-actions adviser-match-header-actions">
+        <span class="invitation-status muted">{% translate "To review" %}</span>
+        <span class="invitation-status">{% translate "Created on" %} <time datetime="{{ pair.created_at|date:'c' }}">{{ pair.created_at|date:"SHORT_DATETIME_FORMAT" }}</time></span>
+        {% if can_decide %}
+          <form method="post"
+                action="{% url 'adviser_match' pair.pk %}?lang={{ dashboard_language }}"
+                class="adviser-match-actions">
+            {% csrf_token %}
+            <input type="hidden" name="evaluation" value="{{ evaluation.pk }}">
+            {% if stale %}
+              <button type="submit"
+                      class="primary-action"
+                      name="action"
+                      value="refresh">{% translate "Refresh evaluation" %}</button>
+            {% else %}
+              {% if albert_available %}
+                <button type="submit"
+                        class="primary-action adviser-match-approve"
+                        name="action"
+                        value="retained">{% translate "Validate and open conversation" %}</button>
+              {% else %}
+                <p>{% translate "Albert is currently unavailable. Try again later." %}</p>
+              {% endif %}
+              <button type="submit"
+                      class="secondary-action adviser-match-refuse"
+                      name="action"
+                      value="refused">{% translate "Refuse matching" %}</button>
+            {% endif %}
+          </form>
+        {% endif %}
+      </div>
+      {% if error %}<p class="invitation-error" role="alert">{{ error }}</p>{% endif %}
+    </header>
+    <div class="adviser-matching-panel-body">
+      <div class="invitation-compose adviser-match-summary">
+        <section class="invitation-card"
+                 aria-labelledby="match-candidate-{{ pair.pk }}">
+          <h2 id="match-candidate-{{ pair.pk }}">{% translate "Candidate" %}</h2>
+          <dl>
+            <dt>{% translate "Name" %}</dt>
+            <dd>
+              {{ pair.candidate.display_name|default:"—" }}
+            </dd>
+            <dt>{% translate "Email address" %}</dt>
+            <dd>
+              {{ pair.candidate.user.email }}
+            </dd>
+            <dt>{% translate "Occupations" %}</dt>
+            <dd>
+              {{ occupations|join:", "|default:"—" }}
+            </dd>
+            <dt>{% translate "Languages" %}</dt>
+            <dd>{% for name, level in languages %}{{ name }} · {{ level }}{% if not forloop.last %}<br>{% endif %}{% empty %}—{% endfor %}</dd>
+          </dl>
+        </section>
+        <section class="invitation-card" aria-labelledby="match-offer-{{ pair.pk }}">
+          <h2 id="match-offer-{{ pair.pk }}">{% translate "Recruitment need" %}</h2>
+          <dl>
+            <dt>{% translate "Company" %}</dt>
+            <dd>
+              {{ pair.offer.data.companyName|default:"—" }}
+            </dd>
+            <dt>{% translate "Job offer" %}</dt>
+            <dd>
+              {{ pair.offer.data.title|default:"—" }}
+            </dd>
+            <dt>{% translate "Work location" %}</dt>
+            <dd>
+              {{ pair.offer.data.city|default:"—" }}
+            </dd>
+          </dl>
+          {% if pair.offer.data.description %}<p>{{ pair.offer.data.description|linebreaksbr }}</p>{% endif %}
+        </section>
+      </div>
+      <section class="invitation-card invitation-history adviser-matching-criteria"
+               aria-labelledby="matching-criteria-{{ pair.pk }}">
+        <h2 id="matching-criteria-{{ pair.pk }}">{% translate "Matching criteria" %}</h2>
+        <h3 class="adviser-score-breakdown-title">{% translate "Score breakdown" %}</h3>
+        <dl class="adviser-score-breakdown">
+          {% for dimension in matching.dimensions %}
+            <div>
+              <dt>{{ dimension.label }}</dt>
+              <dd>
+                <strong>{{ dimension.established|floatformat:"-2" }}</strong> / {{ dimension.weight }}
+              </dd>
+            </div>
+          {% endfor %}
+        </dl>
+        <dl class="adviser-criteria-summary">
+          {% for label, points, explanation in criteria %}
+            {% if points %}
+              <dt>{{ label }}</dt>
+              <dd>
+                {% if explanation %}<p class="invitation-hint">{{ explanation }}</p>{% endif %}
+                <ul>
+                  {% for criterion, references in points %}
+                    <li>{{ criterion }}{% if references %} · {{ references|join:", " }}{% endif %}</li>
+                  {% endfor %}
+                </ul>
+              </dd>
+            {% endif %}
+          {% endfor %}
+        </dl>
+        <details class="adviser-match-comparison">
+          <summary>{% translate "Compare answers" %}</summary>
+          {% if matching.comparisons %}
+            <div class="account-table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">{% translate "Criterion" %}</th>
+                    <th scope="col">{% translate "Employer expectations" %}</th>
+                    <th scope="col">{% translate "Candidate declaration" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% translate "Unavailable in the evaluation" as unavailable %}
+                  {% for row in matching.comparisons %}
+                    <tr>
+                      <th scope="row">{{ row.label }}{% if row.reference_label and row.reference_label != row.expected_label %} · {{ row.reference_label }}{% endif %}</th>
+                      <td>{{ row.expected_label|default:unavailable }}</td>
+                      <td>{{ row.declared_label|default:unavailable }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p>{% translate "No comparable information is available for this matching." %}</p>
+          {% endif %}
+        </details>
+      </section>
+    </div>
+  </article>
+{% endwith %}

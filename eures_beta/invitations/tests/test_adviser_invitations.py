@@ -23,15 +23,24 @@ class AdviserInvitationsTests(TestCase):
         self.client.force_login(self.adviser)
         self.tab = reverse('adviser_invitations')
 
-    def test_dashboard_opens_invite_and_preserves_language(self):
+    def test_invite_tab_preserves_language(self):
         dashboard = reverse('dashboard')
-        response = self.client.get(dashboard, {'lang': 'en'})
-        self.assertContains(response, 'aria-current="page">Inviter')
-        self.assertContains(response, '?lang=en&amp;mode=csv')
+        response = self.client.get(dashboard, {'lang': 'en', 'tab': 'invite'})
+        self.assertContains(response, 'aria-current="page">Invite')
+        self.assertContains(response, '?tab=invite&amp;lang=en&amp;mode=csv')
         self.assertRedirects(
             self.client.get(self.tab, {'lang': 'en', 'mode': 'csv'}),
-            dashboard + '?lang=en&mode=csv',
+            dashboard + '?lang=en&mode=csv&tab=invite',
         )
+
+    def test_history_requires_selecting_tracking(self):
+        dashboard = reverse('dashboard')
+        create = self.client.get(dashboard, {'tab': 'invite'})
+        self.assertContains(create, 'id="compose-title"')
+        self.assertNotContains(create, 'id="history-title"')
+        history = self.client.get(dashboard, {'tab': 'invite', 'view': 'history'})
+        self.assertContains(history, 'id="history-title"')
+        self.assertNotContains(history, 'id="compose-title"')
 
     def preview(self, recipient_kind, email='person@example.invalid'):
         return self.client.post(
@@ -84,7 +93,7 @@ class AdviserInvitationsTests(TestCase):
                     self.tab,
                     {'action': 'send', 'preview': response.context['preview_token']},
                 ),
-                reverse('dashboard') + '?lang=fr',
+                reverse('dashboard') + '?lang=fr&tab=invite',
             )
             invitation = Invitation.objects.get()
             self.assertIsNotNone(invitation.email_sent_at)
@@ -198,7 +207,7 @@ class AdviserInvitationsTests(TestCase):
             'regular@example.invalid', kind=User.Kind.ADVISER
         )
         self.client.force_login(regular)
-        page = self.client.get(reverse('dashboard'))
+        page = self.client.get(reverse('dashboard'), {'tab': 'invite'})
         self.assertContains(page, 'value="adviser"')
         self.assertNotContains(page, 'Consulter les comptes employeurs')
         response = self.preview('adviser')

@@ -1,20 +1,34 @@
 {% extends "users/dashboard.html" %}
-{% load static %}
+{% load static i18n %}
 {% block extra_head %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static 'invitations/invitations.css' %}">
 {% endblock %}
 {% block public_content %}
-  <div class="invitations">
-    <header class="invitations-header">
-      <nav aria-label="Tableau de bord conseiller">
+  <div class="invitations adviser-workspace">
+    <header class="invitations-header adviser-workspace-tabs">
+      <nav aria-label="{% translate 'Adviser workspace' %}">
         <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}"
+           {% if matching_tab %} aria-current="page"{% endif %}>{% translate "To review" %}</a>
+        <a href="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}"
            {% block invite_current %}
-           {% endblock %}>Inviter</a>
+           {% endblock %}>{% translate "Invite" %}</a>
         {% block adviser_tabs %}{% endblock %}
       </nav>
-      {% block adviser_heading %}{% endblock %}
     </header>
-    {% block adviser_content %}{% endblock %}
+    <aside class="adviser-sidebar invitation-card">
+      {% block adviser_subnav %}
+        <nav aria-label="{% translate 'To review' %}">
+          <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}"
+             {% if not tracking %} aria-current="page"{% endif %}>{% translate "Pending matchings" %}</a>
+          <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations"
+             {% if tracking %} aria-current="page"{% endif %}>{% translate "Open conversations" %}</a>
+        </nav>
+      {% endblock %}
+    </aside>
+    <div class="adviser-workspace-content">
+      {% block adviser_heading %}{% endblock %}
+      {% block adviser_content %}{% endblock %}
+    </div>
   </div>
 {% endblock %}

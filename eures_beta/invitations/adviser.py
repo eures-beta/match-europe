@@ -269,10 +269,13 @@ def invitations_tab(request):
         and request.resolver_match.url_name == 'adviser_invitations'
     ):
         params = request.GET.copy()
-        params.pop('tab', None)
+        params['tab'] = 'invite'
         params['lang'] = language
         return redirect(f'{dashboard_url}?{params.urlencode()}')
 
+    tracking = request.GET.get('view') == 'history'
+    create_url = f'{dashboard_url}?{urlencode({"lang": language, "tab": "invite"})}'
+    history_url = create_url + '&view=history'
     form = RecipientForm()
     recipient_kind = RecipientKind.EMPLOYER
     mode = 'csv' if request.GET.get('mode') == 'csv' else 'manual'
@@ -311,11 +314,12 @@ def invitations_tab(request):
                     )
                 else:
                     send_batch(request, payload)
-                return redirect(f'{dashboard_url}?{urlencode({"lang": language})}')
+                return redirect(history_url if payload['invitation'] else create_url)
             elif action == 'remove':
                 change_invitation(request, request.POST.get('invitation'), resend=False)
-                return redirect(f'{dashboard_url}?{urlencode({"lang": language})}')
+                return redirect(history_url)
             elif action == 'preview_reminder':
+                tracking = True
                 invitation = get_object_or_404(
                     Invitation.objects.all(),
                     pk=valid_identifier(request.POST.get('invitation')),
@@ -337,10 +341,17 @@ def invitations_tab(request):
         except ValidationError as error:
             errors.extend(error.messages)
 
-    invitations = Invitation.objects.all()
-    search = request.GET.get('q', '').strip()[:254]
-    if search:
-        invitations = invitations.filter(email__icontains=search)
+    if tracking:
+        invitations = Invitation.objects.all()
+        search = request.GET.get('q', '').strip()[:254]
+        if search:
+            invitations = invitations.filter(email__icontains=search)
+        context.update(
+            search=search,
+            invitations=Paginator(
+                invitations.order_by('-created_at', 'pk'), 20
+            ).get_page(request.GET.get('page')),
+        )
     context.update(
         {
             'form': form,
@@ -348,11 +359,10 @@ def invitations_tab(request):
             'mode': mode,
             'recipient_kind': recipient_kind,
             'recipient_kinds': RecipientKind.choices,
-            'invitations': Paginator(
-                invitations.order_by('-created_at', 'pk'), 20
-            ).get_page(request.GET.get('page')),
+            'tracking': tracking,
+            'create_url': create_url,
+            'history_url': history_url,
             'errors': errors,
-            'search': search,
             'local_outbox': local_outbox_enabled(),
         }
     )

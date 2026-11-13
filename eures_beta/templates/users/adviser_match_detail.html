@@ -1,0 +1,8 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block adviser_heading %}
+  <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}">‹ {% translate "Pending matchings" %}</a>
+{% endblock %}
+{% block adviser_content %}
+  {% include "users/adviser_matching_panel.html" %}
+{% endblock %}

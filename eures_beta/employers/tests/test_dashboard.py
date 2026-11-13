@@ -113,7 +113,9 @@ class EmployerDashboardTests(TestCase):
             200,
         )
 
-    def test_empty_state_in_each_language_and_adviser_dashboard_uses_invite_tab(self):
+    def test_empty_state_in_each_language_and_adviser_dashboard_uses_matching_queue(
+        self,
+    ):
         for language, label in (
             ('fr', 'Aucune offre à afficher pour le moment.'),
             ('en', 'No offers to display yet.'),
@@ -127,8 +129,7 @@ class EmployerDashboardTests(TestCase):
         )
         self.client.force_login(adviser)
         self.assertTemplateUsed(
-            self.client.get(reverse('dashboard')),
-            'invitations/adviser_invitations.html',
+            self.client.get(reverse('dashboard')), 'users/adviser_matching_queue.html'
         )
 
     def test_import_button_matches_public_page_in_each_language_with_and_without_offers(

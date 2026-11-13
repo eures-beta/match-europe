@@ -7096,3 +7096,147 @@ msgstr "Votre signature a été enregistrée."
 
 msgid "Organisation"
 msgstr "Organisation"
+
+msgid "Adviser workspace"
+msgstr "Espace conseiller"
+
+msgid "TO REVIEW"
+msgstr "À TRAITER"
+
+msgid "Invite"
+msgstr "Inviter"
+
+msgid "Pending matchings"
+msgstr "Matchings à traiter"
+
+msgid "Open conversations"
+msgstr "Conversations ouvertes"
+
+msgid "Matching review is unavailable for your account."
+msgstr "Le traitement des matchings est indisponible pour votre compte."
+
+msgid "Matching score"
+msgstr "Score du matching"
+
+msgid "No open conversation."
+msgstr "Aucune conversation ouverte."
+
+msgid "No matching to review."
+msgstr "Aucun matching à traiter."
+
+msgid "Pages"
+msgstr "Pages"
+
+msgid "Matching criteria"
+msgstr "Critères du matching"
+
+msgid "Criterion"
+msgstr "Critère"
+
+msgid "Expected"
+msgstr "Attendu"
+
+msgid "Declared"
+msgstr "Déclaré"
+
+msgid "Refresh evaluation"
+msgstr "Actualiser le matching"
+
+msgid "Validate and open conversation"
+msgstr "Valider et ouvrir la conversation"
+
+msgid "Albert is currently unavailable. Try again later."
+msgstr "Albert est actuellement indisponible. Réessayez plus tard."
+
+msgid "Refuse matching"
+msgstr "Refuser le matching"
+
+msgid "Opened on"
+msgstr "Ouverte le"
+
+msgid "Waiting for candidate reply"
+msgstr "En attente de la réponse du candidat"
+
+msgid "Select a valid matching decision."
+msgstr "Choisissez une décision valide pour ce matching."
+
+msgid "This matching has changed. Refresh the evaluation before deciding."
+msgstr "Ce matching a changé. Actualisez l’évaluation avant de décider."
+
+msgid "Review matching"
+msgstr "Examiner le matching"
+
+msgid "Follow conversation"
+msgstr "Suivre la conversation"
+
+msgid "Matching decision"
+msgstr "Décision sur le matching"
+
+msgid "To review"
+msgstr "À traiter"
+
+msgid "Created on"
+msgstr "Créé le"
+
+msgid "Occupations"
+msgstr "Métiers"
+
+msgid "Recruitment need"
+msgstr "Besoin"
+
+msgid "Work location"
+msgstr "Lieu de travail"
+
+msgid "Create an invitation"
+msgstr "Créer une invitation"
+
+msgid "Track an invitation"
+msgstr "Suivre une invitation"
+
+msgid "Score to update"
+msgstr "Score à actualiser"
+
+msgid "Not recommended"
+msgstr "Déconseillé"
+
+msgid "Recommended"
+msgstr "Recommandé"
+
+msgid "Borderline"
+msgstr "Limite"
+
+msgid "Incompatibilities"
+msgstr "Incompatibilités"
+
+msgid "To confirm"
+msgstr "À confirmer"
+
+msgid "Compatible points"
+msgstr "Points compatibles"
+
+msgid "Information to clarify"
+msgstr "Informations à préciser"
+
+msgid "The information available about the offer or the candidate is insufficient to assess these points."
+msgstr "Les informations sur l’offre ou le candidat ne suffisent pas pour évaluer ces points."
+
+msgid "Score breakdown"
+msgstr "Répartition du score"
+
+msgid "Compare answers"
+msgstr "Comparer les réponses"
+
+msgid "Employer expectations"
+msgstr "Attentes de l’employeur"
+
+msgid "Unavailable in the evaluation"
+msgstr "Non disponible dans l’évaluation"
+
+msgid "No comparable information is available for this matching."
+msgstr "Aucune information à comparer pour ce matching."
+
+msgid "To clarify"
+msgstr "À préciser"
+
+msgid "Name"
+msgstr "Nom"

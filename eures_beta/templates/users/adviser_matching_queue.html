@@ -1,0 +1,40 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block adviser_content %}
+  <section class="invitation-card invitation-history"
+           aria-labelledby="queue-title">
+    <h2 id="queue-title">
+      {% if tracking %}
+        {% translate "Open conversations" %}
+      {% else %}
+        {% translate "Pending matchings" %}
+      {% endif %}
+    </h2>
+    {% if not allowed %}
+      <p>{% translate "Matching review is unavailable for your account." %}</p>
+    {% elif tracking and page %}
+      <ul class="adviser-matching-list">
+        {% for item in page %}
+          {% url 'adviser_conversation' item.pk as entry_url %}
+          {% include "users/adviser_matching_card.html" with pair=item.pair %}
+        {% endfor %}
+      </ul>
+    {% elif matchings %}
+      {% for matching in matchings %}
+        {% include "users/adviser_matching_panel.html" %}
+      {% endfor %}
+    {% elif tracking %}
+      <p>{% translate "No open conversation." %}</p>
+    {% else %}
+      <p>{% translate "No matching to review." %}</p>
+    {% endif %}
+    <nav class="invitation-pages" aria-label="{% translate 'Pages' %}">
+      {% if page.has_previous %}
+        <a href="?lang={{ dashboard_language }}{% if tracking %}&amp;view=conversations{% endif %}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+      {% endif %}
+      {% if page.has_next %}
+        <a href="?lang={{ dashboard_language }}{% if tracking %}&amp;view=conversations{% endif %}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+      {% endif %}
+    </nav>
+  </section>
+{% endblock %}
