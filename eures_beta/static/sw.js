@@ -6,15 +6,18 @@ self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim(
 const dialogueUrl =
   /^\/matching\/candidate\/\d+\/dialogue\/(?:\?question=[\w%:-]+#question-title)?$/;
 
+const sharedUrl = /^\/matching\/shared\/\d+\/$/;
+const allowedUrl = (url) => dialogueUrl.test(url) || sharedUrl.test(url);
+
 self.addEventListener('push', (event) => {
   const { url, body } = event.data.json();
-  if (!dialogueUrl.test(url)) return;
+  if (!allowedUrl(url)) return;
   event.waitUntil(self.registration.showNotification('Match Europe', { body, data: { url } }));
 });
 
 self.addEventListener('notificationclick', (event) => {
   const url = event.notification.data?.url;
   event.notification.close();
-  if (!dialogueUrl.test(url)) return;
+  if (!allowedUrl(url)) return;
   event.waitUntil(self.clients.openWindow(new URL(url, self.location.origin).href));
 });
