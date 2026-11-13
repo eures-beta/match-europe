@@ -67,7 +67,7 @@ class InvitationTests(TestCase):
         self.assertNotContains(page, invitation.email)
         self.assertNotContains(page, 'Invite an employer')
 
-    def test_anonymous_employer_inactive_and_revoked_adviser_cannot_invite(self):
+    def test_anonymous_employer_and_inactive_adviser_cannot_invite(self):
         clients = [Client()]
         for user in (
             self.employer,
@@ -78,8 +78,6 @@ class InvitationTests(TestCase):
             client = Client()
             client.force_login(user)
             clients.append(client)
-        self.adviser.groups.clear()
-        clients.append(self.client)
         for client in clients:
             for method in ('get', 'post'):
                 response = getattr(client, method)(
@@ -88,6 +86,21 @@ class InvitationTests(TestCase):
                 )
                 self.assertIn(response.status_code, (302, 403))
         self.assertFalse(EmployerInvitation.objects.exists())
+
+    def test_all_active_advisers_can_invite_without_groups_or_permissions(self):
+        second = User.objects.create_user(
+            email='second-adviser@example.invalid', kind='adviser'
+        )
+        for index, adviser in enumerate((self.adviser, second)):
+            adviser.groups.clear()
+            adviser.user_permissions.clear()
+            self.client.force_login(adviser)
+            with self.subTest(adviser=adviser.pk):
+                self.assertContains(self.client.get(reverse('employer_invite')), 'form')
+                invitation = create_invitation(
+                    adviser, f'invited-by-{index}@example.invalid', 'en'
+                )
+                self.assertEqual(invitation.invited_by, adviser)
 
     def test_disabled_delivery_saves_invitation_without_user_email_or_public_link(self):
         count = User.objects.count()

@@ -1,3 +1,12 @@
+## 13 novembre 2026 — droits métier identiques pour les conseillers
+
+Décision de dejafait : tous les conseillers connectés et actifs ont les mêmes
+droits métier. Le matching, les demandes de confirmation candidat et les invitations
+employeurs ne demandent plus de permissions Django ou de groupe supplémentaires.
+Les rôles candidat/employeur, la désactivation des comptes, la propriété du profil,
+la validation des données et CSRF restent contrôlés. L'administration Django garde
+ses protections distinctes. Aucun renommage de modèle dans ce correctif.
+
 ## 9 novembre 2026 — correction de la parité des environnements
 
 La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.

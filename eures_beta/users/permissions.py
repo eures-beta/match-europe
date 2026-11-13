@@ -18,14 +18,7 @@ def get_group_permissions():
 
 
 def can_manage_employers(user):
-    return bool(
-        user.is_authenticated
-        and user.is_active
-        and user.kind == 'adviser'
-        and user.has_perms(
-            ('users.add_employerinvitation', 'users.view_employerinvitation')
-        )
-    )
+    return bool(user.is_authenticated and user.is_active and user.kind == 'adviser')
 
 
 def synchronize_permissions(database='default'):

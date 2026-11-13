@@ -1367,3 +1367,17 @@ active et désactivation explicite conservées. Consommateurs, commandes Make et
 tests/docs du réglage recâblés. Aucun autre flag, route ou fichier renommé.
 Validation : 548 tests PostgreSQL et contrôles Django/migrations, Python, HTML,
 JavaScript et traductions réussis. Ni fusion ni déploiement par ce changement.
+## 13 novembre 2026 — tous les conseillers ont les mêmes droits métier (#162)
+
+À la demande de dejafait, accès au matching et aux confirmations fondé uniquement
+sur la connexion, le compte actif et le rôle conseiller. Les invitations employeur
+suivent la même règle, même sans groupe ou permission Django. Les groupes
+historiques ne conditionnent plus ce parcours ; les protections de l'administration
+Django sont conservées. Pas de migration, de renommage de modèle ni de changement
+des réponses ou accords existants.
+
+Tests de régression : deux conseillers sans groupe ni permission peuvent agir ;
+les comptes inactifs et les rôles candidat/employeur restent interdits, même si
+des permissions matching leur sont attribuées. Les protections de propriété et
+CSRF restent couvertes. Suite PostgreSQL locale : 590 tests réussis, sans e-mail
+ni service externe réel. Aucun déploiement ou fusion dans ce travail.

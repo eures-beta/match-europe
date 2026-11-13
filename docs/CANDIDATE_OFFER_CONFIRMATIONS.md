@@ -3,9 +3,10 @@
 La PR #162 s’appuie sur les paires candidat–offre du matching. Le portefeuille
 d’équipe et son modèle de données (#161) sont reportés.
 
-Un conseiller habilité à modifier les paires ouvre le détail d’une paire
-éligible et demande une confirmation. Les conseillers habilités à consulter
-les paires peuvent lire le récapitulatif. Une demande apparaît dans l’espace
+Tout conseiller connecté et actif peut ouvrir le détail d’une paire
+éligible, demander une confirmation et lire le récapitulatif. Tous les
+conseillers ont les mêmes droits, sans permission Django supplémentaire.
+Une demande apparaît dans l’espace
 privé du candidat propriétaire. Elle porte sur un profil vérifié et une offre
 validée. La perte de l’éligibilité de la paire ferme cet accès.
 

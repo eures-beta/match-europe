@@ -260,17 +260,10 @@ class LocalMatchingTests(TestCase):
         call_command('seed_matching_trial', stdout=StringIO())
 
     def setUp(self):
-        from django.contrib.auth.models import Permission
         from eures_beta.users.models import User
 
         self.operator = User.objects.create_user(
             'operator@matching-permissions.invalid', kind='adviser'
-        )
-        self.operator.user_permissions.add(
-            *Permission.objects.filter(
-                content_type__app_label='matching',
-                codename__in=['view_matchpair', 'change_matchpair'],
-            )
         )
         self.client.force_login(self.operator)
 
@@ -405,8 +398,42 @@ class LocalMatchingTests(TestCase):
         self.client.force_login(self.pair().candidate.user)
         self.assertEqual(self.client.get(path).status_code, 403)
         self.client.force_login(self.operator)
+        self.operator.groups.clear()
         self.operator.user_permissions.clear()
-        self.assertEqual(self.client.get(path).status_code, 403)
+        self.assertEqual(self.client.get(path).status_code, 200)
+
+    def test_matching_writes_need_only_an_active_adviser_role(self):
+        from django.contrib.auth.models import Permission
+        from eures_beta.users.models import User
+
+        pair = self.pair()
+        path = reverse('matching')
+        payload = {'candidate': pair.candidate_id, 'offer': pair.offer_id}
+        self.operator.groups.clear()
+        self.operator.user_permissions.clear()
+        self.assertEqual(self.client.post(path, payload).status_code, 302)
+
+        second = User.objects.create_user(
+            'another-adviser@matching-permissions.invalid', kind='adviser'
+        )
+        second.groups.clear()
+        self.client.force_login(second)
+        self.assertEqual(self.client.get(path).status_code, 200)
+        self.assertEqual(self.client.post(path, payload).status_code, 302)
+
+        for user in (pair.candidate.user, pair.offer.created_by):
+            user.user_permissions.set(
+                Permission.objects.filter(content_type__app_label='matching')
+            )
+            self.client.force_login(user)
+            with self.subTest(kind=user.kind):
+                self.assertEqual(self.client.get(path).status_code, 403)
+                self.assertEqual(self.client.post(path, payload).status_code, 403)
+
+        second.is_active = False
+        second.save(update_fields=['is_active'])
+        self.client.force_login(second)
+        self.assertEqual(self.client.post(path, payload).status_code, 403)
 
     def test_inactive_objects_are_hidden_and_real_addresses_are_eligible(self):
         pair = self.pair()

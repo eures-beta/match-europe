@@ -39,6 +39,15 @@
 - Lors d’une reprise sur une branche ancienne, relire les consignes de la branche
   de travail et les changements de consignes de `main` avant de poursuivre.
 
+## Droits métier des conseillers
+
+- Tous les conseillers connectés et actifs ont les mêmes droits métier.
+- Ne pas conditionner leurs parcours à des permissions Django supplémentaires,
+  à un groupe ou à une habilitation individuelle. Vérifier le rôle et l'activité
+  côté serveur ; conserver les contrôles de propriété, CSRF et de validité des données.
+- Cette règle ne donne pas accès à l'administration Django et ne modifie pas
+  ses protections de consultation.
+
 ## Création des comptes
 
 - Le parcours candidat est disponible dans tous les environnements : compte et
@@ -54,7 +63,7 @@
 - Les liens de connexion concernent uniquement les comptes existants et actifs.
   Ne pas réintroduire de `get_or_create` d’utilisateur dans ces vues.
 - Les invitations et listes blanches demandent une implémentation distincte.
-- Les invitations employeurs sont explicites et réservées aux conseillers habilités
+- Les invitations employeurs sont explicites et réservées aux conseillers actifs
   (`docs/EMPLOYER_INVITATIONS.md`) : sept jours et confirmation POST. Ce parcours
   distinct peut créer un compte employeur ; la connexion habituelle (une heure)
   ne crée jamais de compte. Sans envoi configuré, les liens ne doivent être simulés
