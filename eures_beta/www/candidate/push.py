@@ -1,4 +1,4 @@
-"""HTTP registration of a disposable-preview Push subscription."""
+"""Authenticated HTTP registration of a candidate Push subscription."""
 
 import binascii
 import json
