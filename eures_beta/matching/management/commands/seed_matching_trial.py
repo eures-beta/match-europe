@@ -11,7 +11,7 @@ from eures_beta.employers.employer_api import clean_data
 from eures_beta.skills.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog
 from eures_beta.matching.access import test_data_enabled
-from eures_beta.matching.models import MatchPair
+from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.matching.services import calculate, inputs
 
 
@@ -161,7 +161,7 @@ class Command(BaseCommand):
                 )
                 values.update(changes)
                 profile = CandidateProfile.objects.create(user=user, **values)
-            pair, _ = MatchPair.objects.get_or_create(
+            pair, _ = CandidateOfferMatch.objects.get_or_create(
                 candidate=profile,
                 offer=offer,
                 defaults={

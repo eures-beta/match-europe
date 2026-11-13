@@ -1381,3 +1381,26 @@ les comptes inactifs et les rôles candidat/employeur restent interdits, même s
 des permissions matching leur sont attribuées. Les protections de propriété et
 CSRF restent couvertes. Suite PostgreSQL locale : 590 tests réussis, sans e-mail
 ni service externe réel. Aucun déploiement ou fusion dans ce travail.
+
+## 13 novembre 2026 — quatre noms de modèles explicites dans #162
+
+Choix de dejafait : `CandidateOfferMatch`, `CandidateOfferReview`,
+`CandidateOfferReviewAnswer` et `CandidateProfileSharing` remplacent respectivement
+`MatchPair`, `ConfirmationRequest`, `ConfirmationAnswer` et `TransmissionAgreement`.
+Imports, services, vues, administration, peuplement et tests actuels sont recâblés,
+sans alias des anciennes classes. L’accès inverse est `candidate_offer_review`.
+Les routes et le contenu métier sont conservés.
+
+La nouvelle migration `matching.0006_candidate_offer_model_names` conserve les
+tables physiques, lignes, clés étrangères et identifiants des métadonnées Django.
+Elle actualise les noms des types de contenu et permissions administratives,
+refuse leurs conflits et permet le retour arrière. Les anciennes migrations
+et fixtures historiques gardent leurs anciens noms intentionnellement.
+
+Validation locale : 593 tests PostgreSQL réussis, dont trois nouveaux tests de
+registre/admin, données non vides et retour arrière, et refus des métadonnées
+incompatibles. Les tests vérifient l’identité physique des tables, les relations,
+les dates, les identifiants et la conservation des attributions de permissions.
+Django/migrations, Black, HTML, JavaScript et traductions réussis. Aucun e-mail
+ou service externe réel. Aucun rebase des descendants, fusion ou déploiement ;
+les PR dépendantes devront reprendre ces nouveaux noms lors du rafraîchissement.

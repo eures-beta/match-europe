@@ -5,7 +5,7 @@ from django.db import models
 from . import validation
 
 
-class MatchPair(models.Model):
+class CandidateOfferMatch(models.Model):
     candidate = models.ForeignKey(
         'candidates.CandidateProfile', on_delete=models.CASCADE
     )
@@ -27,6 +27,7 @@ class MatchPair(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
+        db_table = 'matching_matchpair'
         constraints = [
             models.UniqueConstraint(
                 fields=['candidate', 'offer'], name='matching_unique_pair'
@@ -36,7 +37,7 @@ class MatchPair(models.Model):
 
 class MatchEvaluation(models.Model):
     pair = models.ForeignKey(
-        MatchPair, on_delete=models.CASCADE, related_name='evaluations'
+        CandidateOfferMatch, on_delete=models.CASCADE, related_name='evaluations'
     )
     fingerprint = models.CharField(max_length=64)
     rules_version = models.CharField(max_length=64)
@@ -49,7 +50,7 @@ class MatchEvaluation(models.Model):
 
 class MatchDecision(models.Model):
     pair = models.ForeignKey(
-        MatchPair, on_delete=models.CASCADE, related_name='decisions'
+        CandidateOfferMatch, on_delete=models.CASCADE, related_name='decisions'
     )
     evaluation = models.ForeignKey(MatchEvaluation, on_delete=models.CASCADE)
     value = models.CharField(
@@ -63,19 +64,24 @@ class MatchDecision(models.Model):
         db_table = 'matching_decision'
 
 
-class ConfirmationRequest(models.Model):
+class CandidateOfferReview(models.Model):
     """An adviser explicitly chooses an offer to discuss; never an invitation email."""
 
     pair = models.OneToOneField(
-        MatchPair, on_delete=models.CASCADE, related_name='confirmation_request'
+        CandidateOfferMatch,
+        on_delete=models.CASCADE,
+        related_name='candidate_offer_review',
     )
     requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'matching_confirmationrequest'
 
-class ConfirmationAnswer(models.Model):
+
+class CandidateOfferReviewAnswer(models.Model):
     request = models.ForeignKey(
-        ConfirmationRequest, on_delete=models.CASCADE, related_name='answers'
+        CandidateOfferReview, on_delete=models.CASCADE, related_name='answers'
     )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     question_key = models.CharField(max_length=250)
@@ -94,12 +100,18 @@ class ConfirmationAnswer(models.Model):
     detail = models.TextField(max_length=2000, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'matching_confirmationanswer'
 
-class TransmissionAgreement(models.Model):
+
+class CandidateProfileSharing(models.Model):
     request = models.ForeignKey(
-        ConfirmationRequest, on_delete=models.CASCADE, related_name='agreements'
+        CandidateOfferReview, on_delete=models.CASCADE, related_name='agreements'
     )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     fingerprint = models.CharField(max_length=64)
     agreed = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'matching_transmissionagreement'

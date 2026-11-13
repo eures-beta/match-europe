@@ -8,10 +8,10 @@ from django.db import transaction
 from django.utils import timezone
 from . import access
 from .models import (
-    MatchPair,
-    ConfirmationRequest,
-    ConfirmationAnswer,
-    TransmissionAgreement,
+    CandidateOfferMatch,
+    CandidateOfferReview,
+    CandidateOfferReviewAnswer,
+    CandidateProfileSharing,
 )
 from .services import inputs, StaleEvaluation
 from .engine import evaluate, DAYS
@@ -33,8 +33,8 @@ def candidate_requests(user):
         or not user.is_active
         or user.kind != 'candidate'
     ):
-        return ConfirmationRequest.objects.none()
-    return ConfirmationRequest.objects.filter(
+        return CandidateOfferReview.objects.none()
+    return CandidateOfferReview.objects.filter(
         pair__candidate__in=access.candidates().filter(user=user),
         pair__offer__in=access.offers(),
     )
@@ -44,10 +44,10 @@ def candidate_requests(user):
 def request_confirmation(user, pair_id):
     if not access.can_change_pair(user):
         raise PermissionDenied
-    pair = MatchPair.objects.select_for_update().get(
+    pair = CandidateOfferMatch.objects.select_for_update().get(
         pk=pair_id, candidate__in=access.candidates(), offer__in=access.offers()
     )
-    request, _ = ConfirmationRequest.objects.get_or_create(
+    request, _ = CandidateOfferReview.objects.get_or_create(
         pair=pair, defaults={'requested_by': user}
     )
     return request
@@ -290,7 +290,7 @@ def review(request):
 def locked_request(user, pk):
     # Serialize candidate answers and agreements on the pair as well as the request.
     request = candidate_requests(user).get(pk=pk)
-    MatchPair.objects.select_for_update().get(pk=request.pair_id)
+    CandidateOfferMatch.objects.select_for_update().get(pk=request.pair_id)
     request = (
         candidate_requests(user)
         .select_for_update(of=('self',))
@@ -336,7 +336,7 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0):
         return latest
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
-    return ConfirmationAnswer.objects.create(
+    return CandidateOfferReviewAnswer.objects.create(
         request=request,
         actor=user,
         question_key=key,
@@ -360,6 +360,6 @@ def agree(user, pk, fingerprint, agreed, previous=0):
         return latest
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
-    return TransmissionAgreement.objects.create(
+    return CandidateProfileSharing.objects.create(
         request=request, actor=user, fingerprint=fingerprint, agreed=agreed
     )

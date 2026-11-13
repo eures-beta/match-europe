@@ -11,9 +11,9 @@ from django.utils import translation
 from eures_beta.users.models import User
 from eures_beta.matching import confirmation_services as service
 from eures_beta.matching.models import (
-    MatchPair,
-    ConfirmationAnswer,
-    TransmissionAgreement,
+    CandidateOfferMatch,
+    CandidateOfferReviewAnswer,
+    CandidateProfileSharing,
 )
 from eures_beta.matching.services import StaleEvaluation
 
@@ -34,9 +34,9 @@ class ConfirmationTests(TestCase):
         )
 
     def setUp(self):
-        self.pair = MatchPair.objects.select_related('candidate__user', 'offer').get(
-            candidate__user__email='compatible@matching-trial.invalid'
-        )
+        self.pair = CandidateOfferMatch.objects.select_related(
+            'candidate__user', 'offer'
+        ).get(candidate__user__email='compatible@matching-trial.invalid')
         self.user = self.pair.candidate.user
         self.request = service.request_confirmation(self.adviser, self.pair.pk)
         self.client.force_login(self.user)
@@ -68,7 +68,7 @@ class ConfirmationTests(TestCase):
         row = self.row('schedule')
         self.assertIn('saturday:morning', row['presented']['expected']['slots'])
         self.assertTrue(row['askable'])
-        self.assertFalse(ConfirmationAnswer.objects.exists())
+        self.assertFalse(CandidateOfferReviewAnswer.objects.exists())
         page = self.client.get(self.url, {'question': row['key'], 'lang': 'en'})
         self.assertContains(page, 'Saturday')
         self.assertContains(page, self.pair.offer.data['title'])
@@ -76,7 +76,7 @@ class ConfirmationTests(TestCase):
         event = self.answer(row)
         self.assertEqual(event.actor, self.user)
         self.assertEqual(event.presented, row['presented'])
-        self.assertFalse(TransmissionAgreement.objects.exists())
+        self.assertFalse(CandidateProfileSharing.objects.exists())
 
     def test_offer_missing_information_is_not_a_candidate_question(self):
         type(self.pair.offer).objects.filter(pk=self.pair.offer_id).update(
@@ -182,7 +182,7 @@ class ConfirmationTests(TestCase):
         self.assertEqual(self.pair.candidate.updated_at, before)
         self.assertEqual(self.pair.decision, 'pending')
         self.assertEqual(self.request.answers.count(), 4)
-        self.assertFalse(TransmissionAgreement.objects.exists())
+        self.assertFalse(CandidateProfileSharing.objects.exists())
 
     def test_ambiguous_or_incomplete_answer_is_rejected(self):
         row = self.row('schedule')
@@ -273,7 +273,7 @@ class ConfirmationTests(TestCase):
             service.agree(self.user, self.request.pk, state['fingerprint'], True)
 
     def test_candidate_cannot_access_another_candidate_request_or_act_as_adviser(self):
-        other = MatchPair.objects.get(
+        other = CandidateOfferMatch.objects.get(
             candidate__user__email='unknown@matching-trial.invalid'
         )
         other_request = service.request_confirmation(self.adviser, other.pk)
@@ -320,19 +320,19 @@ class ConfirmationTests(TestCase):
             service.request_confirmation(self.adviser, self.pair.pk)
 
     def test_adviser_can_request_confirmation_from_matching_detail(self):
-        pair = MatchPair.objects.get(
+        pair = CandidateOfferMatch.objects.get(
             candidate__user__email='unknown@matching-trial.invalid'
         )
         url = reverse('request_candidate_confirmation', args=[pair.pk])
         self.client.force_login(self.adviser)
         self.assertEqual(self.client.get(url).status_code, 405)
-        self.assertFalse(hasattr(pair, 'confirmation_request'))
+        self.assertFalse(hasattr(pair, 'candidate_offer_review'))
         self.assertRedirects(
             self.client.post(url + '?lang=en'),
             reverse('matching_detail', args=[pair.pk]) + '?lang=en',
         )
         pair.refresh_from_db()
-        self.assertEqual(pair.confirmation_request.requested_by, self.adviser)
+        self.assertEqual(pair.candidate_offer_review.requested_by, self.adviser)
 
     def test_get_and_missing_csrf_never_write(self):
         self.client.get(self.url, {'action': 'answer', 'value': 'yes'})

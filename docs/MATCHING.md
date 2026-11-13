@@ -83,7 +83,10 @@ Adaptation aux données existantes :
 
 Trois modèles de matching après consolidation des exigences dans l'offre :
 
-- `MatchPair` : paire unique candidat/offre, décision courante et faits explicitement déclarés ;
+- `CandidateOfferMatch` : paire unique candidat/offre, décision courante et faits explicitement déclarés ;
+- `CandidateOfferReview`, `CandidateOfferReviewAnswer` et `CandidateProfileSharing` :
+  examen de l’offre par le candidat, réponses par question et choix de partage
+  distincts ; voir [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
 - `MatchEvaluation` : résultat, version, date et empreinte des entrées ; aucune copie
   complète de profil ni coordonnées ;
 - `MatchDecision` : événement de décision rattaché au calcul, daté, libellé d'opérateur explicite. Ce libellé ne remplace pas le contrôle d'accès

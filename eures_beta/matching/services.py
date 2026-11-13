@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 from . import engine, validation
 from .access import candidates, offers, enabled
-from .models import MatchPair, MatchEvaluation, MatchDecision
+from .models import CandidateOfferMatch, MatchEvaluation, MatchDecision
 
 
 class StaleEvaluation(ValueError):
@@ -58,8 +58,10 @@ def inputs(pair, *, lock=False):
 def calculate(candidate, offer):
     if not enabled():
         raise ValueError('Matching is disabled')
-    pair, _ = MatchPair.objects.get_or_create(candidate=candidate, offer=offer)
-    pair = MatchPair.objects.select_for_update().get(pk=pair.pk)
+    pair, _ = CandidateOfferMatch.objects.get_or_create(
+        candidate=candidate, offer=offer
+    )
+    pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair.pk)
     data, fingerprint = inputs(pair, lock=True)
     result = engine.evaluate(
         data['candidate'],
@@ -82,7 +84,7 @@ def calculate(candidate, offer):
 def decide(pair_id, evaluation_id, value):
     if not enabled() or value not in ('retained', 'refused'):
         raise ValueError('Invalid matching decision')
-    pair = MatchPair.objects.select_for_update().get(pk=pair_id)
+    pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair_id)
     evaluation = pair.evaluations.order_by('-id').first()
     _, current = inputs(pair, lock=True)
     if (

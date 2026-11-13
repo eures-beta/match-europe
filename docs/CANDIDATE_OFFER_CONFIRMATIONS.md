@@ -1,5 +1,34 @@
 # Confirmations candidat par offre
 
+## Modèles et relations
+
+- `CandidateOfferMatch` représente le rapprochement unique candidat–offre.
+- `CandidateOfferReview` représente l’examen de cette offre par le candidat,
+  ouvert par un conseiller : zéro ou un examen par rapprochement.
+- `CandidateOfferReviewAnswer` conserve les réponses aux questions et leurs
+  versions : plusieurs réponses par examen.
+- `CandidateProfileSharing` conserve les choix successifs d’autoriser ou refuser
+  le partage du profil avec l’employeur de cette offre. Il ne signifie pas que
+  le partage a effectivement eu lieu.
+
+L’accès inverse depuis le rapprochement est `candidate_offer_review`. Les champs
+de relation `pair` et `request`, ainsi que `answers` et `agreements`, gardent leur
+structure et les mêmes identifiants. Les routes publiques restent identiques.
+
+La migration `matching.0006_candidate_offer_model_names` renomme les quatre
+modèles dans l’état Django et conserve les tables physiques historiques
+`matching_matchpair`, `matching_confirmationrequest`, `matching_confirmationanswer`
+et `matching_transmissionagreement`. Elle conserve aussi les identifiants des types
+de contenu et permissions administratives, en actualisant leurs noms ; aucune
+permission supplémentaire n’est requise pour les actions des conseillers.
+Des métadonnées concurrentes incompatibles provoquent un refus explicite.
+
+Les migrations déjà publiées et les fixtures qui représentent un ancien schéma
+gardent leurs anciens noms : ne pas les réécrire. Le retour arrière restaure les
+noms précédents sans supprimer les réponses, choix, relations ou dates.
+
+## Fonctionnement
+
 La PR #162 s’appuie sur les paires candidat–offre du matching. Le portefeuille
 d’équipe et son modèle de données (#161) sont reportés.
 
