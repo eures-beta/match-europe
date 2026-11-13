@@ -30,7 +30,7 @@ class Command(BaseCommand):
         if (
             not options['live']
             or not settings.ALBERT_API_KEY
-            or not settings.CONFIRMATION_DIALOGUE_ENABLED
+            or settings.ALBERT_SIMULATED
         ):
             raise CommandError('Explicit live opt-in and configured access required.')
         row = {

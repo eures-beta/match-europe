@@ -9,7 +9,6 @@ def email_ready():
     origin = urlsplit(settings.LOGIN_EMAIL_ORIGIN)
     return bool(
         real_email_allowed()
-        and settings.LOGIN_EMAIL_ENABLED
         and origin.scheme == 'https'
         and origin.hostname in settings.ALLOWED_HOSTS
         and not origin.username

@@ -8,7 +8,7 @@ from .offer_ingestion import empty_data, ImportFailure
 
 
 def enabled():
-    return bool(settings.ALBERT_IMPORT_ENABLED and settings.ALBERT_API_KEY)
+    return bool(settings.ALBERT_SIMULATED or settings.ALBERT_API_KEY)
 
 
 PROMPT = """Structure une annonce employeur en JSON uniquement, sans Markdown.
@@ -144,7 +144,7 @@ def validate_result(value, source):
 
 
 def structure(source):
-    if settings.ALBERT_IMPORT_ENABLED and settings.ALBERT_IMPORT_SIMULATED:
+    if settings.ALBERT_SIMULATED:
         from .offer_ingestion import parse_pdf_text
 
         if not isinstance(source, str) or not source.strip() or len(source) > 16000:

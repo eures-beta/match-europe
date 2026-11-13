@@ -97,7 +97,6 @@ def entry_candidate(view):
     @wraps(view)
     @never_cache
     def wrapped(request, *args, **kwargs):
-        access.require_matching_enabled()
         if not request.user.is_authenticated:
             return redirect_to_login(request.get_full_path())
         with translation.override(selected_language(request)):

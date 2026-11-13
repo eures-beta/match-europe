@@ -60,9 +60,8 @@ def sign_in(request):
     language = selected_language(request)
     destination = consume(request, settings.LOGIN_REDIRECT_URL)
     auth_login(request, user, backend='sesame.backends.ModelBackend')
-    from eures_beta.skills.continuous import trial_request
 
-    if trial_request(request) and user.kind == 'employer':
+    if user.kind == 'employer':
         request.session['employer_verified_email'] = user.email
         request.session['employer_auth_language'] = language
     request.session['login_language'] = language

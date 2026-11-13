@@ -3,6 +3,7 @@ import json
 from unittest.mock import MagicMock, patch
 
 from django.test import SimpleTestCase, TestCase, override_settings
+from django.core.management import call_command, CommandError
 from django.contrib.auth import get_user_model
 from django.test import Client
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -29,7 +30,6 @@ RESULT = dict(
     salary=None,
 )
 ENABLED = dict(
-    ALBERT_IMPORT_ENABLED=True,
     ALBERT_API_KEY='test-secret',
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
@@ -113,9 +113,9 @@ class ValidationTests(SimpleTestCase):
         self.assertEqual(data['extraction'], 'albert_fallback')
         self.assertNotIn('sensitive', json.dumps(data))
 
-    @override_settings(ALBERT_IMPORT_ENABLED=False)
+    @override_settings(ALBERT_API_KEY='', ALBERT_SIMULATED=False)
     @patch('eures_beta.integrations.albert.build_opener')
-    def test_disabled_never_calls_network(self, opener):
+    def test_missing_key_never_calls_network(self, opener):
         with self.assertRaises(ImportFailure):
             structure(SOURCE)
         opener.assert_not_called()
@@ -284,3 +284,23 @@ class EndpointTests(TestCase):
         )
         self.assertEqual(response.status_code, 403)
         model.assert_not_called()
+
+
+class EvaluationCommandTests(SimpleTestCase):
+    def test_real_evaluation_refuses_simulation_or_missing_access(self):
+        for simulation, key in ((True, 'fictional-key'), (False, '')):
+            with (
+                self.subTest(simulation=simulation),
+                override_settings(
+                    ALBERT_SIMULATED=simulation,
+                    ALBERT_API_KEY=key,
+                ),
+                patch('eures_beta.integrations.albert.build_opener') as network,
+            ):
+                with self.assertRaises(CommandError):
+                    call_command(
+                        'evaluate_albert',
+                        'unused-source.txt',
+                        output='unused-report.json',
+                    )
+                network.assert_not_called()

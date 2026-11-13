@@ -4,6 +4,7 @@ import json
 import time
 from pathlib import Path
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from eures_beta.employers.offer_structuring import structure, enabled
@@ -19,8 +20,10 @@ class Command(BaseCommand):
         parser.add_argument('--output', required=True)
 
     def handle(self, *args, **options):
-        if not enabled():
-            raise CommandError('Albert is disabled in this environment.')
+        if settings.ALBERT_SIMULATED or not enabled():
+            raise CommandError(
+                'Real evaluation requires configured Albert and disabled simulation.'
+            )
         path = Path(options['source'])
         if path.stat().st_size > 10 * 1024 * 1024:
             raise CommandError('Source too large.')

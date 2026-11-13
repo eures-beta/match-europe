@@ -51,14 +51,9 @@ def render_page(request, template):
         + '>'
     )
     with translation.override(selected_language(request)):
-        from eures_beta.employers.offer_structuring import enabled as albert_enabled
-        from eures_beta.skills.continuous import trial_request
-
-        continuous = trial_request(request)
         context = {
             'signed_in': bool(person),
-            'albert_import': albert_enabled() and not continuous,
-            'continuous_skills': continuous,
+            'albert_import': False,
         }
         if person and template == 'import.html':
             from .response_practice import page_context

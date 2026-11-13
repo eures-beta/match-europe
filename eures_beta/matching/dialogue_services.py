@@ -16,7 +16,7 @@ from django.utils import timezone
 from django.utils.crypto import salted_hmac
 from eures_beta.users.models import LoginRateLimit
 
-from . import access, confirmation_services as confirmations, dialogue_albert
+from . import confirmation_services as confirmations, dialogue_albert
 from .services import StaleEvaluation
 
 SALT = 'matching.simulated-dialogue.v1'
@@ -24,17 +24,11 @@ MAX_AGE = 15 * 60
 
 
 def enabled():
-    return (
-        settings.CONFIRMATION_DIALOGUE_SIMULATED
-        or (settings.CONFIRMATION_DIALOGUE_ENABLED and bool(settings.ALBERT_API_KEY))
-    ) and access.enabled()
+    return bool(settings.ALBERT_SIMULATED or settings.ALBERT_API_KEY)
 
 
 def live():
-    return (
-        settings.CONFIRMATION_DIALOGUE_ENABLED
-        and not settings.CONFIRMATION_DIALOGUE_SIMULATED
-    )
+    return not settings.ALBERT_SIMULATED
 
 
 @transaction.atomic

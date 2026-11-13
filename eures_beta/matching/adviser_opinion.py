@@ -32,7 +32,7 @@ def ready(state):
 
 
 def cache_key(pk, fingerprint, language):
-    mode = 'simulated' if settings.CONFIRMATION_DIALOGUE_SIMULATED else 'live'
+    mode = 'simulated' if settings.ALBERT_SIMULATED else 'live'
     return f'adviser-opinion:v1:{mode}:{pk}:{fingerprint}:{language}'
 
 
@@ -65,7 +65,7 @@ def generate(user, rows, language):
         }
         for index, row in enumerate(rows, 1)
     }
-    if settings.CONFIRMATION_DIALOGUE_SIMULATED:
+    if settings.ALBERT_SIMULATED:
         return simulate(conditions)
     dialogue_services.allow_call(user)
     value = dialogue_albert.complete(

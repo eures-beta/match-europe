@@ -64,9 +64,9 @@ traitement et propose le formulaire guidé sans écriture métier.
 
 ## Configuration et vérifications
 
-`CONFIRMATION_DIALOGUE_ENABLED=1` autorise le connecteur réel ;
-`CONFIRMATION_DIALOGUE_SIMULATED=1` reste prioritaire et empêche l’appel réel.
-Les deux sont désactivés par défaut. Les gardes locales, fictives et par
+Le connecteur est disponible avec un accès Albert configuré ;
+`ALBERT_SIMULATED=1` reste prioritaire et empêche l’appel réel.
+La simulation est désactivée par défaut. Les gardes locales, fictives et par
 propriétaire de #162 restent obligatoires, même avec une clé configurée.
 `ALBERT_DIALOGUE_MODEL` permet de choisir le modèle ; son défaut est `ALBERT_MODEL`.
 Le secret est fourni uniquement par la configuration protégée de l’environnement.
@@ -74,8 +74,8 @@ Le secret est fourni uniquement par la configuration protégée de l’environne
 - `make test TESTS=tests.matching.test_dialogue_albert` : tests du connecteur avec réponses API mockées.
 - `make test TESTS=tests.matching.test_dialogue` : tests du simulateur.
 - `make run PORT=9045` : application locale sur loopback 9045 ; nécessite
-  un accès configuré, `CONFIRMATION_DIALOGUE_ENABLED=1` et
-  `CONFIRMATION_DIALOGUE_SIMULATED=0` dans le `.env` pour dialoguer réellement,
+  un accès configuré et
+  `ALBERT_SIMULATED=0` dans le `.env` pour dialoguer réellement,
   sinon repli explicite. Le démarrage ne modifie pas ces réglages.
 - `make dialogue-live-evaluate` : opt-in réel, six échanges fictifs au maximum,
   FR/EN/DE, sans base de données. Sortie limitée aux résultats, sans réponses
