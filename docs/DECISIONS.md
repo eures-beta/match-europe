@@ -390,3 +390,13 @@ Eric demande les secteurs d’activité en première lecture, à déplier pour v
 Le Push appartient au parcours métier, pas à l’outil de comptes fictifs. Un
 candidat ordinaire peut s’abonner dans chaque environnement. Le conseiller peut
 valider sans abonnement ; l’envoi éventuel intervient après le commit.
+
+## 13 novembre 2026 — couche web séparée des domaines
+
+À la demande de dejafait, les routes, vues et formulaires d’interface sont rangés
+dans `eures_beta/www/` par parcours. Modèles, migrations et services restent dans
+les applications métier, qui ne doivent pas importer la couche web. Conserver
+les validations partagées dans le domaine. Templates, statiques, traductions et
+tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
+créé ou déplacé, aucune nouvelle migration. Voir
+[le guide](ARCHITECTURE_WEB.md).

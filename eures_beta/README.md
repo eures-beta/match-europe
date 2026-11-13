@@ -30,3 +30,11 @@ sans conserver leur contenu. Voir [les champs, réglages et limites](../docs/OBS
 Les métiers et recherches restent dans occupations ; catalogues de compétences,
 suggestions et composant intégré vivent dans [skills](skills/). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
 la table PostgreSQL, les identifiants, les suggestions et les permissions.
+
+
+## Interfaces et domaines
+
+[www/](www/) regroupe les vues, formulaires et routes par parcours ; les applications
+métier conservent modèles, migrations et services. Voir
+[le guide](../docs/ARCHITECTURE_WEB.md). Les dossiers templates, static, locale
+et les tests à la racine restent partagés.

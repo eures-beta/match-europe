@@ -30,7 +30,7 @@ class CandidateLandingTests(SimpleTestCase):
 
         for path in ('/candidate/',):
             self.assertEqual(
-                resolve(path).func.__module__, 'eures_beta.candidates.landing'
+                resolve(path).func.__module__, 'eures_beta.www.candidate.landing'
             )
 
     def test_languages_choices_and_separation_from_employer(self):

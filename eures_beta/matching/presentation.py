@@ -1,5 +1,5 @@
 from django.utils.translation import gettext_lazy as _, get_language_info
-from eures_beta.candidates.journey import (
+from eures_beta.candidates.forms import (
     ConditionsForm,
     SCHEDULE_DAYS,
     SCHEDULE_PERIODS,

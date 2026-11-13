@@ -8,7 +8,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from eures_beta.candidates import journey
+from eures_beta.www.candidate import journey
 from tests.candidates.test_registration import answers
 from eures_beta.invitations.services import find_invitation, invitation_token
 from eures_beta.invitations.models import Invitation

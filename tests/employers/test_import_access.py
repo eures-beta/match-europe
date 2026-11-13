@@ -45,7 +45,7 @@ class ImportAccessTests(TestCase):
                 self.assertContains(page, 'id="file-form"')
                 self.client.logout()
 
-    @patch('eures_beta.employers.employer_api.read_url')
+    @patch('eures_beta.www.employer.imports.read_url')
     def test_direct_api_cannot_bypass_gate_or_start_extraction(self, reader):
         for user in (None, self.adviser):
             if user:
@@ -76,7 +76,7 @@ class ImportAccessTests(TestCase):
             self.client.session['login_return_path'], '/employer/pages/import-de.html'
         )
 
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.aglae')
     def test_saved_offer_is_owned_by_authenticated_account_not_submitted_email(
         self, external
     ):
@@ -181,7 +181,7 @@ class ImportAccessTests(TestCase):
         self.assertNotIn('_auth_user_id', self.client.session)
         self.assertEqual(User.objects.count(), 2)
 
-    @patch('eures_beta.employers.employer_api.read_url')
+    @patch('eures_beta.www.employer.imports.read_url')
     def test_source_cannot_be_reused_by_another_account_in_the_same_browser(
         self, reader
     ):
@@ -219,8 +219,8 @@ class ImportAccessTests(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertFalse(JobOffer.objects.exists())
 
-    @patch('eures_beta.users.views.send_mail')
-    @patch('eures_beta.users.views.email_ready', return_value=True)
+    @patch('eures_beta.www.accounts.views.send_mail')
+    @patch('eures_beta.www.accounts.views.email_ready', return_value=True)
     @override_settings(
         LOGIN_EMAIL_ORIGIN='https://testserver',
         DEFAULT_FROM_EMAIL='sender@example.invalid',

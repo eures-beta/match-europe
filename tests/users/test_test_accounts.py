@@ -39,7 +39,7 @@ class TestAccountAccessTests(TestCase):
         DJANGO_ENVIRONMENT='preview', MATCHING_ENABLED=True, LOGIN_EMAIL_ENABLED=False
     )
     def test_preview_candidates_are_ready_for_adviser_review(self):
-        from eures_beta.users.adviser_matching import pending_pairs
+        from eures_beta.www.adviser.matching import pending_pairs
         from eures_beta.matching.models import CandidateOfferReview
 
         self.seed()
@@ -76,7 +76,7 @@ class TestAccountAccessTests(TestCase):
         from cryptography.hazmat.primitives.asymmetric import ec
         from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
         from eures_beta.matching.models import CandidateOfferReview
-        from eures_beta.users.adviser_matching import pending_pairs
+        from eures_beta.www.adviser.matching import pending_pairs
 
         self.seed()
         user = prepared_user('candidate-pwa')
@@ -146,7 +146,7 @@ class TestAccountAccessTests(TestCase):
         from unittest.mock import patch
         from eures_beta.candidates import preview_push
         from eures_beta.matching.models import CandidateOfferReview
-        from eures_beta.users.adviser_matching import pending_pairs, record_review
+        from eures_beta.www.adviser.matching import pending_pairs, record_review
 
         self.seed()
         user = prepared_user("candidate-pwa")

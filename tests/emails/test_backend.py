@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage, send_mail
 from django.test import SimpleTestCase, override_settings
 
 from eures_beta.emails.backend import ProductionEmailBackend
-from eures_beta.users.views import email_ready
+from eures_beta.www.accounts.views import email_ready
 
 
 @override_settings(

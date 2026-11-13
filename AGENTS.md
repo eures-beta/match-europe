@@ -886,3 +886,14 @@ The five permanent quality pillars for every user-facing feature are:
 - Conserver les contrôles de rôle, de propriété, d’équipe, de consentement, de CSRF et de validation des entrées. Tester les mêmes opérations autorisées et interdites dans les trois environnements.
 - L’absence d’autorisation de fusionner ou de déployer concerne les actions de l’agent ; elle ne justifie pas un verrou fonctionnel dans le code.
 - Une exception fonctionnelle doit être demandée explicitement par l’utilisateur et documentée ; ne pas prolonger les anciennes limites de prototype dans les nouveaux lots.
+
+
+## 13 novembre 2026 — couche web séparée des domaines
+
+À la demande de dejafait, les routes, vues et formulaires d’interface sont rangés
+dans `eures_beta/www/` par parcours. Modèles, migrations et services restent dans
+les applications métier, qui ne doivent pas importer la couche web. Conserver
+les validations partagées dans le domaine. Templates, statiques, traductions et
+tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
+créé ou déplacé, aucune nouvelle migration. Voir
+[le guide](docs/ARCHITECTURE_WEB.md).
