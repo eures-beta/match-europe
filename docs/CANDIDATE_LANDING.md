@@ -5,7 +5,7 @@ métier puis de traduction. La version d’origine reste conservée dans la PR #
 Reprise ciblée de l’écran validé le 26 octobre (`7e6689e`), sans reprendre
 l’ancienne pile de PR. Un seul template Django dans
 `eures_beta/candidates/templates/candidates/landing.html`, statiques dédiés dans
-`eures_beta/candidates/static/candidate/`, tests dans `eures_beta/candidates/tests/`.
+`eures_beta/candidates/static/candidate/`, tests dans `tests/candidates/`.
 Les textes candidat et ceux de l’en-tête, navigation, pied de page, accessibilité
 et notices JavaScript utilisent gettext (catalogues FR/DE, sources anglaises).
 

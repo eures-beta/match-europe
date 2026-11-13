@@ -60,7 +60,7 @@ ne prolonge pas la validité du lien d'invitation (7 jours) ou de connexion (1 h
 
 ## Vérifier
 
-`make test TESTS=eures_beta.test_data_protection` vérifie les langues malgré un cookie contradictoire, les
+`make test TESTS=tests.common.test_data_protection` vérifie les langues malgré un cookie contradictoire, les
 durées, les limites annoncées, le contact et les liens, l'accès public hors démo,
 les méthodes autorisées et l'absence d'écriture/session. `make test` couvre les
 liens des parcours existants ; `make format-html-check`, `make format-check`,

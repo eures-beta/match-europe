@@ -13,7 +13,7 @@ commune des droits ; cette application possède le parcours d'invitation.
 - `templates/invitations/`, `static/invitations/` : pages, e-mails et styles ;
 - `admin.py` : consultation des métadonnées, sans modification ni jeton exposé ;
 - `management/commands/invitation_email.py` : simulation privée, sans envoi ;
-- `tests/` : parcours, rôles, liens, traductions et migrations sur données non vides.
+- [Tests du domaine](../../tests/invitations/) : parcours, rôles, liens, traductions et migrations sur données non vides.
 
 ## Déplacement du modèle existant
 

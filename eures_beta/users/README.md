@@ -35,7 +35,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [static/](static/) — Styles des écrans du compte connecté.
 - [urls.py](urls.py) — Déclare les routes de connexion, confirmation et déconnexion.
 - [views.py](views.py) — Envoie et vérifie les liens django-sesame pour les comptes existants.
-- [tests/](tests/) — Ces tests vérifient authentification, unicité des e-mails et contraintes du rôle, y compris les mises à jour directes en base.
+- [tests/users/](../../tests/users/) — Ces tests vérifient authentification, unicité des e-mails et contraintes du rôle, y compris les mises à jour directes en base.
 - [tools/](tools/) — Cet outil teste la mise à niveau dans une base locale temporaire, avec des données fictives et une suppression de la base à la fin.
 - [README.md](README.md) — Présente ce dossier et son contenu.
 

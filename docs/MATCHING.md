@@ -152,7 +152,7 @@ Ne pas modifier ou arrêter les autres instances PostgreSQL de la machine.
 
 ## Vérification
 
-- `make test TESTS=eures_beta.matching` : logique, inconnus, trois blocages, langues/salaire,
+- `make test TESTS=tests.matching` : logique, inconnus, trois blocages, langues/salaire,
   choix métier hors score, conservation des décisions, conflits, accès et langues.
 - `make test` : suite complète PostgreSQL des domaines actuels.
 - `make check`, `make translations-check`, `make format-check`,

@@ -148,7 +148,7 @@ Lorsque l'envoi Django sera configuré et activé séparément, le même message
 envoyé. Les tests le simulent dans une boîte en mémoire. Les échecs sont annoncés
 sans journaliser de contenu personnel ; l'opérateur peut simuler le message.
 
-`make test TESTS=eures_beta.users.tests.test_invitations` couvre droits, doublons, expiration, rejeux, CSRF,
+`make test TESTS=tests.invitations.test_invitations` couvre droits, doublons, expiration, rejeux, CSRF,
 traductions et simulation. `make test` vérifie les interactions avec le projet.
 
 ## Noms du modèle commun
