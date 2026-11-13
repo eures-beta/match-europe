@@ -16,7 +16,7 @@ ou acceptées. Une relance confirmée renouvelle le lien pour sept jours et
 révoque le précédent. Les nouveaux envois et les relances partagent le
 quota existant de dix opérations par conseiller et par heure.
 La suppression révoque le lien d’une invitation non acceptée. L’invitation
-d’un conseiller est ouverte aux conseillers habilités à gérer les invitations
+d’un conseiller est ouverte à tous les conseillers connectés et actifs
 et crée un compte conseiller ordinaire, sans accès à l’administration. Le candidat
 invité peut terminer son questionnaire avec l’adresse déjà vérifiée par
 l’invitation.
