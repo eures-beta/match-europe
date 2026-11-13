@@ -94,7 +94,8 @@
             <button class="primary-action" name="value" value="no" type="submit">{% translate "No" %}</button>
           </form>
         {% endif %}
-        <details class="dialogue-precision"{% if clarification or form.is_bound or form.history_token.value %} open{% endif %}>
+        <details class="dialogue-precision"
+                 {% if clarification or form.is_bound or form.history_token.value %} open{% endif %}>
           <summary>{% translate "It depends / I have a question" %}</summary>
           <form method="post" class="confirmation-form dialogue-composer">
             {% csrf_token %}
