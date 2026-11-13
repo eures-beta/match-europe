@@ -30,7 +30,7 @@ Pourquoi l’ECL : sa typographie et sa palette sont acceptées par tous les Ét
 | `eures_beta/static/design-system/tokens.css`          | Toutes les valeurs (tokens). Seul fichier où un code couleur est écrit |
 | `eures_beta/static/design-system/bootstrap-theme.css` | Bootstrap habillé avec les tokens                                      |
 | `eures_beta/static/design-system/fonts/`              | Police Gelasio et sa licence, chargées par `tokens.css`                |
-| `eures_beta/test_design_system.py`                    | Vérifie automatiquement les règles des tokens                          |
+| `tests/common/test_design_system.py`                  | Vérifie automatiquement les règles des tokens                          |
 | `/design-system/` (`templates/design_system.html`)    | Page de référence : tokens, contrastes et composants rendus            |
 
 La page `/design-system/` lit `tokens.css` à chaque affichage : elle montre toujours les valeurs
@@ -168,7 +168,7 @@ Composants Match Europe (includes Django) : aucun pour l’instant. Ils arrivero
 
 ## Vérification
 
-`make test` lance `eures_beta/test_design_system.py`. Il échoue si :
+`make test` lance `tests/common/test_design_system.py`. Il échoue si :
 
 - un code couleur apparaît dans `design-system/` ailleurs que dans la palette de `tokens.css` ;
 - un fichier utilise un token `--me-*` qui n’existe pas ;
