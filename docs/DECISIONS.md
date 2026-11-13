@@ -418,3 +418,11 @@ par défaut et contact `EMPLOYER_ADVISER_CONTACT_URL`. Sources, tests et exemple
 actualisés ; anciens noms non lus. Aucun modèle ni migration. Les réglages
 PostgreSQL et les codes de questions AGLAE restent en discussion, sans modification
 de leur comportement dans ce lot. Voir le guide de développement actuel.
+
+## 13 novembre 2026 — politique PostgreSQL commune
+
+TRANSVERSE : demande de dejafait, les connexions sont réutilisées 60 secondes
+avec contrôle de validité et délai d’ouverture de 10 secondes en local, recette
+et production. Suppression de la condition preview ; `PGSSLMODE` reste conservé.
+Ce choix remplace la réserve de discussion du lot de simplification précédent.
+Aucun modèle, migration, code AGLAE ou réglage de comptes fictifs modifié.

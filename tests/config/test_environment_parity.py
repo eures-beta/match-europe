@@ -59,3 +59,36 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
             'local', EMPLOYER_ADVISER_CONTACT_URL='https://example.invalid/contact'
         )
         self.assertEqual(result[5], 'https://example.invalid/contact')
+
+
+class PostgresConnectionPolicyTests(SimpleTestCase):
+    def test_connection_policy_is_identical_in_every_environment_and_preserves_tls(
+        self,
+    ):
+        for environment in ('local', 'preview', 'production'):
+            for sslmode in ('', 'require', 'verify-full'):
+                with self.subTest(environment=environment, sslmode=sslmode):
+                    result = subprocess.run(
+                        [
+                            sys.executable,
+                            '-c',
+                            'import json; from config.settings import DATABASES; '
+                            'db = DATABASES["default"]; '
+                            'print(json.dumps([db.get("CONN_MAX_AGE", 0), '
+                            'db.get("CONN_HEALTH_CHECKS", False), db.get("OPTIONS", {})]))',
+                        ],
+                        env={
+                            **os.environ,
+                            'DJANGO_SECRET_KEY': 'fictional-postgres-policy',
+                            'DJANGO_ENVIRONMENT': environment,
+                            'TEST_ACCOUNTS_ENABLED': '0',
+                            'PGSSLMODE': sslmode,
+                        },
+                        capture_output=True,
+                        text=True,
+                        check=True,
+                    )
+                    options = {'connect_timeout': 10}
+                    if sslmode:
+                        options['sslmode'] = sslmode
+                    self.assertEqual(json.loads(result.stdout), [60, True, options])

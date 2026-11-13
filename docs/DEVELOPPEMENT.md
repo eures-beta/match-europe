@@ -110,6 +110,16 @@ d’e-mails de connexion des configurations privées. Aucune configuration dista
 n’est modifiée par cette PR. Les comptes fictifs restent explicitement activés
 avec `TEST_ACCOUNTS_ENABLED`, incompatibles avec les envois réels.
 
-La politique de connexions PostgreSQL reste provisoirement spécifique à preview
-(60 secondes, contrôle de validité, connexion limitée à 10 secondes), sans
-condition sur une fonctionnalité métier. Son harmonisation est discutée séparément.
+La politique de connexions PostgreSQL est identique en local, en recette et en
+production : réutilisation pendant 60 secondes (`CONN_MAX_AGE`), contrôle de
+validité (`CONN_HEALTH_CHECKS`) et délai d’ouverture de connexion de 10 secondes
+(`connect_timeout`). Ce dernier ne limite pas la durée des requêtes SQL.
+`PGSSLMODE` continue de configurer le transport TLS propre à la connexion.
+
+Chaque thread peut conserver sa connexion : dimensionner le budget PostgreSQL
+avec le nombre de workers, threads et instances, y compris les recettes et les
+commandes d’opérateur. `make serve PORT=…` utilise Gunicorn pour une recette
+locale fidèle ; `make run` reste le serveur de développement Django, dont les
+threads par requête ne bénéficient pas de la même réutilisation. Le code des
+settings ne distingue pas ces environnements. Aucune configuration serveur
+PostgreSQL ni donnée n’est modifiée.
