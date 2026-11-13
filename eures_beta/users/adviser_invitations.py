@@ -133,7 +133,7 @@ def render_invitation(audience, recipient, origin, link, reminder, adviser):
     }
     if audience == Audience.EMPLOYER:
         context.update(
-            adviser_first_name=adviser.first_name.strip(),
+            adviser_name=adviser.get_full_name(),
             adviser_organisation=adviser.adviser_organisation.strip(),
             partner_logos=[
                 (

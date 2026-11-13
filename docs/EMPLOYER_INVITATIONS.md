@@ -31,8 +31,8 @@ configuré pour Brevo. En recette locale, la boîte de test est
 L’onglet « Inviter » utilise le modèle court pour les invitations et relances
 employeurs. Le premier envoi suit la langue de l’aperçu (français, anglais ou
 allemand), puis la relance reprend la langue enregistrée. La signature reprend
-le prénom et le champ facultatif `adviser_organisation` du conseiller connecté.
-L’exploitant renseigne ce champ sur le compte conseiller lors de sa configuration.
+le prénom, le nom et la structure du conseiller connecté, modifiables depuis
+« Mon compte ».
 Les logos EURES/ELA, France Travail, ADEM et Le Forem utilisent les ressources
 du site, avec des adresses absolues dans le message envoyé.
 

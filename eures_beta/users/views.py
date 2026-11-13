@@ -4,6 +4,7 @@ import logging
 from urllib.parse import urlsplit
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import (
     get_user_model,
     login as auth_login,
@@ -12,7 +13,7 @@ from django.contrib.auth import (
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.db import transaction
-from django.http import Http404
+from django.http import Http404, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -23,7 +24,8 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
 from sesame.utils import get_query_string, get_user
 
-from .forms import LoginForm
+from .forms import AdviserSignatureForm, LoginForm
+from .models import User
 from eures_beta.emails.backend import real_email_allowed
 from .rate_limits import allow_request
 from .login_return import remember, consume, IMPORT_PATHS
@@ -33,10 +35,24 @@ logger = logging.getLogger(__name__)
 
 @never_cache
 @login_required
-@require_GET
+@require_http_methods(['GET', 'POST'])
 def account(request):
-    with translation.override(selected_language(request)):
-        return render(request, 'users/account.html')
+    language = selected_language(request)
+    with translation.override(language):
+        if request.user.kind != User.Kind.ADVISER:
+            if request.method == 'POST':
+                return HttpResponseNotAllowed(['GET'])
+            return render(request, 'users/account.html')
+
+        form = AdviserSignatureForm(
+            request.POST if request.method == 'POST' else None,
+            instance=request.user,
+        )
+        if form.is_valid():
+            form.save(commit=False).save(update_fields=form.Meta.fields)
+            messages.success(request, _('Your email signature has been saved.'))
+            return redirect(reverse('account', query={'lang': language}))
+        return render(request, 'users/account.html', {'signature_form': form})
 
 
 @never_cache

@@ -7072,3 +7072,24 @@ msgstr "Informations sur le traitement de vos données"
 
 msgid "read the privacy notice"
 msgstr "consulter la notice de confidentialité"
+
+msgctxt "adviser signature"
+msgid "First name"
+msgstr "Prénom"
+
+msgctxt "adviser signature"
+msgid "Last name"
+msgstr "Nom"
+
+msgctxt "adviser signature"
+msgid "Organisation"
+msgstr "Structure"
+
+msgid "Email signature"
+msgstr "Signature des e-mails"
+
+msgid "These details will appear in the signature of the employer invitations and reminders you send."
+msgstr "Ces informations seront reprises dans la signature des invitations et relances que vous envoyez aux employeurs."
+
+msgid "Your email signature has been saved."
+msgstr "Votre signature a été enregistrée."

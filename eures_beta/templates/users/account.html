@@ -16,7 +16,7 @@
       <dd>
         {{ user.email }}
       </dd>
-      {% if user.get_full_name %}
+      {% if not signature_form and user.get_full_name %}
         <dt>{% translate "Name" context "account summary" %}</dt>
         <dd>
           {{ user.get_full_name }}
@@ -27,5 +27,20 @@
         <time datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"DATE_FORMAT" }}</time>
       </dd>
     </dl>
+    {% if signature_form %}
+      <h2 id="signature-title">{% translate "Email signature" %}</h2>
+      <p id="signature-help">{% translate "These details will appear in the signature of the employer invitations and reminders you send." %}</p>
+      {% for message in messages %}
+        <p role="status">{{ message }}</p>
+      {% endfor %}
+      <form class="account-signature-form"
+            method="post"
+            aria-labelledby="signature-title"
+            aria-describedby="signature-help">
+        {% csrf_token %}
+        {{ signature_form.as_p }}
+        <button type="submit">{% translate "Save changes" %}</button>
+      </form>
+    {% endif %}
   </section>
 {% endblock %}
