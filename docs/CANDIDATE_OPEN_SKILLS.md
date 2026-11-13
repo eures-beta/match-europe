@@ -100,7 +100,7 @@ transports email, de la confirmation, des durées ou de la notice juridique.
 
 Dans un environnement local dédié, sans email réel : `make install-test`,
 `make install-quality`, `make install-js`, `make db-create`, `make migrate`.
-`make candidate-registration-run` expose le questionnaire sur le port local 9035.
+`make run PORT=9035` expose le questionnaire sur le port local 9035.
 Choisir le mode ouvert, ouvrir chaque section, rechercher, cocher, replier,
 retirer une étiquette et changer de langue. Essayer un parcours uniquement avec
 une activité à apprendre, puis la borne 10/5/3, et les erreurs de saisie.

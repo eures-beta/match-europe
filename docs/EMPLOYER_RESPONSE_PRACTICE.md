@@ -64,7 +64,8 @@ Les modalités de purge de la fiche restent à raccorder aux règles du compte.
 - `make check` : Django et cohérence des migrations.
 - `make migrate` : application à une base locale dédiée.
 - `make test-accounts-seed` : comptes fictifs uniquement avec protections locales.
-- `make employer-response-run` : serveur local sur le port 9036, sans email réel.
+- `make run PORT=9036` : serveur local sur le port 9036. Configurer les e-mails désactivés
+  et, si nécessaire, les comptes fictifs dans le `.env` du worktree avant le lancement.
 
 Dans la recette, choisir un compte employeur fictif, préparer une offre et aller
 jusqu'à l'étape contact. Enregistrer les réponses, ouvrir leur modification,
