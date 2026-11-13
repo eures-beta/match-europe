@@ -1,4 +1,5 @@
 from django.urls import path
+from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.matching import (
     confirmations as confirmation_views,
     dialogue as dialogue_views,
@@ -7,6 +8,7 @@ from eures_beta.www.matching import (
 )
 
 urlpatterns = [
+    path('<int:pk>/review/', adviser_matching.detail, name='adviser_match'),
     path(
         'shared/start/<int:pk>/', shared_views.start, name='shared_conversation_start'
     ),

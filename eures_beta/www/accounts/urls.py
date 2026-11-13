@@ -13,11 +13,6 @@ urlpatterns = [
         name='test_account_sign_in',
     ),
     path(
-        "accounts/dashboard/matching/<int:pk>/",
-        adviser_matching.detail,
-        name="adviser_match",
-    ),
-    path(
         "accounts/dashboard/conversations/<int:pk>/",
         adviser_matching.follow,
         name="adviser_conversation",

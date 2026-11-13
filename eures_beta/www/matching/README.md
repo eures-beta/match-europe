@@ -12,3 +12,5 @@ Pages de rapprochement, confirmations par offre et conversations partagées.
 - [dialogue.py](dialogue.py) — Présente le dialogue de clarification candidat avec validation humaine.
 - [urls.py](urls.py) — Associe les URL existantes aux vues, sans changer leur nom public.
 - [views.py](views.py) — Traite les requêtes de ce parcours et prépare les réponses.
+
+`/matching/<id>/` et `/matching/<id>/review/` conservent leurs deux vues distinctes : détail général et décision conseiller.

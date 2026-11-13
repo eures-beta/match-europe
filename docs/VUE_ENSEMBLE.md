@@ -320,3 +320,14 @@ avec contrôle de validité et délai d’ouverture de 10 secondes en local, rec
 et production. Suppression de la condition preview ; `PGSSLMODE` reste conservé.
 Ce choix remplace la réserve de discussion du lot de simplification précédent.
 Aucun modèle, migration, code AGLAE ou réglage de comptes fictifs modifié.
+
+## Routes du rapprochement, des invitations et du profil employeur
+
+Les deux vues matching restent distinctes : détail `/matching/<id>/`, relecture
+conseiller `/matching/<id>/review/`. Les invitations conseiller sont sous
+`/adviser/invitations/` et `/adviser/invitations/new/`, sans déplacer le domaine
+`invitations` ni l’acceptation commune. L’API des habitudes de réponse devient
+`/api/employer/profile/`. Les anciennes adresses redirigent en 308, avec méthode,
+corps et paramètres conservés ; aucun lien actif ne les génère. Pas de modèle
+ni de migration. Les six routes de confirmation/conversation restent inchangées
+en attendant validation de leur proposition de renommage.

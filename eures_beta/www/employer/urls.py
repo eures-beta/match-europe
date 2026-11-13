@@ -12,7 +12,7 @@ urlpatterns = [
     path('employer/import/', pages.import_offer, name='employer_import'),
     path('employer/privacy/', pages.privacy, name='employer_privacy'),
     path(
-        'api/employer/response-practice/',
+        'api/employer/profile/',
         response_practice_views.response_practice,
         name='employer_response_practice',
     ),

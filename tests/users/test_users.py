@@ -85,9 +85,7 @@ class UserTests(TestCase):
         request.user = user
         self.assertIsNone(identity(request))
         self.client.force_login(user)
-        self.assertEqual(
-            self.client.get('/accounts/employers/invite/').status_code, 403
-        )
+        self.assertEqual(self.client.get('/adviser/invitations/new/').status_code, 403)
 
     def test_candidate_dashboard_does_not_enter_employer_workspace(self):
         from unittest.mock import patch
@@ -101,7 +99,7 @@ class UserTests(TestCase):
         employer.assert_not_called()
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'users/dashboard.html')
-        self.assertNotContains(response, '/accounts/employers/invite/')
+        self.assertNotContains(response, '/adviser/invitations/new/')
 
     def test_candidate_label_is_translated(self):
         from django.utils.translation import override

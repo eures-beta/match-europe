@@ -33,7 +33,7 @@ Champs métier inchangés : `response_coverage`, `response_time`, `revision`,
 `created`, `updated`. Valeurs canoniques contrôlées par PostgreSQL ; libellés
 FR/EN/DE indépendants du stockage. Administration en lecture seule.
 
-API privée `GET/POST /api/employer/response-practice/` : compte employeur actif
+API privée `GET/POST /api/employer/profile/` : compte employeur actif
 courant uniquement, CSRF conservée. Aucun identifiant de compte soumis ne permet
 de choisir la cible. POST JSON : les deux codes et la révision courante, 0 pour
 la première déclaration. Retour : codes et nouvelle révision. Une écriture depuis

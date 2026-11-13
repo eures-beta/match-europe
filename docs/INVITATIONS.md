@@ -75,7 +75,7 @@ l’aperçu, le CSV, le dépôt local, la confirmation et la révocation.
 
 Les conseillers actifs voient les comptes employeurs et les invitations
 en attente sur `/accounts/dashboard/?tab=employers` (25 lignes par liste). L’ancienne route
-`/accounts/employers/invite/` reste disponible pour le formulaire employeur
+`/adviser/invitations/new/` reste disponible pour le formulaire employeur
 multilingue. Le tableau de
 bord employeur reste en construction. Tous les conseillers voient les
 comptes employeurs, sans périmètre individuel dans cette première version.
