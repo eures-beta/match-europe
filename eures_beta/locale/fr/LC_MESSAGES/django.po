@@ -7234,3 +7234,9 @@ msgstr "Non disponible dans l’évaluation"
 
 msgid "No comparable information is available for this matching."
 msgstr "Aucune information à comparer pour ce matching."
+
+msgid "To clarify"
+msgstr "À préciser"
+
+msgid "Name"
+msgstr "Nom"
