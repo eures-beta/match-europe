@@ -14,3 +14,6 @@ Connexion, déconnexion, compte et orientation vers le tableau de bord du rôle 
 - [views.py](views.py) — Traite les requêtes de ce parcours et prépare les réponses.
 
 Les routes de compte restent sous `/accounts/` ; la relecture conseiller est désormais `/matching/<id>/review/`.
+
+Le suivi des confirmations quitte le tableau de bord technique : il utilise
+`/matching/offer-reviews/<id>/`, sans changement de la vue conseiller.

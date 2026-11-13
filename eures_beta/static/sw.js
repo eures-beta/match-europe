@@ -4,10 +4,16 @@ self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim(
 // No fetch interception: network-only workspaces; no misleading offline promises.
 
 const dialogueUrl =
-  /^\/matching\/candidate\/\d+\/dialogue\/(?:\?question=[\w%:-]+#question-title)?$/;
+  /^\/candidate\/offer-reviews\/\d+\/dialogue\/(?:\?question=[\w%:-]+#question-title)?$/;
 
-const sharedUrl = /^\/matching\/shared\/\d+\/$/;
-const allowedUrl = (url) => dialogueUrl.test(url) || sharedUrl.test(url);
+const sharedUrl = /^\/matching\/conversations\/\d+\/$/;
+// Compatibility only for notifications already delivered before the route rename.
+// New notifications use Django's canonical named routes; HTTP redirects retain old links.
+const legacyNotificationUrl =
+  /^\/matching\/(?:candidate\/\d+\/dialogue\/(?:\?question=[\w%:-]+#question-title)?|shared\/\d+\/)$/;
+const allowedUrl = (url) =>
+  typeof url === 'string' &&
+  (dialogueUrl.test(url) || sharedUrl.test(url) || legacyNotificationUrl.test(url));
 
 self.addEventListener('push', (event) => {
   const { url, body } = event.data.json();
