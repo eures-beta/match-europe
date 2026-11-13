@@ -1,12 +1,11 @@
 from io import StringIO
 
-from django.contrib.auth.models import Permission
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from eures_beta.matching import confirmation_services, services
-from eures_beta.matching.models import ConfirmationRequest, MatchPair
+from eures_beta.matching.models import CandidateOfferReview, CandidateOfferMatch
 from eures_beta.matching.tests.test_dialogue import SETTINGS
 from eures_beta.users.test_accounts import prepared_user
 
@@ -18,13 +17,9 @@ class AdviserMatchingTests(TestCase):
         call_command('seed_test_accounts', stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
         cls.adviser = prepared_user('adviser')
-        cls.adviser.user_permissions.add(
-            *Permission.objects.filter(
-                content_type__app_label='matching',
-                codename__in=('view_matchpair', 'change_matchpair'),
-            )
-        )
-        cls.pair = MatchPair.objects.get(
+        cls.adviser.groups.clear()
+        cls.adviser.user_permissions.clear()
+        cls.pair = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
 
@@ -49,13 +44,13 @@ class AdviserMatchingTests(TestCase):
         self.assertContains(self.client.get(self.detail), 'value="retained"')
         self.assertEqual(self.decide('retained').status_code, 302)
         self.assertNotContains(self.client.get(self.dashboard), self.detail)
-        conversation = ConfirmationRequest.objects.get(pair=self.pair)
+        conversation = CandidateOfferReview.objects.get(pair=self.pair)
         tracking = self.dashboard + '?view=conversations'
         follow = reverse('adviser_conversation', args=[conversation.pk])
         self.assertContains(self.client.get(tracking), follow)
         self.assertEqual(self.client.get(follow).status_code, 200)
         self.assertEqual(self.decide('retained').status_code, 404)
-        self.assertEqual(ConfirmationRequest.objects.filter(pair=self.pair).count(), 1)
+        self.assertEqual(CandidateOfferReview.objects.filter(pair=self.pair).count(), 1)
 
         candidate = Client()
         candidate.force_login(self.pair.candidate.user)
@@ -88,13 +83,13 @@ class AdviserMatchingTests(TestCase):
         self.assertEqual(self.decide('refused').status_code, 302)
         self.pair.refresh_from_db()
         self.assertEqual(self.pair.decision, 'refused')
-        self.assertFalse(ConfirmationRequest.objects.filter(pair=self.pair).exists())
+        self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
         self.assertNotContains(self.client.get(self.dashboard), self.detail)
 
     def test_stale_evaluation_requires_review_again(self):
         services.calculate(self.pair.candidate, self.pair.offer)
         self.assertEqual(self.decide('retained').status_code, 409)
-        self.assertFalse(ConfirmationRequest.objects.filter(pair=self.pair).exists())
+        self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
 
     @override_settings(
         CONFIRMATION_DIALOGUE_SIMULATED=False, CONFIRMATION_DIALOGUE_ENABLED=False
@@ -103,4 +98,4 @@ class AdviserMatchingTests(TestCase):
         self.assertEqual(self.decide('retained').status_code, 400)
         self.pair.refresh_from_db()
         self.assertEqual(self.pair.decision, 'pending')
-        self.assertFalse(ConfirmationRequest.objects.filter(pair=self.pair).exists())
+        self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
