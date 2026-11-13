@@ -342,21 +342,11 @@ class WorkspaceTests(TestCase):
         self.assertContains(response, 'scope="col"')
         self.assertContains(response, 'tabindex="0"')
 
-    def test_retired_search_records_keep_existing_locks_and_allow_safe_duplication(
+    def test_started_search_still_locks_offer_and_duplication_creates_editable_copy(
         self,
     ):
-        from eures_beta.employers.models import EmployerSearchOperation
-
-        operation = EmployerSearchOperation.objects.create(
-            offer=self.offer,
-            requested_by=self.person,
-            revision=self.offer.revision,
-            state='uncertain',
-            scenario='timeout_accepted',
-        )
-        response = self.client.get(self.url())
-        self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, '/search/')
+        self.offer.search_started_at = timezone.now()
+        self.offer.save(update_fields=['search_started_at'])
         self.assertEqual(
             self.client.post(
                 self.url('employer_offer_edit'), self.payload()
@@ -367,8 +357,7 @@ class WorkspaceTests(TestCase):
             self.url('employer_offer_duplicate'), {'revision': self.offer.revision}
         )
         self.assertEqual(response.status_code, 302)
-        operation.refresh_from_db()
-        self.assertEqual(operation.state, 'uncertain')
-        self.assertEqual(EmployerSearchOperation.objects.count(), 1)
         copy = JobOffer.objects.get(duplicated_from=self.offer)
         self.assertFalse(copy.search_write_blocked)
+        self.offer.refresh_from_db()
+        self.assertTrue(self.offer.search_write_blocked)
