@@ -3,9 +3,53 @@ from django.urls import resolve, reverse
 
 from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.matching import views as matching_views
+from eures_beta.www.matching import confirmations, conversations, dialogue
 
 
 class WorkspaceRouteTests(SimpleTestCase):
+    def test_offer_reviews_keep_their_existing_interfaces(self):
+        for name, args, expected, view in (
+            (
+                'candidate_offer_inbox',
+                [],
+                '/candidate/offer-reviews/',
+                confirmations.inbox,
+            ),
+            (
+                'candidate_offer_confirmation',
+                [12],
+                '/candidate/offer-reviews/12/',
+                confirmations.dialogue,
+            ),
+            (
+                'candidate_offer_dialogue',
+                [12],
+                '/candidate/offer-reviews/12/dialogue/',
+                dialogue.conversation,
+            ),
+            (
+                'adviser_conversation',
+                [12],
+                '/matching/offer-reviews/12/',
+                adviser_matching.follow,
+            ),
+            (
+                'shared_conversation_start',
+                [12],
+                '/matching/offer-reviews/12/conversation/',
+                conversations.start,
+            ),
+            (
+                'shared_conversation',
+                [12],
+                '/matching/conversations/12/',
+                conversations.detail,
+            ),
+        ):
+            with self.subTest(name=name):
+                self.assertEqual(reverse(name, args=args), expected)
+                self.assertIs(resolve(expected).func, view)
+
     def test_matching_interfaces_remain_distinct(self):
         self.assertEqual(reverse('adviser_match', args=[12]), '/matching/12/review/')
         self.assertEqual(reverse('matching_detail', args=[12]), '/matching/12/')
@@ -28,6 +72,15 @@ class WorkspaceRouteTests(SimpleTestCase):
             ('/accounts/dashboard/invitations/', '/adviser/invitations/'),
             ('/accounts/employers/invite/', '/adviser/invitations/new/'),
             ('/api/employer/response-practice/', '/api/employer/profile/'),
+            ('/matching/candidate/', '/candidate/offer-reviews/'),
+            ('/matching/candidate/12/', '/candidate/offer-reviews/12/'),
+            (
+                '/matching/candidate/12/dialogue/',
+                '/candidate/offer-reviews/12/dialogue/',
+            ),
+            ('/accounts/dashboard/conversations/12/', '/matching/offer-reviews/12/'),
+            ('/matching/shared/start/12/', '/matching/offer-reviews/12/conversation/'),
+            ('/matching/shared/12/', '/matching/conversations/12/'),
         ):
             for method in ('get', 'head', 'post'):
                 with self.subTest(old=old, method=method):

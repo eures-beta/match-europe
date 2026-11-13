@@ -329,5 +329,10 @@ conseiller `/matching/<id>/review/`. Les invitations conseiller sont sous
 `invitations` ni l’acceptation commune. L’API des habitudes de réponse devient
 `/api/employer/profile/`. Les anciennes adresses redirigent en 308, avec méthode,
 corps et paramètres conservés ; aucun lien actif ne les génère. Pas de modèle
-ni de migration. Les six routes de confirmation/conversation restent inchangées
-en attendant validation de leur proposition de renommage.
+ni de migration. Les six routes de confirmation/conversation sont désormais explicites :
+`/candidate/offer-reviews/`, `/candidate/offer-reviews/<id>/` et son `dialogue/`
+pour le candidat ; `/matching/offer-reviews/<id>/`, son `conversation/`, et
+`/matching/conversations/<id>/` pour le suivi et les conversations partagées.
+Les vues, droits, décisions et données restent identiques. Les anciens liens
+redirigent en 308. Le service worker accepte les nouvelles destinations et garde
+une compatibilité stricte pour les notifications déjà reçues.

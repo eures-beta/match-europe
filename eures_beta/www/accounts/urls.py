@@ -1,6 +1,5 @@
 from django.urls import path
 from eures_beta.www.accounts import views
-from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.accounts import test_accounts as test_account_views
 
 urlpatterns = [
@@ -11,11 +10,6 @@ urlpatterns = [
         'accounts/test-accounts/sign-in/',
         test_account_views.sign_in,
         name='test_account_sign_in',
-    ),
-    path(
-        "accounts/dashboard/conversations/<int:pk>/",
-        adviser_matching.follow,
-        name="adviser_conversation",
     ),
     path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('accounts/me/', views.account, name='account'),

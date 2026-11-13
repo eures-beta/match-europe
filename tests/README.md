@@ -19,3 +19,6 @@ Voir [le guide des commandes et sélections](../docs/TESTS.md).
 
 `common/test_workspace_routes.py` vérifie les adresses canoniques des espaces,
 les deux interfaces matching et les redirections de compatibilité sans perte de POST.
+
+`candidates/service_worker.test.cjs` vérifie les destinations Push canoniques,
+la compatibilité des anciennes notifications et le refus des destinations externes.
