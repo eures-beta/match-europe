@@ -14,16 +14,19 @@
           {% translate "Simulated Albert dialogue" %}
         {% endif %}
       </h1>
-      <p role="note">
-        {% if live_dialogue %}
-          {% translate "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer." %}
-        {% else %}
-          {% translate "Test simulation: no AI service is called. Nothing is sent to the employer." %}
-        {% endif %}
-      </p>
-      <h2>{{ obj.pair.offer.data.title }}</h2>
-      <p>{{ obj.pair.offer.data.companyName }} · {{ obj.pair.offer.data.city }}</p>
-      <p><a href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Use the guided form" %}</a></p>
+      <details>
+        <summary>{% translate "Offer details" %}</summary>
+        <p role="note">
+          {% if live_dialogue %}
+            {% translate "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer." %}
+          {% else %}
+            {% translate "Test simulation: no AI service is called. Nothing is sent to the employer." %}
+          {% endif %}
+        </p>
+        <h2>{{ obj.pair.offer.data.title }}</h2>
+        <p>{{ obj.pair.offer.data.companyName }} · {{ obj.pair.offer.data.city }}</p>
+        <p><a href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Use the guided form" %}</a></p>
+      </details>
       {% if error %}<p role="alert">{{ error }}</p>{% endif %}
       {% if form.errors %}
         <p role="alert">{% translate "Review the conditions before recording your answer." %}</p>
@@ -66,32 +69,46 @@
       </section>
     {% elif current %}
       <section class="surface-card home-section" aria-labelledby="question-title">
-        <h2 id="question-title">{{ current.label }}</h2>
-        <h3>{% translate "In this offer" %}</h3>
-        <p>{{ current.expected }}</p>
-        <h3>{% translate "You previously declared" %}</h3>
-        <dl>{% for label, value in current.declared %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
-        <p>{% translate "Is this still correct and acceptable for this offer?" %}</p>
-        {% if live_dialogue %}
-          <p>{% translate "Reply in your own words. If your situation has changed in general, say so. You will review any proposed profile change before saving it." %}</p>
-        {% else %}
-          <p>{% translate "Simulation examples: yes; no. For Saturday: every other Saturday; I am no longer available on Saturdays. Specify whether this concerns this offer or your general profile." %}</p>
-        {% endif %}
+        <h2 id="question-title" class="dialogue-bubble">{{ prompt|default:current.label }}</h2>
+        {% if not prompt %}<p>{{ current.expected }}</p>{% endif %}
+        <details>
+          <summary>{% translate "You previously declared" %}</summary>
+          <dl>{% for label, value in current.declared %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+        </details>
         {% for turn in turns %}
-          <p><strong>{% if turn.role == "candidate" %}{% translate "Your reply" %}{% else %}Albert{% endif %}</strong></p>
-          <blockquote>
+          <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">
+            <strong>{% if turn.role == "candidate" %}{% translate "Your reply" %}{% else %}Albert{% endif %}</strong>
+            <br>
             {{ turn.text|linebreaksbr }}
-          </blockquote>
+          </p>
         {% endfor %}
-        {% if clarification %}<p role="status">{{ clarification }}</p>{% endif %}
-        <form method="post" class="confirmation-form">
-          {% csrf_token %}
-          {{ form.as_div }}
-          <button class="primary-action"
-                  name="action"
-                  value="reply"
-                  type="submit">{% translate "Continue the dialogue" %}</button>
-        </form>
+        {% if clarification %}<p role="status" class="dialogue-bubble">{{ clarification }}</p>{% endif %}
+        {% if not clarification %}
+          <form method="post" class="dialogue-quick-replies">
+            {% csrf_token %}
+            <input type="hidden" name="key" value="{{ form.key.value }}">
+            <input type="hidden" name="fingerprint" value="{{ form.fingerprint.value }}">
+            <input type="hidden" name="previous" value="{{ form.previous.value }}">
+            <input type="hidden" name="action" value="quick">
+            <button class="primary-action" name="value" value="yes" type="submit">{% translate "Yes" %}</button>
+            <button class="primary-action" name="value" value="no" type="submit">{% translate "No" %}</button>
+          </form>
+        {% endif %}
+        <details class="dialogue-precision"
+                 {% if clarification or form.is_bound or form.history_token.value %} open{% endif %}>
+          <summary>{% translate "It depends / I have a question" %}</summary>
+          <form method="post" class="confirmation-form dialogue-composer">
+            {% csrf_token %}
+            {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+            {{ form.text.as_field_group }}
+            <details{% if form.scope.errors %} open{% endif %}>
+              <summary>{% translate "Does your reply concern this offer or your general profile?" %}</summary>
+              {{ form.scope.errors }}
+              {{ form.scope }}
+            </details>
+            <button class="primary-action" name="action" value="reply" type="submit">{% translate "Send" %}</button>
+          </form>
+        </details>
       </section>
     {% else %}
       <section class="surface-card home-section">

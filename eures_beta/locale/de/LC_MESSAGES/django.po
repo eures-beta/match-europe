@@ -7246,3 +7246,30 @@ msgstr "Testbewerber"
 
 msgid "Second test candidate"
 msgstr "Zweiter Testbewerber"
+
+msgid "Enable notifications"
+msgstr "Benachrichtigungen aktivieren"
+
+msgid "Notifications are enabled on this device."
+msgstr "Benachrichtigungen sind auf diesem Gerät aktiviert."
+
+msgid "Open the installed app and allow notifications to continue the test."
+msgstr "Öffne die installierte App und erlaube Benachrichtigungen, um den Test fortzusetzen."
+
+msgid "Enable notifications on the test candidate’s phone first."
+msgstr "Aktivieren Sie zuerst die Benachrichtigungen auf dem Telefon des Testbewerbers."
+
+msgid "Enable notifications to be alerted when the adviser validates your match."
+msgstr "Aktiviere Benachrichtigungen, damit du erfährst, wenn die Beratung dein Matching bestätigt."
+
+msgid "Phone ready for the test. You can close the app and validate the match on your computer."
+msgstr "Das Telefon ist bereit für den Test. Du kannst die App schließen und das Matching am Computer bestätigen."
+
+msgid "Are you available on Saturday morning?"
+msgstr "Bist du am Samstagmorgen verfügbar?"
+
+msgid "Send"
+msgstr "Senden"
+
+msgid "It depends / I have a question"
+msgstr "Kommt darauf an / Ich habe eine Frage"

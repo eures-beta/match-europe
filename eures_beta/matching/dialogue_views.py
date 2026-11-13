@@ -13,7 +13,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
 from . import confirmation_services as confirmations, dialogue_services as dialogue
-from .confirmation_views import entry_candidate, display_rows
+from .confirmation_views import AnswerForm, entry_candidate, display_rows
 from .services import StaleEvaluation
 from eures_beta.users.views import selected_language
 from eures_beta.candidates import registration
@@ -72,6 +72,14 @@ def conversation(request, pk):
         if key
         else state['pending']
     )
+    prompt = next(
+        (
+            confirmations.short_question(row)
+            for row in state['rows']
+            if current and row['key'] == current['key']
+        ),
+        '',
+    )
     proposal, error, status = None, '', 200
     clarification, turns = '', []
     form = ReplyForm(
@@ -81,6 +89,21 @@ def conversation(request, pk):
     )
     if request.method == 'POST':
         try:
+            if request.POST.get('action') == 'quick':
+                quick = AnswerForm(request.POST)
+                if (
+                    not quick.is_valid()
+                    or quick.cleaned_data['value'] not in ('yes', 'no')
+                    or quick.cleaned_data['detail']
+                ):
+                    raise ValueError
+                confirmations.answer(request.user, pk, **quick.cleaned_data)
+                return redirect(
+                    reverse('candidate_offer_dialogue', args=[pk])
+                    + '?lang='
+                    + language
+                    + '#question-title'
+                )
             if request.POST.get('action') == 'accept':
                 accepted = AcceptForm(request.POST)
                 if not accepted.is_valid():
@@ -215,6 +238,7 @@ def conversation(request, pk):
         dict(
             obj=obj,
             current=current,
+            prompt=prompt,
             form=form,
             proposal=proposal,
             changes=changes,

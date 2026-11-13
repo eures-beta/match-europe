@@ -1608,3 +1608,13 @@ son profil après vérification de son adresse par le lien d’invitation.
 L’aperçu employeur a été contrôlé dans le navigateur. Voir
 [la recette et le contrat](docs/INVITATIONS.md). Le SMTP réel de Brevo
 reste à vérifier dans un environnement explicitement autorisé.
+
+## Push candidat universel — correctif de #192
+
+Les notifications utilisent le même parcours en local, recette et production, sans
+filtre sur une adresse fictive ni activation des comptes de test. L’absence
+d’abonnement navigateur ne bloque pas la validation du rapprochement. La route
+canonique est `/candidate/push-subscriptions/`. Authentification, propriété, CSRF,
+consentement navigateur et validation des destinations Push sont conservés.
+La dérivation de clé et la table existante sont préservées pour les abonnements
+déjà enregistrés ; aucune migration supplémentaire. Tests sans notification réelle.

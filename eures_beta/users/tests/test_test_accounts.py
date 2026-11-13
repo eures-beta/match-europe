@@ -1,7 +1,9 @@
+import json
 import os
 import subprocess
 import sys
 from io import StringIO
+from urllib.parse import parse_qs, urlsplit
 
 from django.contrib.auth import get_user_model
 from django.core import mail
@@ -37,13 +39,13 @@ class TestAccountAccessTests(TestCase):
     @override_settings(
         DJANGO_ENVIRONMENT='preview', MATCHING_ENABLED=True, LOGIN_EMAIL_ENABLED=False
     )
-    def test_preview_candidates_can_reopen_their_own_offer(self):
-        from eures_beta.matching.confirmation_services import candidate_requests
+    def test_preview_candidates_are_ready_for_adviser_review(self):
+        from eures_beta.users.adviser_matching import pending_pairs
         from eures_beta.matching.models import CandidateOfferReview
 
         self.seed()
         self.seed()
-        self.assertEqual(CandidateOfferReview.objects.count(), 2)
+        self.assertFalse(CandidateOfferReview.objects.exists())
         for key in ('candidate-pwa', 'candidate-pwa-replay'):
             client = Client()
             response = client.post(
@@ -52,14 +54,108 @@ class TestAccountAccessTests(TestCase):
             self.assertEqual(response.request['PATH_INFO'], '/candidate/profile/')
             user = prepared_user(key)
             self.assertEqual(client.session['_auth_user_id'], str(user.pk))
-            request = candidate_requests(user).get()
-            self.assertEqual(request.pair.candidate.user, user)
-            self.assertEqual(
-                client.get(
-                    reverse('candidate_offer_confirmation', args=[request.pk])
-                ).status_code,
-                200,
-            )
+            self.assertTrue(pending_pairs().filter(candidate__user=user).exists())
+            self.assertContains(response, 'data-preview-push')
+
+    @override_settings(
+        MATCHING_ENABLED=True,
+        LOGIN_EMAIL_ENABLED=False,
+        CONFIRMATION_DIALOGUE_SIMULATED=True,
+    )
+    def test_preview_push_starts_only_after_adviser_validation(self):
+        import base64
+        from unittest.mock import patch
+
+        from cryptography.hazmat.primitives.asymmetric import ec
+        from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+        from eures_beta.matching.models import CandidateOfferReview
+        from eures_beta.users.adviser_matching import pending_pairs
+
+        self.seed()
+        user = prepared_user('candidate-pwa')
+        pair = pending_pairs().get(candidate__user=user)
+        adviser = Client()
+        adviser.force_login(prepared_user('adviser'))
+        detail = reverse('adviser_match', args=[pair.pk])
+        decision = {'action': 'retained', 'evaluation': pair.evaluation_id}
+
+        candidate = Client()
+        candidate.force_login(user)
+        point = (
+            ec.generate_private_key(ec.SECP256R1())
+            .public_key()
+            .public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)
+        )
+        payload = {
+            'endpoint': 'https://fcm.googleapis.com/fcm/send/fictional',
+            'keys': {
+                'p256dh': base64.urlsafe_b64encode(point).decode(),
+                'auth': base64.urlsafe_b64encode(bytes(16)).decode(),
+            },
+        }
+        subscription = reverse('candidate_push_subscriptions')
+        self.assertEqual(
+            candidate.post(
+                subscription,
+                {**payload, 'endpoint': 'https://localhost/'},
+                content_type='application/json',
+            ).status_code,
+            400,
+        )
+        self.assertEqual(
+            candidate.post(
+                subscription, payload, content_type='application/json'
+            ).status_code,
+            200,
+        )
+        with patch('pywebpush.webpush') as send:
+            with self.captureOnCommitCallbacks(execute=True):
+                self.assertEqual(adviser.post(detail, decision).status_code, 302)
+                send.assert_not_called()
+            send.assert_called_once()
+        confirmation = CandidateOfferReview.objects.get(pair=pair)
+        dialogue = reverse('candidate_offer_dialogue', args=[confirmation.pk])
+        payload = json.loads(send.call_args.kwargs['data'])
+        self.assertTrue(payload['body'])
+        target = urlsplit(payload['url'])
+        self.assertEqual(target.path, dialogue)
+        self.assertEqual(target.fragment, 'question-title')
+        page = candidate.get(payload['url'])
+        self.assertEqual(page.status_code, 200)
+        self.assertEqual(page.context['current']['kind'], 'schedule')
+        self.assertEqual(
+            parse_qs(target.query)['question'], [page.context['current']['key']]
+        )
+
+    @override_settings(MATCHING_ENABLED=True, CONFIRMATION_DIALOGUE_SIMULATED=True)
+    def test_push_is_universal_and_subscription_is_optional(self):
+        from unittest.mock import patch
+        from eures_beta.candidates import preview_push
+        from eures_beta.matching.models import CandidateOfferReview
+        from eures_beta.users.adviser_matching import pending_pairs, record_review
+
+        self.seed()
+        user = prepared_user("candidate-pwa")
+        user.email = "candidate@example.org"
+        user.save(update_fields=["email"])
+        adviser = prepared_user("adviser")
+        pair = pending_pairs().get(candidate__user=user)
+        with patch.object(preview_push, "notify") as notify:
+            for environment in ("local", "preview", "production"):
+                with (
+                    self.subTest(environment=environment),
+                    self.settings(
+                        DJANGO_ENVIRONMENT=environment, TEST_ACCOUNTS_ENABLED=False
+                    ),
+                ):
+                    self.assertTrue(preview_push.available())
+                    self.client.force_login(user)
+                    page = self.client.get(reverse("candidate_profile"))
+                    self.assertContains(page, reverse("candidate_push_subscriptions"))
+            with self.captureOnCommitCallbacks(execute=True):
+                record_review(adviser, pair, pair.evaluation_id, "retained")
+                notify.assert_not_called()
+            notify.assert_called_once_with(CandidateOfferReview.objects.get(pair=pair))
 
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):

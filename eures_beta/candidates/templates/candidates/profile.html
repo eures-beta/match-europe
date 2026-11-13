@@ -1,7 +1,23 @@
 {% extends "public_base.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block page_title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
 {% block public_content %}
+  {% if preview_push_key %}
+    <section class="surface-card home-section" data-preview-push-step hidden>
+      <h2>{% translate "Enable notifications" %}</h2>
+      <p>{% translate "Enable notifications to be alerted when the adviser validates your match." %}</p>
+      <form method="post"
+            action="{% url 'candidate_push_subscriptions' %}"
+            data-preview-push="{{ preview_push_key }}"
+            data-success="{% translate 'Phone ready for the test. You can close the app and validate the match on your computer.' %}"
+            data-failure="{% translate 'Open the installed app and allow notifications to continue the test.' %}">
+        {% csrf_token %}
+        <button class="primary-action" type="submit">{% translate "Enable notifications" %}</button>
+        <p role="status"></p>
+      </form>
+      <script src="{% static 'pwa/preview-push.js' %}" defer></script>
+    </section>
+  {% endif %}
   <section class="surface-card home-section">
     <h1>{% translate "My candidate profile" %}</h1>
     <p role="status">

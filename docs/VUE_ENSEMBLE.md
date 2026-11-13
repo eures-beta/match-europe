@@ -242,3 +242,7 @@ La proposition initiale avec CV est remplacée à la demande d’Eric : question
 ## 7 novembre 2026 — lisibilité du projet candidat ouvert
 
 Sur #158, préparation d’une évolution : secteurs repliables affichés d’emblée dans les listes techniques et savoir-être présentés en phrases concrètes, un par ligne. Même catalogue et mêmes choix enregistrés. Voir [le contrat du parcours](CANDIDATE_OPEN_SKILLS.md).
+
+Le candidat authentifié peut enregistrer son abonnement Web Push via
+`/candidate/push-subscriptions/`, dans tous les environnements. Le consentement
+du navigateur reste nécessaire et facultatif pour poursuivre le parcours.

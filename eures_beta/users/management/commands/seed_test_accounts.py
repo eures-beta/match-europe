@@ -51,17 +51,7 @@ class Command(BaseCommand):
         seed_test_offers(users['employer'])
         call_command('sync_group_and_perms', stdout=self.stdout)
         if seed_pwa:
-            from eures_beta.matching.confirmation_services import request_confirmation
-            from eures_beta.matching.models import CandidateOfferMatch
-
             call_command('seed_matching_trial', stdout=self.stdout)
-            for key in PWA_ACCOUNTS:
-                pair = CandidateOfferMatch.objects.get(
-                    candidate__user=users[key],
-                    offer__source_kind='matching',
-                    offer__email='employer@matching-trial.invalid',
-                )
-                request_confirmation(users['admin'], pair.pk)
         self.stdout.write(
             'Fictional test accounts and offers are ready; existing data preserved.'
         )

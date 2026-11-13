@@ -356,3 +356,9 @@ convertis. Voir [le parcours et la migration](CANDIDATE_EMAIL_REGISTRATION.md).
 ## 7 novembre 2026 — présentation du projet candidat ouvert
 
 Eric demande les secteurs d’activité en première lecture, à déplier pour voir les compétences, et des savoir-être plus compréhensibles. Les volets natifs par secteur remplacent le volet général des deux listes techniques. Les savoir-être ont un intitulé simple, un exemple concret et trois groupes de lecture ; les URI ESCO et les règles de saisie ne changent pas. Les formulations sont des aides éditoriales FR/EN/DE, pas de nouvelles compétences ou critères de matching.
+
+## Notifications candidat sans distinction d’environnement
+
+Le Push appartient au parcours métier, pas à l’outil de comptes fictifs. Un
+candidat ordinaire peut s’abonner dans chaque environnement. Le conseiller peut
+valider sans abonnement ; l’envoi éventuel intervient après le commit.
