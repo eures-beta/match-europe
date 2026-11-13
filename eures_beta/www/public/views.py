@@ -8,6 +8,8 @@ from django.views.decorators.http import require_safe
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
+from eures_beta.demo_access import require_demo_access
+
 
 @never_cache
 @require_safe
@@ -39,6 +41,25 @@ def journal(request):
     from eures_beta.journal import ENTRIES
 
     return _public_page(request, 'journal.html', {'entries': ENTRIES})
+
+
+@require_demo_access
+@require_safe
+def design_system(request):
+    """Team reference page: tokens and Bootstrap components with the ECL values."""
+    from eures_beta import design_system as tokens
+
+    return render(
+        request,
+        'design_system.html',
+        {
+            'role_colours': tokens.colour_tokens('--me-color-'),
+            'palette_colours': tokens.colour_tokens('--me-palette-'),
+            'font_sizes': tokens.scale_tokens('--me-font-size-'),
+            'spaces': tokens.scale_tokens('--me-space-'),
+            'radii': tokens.scale_tokens('--me-radius-'),
+        },
+    )
 
 
 def _public_page(request, template, context=None):

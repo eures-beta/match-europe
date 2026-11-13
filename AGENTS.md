@@ -597,6 +597,8 @@ EURES / ELA brand compliance applies to, among other things:
 
 Match Europe may define and maintain its own product design system where useful, provided that it remains compatible with the authoritative EURES / ELA visual framework.
 
+That design system is described in `docs/DESIGN_SYSTEM.md`: Bootstrap dressed with the Europa Component Library (ECL) values used by eures.europa.eu. Read it before creating or changing any interface, and reuse its tokens and components instead of writing raw values.
+
 No implementation decision may redefine an official EURES logo, colour, graphical element, protection area, or branding rule.
 
 ---
