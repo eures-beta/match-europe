@@ -12,14 +12,14 @@
   --bs-body-font-size: var(--me-font-size-m);
   --bs-body-line-height: 1.5;
   --bs-body-color: var(--me-color-text);
-  --bs-body-color-rgb: var(--me-palette-dark-100-rgb);
+  --bs-body-color-rgb: var(--me-color-text-rgb);
   --bs-body-bg: var(--me-color-surface);
   --bs-body-bg-rgb: var(--me-palette-white-rgb);
   --bs-secondary-color: var(--me-color-text-muted);
   --bs-tertiary-bg: var(--me-color-surface-subtle);
 
-  --bs-primary: var(--me-palette-primary-100);
-  --bs-primary-rgb: var(--me-palette-primary-100-rgb);
+  --bs-primary: var(--me-color-action);
+  --bs-primary-rgb: var(--me-color-action-rgb);
   --bs-secondary: var(--me-palette-dark-80);
   --bs-secondary-rgb: var(--me-palette-dark-80-rgb);
   --bs-success: var(--me-palette-success-100);
@@ -28,16 +28,16 @@
   --bs-warning-rgb: var(--me-palette-warning-100-rgb);
   --bs-danger: var(--me-palette-error-100);
   --bs-danger-rgb: var(--me-palette-error-100-rgb);
-  --bs-info: var(--me-palette-primary-100);
+  --bs-info: var(--me-color-info);
   --bs-info-rgb: var(--me-palette-primary-100-rgb);
   --bs-light: var(--me-palette-dark-5);
   --bs-light-rgb: var(--me-palette-dark-5-rgb);
-  --bs-dark: var(--me-palette-dark-100);
-  --bs-dark-rgb: var(--me-palette-dark-100-rgb);
+  --bs-dark: var(--me-color-text);
+  --bs-dark-rgb: var(--me-color-text-rgb);
 
   /* Text written on a status background stays dark: ECL status colours fail AA as text */
-  --bs-primary-text-emphasis: var(--me-palette-primary-140);
-  --bs-primary-bg-subtle: var(--me-color-info-surface);
+  --bs-primary-text-emphasis: var(--me-color-action-hover);
+  --bs-primary-bg-subtle: var(--me-color-surface-brand);
   --bs-primary-border-subtle: var(--me-palette-primary-40);
   --bs-success-text-emphasis: var(--me-color-text);
   --bs-success-bg-subtle: var(--me-color-success-surface);
@@ -53,17 +53,17 @@
   --bs-info-border-subtle: var(--me-palette-primary-40);
 
   --bs-link-color: var(--me-color-link);
-  --bs-link-color-rgb: var(--me-palette-primary-100-rgb);
+  --bs-link-color-rgb: var(--me-color-link-rgb);
   --bs-link-hover-color: var(--me-color-link-hover);
-  --bs-link-hover-color-rgb: var(--me-palette-primary-140-rgb);
+  --bs-link-hover-color-rgb: var(--me-color-link-hover-rgb);
 
   --bs-border-color: var(--me-color-border);
-  --bs-border-radius: var(--me-radius-m);
+  --bs-border-radius: var(--me-radius-control);
   --bs-border-radius-sm: var(--me-radius-s);
-  --bs-border-radius-lg: var(--me-radius-l);
-  --bs-border-radius-xl: var(--me-radius-l);
-  --bs-border-radius-xxl: var(--me-radius-l);
-  --bs-border-radius-pill: var(--me-radius-m);
+  --bs-border-radius-lg: var(--me-radius-card);
+  --bs-border-radius-xl: var(--me-radius-card);
+  --bs-border-radius-xxl: var(--me-radius-card);
+  --bs-border-radius-pill: var(--me-radius-badge);
 
   --bs-focus-ring-color: var(--me-color-focus);
   --bs-focus-ring-width: var(--me-focus-outline-width);
@@ -88,11 +88,11 @@ h6,
   color: var(--me-color-text);
 }
 
-/* Buttons: ECL shape (4px radius, 48px minimum height) */
+/* Buttons: control radius (4px in the EURES direction), 48px minimum height */
 .btn {
   --bs-btn-font-family: var(--me-font-family);
   --bs-btn-font-size: var(--me-font-size-m);
-  --bs-btn-border-radius: var(--me-radius-m);
+  --bs-btn-border-radius: var(--me-radius-control);
   --bs-btn-padding-x: var(--me-space-m);
   --bs-btn-padding-y: var(--me-space-xs);
   /* Centre the label vertically inside the 48px minimum height */
@@ -110,7 +110,7 @@ h6,
 
 .btn-sm,
 .btn-lg {
-  --bs-btn-border-radius: var(--me-radius-m);
+  --bs-btn-border-radius: var(--me-radius-control);
 }
 
 /* ECL "primary": filled blue */
@@ -138,7 +138,7 @@ h6,
   --bs-btn-hover-bg: var(--me-color-surface-brand);
   --bs-btn-hover-border-color: var(--me-color-action-hover);
   --bs-btn-active-color: var(--me-color-action-active);
-  --bs-btn-active-bg: var(--me-palette-primary-10);
+  --bs-btn-active-bg: var(--me-color-surface-brand);
   --bs-btn-active-border-color: var(--me-color-action-active);
   --bs-btn-disabled-color: var(--me-palette-dark-60);
   --bs-btn-disabled-bg: var(--me-color-surface);
@@ -154,11 +154,16 @@ h6,
   --bs-btn-disabled-color: var(--me-palette-dark-60);
 }
 
+/* Alerts hold several lines of text: card radius, never the button radius */
+.alert {
+  --bs-alert-border-radius: var(--me-radius-card);
+}
+
 /* Progress bar: Bootstrap hard-codes its own blue here */
 .progress {
   --bs-progress-bar-bg: var(--me-color-action);
   --bs-progress-bg: var(--me-palette-dark-10);
-  --bs-progress-border-radius: var(--me-radius-m);
+  --bs-progress-border-radius: var(--me-radius-badge);
 }
 
 /* Form fields: visible border, 16px text (no zoom on iOS), 48px minimum height */
@@ -168,7 +173,7 @@ h6,
   font-size: var(--me-font-size-m);
   color: var(--me-color-text);
   border-color: var(--me-color-border-strong);
-  border-radius: var(--me-radius-m);
+  border-radius: var(--me-radius-control);
 }
 
 /* Text fields show focus on click too: it shows where the typing goes */
