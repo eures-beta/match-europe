@@ -137,7 +137,7 @@ Le label de durée de la PR ouvre et ferme la recette selon le contrôleur priv�
 il ne fusionne pas de code. La recette de #157 doit être désactivée après
 vérification de la nouvelle. Aucun réglage de production n’est modifié.
 
-Pour cette recette continue uniquement, les connexions PostgreSQL sont réutilisées
+Dans tous les environnements, les connexions PostgreSQL sont réutilisées
 pendant 60 secondes avec contrôle de validité et délai de connexion de 10 secondes.
 La configuration reste un worker et quatre threads, sans augmentation de plan.
 Les résumés de requête ajoutent le temps CPU et le délai avant le premier SQL,
