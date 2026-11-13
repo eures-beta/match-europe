@@ -68,7 +68,7 @@ retirerait leurs traductions et ferait revenir les objets en anglais.
 
 Pour essayer le parcours, utiliser `make run PORT=9060` dans la copie locale
 configurée, puis ouvrir `/accounts/test-accounts/`. Le conseiller
-fictif permet de tester les trois types. `make adviser-invitations-test` couvre
+fictif permet de tester les trois types. `make test` couvre
 l’aperçu, le CSV, le dépôt local, la confirmation et la révocation.
 
 ## Parcours employeur historique
@@ -148,7 +148,7 @@ Lorsque l'envoi Django sera configuré et activé séparément, le même message
 envoyé. Les tests le simulent dans une boîte en mémoire. Les échecs sont annoncés
 sans journaliser de contenu personnel ; l'opérateur peut simuler le message.
 
-`make invitations-test` couvre droits, doublons, expiration, rejeux, CSRF,
+`make test TESTS=eures_beta.users.tests.test_invitations` couvre droits, doublons, expiration, rejeux, CSRF,
 traductions et simulation. `make test` vérifie les interactions avec le projet.
 
 ## Noms du modèle commun

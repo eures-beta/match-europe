@@ -70,7 +70,7 @@ Brevo restent des lots distincts.
 
 ## Vérification
 
-`make login-test` teste l’authentification, l’expiration, l’usage unique, la CSRF,
+`make test TESTS=eures_beta.users.tests` teste l’authentification, l’expiration, l’usage unique, la CSRF,
 les limites, les rôles et la session. `make test` couvre aussi les autres parcours.
 Utiliser `make check`, `make format-check`, `make format-html-check`,
 `make format-js-check`, `make check-js` et `make translations-check` pour les contrôles.

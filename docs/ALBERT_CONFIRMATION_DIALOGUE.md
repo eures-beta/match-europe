@@ -79,7 +79,7 @@ Environnement local isolé déjà préparé pour #162 ; voir
 - `make matching-seed` : préparer les paires fictives dans une base d’essai.
   Un conseiller de recette habilité sollicite la confirmation depuis le détail de la paire.
 - `make dialogue-run` : prototype sur loopback, port 9044, sans Albert réel.
-- `make dialogue-test` : protections, corpus trilingue, validation et mise à jour
+- `make test TESTS=eures_beta.matching.tests.test_dialogue` : protections, corpus trilingue, validation et mise à jour
   complète du profil sur PostgreSQL jetable.
 - `make test`, `make check`, `make format-check`, `make format-html-check`,
   `make translations-check` : suite et contrôles existants.

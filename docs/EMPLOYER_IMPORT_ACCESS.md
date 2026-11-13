@@ -39,6 +39,6 @@ et les coordonnées de contact : ce sont des données persistées, pas seulement
 une simulation dans le navigateur. La session conserve temporairement la source
 et l’intention de reprise ; les règles de session existantes restent applicables.
 
-Tests : `make test` et `make employer-test`. Les tests d’anciennes pièces non
+Tests : `make test` et `make test TEST_ARGS='-k employer -k occupation'`. Les tests d’anciennes pièces non
 réclamées utilisent des fixtures explicites en base pour vérifier leur reprise,
 sans rouvrir la création anonyme dans l’API.

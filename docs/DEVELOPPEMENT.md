@@ -102,7 +102,7 @@ GitHub. Voir [le diagnostic CI et ses paramètres](CI_DIAGNOSTICS.md).
 ```bash
 make check
 make test
-make test-retired-paths
+make test TESTS=config.test_retired_paths
 make format-check
 make format-html-check
 make format-js-check

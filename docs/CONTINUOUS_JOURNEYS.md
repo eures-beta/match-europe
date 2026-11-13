@@ -107,7 +107,7 @@ Sans JavaScript, le questionnaire classique fonctionne et n’invente aucune
 compétence ; les propositions par métier ne sont pas disponibles. Les données
 déjà enregistrées restent soumises à la validation serveur.
 
-Contrôles : `make continuous-test`, `make continuous-ui-test`, `make test`,
+Contrôles : `make test TEST_ARGS='-k continuous -k skill_source_prepare'`, `make test-js`, `make test`,
 `make check`, `make format-check`, `make format-html-check`,
 `make format-js-check`, `make check-js`, `make translations-check`,
 `make translations-compile`. L’évaluation réelle Albert, la publication en PR,

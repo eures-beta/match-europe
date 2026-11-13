@@ -158,6 +158,6 @@ Une recherche du navigateur est limitée à 15 secondes, lecture JSON comprise.
 En cas d’erreur HTTP ou d’absence de réponse, le chargement s’arrête, un message
 traduit et une action de reprise apparaissent, avec la saisie d’une description
 personnelle. Cette saisie reste un choix explicite, jamais un code ESCO/ROME
-inventé. `make occupations-ui-test` exerce le vrai module JavaScript avec des
+inventé. `make test-js` exerce le vrai module JavaScript avec des
 réponses contrôlées (succès, erreur et attente sans fin), sans réseau ni dépendance
 supplémentaire ; la CI JavaScript exécute aussi ces tests.

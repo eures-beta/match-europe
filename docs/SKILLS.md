@@ -56,8 +56,8 @@ signifient pas qu'un parcours autonome est encore disponible.
   libellés et relations aux trois archives officielles épinglées, sans réseau.
 - `make skills-pilot-build CATALOG_SOURCES=/chemin/archives` : reconstruction
   en staging, à comparer aux données versionnées avant toute promotion.
-- `make skills-pilot-test` : contrôles du catalogue et de la sélection.
-- `make candidate-skills-test`, `make continuous-test` : intégration aux parcours.
+- `make test TESTS=eures_beta.skills.tests.test_skills_pilot` : contrôles du catalogue et de la sélection.
+- `make test TESTS=eures_beta.candidates.tests.test_skill_project`, `make test TEST_ARGS='-k continuous -k skill_source_prepare'` : intégration aux parcours.
 - `make test`, `make check`, `make translations-check` : validation transverse.
 
 Une modification de la sélection ou des libellés exige une revue éditoriale.
