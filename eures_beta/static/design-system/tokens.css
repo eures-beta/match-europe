@@ -1,0 +1,153 @@
+/*
+ * Match Europe design tokens.
+ *
+ * Source: Europa Component Library (ECL) v5.4.1, EU flavour, as served by
+ * eures.europa.eu on 2026-11-13. Documentation: https://ec.europa.eu/component-library/eu/
+ * Rules for use: docs/DESIGN_SYSTEM.md.
+ *
+ * Two levels:
+ * 1. Palette (--me-palette-*): ECL values, copied as is. Never use them directly in a page.
+ * 2. Roles (every other --me-* token): what pages and components use.
+ *
+ * This file is the only place in the design system where a raw colour value is allowed.
+ */
+
+:root {
+  /* 1. Palette (ECL v5.4.1, EU flavour) */
+  --me-palette-primary-5: #f3f6fc;
+  --me-palette-primary-10: #e7edfa;
+  --me-palette-primary-20: #cfdaf5;
+  --me-palette-primary-40: #9fb5ea;
+  --me-palette-primary-60: #6e91e0;
+  --me-palette-primary-80: #3e6cd5;
+  --me-palette-primary-100: #0e47cb;
+  --me-palette-primary-120: #0d40b7;
+  --me-palette-primary-140: #0b39a2;
+  --me-palette-primary-160: #0a328e;
+  --me-palette-primary-180: #030e2e;
+
+  --me-palette-secondary-10: #fffae6;
+  --me-palette-secondary-20: #fff5cc;
+  --me-palette-secondary-40: #ffeb99;
+  --me-palette-secondary-100: #ffcc00;
+  --me-palette-secondary-120: #e6b800;
+
+  --me-palette-dark-5: #f4f5f5;
+  --me-palette-dark-10: #e9eaeb;
+  --me-palette-dark-20: #d4d5d7;
+  --me-palette-dark-40: #a8aaaf;
+  --me-palette-dark-60: #7d8088;
+  --me-palette-dark-80: #515560;
+  --me-palette-dark-100: #191d26;
+
+  --me-palette-white: #ffffff;
+
+  --me-palette-success-5: #f2fcf9;
+  --me-palette-success-100: #00a174;
+  --me-palette-warning-5: #fff7f2;
+  --me-palette-warning-100: #ff8133;
+  --me-palette-error-5: #fef2f5;
+  --me-palette-error-100: #d7003d;
+
+  /* Same colours as R, G, B numbers: Bootstrap needs them for its transparency utilities */
+  --me-palette-primary-100-rgb: 14, 71, 203;
+  --me-palette-primary-140-rgb: 11, 57, 162;
+  --me-palette-secondary-100-rgb: 255, 204, 0;
+  --me-palette-dark-5-rgb: 244, 245, 245;
+  --me-palette-dark-80-rgb: 81, 85, 96;
+  --me-palette-dark-100-rgb: 25, 29, 38;
+  --me-palette-white-rgb: 255, 255, 255;
+  --me-palette-success-100-rgb: 0, 161, 116;
+  --me-palette-warning-100-rgb: 255, 129, 51;
+  --me-palette-error-100-rgb: 215, 0, 61;
+
+  /* 2. Roles: text (contrast measured on white) */
+  --me-color-text: var(--me-palette-dark-100); /* 16.9:1 */
+  --me-color-text-muted: var(--me-palette-dark-80); /* 7.5:1 */
+  --me-color-text-inverse: var(--me-palette-white);
+  --me-color-link: var(--me-palette-primary-100); /* 7.6:1 */
+  --me-color-link-hover: var(--me-palette-primary-140);
+
+  /* Roles: surfaces */
+  --me-color-surface: var(--me-palette-white);
+  --me-color-surface-subtle: var(--me-palette-dark-5);
+  --me-color-surface-brand: var(--me-palette-primary-5);
+  --me-color-surface-highlight: var(--me-palette-secondary-10);
+
+  /* Roles: borders */
+  --me-color-border: var(--me-palette-dark-20); /* decorative separators only */
+  --me-color-border-strong: var(--me-palette-dark-80); /* form fields: 7.5:1 */
+
+  /* Roles: actions */
+  --me-color-action: var(--me-palette-primary-100);
+  --me-color-action-hover: var(--me-palette-primary-140);
+  --me-color-action-active: var(--me-palette-primary-160);
+  --me-color-action-text: var(--me-palette-white); /* 7.6:1 on action */
+  --me-color-accent: var(--me-palette-secondary-100); /* EU yellow: decoration, never text */
+  --me-color-accent-text: var(--me-palette-dark-100); /* 11.2:1 on accent */
+  --me-color-focus: var(--me-palette-primary-100);
+
+  /*
+   * Roles: status. ECL success (3.3:1) and warning (2.5:1) fail WCAG AA for text on white:
+   * use them for borders and icons, and write the message with --me-color-text.
+   */
+  --me-color-success: var(--me-palette-success-100);
+  --me-color-success-surface: var(--me-palette-success-5);
+  --me-color-warning: var(--me-palette-warning-100);
+  --me-color-warning-surface: var(--me-palette-warning-5);
+  --me-color-error: var(--me-palette-error-100); /* 5.3:1, allowed for text */
+  --me-color-error-surface: var(--me-palette-error-5);
+  --me-color-info: var(--me-palette-primary-100);
+  --me-color-info-surface: var(--me-palette-primary-5);
+
+  /* Typography: Arial only, as on every Europa site */
+  --me-font-family: Arial, sans-serif;
+  --me-font-weight-regular: 400;
+  --me-font-weight-bold: 700;
+
+  --me-font-size-xs: 0.75rem; /* 12px: legal notes only */
+  --me-font-size-s: 0.875rem; /* 14px */
+  --me-font-size-m: 1rem; /* 16px: body text and form fields */
+  --me-font-size-l: 1.25rem; /* 20px */
+  --me-font-size-xl: 1.5rem; /* 24px */
+  --me-font-size-2xl: 1.75rem; /* 28px */
+  --me-font-size-3xl: 2rem; /* 32px */
+  --me-font-size-4xl: 2.25rem; /* 36px */
+  --me-font-size-5xl: 2.625rem; /* 42px */
+
+  --me-line-height-xs: 1.125rem;
+  --me-line-height-s: 1.25rem;
+  --me-line-height-m: 1.5rem;
+  --me-line-height-l: 1.75rem;
+  --me-line-height-xl: 1.75rem;
+  --me-line-height-2xl: 2rem;
+  --me-line-height-3xl: 2.5rem;
+  --me-line-height-4xl: 2.75rem;
+  --me-line-height-5xl: 3.25rem;
+
+  /* Spacing */
+  --me-space-2xs: 0.25rem; /* 4px */
+  --me-space-xs: 0.5rem; /* 8px */
+  --me-space-s: 0.75rem; /* 12px */
+  --me-space-m: 1rem; /* 16px */
+  --me-space-l: 1.5rem; /* 24px */
+  --me-space-xl: 2rem; /* 32px */
+  --me-space-2xl: 2.5rem; /* 40px */
+  --me-space-3xl: 3rem; /* 48px */
+  --me-space-4xl: 4rem; /* 64px */
+
+  /* Shapes: ECL buttons and fields use 4px. No pill-shaped buttons. */
+  --me-radius-none: 0;
+  --me-radius-s: 2px;
+  --me-radius-m: 4px;
+  --me-radius-l: 8px; /* cards and panels */
+  --me-radius-round: 50%; /* avatars and round icons only */
+
+  --me-border-width: 1px;
+  --me-border-width-strong: 2px;
+
+  /* Controls: 48px minimum height, like ECL buttons */
+  --me-control-min-height: 3rem;
+  --me-focus-outline-width: 2px;
+  --me-focus-outline-offset: 2px;
+}

@@ -1,0 +1,185 @@
+/*
+ * Bootstrap 5.3 dressed with the Match Europe tokens (ECL values).
+ *
+ * Load order: vendor/bootstrap/bootstrap.min.css, then design-system/tokens.css, then this file.
+ * No raw value here: every colour comes from tokens.css (checked by test_design_system.py).
+ * Rules for use: docs/DESIGN_SYSTEM.md.
+ */
+
+:root,
+[data-bs-theme='light'] {
+  --bs-body-font-family: var(--me-font-family);
+  --bs-body-font-size: var(--me-font-size-m);
+  --bs-body-line-height: 1.5;
+  --bs-body-color: var(--me-color-text);
+  --bs-body-color-rgb: var(--me-palette-dark-100-rgb);
+  --bs-body-bg: var(--me-color-surface);
+  --bs-body-bg-rgb: var(--me-palette-white-rgb);
+  --bs-secondary-color: var(--me-color-text-muted);
+  --bs-tertiary-bg: var(--me-color-surface-subtle);
+
+  --bs-primary: var(--me-palette-primary-100);
+  --bs-primary-rgb: var(--me-palette-primary-100-rgb);
+  --bs-secondary: var(--me-palette-dark-80);
+  --bs-secondary-rgb: var(--me-palette-dark-80-rgb);
+  --bs-success: var(--me-palette-success-100);
+  --bs-success-rgb: var(--me-palette-success-100-rgb);
+  --bs-warning: var(--me-palette-warning-100);
+  --bs-warning-rgb: var(--me-palette-warning-100-rgb);
+  --bs-danger: var(--me-palette-error-100);
+  --bs-danger-rgb: var(--me-palette-error-100-rgb);
+  --bs-info: var(--me-palette-primary-100);
+  --bs-info-rgb: var(--me-palette-primary-100-rgb);
+  --bs-light: var(--me-palette-dark-5);
+  --bs-light-rgb: var(--me-palette-dark-5-rgb);
+  --bs-dark: var(--me-palette-dark-100);
+  --bs-dark-rgb: var(--me-palette-dark-100-rgb);
+
+  /* Text written on a status background stays dark: ECL status colours fail AA as text */
+  --bs-primary-text-emphasis: var(--me-palette-primary-140);
+  --bs-primary-bg-subtle: var(--me-color-info-surface);
+  --bs-primary-border-subtle: var(--me-palette-primary-40);
+  --bs-success-text-emphasis: var(--me-color-text);
+  --bs-success-bg-subtle: var(--me-color-success-surface);
+  --bs-success-border-subtle: var(--me-color-success);
+  --bs-warning-text-emphasis: var(--me-color-text);
+  --bs-warning-bg-subtle: var(--me-color-warning-surface);
+  --bs-warning-border-subtle: var(--me-color-warning);
+  --bs-danger-text-emphasis: var(--me-color-text);
+  --bs-danger-bg-subtle: var(--me-color-error-surface);
+  --bs-danger-border-subtle: var(--me-color-error);
+  --bs-info-text-emphasis: var(--me-color-text);
+  --bs-info-bg-subtle: var(--me-color-info-surface);
+  --bs-info-border-subtle: var(--me-palette-primary-40);
+
+  --bs-link-color: var(--me-color-link);
+  --bs-link-color-rgb: var(--me-palette-primary-100-rgb);
+  --bs-link-hover-color: var(--me-color-link-hover);
+  --bs-link-hover-color-rgb: var(--me-palette-primary-140-rgb);
+
+  --bs-border-color: var(--me-color-border);
+  --bs-border-radius: var(--me-radius-m);
+  --bs-border-radius-sm: var(--me-radius-s);
+  --bs-border-radius-lg: var(--me-radius-l);
+  --bs-border-radius-xl: var(--me-radius-l);
+  --bs-border-radius-xxl: var(--me-radius-l);
+  --bs-border-radius-pill: var(--me-radius-m);
+
+  --bs-focus-ring-color: var(--me-color-focus);
+  --bs-focus-ring-width: var(--me-focus-outline-width);
+  --bs-focus-ring-opacity: 1;
+}
+
+/* Headings: Arial, like the rest of the page */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--me-font-family);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-text);
+}
+
+/* Buttons: ECL shape (4px radius, 48px minimum height) */
+.btn {
+  --bs-btn-font-family: var(--me-font-family);
+  --bs-btn-font-size: var(--me-font-size-m);
+  --bs-btn-border-radius: var(--me-radius-m);
+  --bs-btn-padding-x: var(--me-space-m);
+  --bs-btn-padding-y: var(--me-space-xs);
+  min-height: var(--me-control-min-height);
+}
+
+.btn:focus-visible {
+  outline: var(--me-focus-outline-width) solid var(--me-color-focus);
+  outline-offset: var(--me-focus-outline-offset);
+  box-shadow: none;
+}
+
+.btn-sm,
+.btn-lg {
+  --bs-btn-border-radius: var(--me-radius-m);
+}
+
+/* ECL "primary": filled blue */
+.btn-primary {
+  --bs-btn-color: var(--me-color-action-text);
+  --bs-btn-bg: var(--me-color-action);
+  --bs-btn-border-color: var(--me-color-action);
+  --bs-btn-hover-color: var(--me-color-action-text);
+  --bs-btn-hover-bg: var(--me-color-action-hover);
+  --bs-btn-hover-border-color: var(--me-color-action-hover);
+  --bs-btn-active-color: var(--me-color-action-text);
+  --bs-btn-active-bg: var(--me-color-action-active);
+  --bs-btn-active-border-color: var(--me-color-action-active);
+  --bs-btn-disabled-color: var(--me-color-action-text);
+  --bs-btn-disabled-bg: var(--me-palette-dark-40);
+  --bs-btn-disabled-border-color: var(--me-palette-dark-40);
+}
+
+/* ECL "secondary": white with a 2px blue border */
+.btn-outline-primary {
+  --bs-btn-color: var(--me-color-action);
+  --bs-btn-bg: var(--me-color-surface);
+  --bs-btn-border-color: var(--me-color-action);
+  --bs-btn-hover-color: var(--me-color-action-hover);
+  --bs-btn-hover-bg: var(--me-color-surface-brand);
+  --bs-btn-hover-border-color: var(--me-color-action-hover);
+  --bs-btn-active-color: var(--me-color-action-active);
+  --bs-btn-active-bg: var(--me-palette-primary-10);
+  --bs-btn-active-border-color: var(--me-color-action-active);
+  --bs-btn-disabled-color: var(--me-palette-dark-60);
+  --bs-btn-disabled-bg: var(--me-color-surface);
+  --bs-btn-disabled-border-color: var(--me-palette-dark-40);
+  --bs-btn-border-width: var(--me-border-width-strong);
+}
+
+/* ECL "tertiary": text only */
+.btn-link {
+  --bs-btn-color: var(--me-color-link);
+  --bs-btn-hover-color: var(--me-color-link-hover);
+  --bs-btn-active-color: var(--me-color-action-active);
+  --bs-btn-disabled-color: var(--me-palette-dark-60);
+}
+
+/* Form fields: visible border, 16px text (no zoom on iOS), 48px minimum height */
+.form-control,
+.form-select {
+  min-height: var(--me-control-min-height);
+  font-size: var(--me-font-size-m);
+  color: var(--me-color-text);
+  border-color: var(--me-color-border-strong);
+  border-radius: var(--me-radius-m);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--me-color-focus);
+  outline: var(--me-focus-outline-width) solid var(--me-color-focus);
+  outline-offset: var(--me-focus-outline-offset);
+  box-shadow: none;
+}
+
+.form-check-input {
+  border-color: var(--me-color-border-strong);
+}
+
+.form-check-input:checked {
+  background-color: var(--me-color-action);
+  border-color: var(--me-color-action);
+}
+
+.form-label {
+  font-weight: var(--me-font-weight-bold);
+}
+
+.form-text {
+  color: var(--me-color-text-muted);
+}
+
+.invalid-feedback {
+  color: var(--me-color-error);
+}
