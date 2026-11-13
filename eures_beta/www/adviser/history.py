@@ -26,8 +26,7 @@ def history(request):
             candidates='Réponses candidats',
             employers=_('Employer job offers'),
         )
-        if access.enabled():
-            sections['matchings'] = 'Tous les matchings'
+        sections['matchings'] = 'Tous les matchings'
     if can_invite(request.user):
         sections['invitations'] = 'Invitations envoyées'
     if not sections:

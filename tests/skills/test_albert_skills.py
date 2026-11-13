@@ -21,8 +21,7 @@ from eures_beta.skills.skills_pilot import catalogue
 
 
 @override_settings(
-    SKILLS_ALBERT_ENABLED=True,
-    SKILLS_ALBERT_SIMULATED=False,
+    ALBERT_SIMULATED=False,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     ALBERT_API_KEY='fictional-secret',
@@ -94,7 +93,7 @@ class SuggestionTests(TestCase):
 
     def test_model_and_simulation_have_distinct_cache_keys(self):
         service.resolve(self.uri, generate=True)
-        with override_settings(SKILLS_ALBERT_SIMULATED=True):
+        with override_settings(ALBERT_SIMULATED=True):
             service.resolve(self.uri, generate=True)
         with override_settings(ALBERT_MODEL='another-model'):
             service.resolve(self.uri, generate=True)
@@ -102,7 +101,7 @@ class SuggestionTests(TestCase):
 
 
 @override_settings(
-    SKILLS_ALBERT_SIMULATED=False,
+    ALBERT_SIMULATED=False,
     ALBERT_API_KEY='fictional-key',
     ALBERT_MODEL='fixture-model',
 )
@@ -147,7 +146,7 @@ class TransportTests(SimpleTestCase):
         with self.assertRaises(service.SuggestionUnavailable):
             service.ask(uri, skills, {'verified': 'essential'})
 
-    @override_settings(SKILLS_ALBERT_SIMULATED=True)
+    @override_settings(ALBERT_SIMULATED=True)
     @patch('eures_beta.integrations.albert.build_opener')
     def test_simulation_never_opens_network(self, opener):
         self.assertEqual(

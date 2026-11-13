@@ -321,3 +321,12 @@ le poste, les conditions, compétences, questions, critères explicites et dates
 Lecture seule pour les conseillers actifs ; les critères d’accès au matching
 restent inchangés. Aucun nouveau modèle ni migration. Voir le contrat
 [de consultation](ADVISER_EMPLOYER_OFFERS.md).
+
+## 13 novembre 2026 — réglages métier simplifiés
+
+TRANSVERSE : parcours permanents sans interrupteur, autorisation d’e-mail unique
+`EMAIL_DELIVERY_ENABLED`, simulation Albert commune `ALBERT_SIMULATED` désactivée
+par défaut et contact `EMPLOYER_ADVISER_CONTACT_URL`. Sources, tests et exemples
+actualisés ; anciens noms non lus. Aucun modèle ni migration. Les réglages
+PostgreSQL et les codes de questions AGLAE restent en discussion, sans modification
+de leur comportement dans ce lot. Voir le guide de développement actuel.

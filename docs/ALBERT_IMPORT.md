@@ -18,8 +18,9 @@ dans les statiques, les réponses JSON, les journaux, les fixtures ou les commit
 Pour les essais locaux, utiliser une clé de développement distincte et révocable,
 fournie par la configuration privée de l’environnement.
 
-`ALBERT_IMPORT_ENABLED=1` n'est permis qu'en `DJANGO_ENVIRONMENT=local` ou `preview`,
-avec les emails réels désactivés. `ALBERT_MODEL` sélectionne le modèle ; la valeur
+L’import Albert est disponible dans tous les environnements avec un accès configuré.
+`ALBERT_SIMULATED=1` simule explicitement tous les usages Albert, sans appel réel.
+`ALBERT_MODEL` sélectionne le modèle ; la valeur
 initiale est `mistral-small-3-2-24b-instruct-2506`. Ce choix doit encore être comparé
 à d'autres modèles sur plusieurs annonces. Les tests automatiques simulent Albert.
 
@@ -27,7 +28,7 @@ Après `make db-create`, `make migrate` et `make test-accounts-seed`, lancer
 `make run PORT=9037` et ouvrir le parcours employeur sur le port local 9037.
 Le compte employeur fictif se choisit depuis `/accounts/test-accounts/`.
 Configurer explicitement `TEST_ACCOUNTS_ENABLED=1`, `DJANGO_ENVIRONMENT=local`,
-`EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0` dans le `.env` du worktree
+`EMAIL_DELIVERY_ENABLED=0` dans le `.env` du worktree
 avant le peuplement ; le démarrage ne modifie aucun réglage. L’accès Albert
 reste configuré séparément. Les destinations et secrets
 des recettes jetables restent dans les dépôts privés de déploiement.

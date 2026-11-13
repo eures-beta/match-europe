@@ -46,9 +46,6 @@ def connected(view):
 
 
 def render(request, stage, status=200, **context):
-    from eures_beta.skills.continuous import trial_request
-
-    context['continuous_skills'] = trial_request(request)
     response = page(request, stage, **context)
     response.status_code = status
     return response

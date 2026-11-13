@@ -53,7 +53,7 @@ Par défaut, l’envoi est désactivé côté serveur. Le formulaire et sa confi
 gardent le même affichage dans les trois environnements, avec ou sans transport
 configuré. Aucun lien secret n’est exposé. Les tests utilisent une boîte en mémoire.
 
-L’activation nécessite `LOGIN_EMAIL_ENABLED=1`, une origine HTTPS fixe
+L’activation nécessite `EMAIL_DELIVERY_ENABLED=1`, une origine HTTPS fixe
 `LOGIN_EMAIL_ORIGIN` dont l’hôte figure dans `DJANGO_ALLOWED_HOSTS`,
 `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`,
 `DEFAULT_FROM_EMAIL` et les options TLS/SSL. L’origine fixe empêche un en-tête
@@ -89,7 +89,7 @@ inconnue est également bloquée. Ne jamais déclarer une recette « production 
 
 Seule la production reçoit `DJANGO_ENVIRONMENT=production` et, lors de
 l’activation explicite, `EMAIL_DELIVERY_ENABLED=1`. Les liens de connexion et
-invitations nécessitent aussi `LOGIN_EMAIL_ENABLED=1` et leur configuration
+invitations nécessitent aussi `EMAIL_DELIVERY_ENABLED=1` et leur configuration
 existante. Ces indicateurs sont de la configuration de déploiement : aucune
 détection à partir du mode démo ou de DEBUG, communs à plusieurs environnements.
 
