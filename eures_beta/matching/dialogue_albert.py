@@ -1,9 +1,6 @@
 """Bounded Albert adapter. Model text is untrusted; no tools or writes are exposed."""
 
 import json
-import time
-from urllib.request import Request, build_opener
-from urllib.error import URLError
 
 from django.conf import settings
 from django.views.decorators.debug import sensitive_variables
@@ -11,10 +8,16 @@ from django import forms
 from django.core.exceptions import ValidationError
 from . import access
 
-from eures_beta.integrations.albert import NoRedirect
+from eures_beta.integrations import albert
 from eures_beta.candidates.journey import ConditionsForm, MobilityForm
 
-ENDPOINT = 'https://albert.api.etalab.gouv.fr/v1/chat/completions'
+LIMITS = albert.Limits(
+    timeout=25,
+    max_elapsed=30,
+    response_bytes=20000,
+    request_bytes=24000,
+    allow_code_fence=False,
+)
 FIELDS = {
     'schedule': {
         'schedule_preference',
@@ -194,39 +197,17 @@ def ask(row, source, scope, language, history):
         'candidate_words': source,
         'conversation': history,
     }
-    payload = {
-        'model': settings.ALBERT_DIALOGUE_MODEL,
-        'messages': [
-            {'role': 'system', 'content': PROMPT},
-            {'role': 'user', 'content': json.dumps(context, ensure_ascii=False)},
-        ],
-        'temperature': 0,
-        'max_tokens': 1800,
-        'stream': False,
-        'response_format': {'type': 'json_object'},
-    }
-    encoded = json.dumps(payload).encode()
-    if len(encoded) > 24000:
-        raise Unavailable
-    request = Request(
-        ENDPOINT,
-        data=encoded,
-        method='POST',
-        headers={
-            'Authorization': 'Bearer ' + settings.ALBERT_API_KEY,
-            'Content-Type': 'application/json',
-        },
-    )
-    started = time.monotonic()
+    messages = [
+        {'role': 'system', 'content': PROMPT},
+        {'role': 'user', 'content': json.dumps(context, ensure_ascii=False)},
+    ]
     try:
-        with build_opener(NoRedirect()).open(request, timeout=25) as response:
-            raw = response.read(20001)
-        if len(raw) > 20000 or time.monotonic() - started > 30:
-            raise Unavailable
-        choice = json.loads(raw)['choices'][0]
-        if choice.get('finish_reason') != 'stop':
-            raise Unavailable
-        value = json.loads(choice['message']['content'])
+        value = albert.complete_json(
+            messages,
+            model=settings.ALBERT_DIALOGUE_MODEL,
+            max_tokens=1800,
+            limits=LIMITS,
+        )
         return validate(value, row, source, scope)
-    except (OSError, URLError, ValueError, KeyError, IndexError, TypeError):
+    except (albert.AlbertError, ValueError, KeyError, IndexError, TypeError):
         raise Unavailable from None

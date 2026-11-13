@@ -115,7 +115,7 @@ class ContinuousTests(TestCase):
             patch.object(
                 albert_skills, 'source_for', return_value=(self.skills, linked)
             ),
-            patch('eures_beta.skills.albert_skills.build_opener') as network,
+            patch('eures_beta.integrations.albert.build_opener') as network,
         ):
             token = self.candidate()
             response = self.api(uri=uri, token=token)

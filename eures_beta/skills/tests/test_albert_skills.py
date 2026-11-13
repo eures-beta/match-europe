@@ -107,7 +107,7 @@ class SuggestionTests(TestCase):
     ALBERT_MODEL='fixture-model',
 )
 class TransportTests(SimpleTestCase):
-    @patch('eures_beta.skills.albert_skills.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_bounded_request_no_redirect_and_verified_output(self, opener):
         uri = next(iter(occupation_index()))
         skills = {'verified': {'labels': {'fr': 'Compétence fictive'}}}
@@ -132,6 +132,8 @@ class TransportTests(SimpleTestCase):
         )
         self.assertEqual(opener.return_value.open.call_args.kwargs['timeout'], 35)
         self.assertEqual(response.read.call_args.args, (30001,))
+        self.assertEqual(json.loads(request.data)['model'], 'fixture-model')
+        self.assertEqual(json.loads(request.data)['max_tokens'], 2000)
         self.assertNotIn('fictional-key', request.data.decode())
         for raw in (
             b'x' * 30001,
@@ -146,7 +148,7 @@ class TransportTests(SimpleTestCase):
             service.ask(uri, skills, {'verified': 'essential'})
 
     @override_settings(SKILLS_ALBERT_SIMULATED=True)
-    @patch('eures_beta.skills.albert_skills.build_opener')
+    @patch('eures_beta.integrations.albert.build_opener')
     def test_simulation_never_opens_network(self, opener):
         self.assertEqual(
             service.ask('unused', {}, {'verified': 'essential'}), ['verified']
