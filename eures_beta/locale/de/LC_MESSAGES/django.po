@@ -7057,3 +7057,18 @@ msgstr "MATCH EUROPE: Ihr Zugangslink"
 
 msgid "Adviser organisation"
 msgstr "Organisation der Beratungskraft"
+
+msgid "Open the form"
+msgstr "Zum Formular"
+
+msgid "This questionnaire lets you describe your needs, recruitment constraints and proposed terms so we can explore possible introductions to suitable candidates."
+msgstr "Mit diesem Fragebogen können Sie Ihren Bedarf, Ihre Einstellungsbedingungen und die angebotenen Konditionen beschreiben. So können wir prüfen, ob geeignete Bewerberinnen und Bewerber vermittelt werden können."
+
+msgid "EURES is the European employment cooperation network that facilitates recruitment and job opportunities across Europe."
+msgstr "EURES ist das europäische Netzwerk für die Zusammenarbeit im Beschäftigungsbereich. Es erleichtert die Personalgewinnung und eröffnet berufliche Chancen in Europa."
+
+msgid "Information on how your data is processed"
+msgstr "Informationen zur Verarbeitung Ihrer Daten"
+
+msgid "read the privacy notice"
+msgstr "Datenschutzhinweis lesen"
