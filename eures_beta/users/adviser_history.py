@@ -11,8 +11,8 @@ from eures_beta.candidates.registration_views import answer_groups
 from eures_beta.matching import access
 from eures_beta.matching.models import CandidateOfferMatch, MatchEvaluation
 
-from .models import Invitation
-from .permissions import can_manage_employers
+from eures_beta.invitations.models import Invitation
+from eures_beta.invitations.permissions import can_invite
 from .views import selected_language
 
 
@@ -25,7 +25,7 @@ def history(request):
         )
         if access.enabled():
             sections['matchings'] = 'Tous les matchings'
-    if can_manage_employers(request.user):
+    if can_invite(request.user):
         sections['invitations'] = 'Invitations envoyées'
     if not sections:
         raise PermissionDenied
