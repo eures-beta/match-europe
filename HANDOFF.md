@@ -1719,3 +1719,12 @@ les validations partagées dans le domaine. Templates, statiques, traductions et
 tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
 créé ou déplacé, aucune nouvelle migration. Voir
 [le guide](docs/ARCHITECTURE_WEB.md).
+
+## 13 novembre 2026 — réglages métier simplifiés
+
+TRANSVERSE : parcours permanents sans interrupteur, autorisation d’e-mail unique
+`EMAIL_DELIVERY_ENABLED`, simulation Albert commune `ALBERT_SIMULATED` désactivée
+par défaut et contact `EMPLOYER_ADVISER_CONTACT_URL`. Sources, tests et exemples
+actualisés ; anciens noms non lus. Aucun modèle ni migration. Les réglages
+PostgreSQL et les codes de questions AGLAE restent en discussion, sans modification
+de leur comportement dans ce lot. Voir le guide de développement actuel.

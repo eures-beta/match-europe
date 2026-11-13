@@ -55,7 +55,7 @@ ALBERT_INPUT ?=
 ALBERT_OUTPUT ?= .runtime/albert-evaluation.json
 albert-evaluate: ## Évaluer un texte local avec Albert (ALBERT_INPUT requis, appel réel explicite)
 	@test -n "$(ALBERT_INPUT)" || { echo 'Indiquer ALBERT_INPUT.' >&2; exit 2; }
-	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 "$(PYTHON)" manage.py evaluate_albert "$(ALBERT_INPUT)" --output "$(ALBERT_OUTPUT)"
+	@$(LOAD_ENV) "$(PYTHON)" manage.py evaluate_albert "$(ALBERT_INPUT)" --output "$(ALBERT_OUTPUT)"
 
 # Tests JavaScript : un seul runner pour tous les fichiers, sans navigateur.
 JS_TESTS ?= $(shell find tests -type f \( -name '*.test.cjs' -o -name 'test_*.cjs' \) | LC_ALL=C sort)

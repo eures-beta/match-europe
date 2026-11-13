@@ -836,9 +836,7 @@
           <p id="review-provenance" class="review-provenance"></p>
           <p class="mini-note">{% translate "Drafts are saved only through voluntary download. Email and preparation agreement are excluded. Validation does not send anything to the preparation service." context "employer import" %}</p>
           <form id="review-form" novalidate>
-            {% if continuous_skills %}
-              {% include "occupations/continuous.html" with skills_role="employer" %}
-            {% endif %}
+            {% include "occupations/continuous.html" with skills_role="employer" %}
             <h2>{% translate "1. Your offer information" context "employer import" %}</h2>
             <div class="review-fields">
               <div class="review-field">
@@ -1629,10 +1627,8 @@
     <script src="/static/employer/contact.js" defer></script>
     {% include "employer/occupation_strings.html" %}
     <script src="/static/employer/occupation-picker.js?v=bounded-search-4" defer></script>
-    {% if continuous_skills %}
-      <link rel="stylesheet" href="/static/occupations/skills-pilot.css">
-      <script src="/static/skills/continuous.js" defer></script>
-    {% endif %}
+    <link rel="stylesheet" href="/static/occupations/skills-pilot.css">
+    <script src="/static/skills/continuous.js" defer></script>
     <script src="/static/employer/review.js?v=search-spacing-4" defer></script>
     {% include "employer/condition_strings.html" %}
     <script src="/static/employer/condition-fields.js?v=conditions-1" defer></script>

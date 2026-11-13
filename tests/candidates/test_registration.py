@@ -490,7 +490,6 @@ class CandidateRegistrationTests(TestCase):
                         ),
                         override_settings(
                             DJANGO_ENVIRONMENT=environment,
-                            LOGIN_EMAIL_ENABLED=enabled,
                             EMAIL_DELIVERY_ENABLED=enabled,
                             TEST_ACCOUNTS_ENABLED=False,
                         ),
@@ -540,7 +539,6 @@ class CandidateRegistrationTests(TestCase):
         with override_settings(
             DJANGO_ENVIRONMENT='production',
             EMAIL_DELIVERY_ENABLED=True,
-            LOGIN_EMAIL_ENABLED=True,
             LOGIN_EMAIL_ORIGIN='https://testserver',
             ALLOWED_HOSTS=['testserver'],
             EMAIL_HOST='smtp.example.invalid',

@@ -53,10 +53,8 @@ référence publiques restent distinctes des déclarations individuelles.
 
 ## Protections de la recette
 
-`CONTINUOUS_SKILLS_ENABLED=0` par défaut. Activation autorisée en local ou preview, sans e-mail réel. Le POST
-`/api/occupation-skills/` exige le loopback réel en local, ou HTTPS et le mode
-partagé explicite en preview,
-protégé contre CSRF ; employeur authentifié ou candidat actif connecté avec
+Les compétences sont intégrées aux parcours dans tous les environnements. Le POST
+`/api/occupation-skills/` est protégé contre CSRF ; employeur authentifié ou candidat actif connecté avec
 son propre brouillon et son jeton de session. Les résultats ne sont pas accessibles aux autres rôles.
 Échec ou expiration : message explicite et nouvel essai possible, pas de choix
 inventé ni d’effacement du brouillon. Réponses navigateur périmées ignorées.
@@ -88,8 +86,8 @@ Préparer les seuls comptes fictifs avec `make test-accounts-seed`, après activ
 locale explicite de `TEST_ACCOUNTS_ENABLED=1`.
 
 `make run PORT=9040` ouvre l’accueil sur le port choisi. Pour cet essai,
-configurer explicitement `SKILLS_ALBERT_SIMULATED=1`, `TEST_ACCOUNTS_ENABLED=1`,
-`DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0`
+configurer explicitement `ALBERT_SIMULATED=1`, `TEST_ACCOUNTS_ENABLED=1`,
+`DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0`
 dans le `.env` du worktree. Le port ne sélectionne aucun parcours ni simulation.
 Aucun déploiement.
 
@@ -119,12 +117,10 @@ la fusion et le déploiement de production restent distincts de cet essai.
 ## Recette distante autorisée
 
 La recette doit être configurée extérieurement au dépôt avec
-`DJANGO_ENVIRONMENT=preview`, `ME_SHARED_DEMO=1`, HTTPS,
-`CONTINUOUS_SKILLS_ENABLED=1`, `SKILLS_ALBERT_ENABLED=1`,
-`ALBERT_IMPORT_ENABLED=1`, `TEST_ACCOUNTS_ENABLED=1` et les e-mails réels
-désactivés. Albert est forcé en simulation par le raccordement, sans clé requise.
-Le pilote séparé reste désactivé. Les migrations et le peuplement fictif suivent
-les mécanismes de recette existants ; seuls les comptes .invalid sont admis.
+`DJANGO_ENVIRONMENT=preview`, HTTPS, `TEST_ACCOUNTS_ENABLED=1`,
+`EMAIL_DELIVERY_ENABLED=0` et `ALBERT_SIMULATED=1`. La simulation est explicite,
+sans clé requise. Les migrations et le peuplement fictif restent des opérations
+séparées ; seuls les comptes fictifs autorisés sont peuplés.
 
 Avant le démarrage, préparer les sources officielles avec
 `make continuous-source-prepare`, puis collecter les statiques. La commande

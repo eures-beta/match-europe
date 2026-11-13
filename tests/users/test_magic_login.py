@@ -22,7 +22,6 @@ from eures_beta.users.models import LoginRateLimit
     EMAIL_HOST='smtp.example.invalid',
     DEFAULT_FROM_EMAIL='no-reply@example.invalid',
     LOGIN_EMAIL_ORIGIN='https://testserver',
-    LOGIN_EMAIL_ENABLED=True,
     DJANGO_ENVIRONMENT='production',
     EMAIL_DELIVERY_ENABLED=True,
 )
@@ -229,7 +228,6 @@ class MagicLoginTests(TestCase):
                         ),
                         override_settings(
                             DJANGO_ENVIRONMENT=environment,
-                            LOGIN_EMAIL_ENABLED=enabled,
                             EMAIL_DELIVERY_ENABLED=enabled,
                             TEST_ACCOUNTS_ENABLED=False,
                         ),
@@ -252,7 +250,7 @@ class MagicLoginTests(TestCase):
                         self.assertNotIn('_auth_user_id', client.session)
 
     def test_unconfigured_delivery_never_exposes_a_link(self):
-        with override_settings(LOGIN_EMAIL_ENABLED=False):
+        with override_settings(EMAIL_DELIVERY_ENABLED=False):
             response = self.client.post(
                 '/accounts/login/?lang=en', {'email': self.user.email}
             )

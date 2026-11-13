@@ -19,11 +19,9 @@ from eures_beta.matching.services import StaleEvaluation
 
 
 @override_settings(
-    MATCHING_ENABLED=True,
     TEST_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
-    LOGIN_EMAIL_ENABLED=False,
 )
 class ConfirmationTests(TestCase):
     @classmethod
@@ -372,8 +370,6 @@ class ConfirmationTests(TestCase):
                     REMOTE_ADDR='192.0.2.1',
                 )
                 self.assertEqual(response.status_code, 302)
-        with override_settings(MATCHING_ENABLED=False):
-            self.assertEqual(self.client.get(self.url).status_code, 404)
 
     def test_complete_browser_journey_no_external_calls(self):
         with (

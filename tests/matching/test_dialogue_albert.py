@@ -14,8 +14,7 @@ from . import test_dialogue
 @override_settings(
     **{
         **test_dialogue.SETTINGS,
-        'CONFIRMATION_DIALOGUE_SIMULATED': False,
-        'CONFIRMATION_DIALOGUE_ENABLED': True,
+        'ALBERT_SIMULATED': False,
         'ALBERT_API_KEY': 'fictional-test-key',
         'ALBERT_DIALOGUE_MODEL': 'fictional-model',
     }

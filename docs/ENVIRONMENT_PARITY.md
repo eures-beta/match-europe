@@ -15,13 +15,13 @@ Les PR intermédiaires conservent leurs fonctionnalités et reçoivent le socle 
 
 ## Configuration nécessaire
 
-Les fonctionnalités métier sont actives par défaut. Les anciennes options `ALBERT_IMPORT_ENABLED`, `SKILLS_PILOT_ENABLED`, `SKILLS_ALBERT_ENABLED`, `CONTINUOUS_SKILLS_ENABLED` et `CONFIRMATION_DIALOGUE_ENABLED` restent des commandes explicites de configuration, sans restriction par environnement. Une ancienne valeur explicite `0` reste une désactivation choisie : la retirer ou l’actualiser dans le dépôt privé de déploiement si elle n’est plus souhaitée. Le matching utilise `MATCHING_ENABLED`.
+Les fonctionnalités métier font partie de l’application : aucun interrupteur par parcours ne les désactive. Les contrôles de rôle, de propriété, de consentement et de validation restent obligatoires.
 
-Albert nécessite une clé privée et son modèle configuré. Les simulations `ALBERT_IMPORT_SIMULATED`, `SKILLS_ALBERT_SIMULATED` et `CONFIRMATION_DIALOGUE_SIMULATED` sont désactivées par défaut et ne sont jamais activées automatiquement par le nom de l’environnement. Les replis guidés/manuels sont conservés.
+Albert nécessite une clé privée et son modèle configuré. La simulation commune `ALBERT_SIMULATED` est désactivée par défaut et n’est jamais activée automatiquement par le nom de l’environnement. Les replis guidés/manuels sont conservés.
 
 Les compétences hors des fiches intégrées nécessitent les sources officielles ESCO épinglées : les préparer pendant la construction de l’environnement avec `make continuous-source-prepare`, puis les vérifier avec `make skills-source-check`. Ne pas télécharger ces archives pendant une requête utilisateur. Leur absence doit produire une indisponibilité explicite, jamais des références inventées.
 
-Les e-mails nécessitent `EMAIL_DELIVERY_ENABLED=1`, `LOGIN_EMAIL_ENABLED=1`, une origine HTTPS de confiance et le transport SMTP configuré. Aucun identifiant ni destinataire n’est inscrit dans le dépôt. Les outils de comptes fictifs et de peuplement restent explicitement réservés aux bases d’essai, incompatibles avec l’envoi réel ; ils ne conditionnent pas le parcours métier.
+Les e-mails nécessitent `EMAIL_DELIVERY_ENABLED=1`, une origine HTTPS de confiance et le transport SMTP configuré. Aucun identifiant ni destinataire n’est inscrit dans le dépôt. Les outils de comptes fictifs et de peuplement restent explicitement réservés aux bases d’essai, incompatibles avec l’envoi réel ; ils ne conditionnent pas le parcours métier.
 
 ## Vérifications
 

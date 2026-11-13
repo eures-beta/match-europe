@@ -35,10 +35,10 @@ candidat, employeur et dialogue sont retirées.
 
 Le serveur charge le `.env` du worktree sans imposer de réglages métier. Pour un
 essai fictif, configurer explicitement `DJANGO_ENVIRONMENT=local`,
-`TEST_ACCOUNTS_ENABLED=1`, `EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0` ;
+`TEST_ACCOUNTS_ENABLED=1`, `EMAIL_DELIVERY_ENABLED=0` ;
 le peuplement reste une action séparée avec `make test-accounts-seed` ou
 `make matching-seed`. Les simulations Albert se configurent explicitement avec
-`SKILLS_ALBERT_SIMULATED=1` ou `CONFIRMATION_DIALOGUE_SIMULATED=1` selon l’essai.
+`ALBERT_SIMULATED=1` pour tous les usages.
 Sans simulation, un service Albert configuré peut être appelé réellement.
 
 `make help` décrit les cibles disponibles. `make serve PORT=9042` utilise Gunicorn. Le diagnostic
@@ -93,3 +93,23 @@ Voir les guides [Python/HTML](HTML_FORMATTING.md), [JavaScript/CSS](JAVASCRIPT_F
 la [parité des environnements](ENVIRONMENT_PARITY.md), [l'état des travaux](../HANDOFF.md)
 et les [consignes de contribution](../AGENTS.md). L'historique des choix reste
 consultable dans Git et le [registre des décisions](DECISIONS.md).
+
+## Configuration simplifiée
+
+Les parcours métier sont permanents : leurs anciens interrupteurs sont retirés.
+`EMAIL_DELIVERY_ENABLED` est l’unique autorisation d’envoi, avec SMTP et origine
+HTTPS configurés. `ALBERT_SIMULATED=1` simule tous les usages Albert ; son défaut
+est `0`, sans simulation automatique en cas de panne. La variable de contact et
+le setting portent le même nom : `EMPLOYER_ADVISER_CONTACT_URL`.
+
+Lors d’une mise à jour de configuration, remplacer les trois anciens paramètres
+de simulation par cette valeur unique et renommer le contact. Les anciens noms
+ne sont plus lus. Le choix de simulation doit être explicite si les anciennes
+valeurs différaient. Retirer les interrupteurs métier et l’ancien interrupteur
+d’e-mails de connexion des configurations privées. Aucune configuration distante
+n’est modifiée par cette PR. Les comptes fictifs restent explicitement activés
+avec `TEST_ACCOUNTS_ENABLED`, incompatibles avec les envois réels.
+
+La politique de connexions PostgreSQL reste provisoirement spécifique à preview
+(60 secondes, contrôle de validité, connexion limitée à 10 secondes), sans
+condition sur une fonctionnalité métier. Son harmonisation est discutée séparément.

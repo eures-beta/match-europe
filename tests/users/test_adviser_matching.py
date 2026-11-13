@@ -11,7 +11,7 @@ from tests.matching.test_dialogue import SETTINGS
 from eures_beta.users.test_accounts import prepared_user
 
 
-@override_settings(**{**SETTINGS, 'CONFIRMATION_DIALOGUE_SIMULATED': True})
+@override_settings(**{**SETTINGS, 'ALBERT_SIMULATED': True})
 class AdviserMatchingTests(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -137,8 +137,7 @@ class AdviserMatchingTests(TestCase):
         self.assertContains(page, 'Demander une précision')
 
     @override_settings(
-        CONFIRMATION_DIALOGUE_SIMULATED=False,
-        CONFIRMATION_DIALOGUE_ENABLED=True,
+        ALBERT_SIMULATED=False,
         ALBERT_API_KEY='fictional-test-key',
     )
     def test_albert_opinion_validates_model_output_before_showing_it(self):
@@ -204,9 +203,7 @@ class AdviserMatchingTests(TestCase):
         self.assertEqual(self.decide('retained').status_code, 409)
         self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
 
-    @override_settings(
-        CONFIRMATION_DIALOGUE_SIMULATED=False, CONFIRMATION_DIALOGUE_ENABLED=False
-    )
+    @override_settings(ALBERT_SIMULATED=False, ALBERT_API_KEY='')
     def test_unavailable_albert_keeps_matching_pending(self):
         self.assertEqual(self.decide('retained').status_code, 400)
         self.pair.refresh_from_db()

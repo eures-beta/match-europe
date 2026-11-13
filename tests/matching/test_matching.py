@@ -247,11 +247,9 @@ class EngineTests(SimpleTestCase):
 
 
 @override_settings(
-    MATCHING_ENABLED=True,
     TEST_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
-    LOGIN_EMAIL_ENABLED=False,
 )
 class LocalMatchingTests(TestCase):
     @classmethod
@@ -413,7 +411,6 @@ class LocalMatchingTests(TestCase):
                 override_settings(
                     DJANGO_ENVIRONMENT=environment,
                     EMAIL_DELIVERY_ENABLED=True,
-                    LOGIN_EMAIL_ENABLED=True,
                 ),
             ):
                 self.assertEqual(
@@ -430,8 +427,6 @@ class LocalMatchingTests(TestCase):
                 )
                 with self.assertRaises(CommandError):
                     call_command('seed_matching_trial', stdout=StringIO())
-        with override_settings(MATCHING_ENABLED=False):
-            self.assertEqual(self.client.get(path).status_code, 404)
         self.client.logout()
         self.assertEqual(self.client.get(path).status_code, 403)
         self.client.force_login(self.pair().candidate.user)

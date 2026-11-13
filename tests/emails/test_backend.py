@@ -13,7 +13,6 @@ from eures_beta.www.accounts.views import email_ready
 @override_settings(
     EMAIL_BACKEND='eures_beta.emails.backend.ProductionEmailBackend',
     EMAIL_DELIVERY_ENABLED=True,
-    LOGIN_EMAIL_ENABLED=True,
     LOGIN_EMAIL_ORIGIN='https://testserver',
     ALLOWED_HOSTS=['testserver'],
     EMAIL_HOST='smtp.example.invalid',

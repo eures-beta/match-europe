@@ -15,7 +15,7 @@ from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
 
 
-@override_settings(**{**SETTINGS, 'CONFIRMATION_DIALOGUE_SIMULATED': True})
+@override_settings(**{**SETTINGS, 'ALBERT_SIMULATED': True})
 class SharedConversationTests(TestCase):
     @classmethod
     def setUpTestData(cls):

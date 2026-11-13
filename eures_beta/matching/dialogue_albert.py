@@ -6,7 +6,6 @@ from django.conf import settings
 from django.views.decorators.debug import sensitive_variables
 from django import forms
 from django.core.exceptions import ValidationError
-from . import access
 
 from eures_beta.integrations import albert
 from eures_beta.candidates.forms import ConditionsForm, MobilityForm
@@ -188,11 +187,7 @@ def allowed_fields(row):
 
 @sensitive_variables()
 def ask(row, source, scope, language, history):
-    if (
-        not access.enabled()
-        or not settings.CONFIRMATION_DIALOGUE_ENABLED
-        or not settings.ALBERT_API_KEY
-    ):
+    if settings.ALBERT_SIMULATED or not settings.ALBERT_API_KEY:
         raise Unavailable
     context = {
         'language': language,
@@ -213,11 +208,7 @@ def ask(row, source, scope, language, history):
 
 @sensitive_variables()
 def complete(prompt, context):
-    if (
-        not access.enabled()
-        or not settings.CONFIRMATION_DIALOGUE_ENABLED
-        or not settings.ALBERT_API_KEY
-    ):
+    if settings.ALBERT_SIMULATED or not settings.ALBERT_API_KEY:
         raise Unavailable
     messages = [
         {'role': 'system', 'content': prompt},

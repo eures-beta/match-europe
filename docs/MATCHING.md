@@ -4,8 +4,7 @@
 
 Le matching compare les profils candidats confirmés et les offres validées.
 Il fonctionne en développement, recette et production, avec les comptes actifs
-réels ou fictifs autorisés. `MATCHING_ENABLED` est actif par défaut ; la valeur
-`0` désactive la fonctionnalité. Il n'existe pas de restriction métier liée à
+réels ou fictifs autorisés. Le matching est permanent. Il n’existe pas de restriction métier liée à
 l'environnement, à l'adresse réseau ou à l'activation des e-mails.
 
 La console `/matching/` est accessible à tout conseiller connecté et actif,
@@ -130,8 +129,8 @@ Pour une instance locale séparée : `make matching-db-init`, puis
 local `matching_local`, authentification de recette sans mot de passe, jamais
 à exposer sur le réseau. Définir `PGHOST=127.0.0.1`, `PGPORT=55441`,
 `PGUSER=matching_local` et un `PGDATABASE` propre au dossier dans `.env`.
-Définir une clé Django locale, `DJANGO_DEBUG=1`, `MATCHING_ENABLED=1`,
-`DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0`, `LOGIN_EMAIL_ENABLED=0`.
+Définir une clé Django locale, `DJANGO_DEBUG=1`,
+`DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0`.
 
 Puis `make db-create`, `make migrate`, `make matching-translations`,
 `make run PORT=9041`.

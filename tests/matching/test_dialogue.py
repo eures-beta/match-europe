@@ -16,15 +16,13 @@ from eures_beta.matching.services import StaleEvaluation
 from eures_beta.users.test_accounts import prepared_user
 
 SETTINGS = {
-    'MATCHING_ENABLED': True,
     'TEST_ACCOUNTS_ENABLED': True,
     'DJANGO_ENVIRONMENT': 'local',
     'EMAIL_DELIVERY_ENABLED': False,
-    'LOGIN_EMAIL_ENABLED': False,
 }
 
 
-@override_settings(**{**SETTINGS, 'CONFIRMATION_DIALOGUE_SIMULATED': True})
+@override_settings(**{**SETTINGS, 'ALBERT_SIMULATED': True})
 class DialogueTests(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -281,8 +279,8 @@ class DialogueTests(TestCase):
     def test_disabled_network_csrf_and_other_roles_are_closed(self):
         for change in [
             {
-                'CONFIRMATION_DIALOGUE_SIMULATED': False,
-                'CONFIRMATION_DIALOGUE_ENABLED': False,
+                'ALBERT_SIMULATED': False,
+                'ALBERT_API_KEY': '',
             },
         ]:
             with override_settings(**change):
