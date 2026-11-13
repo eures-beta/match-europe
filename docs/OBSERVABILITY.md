@@ -97,7 +97,7 @@ toutes les tâches asynchrones.
 Depuis la racine :
 
 ```bash
-make observability-test
+make test TESTS=eures_beta.observability
 make test
 make check
 ```

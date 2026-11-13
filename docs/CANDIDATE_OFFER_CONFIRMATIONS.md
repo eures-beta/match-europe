@@ -66,9 +66,9 @@ Le retour arrière d’une migration ayant repris le schéma historique conserve
 ces tables et leur ancien historique ; une installation neuve conserve le retour
 arrière habituel avec suppression des trois tables nouvellement créées.
 
-`make confirmations-migrations-test` reproduit l’ancien schéma à partir de sa
+`make test TESTS=eures_beta.matching.tests.test_confirmation_migration` reproduit l’ancien schéma à partir de sa
 migration figée, avec des données non vides. Il vérifie leur conservation,
 l’aller-retour, les séquences, la création vierge et le refus des divergences.
 
-Utiliser `make confirmations-test` pour les tests ciblés, `make test` pour
+Utiliser `make test TESTS=eures_beta.matching.tests.test_confirmations` pour les tests ciblés, `make test` pour
 la suite PostgreSQL et `make check` pour les contrôles Django et de migration.

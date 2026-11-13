@@ -34,7 +34,7 @@ autres contributeurs. Aucune fusion ni opération de production.
   cette phase les migrations qui dépendent de `users`, puis les applique dans
   la transition normale. Diagnostic rejoué avec succès : quatre relations et
   données d'offre conservées, refus des comptes sans rôle et des collisions
-  email, seconde exécution idempotente. `make test-collection` réussit aussi.
+  email, seconde exécution idempotente. `make test TESTS=config.test_test_collection` réussit aussi.
 - `make check-js`, `make format-js-check`, `make format-check`,
   `make format-html-check` et `make translations-check` : réussis.
 

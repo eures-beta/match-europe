@@ -16,4 +16,4 @@ Les contrôles de révision et CSRF restent nécessaires pour toute modification
 
 Modèles `Company`, `CompanyMembership` et `JobOffer` : tables, données et relations
 conservées. Aucun changement de schéma dans le retrait des parcours historiques.
-`make employer-test` et `make test` vérifient le rattachement et les droits.
+`make test TEST_ARGS='-k employer -k occupation'` et `make test` vérifient le rattachement et les droits.

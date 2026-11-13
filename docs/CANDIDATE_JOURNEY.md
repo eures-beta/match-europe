@@ -6,7 +6,7 @@
 
 ### Essayer
 
-`make candidate-run` démarre http://127.0.0.1:9031/candidate/?lang=fr. Un seul bouton ouvre le questionnaire, sans étape d’import. Utiliser des données fictives. `make candidate-test` teste le domaine candidat ; `make test` vérifie les interactions du socle.
+`make candidate-run` démarre http://127.0.0.1:9031/candidate/?lang=fr. Un seul bouton ouvre le questionnaire, sans étape d’import. Utiliser des données fictives. `make test TESTS=eures_beta.candidates` teste le domaine candidat ; `make test` vérifie les interactions du socle.
 
 ### Quatre étapes
 
@@ -47,7 +47,7 @@ confirmation JSON explicite du serveur. Un brouillon expiré ou absent reçoit
 un refus (409), sans recréer un brouillon ni annoncer une conservation fictive.
 Les réponses déjà enregistrées en session sont conservées à l'identique ; les
 champs en cours de saisie restent dans le formulaire du navigateur jusqu'à
-leur validation. `make candidate-ui-test` vérifie ces annonces, y compris une
+leur validation. `make test-js` vérifie ces annonces, y compris une
 réponse HTML ou dépourvue de confirmation.
 
 FR/EN/DE, contrôles serveur des réponses conditionnelles, des choix incompatibles, des créneaux et des montants. Consulter la notice `/privacy/` et le contrat d’inscription pour la conservation. Coque et logos conservés ; aucun audit complet WCAG ni certification graphique. Les anciennes validations chiffrées ci-dessous décrivent des étapes historiques,

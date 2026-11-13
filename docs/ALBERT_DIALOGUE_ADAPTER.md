@@ -71,8 +71,8 @@ propriétaire de #162 restent obligatoires, même avec une clé configurée.
 `ALBERT_DIALOGUE_MODEL` permet de choisir le modèle ; son défaut est `ALBERT_MODEL`.
 Le secret est fourni uniquement par la configuration protégée de l’environnement.
 
-- `make dialogue-live-test` : tests du connecteur avec réponses API mockées.
-- `make dialogue-test` : tests du simulateur.
+- `make test TESTS=eures_beta.matching.tests.test_dialogue_albert` : tests du connecteur avec réponses API mockées.
+- `make test TESTS=eures_beta.matching.tests.test_dialogue` : tests du simulateur.
 - `make dialogue-live-run` : application locale sur loopback 9045 ; nécessite
   un accès configuré pour dialoguer réellement, sinon repli explicite.
 - `make dialogue-live-evaluate` : opt-in réel, six échanges fictifs au maximum,

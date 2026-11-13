@@ -49,7 +49,7 @@ les tests simulent les frontières externes et n'utilisent aucun secret réel.
 ```bash
 make check
 make test
-make test-retired-paths
+make test TESTS=config.test_retired_paths
 make format-check
 make format-html-check
 make format-js-check

@@ -67,6 +67,17 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 13 novembre 2026 — commandes de tests paramétrables
+
+TRANSVERSE : les sélections Django passent par `make test TESTS=...` ou
+`TEST_ARGS='-k motif'`, les tests Node par `make test-js JS_TESTS=...`.
+Sans paramètre, chaque commande lance toute sa suite. Les 44 alias de sélection
+sont retirés ; documentation et CI emploient les mêmes entrées. Les dispositifs
+Docker E2E et le diagnostic de mise à niveau historique restent distincts.
+Huit tests de contrat vérifient la sélection, les options, les échecs et le
+refus d'une sélection vide. Aucun changement métier, modèle ou migration.
+Voir [le guide des tests](docs/TESTS.md).
+
 ## 13 novembre 2026 — retrait des trois modèles employeurs hérités
 
 EMPLOYEURS / ADMIN : après retrait des parcours obsolètes, suppression de
@@ -95,7 +106,7 @@ activés restent des outils de test isolés ; les modes de présentation sont re
 Les actions AGLAE sandbox/géocodage restent explicites et configurées ; la lecture
 et la sauvegarde seules ne les appellent pas. Aucun service réel activé ou appelé.
 
-Tests adaptés aux comptes réels de fixtures ; make test-retired-paths remplace
+Tests adaptés aux comptes réels de fixtures ; make test TESTS=config.test_retired_paths remplace
 l'ancien contrôle de modes. Dépendances Web Push retirées ; cryptography est déclarée
 explicitement pour le fixture TLS E2E qui la recevait indirectement. Guides actifs
 réécrits et traductions inutilisées retirées, notamment les avertissements hérités.
@@ -115,7 +126,7 @@ Aucune fusion ni opération de production autorisée/exécutée dans ce lot.
 Le banc est réancré sur #181, sans reprendre le transport Brevo de #182 fermée.
 Les trois commits initiaux sont conservés. Un défaut du lecteur d’e-mails de test
 est corrigé : plusieurs messages peuvent partager le même fichier Django.
-`make e2e-unit-test` reproduit ce cas ; échec observé avant correction, puis succès.
+`make test TESTS=eures_beta.system_tests.test_journeys` reproduit ce cas ; échec observé avant correction, puis succès.
 Validation après réancrage : 615 tests PostgreSQL et contrôles de qualité réussis.
 Les cinq parcours Docker passent sous 256 Mio ; le témoin historique constate
 l’OOM attendu à huit recherches simultanées. Aucune fusion ou production effectuée.
@@ -209,7 +220,7 @@ Même protocole, mêmes délais/limites et mêmes protections ; aucun appel rée
 Déplacement sans changement fonctionnel de `users/email_backend.py` vers
 `emails/backend.py`, avec réglages, imports et tests recâblés. SMTP Django
 indépendant de Brevo ; activation explicite identique dans tous les environnements.
-Aucun secret, modèle ou migration modifié. Cible dédiée `make emails-test`.
+Aucun secret, modèle ou migration modifié. Tests : `make test TESTS=eures_beta.emails.tests`.
 
 ## 9 novembre 2026 — profil du compte employeur (#133)
 
@@ -306,7 +317,7 @@ Promesses d’accompagnement systématique retirées des landing pages ; double 
 et absence de rejet automatique sur les seules réponses conservés.
 Liens, protections, logos et parcours existants préservés ; aucune migration.
 
-Validation locale : `make landing-test` (17 tests PostgreSQL réussis),
+Validation locale du sous-ensemble des pages d'entrée : 17 tests PostgreSQL réussis,
 `make check`, `make translations-check`, `make translations-compile`,
 `make format` et `make format-html-check` réussis.
 Pas d’audit WCAG complet ni de vérification de production. Aucune fusion ou
@@ -389,7 +400,7 @@ Ajout de `User.Kind.CANDIDATE` et migration `users.0005_candidate_kind` pour
 aucun privilège supplémentaire. Le tableau de bord candidat utilise la page
 générique existante sans entrer dans l’espace employeur. FR/EN/DE couverts.
 
-Validation du lot : `make user-kind-test` (21 tests PostgreSQL réussis), puis
+Validation du lot : `make test TEST_ARGS='-k test_users -k candidate_kind -k closed_registration'` (21 tests PostgreSQL réussis), puis
 `make test` (364 tests PostgreSQL réussis), `make check`, `make format-check`,
 `make translations-check` et `git diff --check`. Migration depuis `users.0004`
 testée avec conservation intégrale des comptes conseiller/employeur, rejet
@@ -413,7 +424,7 @@ consultables par les superadministrateurs. Administration entièrement en lectur
 seule, y compris les comptes ; création de conseiller par admin retirée.
 Invitations employeurs hors admin inchangées. Secrets exclus, sessions et journal
 limités à leurs métadonnées. Aucune migration ou donnée de production modifiée.
-Voir docs/ADMIN_READONLY.md et `make admin-test`.
+Voir docs/ADMIN_READONLY.md et `make test TESTS=eures_beta.users.tests.test_readonly_admin`.
 
 ## 2 novembre 2026 — invitations employeurs (nouvelle PR)
 
@@ -1102,13 +1113,13 @@ collègues début octobre. Priorité à leur accueil et prise en main du projet,
 sans campagne d’acquisition pendant cette période. Pas de bilan chiffré au
 2 novembre. Contenu gettext FR/EN/DE, cadre public et logos existants conservés.
 Sommaire avec ancres et cartes chronologiques, styles adaptés aux petits écrans.
-`make journal-test` vérifie les jalons, langues, liens et méthodes HTTP.
+`make test TEST_ARGS='-k journal -k public_navigation -k project'` vérifie les jalons, langues, liens et méthodes HTTP.
 Version et design validés par Eric le 2 novembre ; publication GitHub autorisée
 sous le titre « journal du projet », au sommet de la pile. Aucune fusion ni
 mise en production autorisée.
 
 Vérifications locales du 2 novembre : neuf tests ciblés réussis via
-`make journal-test`, contrôles Black, djLint, disposition des templates et
+`make test TEST_ARGS='-k journal -k public_navigation -k project'`, contrôles Black, djLint, disposition des templates et
 traductions réussis. Rendu navigateur contrôlé à 1440 et 390 px sans débordement
 horizontal ; lien du sommaire vérifié. Ces tests de page ne nécessitent pas de
 connexion à une base ; aucune validation d’intégration PostgreSQL revendiquée.
@@ -1230,7 +1241,7 @@ Pas de modification responsive, des adresses e-mail ou de la barre gauche.
 
 Sélecteur traduit et peuplement idempotent : voir [TEST_ACCOUNTS](docs/TEST_ACCOUNTS.md).
 Trois rôles fixes et deux offres ; aucun modèle/migration nouveau. La production
-doit rester désactivée. `make test-accounts-test` couvre les garde-fous et la CSRF.
+doit rester désactivée. `make test TESTS=eures_beta.users.tests.test_test_accounts` couvre les garde-fous et la CSRF.
 
 ## 3 novembre 2026 — compteurs de modèles sur l’accueil admin
 
@@ -1289,7 +1300,7 @@ Défaut exponentiel reproduit dans `occupations.catalog.search_title` sur une
 parenthèse mal formée courte. Test isolé rouge puis correctif sans quantificateurs
 imbriqués ; classements, données et intitulés stockés conservés. Mesures et limites
 dans [OCCUPATION_SEARCH_PERFORMANCE](docs/OCCUPATION_SEARCH_PERFORMANCE.md).
-Commandes : `make occupations-performance-test`, `make occupations-benchmark`.
+Commandes : `make test TESTS=eures_beta.occupations.tests.test_search_performance`, `make occupations-benchmark`.
 # 4 novembre 2026 — stockage structuré candidat
 
 Préparation au-dessus de la PR #127 (`4892caa`) : modèle `CandidateProfile`,

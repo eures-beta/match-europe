@@ -14,7 +14,7 @@ La page publique Projet utilise `templates/project.html`, le système gettext
 commun et les tests de contenu trilingue dans `test_project.py`.
 
 Le journal public utilise `journal.py`, `templates/journal.html` et ses tests
-trilingues dans `test_journal.py`. Vérifier son contenu avec `make journal-test`.
+trilingues dans `test_journal.py`. Vérifier son contenu avec `make test TEST_ARGS='-k journal -k public_navigation -k project'`.
 
 Les comptes conseiller et employeur partagent désormais [users/](users/), avec
 un seul modèle Django `User` et un champ `kind`. Voir [la transition et ses

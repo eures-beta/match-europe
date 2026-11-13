@@ -25,7 +25,7 @@ Les e-mails nécessitent `EMAIL_DELIVERY_ENABLED=1`, `LOGIN_EMAIL_ENABLED=1`, un
 
 ## Vérifications
 
-`make test` : 605 tests PostgreSQL réussis au sommet après intégration du client Albert partagé et actualisation de la pile distante ; suites intermédiaires complètes également vérifiées : 509 tests pour #158 et 558 pour #161. `make environment-parity-test` regroupe les contrôles de configuration et de parcours local/recette/production avec des intégrations simulées. Les tests exercent des requêtes distantes, des adresses ordinaires, les mêmes opérations métier et les refus d’accès ; les noms d’environnement sont des configurations de test, pas une vérification des services distants.
+`make test` : 605 tests PostgreSQL réussis au sommet après intégration du client Albert partagé et actualisation de la pile distante ; suites intermédiaires complètes également vérifiées : 509 tests pour #158 et 558 pour #161. `make test` regroupe les contrôles de configuration et de parcours local/recette/production avec des intégrations simulées. Les tests exercent des requêtes distantes, des adresses ordinaires, les mêmes opérations métier et les refus d’accès ; les noms d’environnement sont des configurations de test, pas une vérification des services distants.
 
 Contrôles complémentaires : Django, absence de migration oubliée, installation sur base neuve, formats Python/templates/JavaScript, syntaxe et tests JavaScript, traductions FR/DE. Aucun e-mail ni appel Albert réel pendant ces vérifications. Les secrets, sources préparées et transports des environnements distants restent à leur configuration privée ; aucune fusion, aucun déploiement ou changement de données de production n’est réalisé ici.
 

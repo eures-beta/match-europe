@@ -85,8 +85,8 @@ la modification, le changement de métier et le second rôle. La simulation
 prend les huit premières URI triées : elle valide le parcours et le cache,
 pas la qualité d’une sélection Albert.
 
-Vérifications : `make skills-albert-test`, `make skills-albert-ui-test`,
-`make skills-pilot-test`, `make test`, `make check`, `make format-check`,
+Vérifications : `make test TESTS=eures_beta.skills.tests.test_albert_skills`, `make test-js`,
+`make test TESTS=eures_beta.skills.tests.test_skills_pilot`, `make test`, `make check`, `make format-check`,
 `make format-html-check`, `make format-js-check`, `make check-js`,
 `make translations-check` et `make translations-compile`.
 

@@ -43,6 +43,6 @@ Aucun modèle ni migration supplémentaire n’est nécessaire.
 - En recette, la configuration et l’appel du peuplement après les migrations
   relèvent du dépôt privé de déploiement. La production ne doit jamais l’appeler.
 
-Vérifications PostgreSQL : `make test-accounts-test` ; suite complète : `make test`.
+Vérifications PostgreSQL : `make test TESTS=eures_beta.users.tests.test_test_accounts` ; suite complète : `make test`.
 Les langues FR, EN et DE sont couvertes, ainsi que les refus de connexion,
 la CSRF, la rotation des sessions et la préservation des essais.

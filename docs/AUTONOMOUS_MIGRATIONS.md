@@ -45,7 +45,7 @@ les tables actuelles et leurs données.
 
 ## Vérifications locales
 
-- `make migrations-test` : installation neuve, données d'une base passée par
+- `make test TEST_ARGS='-k migration -k model_renames'` : installation neuve, données d'une base passée par
   la transition et refus d'une base ayant sauté cette étape.
 - `make test` : suite complète PostgreSQL dans une base de test locale dédiée.
 - `make check` : contrôles Django et absence de migration manquante.

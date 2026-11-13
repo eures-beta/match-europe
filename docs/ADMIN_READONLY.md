@@ -54,7 +54,7 @@ natif. Aucun modèle futur n'est exposé automatiquement : le test d'exhaustivit
 signalera qu'un enregistrement explicite doit être ajouté.
 
 ```bash
-make admin-test
+make test TESTS=eures_beta.users.tests.test_readonly_admin
 make test
 make check
 ```
