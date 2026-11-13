@@ -7,9 +7,41 @@ from .redirects import (
     legacy_employer_connected,
     legacy_employer_page,
     legacy_import_api,
+    legacy_workspace_route,
 )
 
 urlpatterns = [
+    *[
+        path(old_path, legacy_workspace_route, {'target': target})
+        for old_path, target in (
+            ('matching/candidate/', 'candidate_offer_inbox'),
+            ('matching/candidate/<int:pk>/', 'candidate_offer_confirmation'),
+            ('matching/candidate/<int:pk>/dialogue/', 'candidate_offer_dialogue'),
+            ('accounts/dashboard/conversations/<int:pk>/', 'adviser_conversation'),
+            ('matching/shared/start/<int:pk>/', 'shared_conversation_start'),
+            ('matching/shared/<int:pk>/', 'shared_conversation'),
+        )
+    ],
+    path(
+        'accounts/dashboard/matching/<int:pk>/',
+        legacy_workspace_route,
+        {'target': 'adviser_match'},
+    ),
+    path(
+        'accounts/dashboard/invitations/',
+        legacy_workspace_route,
+        {'target': 'adviser_invitations'},
+    ),
+    path(
+        'accounts/employers/invite/',
+        legacy_workspace_route,
+        {'target': 'employer_invite'},
+    ),
+    path(
+        'api/employer/response-practice/',
+        legacy_workspace_route,
+        {'target': 'employer_response_practice'},
+    ),
     path('employer/connected/', legacy_employer_connected),
     path('employer/pages/<path:path>', legacy_employer_page),
     path('previews/employer-landing/<path:path>', legacy_employer_page),

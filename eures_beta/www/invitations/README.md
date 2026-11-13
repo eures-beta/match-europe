@@ -11,3 +11,5 @@ Acceptation et préparation des invitations ; les comptes et invitations restent
 - [forms.py](forms.py) — Définit et valide les formulaires propres aux écrans de ce parcours.
 - [urls.py](urls.py) — Associe les URL existantes aux vues, sans changer leur nom public.
 - [views.py](views.py) — Traite les requêtes de ce parcours et prépare les réponses.
+
+Le conseiller prépare et suit les invitations sous `/adviser/invitations/` et `/adviser/invitations/new/`. L’acceptation commune reste `/accounts/invitations/confirm/`.

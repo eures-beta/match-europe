@@ -57,6 +57,17 @@ class DialogueTests(TestCase):
             scope=scope,
         )
 
+    def test_old_dialogue_post_reaches_the_owned_review_without_losing_the_answer(self):
+        old = f'/matching/candidate/{self.obj.pk}/dialogue/?lang=fr'
+        response = self.client.post(
+            old, {**self.data(), 'action': 'quick', 'value': 'yes'}, follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain[0], (self.url + '?lang=fr', 308))
+        self.assertEqual(self.obj.answers.latest('pk').value, 'yes')
+        self.client.force_login(prepared_user('adviser'))
+        self.assertEqual(self.client.get(old, follow=True).status_code, 404)
+
     def propose(self, text='oui', scope=''):
         page = self.client.post(self.url, {'action': 'reply', **self.data(text, scope)})
         self.assertEqual(page.status_code, 200)

@@ -1,26 +1,23 @@
 from django.urls import path
+from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.matching import (
     confirmations as confirmation_views,
-    dialogue as dialogue_views,
     conversations as shared_views,
     views,
 )
 
 urlpatterns = [
+    path('<int:pk>/review/', adviser_matching.detail, name='adviser_match'),
     path(
-        'shared/start/<int:pk>/', shared_views.start, name='shared_conversation_start'
+        'offer-reviews/<int:pk>/conversation/',
+        shared_views.start,
+        name='shared_conversation_start',
     ),
-    path('shared/<int:pk>/', shared_views.detail, name='shared_conversation'),
+    path('conversations/<int:pk>/', shared_views.detail, name='shared_conversation'),
     path(
-        "candidate/<int:pk>/dialogue/",
-        dialogue_views.conversation,
-        name="candidate_offer_dialogue",
-    ),
-    path('candidate/', confirmation_views.inbox, name='candidate_offer_inbox'),
-    path(
-        'candidate/<int:pk>/',
-        confirmation_views.dialogue,
-        name='candidate_offer_confirmation',
+        'offer-reviews/<int:pk>/',
+        adviser_matching.follow,
+        name='adviser_conversation',
     ),
     path(
         '<int:pk>/confirmations/',

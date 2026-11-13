@@ -1,4 +1,5 @@
 from django.urls import path
+from eures_beta.www.matching import confirmations, dialogue
 from eures_beta.www.candidate import (
     landing,
     journey,
@@ -7,6 +8,17 @@ from eures_beta.www.candidate import (
 )
 
 urlpatterns = [
+    path('candidate/offer-reviews/', confirmations.inbox, name='candidate_offer_inbox'),
+    path(
+        'candidate/offer-reviews/<int:pk>/',
+        confirmations.dialogue,
+        name='candidate_offer_confirmation',
+    ),
+    path(
+        'candidate/offer-reviews/<int:pk>/dialogue/',
+        dialogue.conversation,
+        name='candidate_offer_dialogue',
+    ),
     path(
         'candidate/push-subscriptions/',
         push.subscribe,
