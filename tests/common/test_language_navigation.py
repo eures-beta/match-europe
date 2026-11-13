@@ -77,7 +77,7 @@ class LanguageNavigationTests(SimpleTestCase):
         )
         self.assertEqual(response.status_code, 301)
         self.assertEqual(
-            response['Location'], '/employer/pages/import-en.html?example=one%20two'
+            response['Location'], '/employer/import/?example=one+two&lang=en'
         )
         self.assertEqual(
             self.client.get(

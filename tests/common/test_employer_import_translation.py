@@ -27,7 +27,7 @@ class JobOfferTranslationTests(TestCase):
                     'fr' if language == 'en' else 'en'
                 )
                 response = self.client.get(
-                    f'/employer/pages/{self.page}-{language}.html', secure=True
+                    f'/employer/{self.page}/?lang={language}', secure=True
                 )
                 self.assertContains(response, 'id="development-notice"', count=1)
                 self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
@@ -37,7 +37,9 @@ class JobOfferTranslationTests(TestCase):
                 self.assertTemplateUsed(response, f'employer/{self.page}.html')
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, f'href="/privacy/?lang={language}"')
-                assert_active_link(self, response, f'{self.page}-{language}.html')
+                assert_active_link(
+                    self, response, f'/employer/{self.page}/?lang={language}'
+                )
                 html = response.content.decode()
                 scripts = json_scripts(response)
                 strings = json.loads(scripts['import-strings'])
@@ -65,11 +67,11 @@ class JobOfferCompatibilityTests(TestCase):
             for language in ('fr', 'en', 'de'):
                 with self.subTest(authenticated=authenticated, language=language):
                     old = f'/employer/pages/import-v2-{language}.html'
-                    canonical = f'/employer/pages/import-{language}.html'
+                    canonical = f'/employer/import/?lang={language}'
                     response = self.client.get(old + '?example=one%20two', secure=True)
                     self.assertRedirects(
                         response,
-                        canonical + '?example=one%20two',
+                        '/employer/import/?example=one+two&lang=' + language,
                         status_code=301,
                         fetch_redirect_response=False,
                     )
@@ -93,7 +95,7 @@ class JobOfferCompatibilityTests(TestCase):
 
         for language in ('fr', 'en', 'de'):
             old = f'/employer/pages/import-v2-{language}.html'
-            canonical = f'/employer/pages/import-{language}.html'
+            canonical = f'/employer/import/?lang={language}'
             request = RequestFactory().get('/accounts/login/', {'next': old})
             request.session = {}
             remember(request)

@@ -144,14 +144,12 @@ class EmployerDashboardTests(TestCase):
                 ('de', 'Meinen Personalbedarf beschreiben'),
             ):
                 with self.subTest(populated=populated, language=language):
-                    url = f'/employer/pages/import-{language}.html'
+                    url = f'/employer/import/?lang={language}'
                     button = f'<a class="primary-action" href="{url}">{label}</a>'
                     dashboard = self.client.get(
                         reverse('dashboard'), {'lang': language}
                     )
-                    public = self.client.get(
-                        f'/employer/pages/{language}.html', secure=True
-                    )
+                    public = self.client.get(f'/employer/?lang={language}', secure=True)
                     self.assertContains(dashboard, button, html=True)
                     self.assertContains(public, button, html=True)
                     self.assertEqual(self.client.get(url, secure=True).status_code, 200)

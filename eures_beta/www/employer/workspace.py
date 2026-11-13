@@ -9,6 +9,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
@@ -449,7 +450,7 @@ def resume_attachment(request, id):
         JobOffer, pk=id, company__isnull=True, created_by=identity(request)
     )
     request.session['employer_claim_import'] = str(offer.pk)
-    return redirect('employer_connected')
+    return redirect('employer_offers')
 
 
 @connected
@@ -491,9 +492,9 @@ def connected_page(request, email, person, draft, establishment_form=None):
             if draft
             else ''
         ),
-        import_url='/employer/pages/import-'
-        + request.session.get('employer_auth_language', 'fr')
-        + '.html',
+        import_url=reverse('employer_import')
+        + '?lang='
+        + request.session.get('employer_auth_language', 'fr'),
         attached=request.session.pop('employer_attached', False),
         establishment_form=(
             establishment_form
@@ -552,4 +553,4 @@ def attach_draft(request):
         schedule_offer_matching(draft)
     request.session.pop('employer_claim_import', None)
     request.session['employer_attached'] = company.name
-    return redirect('employer_connected')
+    return redirect('employer_offers')

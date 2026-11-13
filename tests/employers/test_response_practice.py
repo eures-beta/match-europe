@@ -185,7 +185,7 @@ class ResponsePracticeTests(TestCase):
                 user=adviser, response_coverage='all', response_time='under_week'
             ).full_clean()
 
-    def test_questions_then_summary_in_both_layouts_and_three_languages(self):
+    def test_questions_then_summary_in_three_languages(self):
         for language, label, button in (
             (
                 'fr',
@@ -199,21 +199,18 @@ class ResponsePracticeTests(TestCase):
                 'Meine Antworten ändern',
             ),
         ):
-            for prefix in ('import-',):
-                path = f'/employer/pages/{prefix}{language}.html'
-                page = self.client.get(path, secure=True)
-                self.assertContains(page, label)
-                self.assertContains(page, button)
-                self.assertContains(page, 'id="response-practice-summary" hidden')
-                self.assertNotContains(page, 'id="response-practice-form" hidden')
+            page = self.client.get('/employer/import/', {'lang': language}, secure=True)
+            self.assertContains(page, label)
+            self.assertContains(page, button)
+            self.assertContains(page, 'id="response-practice-summary" hidden')
+            self.assertNotContains(page, 'id="response-practice-form" hidden')
         self.save()
-        for prefix in ('import-',):
-            page = self.client.get(f'/employer/pages/{prefix}fr.html', secure=True)
-            self.assertContains(page, 'Oui, à toutes les candidatures')
-            self.assertContains(page, 'Entre 1 et 2 semaines')
-            self.assertContains(page, 'id="response-practice-form" hidden')
-            self.assertContains(page, 'value="one_two_weeks" selected')
+        page = self.client.get('/employer/import/?lang=fr', secure=True)
+        self.assertContains(page, 'Oui, à toutes les candidatures')
+        self.assertContains(page, 'Entre 1 et 2 semaines')
+        self.assertContains(page, 'id="response-practice-form" hidden')
+        self.assertContains(page, 'value="one_two_weeks" selected')
         self.client.force_login(self.colleague)
-        page = self.client.get('/employer/pages/import-fr.html', secure=True)
+        page = self.client.get('/employer/import/?lang=fr', secure=True)
         self.assertContains(page, 'id="response-practice-summary" hidden')
         self.assertNotContains(page, 'value="one_two_weeks" selected')

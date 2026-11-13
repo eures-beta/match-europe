@@ -211,7 +211,7 @@
                {% if request.resolver_match.url_name == 'candidate_landing' %}aria-current="page"{% endif %}
                href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
             <a class="nav-pill"
-               href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
+               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer landing" %}</a>
             <a class="nav-pill{% if request.resolver_match.url_name == 'statistics' %} is-active{% endif %}"
                {% if request.resolver_match.url_name == 'statistics' %}aria-current="page"{% endif %}
                href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>

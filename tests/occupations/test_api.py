@@ -128,9 +128,7 @@ class OccupationSearchTests(TestCase):
             ('en', 'Describe the job offered'),
             ('de', 'Beschreiben Sie den angebotenen Beruf'),
         ]:
-            response = self.client.get(
-                f'/employer/pages/import-{lang}.html', secure=True
-            )
+            response = self.client.get(f'/employer/import/?lang={lang}', secure=True)
             self.assertEqual(response.status_code, 200)
             html = response.content.decode()
             match = re.search(

@@ -32,18 +32,16 @@ class EmployerLandingTranslationTests(TestCase):
                 self.client.cookies['django_language'] = (
                     'en' if language != 'en' else 'fr'
                 )
-                response = self.client.get(
-                    f'/employer/pages/{language}.html', secure=True
-                )
+                response = self.client.get(f'/employer/?lang={language}', secure=True)
                 self.assertTemplateUsed(response, 'employer/landing.html')
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, heading)
                 self.assertContains(response, skip)
                 self.assertContains(
-                    response, f'href="/employer/pages/import-{language}.html"'
+                    response, f'href="/employer/import/?lang={language}"'
                 )
                 import_response = self.client.get(
-                    f'/employer/pages/import-{language}.html', secure=True
+                    f'/employer/import/?lang={language}', secure=True
                 )
                 self.assertTemplateUsed(import_response, 'employer/import_access.html')
                 self.assertNotContains(
@@ -53,7 +51,7 @@ class EmployerLandingTranslationTests(TestCase):
                 self.assertContains(
                     response, f'href="/accounts/login/?lang={language}"'
                 )
-                assert_active_link(self, response, f'{language}.html')
+                assert_active_link(self, response, f'/employer/?lang={language}')
                 self.assertContains(response, saved)
                 self.assertContains(response, pending)
                 self.assertContains(

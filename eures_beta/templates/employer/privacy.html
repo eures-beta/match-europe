@@ -25,7 +25,7 @@
             <a class="nav-pill"
                href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer privacy" %}</a>
             <a class="nav-pill"
-               href="{{ page_language }}.html">{% translate "Employer" context "employer privacy" %}</a>
+               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer privacy" %}</a>
             <a class="nav-pill"
                href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer privacy" %}</a>
           </div>
@@ -38,11 +38,11 @@
           <div class="lang-switch"
                aria-label="{% translate "Language" context "employer privacy" %}">
             <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-               href="privacy-fr.html">FR</a>
+               href="{% url 'employer_privacy' %}?lang=fr">FR</a>
             <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-               href="privacy-en.html">EN</a>
+               href="{% url 'employer_privacy' %}?lang=en">EN</a>
             <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-               href="privacy-de.html">DE</a>
+               href="{% url 'employer_privacy' %}?lang=de">DE</a>
           </div>
           {% include "includes/account_link.html" %}
         </nav>
@@ -173,7 +173,7 @@
           </section>
         </div>
         <a class="ghost-action"
-           href="{{ page_language }}.html">{% translate "Back to home" context "employer privacy" %}</a>
+           href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Back to home" context "employer privacy" %}</a>
       </div>
     </main>
     <footer class="employer-page-footer">
@@ -182,7 +182,7 @@
         <nav aria-label="{% translate "Useful links" context "employer privacy" %}">
           <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer privacy" %}</a>
           <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer privacy" %}</a>
-          <a href="privacy-en.html">{% translate "Data protection" context "employer privacy" %}</a>
+          <a href="{% url 'employer_privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer privacy" %}</a>
         </nav>
       </div>
     </footer>

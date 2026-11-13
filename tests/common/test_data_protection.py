@@ -49,9 +49,7 @@ class DataProtectionTests(SimpleTestCase):
                     {'fr': '2 heures', 'en': '2 hours', 'de': '2 Stunden'}[language],
                 )
                 self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
-                self.assertNotContains(
-                    response, f'/employer/pages/privacy-{language}.html'
-                )
+                self.assertNotContains(response, f'/employer/privacy/?lang={language}')
                 for target in ('fr', 'en', 'de'):
                     self.assertContains(response, f'href="/privacy/?lang={target}"')
                 self.assertNotContains(response, '<form')

@@ -77,10 +77,12 @@ class ContinuousTests(TestCase):
                     EMAIL_DELIVERY_ENABLED=True,
                 ),
             ):
-                for url in ('/employer/offers/', '/employer/connected/'):
-                    self.assertEqual(
-                        self.client.get(url, REMOTE_ADDR='192.0.2.1').status_code, 200
-                    )
+                self.assertEqual(
+                    self.client.get(
+                        '/employer/offers/', REMOTE_ADDR='192.0.2.1'
+                    ).status_code,
+                    200,
+                )
 
     def test_fifty_cards_are_shared_and_do_not_call_albert(self):
         token = self.candidate()

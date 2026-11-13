@@ -10,7 +10,7 @@ window.offerImportAPI =
               ?.split('=')[1] || '';
           let response;
           try {
-            response = await fetch('/api/imports/' + path, {
+            response = await fetch('/api/job-offers/' + path, {
               ...options,
               credentials: 'same-origin',
               headers: { ...options.headers, 'X-CSRFToken': csrf },
@@ -28,7 +28,7 @@ window.offerImportAPI =
             const lang = ['fr', 'en', 'de'].includes(document.documentElement.lang)
               ? document.documentElement.lang
               : 'fr';
-            window.location.assign('/employer/pages/import-' + lang + '.html');
+            window.location.assign('/employer/import/?lang=' + lang);
           }
           if (data.id && data.revision)
             document.dispatchEvent(new CustomEvent('me-import-revision', { detail: data }));

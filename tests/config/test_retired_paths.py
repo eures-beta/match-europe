@@ -88,10 +88,10 @@ class RetiredPathsTests(TestCase):
 
     def test_employer_workspace_and_import_keep_account_and_csrf_guards(self):
         self.assertEqual(self.client.get('/employer/offers/').status_code, 302)
-        self.assertEqual(self.client.get('/api/imports/').status_code, 403)
+        self.assertEqual(self.client.get('/api/job-offers/').status_code, 403)
         client = Client(enforce_csrf_checks=True)
         employer = get_user_model().objects.create_user(
             kind='employer', email='csrf@example.invalid'
         )
         client.force_login(employer)
-        self.assertEqual(client.post('/api/imports/', {}).status_code, 403)
+        self.assertEqual(client.post('/api/job-offers/', {}).status_code, 403)

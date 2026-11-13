@@ -236,7 +236,7 @@ class ImportFlowTests(TestCase):
             'rome_codes': ['D1102'],
             'rome_jobs': [{'code': 'D1102', 'label': 'forged'}],
         }
-        url = '/api/imports/' + obj['id'] + '/'
+        url = '/api/job-offers/' + obj['id'] + '/'
         saved = self.client.post(
             url,
             json.dumps(
@@ -294,7 +294,7 @@ class ImportFlowTests(TestCase):
 
     def create(self):
         return self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'text': 'A useful fictional job description.',
@@ -318,7 +318,7 @@ class ImportFlowTests(TestCase):
 
     def update(self, result, action='save', **kwargs):
         return self.client.post(
-            '/api/imports/' + result['id'] + '/',
+            '/api/job-offers/' + result['id'] + '/',
             json.dumps(
                 {
                     'action': action,
@@ -336,10 +336,10 @@ class ImportFlowTests(TestCase):
         obj = response.json()
         self.assertTrue(JobOffer.objects.filter(pk=obj['id']).exists())
         self.assertEqual(
-            self.client.get('/api/imports/' + obj['id'] + '/').status_code, 200
+            self.client.get('/api/job-offers/' + obj['id'] + '/').status_code, 200
         )
         self.assertEqual(
-            Client().get('/api/imports/' + obj['id'] + '/').status_code, 403
+            Client().get('/api/job-offers/' + obj['id'] + '/').status_code, 403
         )
 
     @patch('eures_beta.www.employer.imports.aglae')
@@ -354,7 +354,7 @@ class ImportFlowTests(TestCase):
     )
     def test_review_before_contact_preserves_corrections(self, read, geo, aglae):
         first = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -377,18 +377,18 @@ class ImportFlowTests(TestCase):
             ),
             'data': json.dumps({**summary['data'], 'title': 'Corrected title'}),
         }
-        created = self.client.post('/api/imports/', payload)
+        created = self.client.post('/api/job-offers/', payload)
         self.assertEqual(created.status_code, 201)
         self.assertEqual(created.json()['data']['title'], 'Corrected title')
         self.assertEqual(created.json()['data']['description'], 'Fictional PDF text')
         read.assert_called_once()
         geo.assert_not_called()
         aglae.assert_not_called()
-        self.assertEqual(self.client.post('/api/imports/', payload).status_code, 400)
+        self.assertEqual(self.client.post('/api/job-offers/', payload).status_code, 400)
 
     def test_manual_summary_does_not_require_contact_or_create_import(self):
         result = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'kind': 'manual', 'agreement': 'true', 'text': 'Fictional manual offer.'},
         )
         self.assertEqual(result.status_code, 200)
@@ -398,7 +398,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(JobOffer.objects.count(), 0)
         self.assertEqual(
             self.client.post(
-                '/api/imports/source/',
+                '/api/job-offers/source/',
                 {'kind': 'manual', 'text': 'Fictional offer.'},
             ).status_code,
             400,
@@ -417,7 +417,7 @@ class ImportFlowTests(TestCase):
         created['data']['requirements'] = req
         response = self.update(created)
         self.assertEqual(response.status_code, 200)
-        resumed = self.client.get('/api/imports/' + created['id'] + '/').json()
+        resumed = self.client.get('/api/job-offers/' + created['id'] + '/').json()
         self.assertEqual(resumed['data']['requirements'], req)
         self.assertEqual(
             JobOffer.objects.get(pk=created['id']).data['requirements'], req
@@ -426,7 +426,7 @@ class ImportFlowTests(TestCase):
     def test_consent_required_before_reading(self):
         with patch('eures_beta.employers.offer_ingestion.fetch_public') as fetch:
             r = self.client.post(
-                '/api/imports/',
+                '/api/job-offers/',
                 {
                     'kind': 'url',
                     'url': 'https://example.org/job',
@@ -460,12 +460,12 @@ class ImportFlowTests(TestCase):
             return_value=(html, 'https://example.org/different'),
         ):
             first = self.client.post(
-                '/api/imports/source/',
+                '/api/job-offers/source/',
                 {'url': 'https://example.org/different', 'agreement': 'true'},
             )
             self.assertEqual(first.status_code, 200)
             r = self.client.post(
-                '/api/imports/',
+                '/api/job-offers/',
                 {
                     'kind': 'url',
                     'url': 'https://example.org/different',
@@ -489,7 +489,7 @@ class ImportFlowTests(TestCase):
     )
     def test_blocked_source_fails_before_email(self, fetch):
         r = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'url': 'https://example.org/blocked', 'agreement': 'true'},
         )
         self.assertEqual(r.status_code, 400)
@@ -505,7 +505,7 @@ class ImportFlowTests(TestCase):
         }
         session.save()
         r = self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'url',
                 'url': 'https://example.org/two',
@@ -525,7 +525,7 @@ class ImportFlowTests(TestCase):
     )
     def test_pdf_read_before_email_and_reused_once(self, read):
         first = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -543,11 +543,11 @@ class ImportFlowTests(TestCase):
             'email': 'fiction@example.invalid',
             'sourceToken': first.json()['token'],
         }
-        self.assertEqual(Client().post('/api/imports/', payload).status_code, 403)
-        created = self.client.post('/api/imports/', payload)
+        self.assertEqual(Client().post('/api/job-offers/', payload).status_code, 403)
+        created = self.client.post('/api/job-offers/', payload)
         self.assertEqual(created.status_code, 201)
         self.assertEqual(created.json()['data']['description'], 'Fictional PDF text')
-        self.assertEqual(self.client.post('/api/imports/', payload).status_code, 400)
+        self.assertEqual(self.client.post('/api/job-offers/', payload).status_code, 400)
         read.assert_called_once()
 
     @patch(
@@ -560,13 +560,13 @@ class ImportFlowTests(TestCase):
             'document': SimpleUploadedFile('offer.pdf', b'%PDF-test'),
         }
         self.assertEqual(
-            self.client.post('/api/imports/source/', payload).status_code, 400
+            self.client.post('/api/job-offers/source/', payload).status_code, 400
         )
         read.assert_not_called()
         payload.update(
             agreement='true', document=SimpleUploadedFile('offer.pdf', b'%PDF-test')
         )
-        response = self.client.post('/api/imports/source/', payload)
+        response = self.client.post('/api/job-offers/source/', payload)
         self.assertEqual(response.json()['error'], 'unreadable')
         self.assertEqual(JobOffer.objects.count(), 0)
 
@@ -576,7 +576,7 @@ class ImportFlowTests(TestCase):
     )
     def test_expired_pdf_preflight_is_rejected(self, read):
         first = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -590,7 +590,7 @@ class ImportFlowTests(TestCase):
         session.save()
         self.assertEqual(
             self.client.post(
-                '/api/imports/',
+                '/api/job-offers/',
                 {
                     'kind': 'pdf',
                     'agreement': 'true',
@@ -612,7 +612,9 @@ class ImportFlowTests(TestCase):
         r = self.update(obj)
         self.assertEqual(r.status_code, 200)
         self.assertEqual(
-            self.client.get('/api/imports/' + obj['id'] + '/').json()['data']['title'],
+            self.client.get('/api/job-offers/' + obj['id'] + '/').json()['data'][
+                'title'
+            ],
             'Example role',
         )
         self.assertEqual(self.update(obj).status_code, 409)
@@ -621,7 +623,7 @@ class ImportFlowTests(TestCase):
     def test_no_api_call_without_validation_or_location(self, api):
         obj = self.create().json()
         self.assertEqual(self.update(obj).status_code, 200)
-        obj = self.client.get('/api/imports/' + obj['id'] + '/').json()
+        obj = self.client.get('/api/job-offers/' + obj['id'] + '/').json()
         self.assertEqual(self.update(obj, 'validate', confirmed=True).status_code, 400)
         api.assert_not_called()
 
@@ -713,11 +715,11 @@ class ImportFlowTests(TestCase):
 
     def test_remote_authenticated_client_allowed_and_missing_csrf_rejected(self):
         self.assertEqual(
-            self.client.get('/api/imports/', REMOTE_ADDR='192.0.2.1').status_code,
+            self.client.get('/api/job-offers/', REMOTE_ADDR='192.0.2.1').status_code,
             200,
         )
         self.assertEqual(
-            Client(enforce_csrf_checks=True).post('/api/imports/', {}).status_code,
+            Client(enforce_csrf_checks=True).post('/api/job-offers/', {}).status_code,
             403,
         )
 
@@ -729,7 +731,7 @@ class ImportFlowTests(TestCase):
                 }
             ).encode()
             first = self.client.post(
-                '/api/imports/source/',
+                '/api/job-offers/source/',
                 {
                     'kind': 'pdf',
                     'document': SimpleUploadedFile('test.pdf', b'%PDF-1.4\nfiction'),
@@ -738,7 +740,7 @@ class ImportFlowTests(TestCase):
             )
             self.assertEqual(first.status_code, 200)
             r = self.client.post(
-                '/api/imports/',
+                '/api/job-offers/',
                 {
                     'kind': 'pdf',
                     'sourceToken': first.json()['token'],
