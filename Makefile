@@ -4,13 +4,13 @@
 # Docker limite réellement le serveur Linux ; aucun secret ni service distant.
 .PHONY: e2e-test e2e-regression e2e-unit-test
 e2e-unit-test: ## Vérifier le lecteur des e-mails capturés sans Docker ni envoi
-	@$(MANAGE) test eures_beta.system_tests.test_journeys --noinput
+	@$(MANAGE) test eures_beta.e2e.test_journeys --noinput
 
 e2e-test: ## Tester les parcours HTTP sur Gunicorn/PostgreSQL, serveur plafonné à 256 Mio
-	python3 -m eures_beta.system_tests.run
+	python3 -m eures_beta.e2e.run
 
 e2e-regression: ## Vérifier que le même banc détecte l'OOM de l'ancien code avant #177
-	python3 -m eures_beta.system_tests.run --legacy-control
+	python3 -m eures_beta.e2e.run --legacy-control
 
 .PHONY: confirmations-migrations-test
 confirmations-migrations-test: ## Vérifier l'upgrade de l'ancien schéma de confirmations sans perte

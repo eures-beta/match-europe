@@ -4,4 +4,4 @@ WORKDIR /app
 COPY requirements/ requirements/
 RUN pip install --no-cache-dir -r requirements/test.txt
 COPY . .
-CMD ["python", "-m", "eures_beta.system_tests.bootstrap"]
+CMD ["python", "-m", "eures_beta.e2e.bootstrap"]

@@ -34,7 +34,7 @@ class CapturedEmailTests(SimpleTestCase):
             self.assertEqual(len(list(mail.glob('*'))), 1)
             browser = object.__new__(Browser)
             browser.request = Mock()
-            with patch('eures_beta.system_tests.journeys.ARTIFACTS', artifacts):
+            with patch('eures_beta.e2e.journeys.ARTIFACTS', artifacts):
                 browser.confirm_mail(
                     'invited@example.invalid', '/accounts/invitations/confirm/'
                 )
