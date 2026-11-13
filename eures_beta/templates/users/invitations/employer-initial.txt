@@ -2,7 +2,11 @@
 
 {% translate "Following our conversation, here is your link to access Match Europe." %}
 
-{% translate "Access Match Europe" %} — {{ link }}
+{% translate "Open the form" %} — {{ link }}
+
+{% translate "This questionnaire lets you describe your needs, recruitment constraints and proposed terms so we can explore possible introductions to suitable candidates." %}
+
+{% translate "EURES is the European employment cooperation network that facilitates recruitment and job opportunities across Europe." %}
 
 {% translate "Kind regards," %}
 {% if adviser_first_name %}{{ adviser_first_name }}
