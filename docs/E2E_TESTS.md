@@ -33,7 +33,7 @@ Les emails passent par le backend Django vers des fichiers temporaires : les
 liens sont suivis sans les publier. Aucun appel Albert ni email réel n'est émis.
 
 Le lecteur traite chaque message séparément lorsque le backend Django en ajoute
-plusieurs au même fichier. `make test TESTS=eures_beta.system_tests.test_journeys` vérifie ce cas sans Docker ; il ne
+plusieurs au même fichier. `make test TESTS=tests.e2e.test_journeys` vérifie ce cas sans Docker ; il ne
 faut pas supposer qu’un fichier correspond toujours à un seul destinataire.
 
 Ce sont des tests bout en bout **HTTP**, pas un navigateur exécutant le JavaScript.

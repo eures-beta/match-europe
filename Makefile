@@ -5,10 +5,10 @@
 .PHONY: e2e-test e2e-regression
 
 e2e-test: ## Tester les parcours HTTP sur Gunicorn/PostgreSQL, serveur plafonné à 256 Mio
-	python3 -m eures_beta.e2e.run
+	python3 -m tests.e2e.run
 
 e2e-regression: ## Vérifier que le même banc détecte l'OOM de l'ancien code avant #177
-	python3 -m eures_beta.e2e.run --legacy-control
+	python3 -m tests.e2e.run --legacy-control
 
 .PHONY: dialogue-live-evaluate
 dialogue-live-evaluate: ## Evaluer Albert réel sur six échanges fictifs, sans base ni données utilisateur
@@ -58,7 +58,7 @@ albert-evaluate: ## Évaluer un texte local avec Albert (ALBERT_INPUT requis, ap
 	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 "$(PYTHON)" manage.py evaluate_albert "$(ALBERT_INPUT)" --output "$(ALBERT_OUTPUT)"
 
 # Tests JavaScript : un seul runner pour tous les fichiers, sans navigateur.
-JS_TESTS ?= $(shell find eures_beta -type f \( -name '*.test.cjs' -o -name 'test_*.cjs' \) | LC_ALL=C sort)
+JS_TESTS ?= $(shell find tests -type f \( -name '*.test.cjs' -o -name 'test_*.cjs' \) | LC_ALL=C sort)
 .PHONY: test-js
 test-js: ## Tous les tests JavaScript ; JS_TESTS=chemin.test.cjs pour en sélectionner
 	@test -n "$(strip $(JS_TESTS))" || { echo 'JS_TESTS ne doit pas être vide.' >&2; exit 2; }
@@ -70,14 +70,14 @@ install-js: ## Installer la version verrouillée du formateur JavaScript
 	npm ci --ignore-scripts --no-audit --no-fund
 
 format-js: ## Formater les sources JavaScript (cible 100 colonnes, indentation 2 espaces)
-	./node_modules/.bin/prettier --write 'eures_beta/**/*.{js,cjs,mjs}'
+	./node_modules/.bin/prettier --write 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}'
 
 format-js-check: ## Vérifier le format JavaScript sans modifier les sources
-	./node_modules/.bin/prettier --check 'eures_beta/**/*.{js,cjs,mjs}'
+	./node_modules/.bin/prettier --check 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}'
 
 check-js: ## Vérifier la syntaxe de chaque source JavaScript
-	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}'
-	find eures_beta -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
+	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}'
+	find eures_beta tests -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
 
 # Même Prettier pour les CSS autonomes ; les ressources tierces restent intactes.
 .PHONY: format-css format-css-check
@@ -148,7 +148,7 @@ occupations-validate: ## Vérifier un catalogue et écrire son rapport, sans mod
 HOST ?= 127.0.0.1
 PORT ?= 8000
 # Commandes usuelles sans paramètres ; chaque worktree possède son .venv et .env.
-TESTS ?= eures_beta config
+TESTS ?= tests
 TEST_ARGS ?= --verbosity=0
 # .env est un fichier shell : ne pas l'inclure comme syntaxe Make (secrets avec $).
 LOAD_ENV = set -e; set -a; if [ -f .env ]; then . ./.env; fi; set +a;
@@ -236,7 +236,7 @@ translations-check: ## Refuser les messages gettext non traduits ou encore marqu
 
 .PHONY: users-upgrade-test
 users-upgrade-test: ## Vérifier la migration des identités dans une base PostgreSQL locale jetable
-	@$(LOAD_ENV) "$(PYTHON)" -m eures_beta.users.tools.verify_upgrade
+	@$(LOAD_ENV) "$(PYTHON)" -m tests.users.verify_upgrade
 
 .PHONY: test-accounts-seed
 test-accounts-seed: ## Ajouter les comptes et offres fictifs (local/preview explicitement activé uniquement)

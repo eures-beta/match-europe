@@ -10,7 +10,7 @@ des nouvelles adresses ne détectaient pas cette régression.
 Les trois mêmes tests de navigation passent sur la tête de #15 (`dbce808`) et
 échouent sur #34 avant correctif. Le premier commit de cette PR ajoute ces tests,
 le second rétablit les liens avec des redirections permanentes vers les pages actuelles.
-`make test TESTS=eures_beta.test_language_navigation` exécute ce contrôle ; il fait aussi partie de `make test`.
+`make test TESTS=tests.common.test_language_navigation` exécute ce contrôle ; il fait aussi partie de `make test`.
 
 L’ancien préfixe n’est conservé que pour la compatibilité des liens : aucune page
 n’y est servie et « preview » reste réservé aux recettes jetables dans le code actif.

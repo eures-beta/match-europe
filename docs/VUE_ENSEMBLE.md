@@ -1,3 +1,14 @@
+## 13 novembre 2026 — tests centralisés à la racine
+
+TRANSVERSE : tous les tests automatisés Python et JavaScript sont sous
+`tests/`, classés par domaine. Les contrôles communs sont dans `tests/common/`,
+ceux du socle dans `tests/config/`, le banc HTTP Docker dans `tests/e2e/`.
+Ce sont des paquets de tests, sans application Django supplémentaire.
+Imports, fixtures, sélection Make, CI et guides suivent les nouveaux chemins.
+Le peuplement fictif utilisable par les recettes reste du code applicatif.
+Aucun changement métier, modèle, migration ou donnée persistante.
+Voir [le guide des tests](TESTS.md).
+
 ## 13 novembre 2026 — application dédiée aux invitations
 
 TRANSVERSE / CONSEILLERS : le domaine invitations quitte users pour

@@ -47,7 +47,7 @@ Sur le cas à 32 lettres, la recherche ESCO + ROME après nettoyage termine
 environ en 0,35 seconde à froid après correction. Ces mesures locales ne sont
 pas une garantie de latence sur une Pico Clever.
 
-`make test TESTS=eures_beta.occupations.tests.test_search_performance` protège le testeur avec un sous-processus :
+`make test TESTS=tests.occupations.test_search_performance` protège le testeur avec un sous-processus :
 un timeout de thread ne suffirait pas face à une regex gardant le GIL. Ce test
 échoue sur le premier commit de la PR puis passe après le correctif. Il couvre
 parenthèse absente, caractère invalide, espaces répétés, grammaire normale et

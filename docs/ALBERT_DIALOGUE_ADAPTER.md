@@ -71,8 +71,8 @@ propriétaire de #162 restent obligatoires, même avec une clé configurée.
 `ALBERT_DIALOGUE_MODEL` permet de choisir le modèle ; son défaut est `ALBERT_MODEL`.
 Le secret est fourni uniquement par la configuration protégée de l’environnement.
 
-- `make test TESTS=eures_beta.matching.tests.test_dialogue_albert` : tests du connecteur avec réponses API mockées.
-- `make test TESTS=eures_beta.matching.tests.test_dialogue` : tests du simulateur.
+- `make test TESTS=tests.matching.test_dialogue_albert` : tests du connecteur avec réponses API mockées.
+- `make test TESTS=tests.matching.test_dialogue` : tests du simulateur.
 - `make run PORT=9045` : application locale sur loopback 9045 ; nécessite
   un accès configuré, `CONFIRMATION_DIALOGUE_ENABLED=1` et
   `CONFIRMATION_DIALOGUE_SIMULATED=0` dans le `.env` pour dialoguer réellement,

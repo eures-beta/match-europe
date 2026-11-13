@@ -12,6 +12,12 @@
   Une cible distincte se justifie par un dispositif différent (Docker, diagnostic
   de mise à niveau historique), pas par une simple liste de tests. Voir
   [le guide des tests](docs/TESTS.md).
+- Tous les tests automatisés Python et JavaScript vivent dans `tests/` à la
+  racine, classés par domaine (`tests/candidates/`, `tests/employers/`, etc.).
+  Les tests transverses sont dans `tests/common/`, ceux du socle dans
+  `tests/config/`, et le banc HTTP Docker dans `tests/e2e/`. Placer les fixtures
+  et helpers de test avec leur domaine ; ne pas recréer de tests dans les
+  applications ou `config/`. Ce paquet n'est pas une application Django.
 - Dans les README, la documentation et les descriptions de PR, présenter la
   commande `make` correspondante. Conserver les détails d’exécution dans sa
   recette, plutôt que recopier de longues commandes shell dans les fichiers
@@ -99,7 +105,7 @@
   les superutilisateurs : pas de création, modification, suppression ni action
   groupée. Ne pas réactiver ces opérations sans demande explicite.
 - Utiliser la base commune `users/admin_base.py`, préserver le masquage des
-  secrets et vérifier les endpoints directs avec `make test TESTS=eures_beta.users.tests.test_readonly_admin`.
+  secrets et vérifier les endpoints directs avec `make test TESTS=tests.users.test_readonly_admin`.
 - Tout nouveau modèle doit faire l'objet d'un enregistrement explicite et revu ;
   les modèles sensibles peuvent ne montrer que leurs métadonnées.
 

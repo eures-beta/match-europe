@@ -12,4 +12,4 @@ Le modèle historique `EmployerEmailLink` et sa table sont retirés par la
 migration `employers.0007`, uniquement si cette table et les deux tables du
 simulateur sont vides. Le système commun de liens magiques reste inchangé.
 Les tests de connexion commune couvrent usage unique, expiration et CSRF ;
-`make test TESTS=config.test_retired_paths` vérifie que les anciens accès restent introuvables.
+`make test TESTS=tests.config.test_retired_paths` vérifie que les anciens accès restent introuvables.
