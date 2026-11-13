@@ -36,7 +36,10 @@
         {% if can_resend %}
           <form method="post">
             {% csrf_token %}
-            <button class="primary-action" name="action" value="resend" type="submit">{% translate "Resend notification" %}</button>
+            <button class="primary-action"
+                    name="action"
+                    value="resend"
+                    type="submit">{% translate "Resend notification" %}</button>
           </form>
         {% endif %}
         {% if push_result %}<p role="status">{{ push_result }}</p>{% endif %}
