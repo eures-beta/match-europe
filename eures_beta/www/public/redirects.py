@@ -5,6 +5,15 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_safe
 
 
+@require_http_methods(['GET', 'HEAD', 'POST'])
+def legacy_workspace_route(request, target, pk=None):
+    destination = reverse(target, kwargs={'pk': pk} if pk is not None else None)
+    query = request.META.get('QUERY_STRING', '')
+    return HttpResponsePermanentRedirect(
+        destination + ('?' + query if query else ''), preserve_request=True
+    )
+
+
 def employer_destination(path):
     for language in ('fr', 'en', 'de'):
         for prefix, name in (
