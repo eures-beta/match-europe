@@ -1,14 +1,13 @@
 from io import StringIO
 
-from django.contrib.auth.models import Permission
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from eures_beta.matching import confirmation_services, services
 from eures_beta.matching.models import (
-    ConfirmationRequest,
-    MatchPair,
+    CandidateOfferReview,
+    CandidateOfferMatch,
     SharedConversation,
 )
 from eures_beta.matching.tests.test_dialogue import SETTINGS
@@ -23,16 +22,14 @@ class SharedConversationTests(TestCase):
         call_command('seed_test_accounts', stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
         cls.adviser = prepared_user('adviser')
-        permissions = Permission.objects.filter(
-            content_type__app_label='matching',
-            codename__in=('view_matchpair', 'change_matchpair'),
-        )
-        cls.adviser.user_permissions.add(*permissions)
+        cls.adviser.groups.clear()
+        cls.adviser.user_permissions.clear()
         cls.other = User.objects.create_user(
             'other@matching-trial.invalid', kind='adviser'
         )
-        cls.other.user_permissions.add(*permissions)
-        cls.pair = MatchPair.objects.get(
+        cls.other.groups.clear()
+        cls.other.user_permissions.clear()
+        cls.pair = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
         cls.candidate = cls.pair.candidate.user
@@ -60,7 +57,7 @@ class SharedConversationTests(TestCase):
                 'evaluation': evaluation.pk,
             },
         )
-        self.confirmation = ConfirmationRequest.objects.get(pair=self.pair)
+        self.confirmation = CandidateOfferReview.objects.get(pair=self.pair)
         self.start = reverse('shared_conversation_start', args=[self.confirmation.pk])
 
     def request_conversation(self):
