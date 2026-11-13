@@ -2,37 +2,6 @@
 {% load i18n static %}
 {% block page_title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
 {% block public_content %}
-  <section class="surface-card home-section">
-    <h1>{% translate "My candidate profile" %}</h1>
-    <p role="status">
-      {% if offer_confirmations_available %}
-        {% translate "Your profile is saved. Reviewing an offer does not transmit it to an employer." %}
-      {% else %}
-        {% translate "Your profile is saved. Only your account can access it here. No matching or introduction has been started." %}
-      {% endif %}
-    </p>
-    {% if offer_confirmations_available %}
-      <p><a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a></p>
-    {% endif %}
-    <p>{{ profile.display_name }} — {{ request.user.email }}</p>
-    <form method="post"
-          action="{% url 'candidate_profile_edit' %}?lang={{ page_language }}">
-      {% csrf_token %}
-      <button class="primary-action" type="submit">{% translate "Edit my profile" %}</button>
-    </form>
-  </section>
+  {% include "candidates/profile_details.html" %}
   {% include "candidates/install_pwa_next_step.html" %}
-  {% for title, rows in groups %}
-    <section class="surface-card home-section">
-      <h2>{{ title }}</h2>
-      <dl>
-        {% for label, value in rows %}
-          <dt><strong>{{ label }}</strong></dt>
-          <dd>
-            {{ value|linebreaksbr }}
-          </dd>
-        {% endfor %}
-      </dl>
-    </section>
-  {% endfor %}
 {% endblock %}
