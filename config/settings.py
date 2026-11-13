@@ -21,7 +21,7 @@ LOGIN_REDIRECT_URL = 'dashboard'
 # Only the token backend is enabled: username/password authentication is disabled.
 AUTHENTICATION_BACKENDS = ['sesame.backends.ModelBackend']
 SESAME_MAX_AGE = 60 * 60
-EMPLOYER_INVITATION_MAX_AGE = 7 * 24 * 60 * 60
+INVITATION_MAX_AGE = 7 * 24 * 60 * 60
 SESAME_ONE_TIME = True
 SESAME_INVALIDATE_ON_EMAIL_CHANGE = True
 SESAME_TOKENS = ['sesame.tokens_v2']

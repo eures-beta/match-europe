@@ -7093,3 +7093,6 @@ msgstr "Ces informations seront reprises dans la signature des invitations et re
 
 msgid "Your email signature has been saved."
 msgstr "Votre signature a été enregistrée."
+
+msgid "Organisation"
+msgstr "Organisation"

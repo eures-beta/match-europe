@@ -7093,3 +7093,6 @@ msgstr "Diese Angaben erscheinen in der Signatur Ihrer Einladungen und Erinnerun
 
 msgid "Your email signature has been saved."
 msgstr "Ihre E-Mail-Signatur wurde gespeichert."
+
+msgid "Organisation"
+msgstr "Organisation"

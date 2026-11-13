@@ -22,10 +22,10 @@
             enctype="multipart/form-data"
             action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}&amp;mode={{ mode }}#preview-title">
         {% csrf_token %}
-        <label for="audience">Type de destinataire</label>
-        <select name="audience" id="audience">
-          {% for value, label in audiences %}<option value="{{ value }}"
-        {% if value == audience %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        <label for="recipient_kind">Type de destinataire</label>
+        <select name="recipient_kind" id="recipient_kind">
+          {% for value, label in recipient_kinds %}<option value="{{ value }}"
+        {% if value == recipient_kind %}selected{% endif %}>{{ label }}</option>{% endfor %}
         </select>
         {% if mode == "csv" %}
           <label for="csv">Fichier CSV</label>
@@ -52,7 +52,7 @@
              aria-labelledby="preview-title">
       <h2 id="preview-title">Aperçu de l’e-mail</h2>
       {% if previews %}
-        <p class="invitation-hint">{{ preview_audience }} · {{ previews|length }} destinataire{{ previews|length|pluralize }}</p>
+        <p class="invitation-hint">{{ preview_recipient_kind }} · {{ previews|length }} destinataire{{ previews|length|pluralize }}</p>
         {% for preview in previews %}
           <details {% if forloop.first %}open{% endif %}>
             <summary>{{ preview.recipient.email }}</summary>
@@ -111,7 +111,7 @@
                 {% if invitation.first_name or invitation.last_name %}<strong>{{ invitation.first_name }} {{ invitation.last_name }}</strong><br>{% endif %}
                 {{ invitation.email }}
               </td>
-              <td>{{ invitation.get_audience_display }}</td>
+              <td>{{ invitation.get_recipient_kind_display }}</td>
               <td>
               {% if invitation.accepted_at %}<span class="invitation-status accepted">Acceptée</span>
           {% elif invitation.expired %}<span class="invitation-status muted">Expirée</span>

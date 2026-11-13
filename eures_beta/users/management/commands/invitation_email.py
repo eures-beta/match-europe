@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
 from eures_beta.users.invitations import invitation_message
-from eures_beta.users.models import EmployerInvitation
+from eures_beta.users.models import Invitation
 
 
 class Command(BaseCommand):
@@ -16,9 +16,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            invitation = EmployerInvitation.objects.get(pk=options['invitation_id'])
+            invitation = Invitation.objects.get(pk=options['invitation_id'])
             subject, body = invitation_message(invitation, options['origin'])
-        except (EmployerInvitation.DoesNotExist, ValidationError, ValueError) as error:
+        except (Invitation.DoesNotExist, ValidationError, ValueError) as error:
             raise CommandError(
                 'Cannot simulate this invitation; check its ID, validity and origin.'
             ) from error

@@ -11,7 +11,7 @@ from django.utils import timezone
 from eures_beta.candidates import journey
 from eures_beta.candidates.tests.test_registration import answers
 from eures_beta.users.invitations import find_invitation, invitation_token
-from eures_beta.users.models import EmployerInvitation, User
+from eures_beta.users.models import Invitation, User
 
 
 class AdviserInvitationsTests(TestCase):
@@ -32,12 +32,12 @@ class AdviserInvitationsTests(TestCase):
             dashboard + '?lang=en&mode=csv',
         )
 
-    def preview(self, audience, email='person@example.invalid'):
+    def preview(self, recipient_kind, email='person@example.invalid'):
         return self.client.post(
             self.tab,
             {
                 'action': 'preview',
-                'audience': audience,
+                'recipient_kind': recipient_kind,
                 'email': email,
                 'first_name': 'Camille',
             },
@@ -45,8 +45,8 @@ class AdviserInvitationsTests(TestCase):
 
     def test_employer_preview_uses_connected_adviser_signature_and_partner_logos(self):
         self.adviser.first_name = 'Lou'
-        self.adviser.adviser_organisation = 'Structure & partenaires'
-        self.adviser.save(update_fields=['first_name', 'adviser_organisation'])
+        self.adviser.organization_name = 'Structure & partenaires'
+        self.adviser.save(update_fields=['first_name', 'organization_name'])
 
         response = self.preview('employer')
         preview = response.context['previews'][0]
@@ -77,7 +77,7 @@ class AdviserInvitationsTests(TestCase):
             response = self.preview('candidate')
             self.assertContains(response, 'Bonjour Camille')
             self.assertContains(response, 'srcdoc="&lt;!')
-            self.assertFalse(EmployerInvitation.objects.exists())
+            self.assertFalse(Invitation.objects.exists())
             self.assertRedirects(
                 self.client.post(
                     self.tab,
@@ -85,20 +85,20 @@ class AdviserInvitationsTests(TestCase):
                 ),
                 reverse('dashboard') + '?lang=fr',
             )
-            invitation = EmployerInvitation.objects.get()
+            invitation = Invitation.objects.get()
             self.assertIsNotNone(invitation.email_sent_at)
             files = list((Path(directory) / '.runtime/invitation-outbox').glob('*.log'))
             self.assertEqual(len(files), 1)
             self.assertIn('text/html', files[0].read_text())
             self.assertIn('text/plain', files[0].read_text())
             self.client.logout()
-            url = reverse('employer_invitation_confirm')
+            url = reverse('invitation_confirm')
             self.client.get(url, {'invitation': invitation_token(invitation)})
             self.assertRedirects(self.client.post(url), reverse('candidate_prepare'))
             invitation.refresh_from_db()
             self.assertIsNotNone(invitation.accepted_at)
-            self.assertEqual(invitation.employer.kind, User.Kind.CANDIDATE)
-            self.assertEqual(invitation.employer.first_name, 'Camille')
+            self.assertEqual(invitation.recipient.kind, User.Kind.CANDIDATE)
+            self.assertEqual(invitation.recipient.first_name, 'Camille')
             self.assertRedirects(
                 self.client.get(reverse('dashboard')), reverse('candidate_prepare')
             )
@@ -131,7 +131,7 @@ class AdviserInvitationsTests(TestCase):
                 ),
                 reverse('candidate_profile'),
             )
-            profile = invitation.employer.candidate_profile
+            profile = invitation.recipient.candidate_profile
             self.assertEqual(profile.display_name, 'Camille')
             self.assertIsNotNone(profile.notice_read_at)
             self.assertFalse(
@@ -144,14 +144,14 @@ class AdviserInvitationsTests(TestCase):
                 self.tab,
                 {
                     'action': 'import',
-                    'audience': 'employer',
+                    'recipient_kind': 'employer',
                     'csv': SimpleUploadedFile('contacts.csv', content),
                 },
             )
 
         response = upload(b'email\na@example.invalid\nb@example.invalid\n')
         self.assertEqual(len(response.context['previews']), 2)
-        self.assertFalse(EmployerInvitation.objects.exists())
+        self.assertFalse(Invitation.objects.exists())
         response = upload(
             b'email;nom\na@example.invalid;A\nA@example.invalid;B\ninvalid;C\n'
         )
@@ -160,9 +160,9 @@ class AdviserInvitationsTests(TestCase):
         self.assertNotIn('previews', response.context)
 
     def test_relaunch_and_removal_revoke_links(self):
-        invitation = EmployerInvitation.objects.create(
+        invitation = Invitation.objects.create(
             email='employer@example.invalid',
-            invited_by=self.adviser,
+            sender=self.adviser,
             email_sent_at=timezone.now() - timedelta(hours=2),
         )
         initial_token = invitation_token(invitation)
@@ -205,9 +205,9 @@ class AdviserInvitationsTests(TestCase):
         self.client.post(
             self.tab, {'action': 'send', 'preview': response.context['preview_token']}
         )
-        invitation = EmployerInvitation.objects.get()
+        invitation = Invitation.objects.get()
         self.client.logout()
-        url = reverse('employer_invitation_confirm')
+        url = reverse('invitation_confirm')
         self.client.get(url, {'invitation': invitation_token(invitation)})
         self.client.post(url)
         invited = User.objects.get(email=invitation.email)

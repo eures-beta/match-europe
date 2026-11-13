@@ -14,9 +14,10 @@ from django.utils import timezone, translation
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext as _
 
-from .models import EmployerInvitation, LoginRateLimit, User, invitation_expiry
+from .models import Invitation, LoginRateLimit, User, invitation_expiry
 from .permissions import can_manage_employers
 
+# Keep this historical salt so invitations already sent remain valid.
 SALT = 'users.employer-invitation.v1'
 
 
@@ -28,25 +29,23 @@ def invitation_token(invitation):
 
 def find_invitation(token, *, lock=False):
     try:
-        data = signing.loads(
-            token, salt=SALT, max_age=settings.EMPLOYER_INVITATION_MAX_AGE
-        )
+        data = signing.loads(token, salt=SALT, max_age=settings.INVITATION_MAX_AGE)
         identifier = uuid.UUID(data['id'])
         nonce = uuid.UUID(data['nonce'])
     except (signing.BadSignature, ValueError, KeyError, TypeError):
         return None
     queryset = (
-        EmployerInvitation.objects.select_for_update(of=('self',))
+        Invitation.objects.select_for_update(of=('self',))
         if lock
-        else EmployerInvitation.objects
+        else Invitation.objects
     )
     return queryset.filter(
         pk=identifier,
         nonce=nonce,
         accepted_at__isnull=True,
         expires_at__gt=timezone.now(),
-        invited_by__is_active=True,
-        invited_by__kind=User.Kind.ADVISER,
+        sender__is_active=True,
+        sender__kind=User.Kind.ADVISER,
     ).first()
 
 
@@ -71,7 +70,7 @@ def create_invitation(
     email,
     language,
     *,
-    audience=EmployerInvitation.Audience.EMPLOYER,
+    recipient_kind=Invitation.RecipientKind.EMPLOYER,
     first_name='',
     last_name='',
 ):
@@ -85,9 +84,7 @@ def create_invitation(
     now = timezone.now()
     record_invitation_attempt(adviser, now)
     invitation = (
-        EmployerInvitation.objects.select_for_update()
-        .filter(email__iexact=email)
-        .first()
+        Invitation.objects.select_for_update().filter(email__iexact=email).first()
     )
     if invitation and (invitation.accepted_at or not invitation.expired):
         raise ValidationError(_('An invitation already exists for this email address.'))
@@ -95,20 +92,20 @@ def create_invitation(
         invitation.nonce = uuid.uuid4()
         invitation.created_at = now
         invitation.expires_at = invitation_expiry()
-        invitation.invited_by = adviser
+        invitation.sender = adviser
         invitation.language = language
         invitation.email_sent_at = None
-        invitation.audience = audience
+        invitation.recipient_kind = recipient_kind
         invitation.first_name = first_name
         invitation.last_name = last_name
         invitation.reminder_sent_at = None
         invitation.save()
     else:
-        invitation = EmployerInvitation.objects.create(
+        invitation = Invitation.objects.create(
             email=email,
             language=language,
-            invited_by=adviser,
-            audience=audience,
+            sender=adviser,
+            recipient_kind=recipient_kind,
             first_name=first_name,
             last_name=last_name,
         )
@@ -143,7 +140,7 @@ def invitation_message(invitation, origin):
         raise ValidationError('Invitation already used or expired.')
     link = (
         origin.rstrip('/')
-        + reverse('employer_invitation_confirm')
+        + reverse('invitation_confirm')
         + '?invitation='
         + invitation_token(invitation)
     )

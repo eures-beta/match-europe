@@ -26,7 +26,7 @@ réapplique donc la politique à chaque démarrage de déploiement. Les commande
 La synchronisation remplace exactement les droits et membres du groupe géré.
 Elle enlève aussi les droits directs et les droits d'autres groupes portant sur
 le modèle `users.User`, pour empêcher les attributions administratives hors
-politique. Ce périmètre inclut désormais `EmployerInvitation` : le groupe
+politique. Ce périmètre inclut désormais `Invitation` : le groupe
 `employer-inviters` autorise les conseillers actifs à consulter les comptes
 employeurs et créer des invitations, sans administration. Les droits sur les
 autres modèles et leurs groupes sont conservés.

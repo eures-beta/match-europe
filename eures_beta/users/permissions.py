@@ -9,11 +9,11 @@ EMPLOYER_INVITER_GROUP = 'employer-inviters'
 
 
 def get_group_permissions():
-    from .models import User, EmployerInvitation
+    from .models import User, Invitation
 
     return {
         ACCOUNT_ADMIN_GROUP: {User: {'view'}},
-        EMPLOYER_INVITER_GROUP: {EmployerInvitation: {'add', 'view'}},
+        EMPLOYER_INVITER_GROUP: {Invitation: {'add', 'view'}},
     }
 
 
@@ -80,7 +80,7 @@ def synchronize_permissions(database='default'):
             Permission.objects.using(database)
             .filter(
                 content_type__app_label=User._meta.app_label,
-                content_type__model__in=[User._meta.model_name, 'employerinvitation'],
+                content_type__model__in=[User._meta.model_name, 'invitation'],
             )
             .values_list('pk', flat=True)
         )

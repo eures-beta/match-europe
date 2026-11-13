@@ -34,7 +34,7 @@ class AdminModelCountsTests(TestCase):
         response = self.client.get(reverse('admin:index'), {'model_counts': '1'})
         self.assertContains(response, 'Hide record counts')
         self.assertContains(response, 'Users (3)')
-        self.assertContains(response, 'Employer invitations (0)')
+        self.assertContains(response, 'Invitations (0)')
         # Do not mutate the app list shared with Django's navigation sidebar.
         for app in response.context['app_list']:
             for model in app['models']:
@@ -80,7 +80,7 @@ class AdminModelCountsTests(TestCase):
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(reverse('admin:index'), {'model_counts': '1'})
         self.assertContains(response, 'Users (2)')
-        self.assertNotContains(response, 'Employer invitations')
+        self.assertNotContains(response, 'Invitations')
         counts = [query['sql'] for query in queries if 'COUNT(' in query['sql'].upper()]
         self.assertEqual(len(counts), 1)
         self.assertIn('adviser', counts[0])

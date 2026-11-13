@@ -124,3 +124,21 @@ sans journaliser de contenu personnel ; l'opérateur peut simuler le message.
 
 `make invitations-test` couvre droits, doublons, expiration, rejeux, CSRF,
 traductions et simulation. `make test` vérifie les interactions avec le projet.
+
+## Noms du modèle commun
+
+`Invitation` couvre les trois types de destinataires. `sender` est le conseiller
+qui invite ; `recipient_kind` est le type de compte prévu ; `recipient` est le
+compte créé à l’acceptation (vide auparavant). Les relations inverses sont
+`User.sent_invitations` et `User.invitation`.
+
+`User.organization_name` contient un nom d’organisation facultatif, utilisé
+avec le prénom et le nom pour composer le pied de l’e-mail. Ce champ n’est pas
+une signature libre ni une relation vers une organisation métier.
+
+La migration réversible `users.0008_invitation_names` renomme la table et les
+colonnes existantes avec les opérations natives Django ; elle ne recrée aucune
+invitation ni aucun compte. Identifiants, jetons, dates et relations sont conservés.
+Les ContentTypes et permissions sont renommés en conservant leurs identifiants
+et les attributions existantes. La synchronisation versionnée reste appliquée
+au déploiement. L’URL publique et le sel de signature historiques restent inchangés.

@@ -16,7 +16,7 @@ urlpatterns = [
     path(
         'accounts/invitations/confirm/',
         invitation_views.confirm,
-        name='employer_invitation_confirm',
+        name='invitation_confirm',
     ),
     path(
         'accounts/dashboard/invitations/',
