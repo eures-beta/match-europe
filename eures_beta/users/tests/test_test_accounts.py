@@ -110,7 +110,7 @@ class TestAccountAccessTests(TestCase):
             ).status_code,
             200,
         )
-        with patch('eures_beta.candidates.preview_push.webpush') as send:
+        with patch('pywebpush.webpush') as send:
             with self.captureOnCommitCallbacks(execute=True):
                 self.assertEqual(adviser.post(detail, decision).status_code, 302)
                 send.assert_not_called()

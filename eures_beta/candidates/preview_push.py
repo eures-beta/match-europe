@@ -9,8 +9,6 @@ import logging
 from urllib.parse import urlencode, urlsplit
 
 import requests
-from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
@@ -18,8 +16,6 @@ from django.http import Http404, JsonResponse
 from django.urls import reverse
 from django.utils.translation import override
 from django.views.decorators.http import require_POST
-from py_vapid import Vapid
-from pywebpush import WebPushException, webpush
 
 from eures_beta.matching.confirmation_services import questions, short_question
 from eures_beta.users.test_accounts import enabled, fictional_database
@@ -37,6 +33,8 @@ def available():
 
 
 def private_key():
+    from cryptography.hazmat.primitives.asymmetric import ec
+
     seed = hmac.digest(
         settings.SECRET_KEY.encode(), b'match-europe-preview-push-v1', hashlib.sha256
     )
@@ -46,6 +44,8 @@ def private_key():
 
 
 def public_key():
+    from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+
     value = (
         private_key()
         .public_key()
@@ -96,6 +96,8 @@ def subscribe(request):
     if not available():
         raise Http404
     profile = owned_profile(request)
+    from cryptography.hazmat.primitives.asymmetric import ec
+
     if len(request.body) > 4096:
         return JsonResponse({'ok': False}, status=400)
     try:
@@ -152,6 +154,10 @@ def notify(confirmation):
     ).first()
     if not subscription or not valid_endpoint(subscription.endpoint):
         return
+    # Ordinary page loads and catalogue searches do not need the Push SDK.
+    from py_vapid import Vapid
+    from pywebpush import WebPushException, webpush
+
     key = Vapid(private_key())
     try:
         with PushSession() as session:
