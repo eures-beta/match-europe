@@ -7,6 +7,8 @@ from .models import (
     CandidateOfferReview,
     CandidateOfferReviewAnswer,
     CandidateProfileSharing,
+    SharedConversation,
+    SharedMessage,
 )
 
 
@@ -32,4 +34,14 @@ class MatchDecisionAdmin(MetadataOnlyAdmin):
     CandidateOfferReview, CandidateOfferReviewAnswer, CandidateProfileSharing
 )
 class ConfirmationMetadataAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'created_at')
+
+
+@admin.register(SharedConversation)
+class SharedConversationMetadataAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'state')
+
+
+@admin.register(SharedMessage)
+class SharedMessageMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'created_at')

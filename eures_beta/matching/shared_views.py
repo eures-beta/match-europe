@@ -14,7 +14,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.candidates import preview_push
+from eures_beta.candidates import push
 from eures_beta.users.views import selected_language
 from . import access, adviser_opinion, confirmation_services
 from .models import ConfirmationRequest, MatchPair, SharedConversation, SharedMessage
@@ -175,9 +175,9 @@ def start(request, pk):
                 employer=employer,
                 introduction=form.cleaned_data['body'],
             )
-            if preview_push.available():
+            if push.available():
                 transaction.on_commit(
-                    lambda: preview_push.notify_shared(thread, invitation=True)
+                    lambda: push.notify_shared(thread, invitation=True)
                 )
             return redirect(destination('shared_conversation', thread.pk, language))
         return render(
@@ -218,7 +218,7 @@ def detail(request, pk):
             role == 'adviser'
             and can_write
             and state == State.REQUESTED
-            and preview_push.available()
+            and push.available()
         )
         if request.method == 'POST':
             if not can_write:
@@ -229,7 +229,7 @@ def detail(request, pk):
                 if not cache.add(f'shared-invitation-push:{pk}', True, 30):
                     push_result = _('Wait a moment before resending.')
                     status = 429
-                elif preview_push.notify_shared(thread, invitation=True):
+                elif push.notify_shared(thread, invitation=True):
                     push_result = _('The push service accepted the notification.')
                 else:
                     push_result = _(
@@ -260,8 +260,8 @@ def detail(request, pk):
                     status = 400
             else:
                 raise Http404
-            if message and role != 'candidate' and preview_push.available():
-                transaction.on_commit(lambda: preview_push.notify_shared(thread))
+            if message and role != 'candidate' and push.available():
+                transaction.on_commit(lambda: push.notify_shared(thread))
             if status == 200 and action != 'resend':
                 return redirect(destination('shared_conversation', pk, language))
         messages = []
