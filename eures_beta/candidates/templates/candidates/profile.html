@@ -7,7 +7,7 @@
       <h2>{% translate "Enable notifications" %}</h2>
       <p>{% translate "Enable notifications to be alerted when the adviser validates your match." %}</p>
       <form method="post"
-            action="{% url 'candidate_preview_push' %}"
+            action="{% url 'candidate_push_subscriptions' %}"
             data-preview-push="{{ preview_push_key }}"
             data-success="{% translate 'Phone ready for the test. You can close the app and validate the match on your computer.' %}"
             data-failure="{% translate 'Open the installed app and allow notifications to continue the test.' %}">

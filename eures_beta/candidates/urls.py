@@ -4,7 +4,9 @@ from eures_beta.candidates import registration_views
 
 urlpatterns = [
     path(
-        'candidate/preview-push/', preview_push.subscribe, name='candidate_preview_push'
+        'candidate/push-subscriptions/',
+        preview_push.subscribe,
+        name='candidate_push_subscriptions',
     ),
     path(
         'candidate/profile/compare/',

@@ -1,4 +1,4 @@
-"""Web Push for disposable candidate previews."""
+"""Web Push for authenticated candidates in every environment."""
 
 import base64
 import binascii
@@ -18,7 +18,6 @@ from django.utils.translation import override
 from django.views.decorators.http import require_POST
 
 from eures_beta.matching.confirmation_services import questions, short_question
-from eures_beta.users.test_accounts import enabled, fictional_database
 from .models import PreviewPushSubscription
 from .registration_views import owned_profile
 
@@ -27,9 +26,7 @@ P256_ORDER = 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551
 
 
 def available():
-    return (
-        settings.DJANGO_ENVIRONMENT == 'preview' and enabled() and fictional_database()
-    )
+    return bool(settings.SECRET_KEY)
 
 
 def private_key():
