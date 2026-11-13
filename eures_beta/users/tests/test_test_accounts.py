@@ -78,8 +78,6 @@ class TestAccountAccessTests(TestCase):
         adviser.force_login(prepared_user('adviser'))
         detail = reverse('adviser_match', args=[pair.pk])
         decision = {'action': 'retained', 'evaluation': pair.evaluation_id}
-        self.assertEqual(adviser.post(detail, decision).status_code, 400)
-        self.assertFalse(CandidateOfferReview.objects.exists())
 
         candidate = Client()
         candidate.force_login(user)
@@ -95,7 +93,7 @@ class TestAccountAccessTests(TestCase):
                 'auth': base64.urlsafe_b64encode(bytes(16)).decode(),
             },
         }
-        subscription = reverse('candidate_preview_push')
+        subscription = reverse('candidate_push_subscriptions')
         self.assertEqual(
             candidate.post(
                 subscription,
@@ -128,6 +126,36 @@ class TestAccountAccessTests(TestCase):
         self.assertEqual(
             parse_qs(target.query)['question'], [page.context['current']['key']]
         )
+
+    @override_settings(MATCHING_ENABLED=True, CONFIRMATION_DIALOGUE_SIMULATED=True)
+    def test_push_is_universal_and_subscription_is_optional(self):
+        from unittest.mock import patch
+        from eures_beta.candidates import preview_push
+        from eures_beta.matching.models import CandidateOfferReview
+        from eures_beta.users.adviser_matching import pending_pairs, record_review
+
+        self.seed()
+        user = prepared_user("candidate-pwa")
+        user.email = "candidate@example.org"
+        user.save(update_fields=["email"])
+        adviser = prepared_user("adviser")
+        pair = pending_pairs().get(candidate__user=user)
+        with patch.object(preview_push, "notify") as notify:
+            for environment in ("local", "preview", "production"):
+                with (
+                    self.subTest(environment=environment),
+                    self.settings(
+                        DJANGO_ENVIRONMENT=environment, TEST_ACCOUNTS_ENABLED=False
+                    ),
+                ):
+                    self.assertTrue(preview_push.available())
+                    self.client.force_login(user)
+                    page = self.client.get(reverse("candidate_profile"))
+                    self.assertContains(page, reverse("candidate_push_subscriptions"))
+            with self.captureOnCommitCallbacks(execute=True):
+                record_review(adviser, pair, pair.evaluation_id, "retained")
+                notify.assert_not_called()
+            notify.assert_called_once_with(CandidateOfferReview.objects.get(pair=pair))
 
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):

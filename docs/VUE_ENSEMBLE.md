@@ -251,3 +251,6 @@ base seulement si absente ; `make test` refuse de démarrer si le précontrôle 
 Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
 Aucun modèle, migration, environnement distant ou parcours métier modifié.
 Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.
+Le candidat authentifié peut enregistrer son abonnement Web Push via
+`/candidate/push-subscriptions/`, dans tous les environnements. Le consentement
+du navigateur reste nécessaire et facultatif pour poursuivre le parcours.

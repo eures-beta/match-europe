@@ -365,3 +365,8 @@ base seulement si absente ; `make test` refuse de démarrer si le précontrôle 
 Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
 Aucun modèle, migration, environnement distant ou parcours métier modifié.
 Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.
+## Notifications candidat sans distinction d’environnement
+
+Le Push appartient au parcours métier, pas à l’outil de comptes fictifs. Un
+candidat ordinaire peut s’abonner dans chaque environnement. Le conseiller peut
+valider sans abonnement ; l’envoi éventuel intervient après le commit.
