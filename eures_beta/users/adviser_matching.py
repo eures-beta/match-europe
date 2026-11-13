@@ -256,12 +256,7 @@ def follow(request, pk):
     access.guard(request)
     with translation.override(selected_language(request)):
         conversation = get_object_or_404(open_conversations(), pk=pk)
-        can_resend = (
-            access.can_change_pair(request.user)
-            and preview_push.available()
-            and conversation.pair.candidate.user.email
-            in {account['email'] for account in PWA_ACCOUNTS.values()}
-        )
+        can_resend = access.can_change_pair(request.user)
         result, status = '', 200
         if request.method == 'POST':
             if not can_resend or request.POST.get('action') != 'resend':

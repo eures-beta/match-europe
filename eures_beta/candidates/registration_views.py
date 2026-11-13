@@ -186,11 +186,7 @@ def profile(request):
                 'profile': obj,
                 'preview_push_key': push_key,
                 'page_language': language,
-                'groups': (
-                    answer_groups(registration.profile_answers(obj), language)
-                    if not push_key
-                    else []
-                ),
+                'groups': answer_groups(registration.profile_answers(obj), language),
                 'offer_confirmations_available': candidate_requests(
                     request.user
                 ).exists(),
