@@ -11,10 +11,10 @@ Les réglages, dépendances et commandes sont centralisés à la racine.
 Voir le [README principal](../README.md) pour l’installation et les tests.
 
 La page publique Projet utilise `templates/project.html`, le système gettext
-commun et les tests de contenu trilingue dans `test_project.py`.
+commun et les tests de contenu trilingue dans `tests/common/test_project.py`.
 
 Le journal public utilise `journal.py`, `templates/journal.html` et ses tests
-trilingues dans `test_journal.py`. Vérifier son contenu avec `make test TEST_ARGS='-k journal -k public_navigation -k project'`.
+trilingues dans `tests/common/test_journal.py`. Vérifier son contenu avec `make test TEST_ARGS='-k journal -k public_navigation -k project'`.
 
 Les comptes conseiller et employeur partagent désormais [users/](users/), avec
 un seul modèle Django `User` et un champ `kind`. Voir [la transition et ses

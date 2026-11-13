@@ -6,4 +6,4 @@ Le même SMTP configuré est disponible dans tous les environnements, uniquement
 après activation explicite. L’envoi reste désactivé par défaut.
 Les templates et parcours métier restent dans leurs applications respectives.
 
-Vérifications : `make test TESTS=eures_beta.emails.tests`, puis `make test`.
+Vérifications : `make test TESTS=tests.emails`, puis `make test`.

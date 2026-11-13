@@ -7,7 +7,7 @@ compétence aux personnes et ne calcule pas de matching.
 - [data/](data/) : les quatre JSON publics, leurs sources et empreintes.
 - [management/](management/) : commandes Django de mise à jour explicite.
 - [tools/](tools/) : lecture des exports, reconstruction, validation et mesures.
-- [tests/](tests/) : intégrité, recherche et importateurs sans réseau externe.
+- [tests/occupations/](../../tests/occupations/) : intégrité, recherche et importateurs sans réseau externe.
 - [catalog.py](catalog.py) : chargement local en cache et recherches multilingues.
 - [views.py](views.py) : interface HTTP de recherche de métiers.
 - [test_picker.cjs](test_picker.cjs) : tests JavaScript du sélecteur.

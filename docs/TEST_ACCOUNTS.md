@@ -55,6 +55,6 @@ défaut reste `0`. Le nom « démonstration » ne rend pas ces comptes utilisabl
 production : seuls `local` et `preview`, sans envoi réel et sur une base fictive,
 sont autorisés.
 
-Vérifications PostgreSQL : `make test TESTS=eures_beta.users.tests.test_test_accounts` ; suite complète : `make test`.
+Vérifications PostgreSQL : `make test TESTS=tests.users.test_test_accounts` ; suite complète : `make test`.
 Les langues FR, EN et DE sont couvertes, ainsi que les refus de connexion,
 la CSRF, la rotation des sessions et la préservation des essais.
