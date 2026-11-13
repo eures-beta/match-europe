@@ -11,7 +11,7 @@ from eures_beta.candidates.registration_views import answer_groups
 from eures_beta.matching import access
 from eures_beta.matching.models import CandidateOfferMatch, MatchEvaluation
 
-from .models import EmployerInvitation
+from .models import Invitation
 from .permissions import can_manage_employers
 from .views import selected_language
 
@@ -87,7 +87,7 @@ def history_rows(section, search):
         )
     if section == 'invitations':
         return (
-            EmployerInvitation.objects.filter(email_sent_at__isnull=False)
+            Invitation.objects.filter(email_sent_at__isnull=False)
             .filter(
                 Q(email__icontains=search)
                 | Q(first_name__icontains=search)
