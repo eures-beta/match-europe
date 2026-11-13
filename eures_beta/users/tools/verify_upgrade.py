@@ -166,6 +166,14 @@ def main():
                 interactive=False,
                 verbosity=0,
             )
+            # Current user fields evolve independently of the employer schema.
+            call_command(
+                'migrate',
+                'users',
+                database='user_upgrade',
+                interactive=False,
+                verbosity=0,
+            )
             historical = (
                 MigrationExecutor(database)
                 .loader.project_state(
