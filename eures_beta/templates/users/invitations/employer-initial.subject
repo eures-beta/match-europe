@@ -1,1 +1,1 @@
-[EURES / France Travail] Recrutement : identification de profils adaptes a votre besoin
+{% load i18n %}{% translate "MATCH EUROPE: your access link" %}

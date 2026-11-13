@@ -1,20 +1,13 @@
-{% autoescape off %}{{ greeting }}{% endautoescape %}
+{% load i18n %}{% autoescape off %}{{ greeting }}
 
-Je me permets de vous contacter dans le cadre de ma mission de conseiller EURES au sein de France Travail.
+{% translate "Following our conversation, here is your link to access Match Europe." %}
 
-Dans le cadre d'une expérimentation menée avec EURES dans la Grande Région, nous accompagnons des employeurs ayant des besoins de recrutement en leur proposant un repérage plus rapide de profils susceptibles de correspondre.
+{% translate "Access Match Europe" %} — {{ link }}
 
-Si vous avez un besoin de recrutement en cours ou à venir, je vous invite à compléter le court formulaire ci-dessous. Il vous prendra seulement quelques minutes.
-
-Accéder au formulaire: {{ link }}
-
-Ce questionnaire permet de préciser votre besoin, vos contraintes de recrutement et les conditions proposées, afin d'étudier ensuite d'éventuelles mises en relation avec des candidats pertinents.
-
-EURES est le réseau européen de coopération pour l'emploi, qui facilite les recrutements et les opportunités professionnelles en Europe.
-
-Informations sur vos données : {{ privacy }}
-
-Cordialement,
-
-Équipe Match Europe
-Conseiller EURES - France Travail
+{% translate "Kind regards," %}
+{% if adviser_first_name %}{{ adviser_first_name }}
+{% endif %}{% if adviser_organisation %}{{ adviser_organisation }}
+{% elif not adviser_first_name %}Match Europe
+{% endif %}
+{% translate "Privacy notice" %} — {{ privacy }}
+{% endautoescape %}

@@ -28,6 +28,14 @@ une version HTML. Le transport réel réutilise le SMTP commun, destiné à êtr
 configuré pour Brevo. En recette locale, la boîte de test est
 `.runtime/invitation-outbox/`. Elle contient des liens de test à usage unique.
 
+L’onglet « Inviter » utilise le modèle court pour les invitations et relances
+employeurs. Le premier envoi suit la langue de l’aperçu (français, anglais ou
+allemand), puis la relance reprend la langue enregistrée. La signature reprend
+le prénom et le champ facultatif `adviser_organisation` du conseiller connecté.
+L’exploitant renseigne ce champ sur le compte conseiller lors de sa configuration.
+Les logos EURES/ELA, France Travail, ADEM et Le Forem utilisent les ressources
+du site, avec des adresses absolues dans le message envoyé.
+
 Pour essayer le parcours, utiliser `make run PORT=9060` dans la copie locale
 configurée, puis ouvrir `/accounts/test-accounts/`. Le conseiller
 fictif permet de tester les trois types. `make adviser-invitations-test` couvre

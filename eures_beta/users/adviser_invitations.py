@@ -2,7 +2,7 @@ import csv
 import io
 import logging
 import uuid
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urljoin
 
 from django import forms
 from django.conf import settings
@@ -15,8 +15,9 @@ from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
@@ -105,16 +106,49 @@ def local_outbox_enabled():
     )
 
 
-def render_message(audience, recipient, origin='', link='#', reminder=False):
+def render_message(
+    audience, recipient, origin='', link='#', reminder=False, *, adviser, language='fr'
+):
+    with translation.override(language if audience == Audience.EMPLOYER else 'fr'):
+        return render_invitation(audience, recipient, origin, link, reminder, adviser)
+
+
+def render_invitation(audience, recipient, origin, link, reminder, adviser):
     name = ' '.join(
         part for part in (recipient['first_name'], recipient['last_name']) if part
     )
     context = {
-        'greeting': f'Bonjour {name},' if name else 'Bonjour,',
+        'greeting': (
+            (
+                translation.gettext('Hello %(name)s,') % {'name': name}
+                if name
+                else translation.gettext('Hello,')
+            )
+            if audience == Audience.EMPLOYER
+            else (f'Bonjour {name},' if name else 'Bonjour,')
+        ),
         'link': link,
         'privacy': origin + reverse('privacy') if origin else '#',
         'reminder': reminder,
     }
+    if audience == Audience.EMPLOYER:
+        context.update(
+            adviser_first_name=adviser.first_name.strip(),
+            adviser_organisation=adviser.adviser_organisation.strip(),
+            partner_logos=[
+                (
+                    urljoin(origin + '/', static(f'employer/assets/{filename}')),
+                    label,
+                    width,
+                )
+                for filename, label, width in (
+                    ('eures-ela.jpg', 'EURES / European Labour Authority', 112),
+                    ('france-travail-email.png', 'France Travail', 88),
+                    ('adem.png', 'ADEM', 34),
+                    ('forem.png', 'Le Forem', 80),
+                )
+            ],
+        )
     base = 'users/invitations/'
     if audience == Audience.ADVISER:
         stem = base + 'adviser'
@@ -159,6 +193,8 @@ def deliver(request, invitation, *, reminder=False):
         origin,
         link,
         reminder,
+        adviser=request.user,
+        language=invitation.language,
     )
     message = EmailMultiAlternatives(
         subject,
@@ -181,7 +217,11 @@ def preview_context(request, audience, recipients, invitation=None):
     previews = []
     for recipient in recipients:
         subject, _, html = render_message(
-            audience, recipient, reminder=bool(invitation and invitation.email_sent_at)
+            audience,
+            recipient,
+            reminder=bool(invitation and invitation.email_sent_at),
+            adviser=request.user,
+            language=invitation.language if invitation else selected_language(request),
         )
         previews.append({'recipient': recipient, 'subject': subject, 'html': html})
     return {
@@ -191,6 +231,7 @@ def preview_context(request, audience, recipients, invitation=None):
             {
                 'actor': request.user.pk,
                 'audience': audience,
+                'language': selected_language(request),
                 'recipients': recipients,
                 'invitation': str(invitation.pk) if invitation else None,
                 'nonce': str(invitation.nonce) if invitation else None,
@@ -314,7 +355,11 @@ def send_batch(request, payload):
             with transaction.atomic():
                 invitation = create_invitation(
                     request.user,
-                    language='fr',
+                    language=(
+                        payload.get('language', 'fr')
+                        if payload['audience'] == Audience.EMPLOYER
+                        else 'fr'
+                    ),
                     audience=payload['audience'],
                     **recipient,
                 )
