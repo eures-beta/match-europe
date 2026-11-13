@@ -30,7 +30,7 @@ localement ; le témoin porte explicitement sur huit recherches concurrentes,
 une par thread (quatre ne suffisent pas sur le premier essai CI amd64).
 Ce sont des parcours HTTP, sans exécution JavaScript de navigateur. Le job ajouté
 au workflow avant déploiement vérifie les deux cas. Aucun modèle, migration,
-secret ou comportement applicatif modifié. Voir [le guide](docs/SYSTEM_TESTS.md).
+secret ou comportement applicatif modifié. Voir [le guide](docs/E2E_TESTS.md).
 
 ## 10 novembre 2026 — formatage des CSS autonomes
 

@@ -35,8 +35,8 @@ def snapshot(destination, legacy):
         with tarfile.open(archive) as source:
             source.extractall(destination, filter='data')
         shutil.copytree(
-            ROOT / 'eures_beta/system_tests',
-            destination / 'eures_beta/system_tests',
+            ROOT / 'eures_beta/e2e',
+            destination / 'eures_beta/e2e',
             dirs_exist_ok=True,
             ignore=shutil.ignore_patterns('__pycache__'),
         )
@@ -128,7 +128,7 @@ def run(legacy=False):
                 '--tag',
                 image,
                 '--file',
-                str(context / 'eures_beta/system_tests/Dockerfile'),
+                str(context / 'eures_beta/e2e/Dockerfile'),
                 str(context),
                 timeout=600,
             )
@@ -159,7 +159,7 @@ def run(legacy=False):
                 image,
                 'python',
                 '-m',
-                'eures_beta.system_tests.fixtures',
+                'eures_beta.e2e.fixtures',
             )
             wait_for(
                 lambda: (artifacts / 'fixture-ready').exists(), 'TLS fixture startup'
@@ -192,7 +192,7 @@ def run(legacy=False):
                 'PostgreSQL startup',
             )
             environment = {
-                'DJANGO_SETTINGS_MODULE': 'eures_beta.system_tests.settings',
+                'DJANGO_SETTINGS_MODULE': 'eures_beta.e2e.settings',
                 'DJANGO_SECRET_KEY': 'isolated-fictional-system-tests-only',
                 'DJANGO_ENVIRONMENT': 'production',
                 'DJANGO_DEBUG': '0',
@@ -266,7 +266,7 @@ def run(legacy=False):
                 image,
                 'python',
                 '-m',
-                'eures_beta.system_tests.journeys',
+                'eures_beta.e2e.journeys',
             ]
             wait_for(
                 lambda: command(
