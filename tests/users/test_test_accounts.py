@@ -138,7 +138,7 @@ class TestAccountAccessTests(TestCase):
             )
             resend.assert_called_once_with(confirmation)
 
-    @override_settings(MATCHING_ENABLED=True, CONFIRMATION_DIALOGUE_SIMULATED=True)
+    @override_settings(ALBERT_SIMULATED=True)
     def test_push_is_universal_and_subscription_is_optional(self):
         from unittest.mock import patch
         from eures_beta.candidates import preview_push
