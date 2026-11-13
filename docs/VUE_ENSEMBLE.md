@@ -1,3 +1,11 @@
+## 13 novembre 2026 — accès commun des conseillers
+
+CONSEILLERS : tout conseiller connecté et actif peut consulter et modifier le
+matching, demander une confirmation candidat et inviter un employeur, sans
+permission Django ou groupe supplémentaire. Les protections candidat/employeur
+et l'administration Django restent distinctes. Voir [la décision](DECISIONS.md)
+et [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
+
 ## 9 novembre 2026 — correction de la parité des environnements
 
 La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.

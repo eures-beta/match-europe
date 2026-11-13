@@ -24,7 +24,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [invitation_views.py](invitation_views.py) — Vues conseiller et acceptation publique protégée.
 
 - [Droits administratifs](../../../docs/ADMIN_PERMISSIONS.md) — Politique versionnée, synchronisation et création restreinte de conseillers.
-- [permissions.py](permissions.py) — Matrice des droits et réconciliation des attributions.
+- [permissions.py](permissions.py) — Accès métier fondé sur le rôle conseiller actif et réconciliation des droits administratifs historiques.
 - [admin_config.py](admin_config.py) — Retire l'édition des groupes après découverte des administrations.
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [admin.py](admin.py) — Adapte l’administration Django au compte sans username et au kind immuable.

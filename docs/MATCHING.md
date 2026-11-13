@@ -8,8 +8,9 @@ réels ou fictifs autorisés. `MATCHING_ENABLED` est actif par défaut ; la vale
 `0` désactive la fonctionnalité. Il n'existe pas de restriction métier liée à
 l'environnement, à l'adresse réseau ou à l'activation des e-mails.
 
-La console `/matching/` exige un conseiller actif avec le droit
-`matching.view_matchpair` et, pour les actions POST, `matching.change_matchpair`.
+La console `/matching/` est accessible à tout conseiller connecté et actif,
+en consultation comme pour les actions POST, sans permission Django supplémentaire.
+Tous les conseillers ont les mêmes droits métier.
 Le calcul ne modifie ni l'offre ni le profil. Il n'envoie pas de message, de
 notification, d'appel Albert ou d'autorisation de transmission.
 
@@ -131,7 +132,7 @@ Définir une clé Django locale, `DJANGO_DEBUG=1`, `MATCHING_ENABLED=1`,
 
 Puis `make db-create`, `make migrate`, `make matching-translations`,
 `make matching-run`.
-Ouvrir http://127.0.0.1:9041/matching/ avec un compte conseiller habilité.
+Ouvrir http://127.0.0.1:9041/matching/ avec un compte conseiller actif.
 Pour des scénarios fictifs dans une base de développement ou de recette dédiée,
 activer explicitement `TEST_ACCOUNTS_ENABLED=1`, garder les e-mails désactivés,
 puis utiliser `make matching-seed`. Ce peuplement est distinct de l'accès métier.

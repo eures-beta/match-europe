@@ -1,17 +1,17 @@
 # Invitations employeurs
 
-Les conseillers actifs habilités voient les comptes employeurs et les invitations
+Les conseillers actifs voient les comptes employeurs et les invitations
 en attente sur `/accounts/dashboard/` (25 lignes par liste). Le bouton d'invitation
 ouvre `/accounts/employers/invite/` : e-mail et langue du message. Le tableau de
-bord employeur reste en construction. Tous les conseillers habilités voient les
+bord employeur reste en construction. Tous les conseillers voient les
 comptes employeurs, sans périmètre individuel dans cette première version.
 
 ## Autorisations et données
 
-Le groupe versionné `employer-inviters` possède les droits d'ajout et consultation
-d'`EmployerInvitation`. Il est réconcilié au déploiement pour les conseillers
-actifs ; les nouveaux conseillers le reçoivent dès leur création. Cela ne donne
-aucun accès à l'administration Django. Les vues vérifient aussi rôle et activité.
+Tout conseiller connecté et actif peut consulter et créer les invitations,
+sans permission Django supplémentaire et même sans groupe. Le groupe historique
+`employer-inviters` peut encore être synchronisé mais ne conditionne plus ces
+actions. Cela ne donne aucun accès à l'administration Django.
 
 La migration additive `users.0004_employerinvitation` crée une table : e-mail
 normalisé unique, langue, conseiller à l'origine, dates de création, expiration,
@@ -26,7 +26,7 @@ La transaction verrouille l'invitation pour empêcher sa double consommation. Un
 compte existant n'est jamais modifié ni promu. La désactivation du conseiller
 invalide ses invitations en attente.
 
-Une adresse déjà inscrite ou invitée est signalée au seul conseiller habilité.
+Une adresse déjà inscrite ou invitée est signalée au conseiller connecté.
 Une invitation expirée peut être renouvelée via le même formulaire, ce qui
 invalide ses anciens liens. Limite partagée entre navigateurs : dix invitations
 ou renouvellements par conseiller et heure. Pas de renvoi d'invitation encore

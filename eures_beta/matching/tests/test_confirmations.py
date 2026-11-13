@@ -8,7 +8,6 @@ from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils import translation
-from django.contrib.auth.models import Permission
 from eures_beta.users.models import User
 from eures_beta.matching import confirmation_services as service
 from eures_beta.matching.models import (
@@ -32,12 +31,6 @@ class ConfirmationTests(TestCase):
         call_command('seed_matching_trial', stdout=StringIO())
         cls.adviser = User.objects.create(
             email='adviser@matching-trial.invalid', kind='adviser'
-        )
-        cls.adviser.user_permissions.add(
-            *Permission.objects.filter(
-                content_type__app_label='matching',
-                codename__in=('view_matchpair', 'change_matchpair'),
-            )
         )
 
     def setUp(self):
@@ -305,14 +298,24 @@ class ConfirmationTests(TestCase):
         self.pair.offer.save(update_fields=['validated_at'])
         self.assertEqual(self.client.get(self.url).status_code, 404)
 
-    def test_adviser_must_have_current_decision_right(self):
-        self.adviser.user_permissions.remove(
-            Permission.objects.get(
-                content_type__app_label='matching',
-                codename='change_matchpair',
-            )
+    def test_all_active_advisers_can_request_without_groups_or_permissions(self):
+        second = User.objects.create_user(
+            email='second-adviser@matching-trial.invalid', kind='adviser'
         )
-        self.adviser = User.objects.get(pk=self.adviser.pk)
+        for adviser in (self.adviser, second):
+            adviser.groups.clear()
+            adviser.user_permissions.clear()
+            with self.subTest(adviser=adviser.pk):
+                self.assertFalse(adviser.is_staff)
+                self.assertFalse(adviser.is_superuser)
+                self.assertEqual(
+                    service.request_confirmation(adviser, self.pair.pk).pk,
+                    self.request.pk,
+                )
+
+    def test_inactive_adviser_cannot_request_confirmation(self):
+        self.adviser.is_active = False
+        self.adviser.save(update_fields=['is_active'])
         with self.assertRaises(PermissionDenied):
             service.request_confirmation(self.adviser, self.pair.pk)
 
