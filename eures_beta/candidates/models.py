@@ -110,7 +110,11 @@ class CandidateProfile(models.Model):
         # Use the current server-side questionnaire rules, including conditional
         # answers, catalogue references and schedule consistency. UI bookkeeping
         # and identity/email verification are deliberately outside this model.
-        from .journey import ProjectForm, MobilityForm, ConditionsForm
+        from eures_beta.candidates.forms import (
+            ProjectForm,
+            MobilityForm,
+            ConditionsForm,
+        )
 
         errors = {}
         for form_class in (ProjectForm, MobilityForm, ConditionsForm):

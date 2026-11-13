@@ -1,0 +1,555 @@
+"""Employer offer workspace; explicit memberships, no external submission."""
+
+from copy import deepcopy
+from functools import wraps
+from django import forms
+from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import Q
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone, translation
+from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from django.views.decorators.cache import never_cache
+from eures_beta.employers.offer_validation import clean_data
+from eures_beta.employers.employer_ownership import (
+    identity,
+    memberships,
+    accessible_imports,
+)
+from eures_beta.www.employer.forms import EmployerContactForm
+from eures_beta.choices import MOBILITY
+from eures_beta.employers.models import JobOffer, Company, CompanyMembership
+from eures_beta.www.employer.establishments import EstablishmentForm
+from django.shortcuts import render as render_template
+from eures_beta.employers.offer_ingestion import ImportFailure
+
+
+def connected(view):
+    @wraps(view)
+    @never_cache
+    def wrapped(request, *args, **kwargs):
+        if not identity(request):
+            return redirect('magic_login')
+        lang = request.GET.get(
+            'lang', request.session.get('employer_auth_language', 'fr')
+        )
+        lang = lang if lang in ('fr', 'en', 'de') else 'fr'
+        request.session['employer_auth_language'] = lang
+        with translation.override(lang):
+            return view(request, *args, **kwargs)
+
+    return wrapped
+
+
+def render(request, stage, status=200, **context):
+    from eures_beta.skills.continuous import trial_request
+
+    context['continuous_skills'] = trial_request(request)
+    response = page(request, stage, **context)
+    response.status_code = status
+    return response
+
+
+def visible(request):
+    # Account and establishment ownership apply in every environment.
+    policy = Q(company__isnull=False) | Q(created_by=identity(request))
+    return accessible_imports(request).filter(policy).select_related('company')
+
+
+class OfferEditForm(forms.Form):
+    occupationSkills = forms.JSONField(
+        label=_('Skills by occupation'),
+        required=False,
+        widget=forms.HiddenInput(attrs={'id': 'id_occupation_skills'}),
+    )
+    revision = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
+    title = forms.CharField(label=_('Job title'), max_length=125, required=False)
+    companyName = forms.CharField(
+        label=_('Company'),
+        max_length=100,
+        required=False,
+        help_text=_(
+            'Changing this text does not change the establishment or access rights.'
+        ),
+    )
+    city = forms.CharField(label=_('Workplace'), max_length=150, required=False)
+    contractType = forms.ChoiceField(
+        label=_('Contract'),
+        required=False,
+        choices=[
+            ('', _('Please choose')),
+            ('PERMANENT_CONTRACT', _('Permanent contract')),
+            ('FIXED_TERM_CONTRACT', _('Fixed-term contract')),
+            ('TEMPORARY_WORK', _('Temporary work')),
+            ('INTERNSHIP', _('Internship')),
+            ('APPRENTICESHIP', _('Apprenticeship')),
+            ('FREELANCE', _('Freelance')),
+            ('TRAINING', _('Training')),
+        ],
+    )
+    description = forms.CharField(
+        label=_('Job description'),
+        max_length=16000,
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 8}),
+    )
+    desiredProfile = forms.CharField(
+        label=_('Skills and experience sought'),
+        max_length=4000,
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 5}),
+    )
+    crossBorder = forms.ChoiceField(
+        label=_('Do you accept candidates who keep living in a neighbouring country?'),
+        choices=MOBILITY,
+        required=False,
+    )
+    relocation = forms.ChoiceField(
+        label=_('Do you accept candidates who move from another country for this job?'),
+        choices=MOBILITY,
+        required=False,
+    )
+
+    def __init__(self, *args, offer, **kwargs):
+        self.offer = offer
+        super().__init__(
+            *args, initial={**offer.data, 'revision': offer.revision}, **kwargs
+        )
+        labels = {
+            'salary': _('Salary'),
+            'hours': _('Working hours'),
+            'startDate': _('Start date'),
+            'frenchLevel': _('Languages and levels'),
+            'experience': _('Experience'),
+            'commute': _('Access to the workplace'),
+        }
+        for key, label in labels.items():
+            self.fields['clarify_' + key] = forms.CharField(
+                label=label,
+                max_length=1000,
+                required=False,
+                initial=offer.data.get('clarifications', {}).get(key, ''),
+            )
+        choices = {
+            'workConditions': [
+                ('early', _('Early hours')),
+                ('night', _('Night work')),
+                ('weekend', _('Weekends')),
+                ('variable', _('Variable hours')),
+                ('shift', _('Shift work')),
+                ('physical', _('Physical work')),
+                ('standing', _('Standing work')),
+                ('split', _('Split shifts')),
+                ('outdoor', _('Outdoor work')),
+                ('travel', _('Frequent travel')),
+                ('none', _('None')),
+                ('unknown', _('To discuss')),
+            ],
+            'permits': [(x, x) for x in ('B', 'C', 'CE', 'D', 'DE', 'CACES')]
+            + [('other', _('Other'))],
+            'arrivalAids': [
+                ('housing', _('Housing')),
+                ('admin', _('Administrative support')),
+                ('transport', _('Transport')),
+                ('onboarding', _('Onboarding')),
+                ('other', _('Other')),
+                ('none', _('None')),
+                ('unknown', _('To discuss')),
+            ],
+        }
+        req = offer.data.get('requirements', {})
+        for key, label in [
+            ('workConditions', _('Working conditions')),
+            ('permits', _('Driving licences and authorisations')),
+            ('arrivalAids', _('Arrival support')),
+        ]:
+            self.fields[key] = forms.MultipleChoiceField(
+                label=label,
+                choices=choices[key],
+                required=False,
+                initial=req.get(key, []),
+                widget=forms.CheckboxSelectMultiple,
+            )
+        self.fields['permitRequired'] = forms.ChoiceField(
+            label=_('Is a licence or authorisation required?'),
+            choices=MOBILITY[:3],
+            required=False,
+            initial=req.get('permitRequired', ''),
+        )
+        for key, label in [
+            ('permitOther', _('Other authorisation')),
+            ('aidOther', _('Other arrival support')),
+        ]:
+            self.fields[key] = forms.CharField(
+                label=label, required=False, max_length=500, initial=req.get(key, '')
+            )
+        self.order_fields(
+            [
+                'revision',
+                'title',
+                'companyName',
+                'city',
+                'contractType',
+                'description',
+                'desiredProfile',
+                *['clarify_' + key for key in labels],
+                'workConditions',
+                'permitRequired',
+                'permits',
+                'permitOther',
+                'crossBorder',
+                'relocation',
+                'arrivalAids',
+                'aidOther',
+            ]
+        )
+
+    def clean(self):
+        values = super().clean()
+        if self.errors:
+            return values
+        if values.get('permits') and values.get('permitRequired') != 'yes':
+            self.add_error(
+                'permitRequired',
+                _('Select Yes before choosing required licences or authorisations.'),
+            )
+            return values
+        data = deepcopy(self.offer.data)
+        data['occupationSkills'] = values.get('occupationSkills') or {}
+        for key in (
+            'title',
+            'companyName',
+            'city',
+            'contractType',
+            'description',
+            'desiredProfile',
+            'crossBorder',
+            'relocation',
+        ):
+            data[key] = values[key]
+        data.setdefault('clarifications', {}).update(
+            {key[8:]: val for key, val in values.items() if key.startswith('clarify_')}
+        )
+        data['requirements'] = {
+            key: values[key]
+            for key in (
+                'workConditions',
+                'permits',
+                'arrivalAids',
+                'permitRequired',
+                'permitOther',
+                'aidOther',
+            )
+        }
+        if data.get('occupation', {}).get('title') != data['title']:
+            data.pop('occupation', None)
+            data.pop('occupationSkills', None)
+        try:
+            cleaned = clean_data(data)
+        except ImportFailure:
+            raise forms.ValidationError(
+                _('Choose either specific conditions or None / To discuss, not both.')
+            ) from None
+        # Preserve provenance and other original metadata, never accept it from the form.
+        data.update(cleaned)
+        if data.get('geo', {}).get('query') != data.get('city'):
+            data.pop('geo', None)
+        self.offer_data = data
+        return values
+
+
+@connected
+@require_GET
+def offers(request):
+    person = identity(request)
+    pending = JobOffer.objects.filter(company__isnull=True, created_by=person).order_by(
+        '-created'
+    )
+    requested = request.session.get('employer_claim_import')
+    draft = (
+        pending.filter(pk=requested).first() if requested else None
+    ) or pending.first()
+    if draft:
+        request.session['employer_claim_import'] = str(draft.pk)
+    else:
+        request.session.pop('employer_claim_import', None)
+    return connected_page(request, person.email, person, draft)
+
+
+def offer_home(request, **attachment):
+    companies = [
+        member.company
+        for member in memberships(request)
+        .select_related('company')
+        .order_by('company__name', 'company_id')
+    ]
+    selected = request.GET.get('company', '')
+    rows = visible(request)
+    if selected:
+        if not selected.isdecimal() or int(selected) not in [c.pk for c in companies]:
+            raise Http404
+        rows = rows.filter(company_id=selected)
+    private = JobOffer.objects.filter(
+        company__isnull=True, created_by=identity(request)
+    ).order_by('-updated')
+    attachment.pop('companies', None)
+    if attachment.get('pending_import'):
+        private = private.exclude(pk=attachment['pending_import'])
+    return render(
+        request,
+        'offers',
+        companies=companies,
+        selected=selected,
+        **attachment,
+        offers=Paginator(rows.order_by('-updated', 'pk'), 20).get_page(
+            request.GET.get('page')
+        ),
+        private_drafts=private,
+        workspace=True,
+    )
+
+
+@connected
+@require_GET
+def detail(request, id):
+    offer = get_object_or_404(visible(request), pk=id)
+    form = OfferEditForm(offer=offer)
+    rows = []
+    for field in form:
+        if field.name in ('revision', 'title', 'occupationSkills'):
+            continue
+        value = field.value()
+        choices = dict(getattr(field.field, 'choices', []))
+        if isinstance(value, (list, tuple)):
+            value = ', '.join(str(choices.get(item, item)) for item in value)
+        elif choices and value:
+            value = choices.get(value, value)
+        if value:
+            rows.append((field.label, value))
+    from eures_beta.skills.continuous import summary as skills_summary
+
+    skill_text = skills_summary(
+        offer.data.get('occupationSkills'), translation.get_language()
+    )
+    if skill_text:
+        rows.append((_('Skills by occupation'), skill_text))
+
+    return render(
+        request,
+        'offer_detail',
+        offer=offer,
+        saved=request.GET.get('saved') == '1',
+        fields=rows,
+        contact=EmployerContactForm(initial=offer.contact),
+        workspace=True,
+    )
+
+
+@connected
+@require_http_methods(['GET', 'POST'])
+def edit(request, id):
+    with transaction.atomic():
+        offer = get_object_or_404(
+            visible(request).select_for_update(of=('self',)), pk=id
+        )
+        if offer.search_write_blocked:
+            return render(
+                request,
+                'offer_locked',
+                status=409 if request.method == 'POST' else 200,
+                offer=offer,
+                workspace=True,
+            )
+        form = OfferEditForm(
+            request.POST if request.method == 'POST' else None, offer=offer
+        )
+        contact = EmployerContactForm(
+            request.POST if request.method == 'POST' else None,
+            initial=offer.contact,
+            prefix='contact',
+        )
+        if request.method == 'POST':
+            valid = form.is_valid() & contact.is_valid()
+            if valid and form.cleaned_data['revision'] != offer.revision:
+                form.add_error(
+                    None,
+                    _(
+                        'A colleague changed this offer. Your changes have not been saved. Open the current version before trying again.'
+                    ),
+                )
+            elif valid:
+                offer.data = form.offer_data
+                offer.contact = contact.cleaned_data
+                offer.revision += 1
+                offer.validated_at = offer.synced_at = None
+                offer.sandbox_response = {}
+                offer.save(
+                    update_fields=[
+                        'data',
+                        'contact',
+                        'revision',
+                        'validated_at',
+                        'synced_at',
+                        'sandbox_response',
+                        'updated',
+                    ]
+                )
+                from django.urls import reverse
+                from eures_beta.matching.services import schedule_offer_matching
+
+                schedule_offer_matching(offer)
+                return redirect(reverse('employer_offer', args=[offer.pk]) + '?saved=1')
+    return render(
+        request,
+        'offer_edit',
+        offer=offer,
+        form=form,
+        contact=contact,
+        workspace=True,
+        skills_occupations=' '.join(offer.data.get('occupation', {}).get('uris', [])),
+    )
+
+
+@connected
+@require_POST
+def duplicate(request, id):
+    with transaction.atomic():
+        original = get_object_or_404(
+            visible(request).select_for_update(of=('self',)), pk=id
+        )
+        if request.POST.get('revision') != str(original.revision):
+            return render(
+                request, 'offer_conflict', status=409, offer=original, workspace=True
+            )
+        # Explicit action, new UUID, no publication/search state or external identifier copied.
+        data = clean_data(deepcopy(original.data))
+        copy = JobOffer.objects.create(
+            company=original.company,
+            created_by=identity(request),
+            duplicated_from=original,
+            session_key='',
+            email=identity(request).email,
+            contact=deepcopy(original.contact),
+            preparation_agreed_at=timezone.now(),
+            source_kind='manual',
+            source_url='',
+            data=data,
+            structured_requirements=deepcopy(original.structured_requirements),
+        )
+    return redirect('employer_offer_edit', id=copy.pk)
+
+
+@connected
+@require_POST
+def resume_attachment(request, id):
+    offer = get_object_or_404(
+        JobOffer, pk=id, company__isnull=True, created_by=identity(request)
+    )
+    request.session['employer_claim_import'] = str(offer.pk)
+    return redirect('employer_connected')
+
+
+@connected
+@require_POST
+def attach(request):
+    return attach_draft(request)
+
+
+def page(request, stage, **context):
+    lang = request.GET.get(
+        'lang',
+        request.session.get(
+            'employer_auth_language', translation.get_language() or 'fr'
+        ),
+    )
+    lang = lang if lang in ('fr', 'en', 'de') else 'fr'
+    request.session['employer_auth_language'] = lang
+    with translation.override(lang):
+        return render_template(
+            request,
+            'employer_space.html',
+            {
+                'stage': stage,
+                'signed_in': bool(identity(request)),
+                'auth_shell': 'employer_auth_shell.html',
+                **context,
+            },
+        )
+
+
+def connected_page(request, email, person, draft, establishment_form=None):
+    return offer_home(
+        request,
+        email=email,
+        companies=Company.objects.filter(memberships__in=memberships(request)),
+        pending_import=request.session.get('employer_claim_import'),
+        pending_title=(
+            (draft.data.get('title') or draft.data.get('description', '')[:125])
+            if draft
+            else ''
+        ),
+        import_url='/employer/pages/import-'
+        + request.session.get('employer_auth_language', 'fr')
+        + '.html',
+        attached=request.session.pop('employer_attached', False),
+        establishment_form=(
+            establishment_form
+            if establishment_form is not None
+            else EstablishmentForm(
+                initial={'name': draft.data.get('companyName', '')} if draft else None
+            )
+        ),
+    )
+
+
+def attach_draft(request):
+    """Attach only a draft owned by the authenticated employer, with explicit workspace choice."""
+    person = identity(request)
+    pending_id = request.session.get('employer_claim_import')
+    if not person or not pending_id:
+        raise Http404
+    with transaction.atomic():
+        draft = (
+            JobOffer.objects.select_for_update()
+            .filter(pk=pending_id, company__isnull=True, created_by=person)
+            .first()
+        )
+        if draft is None:
+            raise Http404
+        company_id = request.POST.get('company', '')
+        if company_id:
+            if not company_id.isdecimal():
+                raise Http404
+            member = (
+                memberships(request)
+                .select_for_update()
+                .filter(company_id=company_id)
+                .first()
+            )
+            if not member:
+                raise Http404
+            company = member.company
+        else:
+            # Serialise first registration for this person, including across browsers.
+            get_user_model().objects.select_for_update().get(pk=person.pk)
+            if memberships(request).exists():
+                raise Http404
+            form = EstablishmentForm(request.POST)
+            if not form.is_valid():
+                return connected_page(request, person.email, person, draft, form)
+            company = Company.objects.create(name=form.cleaned_data['name'])
+            CompanyMembership.objects.create(person=person, company=company)
+        draft.company = company
+        draft.created_by = person
+        # Session ownership must no longer provide an alternative access path.
+        draft.session_key = ''
+        draft.save(update_fields=['company', 'created_by', 'session_key', 'updated'])
+        from eures_beta.matching.services import schedule_offer_matching
+
+        schedule_offer_matching(draft)
+    request.session.pop('employer_claim_import', None)
+    request.session['employer_attached'] = company.name
+    return redirect('employer_connected')

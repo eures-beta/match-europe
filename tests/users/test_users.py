@@ -96,7 +96,7 @@ class UserTests(TestCase):
             email='candidate@example.invalid', kind='candidate'
         )
         self.client.force_login(user)
-        with patch('eures_beta.employers.dashboard.employer_dashboard') as employer:
+        with patch('eures_beta.www.employer.dashboard.employer_dashboard') as employer:
             response = self.client.get('/accounts/dashboard/')
         employer.assert_not_called()
         self.assertEqual(response.status_code, 200)
