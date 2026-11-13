@@ -16,7 +16,7 @@ from django.utils import timezone
 from sesame.utils import get_token
 
 from eures_beta.candidates import registration
-from eures_beta.candidates.journey import KEY
+from eures_beta.candidates.forms import KEY
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates import pending as pending_store
 from django.contrib.sessions.models import Session

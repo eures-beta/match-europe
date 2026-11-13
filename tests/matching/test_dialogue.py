@@ -6,9 +6,11 @@ from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from eures_beta.candidates.journey import KEY, ConditionsForm
-from eures_beta.matching import confirmation_services as confirmations
-from eures_beta.matching import dialogue_services as dialogue
+from eures_beta.candidates.forms import KEY, ConditionsForm
+from eures_beta.matching import (
+    confirmation_services as confirmations,
+    dialogue_services as dialogue,
+)
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.matching.services import StaleEvaluation
 from eures_beta.users.test_accounts import prepared_user

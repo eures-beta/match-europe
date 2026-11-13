@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 def validated_answers(data, language):
-    from .journey import ProjectForm, MobilityForm, ConditionsForm
+    from eures_beta.candidates.forms import ProjectForm, MobilityForm, ConditionsForm
 
     names = {field.name for field in CandidateProfile._meta.fields} - {
         'id',
@@ -144,7 +144,7 @@ def confirmation_message(pending, origin):
 def send_confirmation(pending):
     # Same protected Django delivery policy as sign-in and employer invitations.
     # No candidate-specific environment switch and no transport bypass.
-    from eures_beta.users.views import email_ready
+    from eures_beta.users.email_login import email_ready
 
     if pending is None or not email_ready():
         return False

@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from . import access
 
 from eures_beta.integrations import albert
-from eures_beta.candidates.journey import ConditionsForm, MobilityForm
+from eures_beta.candidates.forms import ConditionsForm, MobilityForm
 
 LIMITS = albert.Limits(
     timeout=25,

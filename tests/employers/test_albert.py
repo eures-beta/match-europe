@@ -248,7 +248,7 @@ class EndpointTests(TestCase):
                 self.assertContains(page, 'Albert')
                 self.assertNotContains(page, 'test-secret')
 
-    @patch('eures_beta.employers.employer_api.read_pdf')
+    @patch('eures_beta.www.employer.imports.read_pdf')
     @patch(
         'eures_beta.employers.offer_structuring.structure',
         return_value=validate_result(RESULT, SOURCE),

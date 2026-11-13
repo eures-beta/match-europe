@@ -7,7 +7,7 @@ from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates.skill_choices import skill_groups
 from eures_beta.employers.models import JobOffer
 from eures_beta.employers.offer_ingestion import empty_data
-from eures_beta.employers.employer_api import clean_data
+from eures_beta.employers.offer_validation import clean_data
 from eures_beta.skills.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog
 from eures_beta.matching.access import test_data_enabled

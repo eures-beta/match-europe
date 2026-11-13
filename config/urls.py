@@ -1,21 +1,21 @@
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
-from eures_beta import views
-from eures_beta.redirects import legacy_employer_page
+from eures_beta.www.public import views
+from eures_beta.www.public.redirects import legacy_employer_page
 from .health import health
-from eures_beta.skills.continuous_views import suggestions as skill_suggestions
-from eures_beta.users import views as user_views
+from eures_beta.www.skills.views import suggestions as skill_suggestions
+from eures_beta.www.accounts import views as user_views
 
 urlpatterns = [
-    path('matching/', include('eures_beta.matching.urls')),
+    path('matching/', include('eures_beta.www.matching.urls')),
     path(
         'api/occupation-skills/', skill_suggestions, name='occupation_skill_suggestions'
     ),
-    path('', include('eures_beta.users.urls')),
-    path('', include('eures_beta.invitations.urls')),
-    path("", include("eures_beta.employers.urls")),
-    path("", include("eures_beta.candidates.urls")),
+    path('', include('eures_beta.www.accounts.urls')),
+    path('', include('eures_beta.www.invitations.urls')),
+    path("", include("eures_beta.www.employer.urls")),
+    path("", include("eures_beta.www.candidate.urls")),
     # Old tabs/bookmarks still contain these relative language links after deployment.
     path('previews/employer-landing/<path:path>', legacy_employer_page),
     path("health/", health, name="health"),

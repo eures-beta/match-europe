@@ -1,7 +1,6 @@
 """Web Push for authenticated candidates in every environment."""
 
 import base64
-import binascii
 import hashlib
 import hmac
 import json
@@ -10,15 +9,10 @@ from urllib.parse import urlsplit
 
 import requests
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError, transaction
-from django.http import Http404, JsonResponse
 from django.urls import reverse
 from django.utils.translation import gettext, override
-from django.views.decorators.http import require_POST
 
 from .models import PreviewPushSubscription
-from .registration_views import owned_profile
 
 logger = logging.getLogger(__name__)
 P256_ORDER = 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551
@@ -84,44 +78,6 @@ def key_bytes(value, size):
     if len(raw) != size:
         raise ValueError
     return raw
-
-
-@require_POST
-@login_required
-def subscribe(request):
-    if not available():
-        raise Http404
-    profile = owned_profile(request)
-    from cryptography.hazmat.primitives.asymmetric import ec
-
-    if len(request.body) > 4096:
-        return JsonResponse({'ok': False}, status=400)
-    try:
-        data = json.loads(request.body)
-        endpoint, keys = data['endpoint'], data['keys']
-        if not valid_endpoint(endpoint):
-            raise ValueError
-        ec.EllipticCurvePublicKey.from_encoded_point(
-            ec.SECP256R1(), key_bytes(keys['p256dh'], 65)
-        )
-        key_bytes(keys['auth'], 16)
-    except (ValueError, TypeError, KeyError, binascii.Error):
-        return JsonResponse({'ok': False}, status=400)
-    try:
-        with transaction.atomic():
-            PreviewPushSubscription.objects.filter(endpoint=endpoint).exclude(
-                candidate=profile
-            ).delete()
-            PreviewPushSubscription.objects.update_or_create(
-                candidate=profile,
-                defaults={
-                    'endpoint': endpoint,
-                    'keys': {name: keys[name] for name in ('p256dh', 'auth')},
-                },
-            )
-    except IntegrityError:
-        return JsonResponse({'ok': False}, status=409)
-    return JsonResponse({'ok': True})
 
 
 class PushSession(requests.Session):

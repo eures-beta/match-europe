@@ -285,3 +285,13 @@ Sur #158, préparation d’une évolution : secteurs repliables affichés d’em
 Le candidat authentifié peut enregistrer son abonnement Web Push via
 `/candidate/push-subscriptions/`, dans tous les environnements. Le consentement
 du navigateur reste nécessaire et facultatif pour poursuivre le parcours.
+
+## 13 novembre 2026 — couche web séparée des domaines
+
+À la demande de dejafait, les routes, vues et formulaires d’interface sont rangés
+dans `eures_beta/www/` par parcours. Modèles, migrations et services restent dans
+les applications métier, qui ne doivent pas importer la couche web. Conserver
+les validations partagées dans le domaine. Templates, statiques, traductions et
+tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
+créé ou déplacé, aucune nouvelle migration. Voir
+[le guide](ARCHITECTURE_WEB.md).

@@ -1696,3 +1696,14 @@ de rôle ou de comptes fictifs. Les anciennes commandes citées dans les notes
 datées ci-dessus sont historiques ; voir [le guide actuel](docs/DEVELOPPEMENT.md).
 Les évaluations, tests et dispositifs Gunicorn restent distincts. Aucun modèle,
 migration, donnée ou parcours métier modifié.
+
+
+## 13 novembre 2026 — couche web séparée des domaines
+
+À la demande de dejafait, les routes, vues et formulaires d’interface sont rangés
+dans `eures_beta/www/` par parcours. Modèles, migrations et services restent dans
+les applications métier, qui ne doivent pas importer la couche web. Conserver
+les validations partagées dans le domaine. Templates, statiques, traductions et
+tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
+créé ou déplacé, aucune nouvelle migration. Voir
+[le guide](docs/ARCHITECTURE_WEB.md).

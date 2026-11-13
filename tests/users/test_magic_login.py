@@ -234,7 +234,7 @@ class MagicLoginTests(TestCase):
                             TEST_ACCOUNTS_ENABLED=False,
                         ),
                         patch(
-                            'eures_beta.users.views.send_mail', return_value=1
+                            'eures_beta.www.accounts.views.send_mail', return_value=1
                         ) as send,
                     ):
                         LoginRateLimit.objects.all().delete()
@@ -265,10 +265,12 @@ class MagicLoginTests(TestCase):
         self,
     ):
         with patch(
-            'eures_beta.users.views.send_mail',
+            'eures_beta.www.accounts.views.send_mail',
             side_effect=RuntimeError('sensitive payload'),
         ):
-            with self.assertLogs('eures_beta.users.views', level='ERROR') as logs:
+            with self.assertLogs(
+                'eures_beta.www.accounts.views', level='ERROR'
+            ) as logs:
                 response = self.client.post(
                     '/accounts/login/', {'email': self.user.email}
                 )
