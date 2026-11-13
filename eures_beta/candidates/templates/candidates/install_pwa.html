@@ -4,8 +4,8 @@
 {% block public_content %}
   <section class="surface-card home-section">
     <h1>{% translate "Install Match Europe on your phone" %}</h1>
-    {% include "candidates/install_phone_steps.html" %}
-    {% include "candidates/install_notification_note.html" %}
+    {% include "candidates/install_pwa_phone_steps.html" %}
+    {% include "candidates/install_pwa_notification_note.html" %}
     <p><a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in to your candidate account" %}</a></p>
   </section>
 {% endblock %}

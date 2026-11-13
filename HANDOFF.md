@@ -1461,3 +1461,12 @@ le mode application. Les notifications sont annoncées comme une étape à venir
 La section utilise le parcours candidat et le manifeste communs à tous les
 environnements. Recette manuelle à faire sur iPhone et Android pour vérifier
 l’installation et la connexion au même compte depuis la PWA.
+
+## 13 novembre 2026 — noms techniques de l’installation PWA
+
+Dans la PR176, la vue install_pwa, la route candidate_install_pwa et
+/candidate/install-pwa/ remplacent les noms install ambigus. Templates,
+partiels, fichier JavaScript, attributs techniques et références sont recâblés.
+Textes visibles FR/EN/DE inchangés ; aucun modèle ou migration modifié.
+L’ancienne URL propre à la PR n’était pas livrée dans main, donc pas de
+redirection de compatibilité ajoutée.

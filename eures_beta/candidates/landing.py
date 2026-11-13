@@ -18,8 +18,8 @@ def landing(request):
 
 
 @require_safe
-def install(request):
+def install_pwa(request):
     from eures_beta.users.views import selected_language
 
     with translation.override(selected_language(request)):
-        return render(request, 'candidates/install.html')
+        return render(request, 'candidates/install_pwa.html')

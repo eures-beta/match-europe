@@ -1,0 +1,19 @@
+{% load i18n static %}
+<section class="surface-card home-section"
+         aria-labelledby="candidate-install-pwa-title"
+         data-candidate-install-pwa>
+  <h2 id="candidate-install-pwa-title">{% translate "Next step on your phone" %}</h2>
+  <details data-install-pwa-handoff>
+    <summary>{% translate "I am on a computer or tablet" %}</summary>
+    <p>{% translate "Copy this installation link and open it on your phone." %}</p>
+    {% url 'candidate_install_pwa' as install_pwa_path %}
+    <p><a href="{{ install_pwa_path }}?lang={{ page_language }}">{{ request.scheme }}://{{ request.get_host }}{{ install_pwa_path }}?lang={{ page_language }}</a></p>
+  </details>
+  <details data-install-pwa-phone>
+    <summary>{% translate "I am already on my phone" %}</summary>
+    {% include "candidates/install_pwa_phone_steps.html" %}
+  </details>
+  <p data-install-pwa-complete hidden>{% translate "Match Europe is open as an app." %}</p>
+  {% include "candidates/install_pwa_notification_note.html" %}
+  <script src="{% static 'pwa/candidate-install-pwa.js' %}" defer></script>
+</section>

@@ -6,14 +6,22 @@ from django.contrib.staticfiles import finders
 
 @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
 class CandidateLandingTests(SimpleTestCase):
-    def test_installation_guide_is_public_and_localized(self):
+    def test_pwa_installation_guide_is_public_and_localized(self):
         for language, title in (
             ('fr', 'Installer Match Europe sur votre téléphone'),
             ('en', 'Install Match Europe on your phone'),
             ('de', 'Match Europe auf Ihrem Smartphone installieren'),
         ):
             with self.subTest(language=language):
-                response = self.client.get('/candidate/install/', {'lang': language})
+                from django.urls import reverse
+
+                self.assertEqual(
+                    reverse('candidate_install_pwa'), '/candidate/install-pwa/'
+                )
+                response = self.client.get(
+                    reverse('candidate_install_pwa'), {'lang': language}
+                )
+                self.assertTemplateUsed(response, 'candidates/install_pwa.html')
                 self.assertContains(response, title)
                 self.assertContains(response, 'rel="manifest"')
                 self.assertContains(response, f'?lang={language}')
