@@ -61,6 +61,10 @@ def account(request):
 @require_GET
 def dashboard(request):
     with translation.override(selected_language(request)):
+        if request.GET.get('tab') == 'history':
+            from .adviser_history import history
+
+            return history(request)
         if request.user.kind == 'adviser':
             from eures_beta.invitations.adviser import invitations_tab
             from eures_beta.invitations.views import adviser_dashboard
