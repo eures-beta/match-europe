@@ -1,5 +1,15 @@
 # Invitations
 
+## Templates des e-mails
+
+Les templates sont classés par type de destinataire dans
+`eures_beta/templates/users/invitations/` : `employer/`, `candidate/` et
+`adviser/`. Le premier message s’appelle `invitation.html`/`invitation.txt`,
+avec un objet `invitation.subject` pour les employeurs et candidats. Une relance
+utilise `reminder.*` ; chez les conseillers, le même template adapte le texte
+selon le contexte. Les relances employeurs réutilisent le contenu de l’invitation.
+Le rôle dans le nom du sous-dossier désigne le destinataire, pas l’expéditeur.
+
 ## Onglet conseiller « Inviter »
 
 La recette locale Django est basée sur le sommet de la pile #187. Depuis le

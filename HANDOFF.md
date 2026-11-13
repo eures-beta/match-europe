@@ -1,3 +1,12 @@
+## 13 novembre 2026 — noms des fichiers d’invitation
+
+La documentation commune est `docs/INVITATIONS.md`, avec tous ses liens mis à
+jour. Les templates sont rangés par rôle destinataire dans
+`users/invitations/{employer,candidate,adviser}/`. Le premier message s’appelle
+`invitation.*`, la relance `reminder.*` ; le conseiller réutilise son template
+d’invitation avec le contexte de relance. Chargeur et inclusions actualisés.
+Le contenu des messages et leur comportement restent identiques.
+
 ## 13 novembre 2026 — noms communs des invitations
 
 PR188 : `Invitation` remplace `EmployerInvitation`, avec `sender`,
@@ -372,7 +381,7 @@ sans mot de passe ni droits administratifs. Groupe de droits versionné ; table
 additive EmployerInvitation. Tableau employeur conservé en construction.
 Connexion habituelle prolongée à une heure ; session glissante de trente jours
 inchangée. Aucun prestataire mail activé. Commandes privées de simulation via
-Makefile, jamais de lien secret dans les pages. Voir docs/EMPLOYER_INVITATIONS.md.
+Makefile, jamais de lien secret dans les pages. Voir docs/INVITATIONS.md.
 
 ## 2 novembre 2026 — diagnostic des performances
 
@@ -1579,5 +1588,5 @@ suppression avant acceptation. Modèle conseiller ajouté, accessible à tous le
 invitations. Le candidat invité peut terminer
 son profil après vérification de son adresse par le lien d’invitation.
 L’aperçu employeur a été contrôlé dans le navigateur. Voir
-[la recette et le contrat](docs/EMPLOYER_INVITATIONS.md). Le SMTP réel de Brevo
+[la recette et le contrat](docs/INVITATIONS.md). Le SMTP réel de Brevo
 reste à vérifier dans un environnement explicitement autorisé.

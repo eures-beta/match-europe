@@ -10,7 +10,7 @@ et [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
 
 CONSEILLERS : l’onglet Django réunit la préparation, l’aperçu et le suivi des
 invitations employeurs, candidats et conseillers. La recette utilise des comptes
-fictifs et une boîte locale. Voir [les invitations](EMPLOYER_INVITATIONS.md).
+fictifs et une boîte locale. Voir [les invitations](INVITATIONS.md).
 
 ## 10 novembre 2026 — retrait des anciens parcours de présentation
 

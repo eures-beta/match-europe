@@ -29,7 +29,7 @@ diagnostic Push supprimé ne sont plus installées. Aucun compte n'est créé au
 La connexion par lien magique est commune aux rôles ; un employeur doit disposer
 d'un compte actif. Les invitations sont explicites. Les candidats suivent le
 questionnaire public et la vérification de leur email avant création du profil.
-Voir [connexion](MAGIC_LOGIN.md), [invitations](EMPLOYER_INVITATIONS.md) et
+Voir [connexion](MAGIC_LOGIN.md), [invitations](INVITATIONS.md) et
 [inscription candidat](CANDIDATE_EMAIL_REGISTRATION.md).
 
 Les droits et l'affichage sont communs aux environnements. Les anciens formulaires

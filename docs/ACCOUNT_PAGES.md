@@ -26,7 +26,7 @@ et un conseiller staff. Aucun changement de schéma ni de droit métier.
 lien magique, pour les employeurs, conseillers et comptes staff. La page affiche
 « Votre tableau de bord est en construction. » pour les employeurs. Pour les
 conseillers habilités, elle liste les comptes employeurs et les invitations en
-attente ; voir [les invitations](EMPLOYER_INVITATIONS.md).
+attente ; voir [les invitations](INVITATIONS.md).
 Elle exige une session active, refuse les écritures et n’est pas mise en cache.
 
 Un utilisateur déjà connecté qui ouvre la page de connexion retourne au tableau
