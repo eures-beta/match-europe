@@ -32,6 +32,14 @@ class ModelRenameMigrationTests(TransactionTestCase):
         return executor.loader.project_state([target]).apps
 
     def tearDown(self):
+        historical = MigrationExecutor(connection).loader.project_state([AFTER]).apps
+        # These rows belong only to this historical migration test fixture.
+        for name in (
+            'EmployerSearchEvent',
+            'EmployerSearchOperation',
+            'EmployerEmailLink',
+        ):
+            historical.get_model('employers', name).objects.all().delete()
         executor = MigrationExecutor(connection)
         executor.migrate(executor.loader.graph.leaf_nodes())
         ContentType.objects.clear_cache()

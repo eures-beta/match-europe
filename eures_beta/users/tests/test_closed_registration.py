@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.utils import timezone
 from eures_beta.employers.models import (
-    EmployerEmailLink,
     Company,
     CompanyMembership,
 )

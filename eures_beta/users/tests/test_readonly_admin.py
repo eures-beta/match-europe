@@ -20,9 +20,6 @@ from eures_beta.employers.models import (
     Company,
     CompanyMembership,
     JobOffer,
-    EmployerEmailLink,
-    EmployerSearchOperation,
-    EmployerSearchEvent,
 )
 
 
@@ -56,22 +53,6 @@ class ReadOnlyAdminTests(TestCase):
             },
             contact={'email': self.employer.email, 'password': 'contact-secret'},
             sandbox_response={'authorization': 'external-secret', 'status': 'ok'},
-        )
-        self.link = EmployerEmailLink.objects.create(
-            email=self.employer.email,
-            pending_import=self.offer,
-            digest='never-show-digest',
-            expires=timezone.now() + timedelta(hours=1),
-        )
-        self.operation = EmployerSearchOperation.objects.create(
-            offer=self.offer,
-            requested_by=self.employer,
-            revision=1,
-            state='started',
-            scenario='fictional',
-        )
-        self.event = EmployerSearchEvent.objects.create(
-            operation=self.operation, actor=self.employer, state='started'
         )
         self.invitation = Invitation.objects.create(
             email='invited@example.invalid', sender=self.superuser
@@ -109,9 +90,6 @@ class ReadOnlyAdminTests(TestCase):
             self.company,
             self.membership,
             self.offer,
-            self.link,
-            self.operation,
-            self.event,
             self.invitation,
             self.limit,
             self.employer,
@@ -237,9 +215,6 @@ class ReadOnlyAdminTests(TestCase):
         self.assertContains(page, '&lt;script&gt;alert(1)&lt;/script&gt;')
         self.assertContains(page, self.employer.email)
         self.assertContains(page, 'reference=public')
-        self.assertNotContains(
-            self.client.get(self.url(self.link, 'change')), self.link.digest
-        )
         self.assertNotContains(
             self.client.get(self.url(self.invitation, 'change')),
             str(self.invitation.nonce),

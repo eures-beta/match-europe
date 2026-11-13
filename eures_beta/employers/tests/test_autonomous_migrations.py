@@ -15,9 +15,6 @@ from eures_beta.employers.models import (
     Company,
     CompanyMembership,
     JobOffer,
-    EmployerEmailLink,
-    EmployerSearchOperation,
-    EmployerSearchEvent,
 )
 
 BASELINE = ('employers', '0001_autonomous_schema')
@@ -27,9 +24,6 @@ CURRENT_MODELS = (
     get_user_model(),
     CompanyMembership,
     JobOffer,
-    EmployerEmailLink,
-    EmployerSearchOperation,
-    EmployerSearchEvent,
 )
 
 LEGACY_TABLES = (
@@ -83,22 +77,6 @@ class AutonomousMigrationTests(TransactionTestCase):
             source_kind='manual',
             data={'description': 'Preserved extracted text'},
             contact={'name': 'Fictional contact'},
-        )
-        EmployerEmailLink.objects.create(
-            pending_import=draft,
-            email=person.email,
-            digest='a' * 64,
-            expires=timezone.now(),
-        )
-        operation = EmployerSearchOperation.objects.create(
-            offer=draft,
-            requested_by=person,
-            revision=1,
-            state='started',
-            scenario='fictional',
-        )
-        EmployerSearchEvent.objects.create(
-            operation=operation, actor=person, state='started'
         )
         content_type = ContentType.objects.get_for_model(JobOffer)
         permission, _ = Permission.objects.get_or_create(

@@ -449,3 +449,7 @@ ci-status: ## Lire l'état des jobs GitHub Actions (RUN requis, REPO optionnel)
 
 ci-errors: ## Lire les erreurs/arrêts CI avec cache local (RUN, JOB/PATTERN optionnels)
 	python3 -m config.ci_diagnostics errors
+
+.PHONY: retired-models-test
+retired-models-test: ## Vérifier suppression des tables héritées et refus de perdre des données
+	@$(MANAGE) test eures_beta.employers.tests.test_retired_models_migration --noinput $(TEST_ARGS)
