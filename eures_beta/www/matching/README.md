@@ -14,3 +14,8 @@ Pages de rapprochement, confirmations par offre et conversations partagées.
 - [views.py](views.py) — Traite les requêtes de ce parcours et prépare les réponses.
 
 `/matching/<id>/` et `/matching/<id>/review/` conservent leurs deux vues distinctes : détail général et décision conseiller.
+
+Le suivi conseiller est `/matching/offer-reviews/<id>/` ; la préparation de
+conversation est `/matching/offer-reviews/<id>/conversation/` et son fil partagé
+est `/matching/conversations/<id>/`. Les identifiants des deux premières routes
+sont ceux de la confirmation par offre ; le dernier est celui de la conversation.

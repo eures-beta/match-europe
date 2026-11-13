@@ -9,6 +9,11 @@ Accueil, questionnaire, confirmation, profil et installation PWA du candidat.
 - [__init__.py](__init__.py) — Déclare le paquet Python, sans modèle ni effet au chargement.
 - [journey.py](journey.py) — Orchestre les étapes du questionnaire avec les règles de validation du domaine candidat.
 - [landing.py](landing.py) — Présente l’accueil candidat et l’aide à l’installation PWA.
-- [push.py](push.py) — Valide la requête HTTP d’abonnement Push de recette, sans déplacer le service d’envoi.
+- [push.py](push.py) — Valide la requête HTTP d’abonnement Web Push candidat, sans déplacer le service d’envoi.
 - [registration.py](registration.py) — Présente la confirmation d’adresse et les pages du profil candidat.
 - [urls.py](urls.py) — Associe les URL existantes aux vues, sans changer leur nom public.
+
+Les confirmations par offre utilisent `/candidate/offer-reviews/`,
+`/candidate/offer-reviews/<id>/` et `/candidate/offer-reviews/<id>/dialogue/`.
+Le routeur réutilise les vues du parcours matching, sans déplacer les modèles
+ni les règles métier.
