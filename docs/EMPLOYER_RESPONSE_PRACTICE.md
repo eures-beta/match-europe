@@ -57,9 +57,9 @@ Les modalités de purge de la fiche restent à raccorder aux règles du compte.
 
 ## Vérifications et lancement
 
-- `make employer-response-test` : stockage, reprise, collègues, droits, CSRF,
+- `make test TESTS='eures_beta.employers.tests.test_response_practice eures_beta.employers.tests.test_profile_rename'` : stockage, reprise, collègues, droits, CSRF,
   codes invalides, conflits de révision et rendus FR/EN/DE des deux variantes.
-- `make admin-test` : lecture seule, y compris cette nouvelle fiche.
+- `make test TESTS=eures_beta.users.tests.test_readonly_admin` : lecture seule, y compris cette nouvelle fiche.
 - `make test` : suite PostgreSQL complète.
 - `make check` : Django et cohérence des migrations.
 - `make migrate` : application à une base locale dédiée.

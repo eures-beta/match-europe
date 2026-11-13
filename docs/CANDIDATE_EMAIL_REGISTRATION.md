@@ -143,10 +143,10 @@ Le raccordement au transport de production commun est désormais inclus.
 - `make candidate-registration-cleanup` compte sans effacer ;
   `make candidate-registration-cleanup CLEANUP_ARGS=--apply` efface uniquement
   les demandes expirées, jamais les profils ou comptes.
-- `make candidate-registration-test` : création atomique, POST/CSRF, expiration,
+- `make test TESTS=eures_beta.candidates.tests.test_registration` : création atomique, POST/CSRF, expiration,
   rejeu, conflit de compte et de demande, droits, édition, traduction, nettoyage,
   simulation email et confirmation concurrente PostgreSQL.
-- `make candidate-test`, `make test`, `make check`, `make users-upgrade-test`,
+- `make test TESTS=eures_beta.candidates`, `make test`, `make check`, `make users-upgrade-test`,
   `make format-check`, `make format-html-check`, `make translations-check`.
 
 La validation automatisée utilise uniquement des données fictives et des

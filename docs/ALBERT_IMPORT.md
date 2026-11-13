@@ -59,8 +59,8 @@ des recettes jetables restent dans les dépôts privés de déploiement.
 
 ## Évaluation
 
-`make albert-test` vérifie le contrat de sortie, la confidentialité, les droits,
-le repli et le classement ROME, sans réseau. `make occupations-ui-test` vérifie la
+`make test TEST_ARGS='-k albert'` vérifie le contrat de sortie, la confidentialité, les droits,
+le repli et le classement ROME, sans réseau. `make test-js` vérifie la
 requête initiale et son abandon lors d'une correction humaine. Compléter par
 `make test`, `make check`, `make check-js`, `make format-check`,
 `make format-html-check`, `make format-js-check` et `make translations-check`.

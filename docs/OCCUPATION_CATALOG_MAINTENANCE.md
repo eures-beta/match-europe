@@ -129,7 +129,7 @@ Garder les versions précédentes dans Git. Ne pas supprimer ni reclasser des
 choix métier existants lors d’un changement de catalogue.
 
 `make occupations-validate` vérifie par défaut le catalogue livré et écrit son
-rapport dans `.runtime/`. `make occupations-test` exécute les tests du catalogue.
+rapport dans `.runtime/`. `make test TESTS=eures_beta.occupations` exécute les tests du catalogue.
 `PYTHON`, `CATALOG_SOURCES` et `CATALOG_OUTPUT` sont configurables. Aucun de ces
 outils ne télécharge de données ni ne promeut automatiquement un catalogue.
 

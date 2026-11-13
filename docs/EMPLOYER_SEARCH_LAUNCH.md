@@ -15,8 +15,8 @@ modifiable. Les états pending/uncertain du simulateur n'existent plus.
 
 Le rapprochement actuel relève du [matching](MATCHING.md) et de l'espace
 conseiller ; il ne constitue pas un lancement automatique de qualification AGLAE.
-`make test-retired-paths` vérifie l'absence des anciennes routes.
+`make test TESTS=config.test_retired_paths` vérifie l'absence des anciennes routes.
 
-`make retired-models-test` vérifie la suppression sur tables vides, le refus
+`make test TESTS=eures_beta.employers.tests.test_retired_models_migration` vérifie la suppression sur tables vides, le refus
 sur données existantes, la préservation des comptes/offres et le retour arrière.
 Le rollback recrée les tables vides ; il ne restaure aucune donnée supprimée.

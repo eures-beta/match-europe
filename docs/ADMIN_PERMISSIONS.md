@@ -41,7 +41,7 @@ make permissions-sync
 Pour tester les droits et leur réconciliation sur PostgreSQL local :
 
 ```bash
-make permissions-test
+make test TESTS=eures_beta.users.tests.test_permissions
 ```
 
 Cette approche reprend la matrice de groupes et permissions et la réconciliation
