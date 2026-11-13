@@ -24,6 +24,7 @@ make run
 ```
 
 Ouvrir [localhost:8000](http://127.0.0.1:8000/). `make test` lance les tests ;
-`make help` présente les autres commandes.
+`make help` présente les autres commandes. Pour plusieurs sessions simultanées,
+utiliser `make run PORT=9041` avec un port et une base propres à chaque worktree.
 
 Pour aller plus loin : [guide de développement détaillé](docs/DEVELOPPEMENT.md).

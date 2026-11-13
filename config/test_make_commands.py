@@ -21,12 +21,15 @@ class MakeTestCommandsTests(SimpleTestCase):
         self.root = Path(self.directory.name)
         self.record = self.root / 'calls.jsonl'
         self.makefile = Path(__file__).resolve().parents[1] / 'Makefile'
-        # Capture only arguments, never the environment or application settings.
+        # Capture arguments and one synthetic marker, never application settings.
         recorder = (
             f'#!{sys.executable}\n'
             'import json, os, sys\n'
             'with open(os.environ["MAKE_PROBE_RECORD"], "a") as output:\n'
             '    output.write(json.dumps(sys.argv[1:]) + "\\n")\n'
+            'if "MAKE_PROBE_SETTING" in os.environ:\n'
+            '    with open(os.environ["MAKE_PROBE_RECORD"] + ".setting", "w") as output:\n'
+            '        output.write(os.environ["MAKE_PROBE_SETTING"])\n'
             'sys.exit(int(os.environ.get("MAKE_PROBE_EXIT", "0")))\n'
         )
         for name in ('python-probe', 'node'):
@@ -52,6 +55,8 @@ class MakeTestCommandsTests(SimpleTestCase):
                     for name, value in os.environ.items()
                     if name
                     not in {
+                        'HOST',
+                        'PORT',
                         'TESTS',
                         'TEST_ARGS',
                         'JS_TESTS',
@@ -170,3 +175,22 @@ class MakeTestCommandsTests(SimpleTestCase):
                 result = self.run_make(target, **{parameter: ''})
                 self.assertNotEqual(result.returncode, 0)
                 self.assertFalse(self.record.exists())
+
+    def test_run_defaults_to_loopback_port_8000(self):
+        result = self.run_make('run')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.calls(), [['manage.py', 'runserver', '127.0.0.1:8000']])
+
+    def test_run_forwards_port_host_and_loads_worktree_configuration(self):
+        (self.root / '.env').write_text('MAKE_PROBE_SETTING=worktree-local\n')
+        result = self.run_make('run', HOST='localhost', PORT='9047')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.calls(), [['manage.py', 'runserver', 'localhost:9047']])
+        self.assertEqual(
+            Path(str(self.record) + '.setting').read_text(), 'worktree-local'
+        )
+
+    def test_run_propagates_server_failure(self):
+        result = self.run_make('run', PORT='9047', exit_code=17)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(len(self.calls()), 1)

@@ -135,7 +135,7 @@ Le raccordement au transport de production commun est désormais inclus.
 
 - `make install-test` et `make install-quality` pour ce worktree ; `.env` et
   PostgreSQL dédiés, puis `make migrate`.
-- `make candidate-registration-run` démarre le serveur local sur le port 9035 :
+- `make run PORT=9035` démarre le serveur local sur le port 9035 :
   `/candidate/prepare/?lang=fr` (EN/DE disponibles).
 - À la fin du questionnaire, `make candidate-email EMAIL=personne@example.invalid
   ORIGIN=http://127.0.0.1:9035` imprime un email simulé privé. La commande ne

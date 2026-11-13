@@ -59,6 +59,15 @@
 - Cette règle ne donne pas accès à l'administration Django et ne modifie pas
   ses protections de consultation.
 
+## Serveur de développement
+
+- Utiliser uniquement `make run PORT=…` pour démarrer Django, avec un port libre
+  par session et une base propre au worktree. Ne pas créer une cible de démarrage
+  par domaine ou parcours. `HOST` est configurable et vaut `127.0.0.1` par défaut.
+- Les réglages de simulation et de comptes fictifs restent explicites dans le
+  `.env` du worktree ; démarrer le serveur ne doit pas les imposer.
+- Les dispositifs WSGI et hooks de déploiement restent des opérations distinctes.
+
 ## Création des comptes
 
 - Le parcours candidat est disponible dans tous les environnements : compte et

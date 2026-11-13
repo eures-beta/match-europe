@@ -17,6 +17,14 @@ Les rôles candidat/employeur, la désactivation des comptes, la propriété du 
 la validation des données et CSRF restent contrôlés. L'administration Django garde
 ses protections distinctes. Aucun renommage de modèle dans ce correctif.
 
+## 13 novembre 2026 — un seul serveur de développement
+
+TRANSVERSE : utiliser `make run PORT=…` pour tous les parcours Django, avec un
+port libre, une base et un `.env` propres à chaque worktree. Les huit variantes
+de démarrage par domaine sont retirées. Le port ne choisit aucune simulation ;
+les réglages restent explicites dans le `.env`. Les dispositifs WSGI et les
+tests restent distincts. Voir [le guide de développement](DEVELOPPEMENT.md).
+
 ## 13 novembre 2026 — sélection des tests sans multiplication des cibles
 
 TRANSVERSE : à la demande de dejafait, une entrée Django `make test` avec

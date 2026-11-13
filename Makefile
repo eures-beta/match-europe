@@ -10,20 +10,15 @@ e2e-test: ## Tester les parcours HTTP sur Gunicorn/PostgreSQL, serveur plafonné
 e2e-regression: ## Vérifier que le même banc détecte l'OOM de l'ancien code avant #177
 	python3 -m eures_beta.e2e.run --legacy-control
 
-.PHONY: dialogue-run
-.PHONY: dialogue-live-run dialogue-live-evaluate
+.PHONY: dialogue-live-evaluate
 dialogue-live-evaluate: ## Evaluer Albert réel sur six échanges fictifs, sans base ni données utilisateur
 	@$(MANAGE) evaluate_dialogue_albert --live
-dialogue-live-run: ## Essayer le raccordement Albert local sur 9045, données fictives uniquement
-	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_ENABLED=1 CONFIRMATION_DIALOGUE_SIMULATED=0 REQUEST_METRICS_ENABLED=0 MATCHING_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9045 --noreload
-dialogue-run: ## Essayer le dialogue Albert simulé local sur 9044, sans appel externe
-	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_SIMULATED=1 REQUEST_METRICS_ENABLED=0 MATCHING_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9044 --noreload
 
 .PHONY: matching-format-html
 matching-format-html: ## Formater uniquement le template du matching
 	$(QUALITY_PYTHON) -m djlint eures_beta/matching/templates --reformat
 
-.PHONY: matching-db-init matching-db-start matching-db-stop matching-seed matching-run matching-format matching-translations
+.PHONY: matching-db-init matching-db-start matching-db-stop matching-seed matching-format matching-translations
 matching-db-init: ## Initialiser PostgreSQL isolé pour la recette matching (port 55441)
 	@mkdir -p .runtime
 	initdb -D .runtime/matching-pg -U matching_local --auth-local=trust --auth-host=trust
@@ -33,19 +28,14 @@ matching-db-stop: ## Arrêter uniquement le PostgreSQL de cette recette
 	pg_ctl -D .runtime/matching-pg stop
 matching-seed: ## Ajouter les scénarios fictifs de matching sans écraser les profils
 	@$(MANAGE) seed_matching_trial
-matching-run: ## Essayer le matching sur 9041, sans email ni Albert réel
-	@$(LOAD_ENV) MATCHING_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9041 --noreload
 matching-format: ## Formater uniquement le nouveau module de matching
 	$(QUALITY_PYTHON) -m black --no-cache eures_beta/matching config/settings.py config/urls.py
 matching-translations: ## Compiler les catalogues gettext sans modifier les traductions
 	@$(MANAGE) compilemessages --locale fr --locale de --ignore ".venv*"
 
-.PHONY: continuous-run
 .PHONY: continuous-source-prepare
 continuous-source-prepare: ## Télécharger explicitement les trois exports publics ESCO épinglés et les vérifier
 	@$(MANAGE) prepare_skill_source --download
-continuous-run: ## Tester toute la pile depuis l'accueil sur 9040, données fictives et Albert simulé
-	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
 
 .PHONY: skills-source-check
 
@@ -59,10 +49,7 @@ skills-pilot-audit: ## Comparer les 50 fiches aux archives ESCO épinglées, san
 skills-pilot-build: ## Reconstruire le pilote depuis CATALOG_SOURCES en staging, sans réseau
 	@$(MANAGE) sync_skills_pilot --esco-dir "$(CATALOG_SOURCES)" --output .runtime/skills-pilot-staging
 
-.PHONY: albert-run albert-evaluate
-
-albert-run: ## Essayer le parcours Albert sur 9037, avec comptes fictifs et sans email réel
-	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9037" --noreload
+.PHONY: albert-evaluate
 
 ALBERT_INPUT ?=
 ALBERT_OUTPUT ?= .runtime/albert-evaluation.json
@@ -176,7 +163,7 @@ install: ## Installer les dépendances dans .venv (Python 3.14 requis)
 	python3.14 -m venv .venv
 	.venv/bin/python -m pip install -r requirements.txt
 
-run: ## Démarrer le serveur local, http://127.0.0.1:8000/
+run: ## Démarrer Django avec le .env du worktree (PORT=8000, HOST=127.0.0.1)
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
 test: ## Tests Django/PostgreSQL ; TESTS=module.Classe.methode, TEST_ARGS='-k motif'
@@ -269,10 +256,7 @@ invitation-email: ## Simuler un email privé contenant un lien secret (INVITATIO
 	@test -n "$(INVITATION)" && test -n "$(ORIGIN)" || { echo 'Indiquer INVITATION=UUID et ORIGIN=https://hote-autorise.' >&2; exit 2; }
 	@$(MANAGE) invitation_email "$(INVITATION)" --origin "$(ORIGIN)"
 
-.PHONY: candidate-run
-.PHONY: candidate-registration-run candidate-email candidate-registration-cleanup
-candidate-registration-run: ## Démarrer le parcours candidat local sur 9035, sans email réel
-	@$(MANAGE) runserver "127.0.0.1:9035"
+.PHONY: candidate-email candidate-registration-cleanup
 
 candidate-email: ## Simuler un email de confirmation candidat (EMAIL et ORIGIN requis, lien privé)
 	@test -n "$(EMAIL)" && test -n "$(ORIGIN)" || { echo 'Indiquer EMAIL et ORIGIN.' >&2; exit 2; }
@@ -280,10 +264,3 @@ candidate-email: ## Simuler un email de confirmation candidat (EMAIL et ORIGIN r
 
 candidate-registration-cleanup: ## Compter les demandes candidat expirées (CLEANUP_ARGS=--apply pour effacer)
 	@$(MANAGE) cleanup_candidate_registrations $(CLEANUP_ARGS)
-
-candidate-run: ## Démarrer le parcours candidat local sur le port 9031
-	@$(MANAGE) runserver "127.0.0.1:9031"
-
-.PHONY: employer-response-run
-employer-response-run: ## Essayer les réponses employeur sur 9036, sans email réel
-	@$(LOAD_ENV) TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"

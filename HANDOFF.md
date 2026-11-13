@@ -1670,3 +1670,12 @@ canonique est `/candidate/push-subscriptions/`. Authentification, propriété, C
 consentement navigateur et validation des destinations Push sont conservés.
 La dérivation de clé et la table existante sont préservées pour les abonnements
 déjà enregistrés ; aucune migration supplémentaire. Tests sans notification réelle.
+## 13 novembre 2026 — un seul démarrage Django
+
+TRANSVERSE : les huit raccourcis de serveur par parcours sont retirés. Utiliser
+`make run PORT=…` avec un port libre par session ; `HOST` reste configurable.
+La commande charge le `.env` propre au worktree sans imposer de simulation,
+de rôle ou de comptes fictifs. Les anciennes commandes citées dans les notes
+datées ci-dessus sont historiques ; voir [le guide actuel](docs/DEVELOPPEMENT.md).
+Les évaluations, tests et dispositifs Gunicorn restent distincts. Aucun modèle,
+migration, donnée ou parcours métier modifié.

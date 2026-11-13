@@ -19,7 +19,31 @@ make migrate
 make run
 ```
 
-`make help` décrit les cibles disponibles. `make serve` utilise Gunicorn.
+### Plusieurs sessions en parallèle
+
+Une seule commande démarre toute l’application Django, quel que soit le parcours :
+
+```bash
+make run PORT=9041
+```
+
+`PORT` vaut 8000 par défaut ; `HOST` vaut `127.0.0.1`. Chaque session choisit
+un port libre et conserve son worktree, son `.venv`, son `.env` et sa base dédiés.
+Le port ne choisit ni rôle, ni données, ni simulation. Les anciennes commandes
+`candidate-run`, `matching-run`, `continuous-run`, `albert-run` et les variantes
+candidat, employeur et dialogue sont retirées.
+
+Le serveur charge le `.env` du worktree sans imposer de réglages métier. Pour un
+essai fictif, configurer explicitement `DJANGO_ENVIRONMENT=local`,
+`TEST_ACCOUNTS_ENABLED=1`, `EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0` ;
+le peuplement reste une action séparée avec `make test-accounts-seed` ou
+`make matching-seed`. Les simulations Albert se configurent explicitement avec
+`SKILLS_ALBERT_SIMULATED=1` ou `CONFIRMATION_DIALOGUE_SIMULATED=1` selon l’essai.
+Sans simulation, un service Albert configuré peut être appelé réellement.
+
+`make help` décrit les cibles disponibles. `make serve PORT=9042` utilise Gunicorn. Le diagnostic
+`make occupations-memory-serve` et le hook `make clever-run` restent distincts :
+ils vérifient des dispositifs WSGI spécifiques, pas des parcours Django.
 Les versions Python sont verrouillées dans `requirements/`, Prettier dans npm.
 `requirements/test.txt` inclut les dépendances applicatives ; les dépendances du
 diagnostic Push supprimé ne sont plus installées. Aucun compte n'est créé au démarrage.

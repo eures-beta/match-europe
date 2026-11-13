@@ -134,7 +134,7 @@ Définir une clé Django locale, `DJANGO_DEBUG=1`, `MATCHING_ENABLED=1`,
 `DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0`, `LOGIN_EMAIL_ENABLED=0`.
 
 Puis `make db-create`, `make migrate`, `make matching-translations`,
-`make matching-run`.
+`make run PORT=9041`.
 Ouvrir http://127.0.0.1:9041/matching/ avec un compte conseiller actif.
 Pour des scénarios fictifs dans une base de développement ou de recette dédiée,
 activer explicitement `TEST_ACCOUNTS_ENABLED=1`, garder les e-mails désactivés,
