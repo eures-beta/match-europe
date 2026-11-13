@@ -7033,3 +7033,27 @@ msgstr "Ouvrez Match Europe depuis son icône et connectez-vous avec la même ad
 #: eures_beta/matching/templates/matching/dialogue.html:21
 msgid "Test simulation: no AI service is called. Nothing is sent to the employer."
 msgstr "Simulation de test : aucun service d’IA n’est appelé. Rien n’est envoyé à l’employeur."
+
+msgid "Hello %(name)s,"
+msgstr "Bonjour %(name)s,"
+
+msgid "Hello,"
+msgstr "Bonjour,"
+
+msgid "Following our conversation, here is your link to access Match Europe."
+msgstr "Suite à nos échanges, voici votre lien d’accès à Match Europe."
+
+msgid "Access Match Europe"
+msgstr "Accéder à Match Europe"
+
+msgid "Kind regards,"
+msgstr "Cordialement,"
+
+msgid "Privacy notice"
+msgstr "Notice de confidentialité"
+
+msgid "MATCH EUROPE: your access link"
+msgstr "MATCH EUROPE : votre lien d’accès"
+
+msgid "Adviser organisation"
+msgstr "Structure du conseiller"

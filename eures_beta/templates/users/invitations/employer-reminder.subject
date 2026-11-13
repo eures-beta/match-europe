@@ -1,1 +1,1 @@
-[EURES / France Travail] Relance : questionnaire employeur
+{% include "users/invitations/employer-initial.subject" %}

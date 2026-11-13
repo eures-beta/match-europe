@@ -43,6 +43,25 @@ class AdviserInvitationsTests(TestCase):
             },
         )
 
+    def test_employer_preview_uses_connected_adviser_signature_and_partner_logos(self):
+        self.adviser.first_name = 'Lou'
+        self.adviser.adviser_organisation = 'Structure & partenaires'
+        self.adviser.save(update_fields=['first_name', 'adviser_organisation'])
+
+        response = self.preview('employer')
+        preview = response.context['previews'][0]
+        self.assertEqual(preview['subject'], 'MATCH EUROPE : votre lien d’accès')
+        self.assertIn('Suite à nos échanges', preview['html'])
+        self.assertIn('Lou', preview['html'])
+        self.assertIn('Structure &amp; partenaires', preview['html'])
+        for filename in (
+            'eures-ela.jpg',
+            'france-travail-email.png',
+            'adem.png',
+            'forem.png',
+        ):
+            self.assertIn(filename, preview['html'])
+
     def test_candidate_preview_delivery_and_acceptance(self):
         with (
             TemporaryDirectory() as directory,

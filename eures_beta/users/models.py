@@ -103,6 +103,9 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     kind = models.CharField(max_length=16, choices=Kind.choices)
+    adviser_organisation = models.CharField(
+        _('Adviser organisation'), max_length=150, blank=True, db_default=''
+    )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['kind']
     objects = UserManager()
