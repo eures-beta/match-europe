@@ -3,7 +3,8 @@ from django.urls import reverse
 from django.utils import timezone
 
 from eures_beta.candidates.models import CandidateProfile
-from eures_beta.users.models import Invitation, User
+from eures_beta.invitations.models import Invitation
+from eures_beta.users.models import User
 from eures_beta.users.permissions import synchronize_permissions
 
 
