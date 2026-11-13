@@ -108,6 +108,10 @@
   font-display: swap;
 }
 
+.ds-heading-arial {
+  --me-font-family-heading: Arial, sans-serif;
+}
+
 .ds-heading-georgia {
   --me-font-family-heading: Georgia, 'Times New Roman', serif;
 }
@@ -135,7 +139,8 @@
 /* Example screen (/design-system/exemple/) */
 
 .ds-example-body {
-  background: var(--me-color-surface-subtle);
+  background: var(--me-page-background);
+  background-attachment: fixed;
 }
 
 .ds-demo-banner {
@@ -162,7 +167,8 @@
   padding: var(--me-space-l);
   background: var(--me-color-surface);
   border: var(--me-border-width) solid var(--me-color-border);
-  border-radius: var(--me-radius-l);
+  border-radius: var(--me-radius-card);
+  box-shadow: var(--me-shadow-card);
 }
 
 .ds-card-brand {
@@ -186,7 +192,7 @@
   color: var(--me-color-text);
   background: var(--me-color-surface-subtle);
   border: var(--me-border-width) solid var(--me-color-border-strong);
-  border-radius: var(--me-radius-m);
+  border-radius: var(--me-radius-badge);
 }
 
 .ds-status-warning {
@@ -220,7 +226,7 @@
   padding: var(--me-space-l);
   text-align: center;
   border: var(--me-border-width-strong) dashed var(--me-color-border);
-  border-radius: var(--me-radius-l);
+  border-radius: var(--me-radius-card);
 }
 
 .ds-actions {

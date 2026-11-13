@@ -1,0 +1,44 @@
+/*
+ * Direction 2, "continuité": the look of the current Match Europe screens (employer/site.css),
+ * tidied up: one serif, one blue, fewer radii, contrast checked.
+ * Proposal for the team decision only. Overrides role tokens, never the HTML.
+ */
+
+:root.ds-direction-continuite {
+  --me-font-family: Georgia, 'Times New Roman', serif;
+  --me-font-family-heading: 'Gelasio', Georgia, serif;
+
+  --me-color-text: var(--me-palette-legacy-ink); /* 13.1:1 */
+  --me-color-text-rgb: var(--me-palette-legacy-ink-rgb);
+  --me-color-text-muted: var(--me-palette-legacy-muted); /* 5.3:1 */
+  --me-color-link: var(--me-palette-legacy-blue); /* 9.3:1 */
+  --me-color-link-rgb: var(--me-palette-legacy-blue-rgb);
+  --me-color-link-hover: var(--me-palette-legacy-blue-dark);
+  --me-color-link-hover-rgb: var(--me-palette-legacy-blue-dark-rgb);
+  --me-color-action: var(--me-palette-legacy-blue);
+  --me-color-action-rgb: var(--me-palette-legacy-blue-rgb);
+  --me-color-action-hover: var(--me-palette-legacy-blue-dark);
+  --me-color-action-active: var(--me-palette-legacy-blue-dark);
+  --me-color-focus: var(--me-palette-legacy-blue);
+  --me-color-info: var(--me-palette-legacy-blue);
+  --me-color-surface-brand: var(--me-palette-legacy-blue-soft);
+  --me-color-info-surface: var(--me-palette-legacy-page-light);
+
+  --me-page-background: linear-gradient(
+    180deg,
+    var(--me-palette-legacy-page-light) 0%,
+    var(--me-palette-legacy-page) 100%
+  );
+
+  --me-radius-control: var(--me-radius-pill);
+  --me-radius-card: 1.5rem; /* 24px, the most frequent card radius in site.css */
+  --me-radius-badge: var(--me-radius-pill);
+  --me-shadow-card: 0 1.5rem 3.75rem
+    color-mix(in srgb, var(--me-palette-legacy-shadow) 12%, transparent);
+}
+
+/* Fields keep a softer radius than pill buttons: a pill-shaped text area reads badly */
+:root.ds-direction-continuite .form-control,
+:root.ds-direction-continuite .form-select {
+  border-radius: 1rem;
+}

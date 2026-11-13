@@ -49,7 +49,20 @@
   --me-palette-error-5: #fef2f5;
   --me-palette-error-100: #d7003d;
 
+  /* Current Match Europe colours (employer/site.css), used by the "continuité" direction only */
+  --me-palette-legacy-blue: #004494;
+  --me-palette-legacy-blue-dark: #003066;
+  --me-palette-legacy-blue-soft: #dce9ff;
+  --me-palette-legacy-ink: #17324d;
+  --me-palette-legacy-muted: #5b6c83;
+  --me-palette-legacy-page: #eef3ff;
+  --me-palette-legacy-page-light: #f6f9ff;
+  --me-palette-legacy-shadow: #223a5e;
+
   /* Same colours as R, G, B numbers: Bootstrap needs them for its transparency utilities */
+  --me-palette-legacy-blue-rgb: 0, 68, 148;
+  --me-palette-legacy-blue-dark-rgb: 0, 48, 102;
+  --me-palette-legacy-ink-rgb: 23, 50, 77;
   --me-palette-primary-100-rgb: 14, 71, 203;
   --me-palette-primary-140-rgb: 11, 57, 162;
   --me-palette-secondary-100-rgb: 255, 204, 0;
@@ -67,12 +80,16 @@
   --me-color-text-inverse: var(--me-palette-white);
   --me-color-link: var(--me-palette-primary-100); /* 7.6:1 */
   --me-color-link-hover: var(--me-palette-primary-140);
+  --me-color-text-rgb: var(--me-palette-dark-100-rgb);
+  --me-color-link-rgb: var(--me-palette-primary-100-rgb);
+  --me-color-link-hover-rgb: var(--me-palette-primary-140-rgb);
 
   /* Roles: surfaces */
   --me-color-surface: var(--me-palette-white);
   --me-color-surface-subtle: var(--me-palette-dark-5);
   --me-color-surface-brand: var(--me-palette-primary-5);
   --me-color-surface-highlight: var(--me-palette-secondary-10);
+  --me-page-background: var(--me-palette-dark-5); /* may be a gradient in a direction */
 
   /* Roles: borders */
   --me-color-border: var(--me-palette-dark-20); /* decorative separators only */
@@ -82,6 +99,7 @@
   --me-color-action: var(--me-palette-primary-100);
   --me-color-action-hover: var(--me-palette-primary-140);
   --me-color-action-active: var(--me-palette-primary-160);
+  --me-color-action-rgb: var(--me-palette-primary-100-rgb);
   --me-color-action-text: var(--me-palette-white); /* 7.6:1 on action */
   --me-color-accent: var(--me-palette-secondary-100); /* EU yellow: decoration, never text */
   --me-color-accent-text: var(--me-palette-dark-100); /* 11.2:1 on accent */
@@ -144,6 +162,13 @@
   --me-radius-m: 4px;
   --me-radius-l: 8px; /* cards and panels */
   --me-radius-round: 50%; /* avatars and round icons only */
+  --me-radius-pill: 999px; /* pill shape, "continuité" direction only */
+
+  /* Shapes by use: what components read. Directions change these, not the scale above. */
+  --me-radius-control: var(--me-radius-m); /* buttons and form fields */
+  --me-radius-card: var(--me-radius-l); /* cards and panels */
+  --me-radius-badge: var(--me-radius-m); /* status labels */
+  --me-shadow-card: none;
 
   --me-border-width: 1px;
   --me-border-width-strong: 2px;

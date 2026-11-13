@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="ds-direction-{{ direction }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
     <link rel="stylesheet"
           href="{% static 'design-system/bootstrap-theme.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'design-system/themes/continuite.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'design-system/themes/hybride.css' %}">
     <link rel="stylesheet" href="{% static 'design-system/demo.css' %}">
   </head>
   <body class="ds-example-body ds-heading-{{ heading_font }}">
@@ -23,8 +27,17 @@
           Écrans :
           <span class="ds-font-switch">
             {% for slug, label in screens %}
-              <a href="{% url 'design_system_example_screen' slug %}?titres={{ heading_font }}"
+              <a href="{% url 'design_system_example_screen' slug %}?direction={{ direction }}&amp;titres={{ heading_font }}"
                  {% if slug == screen %}aria-current="true"{% endif %}>{{ label }}</a>
+            {% endfor %}
+          </span>
+        </nav>
+        <nav class="mb-1" aria-label="Direction visuelle">
+          Direction :
+          <span class="ds-font-switch">
+            {% for key, label in directions %}
+              <a href="?direction={{ key }}&amp;titres={{ heading_font }}"
+                 {% if key == direction %}aria-current="true"{% endif %}>{{ label }}</a>
             {% endfor %}
           </span>
         </nav>
@@ -32,7 +45,7 @@
           Police des titres, à l’essai :
           <span class="ds-font-switch">
             {% for key, label in heading_fonts %}
-              <a href="?titres={{ key }}"
+              <a href="?direction={{ direction }}&amp;titres={{ key }}"
                  {% if key == heading_font %}aria-current="true"{% endif %}>{{ label }}</a>
             {% endfor %}
           </span>
