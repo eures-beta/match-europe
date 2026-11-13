@@ -25,6 +25,6 @@ urlpatterns = [
         name='candidate_profile_edit',
     ),
     path('candidate/prepare/', journey.journey, name='candidate_prepare'),
-    path('candidate/install/', landing.install, name='candidate_install'),
+    path('candidate/install-pwa/', landing.install_pwa, name='candidate_install_pwa'),
     path('candidate/', landing.landing, name='candidate_landing'),
 ]
