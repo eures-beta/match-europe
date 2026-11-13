@@ -113,7 +113,9 @@ class EmployerDashboardTests(TestCase):
             200,
         )
 
-    def test_empty_state_in_each_language_and_adviser_dashboard_uses_matching_queue(self):
+    def test_empty_state_in_each_language_and_adviser_dashboard_uses_matching_queue(
+        self,
+    ):
         for language, label in (
             ('fr', 'Aucune offre à afficher pour le moment.'),
             ('en', 'No offers to display yet.'),
