@@ -45,3 +45,12 @@ threads et différences Linux/macOS comptent aussi. Aucun SIGKILL n'a été repr
 sur le poste local. La réduction du pic est mesurée, mais la cause OOM distante
 et la marge finale doivent être confirmées sur une instance à mémoire limitée.
 Ne pas tester cette charge en boucle sur un service partagé.
+
+## 13 novembre 2026 — chargement des bibliothèques Push
+
+L’import du SDK Push depuis les routes candidat faisait monter le processus
+de recherche à environ 147,7 Mio en CI Linux, au-dessus du budget de 145 Mio.
+Les imports cryptographiques sont maintenant effectués uniquement lors des
+opérations Push qui les utilisent. Les contrôles d’accès et le protocole restent
+identiques. Sur macOS arm64, le même benchmark passe de 142,69 à 127,53 Mio ;
+la mesure Linux est vérifiée séparément par la CI. Le seuil n’est pas augmenté.
