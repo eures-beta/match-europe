@@ -68,7 +68,7 @@ class TestAccountAccessTests(TestCase):
 
         from cryptography.hazmat.primitives.asymmetric import ec
         from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
-        from eures_beta.matching.models import ConfirmationRequest
+        from eures_beta.matching.models import CandidateOfferReview
         from eures_beta.users.adviser_matching import pending_pairs
 
         self.seed()
@@ -79,7 +79,7 @@ class TestAccountAccessTests(TestCase):
         detail = reverse('adviser_match', args=[pair.pk])
         decision = {'action': 'retained', 'evaluation': pair.evaluation_id}
         self.assertEqual(adviser.post(detail, decision).status_code, 400)
-        self.assertFalse(ConfirmationRequest.objects.exists())
+        self.assertFalse(CandidateOfferReview.objects.exists())
 
         candidate = Client()
         candidate.force_login(user)
@@ -115,7 +115,7 @@ class TestAccountAccessTests(TestCase):
                 self.assertEqual(adviser.post(detail, decision).status_code, 302)
                 send.assert_not_called()
             send.assert_called_once()
-        confirmation = ConfirmationRequest.objects.get(pair=pair)
+        confirmation = CandidateOfferReview.objects.get(pair=pair)
         dialogue = reverse('candidate_offer_dialogue', args=[confirmation.pk])
         payload = json.loads(send.call_args.kwargs['data'])
         self.assertTrue(payload['body'])
