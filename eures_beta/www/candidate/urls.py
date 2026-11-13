@@ -2,14 +2,14 @@ from django.urls import path
 from eures_beta.www.candidate import (
     landing,
     journey,
-    push as preview_push,
+    push,
     registration as registration_views,
 )
 
 urlpatterns = [
     path(
         'candidate/push-subscriptions/',
-        preview_push.subscribe,
+        push.subscribe,
         name='candidate_push_subscriptions',
     ),
     path(
