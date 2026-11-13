@@ -6,7 +6,7 @@
 
 ### Essayer
 
-`make candidate-run` démarre http://127.0.0.1:9031/candidate/?lang=fr. Un seul bouton ouvre le questionnaire, sans étape d’import. Utiliser des données fictives. `make test TESTS=eures_beta.candidates` teste le domaine candidat ; `make test` vérifie les interactions du socle.
+`make run PORT=9031` démarre http://127.0.0.1:9031/candidate/?lang=fr. Un seul bouton ouvre le questionnaire, sans étape d’import. Utiliser des données fictives. `make test TESTS=eures_beta.candidates` teste le domaine candidat ; `make test` vérifie les interactions du socle.
 
 ### Quatre étapes
 
