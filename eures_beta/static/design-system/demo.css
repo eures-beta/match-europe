@@ -1,0 +1,103 @@
+/* Layout of the /design-system/ reference page only. Tokens only, no raw value. */
+
+.ds-page {
+  padding-block: var(--me-space-2xl) var(--me-space-4xl);
+}
+
+.ds-section {
+  padding-block: var(--me-space-xl);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+
+.ds-section > h2 {
+  margin-bottom: var(--me-space-l);
+}
+
+.ds-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs) var(--me-space-l);
+  padding: 0;
+  margin-block: var(--me-space-l);
+  list-style: none;
+}
+
+.ds-swatch {
+  width: var(--me-space-3xl);
+  height: var(--me-space-3xl);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-m);
+}
+
+.ds-swatch-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--me-font-weight-bold);
+}
+
+.ds-palette {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--me-space-m);
+  padding: 0;
+  list-style: none;
+}
+
+.ds-palette .ds-swatch {
+  width: 100%;
+}
+
+.ds-token {
+  font-family: monospace;
+  font-size: var(--me-font-size-s);
+  overflow-wrap: anywhere;
+}
+
+.ds-meta {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+.ds-type-sample {
+  margin: 0;
+  color: var(--me-color-text);
+}
+
+.ds-bar {
+  height: var(--me-space-m);
+  background: var(--me-color-action);
+}
+
+.ds-radius {
+  width: var(--me-space-4xl);
+  height: var(--me-space-3xl);
+  background: var(--me-color-surface-brand);
+  border: var(--me-border-width-strong) solid var(--me-color-action);
+}
+
+.ds-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--me-space-m);
+}
+
+.ds-example {
+  padding: var(--me-space-l);
+  margin-bottom: var(--me-space-m);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-l);
+}
+
+.ds-code summary {
+  color: var(--me-color-link);
+  cursor: pointer;
+}
+
+.ds-code pre {
+  padding: var(--me-space-m);
+  margin-top: var(--me-space-xs);
+  background: var(--me-color-surface-subtle);
+  border-radius: var(--me-radius-m);
+}
