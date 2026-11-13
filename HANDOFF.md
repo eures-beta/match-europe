@@ -1,3 +1,12 @@
+## 13 novembre 2026 — transport Albert commun à tous les usages
+
+TRANSVERSE : import d’offre, dialogue candidat et compétences ESCO passent par
+`integrations.albert.complete_json`. URL, authentification, redirections, budgets
+et décodage sont centralisés ; prompts et validations restent dans les domaines.
+Le modèle dédié et les limites plus strictes du dialogue sont conservés, ainsi
+que la simulation et le cache des compétences. Aucun secret, réglage distant,
+modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
+
 ## 10 novembre 2026 — reprise du schéma historique des confirmations
 
 Correctif de #162 : un premier commit reproduit en PostgreSQL la collision

@@ -107,7 +107,7 @@ class AlbertAdapterTests(TestCase):
         response = BytesIO(json.dumps(body).encode())
         opener = MagicMock()
         opener.open.return_value.__enter__.return_value = response
-        with patch.object(adapter, 'build_opener', return_value=opener):
+        with patch('eures_beta.integrations.albert.build_opener', return_value=opener):
             result = adapter.ask(self.row, 'Un samedi sur deux.', 'offer', 'fr', [])
         self.assertEqual(result['outcome'], 'conditional')
         request = opener.open.call_args.args[0]
@@ -117,8 +117,13 @@ class AlbertAdapterTests(TestCase):
         self.assertNotIn(self.user.email, request.data.decode())
         self.assertNotIn(self.pair.candidate.display_name, request.data.decode())
         self.assertEqual(supplied['declared'], self.row['presented']['declared'])
-        self.assertEqual(request.full_url, adapter.ENDPOINT)
+        self.assertEqual(
+            request.full_url, 'https://albert.api.etalab.gouv.fr/v1/chat/completions'
+        )
         self.assertEqual(opener.open.call_args.kwargs['timeout'], 25)
+        self.assertEqual(payload['model'], 'fictional-model')
+        self.assertEqual(payload['max_tokens'], 1800)
+        self.assertEqual(payload['stream'], False)
 
     def test_invalid_model_content_is_rejected(self):
         cases = [
@@ -201,7 +206,9 @@ class AlbertAdapterTests(TestCase):
                 override_settings(
                     DJANGO_ENVIRONMENT=environment, EMAIL_DELIVERY_ENABLED=True
                 ),
-                patch.object(adapter, 'build_opener', return_value=opener),
+                patch(
+                    'eures_beta.integrations.albert.build_opener', return_value=opener
+                ),
             ):
                 result = adapter.ask(self.row, 'oui', '', 'fr', [])
                 self.assertEqual(result['outcome'], 'conditional')
@@ -218,9 +225,11 @@ class AlbertAdapterTests(TestCase):
         ]:
             opener = MagicMock()
             opener.open.return_value.__enter__.return_value = BytesIO(raw)
-            with patch.object(adapter, 'build_opener', return_value=opener):
+            with patch(
+                'eures_beta.integrations.albert.build_opener', return_value=opener
+            ):
                 with self.assertRaises(adapter.Unavailable):
                     adapter.ask(self.row, 'oui', '', 'fr', [])
-        with patch.object(adapter, 'build_opener', side_effect=OSError):
+        with patch('eures_beta.integrations.albert.build_opener', side_effect=OSError):
             with self.assertRaises(adapter.Unavailable):
                 adapter.ask(self.row, 'oui', '', 'fr', [])
