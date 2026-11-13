@@ -8,6 +8,8 @@ L'espace employeur exige un compte actif de rôle employeur. Les brouillons et
 les établissements restent accessibles selon leur propriétaire et les appartenances
 actives ; aucune appartenance n'est déduite d'une adresse email.
 
-Les tables historiques des liens sont conservées sans nouvelle écriture ni purge.
+Le modèle historique `EmployerEmailLink` et sa table sont retirés par la
+migration `employers.0007`, uniquement si cette table et les deux tables du
+simulateur sont vides. Le système commun de liens magiques reste inchangé.
 Les tests de connexion commune couvrent usage unique, expiration et CSRF ;
 `make test-retired-paths` vérifie que les anciens accès restent introuvables.

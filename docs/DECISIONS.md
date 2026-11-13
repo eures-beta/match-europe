@@ -17,6 +17,17 @@ Les rôles candidat/employeur, la désactivation des comptes, la propriété du 
 la validation des données et CSRF restent contrôlés. L'administration Django garde
 ses protections distinctes. Aucun renommage de modèle dans ce correctif.
 
+## 13 novembre 2026 — retrait des trois modèles employeurs hérités
+
+EMPLOYEURS / ADMIN : après retrait des parcours obsolètes, suppression de
+EmployerEmailLink, EmployerSearchOperation et EmployerSearchEvent et de leur
+administration. La migration employers.0007 exige trois tables vides et refuse
+sinon toute suppression ; les migrations historiques restent en place.
+Company, CompanyMembership, EmployerProfile et JobOffer sont conservés.
+Le verrouillage par search_started_at reste actif, sans les états du simulateur.
+Aucune fusion ni intervention sur une base distante par ce changement.
+Voir [le contrat de retrait](EMPLOYER_SEARCH_LAUNCH.md).
+
 ## 10 novembre 2026 — suppression des parcours de démonstration hérités
 
 Demande explicite de dejafait : nettoyage agressif dans une nouvelle PR au sommet
