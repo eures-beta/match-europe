@@ -21,3 +21,4 @@ Les modèles, services, validations partagées et commandes restent dans les app
 ## Fichiers
 
 - [__init__.py](__init__.py) — Déclare le paquet Python commun des interfaces.
+- [urls.py](urls.py) — Assemble les routes applicatives ; les endpoints techniques restent dans config.

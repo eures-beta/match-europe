@@ -11,6 +11,7 @@ class WebArchitectureTests(SimpleTestCase):
     def test_business_packages_do_not_import_web_adapters(self):
         for package in (
             'users',
+            'invitations',
             'employers',
             'candidates',
             'matching',
