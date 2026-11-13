@@ -60,7 +60,7 @@ pas la même étape. Le PDF original n’est pas conservé par cet import.
 
 `make test` couvre la disparition des routes même avec une ancienne session,
 les pages conservées en FR/EN/DE et les imports et accès employeur.
-`make migrations-test` vérifie une installation neuve sans anciennes tables,
+`make test TEST_ARGS='-k migration -k model_renames'` vérifie une installation neuve sans anciennes tables,
 la conservation des données d'une base passée par la transition et le refus
 de la seconde version si le marqueur de la première étape est absent.
 Les tests historiques du nettoyage ont été exécutés dans le premier lot ;

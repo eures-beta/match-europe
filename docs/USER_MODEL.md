@@ -31,7 +31,7 @@ en fin de parcours et de vérifier l’adresse par email. Son implémentation es
 distincte de la connexion habituelle des comptes existants.
 
 Tester le rôle, les protections et la transition depuis `users.0004` avec
-`make user-kind-test`, puis les interactions avec `make test`.
+`make test TEST_ARGS='-k test_users -k candidate_kind -k closed_registration'`, puis les interactions avec `make test`.
 La migration inverse n’est applicable que si aucun compte candidat ne subsiste :
 la contrainte précédente refuse cette valeur. Aucun compte n’est supprimé ou
 converti automatiquement pour permettre un retour arrière.
@@ -110,7 +110,7 @@ la bascule.
 ## Compatibilité avec la consolidation autonome
 
 La migration utilisateur dépend de `employers.0001_autonomous_schema`, sans
-référence aux archives désormais supprimées. `make migrations-test` vérifie le
+référence aux archives désormais supprimées. `make test TEST_ARGS='-k migration -k model_renames'` vérifie le
 schéma actuel et la conservation des données lors d'une nouvelle exécution.
 Le scénario `make users-upgrade-test` crée réellement le schéma autonome avec
 `auth.User`, puis exerce la transition vers `users.User`. Il vérifie aussi le

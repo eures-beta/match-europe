@@ -17,6 +17,15 @@ Les rôles candidat/employeur, la désactivation des comptes, la propriété du 
 la validation des données et CSRF restent contrôlés. L'administration Django garde
 ses protections distinctes. Aucun renommage de modèle dans ce correctif.
 
+## 13 novembre 2026 — sélection des tests sans multiplication des cibles
+
+TRANSVERSE : à la demande de dejafait, une entrée Django `make test` avec
+`TESTS` et `TEST_ARGS`, et une entrée Node `make test-js` avec `JS_TESTS`.
+Les sélections par fonctionnalité ne créent plus de cible supplémentaire.
+Les bancs Docker et le diagnostic de mise à niveau restent distincts.
+Documentation, consignes agents et CI utilisent ces mêmes entrées ; aucun
+changement métier ou de données. Voir [les exemples](TESTS.md).
+
 ## 13 novembre 2026 — retrait des trois modèles employeurs hérités
 
 EMPLOYEURS / ADMIN : après retrait des parcours obsolètes, suppression de

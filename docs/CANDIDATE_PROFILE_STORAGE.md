@@ -75,7 +75,7 @@ Ni matching, ni email, ni transmission à un tiers ne sont déclenchés.
 
 ## Vérifications locales
 
-- `make candidate-test` : réponses, contraintes, administration et migration
+- `make test TESTS=eures_beta.candidates` : réponses, contraintes, administration et migration
   aller/retour sur PostgreSQL avec données fictives.
 - `make test` : suite complète et interactions avec les autres domaines.
 - `make check` : configuration Django et absence de migrations manquantes.
@@ -99,5 +99,5 @@ historique, ne restaure pas les anciens modèles et ne supprime aucune donnée.
 Son annulation conserve la table, qui appartient à l'état de `0001_initial` ;
 annuler aussi cette migration initiale reste une opération destructive explicite.
 
-`make candidate-test` couvre l'historique ancien et la conservation d'une fiche
+`make test TESTS=eures_beta.candidates` couvre l'historique ancien et la conservation d'une fiche
 déjà présente. `make migrate` applique la correction comme les autres migrations.

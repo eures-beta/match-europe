@@ -21,4 +21,4 @@ jobs:
       - run: make format-css-check
       - run: make format-js-check
       - run: make check-js
-      - run: make occupations-ui-test
+      - run: make test-js

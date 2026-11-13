@@ -34,7 +34,7 @@ contrôlée, pas une invitation ni une inscription autonome.
 Depuis la racine :
 
 ```bash
-make registration-test
+make test TESTS=eures_beta.users.tests.test_closed_registration
 make test
 ```
 

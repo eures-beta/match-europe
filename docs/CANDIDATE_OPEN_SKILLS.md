@@ -107,12 +107,12 @@ une activité à apprendre, puis la borne 10/5/3, et les erreurs de saisie.
 Continuer jusqu’à la relecture et confirmer uniquement avec une adresse fictive
 et la simulation privée existante (`make candidate-email`).
 
-- `make candidate-skills-test` : bornes, identifiants, doublons, modes, langues,
+- `make test TESTS=eures_beta.candidates.tests.test_skill_project` : bornes, identifiants, doublons, modes, langues,
   brouillon incomplet, inscription, revalidation, modèle et droits.
-- `make candidate-skills-ui-test` : vrai module JavaScript sur un DOM simulé,
+- `make test-js` : vrai module JavaScript sur un DOM simulé,
   recherche indépendante, accents, synonymes, sélection masquée, retrait,
   capacité et focus. Ne remplace pas une recette navigateur.
-- `make candidate-test` et `make test` : intégration PostgreSQL, migration neuve,
+- `make test TESTS=eures_beta.candidates` et `make test` : intégration PostgreSQL, migration neuve,
   conservation des anciens profils et retour arrière sur données fictives,
   protections existantes et non-régression employeur/pilote.
 - `make check`, `make format-check`, `make format-html-check`,

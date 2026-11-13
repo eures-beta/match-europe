@@ -6,6 +6,12 @@
   répétée doit disposer d’une cible dans le Makefile racine. Réutiliser une cible
   existante ou la créer dans la même PR, avec un nom court et explicite et une
   description visible dans `make help`.
+- Pour sélectionner des tests, utiliser `make test TESTS=module.Classe.methode`
+  ou `TEST_ARGS='-k motif'`, et `make test-js JS_TESTS=chemin.test.cjs` pour Node.
+  Ne pas créer une cible par fonctionnalité, module ou sous-ensemble de tests.
+  Une cible distincte se justifie par un dispositif différent (Docker, diagnostic
+  de mise à niveau historique), pas par une simple liste de tests. Voir
+  [le guide des tests](docs/TESTS.md).
 - Dans les README, la documentation et les descriptions de PR, présenter la
   commande `make` correspondante. Conserver les détails d’exécution dans sa
   recette, plutôt que recopier de longues commandes shell dans les fichiers
@@ -22,7 +28,8 @@
   les règles à la main. Les ressources tierces sous `eures_beta/static/vendor/`
   sont exclues. djLint reste chargé des blocs `<style>` dans les templates.
 - Utiliser les cibles existantes directement : `make test` pour la suite complète,
-  `make employer-test` pour les modules de tests du parcours employeur, `make check`
+  `make test TEST_ARGS='-k employer -k occupation'` pour filtrer les tests
+  employeurs et métiers, `make check`
   pour Django et les migrations. Le filtre employeur ne remplace pas la suite
   complète pour valider les interactions entre domaines.
 - Chaque worktree possède son propre `.venv`, installé avec `make install-test`,
@@ -83,7 +90,7 @@
   les superutilisateurs : pas de création, modification, suppression ni action
   groupée. Ne pas réactiver ces opérations sans demande explicite.
 - Utiliser la base commune `users/admin_base.py`, préserver le masquage des
-  secrets et vérifier les endpoints directs avec `make admin-test`.
+  secrets et vérifier les endpoints directs avec `make test TESTS=eures_beta.users.tests.test_readonly_admin`.
 - Tout nouveau modèle doit faire l'objet d'un enregistrement explicite et revu ;
   les modèles sensibles peuvent ne montrer que leurs métadonnées.
 
