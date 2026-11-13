@@ -34,7 +34,7 @@ class ClosedRegistrationTests(TestCase):
         import json
 
         response = self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'text': 'Fictional job description',

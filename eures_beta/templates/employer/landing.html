@@ -211,7 +211,7 @@
             <a class="nav-pill"
                href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
             <a class="nav-pill is-active"
-               href="{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
+               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer landing" %}</a>
             <a class="nav-pill"
                href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>
           </div>
@@ -225,15 +225,15 @@
             <div class="lang-switch"
                  aria-label='{% translate "Language" context "employer landing" %}'>
               <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="fr.html"
+                 href="{% url 'employer_landing' %}?lang=fr"
                  lang="fr"
                  hreflang="fr">FR</a>
               <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="en.html"
+                 href="{% url 'employer_landing' %}?lang=en"
                  lang="en"
                  hreflang="en">EN</a>
               <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="de.html"
+                 href="{% url 'employer_landing' %}?lang=de"
                  lang="de"
                  hreflang="de">DE</a>
             </div>

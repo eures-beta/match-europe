@@ -199,7 +199,7 @@ def run(search_only=False):
                 for path in (
                     '/',
                     '/candidate/',
-                    '/employer/pages/' + language + '.html',
+                    '/employer/?lang=' + language,
                 ):
                     browser.request(path + '?lang=' + language)
                 result = json.loads(
@@ -219,7 +219,7 @@ def run(search_only=False):
             employer.login('employer')
             source = json.loads(
                 employer.request(
-                    '/api/imports/source/',
+                    '/api/job-offers/source/',
                     {'kind': 'pdf', 'agreement': 'true'},
                     upload=pdf(),
                 )
@@ -230,7 +230,7 @@ def run(search_only=False):
             assert source['data']['companyName'] == 'Fictional Example SARL'
             saved = json.loads(
                 employer.request(
-                    '/api/imports/',
+                    '/api/job-offers/',
                     {
                         'kind': 'pdf',
                         'agreement': 'true',
@@ -246,7 +246,7 @@ def run(search_only=False):
                 )
             )
             assert 'extractionSource' not in saved['data']
-            offers = json.loads(employer.request('/api/imports/'))['drafts']
+            offers = json.loads(employer.request('/api/job-offers/'))['drafts']
             assert saved['id'] in [offer['id'] for offer in offers]
             dashboard = employer.request('/accounts/dashboard/?lang=en')
             assert saved['data']['title'] in dashboard
@@ -265,8 +265,8 @@ def run(search_only=False):
                 'invited@example.invalid', '/accounts/invitations/confirm/'
             )
             invited.request('/accounts/dashboard/?lang=en')
-            assert json.loads(invited.request('/api/imports/'))['drafts'] == []
-            invited.request('/api/imports/' + saved['id'] + '/', status=404)
+            assert json.loads(invited.request('/api/job-offers/'))['drafts'] == []
+            invited.request('/api/job-offers/' + saved['id'] + '/', status=404)
             report['completed'].append(report['phase'])
 
             report['phase'] = 'candidate-questionnaire-confirmation'

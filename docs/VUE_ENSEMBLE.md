@@ -1,3 +1,11 @@
+## 13 novembre 2026 — Routes employeur explicites
+
+EMPLOYEURS : `/employer/`, `/employer/import/`, `/employer/privacy/` remplacent
+les adresses contenant pages, .html et une langue. Les offres et l'extraction
+utilisent `/api/job-offers/`. Les anciennes adresses restent uniquement des
+redirections temporaires ; les deux interfaces matching sont conservées.
+Voir [le contrat et les vestiges](API_NAMING.md).
+
 ## 13 novembre 2026 — tests centralisés à la racine
 
 TRANSVERSE : tous les tests automatisés Python et JavaScript sont sous

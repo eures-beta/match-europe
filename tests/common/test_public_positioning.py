@@ -23,7 +23,7 @@ class PublicPositioningTests(SimpleTestCase):
                 'mit Unterstützung',
             ),
         ):
-            for path in ('/', '/candidate/', f'/employer/pages/{language}.html'):
+            for path in ('/', '/candidate/', f'/employer/?lang={language}'):
                 with self.subTest(language=language, path=path):
                     response = self.client.get(path, {'lang': language}, secure=True)
                     self.assertContains(response, signature)

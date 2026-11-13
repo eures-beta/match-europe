@@ -114,9 +114,9 @@ class AccountPageTests(TestCase):
                 '/journal/',
                 '/statistics/',
                 '/accounts/dashboard/',
-                '/employer/pages/fr.html',
-                '/employer/pages/import-fr.html',
-                '/employer/pages/privacy-fr.html',
+                '/employer/?lang=fr',
+                '/employer/import/?lang=fr',
+                '/employer/privacy/?lang=fr',
                 reverse('account'),
             ):
                 with self.subTest(path=path, staff=staff):

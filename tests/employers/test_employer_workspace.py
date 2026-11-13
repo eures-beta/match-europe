@@ -186,7 +186,7 @@ class WorkspaceTests(TestCase):
                 'contact': self.offer.contact,
             }
             response = self.client.post(
-                '/api/imports/' + str(self.offer.pk) + '/',
+                '/api/job-offers/' + str(self.offer.pk) + '/',
                 json.dumps(payload),
                 content_type='application/json',
             )
@@ -310,7 +310,7 @@ class WorkspaceTests(TestCase):
         )
         self.assertRedirects(
             self.client.post(self.url('employer_resume_attachment', private)),
-            '/employer/connected/',
+            '/employer/offers/',
         )
         self.assertEqual(self.client.session['employer_claim_import'], str(private.pk))
 
@@ -331,7 +331,7 @@ class WorkspaceTests(TestCase):
         )
 
     def test_connected_home_contains_offer_table_and_account(self):
-        response = self.client.get('/employer/connected/')
+        response = self.client.get('/employer/offers/')
         self.assertContains(response, '<table class="offer-table">', html=False)
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])

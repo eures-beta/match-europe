@@ -6,20 +6,16 @@ from urllib.parse import urlencode
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import translation
+from django.urls import reverse
 
 from eures_beta.employers.employer_ownership import identity
-from eures_beta.www.accounts.return_path import IMPORT_PATHS
 
 
-def access_page(request, path):
-    language = path.rsplit('-', 1)[-1].removesuffix('.html')
-    language = request.GET.get('lang', language)
-    language = language if language in ('fr', 'en', 'de') else 'fr'
-    destination = '/employer/pages/' + path
-    if destination not in IMPORT_PATHS:
-        destination = f'/employer/pages/import-{language}.html'
-    else:
-        destination = destination.rsplit('-', 1)[0] + '-' + language + '.html'
+def access_page(request):
+    from eures_beta.www.accounts.views import selected_language
+
+    language = selected_language(request)
+    destination = reverse('employer_import') + '?' + urlencode({'lang': language})
     request.session['login_return_path'] = destination
     with translation.override(language):
         return render(

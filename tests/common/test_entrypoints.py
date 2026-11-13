@@ -10,18 +10,16 @@ class EntryPointTests(TestCase):
         response = self.client.get("/", secure=True)
         self.assertTemplateUsed(response, "home.html")
         self.assertContains(response, '<html lang="fr"')
-        self.assertContains(response, 'href="/employer/pages/fr.html"')
+        self.assertContains(response, 'href="/employer/?lang=fr"')
         self.assertContains(response, 'href="/candidate/?lang=fr"')
         self.assertContains(
-            self.client.get("/employer/pages/fr.html", secure=True), '<html lang="fr"'
+            self.client.get("/employer/?lang=fr", secure=True), '<html lang="fr"'
         )
 
     def test_employer_landing_languages_remain_available(self):
         for language in ("fr", "en", "de"):
             with self.subTest(language=language):
-                response = self.client.get(
-                    f"/employer/pages/{language}.html", secure=True
-                )
+                response = self.client.get(f"/employer/?lang={language}", secure=True)
                 self.assertContains(response, f'<html lang="{language}"')
 
     def test_retired_role_access_is_unavailable(self):

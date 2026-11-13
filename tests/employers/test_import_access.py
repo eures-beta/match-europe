@@ -13,7 +13,7 @@ User = get_user_model()
 
 
 class ImportAccessTests(TestCase):
-    destination = '/employer/pages/import-fr.html'
+    destination = '/employer/import/?lang=fr'
 
     def setUp(self):
         self.employer = User.objects.create_user(
@@ -26,11 +26,19 @@ class ImportAccessTests(TestCase):
     def test_landing_remains_public_but_import_requires_employer(self):
         for language in ('fr', 'en', 'de'):
             self.assertContains(
-                self.client.get(f'/employer/pages/{language}.html', secure=True),
-                'import-' + language + '.html',
+                self.client.get(f'/employer/?lang={language}', secure=True),
+                '/employer/import/?lang=' + language,
             )
             for prefix in ('import-',):
-                path = f'/employer/pages/{prefix}{language}.html'
+                path = (
+                    {
+                        '': '/employer/',
+                        'import-': '/employer/import/',
+                        'privacy-': '/employer/privacy/',
+                    }[prefix]
+                    + '?lang='
+                    + language
+                )
                 for user in (None, self.adviser):
                     if user:
                         self.client.force_login(user)
@@ -50,7 +58,7 @@ class ImportAccessTests(TestCase):
         for user in (None, self.adviser):
             if user:
                 self.client.force_login(user)
-            for url in ('/api/imports/', '/api/imports/source/'):
+            for url in ('/api/job-offers/', '/api/job-offers/source/'):
                 response = self.client.post(
                     url,
                     {
@@ -63,7 +71,7 @@ class ImportAccessTests(TestCase):
                 self.assertEqual(response.status_code, 403)
                 self.assertEqual(response.json()['error'], 'employer_account_required')
             self.assertEqual(
-                self.client.get('/api/imports/', secure=True).status_code, 403
+                self.client.get('/api/job-offers/', secure=True).status_code, 403
             )
         reader.assert_not_called()
         self.assertFalse(JobOffer.objects.exists())
@@ -73,7 +81,7 @@ class ImportAccessTests(TestCase):
         self.assertContains(response, 'Ein Arbeitgeberkonto ist erforderlich')
         self.assertContains(response, '<html lang="de">')
         self.assertEqual(
-            self.client.session['login_return_path'], '/employer/pages/import-de.html'
+            self.client.session['login_return_path'], '/employer/import/?lang=de'
         )
 
     @patch('eures_beta.www.employer.imports.aglae')
@@ -82,7 +90,7 @@ class ImportAccessTests(TestCase):
     ):
         self.client.force_login(self.employer)
         response = self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'agreement': 'true',
@@ -108,7 +116,8 @@ class ImportAccessTests(TestCase):
         other = User.objects.create_user(email='other@example.invalid', kind='employer')
         self.client.force_login(other)
         self.assertEqual(
-            self.client.get(f'/api/imports/{offer.pk}/', secure=True).status_code, 404
+            self.client.get(f'/api/job-offers/{offer.pk}/', secure=True).status_code,
+            404,
         )
 
     def test_magic_link_resumes_allowlisted_import_even_after_account_switch(self):
@@ -191,7 +200,7 @@ class ImportAccessTests(TestCase):
         )
         self.client.force_login(self.employer)
         response = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'agreement': 'true', 'kind': 'url', 'url': 'https://example.invalid/job'},
             secure=True,
         )
@@ -204,7 +213,7 @@ class ImportAccessTests(TestCase):
         session['pending_offer_source'] = pending
         session.save()
         response = self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'agreement': 'true',
                 'kind': 'url',
@@ -232,15 +241,15 @@ class ImportAccessTests(TestCase):
         )
         self.assertEqual(send.call_count, 1)
         self.assertIn(
-            'next=%2Femployer%2Fpages%2Fimport-fr.html', send.call_args.args[1]
+            'next=%2Femployer%2Fimport%2F%3Flang%3Dfr', send.call_args.args[1]
         )
 
     def test_invitation_help_points_to_an_eures_adviser(self):
         for language in ('fr', 'en', 'de'):
             link = 'mailto:eric.barthelemy@francetravail.fr'
             for path in (
-                f'/employer/pages/{language}.html',
-                f'/employer/pages/import-{language}.html',
+                f'/employer/?lang={language}',
+                f'/employer/import/?lang={language}',
                 f'/accounts/login/?lang={language}',
             ):
                 with self.subTest(path=path):
@@ -250,7 +259,7 @@ class ImportAccessTests(TestCase):
                     self.assertContains(page, 'href="' + link + '"')
         self.client.force_login(self.employer)
         self.assertNotContains(
-            self.client.get('/employer/pages/fr.html', secure=True),
+            self.client.get('/employer/?lang=fr', secure=True),
             'employer-invitation-help',
         )
 
@@ -258,7 +267,7 @@ class ImportAccessTests(TestCase):
         EMPLOYER_ADVISER_CONTACT_URL='https://contact.example.invalid/?x=1'
     )
     def test_configured_adviser_contact_is_used_as_is(self):
-        page = self.client.get('/employer/pages/import-en.html', secure=True)
+        page = self.client.get('/employer/import/?lang=en', secure=True)
         self.assertContains(page, 'href="https://contact.example.invalid/?x=1"')
 
     def test_signed_in_employer_contact_email_is_prefilled(self):
@@ -267,6 +276,6 @@ class ImportAccessTests(TestCase):
         self.assertContains(page, 'data-employer-email="employer@example.invalid"')
         self.client.logout()
         self.assertNotContains(
-            self.client.get('/employer/pages/fr.html', secure=True),
+            self.client.get('/employer/?lang=fr', secure=True),
             'data-employer-email',
         )

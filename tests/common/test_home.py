@@ -47,9 +47,7 @@ class PublicHomeTests(SimpleTestCase):
                     for target in ('fr', 'en', 'de'):
                         self.assertContains(response, f'href="/?lang={target}"')
                     self.assertContains(response, f'href="/candidate/?lang={language}"')
-                    self.assertContains(
-                        response, f'href="/employer/pages/{language}.html"'
-                    )
+                    self.assertContains(response, f'href="/employer/?lang={language}"')
                     self.assertNotContains(response, '<form')
                     self.assertNotContains(response, 'data-employer-api')
 
@@ -62,7 +60,7 @@ class PublicHomeTests(SimpleTestCase):
         for language in ('fr', 'en', 'de'):
             for path in (
                 f'/candidate/?lang={language}',
-                f'/employer/pages/{language}.html',
+                f'/employer/?lang={language}',
             ):
                 response = self.client.get(path, secure=True)
                 target = f'/?lang={language}'
