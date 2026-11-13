@@ -8,9 +8,6 @@ from .models import (
     Company,
     CompanyMembership,
     JobOffer,
-    EmployerEmailLink,
-    EmployerSearchOperation,
-    EmployerSearchEvent,
 )
 
 
@@ -72,38 +69,6 @@ class JobOfferAdmin(ReadOnlyAdmin):
     @admin.display(description=_('Source URL'))
     def safe_source_url(self, obj):
         return redact(obj.source_url)
-
-
-@admin.register(EmployerEmailLink)
-class EmailLinkAdmin(ReadOnlyAdmin):
-    list_display = ('id', 'email', 'pending_import', 'created', 'expires', 'used')
-    list_filter = ('used',)
-    search_fields = ('email',)
-    list_select_related = ('pending_import',)
-
-
-@admin.register(EmployerSearchOperation)
-class SearchOperationAdmin(ReadOnlyAdmin):
-    list_display = (
-        'id',
-        'offer',
-        'requested_by',
-        'revision',
-        'state',
-        'created',
-        'resolved_at',
-    )
-    list_filter = ('state',)
-    list_select_related = ('offer', 'requested_by')
-    ordering = ('-created',)
-
-
-@admin.register(EmployerSearchEvent)
-class SearchEventAdmin(ReadOnlyAdmin):
-    list_display = ('id', 'operation', 'actor', 'state', 'created')
-    list_filter = ('state',)
-    list_select_related = ('operation', 'actor')
-    ordering = ('-created',)
 
 
 @admin.register(EmployerProfile)

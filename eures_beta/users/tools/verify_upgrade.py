@@ -157,15 +157,32 @@ def main():
             state.get_model('employers', 'EmployerIdentity').objects.using(
                 'user_upgrade'
             ).filter(pk=duplicate.pk).delete()
+            # Check the user transition before the separately guarded retirement.
             call_command(
-                'migrate', database='user_upgrade', interactive=False, verbosity=0
+                'migrate',
+                'employers',
+                '0006_joboffer_structured_requirements',
+                database='user_upgrade',
+                interactive=False,
+                verbosity=0,
+            )
+            historical = (
+                MigrationExecutor(database)
+                .loader.project_state(
+                    [('employers', '0006_joboffer_structured_requirements')]
+                )
+                .apps
+            )
+            EmployerSearchOperation = historical.get_model(
+                'employers', 'EmployerSearchOperation'
+            )
+            EmployerSearchEvent = historical.get_model(
+                'employers', 'EmployerSearchEvent'
             )
             from eures_beta.users.models import User
             from eures_beta.employers.models import (
                 JobOffer,
                 CompanyMembership,
-                EmployerSearchOperation,
-                EmployerSearchEvent,
             )
 
             user = User.objects.using('user_upgrade').get(
@@ -193,6 +210,13 @@ def main():
             tables = database.introspection.table_names()
             assert (
                 'auth_user' not in tables and 'journeys_employeridentity' not in tables
+            )
+            # Only this disposable fixture: discard the checked simulator rows,
+            # then exercise retirement and the remaining current migrations.
+            EmployerSearchEvent.objects.using('user_upgrade').all().delete()
+            EmployerSearchOperation.objects.using('user_upgrade').all().delete()
+            call_command(
+                'migrate', database='user_upgrade', interactive=False, verbosity=0
             )
             # A second execution must not bootstrap or overwrite migrated users.
             call_command(
