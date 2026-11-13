@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from eures_beta.candidates.models import CandidateProfile
-from eures_beta.users.models import EmployerInvitation, User
+from eures_beta.users.models import Invitation, User
 from eures_beta.users.permissions import synchronize_permissions
 
 
@@ -36,14 +36,12 @@ class AdviserHistoryTests(TestCase):
                 'languages': [{'code': 'de', 'level': 'B1'}],
             },
         )
-        EmployerInvitation.objects.create(
+        Invitation.objects.create(
             email='sent@example.invalid',
-            invited_by=cls.adviser,
+            sender=cls.adviser,
             email_sent_at=timezone.now(),
         )
-        EmployerInvitation.objects.create(
-            email='unsent@example.invalid', invited_by=cls.adviser
-        )
+        Invitation.objects.create(email='unsent@example.invalid', sender=cls.adviser)
 
     def history(self, **params):
         return self.client.get(reverse('dashboard'), {'tab': 'history', **params})
