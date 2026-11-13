@@ -75,15 +75,24 @@ def design_system_example(request, screen='offre'):
     }
     if screen not in screens:
         raise Http404()
+    directions = {
+        'eures': '1 · EURES strict',
+        'continuite': '2 · Continuité',
+        'hybride': '3 · Hybride',
+    }
+    direction = request.GET.get('direction', 'eures')
+    if direction not in directions:
+        direction = 'eures'
     fonts = {
+        'direction': 'Selon la direction',
         'arial': 'Arial',
         'georgia': 'Georgia',
         'gelasio': 'Gelasio',
         'playfair': 'Playfair Display',
     }
-    heading_font = request.GET.get('titres', 'arial')
+    heading_font = request.GET.get('titres', 'direction')
     if heading_font not in fonts:
-        heading_font = 'arial'
+        heading_font = 'direction'
     return render(
         request,
         f'design_system/{screen}.html',
@@ -91,6 +100,8 @@ def design_system_example(request, screen='offre'):
             'screens': screens.items(),
             'screen': screen,
             'screen_label': screens[screen],
+            'directions': directions.items(),
+            'direction': direction,
             'heading_fonts': fonts.items(),
             'heading_font': heading_font,
         },
