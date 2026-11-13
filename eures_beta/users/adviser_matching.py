@@ -20,7 +20,11 @@ from eures_beta.matching import (
     services,
 )
 from eures_beta.matching.confirmation_views import display_rows
-from eures_beta.matching.models import ConfirmationRequest, MatchEvaluation, MatchPair
+from eures_beta.matching.models import (
+    CandidateOfferReview,
+    MatchEvaluation,
+    CandidateOfferMatch,
+)
 from eures_beta.matching.presentation import present
 from .views import selected_language
 
@@ -40,7 +44,7 @@ class ReviewForm(forms.Form):
 
 
 def eligible_pairs():
-    return MatchPair.objects.filter(
+    return CandidateOfferMatch.objects.filter(
         candidate__in=access.candidates(), offer__in=access.matchable_offers()
     ).select_related('candidate__user', 'offer')
 
@@ -61,12 +65,12 @@ def pending_pairs():
 
 def open_conversations():
     return (
-        ConfirmationRequest.objects.filter(
+        CandidateOfferReview.objects.filter(
             pair__in=eligible_pairs().filter(decision='retained')
         )
         .filter(
             ~Exists(
-                ConfirmationRequest.objects.filter(
+                CandidateOfferReview.objects.filter(
                     pk=OuterRef('pk'), agreements__isnull=False
                 )
             )
@@ -117,7 +121,7 @@ def queue(request):
 
 @transaction.atomic
 def record_review(user, pair, evaluation_id, action):
-    pair = MatchPair.objects.select_for_update().get(pk=pair.pk)
+    pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair.pk)
     if pair.decision != 'pending':
         raise services.StaleEvaluation
     if action == 'refresh':
@@ -127,7 +131,7 @@ def record_review(user, pair, evaluation_id, action):
         raise ValidationError(_('Albert is currently unavailable. Try again later.'))
     services.decide(pair.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
     if action == 'retained':
-        ConfirmationRequest.objects.get_or_create(
+        CandidateOfferReview.objects.get_or_create(
             pair=pair, defaults={'requested_by': user}
         )
 
