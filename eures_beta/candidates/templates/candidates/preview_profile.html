@@ -5,7 +5,7 @@
   <header class="conversation-header">
     <a class="conversation-back"
        href="{% url 'dashboard' %}?lang={{ page_language }}"
-       aria-label="{% translate 'Dashboard' %}">‹</a>
+       aria-label="{% translate 'Dashboard' context 'account navigation' %}">‹</a>
     <h1>{{ profile.display_name }}</h1>
   </header>
   <div class="conversation-thread">
