@@ -13,6 +13,7 @@ urlpatterns = [
         'api/occupation-skills/', skill_suggestions, name='occupation_skill_suggestions'
     ),
     path('', include('eures_beta.users.urls')),
+    path('', include('eures_beta.invitations.urls')),
     path("", include("eures_beta.employers.urls")),
     path("", include("eures_beta.candidates.urls")),
     # Old tabs/bookmarks still contain these relative language links after deployment.

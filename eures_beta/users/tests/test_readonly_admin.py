@@ -11,7 +11,8 @@ from django.urls import reverse
 from django.utils import timezone
 from io import StringIO
 
-from eures_beta.users.models import User, Invitation, LoginRateLimit
+from eures_beta.invitations.models import Invitation
+from eures_beta.users.models import User, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (

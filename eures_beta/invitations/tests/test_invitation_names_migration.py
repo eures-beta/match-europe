@@ -77,8 +77,9 @@ class InvitationNamesMigrationTests(TransactionTestCase):
         group.permissions.add(permission)
 
         self.migrate(self.after)
-        from eures_beta.users.models import Invitation, User as CurrentUser
-        from eures_beta.users.invitations import find_invitation
+        from eures_beta.invitations.models import Invitation
+        from eures_beta.users.models import User as CurrentUser
+        from eures_beta.invitations.services import find_invitation
         from django.contrib.auth.models import Permission as CurrentPermission
 
         for pk, nonce, created, expires, kind, recipient_pk in snapshots:

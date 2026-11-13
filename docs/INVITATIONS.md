@@ -1,9 +1,25 @@
 # Invitations
 
+## Application Django
+
+Le domaine est regroupé dans `eures_beta/invitations/` : modèle, services,
+formulaires, vues, routes, administration, e-mails, styles et tests. Les comptes
+et l'authentification restent dans `users`.
+
+Le modèle existant change d'application sans recréation de table ni copie de
+données. `invitations.0001` et `users.0009` transfèrent son état Django et ses
+métadonnées de permissions ; les identifiants, attributions, relations et liens
+envoyés sont conservés. Le nom physique `users_invitation` reste explicite dans
+le modèle pour éviter toute opération destructive. Le transfert est réversible ;
+les migrations historiques restent inchangées. Voir
+[le détail technique](../eures_beta/invitations/README.md).
+`invitations.0002` assure aussi la fin du transfert lors d'une migration ciblant
+cette application, avant la génération automatique des permissions.
+
 ## Templates des e-mails
 
 Les templates sont classés par type de destinataire dans
-`eures_beta/templates/users/invitations/` : `employer/`, `candidate/` et
+`eures_beta/invitations/templates/invitations/emails/` : `employer/`, `candidate/` et
 `adviser/`. Le premier message s’appelle `invitation.html`/`invitation.txt`,
 avec un objet `invitation.subject` pour les employeurs et candidats. Une relance
 utilise `reminder.*` ; chez les conseillers, le même template adapte le texte

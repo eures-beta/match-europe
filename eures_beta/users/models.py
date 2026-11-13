@@ -1,66 +1,17 @@
-import uuid
-from datetime import timedelta
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.functions import Lower
+
+# Compatibility callable used by users.0004; historical migrations stay unchanged.
+from eures_beta.invitations.defaults import invitation_expiry  # noqa: F401
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 
 
 class LoginRateLimit(models.Model):
     key = models.CharField(max_length=40, primary_key=True)
     attempts = models.PositiveIntegerField(default=0)
     expires = models.DateTimeField(db_index=True)
-
-
-def invitation_expiry():
-    return timezone.now() + timedelta(seconds=settings.INVITATION_MAX_AGE)
-
-
-class Invitation(models.Model):
-    class RecipientKind(models.TextChoices):
-        EMPLOYER = 'employer', 'Employeur'
-        CANDIDATE = 'candidate', 'Candidat'
-        ADVISER = 'adviser', 'Conseiller'
-
-    recipient_kind = models.CharField(
-        max_length=10, choices=RecipientKind.choices, default=RecipientKind.EMPLOYER
-    )
-    first_name = models.CharField(max_length=150, blank=True)
-    last_name = models.CharField(max_length=150, blank=True)
-    reminder_sent_at = models.DateTimeField(null=True, blank=True)
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    nonce = models.UUIDField(default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True)
-    language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
-    sender = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name='sent_invitations',
-    )
-    created_at = models.DateTimeField(default=timezone.now)
-    expires_at = models.DateTimeField(default=invitation_expiry)
-    accepted_at = models.DateTimeField(null=True, blank=True)
-    recipient = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name='invitation',
-    )
-    email_sent_at = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(Lower('email'), name='users_invitation_email_ci')
-        ]
-
-    @property
-    def expired(self):
-        return self.expires_at <= timezone.now()
 
 
 class UserManager(BaseUserManager):
@@ -86,14 +37,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    @property
-    def has_candidate_invitation(self):
-        return (
-            self.kind == self.Kind.CANDIDATE
-            and hasattr(self, 'invitation')
-            and self.invitation.recipient_kind == Invitation.RecipientKind.CANDIDATE
-        )
-
     class Kind(models.TextChoices):
         ADVISER = 'adviser', _('Adviser')
         EMPLOYER = 'employer', _('Employer')
@@ -135,14 +78,4 @@ class User(AbstractUser):
             )
             if old.kind != self.kind:
                 raise ValidationError({'kind': _('The user kind cannot be changed.')})
-        adding = self._state.adding
-        result = super().save(*args, **kwargs)
-        if adding and self.kind == self.Kind.ADVISER and self.is_active:
-            # Apply the versioned invitation role immediately to new advisers.
-            from django.contrib.auth.models import Group
-            from .permissions import EMPLOYER_INVITER_GROUP
-
-            self.groups.add(
-                *Group.objects.using(self._state.db).filter(name=EMPLOYER_INVITER_GROUP)
-            )
-        return result
+        return super().save(*args, **kwargs)

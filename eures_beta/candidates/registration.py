@@ -18,7 +18,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 
-from eures_beta.users.invitations import validate_origin
+from eures_beta.emails.origins import validate_origin
 from eures_beta.users.models import User
 from .models import CandidateProfile
 from . import pending as pending_store

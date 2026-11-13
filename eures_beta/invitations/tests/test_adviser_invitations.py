@@ -10,8 +10,9 @@ from django.utils import timezone
 
 from eures_beta.candidates import journey
 from eures_beta.candidates.tests.test_registration import answers
-from eures_beta.users.invitations import find_invitation, invitation_token
-from eures_beta.users.models import Invitation, User
+from eures_beta.invitations.services import find_invitation, invitation_token
+from eures_beta.invitations.models import Invitation
+from eures_beta.users.models import User
 
 
 class AdviserInvitationsTests(TestCase):

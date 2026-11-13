@@ -4,7 +4,6 @@ import logging
 import uuid
 from urllib.parse import urlencode, urljoin
 
-from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -22,29 +21,23 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from .invitations import (
+from .services import (
     create_invitation,
     invitation_token,
     record_invitation_attempt,
     validate_origin,
 )
-from .models import Invitation, User, invitation_expiry
-from .permissions import can_manage_employers
-from .views import email_ready, selected_language
+from .models import Invitation
+from .defaults import invitation_expiry
+from eures_beta.users.models import User
+from .forms import RecipientForm
+from .permissions import can_invite
+from eures_beta.users.views import email_ready, selected_language
 
 logger = logging.getLogger(__name__)
 RecipientKind = Invitation.RecipientKind
 SALT = 'users.adviser-invitations.preview'
 MAX_ROWS = 10
-
-
-class RecipientForm(forms.Form):
-    email = forms.EmailField(label='Adresse e-mail')
-    first_name = forms.CharField(label='Prénom', max_length=150, required=False)
-    last_name = forms.CharField(label='Nom', max_length=150, required=False)
-
-    def clean_email(self):
-        return self.cleaned_data['email'].lower()
 
 
 def csv_recipients(upload):
@@ -148,19 +141,27 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
             organization_name=adviser.organization_name.strip(),
             partner_logos=[
                 (
-                    urljoin(origin + '/', static(f'employer/assets/{filename}')),
+                    urljoin(origin + '/', static(filename)),
                     label,
                     width,
                 )
                 for filename, label, width in (
-                    ('eures-ela.jpg', 'EURES / European Labour Authority', 112),
-                    ('france-travail-email.png', 'France Travail', 88),
-                    ('adem.png', 'ADEM', 34),
-                    ('forem.png', 'Le Forem', 80),
+                    (
+                        'employer/assets/eures-ela.jpg',
+                        'EURES / European Labour Authority',
+                        112,
+                    ),
+                    (
+                        'invitations/assets/france-travail-email.png',
+                        'France Travail',
+                        88,
+                    ),
+                    ('employer/assets/adem.png', 'ADEM', 34),
+                    ('employer/assets/forem.png', 'Le Forem', 80),
                 )
             ],
         )
-    base = 'users/invitations/'
+    base = 'invitations/emails/'
     if recipient_kind == RecipientKind.ADVISER:
         stem = base + 'adviser/invitation'
         subject = 'Rejoignez l’équipe de conseillers Match Europe'
@@ -258,7 +259,7 @@ def preview_context(request, recipient_kind, recipients, invitation=None):
 @sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
 def invitations_tab(request):
-    if not can_manage_employers(request.user):
+    if not can_invite(request.user):
         raise PermissionDenied
 
     language = selected_language(request)
@@ -355,7 +356,7 @@ def invitations_tab(request):
             'local_outbox': local_outbox_enabled(),
         }
     )
-    return render(request, 'users/adviser_invitations.html', context)
+    return render(request, 'invitations/adviser_invitations.html', context)
 
 
 def send_batch(request, payload):
@@ -411,7 +412,7 @@ def valid_identifier(value):
 @transaction.atomic
 def change_invitation(request, identifier, *, resend, nonce=None):
     actor = User.objects.select_for_update().get(pk=request.user.pk)
-    if not can_manage_employers(actor):
+    if not can_invite(actor):
         raise PermissionDenied
     invitation = get_object_or_404(
         Invitation.objects.select_for_update(),
@@ -428,7 +429,7 @@ def change_invitation(request, identifier, *, resend, nonce=None):
         raise ValidationError('Un compte existe déjà pour cette adresse.')
     if not invitation.sender.is_active or (
         invitation.recipient_kind == RecipientKind.ADVISER
-        and not can_manage_employers(invitation.sender)
+        and not can_invite(invitation.sender)
     ):
         raise ValidationError(
             'Le compte à l’origine de cette invitation ne peut plus l’envoyer.'

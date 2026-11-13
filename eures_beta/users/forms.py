@@ -15,21 +15,6 @@ class LoginForm(forms.Form):
     )
 
 
-class InvitationForm(LoginForm):
-    language = forms.ChoiceField(
-        label=_('Invitation language'),
-        choices=(('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')),
-    )
-
-    def clean_email(self):
-        email = self.cleaned_data['email'].strip().lower()
-        if User.objects.filter(email__iexact=email).exists():
-            raise forms.ValidationError(
-                _('An account already exists for this email address.')
-            )
-        return email
-
-
 class AdviserSignatureForm(forms.ModelForm):
     class Meta:
         model = User

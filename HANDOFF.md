@@ -1,8 +1,26 @@
+## 13 novembre 2026 — application dédiée aux invitations
+
+TRANSVERSE / CONSEILLERS : le domaine invitations quitte users pour
+`eures_beta/invitations/` : modèle, services, formulaires, vues, routes,
+administration, commande, templates, styles et tests. Les comptes et la connexion
+restent dans users ; la validation commune des origines de liens est dans emails.
+`invitations.0001` et `users.0009` déplacent l'état Django sans recréer la table,
+copier ou supprimer des lignes. Identifiants, relations, permissions, journal et
+liens existants conservés ; transfert réversible. L'historique n'est pas réécrit.
+Voir [l'architecture et les migrations](eures_beta/invitations/README.md).
+
+Validation : 600 tests PostgreSQL réussis, dont transfert aller-retour sur
+invitations non vides, conservation des anciens liens, ContentTypes, permissions,
+attributions et journal ; conflit de métadonnées refusé. Mise à niveau historique
+des comptes réussie. Cinq groupes HTTPS Docker verts sous 256 Mio, sans OOM
+(pic local arm64 : 172 883 968 octets) ; témoin historique toujours détecté.
+Django/migrations, Black, HTML, JavaScript, CSS et gettext vérifiés.
+
 ## 13 novembre 2026 — noms des fichiers d’invitation
 
 La documentation commune est `docs/INVITATIONS.md`, avec tous ses liens mis à
 jour. Les templates sont rangés par rôle destinataire dans
-`users/invitations/{employer,candidate,adviser}/`. Le premier message s’appelle
+`invitations/emails/{employer,candidate,adviser}/`. Le premier message s’appelle
 `invitation.*`, la relance `reminder.*` ; le conseiller réutilise son template
 d’invitation avec le contexte de relance. Chargeur et inclusions actualisés.
 Le contenu des messages et leur comportement restent identiques.

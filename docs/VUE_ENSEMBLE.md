@@ -1,3 +1,14 @@
+## 13 novembre 2026 — application dédiée aux invitations
+
+TRANSVERSE / CONSEILLERS : le domaine invitations quitte users pour
+`eures_beta/invitations/` : modèle, services, formulaires, vues, routes,
+administration, commande, templates, styles et tests. Les comptes et la connexion
+restent dans users ; la validation commune des origines de liens est dans emails.
+`invitations.0001` et `users.0009` déplacent l'état Django sans recréer la table,
+copier ou supprimer des lignes. Identifiants, relations, permissions, journal et
+liens existants conservés ; transfert réversible. L'historique n'est pas réécrit.
+Voir [l'architecture et les migrations](../eures_beta/invitations/README.md).
+
 ## 13 novembre 2026 — accès commun des conseillers
 
 CONSEILLERS : tout conseiller connecté et actif peut consulter et modifier le

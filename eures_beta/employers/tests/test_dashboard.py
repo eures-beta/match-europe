@@ -127,7 +127,8 @@ class EmployerDashboardTests(TestCase):
         )
         self.client.force_login(adviser)
         self.assertTemplateUsed(
-            self.client.get(reverse('dashboard')), 'users/adviser_invitations.html'
+            self.client.get(reverse('dashboard')),
+            'invitations/adviser_invitations.html',
         )
 
     def test_import_button_matches_public_page_in_each_language_with_and_without_offers(

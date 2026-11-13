@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from .admin_base import ReadOnlyAdmin, MetadataOnlyAdmin
-from .models import User, Invitation, LoginRateLimit
+from .models import User, LoginRateLimit
 
 
 @admin.register(User)
@@ -36,24 +36,6 @@ class AccountAdmin(ReadOnlyAdmin):
             if request.user.is_superuser
             else queryset.filter(kind=User.Kind.ADVISER)
         )
-
-
-@admin.register(Invitation)
-class InvitationAdmin(ReadOnlyAdmin):
-    list_display = (
-        'email',
-        'recipient_kind',
-        'language',
-        'sender',
-        'created_at',
-        'expires_at',
-        'accepted_at',
-        'email_sent_at',
-    )
-    list_filter = ('recipient_kind', 'language', 'accepted_at')
-    search_fields = ('email', 'sender__email')
-    list_select_related = ('sender',)
-    ordering = ('-created_at',)
 
 
 @admin.register(LoginRateLimit)

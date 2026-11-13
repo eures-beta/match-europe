@@ -1,3 +1,5 @@
+from eures_beta.invitations.eligibility import has_candidate_invitation
+
 """Guided candidate project rehearsal without CV or career-history collection."""
 
 import secrets
@@ -658,7 +660,7 @@ def workflow(request, language):
     initial = draft['data']
     invited_candidate = (
         request.user.is_authenticated
-        and request.user.has_candidate_invitation
+        and has_candidate_invitation(request.user)
         and not hasattr(request.user, 'candidate_profile')
     )
     if step == 4 and invited_candidate:
