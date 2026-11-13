@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.templatetags.static import static
 from django.urls import reverse
@@ -58,6 +58,41 @@ def design_system(request):
             'font_sizes': tokens.scale_tokens('--me-font-size-'),
             'spaces': tokens.scale_tokens('--me-space-'),
             'radii': tokens.scale_tokens('--me-radius-'),
+        },
+    )
+
+
+@require_demo_access
+@require_safe
+def design_system_example(request, screen='offre'):
+    """Fictional screens built only with the design system."""
+    screens = {
+        'offre': 'Employeur · vérifier une offre',
+        'mes-offres': 'Employeur · mes offres',
+        'connexion': 'Connexion',
+        'candidat': 'Candidat · questionnaire',
+        'conseiller': 'Conseiller · offres à valider',
+    }
+    if screen not in screens:
+        raise Http404()
+    fonts = {
+        'arial': 'Arial',
+        'georgia': 'Georgia',
+        'gelasio': 'Gelasio',
+        'playfair': 'Playfair Display',
+    }
+    heading_font = request.GET.get('titres', 'arial')
+    if heading_font not in fonts:
+        heading_font = 'arial'
+    return render(
+        request,
+        f'design_system/{screen}.html',
+        {
+            'screens': screens.items(),
+            'screen': screen,
+            'screen_label': screens[screen],
+            'heading_fonts': fonts.items(),
+            'heading_font': heading_font,
         },
     )
 

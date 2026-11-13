@@ -70,14 +70,20 @@
   --bs-focus-ring-opacity: 1;
 }
 
-/* Headings: Arial, like the rest of the page */
+/* Headings: their own token, so a heading font is a one-line change */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: var(--me-font-family);
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: var(--me-font-family-heading);
   font-weight: var(--me-font-weight-bold);
   color: var(--me-color-text);
 }
@@ -89,6 +95,10 @@ h6 {
   --bs-btn-border-radius: var(--me-radius-m);
   --bs-btn-padding-x: var(--me-space-m);
   --bs-btn-padding-y: var(--me-space-xs);
+  /* Centre the label vertically inside the 48px minimum height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: var(--me-control-min-height);
 }
 
@@ -144,6 +154,13 @@ h6 {
   --bs-btn-disabled-color: var(--me-palette-dark-60);
 }
 
+/* Progress bar: Bootstrap hard-codes its own blue here */
+.progress {
+  --bs-progress-bar-bg: var(--me-color-action);
+  --bs-progress-bg: var(--me-palette-dark-10);
+  --bs-progress-border-radius: var(--me-radius-m);
+}
+
 /* Form fields: visible border, 16px text (no zoom on iOS), 48px minimum height */
 .form-control,
 .form-select {
@@ -154,9 +171,9 @@ h6 {
   border-radius: var(--me-radius-m);
 }
 
+/* Text fields show focus on click too: it shows where the typing goes */
 .form-control:focus,
-.form-select:focus,
-.form-check-input:focus {
+.form-select:focus {
   border-color: var(--me-color-focus);
   outline: var(--me-focus-outline-width) solid var(--me-color-focus);
   outline-offset: var(--me-focus-outline-offset);
@@ -165,6 +182,17 @@ h6 {
 
 .form-check-input {
   border-color: var(--me-color-border-strong);
+}
+
+/* Radios and checkboxes: no ring on click, only when the keyboard needs it */
+.form-check-input:focus {
+  border-color: var(--me-color-border-strong);
+  box-shadow: none;
+}
+
+.form-check-input:focus-visible {
+  outline: var(--me-focus-outline-width) solid var(--me-color-focus);
+  outline-offset: var(--me-focus-outline-offset);
 }
 
 .form-check-input:checked {
