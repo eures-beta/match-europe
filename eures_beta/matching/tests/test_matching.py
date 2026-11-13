@@ -296,7 +296,7 @@ class LocalMatchingTests(TestCase):
             data={**original.data, 'description': 'Fictional offer description'},
             duplicated_from=original,
         )
-        pairs = MatchPair.objects.filter(offer=offer)
+        pairs = CandidateOfferMatch.objects.filter(offer=offer)
         services.calculate_for_saved_offer(offer.pk, offer.revision)
         self.assertFalse(pairs.exists())
 
