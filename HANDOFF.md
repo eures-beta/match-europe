@@ -1555,7 +1555,7 @@ redirection de compatibilité ajoutée.
 
 Recette Django locale sur la PR #187 (`8b9a4ce`). Saisie et CSV, aperçu des
 modèles génériques français adaptés de Flask, dépôt local, relance et
-suppression avant acceptation. Modèle conseiller ajouté, accessible aux conseillers habilités à gérer les
+suppression avant acceptation. Modèle conseiller ajouté, accessible à tous les conseillers actifs pour gérer les
 invitations. Le candidat invité peut terminer
 son profil après vérification de son adresse par le lien d’invitation.
 L’aperçu employeur a été contrôlé dans le navigateur. Voir
