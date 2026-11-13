@@ -67,6 +67,17 @@ Le modèle dédié et les limites plus strictes du dialogue sont conservés, ain
 que la simulation et le cache des compétences. Aucun secret, réglage distant,
 modèle ou migration changé. Voir [le contrat](docs/ALBERT_CLIENT.md).
 
+## 13 novembre 2026 — retrait des trois modèles employeurs hérités
+
+EMPLOYEURS / ADMIN : après retrait des parcours obsolètes, suppression de
+EmployerEmailLink, EmployerSearchOperation et EmployerSearchEvent et de leur
+administration. La migration employers.0007 exige trois tables vides et refuse
+sinon toute suppression ; les migrations historiques restent en place.
+Company, CompanyMembership, EmployerProfile et JobOffer sont conservés.
+Le verrouillage par search_started_at reste actif, sans les états du simulateur.
+Aucune fusion ni intervention sur une base distante par ce changement.
+Voir [le contrat de retrait](docs/EMPLOYER_SEARCH_LAUNCH.md).
+
 ## 10 novembre 2026 — retrait des parcours de démonstration hérités
 
 Sur demande de dejafait, retrait de la connexion employeur indépendante et de sa
