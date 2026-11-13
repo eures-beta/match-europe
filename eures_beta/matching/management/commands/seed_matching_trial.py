@@ -29,10 +29,21 @@ class Command(BaseCommand):
         uri = card['occupation']['uri']
         skills = [item['skillUri'] for item in card['keySkills'][:3]]
         behaviours = list(skill_groups()[0]['professional_behaviours'])[:3]
-        employer, _ = User.objects.get_or_create(
-            email='employer@matching-trial.invalid',
-            defaults={'kind': 'employer', 'is_active': True},
-        )
+        from eures_beta.users.test_accounts import MATCHING_EMPLOYER
+
+        specification = MATCHING_EMPLOYER['matching-employer']
+        employer = User.objects.filter(email=specification['email']).first()
+        if employer is None:
+            employer = User.objects.create_user(
+                **{key: value for key, value in specification.items() if key != 'label'}
+            )
+        elif (
+            not employer.password
+            and not employer.is_staff
+            and not employer.is_superuser
+        ):
+            employer.set_unusable_password()
+            employer.save(update_fields=['password'])
         if employer.kind != 'employer' or not employer.is_active:
             raise CommandError(
                 'Reserved fictional account is unavailable; no account changed.'
@@ -122,10 +133,13 @@ class Command(BaseCommand):
             ('permit', 'Profil fictif E — autorisation absente', {'licences_held': []}),
         ]
         for key, name, changes in scenarios:
-            user, _ = User.objects.get_or_create(
-                email=key + '@matching-trial.invalid',
-                defaults={'kind': 'candidate', 'is_active': True},
-            )
+            email = key + '@matching-trial.invalid'
+            user = User.objects.filter(email=email).first()
+            if user is None:
+                user = User.objects.create_user(email, kind='candidate')
+            elif not user.password and not user.is_staff and not user.is_superuser:
+                user.set_unusable_password()
+                user.save(update_fields=['password'])
             if user.kind != 'candidate' or not user.is_active:
                 raise CommandError(
                     'Reserved fictional account is unavailable; no account changed.'

@@ -122,6 +122,11 @@
           </form>
         </details>
       </section>
+    {% elif shared_conversation %}
+      <section class="surface-card home-section">
+        <a class="primary-action"
+           href="{% url 'shared_conversation' shared_conversation.pk %}?lang={{ page_language }}">{% translate "Three-way conversation" %}</a>
+      </section>
     {% else %}
       <section class="surface-card home-section">
         <p>{% translate "Review your answers and give transmission permission separately in the guided form." %}</p>

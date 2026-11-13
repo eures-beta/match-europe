@@ -302,11 +302,16 @@ def conversation(request, pk):
                     after=show(value),
                 )
             )
+    from .shared_views import conversations
+
     return render(
         request,
         'matching/dialogue.html',
         dict(
             obj=obj,
+            shared_conversation=conversations(request.user)
+            .filter(confirmation=obj)
+            .first(),
             current=current,
             prompt=prompt,
             answered=answered,

@@ -45,6 +45,23 @@ historique, Django/migrations, Black, HTML, JS et gettext verts. Cinq parcours
 HTTPS Docker réussis sous 256 Mio (pic 179027968 octets), aucun OOM/SIGKILL.
 Services externes simulés ; aucune fusion ni modification de base distante.
 
+## 13 novembre 2026 — conversations partagées compatibles avec les modèles actuels
+
+CONSEILLERS / CANDIDATS / EMPLOYEURS : les fils partagés utilisent
+`CandidateOfferReview` ; les contrôles de rôle et des trois participants sont
+conservés, sans permission métier Django supplémentaire. L’avis conseiller
+utilise le transport Albert commun, avec les limites du dialogue.
+
+La migration `matching.0008_sharedconversation_sharedmessage` suit
+`0007_candidate_offer_review_answer_dialogue`. Elle crée les tables sur base
+neuve ou adopte celles d’une ancienne recette uniquement avec l’enregistrement
+exact `0007_sharedconversation_sharedmessage` et un schéma PostgreSQL équivalent
+(colonnes, clés, contraintes, index). L’adoption conserve lignes, identifiants,
+relations, dates et compteurs de lecture ; son retour arrière garde ces tables.
+Une création neuve est réversible par suppression des nouvelles tables.
+Des tests couvrent les données non vides, les séquences, les retours arrière
+et le refus de tables partielles ou incompatibles. Aucune base distante modifiée.
+
 ## 13 novembre 2026 — migration du dialogue après renommage des modèles
 
 CANDIDATS / TRANSVERSE : le champ JSON `CandidateOfferReviewAnswer.dialogue`

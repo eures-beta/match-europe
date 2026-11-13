@@ -205,17 +205,30 @@ def ask(row, source, scope, language, history):
         'candidate_words': source,
         'conversation': history,
     }
+    try:
+        return validate(complete(PROMPT, context), row, source, scope)
+    except (ValueError, KeyError, IndexError, TypeError):
+        raise Unavailable from None
+
+
+@sensitive_variables()
+def complete(prompt, context):
+    if (
+        not access.enabled()
+        or not settings.CONFIRMATION_DIALOGUE_ENABLED
+        or not settings.ALBERT_API_KEY
+    ):
+        raise Unavailable
     messages = [
-        {'role': 'system', 'content': PROMPT},
+        {'role': 'system', 'content': prompt},
         {'role': 'user', 'content': json.dumps(context, ensure_ascii=False)},
     ]
     try:
-        value = albert.complete_json(
+        return albert.complete_json(
             messages,
             model=settings.ALBERT_DIALOGUE_MODEL,
             max_tokens=1800,
             limits=LIMITS,
         )
-        return validate(value, row, source, scope)
     except (albert.AlbertError, ValueError, KeyError, IndexError, TypeError):
         raise Unavailable from None

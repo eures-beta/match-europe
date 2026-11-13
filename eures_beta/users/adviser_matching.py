@@ -1,6 +1,7 @@
 """Adviser review of Django matchings and follow-up of candidate conversations."""
 
 from django import forms
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.paginator import Paginator
@@ -18,6 +19,8 @@ from eures_beta.candidates import preview_push
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.matching import (
     access,
+    adviser_opinion,
+    dialogue_albert,
     confirmation_services,
     dialogue_services,
     services,
@@ -29,6 +32,7 @@ from eures_beta.matching.models import (
     CandidateOfferMatch,
 )
 from eures_beta.matching.presentation import present
+from eures_beta.matching.shared_views import listed
 from .views import selected_language
 
 
@@ -116,6 +120,7 @@ def queue(request):
         request,
         'adviser_matching_queue.html',
         matchings=matchings,
+        shared_conversations=listed(request.user) if tracking and allowed else (),
         page=page,
         tracking=tracking,
         allowed=allowed,
@@ -257,9 +262,47 @@ def follow(request, pk):
     with translation.override(selected_language(request)):
         conversation = get_object_or_404(open_conversations(), pk=pk)
         can_resend = access.can_change_pair(request.user)
-        result, status = '', 200
-        if request.method == 'POST':
-            if not can_resend or request.POST.get('action') != 'resend':
+        language = selected_language(request)
+        state = confirmation_services.review(conversation)
+        rows = display_rows(state['rows'], language)
+        ready = adviser_opinion.ready(state)
+        can_analyse = ready and dialogue_services.enabled()
+        key = adviser_opinion.cache_key(pk, state['fingerprint'], language)
+        opinion = cache.get(key) if can_analyse else None
+        result, error, status = '', '', 200
+        action = request.POST.get('action')
+        if request.method == 'POST' and action == 'analyse':
+            if (
+                not can_analyse
+                or request.POST.get('fingerprint') != state['fingerprint']
+            ):
+                error, status = (
+                    _('The conversation changed or analysis is unavailable.'),
+                    409,
+                )
+            elif opinion is None:
+                try:
+                    opinion = adviser_opinion.generate(request.user, rows, language)
+                except dialogue_albert.Unavailable:
+                    error, status = (
+                        _('Albert could not analyse the replies. Try again later.'),
+                        503,
+                    )
+                else:
+                    current = open_conversations().filter(pk=pk).first()
+                    if (
+                        current is None
+                        or confirmation_services.review(current)['fingerprint']
+                        != state['fingerprint']
+                    ):
+                        return redirect(
+                            reverse('adviser_conversation', args=[pk])
+                            + '?lang='
+                            + language
+                        )
+                    cache.set(key, opinion, 3600)
+        elif request.method == 'POST':
+            if not can_resend or action != 'resend':
                 raise Http404
             if not cache.add(f'preview-push-resend:{pk}', True, 30):
                 result, status = _('Wait a moment before resending.'), 429
@@ -272,7 +315,6 @@ def follow(request, pk):
                     ),
                     503,
                 )
-        state = confirmation_services.review(conversation)
         return render_workspace(
             request,
             'adviser_conversation.html',
@@ -282,5 +324,20 @@ def follow(request, pk):
             conversation=conversation,
             tracking=True,
             pair=conversation.pair,
-            rows=display_rows(state['rows'], selected_language(request)),
+            rows=rows,
+            analysis_ready=ready,
+            can_start_shared=(
+                ready
+                and conversation.requested_by_id == request.user.pk
+                and access.can_change_pair(request.user)
+                and bool(conversation.pair.offer.created_by_id)
+            ),
+            can_analyse=can_analyse and access.can_change_pair(request.user),
+            analysis_fingerprint=state['fingerprint'],
+            analysis_error=error,
+            opinion=opinion,
+            recommendation=(
+                adviser_opinion.LABELS[opinion['recommendation']] if opinion else ''
+            ),
+            simulated_opinion=settings.CONFIRMATION_DIALOGUE_SIMULATED,
         )
