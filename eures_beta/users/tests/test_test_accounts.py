@@ -39,11 +39,11 @@ class TestAccountAccessTests(TestCase):
     )
     def test_preview_candidates_can_reopen_their_own_offer(self):
         from eures_beta.matching.confirmation_services import candidate_requests
-        from eures_beta.matching.models import ConfirmationRequest
+        from eures_beta.matching.models import CandidateOfferReview
 
         self.seed()
         self.seed()
-        self.assertEqual(ConfirmationRequest.objects.count(), 2)
+        self.assertEqual(CandidateOfferReview.objects.count(), 2)
         for key in ('candidate-pwa', 'candidate-pwa-replay'):
             client = Client()
             response = client.post(
