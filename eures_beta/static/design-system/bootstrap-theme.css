@@ -88,7 +88,7 @@ h6,
   color: var(--me-color-text);
 }
 
-/* Buttons: control radius (4px in the EURES direction), 48px minimum height */
+/* Buttons: control radius (8px), 48px minimum height */
 .btn {
   --bs-btn-font-family: var(--me-font-family);
   --bs-btn-font-size: var(--me-font-size-m);

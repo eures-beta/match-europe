@@ -1,9 +1,7 @@
 from django.test import SimpleTestCase, TestCase, override_settings
 
 from eures_beta.design_system import (
-    DIRECTIONS,
     RAW_COLOUR,
-    THEMES_DIR,
     TOKEN_USE,
     TOKENS,
     colour_tokens,
@@ -53,34 +51,30 @@ class DesignSystemTokenTests(SimpleTestCase):
                 with self.subTest(file=path.name, token=token):
                     self.assertIn(token, defined)
 
-    def test_directions_only_override_existing_tokens(self):
-        base = set(token_declarations())
-        for direction in DIRECTIONS[1:]:
-            self.assertTrue((THEMES_DIR / f'{direction}.css').exists())
-            overrides = set(token_declarations(direction)) - base
-            with self.subTest(direction=direction):
-                self.assertEqual(overrides, set())
-
     def test_rgb_triplets_match_their_colour(self):
-        for direction in DIRECTIONS:
-            declarations = token_declarations(direction)
-            triplets = [name for name in declarations if name.endswith('-rgb')]
-            self.assertTrue(triplets)
-            for name in triplets:
-                with self.subTest(direction=direction, token=name):
-                    colour = resolve(name.removesuffix('-rgb'), declarations)
-                    colour = colour.lstrip('#')
-                    expected = ', '.join(
-                        str(int(colour[i : i + 2], 16)) for i in (0, 2, 4)
-                    )
-                    self.assertEqual(resolve(name, declarations), expected)
+        declarations = token_declarations()
+        triplets = [name for name in declarations if name.endswith('-rgb')]
+        self.assertTrue(triplets)
+        for name in triplets:
+            with self.subTest(token=name):
+                colour = resolve(name.removesuffix('-rgb'), declarations).lstrip('#')
+                expected = ', '.join(str(int(colour[i : i + 2], 16)) for i in (0, 2, 4))
+                self.assertEqual(resolve(name, declarations), expected)
 
-    def test_text_tokens_meet_wcag_aa_in_every_direction(self):
-        for direction in DIRECTIONS:
-            rows = {row['name']: row for row in colour_tokens('--me-color-', direction)}
-            for name in TEXT_TOKENS:
-                with self.subTest(direction=direction, token=name):
-                    self.assertGreaterEqual(rows[name]['contrast'], 4.5)
+    def test_text_tokens_meet_wcag_aa(self):
+        rows = {row['name']: row for row in colour_tokens('--me-color-')}
+        for name in TEXT_TOKENS:
+            with self.subTest(token=name):
+                self.assertGreaterEqual(rows[name]['contrast'], 4.5)
+
+    def test_headings_use_the_served_gelasio_font(self):
+        declarations = token_declarations()
+        self.assertTrue(
+            declarations['--me-font-family-heading'].startswith("'Gelasio'")
+        )
+        self.assertIn("url('fonts/Gelasio-wght.ttf')", read_css(TOKENS))
+        self.assertTrue((TOKENS.parent / 'fonts' / 'Gelasio-wght.ttf').exists())
+        self.assertTrue((TOKENS.parent / 'fonts' / 'Gelasio-OFL.txt').exists())
 
     def test_text_for_coloured_backgrounds_is_measured_on_that_background(self):
         rows = {token['name']: token for token in colour_tokens('--me-color-')}
@@ -140,24 +134,6 @@ class DesignSystemPageTests(TestCase):
                 ]
                 self.assertEqual(positions, sorted(positions))
                 self.assertNotIn('employer/site.css', page)
-
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
-    def test_example_previews_only_known_heading_fonts(self):
-        url = '/design-system/exemple/'
-        response = self.client.get(url, {'titres': 'gelasio'}, secure=True)
-        self.assertContains(response, 'ds-heading-gelasio')
-        response = self.client.get(url, {'titres': '"><script>'}, secure=True)
-        self.assertContains(response, 'ds-heading-direction')
-        self.assertNotContains(response, '<script>')
-
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
-    def test_example_applies_only_known_directions(self):
-        url = '/design-system/exemple/conseiller/'
-        response = self.client.get(url, {'direction': 'continuite'}, secure=True)
-        self.assertContains(response, 'class="ds-direction-continuite"')
-        self.assertContains(response, 'design-system/themes/continuite.css')
-        response = self.client.get(url, {'direction': 'autre'}, secure=True)
-        self.assertContains(response, 'class="ds-direction-eures"')
 
     @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
     def test_page_shows_every_colour_token(self):

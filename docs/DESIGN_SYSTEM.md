@@ -13,8 +13,8 @@ un composant manquant se signale à Yash avant d’inventer une solution.
    co-branding. Ce PDF n’est pas encore dans le dépôt. Tant qu’il manque, ne pas toucher au logo
    EURES ni à l’en-tête de marque.
 2. **Europa Component Library (ECL) v5.4.1, déclinaison EU** : le design system de la Commission
-   européenne, utilisé par eures.europa.eu. Il fournit nos couleurs, la police, les tailles, les
-   espacements et la forme des boutons. Documentation : https://ec.europa.eu/component-library/eu/
+   européenne, utilisé par eures.europa.eu. Il fournit nos couleurs, la police du texte, les
+   tailles et les espacements. Documentation : https://ec.europa.eu/component-library/eu/
 3. **Bootstrap 5.3** : la base technique des composants (`AGENTS.md`, sections 10 et 18). On ne le
    remplace pas : on l’habille avec les valeurs de l’ECL.
 4. **Compléments Match Europe** : ce que l’ECL et Bootstrap ne couvrent pas, ajouté par Yash dans
@@ -29,6 +29,7 @@ Pourquoi l’ECL : sa typographie et sa palette sont acceptées par tous les Ét
 | ----------------------------------------------------- | ---------------------------------------------------------------------- |
 | `eures_beta/static/design-system/tokens.css`          | Toutes les valeurs (tokens). Seul fichier où un code couleur est écrit |
 | `eures_beta/static/design-system/bootstrap-theme.css` | Bootstrap habillé avec les tokens                                      |
+| `eures_beta/static/design-system/fonts/`              | Police Gelasio et sa licence, chargées par `tokens.css`                |
 | `eures_beta/test_design_system.py`                    | Vérifie automatiquement les règles des tokens                          |
 | `/design-system/` (`templates/design_system.html`)    | Page de référence : tokens, contrastes et composants rendus            |
 
@@ -50,20 +51,15 @@ Les écrans existants (`employer/site.css`, `candidate/candidate.css`…) ne son
 Ils seront repris écran par écran, en petites PR. **Ne pas copier leurs valeurs** : elles datent
 d’avant le design system (ancien bleu `#004494`, police Georgia, une vingtaine d’arrondis).
 
-## Directions visuelles en discussion
+## Direction visuelle : hybride
 
-Trois directions sont à l’essai sur `/design-system/exemple/`, avec le même HTML :
+Décidée le 13 novembre 2026 (Eric, PO) parmi trois propositions : **EURES strict**, **continuité**
+(l’esprit des anciens écrans) et **hybride**. L’hybride garde la base commune EURES (Arial pour le
+texte, couleurs et statuts ECL, composants) et y ajoute la personnalité de Match Europe : titres
+en serif (Gelasio), arrondis moyens, ombres discrètes et fond de page bleu très pâle.
 
-1. **EURES strict** (par défaut, `tokens.css`) : valeurs ECL, Arial, arrondis de 4 px, fond uni.
-2. **Continuité** (`themes/continuite.css`) : l’esprit des écrans actuels, remis au propre. Serif,
-   bleu `#004494`, boutons en pilule, cartes arrondies et ombrées, fond en dégradé léger.
-3. **Hybride** (`themes/hybride.css`) : le socle EURES avec des titres en serif, des arrondis
-   moyens et des ombres discrètes.
-
-Une direction ne change que des tokens de rôle déjà définis dans `tokens.css` : couleurs, police,
-arrondis, ombres, fond de page. Toutes passent les contrastes WCAG AA (vérifié par
-`test_design_system.py`). L’équipe et Eric en retiendront **une seule** ; les autres fichiers
-seront alors supprimés. D’ici là, une nouvelle interface suit la direction 1 (EURES strict).
+Les cinq écrans fictifs de `/design-system/exemple/` montrent le rendu (offre, liste des offres,
+connexion, questionnaire candidat, tableau conseiller). Un nouvel écran s’en inspire.
 
 ## Tokens
 
@@ -102,12 +98,12 @@ seule : ajouter un texte ou une icône.
 
 ### Typographie
 
-- Police unique : **Arial** (`--me-font-family`), comme sur tous les sites Europa. Pas de Georgia,
-  pas de Marianne (police de l’État français, hors sujet pour un service commun à trois pays).
-- Titres : token à part, `--me-font-family-heading`, égal à Arial pour l’instant. Une police serif
-  pour les titres (Gelasio ou Playfair Display, libres sous licence OFL) est à l’essai sur
-  `/design-system/exemple/` ; la décision revient à l’équipe et à Eric. Ne pas utiliser ces
-  polices ailleurs avant cette décision.
+- Texte : **Arial** (`--me-font-family`), comme sur tous les sites Europa. Pas de Marianne
+  (police de l’État français, hors sujet pour un service commun à trois pays).
+- Titres (`h1` à `h6`, classes `.h1` à `.h6`) : **Gelasio** (`--me-font-family-heading`), serif
+  libre sous licence OFL (fonderie Sorkin Type), servie par Match Europe depuis
+  `design-system/fonts/`, sans appel à Google. Repli : Georgia. Choix de Yash, susceptible d’évoluer :
+  changer la police des titres ne demande que ce token. Ne pas l’utiliser pour le texte courant.
 - Tailles : `--me-font-size-s` (14 px) à `--me-font-size-5xl` (42 px). Le texte courant et les
   champs sont en `--me-font-size-m` (16 px) : en dessous, iOS zoome sur le champ.
   `--me-font-size-xs` (12 px) est réservé aux mentions légales.
@@ -117,9 +113,10 @@ seule : ajouter un texte ou une icône.
 
 - Espacements : `--me-space-2xs` (4 px) à `--me-space-4xl` (64 px).
 - Arrondis : les composants lisent les tokens d’usage, jamais l’échelle directement.
-  `--me-radius-control` pour les boutons et les champs (4 px), `--me-radius-card` pour les cartes,
-  panneaux et alertes (8 px), `--me-radius-badge` pour les étiquettes, `--me-radius-round` pour
-  les avatars. Ombre des cartes : `--me-shadow-card` (aucune par défaut).
+  `--me-radius-control` pour les boutons et les champs (8 px), `--me-radius-card` pour les cartes,
+  panneaux et alertes (12 px), `--me-radius-badge` pour les étiquettes (8 px), `--me-radius-round`
+  pour les avatars. **Pas de bouton en pilule.**
+- Ombre des cartes : `--me-shadow-card`, légère. Fond de page : `--me-page-background`.
 - Hauteur minimale d’un bouton ou d’un champ : `--me-control-min-height` (48 px).
 - Focus : contour plein de 2 px (`--me-focus-outline-width`), jamais supprimé.
 
