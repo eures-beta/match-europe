@@ -10,7 +10,7 @@ un mandat de fusion/déploiement. Les règles impératives restent dans
   [django-change](../.agents/skills/django-change/) puis guide du domaine.
 - Interface, texte ou e-mail : skill
   [interface-change](../.agents/skills/interface-change/) puis
-  composants Bootstrap existants, gettext et contrôles HTML/CSS/JS.
+  [design system](DESIGN_SYSTEM.md), gettext et contrôles HTML/CSS/JS.
 - Rebase, refresh ou fusion autorisée : skill
   [stack-maintenance](../.agents/skills/stack-maintenance/).
 - Diagnostic de production : commandes existantes du dépôt privé de déploiement,
