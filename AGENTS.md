@@ -65,6 +65,20 @@
 - Cette règle ne donne pas accès à l'administration Django et ne modifie pas
   ses protections de consultation.
 
+## Routes canoniques
+
+- Utiliser des routes anglaises explicites et nommées Django, indépendantes des
+  noms de templates et des langues. Générer les liens avec `reverse` ou `{% url %}`.
+- Les pages employeur sont `/employer/`, `/employer/import/` et
+  `/employer/privacy/` ; l'API des offres est `/api/job-offers/`.
+  Ne pas réintroduire un serveur de templates choisi par un chemin d'URL.
+- Les vestiges restent uniquement dans `www/public/legacy_urls.py` et leurs
+  helpers de compatibilité, la documentation de retrait et les tests associés.
+  Aucun lien ou appel nouveau ne doit les émettre. Ils sont destinés à un retrait
+  ultérieur explicite, pas à devenir des alias permanents.
+- Conserver les méthodes HTTP, CSRF, droits et retours après connexion lors d'un
+  renommage ; un POST ne doit pas être converti silencieusement en GET.
+
 ## Serveur de développement
 
 - Utiliser uniquement `make run PORT=…` pour démarrer Django, avec un port libre

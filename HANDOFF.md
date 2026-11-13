@@ -1,3 +1,15 @@
+## 13 novembre 2026 — Routes employeur explicites et API job-offers
+
+EMPLOYEURS / TRANSVERSE : accueil, import et notice possèdent des routes nommées
+`/employer/`, `/employer/import/`, `/employer/privacy/`. Suppression du serveur
+générique de templates ; langue gettext commune et liens canoniques dans les
+pages, JS et retours de connexion. API `/api/job-offers/` recâblée sans changer
+les données ou les droits. Les anciennes URL sont isolées comme vestiges :
+GET/HEAD 301 pour les pages et 308 préservant les POST des anciens clients API.
+`/employer/connected/` n'est plus une entrée active ; futur retrait explicite.
+Les deux interfaces matching, les invitations et le Push restent inchangés.
+Aucun modèle ou migration. Voir [les routes et la compatibilité](docs/API_NAMING.md).
+
 ## 13 novembre 2026 — application dédiée aux invitations
 
 TRANSVERSE / CONSEILLERS : le domaine invitations quitte users pour

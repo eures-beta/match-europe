@@ -97,7 +97,7 @@ class CandidateLandingTests(SimpleTestCase):
                 self.assertContains(
                     response, f'href="/accounts/login/?lang={language}"'
                 )
-                self.assertContains(response, f'href="/employer/pages/{language}.html"')
+                self.assertContains(response, f'href="/employer/?lang={language}"')
                 assert_active_link(self, response, f'/candidate/?lang={language}')
 
     def test_unsupported_language(self):

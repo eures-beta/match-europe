@@ -11,8 +11,9 @@ Import, relecture, offres et tableau de bord de l’employeur.
 - [dashboard.py](dashboard.py) — Prépare le tableau de bord employeur à partir de ses offres accessibles.
 - [establishments.py](establishments.py) — Définit le formulaire de rattachement à un établissement.
 - [forms.py](forms.py) — Définit et valide les formulaires propres aux écrans de ce parcours.
-- [imports.py](imports.py) — Expose les pages et endpoints d’import et de relecture des offres.
+- [imports.py](imports.py) — Expose l’API des offres `/api/job-offers/`, avec extraction, relecture et enregistrement protégés.
+- [pages.py](pages.py) — Rend les trois pages explicites `/employer/`, `/employer/import/` et `/employer/privacy/`, sans choisir de template depuis l’URL.
 - [response_forms.py](response_forms.py) — Définit le formulaire des habitudes de réponse, avec les choix du domaine métier.
 - [response_practice.py](response_practice.py) — Expose les habitudes de réponse de l’employeur via HTTP.
-- [urls.py](urls.py) — Associe les URL existantes aux vues, sans changer leur nom public.
+- [urls.py](urls.py) — Déclare les routes canoniques nommées ; les vestiges sont isolés dans public/legacy_urls.py.
 - [workspace.py](workspace.py) — Présente les offres et traite les actions de leur propriétaire autorisé.

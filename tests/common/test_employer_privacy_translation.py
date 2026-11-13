@@ -14,7 +14,7 @@ class EmployerPrivacyTranslationTests(SimpleTestCase):
                     'fr' if language == 'en' else 'en'
                 )
                 response = self.client.get(
-                    f'/employer/pages/privacy-{language}.html', secure=True
+                    f'/employer/privacy/?lang={language}', secure=True
                 )
                 self.assertContains(response, 'id="development-notice"', count=1)
                 self.assertContains(response, 'mailto:eric.barthelemy@francetravail.fr')
@@ -24,5 +24,7 @@ class EmployerPrivacyTranslationTests(SimpleTestCase):
                 self.assertTemplateUsed(response, 'employer/privacy.html')
                 self.assertContains(response, title)
                 self.assertContains(response, f'<html lang="{language}">')
-                self.assertContains(response, f'href="{language}.html"')
-                assert_active_link(self, response, f'privacy-{language}.html')
+                self.assertContains(response, f'href="/employer/?lang={language}"')
+                assert_active_link(
+                    self, response, f'/employer/privacy/?lang={language}'
+                )

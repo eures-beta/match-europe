@@ -227,11 +227,11 @@ class EuresSourceReviewTests(TestCase):
         from eures_beta.employers.models import JobOffer
 
         fetch.return_value = (json.dumps(vacancy()), API)
-        refused = self.client.post('/api/imports/source/', {'url': URL}, secure=True)
+        refused = self.client.post('/api/job-offers/source/', {'url': URL}, secure=True)
         self.assertEqual(refused.status_code, 400)
         fetch.assert_not_called()
         response = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'url': URL + '?jvDisplayLanguage=nl', 'agreement': 'true'},
             secure=True,
         )

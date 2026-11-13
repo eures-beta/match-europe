@@ -35,7 +35,7 @@ class EmployerContactTests(TestCase):
             User.objects.create_user(email="workspace@example.invalid", kind="employer")
         )
         response = self.owner.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'text': 'Fictional offer description.',
@@ -60,7 +60,7 @@ class EmployerContactTests(TestCase):
         self.assertEqual(self.obj.contact, self.contact)
         self.assertNotIn('contact', self.obj.data)
         self.assertEqual(
-            self.owner.get(f'/api/imports/{self.obj.pk}/').json()['contact'],
+            self.owner.get(f'/api/job-offers/{self.obj.pk}/').json()['contact'],
             self.contact,
         )
 
@@ -75,7 +75,7 @@ class EmployerContactTests(TestCase):
         ):
             with self.subTest(contact=contact):
                 response = self.owner.post(
-                    '/api/imports/',
+                    '/api/job-offers/',
                     {
                         'kind': 'manual',
                         'text': 'Fictional offer.',
@@ -97,7 +97,7 @@ class EmployerContactTests(TestCase):
             'revision': self.obj.revision,
             'contact': dict(self.contact, name='Changed fictional contact'),
         }
-        url = f'/api/imports/{self.obj.pk}/'
+        url = f'/api/job-offers/{self.obj.pk}/'
         with patch('eures_beta.www.employer.imports.aglae') as api:
             response = self.owner.post(
                 url, json.dumps(payload), content_type='application/json'
@@ -145,7 +145,7 @@ class EmployerContactTests(TestCase):
         api.return_value = {'id': str(self.obj.pk), 'active': False}
         initial_send(self.obj)
         response = self.owner.post(
-            f'/api/imports/{self.obj.pk}/',
+            f'/api/job-offers/{self.obj.pk}/',
             json.dumps(
                 {
                     'action': 'validate',
@@ -165,7 +165,7 @@ class EmployerContactTests(TestCase):
     def test_legacy_draft_can_add_contact_without_reimport(self):
         self.obj.contact = {}
         self.obj.save()
-        url = f'/api/imports/{self.obj.pk}/'
+        url = f'/api/job-offers/{self.obj.pk}/'
         self.assertEqual(
             self.owner.get(url).json()['contact'], {'email': self.obj.email}
         )
@@ -186,7 +186,7 @@ class EmployerContactTests(TestCase):
 
     def test_import_cannot_assign_itself_to_an_adviser(self):
         response = self.owner.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'text': 'Another fictional draft.',

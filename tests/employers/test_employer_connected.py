@@ -17,7 +17,7 @@ class ConnectedEmployerTests(TestCase):
 
     def submit(self, client=None):
         return (client or self.client).post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'text': 'Fictional role',
@@ -39,7 +39,7 @@ class ConnectedEmployerTests(TestCase):
             ('en', 'Add an offer'),
             ('de', 'Angebot hinzufügen'),
         ]:
-            page = self.client.get('/employer/connected/?lang=' + lang)
+            page = self.client.get('/employer/offers/?lang=' + lang)
             self.assertContains(page, label)
             self.assertContains(page, company.name)
             self.assertNotContains(page, 'Hidden establishment')
@@ -77,7 +77,7 @@ class ConnectedEmployerTests(TestCase):
             CompanyMembership.objects.create(person=person, company=company)
         self.submit()
         self.assertContains(
-            self.client.get('/employer/connected/'), 'id="establishment-choice"'
+            self.client.get('/employer/offers/'), 'id="establishment-choice"'
         )
         for payload in [{}, {'company': companies[2].pk}]:
             self.assertEqual(
@@ -98,9 +98,7 @@ class ConnectedEmployerTests(TestCase):
 
     def test_no_membership_and_revocation(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
-        self.assertContains(
-            self.client.get('/employer/connected/'), 'Vous n’êtes encore'
-        )
+        self.assertContains(self.client.get('/employer/offers/'), 'Vous n’êtes encore')
         company = Company.objects.create(name='Revoked')
         CompanyMembership.objects.create(person=person, company=company, active=False)
         self.submit()
@@ -115,13 +113,13 @@ class ConnectedEmployerTests(TestCase):
             ('en', 'Sign in'),
             ('de', 'Anmelden'),
         ]:
-            path = '/employer/pages/import-' + lang + '.html'
+            path = '/employer/import/?lang=' + lang
             self.assertContains(self.client.get(path), label)
         self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get(path), 'data-employer-connected="true"')
         self.assertContains(self.client.get(path), 'Mein Konto')
         self.assertContains(
-            self.client.get('/employer/connected/?lang=fr'), 'Mon espace employeur'
+            self.client.get('/employer/offers/?lang=fr'), 'Mon espace employeur'
         )
         self.client.post('/accounts/logout/')
         self.assertTemplateUsed(self.client.get(path), 'employer/import_access.html')
@@ -132,7 +130,7 @@ class ConnectedEmployerTests(TestCase):
             expire_date=timezone.now() - timedelta(seconds=1)
         )
         response = self.client.post(
-            '/api/imports/', {'kind': 'pdf', 'connectedSubmission': 'true'}
+            '/api/job-offers/', {'kind': 'pdf', 'connectedSubmission': 'true'}
         )
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.json()['error'], 'employer_account_required')
