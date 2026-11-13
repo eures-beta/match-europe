@@ -61,7 +61,9 @@ def inputs(pair, *, lock=False, offer_revision=None):
 def calculate(candidate, offer, *, offer_revision=None):
     if not enabled():
         raise ValueError('Matching is disabled')
-    pair, _ = CandidateOfferMatch.objects.get_or_create(candidate=candidate, offer=offer)
+    pair, _ = CandidateOfferMatch.objects.get_or_create(
+        candidate=candidate, offer=offer
+    )
     pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair.pk)
     data, fingerprint = inputs(pair, lock=True, offer_revision=offer_revision)
     if offer_revision is not None:
