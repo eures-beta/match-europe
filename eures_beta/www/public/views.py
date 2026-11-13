@@ -1,5 +1,8 @@
+from functools import wraps
+
 from django.conf import settings
-from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.views import redirect_to_login
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.templatetags.static import static
 from django.urls import reverse
@@ -7,6 +10,22 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_safe
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
+
+
+def require_staff(view):
+    """Team-only page: same rule in every environment, by role, never by environment."""
+
+    @wraps(view)
+    @never_cache
+    def wrapped(request, *args, **kwargs):
+        user = request.user
+        if not user.is_authenticated:
+            return redirect_to_login(request.get_full_path())
+        if not (user.is_active and user.is_staff):
+            raise Http404()
+        return view(request, *args, **kwargs)
+
+    return wrapped
 
 
 @never_cache
@@ -39,6 +58,49 @@ def journal(request):
     from eures_beta.journal import ENTRIES
 
     return _public_page(request, 'journal.html', {'entries': ENTRIES})
+
+
+@require_staff
+@require_safe
+def design_system(request):
+    """Team reference page: tokens and Bootstrap components with the ECL values."""
+    from eures_beta import design_system as tokens
+
+    return render(
+        request,
+        'design_system.html',
+        {
+            'role_colours': tokens.colour_tokens('--me-color-'),
+            'palette_colours': tokens.colour_tokens('--me-palette-'),
+            'font_sizes': tokens.scale_tokens('--me-font-size-'),
+            'spaces': tokens.scale_tokens('--me-space-'),
+            'radii': tokens.scale_tokens('--me-radius-'),
+        },
+    )
+
+
+@require_staff
+@require_safe
+def design_system_example(request, screen='offre'):
+    """Fictional screens built only with the design system."""
+    screens = {
+        'offre': 'Employeur · vérifier une offre',
+        'mes-offres': 'Employeur · mes offres',
+        'connexion': 'Connexion',
+        'candidat': 'Candidat · questionnaire',
+        'conseiller': 'Conseiller · offres à valider',
+    }
+    if screen not in screens:
+        raise Http404()
+    return render(
+        request,
+        f'design_system/{screen}.html',
+        {
+            'screens': screens.items(),
+            'screen': screen,
+            'screen_label': screens[screen],
+        },
+    )
 
 
 def _public_page(request, template, context=None):

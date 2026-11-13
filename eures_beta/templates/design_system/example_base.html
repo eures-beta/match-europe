@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ screen_label }} — Exemple — Design system Match Europe</title>
+    <link rel="stylesheet"
+          href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'design-system/bootstrap-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'design-system/demo.css' %}">
+  </head>
+  <body class="ds-example-body">
+    <div class="ds-demo-banner">
+      <div class="container">
+        <p class="mb-1">
+          Exemple fictif construit uniquement avec le design system. <a href="{% url 'design_system' %}">Retour à la référence</a>
+        </p>
+        <nav aria-label="Écrans d’exemple">
+          Écrans :
+          <span class="ds-switch">
+            {% for slug, label in screens %}
+              <a href="{% url 'design_system_example_screen' slug %}"
+                 {% if slug == screen %}aria-current="true"{% endif %}>{{ label }}</a>
+            {% endfor %}
+          </span>
+        </nav>
+      </div>
+    </div>
+    <header class="ds-app-header">
+      <div class="container d-flex flex-wrap align-items-center justify-content-between">
+        <span class="ds-app-name">Match Europe</span>
+        <nav aria-label="Compte">
+          {% block header_nav %}{% endblock %}
+        </nav>
+      </div>
+    </header>
+    <main class="container ds-page">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

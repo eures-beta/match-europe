@@ -1,0 +1,121 @@
+{% extends "design_system/example_base.html" %}
+{% block header_nav %}
+  <a class="btn btn-link" href="#">Tableau de bord</a>
+  <a class="btn btn-link" href="#">Se déconnecter</a>
+{% endblock %}
+{% block content %}
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="mb-1">Offres à valider</h1>
+      <p class="lead mb-0">Relisez chaque offre avant de lancer la recherche de candidats.</p>
+    </div>
+    <a class="btn btn-outline-primary" href="#">Inviter un employeur</a>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-sm-4">
+      <div class="ds-card">
+        <p class="ds-stat mb-0">7</p>
+        <p class="ds-meta mb-0">offres à valider</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="ds-card">
+        <p class="ds-stat mb-0">12</p>
+        <p class="ds-meta mb-0">recherches en cours</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="ds-card">
+        <p class="ds-stat mb-0">3</p>
+        <p class="ds-meta mb-0">employeurs invités cette semaine</p>
+      </div>
+    </div>
+  </div>
+  <form class="ds-card mb-4" role="search" aria-label="Filtrer les offres">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label" for="ex-search">Rechercher</label>
+        <input class="form-control"
+               id="ex-search"
+               type="search"
+               placeholder="Entreprise ou métier">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="ex-status">Statut</label>
+        <select class="form-select" id="ex-status">
+          <option>Tous les statuts</option>
+          <option>À valider</option>
+          <option>Recherche en cours</option>
+          <option>Clôturée</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button type="button" class="btn btn-primary w-100">Filtrer</button>
+      </div>
+    </div>
+  </form>
+  <div class="ds-card p-0">
+    <div class="table-responsive">
+      <table class="table align-middle mb-0">
+        <caption class="visually-hidden">Offres déposées par les employeurs</caption>
+        <thead>
+          <tr>
+            <th scope="col">Offre</th>
+            <th scope="col">Entreprise</th>
+            <th scope="col">Pays</th>
+            <th scope="col">Statut</th>
+            <th scope="col">
+              <span class="visually-hidden">Action</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Soudeur ou soudeuse TIG</td>
+            <td>Métallerie du Nord</td>
+            <td>Luxembourg</td>
+            <td>
+              <span class="ds-status ds-status-warning">À valider</span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-outline-primary btn-sm" href="#">Relire</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Infirmier ou infirmière de nuit</td>
+            <td>Clinique des Ardennes</td>
+            <td>Belgique</td>
+            <td>
+              <span class="ds-status ds-status-info">Recherche en cours</span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-link btn-sm" href="#">Voir</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Chauffeur ou chauffeuse poids lourd</td>
+            <td>Transports Moselle</td>
+            <td>France</td>
+            <td>
+              <span class="ds-status ds-status-success">Candidats proposés</span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-link btn-sm" href="#">Voir</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Cuisinier ou cuisinière</td>
+            <td>Hôtel du Parc</td>
+            <td>Luxembourg</td>
+            <td>
+              <span class="ds-status">Clôturée</span>
+            </td>
+            <td class="text-end">
+              <a class="btn btn-link btn-sm" href="#">Voir</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

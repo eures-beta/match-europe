@@ -1,0 +1,71 @@
+{% extends "design_system/example_base.html" %}
+{% block header_nav %}
+  <a class="btn btn-link" href="#">Mon profil</a>
+  <a class="btn btn-link" href="#">Se déconnecter</a>
+{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <p class="ds-meta mb-1" id="ex-step">Étape 2 sur 4</p>
+      <div class="progress mb-4"
+           role="progressbar"
+           aria-labelledby="ex-step"
+           aria-valuenow="2"
+           aria-valuemin="0"
+           aria-valuemax="4">
+        <div class="progress-bar ds-progress-half"></div>
+      </div>
+      <h1>Votre expérience</h1>
+      <p class="lead">
+        Ces informations aident votre conseiller EURES à vous proposer des offres adaptées. Vous pourrez les modifier
+        plus tard.
+      </p>
+      <form class="ds-card" novalidate>
+        <div class="mb-4">
+          <label class="form-label" for="ex-job">Métier recherché</label>
+          <input class="form-control"
+                 id="ex-job"
+                 type="text"
+                 value="Aide-soignant ou aide-soignante"
+                 aria-describedby="ex-job-help">
+          <div class="form-text" id="ex-job-help">Commencez à écrire, puis choisissez dans la liste.</div>
+        </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label" for="ex-years">Années d’expérience</label>
+            <select class="form-select" id="ex-years">
+              <option>Moins d’un an</option>
+              <option selected>De 1 à 3 ans</option>
+              <option>De 3 à 5 ans</option>
+              <option>Plus de 5 ans</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="ex-available">Disponible à partir du</label>
+            <input class="form-control" id="ex-available" type="date">
+          </div>
+        </div>
+        <fieldset class="mb-4">
+          <legend class="form-label fs-6">Pays où vous aimeriez travailler</legend>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="ex-fr" checked>
+            <label class="form-check-label" for="ex-fr">France</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="ex-be">
+            <label class="form-check-label" for="ex-be">Belgique</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="ex-lu" checked>
+            <label class="form-check-label" for="ex-lu">Luxembourg</label>
+          </div>
+        </fieldset>
+        <div class="ds-actions justify-content-between">
+          <a class="btn btn-link" href="#">Étape précédente</a>
+          <button type="button" class="btn btn-primary">Continuer</button>
+        </div>
+      </form>
+      <p class="ds-meta mt-3">Vos réponses sont enregistrées à chaque étape.</p>
+    </div>
+  </div>
+{% endblock %}

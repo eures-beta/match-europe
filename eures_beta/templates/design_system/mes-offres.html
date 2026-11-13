@@ -1,0 +1,47 @@
+{% extends "design_system/example_base.html" %}
+{% block header_nav %}
+  <a class="btn btn-link" href="#">Mon entreprise</a>
+  <a class="btn btn-link" href="#">Se déconnecter</a>
+{% endblock %}
+{% block content %}
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="mb-1">Mes offres</h1>
+      <p class="lead mb-0">Métallerie du Nord · Esch-sur-Alzette</p>
+    </div>
+    <a class="btn btn-primary" href="#">Importer une offre</a>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <article class="ds-card h-100 d-flex flex-column">
+        <span class="ds-status ds-status-warning align-self-start mb-3">Brouillon</span>
+        <h2 class="h5">Soudeur ou soudeuse TIG</h2>
+        <p class="ds-meta">CDI · Luxembourg · modifiée le 12 novembre</p>
+        <p class="flex-grow-1">Trois champs pré-remplis restent à vérifier avant l’envoi au conseiller.</p>
+        <a class="btn btn-outline-primary align-self-start" href="#">Reprendre</a>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <article class="ds-card h-100 d-flex flex-column">
+        <span class="ds-status ds-status-info align-self-start mb-3">Chez le conseiller</span>
+        <h2 class="h5">Chaudronnier ou chaudronnière</h2>
+        <p class="ds-meta">CDD 12 mois · Luxembourg · envoyée le 8 novembre</p>
+        <p class="flex-grow-1">Votre conseiller EURES relit l’offre. Vous serez prévenu par e-mail.</p>
+        <a class="btn btn-link align-self-start px-0" href="#">Voir l’offre</a>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <article class="ds-card h-100 d-flex flex-column">
+        <span class="ds-status ds-status-success align-self-start mb-3">3 candidats proposés</span>
+        <h2 class="h5">Monteur ou monteuse de structures</h2>
+        <p class="ds-meta">CDI · Luxembourg · envoyée le 28 octobre</p>
+        <p class="flex-grow-1">Votre conseiller vous propose trois profils. Choisissez qui rencontrer.</p>
+        <a class="btn btn-primary align-self-start" href="#">Voir les candidats</a>
+      </article>
+    </div>
+  </div>
+  <section class="ds-empty mt-5" aria-labelledby="ex-archived">
+    <h2 class="h5" id="ex-archived">Offres clôturées</h2>
+    <p class="mb-0">Aucune offre clôturée pour l’instant.</p>
+  </section>
+{% endblock %}

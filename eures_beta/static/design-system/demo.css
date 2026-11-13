@@ -1,0 +1,216 @@
+/* Layout of the /design-system/ reference page only. Tokens only, no raw value. */
+
+.ds-page {
+  padding-block: var(--me-space-2xl) var(--me-space-4xl);
+}
+
+.ds-section {
+  padding-block: var(--me-space-xl);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+
+.ds-section > h2 {
+  margin-bottom: var(--me-space-l);
+}
+
+.ds-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs) var(--me-space-l);
+  padding: 0;
+  margin-block: var(--me-space-l);
+  list-style: none;
+}
+
+.ds-swatch {
+  width: var(--me-space-3xl);
+  height: var(--me-space-3xl);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-m);
+}
+
+.ds-swatch-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--me-font-weight-bold);
+}
+
+.ds-palette {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--me-space-m);
+  padding: 0;
+  list-style: none;
+}
+
+.ds-palette .ds-swatch {
+  width: 100%;
+}
+
+.ds-token {
+  font-family: monospace;
+  font-size: var(--me-font-size-s);
+  overflow-wrap: anywhere;
+}
+
+.ds-meta {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+.ds-type-sample {
+  margin: 0;
+  color: var(--me-color-text);
+}
+
+.ds-bar {
+  height: var(--me-space-m);
+  background: var(--me-color-action);
+}
+
+.ds-radius {
+  width: var(--me-space-4xl);
+  height: var(--me-space-3xl);
+  background: var(--me-color-surface-brand);
+  border: var(--me-border-width-strong) solid var(--me-color-action);
+}
+
+.ds-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--me-space-m);
+}
+
+.ds-example {
+  padding: var(--me-space-l);
+  margin-bottom: var(--me-space-m);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-l);
+}
+
+.ds-switch {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs);
+  margin-left: var(--me-space-s);
+}
+
+.ds-switch [aria-current='true'] {
+  font-weight: var(--me-font-weight-bold);
+  text-decoration: none;
+}
+
+/* Example screen (/design-system/exemple/) */
+
+.ds-example-body {
+  background: var(--me-page-background);
+  background-attachment: fixed;
+}
+
+.ds-demo-banner {
+  padding-block: var(--me-space-xs);
+  font-size: var(--me-font-size-s);
+  background: var(--me-color-surface-highlight);
+  border-bottom: var(--me-border-width) solid var(--me-color-accent);
+}
+
+.ds-app-header {
+  padding-block: var(--me-space-xs);
+  background: var(--me-color-surface);
+  border-top: var(--me-space-2xs) solid var(--me-color-action);
+  border-bottom: var(--me-border-width) solid var(--me-color-border);
+}
+
+.ds-app-name {
+  font-size: var(--me-font-size-l);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-action);
+}
+
+.ds-card {
+  padding: var(--me-space-l);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+  box-shadow: var(--me-shadow-card);
+}
+
+.ds-card-brand {
+  background: var(--me-color-surface-brand);
+}
+
+.ds-prefilled {
+  margin-left: var(--me-space-xs);
+  color: var(--me-color-text);
+  font-weight: var(--me-font-weight-regular);
+  background: var(--me-color-warning-surface);
+  border: var(--me-border-width) solid var(--me-color-warning);
+}
+
+/* Status label: dark text, the colour is only the border (ECL status colours fail AA as text) */
+.ds-status {
+  display: inline-block;
+  padding: var(--me-space-2xs) var(--me-space-xs);
+  font-size: var(--me-font-size-s);
+  line-height: var(--me-line-height-s);
+  color: var(--me-color-text);
+  background: var(--me-color-surface-subtle);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-badge);
+}
+
+.ds-status-warning {
+  background: var(--me-color-warning-surface);
+  border-color: var(--me-color-warning);
+}
+
+.ds-status-info {
+  background: var(--me-color-info-surface);
+  border-color: var(--me-color-info);
+}
+
+.ds-status-success {
+  background: var(--me-color-success-surface);
+  border-color: var(--me-color-success);
+}
+
+.ds-stat {
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-3xl);
+  font-weight: var(--me-font-weight-bold);
+  line-height: var(--me-line-height-3xl);
+  color: var(--me-color-action);
+}
+
+.ds-progress-half {
+  width: 50%;
+}
+
+.ds-empty {
+  padding: var(--me-space-l);
+  text-align: center;
+  border: var(--me-border-width-strong) dashed var(--me-color-border);
+  border-radius: var(--me-radius-card);
+}
+
+.ds-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-s);
+  padding-top: var(--me-space-l);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+
+.ds-code summary {
+  color: var(--me-color-link);
+  cursor: pointer;
+}
+
+.ds-code pre {
+  padding: var(--me-space-m);
+  margin-top: var(--me-space-xs);
+  background: var(--me-color-surface-subtle);
+  border-radius: var(--me-radius-m);
+}
