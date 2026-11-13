@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Design system — Match Europe</title>
+    <link rel="stylesheet"
+          href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'design-system/bootstrap-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'design-system/demo.css' %}">
+  </head>
+  <body>
+    <main class="container ds-page">
+      <header>
+        <h1>Design system Match Europe</h1>
+        <p class="lead">
+          Page de référence interne de l’équipe : les tokens et les composants Bootstrap habillés avec les valeurs
+          de l’Europa Component Library (ECL v5.4.1, déclinaison EU), comme sur eures.europa.eu.
+        </p>
+        <p class="ds-meta">
+          Règles d’usage : <code>docs/DESIGN_SYSTEM.md</code>. Valeurs : <code>eures_beta/static/design-system/tokens.css</code>.
+          Cette page lit directement ce fichier : elle est toujours à jour.
+        </p>
+        <nav aria-label="Sections">
+          <ul class="ds-nav">
+            <li>
+              <a href="#couleurs">Couleurs</a>
+            </li>
+            <li>
+              <a href="#palette">Palette ECL</a>
+            </li>
+            <li>
+              <a href="#typographie">Typographie</a>
+            </li>
+            <li>
+              <a href="#espacements">Espacements et arrondis</a>
+            </li>
+            <li>
+              <a href="#boutons">Boutons</a>
+            </li>
+            <li>
+              <a href="#formulaires">Formulaires</a>
+            </li>
+            <li>
+              <a href="#alertes">Alertes</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <section class="ds-section" id="couleurs" aria-labelledby="couleurs-titre">
+        <h2 id="couleurs-titre">Couleurs : rôles</h2>
+        <p>
+          Les pages et les composants utilisent ces tokens. Le contraste est mesuré sur fond blanc, arrondi vers le bas.
+          Exception : les textes prévus pour un fond coloré (blanc sur bleu, foncé sur jaune) sont mesurés sur ce fond.
+          WCAG AA : 4,5:1 pour un texte, 3:1 pour un grand texte, une icône ou une bordure de champ.
+        </p>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th scope="col">Couleur</th>
+                <th scope="col">Token</th>
+                <th scope="col">Valeur</th>
+                <th scope="col">Contraste</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for colour in role_colours %}
+                <tr>
+                  <td>
+                    {% if colour.background %}
+                      <div class="ds-swatch ds-swatch-text"
+                           style="background: var({{ colour.background }});
+                                  color: var({{ colour.name }})">Aa</div>
+                    {% else %}
+                      <div class="ds-swatch" style="background: var({{ colour.name }})"></div>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <span class="ds-token">{{ colour.name }}</span>
+                  </td>
+                  <td>
+                    <span class="ds-token">{{ colour.value }}</span>
+                    {% if colour.reference %}<div class="ds-meta ds-token">{{ colour.reference }}</div>{% endif %}
+                  </td>
+                  <td>
+                    {{ colour.contrast }}:1
+                    {% if colour.background %}<div class="ds-meta ds-token">sur {{ colour.background }}</div>{% endif %}
+                    {% if colour.contrast >= 4.5 %}
+                      <span class="badge text-bg-light border">Texte</span>
+                    {% elif colour.contrast >= 3 %}
+                      <span class="badge text-bg-light border">Grand texte, icône</span>
+                    {% else %}
+                      <span class="badge text-bg-light border">Fond ou décor seulement</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="ds-section" id="palette" aria-labelledby="palette-titre">
+        <h2 id="palette-titre">Palette ECL</h2>
+        <p>Valeurs sources, copiées de l’ECL. Ne jamais les utiliser directement dans une page : passer par un rôle.</p>
+        <ul class="ds-palette">
+          {% for colour in palette_colours %}
+            <li>
+              <div class="ds-swatch" style="background: var({{ colour.name }})"></div>
+              <div class="ds-token">{{ colour.name }}</div>
+              <div class="ds-meta">{{ colour.value }} · {{ colour.contrast }}:1</div>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+      <section class="ds-section"
+               id="typographie"
+               aria-labelledby="typographie-titre">
+        <h2 id="typographie-titre">Typographie</h2>
+        <p>
+          Police unique : Arial (<span class="ds-token">--me-font-family</span>). Texte courant et champs en
+          <span class="ds-token">--me-font-size-m</span> (16 px).
+        </p>
+        {% for size in font_sizes %}
+          <div class="mb-3">
+            <p class="ds-type-sample"
+               style="font-size: var({{ size.name }})">Rapprocher candidats et employeurs en Europe</p>
+            <div class="ds-meta">
+              <span class="ds-token">{{ size.name }}</span> · {{ size.value }}
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+      <section class="ds-section"
+               id="espacements"
+               aria-labelledby="espacements-titre">
+        <h2 id="espacements-titre">Espacements et arrondis</h2>
+        <h3 class="h5">Espacements</h3>
+        {% for space in spaces %}
+          <div class="row align-items-center mb-2">
+            <div class="col-5 col-md-3 ds-token">{{ space.name }}</div>
+            <div class="col-3 col-md-2 ds-meta">{{ space.value }}</div>
+            <div class="col-4 col-md-7">
+              <div class="ds-bar" style="width: var({{ space.name }})"></div>
+            </div>
+          </div>
+        {% endfor %}
+        <h3 class="h5 mt-4">Arrondis</h3>
+        <div class="ds-row">
+          {% for radius in radii %}
+            <div>
+              <div class="ds-radius" style="border-radius: var({{ radius.name }})"></div>
+              <div class="ds-token">{{ radius.name }}</div>
+              <div class="ds-meta">{{ radius.value }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      <section class="ds-section" id="boutons" aria-labelledby="boutons-titre">
+        <h2 id="boutons-titre">Boutons</h2>
+        <p>Une seule action principale par écran ou par bloc. Hauteur minimale 48 px, arrondi 4 px.</p>
+        <div class="ds-example">
+          <div class="ds-row">
+            <button type="button" class="btn btn-primary">Publier l’offre</button>
+            <button type="button" class="btn btn-outline-primary">Enregistrer le brouillon</button>
+            <button type="button" class="btn btn-link">Annuler</button>
+          </div>
+          <div class="ds-row mt-3">
+            <button type="button" class="btn btn-primary" disabled>Publier l’offre</button>
+            <button type="button" class="btn btn-outline-primary" disabled>Enregistrer le brouillon</button>
+            <button type="button" class="btn btn-link" disabled>Annuler</button>
+          </div>
+          <p class="ds-meta mt-3 mb-0">
+            Principal (ECL Primary) · Secondaire (ECL Secondary) · Discret (ECL Tertiary). Deuxième ligne : désactivés.
+            Utiliser la touche Tab pour voir le focus.
+          </p>
+        </div>
+        <details class="ds-code">
+          <summary>Code</summary>
+          <pre><code>{% verbatim %}&lt;button type="submit" class="btn btn-primary"&gt;{% translate "Publish the offer" %}&lt;/button&gt;
+&lt;button type="button" class="btn btn-outline-primary"&gt;{% translate "Save the draft" %}&lt;/button&gt;
+&lt;a class="btn btn-link" href="{% url 'home' %}"&gt;{% translate "Cancel" %}&lt;/a&gt;{% endverbatim %}</code></pre>
+        </details>
+      </section>
+      <section class="ds-section"
+               id="formulaires"
+               aria-labelledby="formulaires-titre">
+        <h2 id="formulaires-titre">Formulaires</h2>
+        <p>Chaque champ a un libellé visible. L’aide et l’erreur sont reliées au champ par aria-describedby.</p>
+        <div class="ds-example">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label" for="ds-title">Intitulé du poste</label>
+              <input class="form-control"
+                     id="ds-title"
+                     type="text"
+                     aria-describedby="ds-title-help">
+              <div class="form-text" id="ds-title-help">Tel qu’il apparaîtra aux candidats.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="ds-country">Pays</label>
+              <select class="form-select" id="ds-country">
+                <option>France</option>
+                <option>Belgique</option>
+                <option>Luxembourg</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="ds-email">Adresse e-mail</label>
+              <input class="form-control is-invalid"
+                     id="ds-email"
+                     type="email"
+                     value="contact@"
+                     aria-invalid="true"
+                     aria-describedby="ds-email-error">
+              <div class="invalid-feedback"
+                   id="ds-email-error">Saisissez une adresse e-mail complète, par exemple nom@exemple.eu.</div>
+            </div>
+            <div class="col-md-6">
+              <fieldset>
+                <legend class="form-label fs-6">Type de contrat</legend>
+                <div class="form-check">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="ds-contract"
+                         id="ds-contract-permanent"
+                         checked>
+                  <label class="form-check-label" for="ds-contract-permanent">CDI</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="ds-contract"
+                         id="ds-contract-fixed">
+                  <label class="form-check-label" for="ds-contract-fixed">CDD</label>
+                </div>
+              </fieldset>
+              <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" id="ds-remote">
+                <label class="form-check-label" for="ds-remote">Télétravail possible</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <details class="ds-code">
+          <summary>Code</summary>
+          <pre><code>{% verbatim %}&lt;label class="form-label" for="id_title"&gt;{% translate "Job title" %}&lt;/label&gt;
+&lt;input class="form-control" id="id_title" name="title" type="text" aria-describedby="id_title_help"&gt;
+&lt;div class="form-text" id="id_title_help"&gt;{% translate "As candidates will see it." %}&lt;/div&gt;{% endverbatim %}</code></pre>
+        </details>
+      </section>
+      <section class="ds-section" id="alertes" aria-labelledby="alertes-titre">
+        <h2 id="alertes-titre">Alertes</h2>
+        <p>
+          Le message reste en texte foncé : le vert et l’orange de l’ECL ne sont pas lisibles en texte.
+          Le statut est dit en toutes lettres, pas seulement par la couleur.
+        </p>
+        <div class="alert alert-success" role="status">
+          <strong>Succès :</strong> l’offre est publiée.
+        </div>
+        <div class="alert alert-info" role="status">
+          <strong>Information :</strong> la recherche de candidats démarre après la validation d’un conseiller.
+        </div>
+        <div class="alert alert-warning" role="status">
+          <strong>Attention :</strong> trois champs ont été pré-remplis automatiquement. Vérifiez-les.
+        </div>
+        <div class="alert alert-danger" role="alert">
+          <strong>Erreur :</strong> l’offre n’a pas pu être enregistrée. Réessayez dans un instant.
+        </div>
+        <details class="ds-code">
+          <summary>Code</summary>
+          <pre><code>{% verbatim %}&lt;div class="alert alert-success" role="status"&gt;
+  &lt;strong&gt;{% translate "Success:" %}&lt;/strong&gt; {% translate "the offer is published." %}
+&lt;/div&gt;{% endverbatim %}</code></pre>
+        </details>
+      </section>
+    </main>
+  </body>
+</html>

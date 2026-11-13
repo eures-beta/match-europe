@@ -2,7 +2,7 @@
 
 Les templates web décrivent la structure, le contenu et les classes. Le CSS
 vit dans des fichiers statiques, chargés avec `{% static %}`. Réutiliser d'abord
-Bootstrap et les composants communs existants.
+Bootstrap, les composants et les [tokens du design system](DESIGN_SYSTEM.md).
 Partager les règles communes ; un fichier CSS par template n'est pas obligatoire.
 Ranger les particularités par parcours, comme `static/adviser/history.css`.
 
