@@ -15,7 +15,7 @@ class LoginForm(forms.Form):
     )
 
 
-class EmployerInvitationForm(LoginForm):
+class InvitationForm(LoginForm):
     language = forms.ChoiceField(
         label=_('Invitation language'),
         choices=(('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')),
@@ -33,16 +33,16 @@ class EmployerInvitationForm(LoginForm):
 class AdviserSignatureForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'adviser_organisation')
+        fields = ('first_name', 'last_name', 'organization_name')
         labels = {
             'first_name': pgettext_lazy('adviser signature', 'First name'),
             'last_name': pgettext_lazy('adviser signature', 'Last name'),
-            'adviser_organisation': pgettext_lazy('adviser signature', 'Organisation'),
+            'organization_name': pgettext_lazy('adviser signature', 'Organisation'),
         }
         widgets = {
             'first_name': forms.TextInput(attrs={'autocomplete': 'given-name'}),
             'last_name': forms.TextInput(attrs={'autocomplete': 'family-name'}),
-            'adviser_organisation': forms.TextInput(
+            'organization_name': forms.TextInput(
                 attrs={'autocomplete': 'organization'}
             ),
         }

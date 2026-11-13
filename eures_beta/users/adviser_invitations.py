@@ -28,12 +28,12 @@ from .invitations import (
     record_invitation_attempt,
     validate_origin,
 )
-from .models import EmployerInvitation, User, invitation_expiry
+from .models import Invitation, User, invitation_expiry
 from .permissions import can_manage_employers
 from .views import email_ready, selected_language
 
 logger = logging.getLogger(__name__)
-Audience = EmployerInvitation.Audience
+RecipientKind = Invitation.RecipientKind
 SALT = 'users.adviser-invitations.preview'
 MAX_ROWS = 10
 
@@ -107,13 +107,24 @@ def local_outbox_enabled():
 
 
 def render_message(
-    audience, recipient, origin='', link='#', reminder=False, *, adviser, language='fr'
+    recipient_kind,
+    recipient,
+    origin='',
+    link='#',
+    reminder=False,
+    *,
+    adviser,
+    language='fr',
 ):
-    with translation.override(language if audience == Audience.EMPLOYER else 'fr'):
-        return render_invitation(audience, recipient, origin, link, reminder, adviser)
+    with translation.override(
+        language if recipient_kind == RecipientKind.EMPLOYER else 'fr'
+    ):
+        return render_invitation(
+            recipient_kind, recipient, origin, link, reminder, adviser
+        )
 
 
-def render_invitation(audience, recipient, origin, link, reminder, adviser):
+def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser):
     name = ' '.join(
         part for part in (recipient['first_name'], recipient['last_name']) if part
     )
@@ -124,17 +135,17 @@ def render_invitation(audience, recipient, origin, link, reminder, adviser):
                 if name
                 else translation.gettext('Hello,')
             )
-            if audience == Audience.EMPLOYER
+            if recipient_kind == RecipientKind.EMPLOYER
             else (f'Bonjour {name},' if name else 'Bonjour,')
         ),
         'link': link,
         'privacy': origin + reverse('privacy') if origin else '#',
         'reminder': reminder,
     }
-    if audience == Audience.EMPLOYER:
+    if recipient_kind == RecipientKind.EMPLOYER:
         context.update(
             adviser_name=adviser.get_full_name(),
-            adviser_organisation=adviser.adviser_organisation.strip(),
+            organization_name=adviser.organization_name.strip(),
             partner_logos=[
                 (
                     urljoin(origin + '/', static(f'employer/assets/{filename}')),
@@ -150,13 +161,13 @@ def render_invitation(audience, recipient, origin, link, reminder, adviser):
             ],
         )
     base = 'users/invitations/'
-    if audience == Audience.ADVISER:
+    if recipient_kind == RecipientKind.ADVISER:
         stem = base + 'adviser'
         subject = 'Rejoignez l’équipe de conseillers Match Europe'
         if reminder:
             subject = 'Rappel — ' + subject
     else:
-        stem = base + audience + ('-reminder' if reminder else '-initial')
+        stem = base + recipient_kind + ('-reminder' if reminder else '-initial')
         subject = render_to_string(stem + '.subject').strip()
     context['subject'] = subject
     return (
@@ -183,12 +194,12 @@ def deliver(request, invitation, *, reminder=False):
 
     link = (
         origin
-        + reverse('employer_invitation_confirm')
+        + reverse('invitation_confirm')
         + '?invitation='
         + invitation_token(invitation)
     )
     subject, body, html = render_message(
-        invitation.audience,
+        invitation.recipient_kind,
         {'first_name': invitation.first_name, 'last_name': invitation.last_name},
         origin,
         link,
@@ -213,11 +224,11 @@ def deliver(request, invitation, *, reminder=False):
         return False
 
 
-def preview_context(request, audience, recipients, invitation=None):
+def preview_context(request, recipient_kind, recipients, invitation=None):
     previews = []
     for recipient in recipients:
         subject, _, html = render_message(
-            audience,
+            recipient_kind,
             recipient,
             reminder=bool(invitation and invitation.email_sent_at),
             adviser=request.user,
@@ -226,11 +237,11 @@ def preview_context(request, audience, recipients, invitation=None):
         previews.append({'recipient': recipient, 'subject': subject, 'html': html})
     return {
         'previews': previews,
-        'preview_audience': Audience(audience).label,
+        'preview_recipient_kind': RecipientKind(recipient_kind).label,
         'preview_token': signing.dumps(
             {
                 'actor': request.user.pk,
-                'audience': audience,
+                'recipient_kind': recipient_kind,
                 'language': selected_language(request),
                 'recipients': recipients,
                 'invitation': str(invitation.pk) if invitation else None,
@@ -262,7 +273,7 @@ def invitations_tab(request):
         return redirect(f'{dashboard_url}?{params.urlencode()}')
 
     form = RecipientForm()
-    audience = Audience.EMPLOYER
+    recipient_kind = RecipientKind.EMPLOYER
     mode = 'csv' if request.GET.get('mode') == 'csv' else 'manual'
     context = {}
     errors = []
@@ -270,8 +281,8 @@ def invitations_tab(request):
         action = request.POST.get('action')
         try:
             if action in ('preview', 'import'):
-                audience = request.POST.get('audience', '')
-                if audience not in Audience.values:
+                recipient_kind = request.POST.get('recipient_kind', '')
+                if recipient_kind not in RecipientKind.values:
                     raise PermissionDenied
                 if action == 'import':
                     mode = 'csv'
@@ -280,14 +291,14 @@ def invitations_tab(request):
                     form = RecipientForm(request.POST)
                     recipients = [form.cleaned_data] if form.is_valid() else []
                 if recipients:
-                    context.update(preview_context(request, audience, recipients))
+                    context.update(preview_context(request, recipient_kind, recipients))
             elif action == 'send':
                 payload = signing.loads(
                     request.POST.get('preview', ''), salt=SALT, max_age=900
                 )
                 if (
                     payload['actor'] != request.user.pk
-                    or payload['audience'] not in Audience.values
+                    or payload['recipient_kind'] not in RecipientKind.values
                 ):
                     raise PermissionDenied
                 if payload['invitation']:
@@ -305,7 +316,7 @@ def invitations_tab(request):
                 return redirect(f'{dashboard_url}?{urlencode({"lang": language})}')
             elif action == 'preview_reminder':
                 invitation = get_object_or_404(
-                    EmployerInvitation.objects.all(),
+                    Invitation.objects.all(),
                     pk=valid_identifier(request.POST.get('invitation')),
                     accepted_at__isnull=True,
                 )
@@ -315,7 +326,7 @@ def invitations_tab(request):
                 }
                 context.update(
                     preview_context(
-                        request, invitation.audience, [recipient], invitation
+                        request, invitation.recipient_kind, [recipient], invitation
                     )
                 )
             else:
@@ -325,7 +336,7 @@ def invitations_tab(request):
         except ValidationError as error:
             errors.extend(error.messages)
 
-    invitations = EmployerInvitation.objects.all()
+    invitations = Invitation.objects.all()
     search = request.GET.get('q', '').strip()[:254]
     if search:
         invitations = invitations.filter(email__icontains=search)
@@ -334,8 +345,8 @@ def invitations_tab(request):
             'form': form,
             'dashboard_language': language,
             'mode': mode,
-            'audience': audience,
-            'audiences': Audience.choices,
+            'recipient_kind': recipient_kind,
+            'recipient_kinds': RecipientKind.choices,
             'invitations': Paginator(
                 invitations.order_by('-created_at', 'pk'), 20
             ).get_page(request.GET.get('page')),
@@ -357,10 +368,10 @@ def send_batch(request, payload):
                     request.user,
                     language=(
                         payload.get('language', 'fr')
-                        if payload['audience'] == Audience.EMPLOYER
+                        if payload['recipient_kind'] == RecipientKind.EMPLOYER
                         else 'fr'
                     ),
-                    audience=payload['audience'],
+                    recipient_kind=payload['recipient_kind'],
                     **recipient,
                 )
                 if deliver(request, invitation):
@@ -403,7 +414,7 @@ def change_invitation(request, identifier, *, resend, nonce=None):
     if not can_manage_employers(actor):
         raise PermissionDenied
     invitation = get_object_or_404(
-        EmployerInvitation.objects.select_for_update(),
+        Invitation.objects.select_for_update(),
         pk=valid_identifier(identifier),
         accepted_at__isnull=True,
     )
@@ -415,9 +426,9 @@ def change_invitation(request, identifier, *, resend, nonce=None):
         raise ValidationError('Cette invitation a changé. Préparez un nouvel aperçu.')
     if User.objects.filter(email__iexact=invitation.email).exists():
         raise ValidationError('Un compte existe déjà pour cette adresse.')
-    if not invitation.invited_by.is_active or (
-        invitation.audience == Audience.ADVISER
-        and not can_manage_employers(invitation.invited_by)
+    if not invitation.sender.is_active or (
+        invitation.recipient_kind == RecipientKind.ADVISER
+        and not can_manage_employers(invitation.sender)
     ):
         raise ValidationError(
             'Le compte à l’origine de cette invitation ne peut plus l’envoyer.'

@@ -57,7 +57,7 @@ class AccountPageTests(TestCase):
             {
                 'first_name': 'Lou',
                 'last_name': 'Martin',
-                'adviser_organisation': 'Structure fictive',
+                'organization_name': 'Structure fictive',
                 'user': self.user.pk,
                 'email': 'changed@example.invalid',
             },

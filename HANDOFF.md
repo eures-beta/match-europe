@@ -1,3 +1,23 @@
+## 13 novembre 2026 — noms communs des invitations
+
+PR188 : `Invitation` remplace `EmployerInvitation`, avec `sender`,
+`recipient_kind`, `recipient`, relations `sent_invitations`/`invitation` et
+`User.organization_name`. Formulaires, templates, services, administration,
+permissions et tests utilisent ces noms. Le champ organisation reste un libellé,
+pas une signature libre. Aucun changement des droits ni des rôles invités.
+
+Migration réversible native `users.0008_invitation_names` : renomme les données
+existantes et leurs métadonnées de permissions, sans recréer les invitations.
+Le test sur données non vides vérifie les trois rôles, les relations, dates,
+noms, organisation, permissions attribuées, ancien jeton et retour arrière.
+L’URL d’acceptation, le sel de signature et la clé de session historique sont
+conservés pour les liens déjà envoyés.
+
+Validation : 597 tests PostgreSQL, test de migration renforcé, mise à niveau
+historique, Django/migrations, Black, HTML, JS et gettext verts. Cinq parcours
+HTTPS Docker réussis sous 256 Mio (pic 179027968 octets), aucun OOM/SIGKILL.
+Services externes simulés ; aucune fusion ni modification de base distante.
+
 ## 13 novembre 2026 — transport Albert commun à tous les usages
 
 TRANSVERSE : import d’offre, dialogue candidat et compétences ESCO passent par

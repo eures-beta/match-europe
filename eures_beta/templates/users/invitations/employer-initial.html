@@ -65,7 +65,7 @@
                   {% translate "Kind regards," %}
                   <br>
                   {% if adviser_name %}{{ adviser_name }}<br>{% endif %}
-                  {% if adviser_organisation %}{{ adviser_organisation }}{% elif not adviser_name %}Match Europe{% endif %}
+                  {% if organization_name %}{{ organization_name }}{% elif not adviser_name %}Match Europe{% endif %}
                 </p>
                 <div style="margin-top:18px">
                   {% for src, alt, width in partner_logos %}

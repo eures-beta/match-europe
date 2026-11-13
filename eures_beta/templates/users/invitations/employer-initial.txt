@@ -10,7 +10,7 @@
 
 {% translate "Kind regards," %}
 {% if adviser_name %}{{ adviser_name }}
-{% endif %}{% if adviser_organisation %}{{ adviser_organisation }}
+{% endif %}{% if organization_name %}{{ organization_name }}
 {% elif not adviser_name %}Match Europe
 {% endif %}
 {% translate "Privacy notice" %} — {{ privacy }}

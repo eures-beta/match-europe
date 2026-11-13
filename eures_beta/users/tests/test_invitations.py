@@ -19,7 +19,7 @@ from eures_beta.users.invitations import (
     invitation_token,
     invitation_message,
 )
-from eures_beta.users.models import EmployerInvitation, User
+from eures_beta.users.models import Invitation, User
 from eures_beta.users.permissions import EMPLOYER_INVITER_GROUP
 
 
@@ -48,7 +48,7 @@ class InvitationTests(TestCase):
 
     def open_link(self, client, invitation, token=None):
         return client.get(
-            reverse('employer_invitation_confirm'),
+            reverse('invitation_confirm'),
             {'invitation': token or invitation_token(invitation)},
             follow=True,
         )
@@ -85,7 +85,7 @@ class InvitationTests(TestCase):
                     {'email': 'blocked@example.invalid', 'language': 'en'},
                 )
                 self.assertIn(response.status_code, (302, 403))
-        self.assertFalse(EmployerInvitation.objects.exists())
+        self.assertFalse(Invitation.objects.exists())
 
     def test_all_active_advisers_can_invite_without_groups_or_permissions(self):
         second = User.objects.create_user(
@@ -100,7 +100,7 @@ class InvitationTests(TestCase):
                 invitation = create_invitation(
                     adviser, f'invited-by-{index}@example.invalid', 'en'
                 )
-                self.assertEqual(invitation.invited_by, adviser)
+                self.assertEqual(invitation.sender, adviser)
 
     def test_disabled_delivery_saves_invitation_without_user_email_or_public_link(self):
         count = User.objects.count()
@@ -114,9 +114,9 @@ class InvitationTests(TestCase):
             },
         )
         self.assertContains(page, 'Invitation saved.')
-        invitation = EmployerInvitation.objects.get()
+        invitation = Invitation.objects.get()
         self.assertEqual(invitation.email, 'new@example.invalid')
-        self.assertEqual(invitation.invited_by, self.adviser)
+        self.assertEqual(invitation.sender, self.adviser)
         self.assertEqual(invitation.language, 'de')
         self.assertAlmostEqual(
             (invitation.expires_at - invitation.created_at).total_seconds(),
@@ -144,7 +144,7 @@ class InvitationTests(TestCase):
             mail.outbox[0].body,
         )
         self.assertNotContains(page, '?invitation=')
-        self.assertIsNotNone(EmployerInvitation.objects.get().email_sent_at)
+        self.assertIsNotNone(Invitation.objects.get().email_sent_at)
 
     def test_manual_email_command_is_explicit_and_validates_origin(self):
         invitation = self.create()
@@ -157,7 +157,7 @@ class InvitationTests(TestCase):
         )
         self.assertIn('Your invitation to Match Europe', output.getvalue())
         self.assertIn('?invitation=', output.getvalue())
-        self.assertIsNone(EmployerInvitation.objects.get().email_sent_at)
+        self.assertIsNone(Invitation.objects.get().email_sent_at)
         for origin in (
             'https://attacker.invalid',
             'https://testserver@attacker.invalid',
@@ -205,7 +205,7 @@ class InvitationTests(TestCase):
             browser = Client()
             self.open_link(browser, invitation)
             self.assertContains(
-                browser.get(reverse('employer_invitation_confirm')),
+                browser.get(reverse('invitation_confirm')),
                 f'<html lang="{language}">',
             )
 
@@ -238,7 +238,7 @@ class InvitationTests(TestCase):
         self.open_link(browser, invitation)
         User.objects.filter(pk=self.adviser.pk).update(is_active=False)
         self.assertEqual(
-            browser.post(reverse('employer_invitation_confirm')).context['stage'],
+            browser.post(reverse('invitation_confirm')).context['stage'],
             'invalid',
         )
         self.assertFalse(User.objects.filter(email=invitation.email).exists())
@@ -252,7 +252,7 @@ class InvitationTests(TestCase):
         self.assertEqual(page['Referrer-Policy'], 'same-origin')
         self.assertFalse(User.objects.filter(email=invitation.email).exists())
         response = browser.post(
-            reverse('employer_invitation_confirm'),
+            reverse('invitation_confirm'),
             {'kind': 'adviser', 'is_staff': 'on'},
             follow=True,
         )
@@ -267,19 +267,17 @@ class InvitationTests(TestCase):
         self.assertEqual(browser.session['_auth_user_id'], str(user.pk))
         self.assertEqual(browser.session.get_expiry_age(), 30 * 86400)
         invitation.refresh_from_db()
-        self.assertEqual(invitation.employer, user)
+        self.assertEqual(invitation.recipient, user)
         self.assertIsNotNone(invitation.accepted_at)
-        self.assertFalse(
-            EmployerInvitation.objects.filter(accepted_at__isnull=True).exists()
-        )
+        self.assertFalse(Invitation.objects.filter(accepted_at__isnull=True).exists())
 
     def test_two_browsers_cannot_use_same_invitation_twice(self):
         invitation = self.create()
         first, second = Client(), Client()
         self.open_link(first, invitation)
         self.open_link(second, invitation)
-        first.post(reverse('employer_invitation_confirm'))
-        page = second.post(reverse('employer_invitation_confirm'))
+        first.post(reverse('invitation_confirm'))
+        page = second.post(reverse('invitation_confirm'))
         self.assertEqual(page.context['stage'], 'invalid')
         self.assertNotIn('_auth_user_id', second.session)
         self.assertEqual(User.objects.filter(email=invitation.email).count(), 1)
@@ -288,7 +286,7 @@ class InvitationTests(TestCase):
         invitation = self.create()
         browser = Client()
         self.open_link(browser, invitation)
-        page = browser.post(reverse('employer_invitation_confirm'), follow=True)
+        page = browser.post(reverse('invitation_confirm'), follow=True)
         self.assertContains(page, 'Your employer account has been created.')
         self.assertContains(page, 'First step: add your job offer.')
         self.assertContains(page, 'role="status"')
@@ -303,16 +301,16 @@ class InvitationTests(TestCase):
             browser = Client()
             self.open_link(browser, invitation, token)
             self.assertEqual(
-                browser.post(reverse('employer_invitation_confirm')).context['stage'],
+                browser.post(reverse('invitation_confirm')).context['stage'],
                 'invalid',
             )
         browser = Client()
         self.open_link(browser, invitation)
-        EmployerInvitation.objects.filter(pk=invitation.pk).update(
+        Invitation.objects.filter(pk=invitation.pk).update(
             expires_at=timezone.now() - timedelta(seconds=1)
         )
         self.assertEqual(
-            browser.post(reverse('employer_invitation_confirm')).context['stage'],
+            browser.post(reverse('invitation_confirm')).context['stage'],
             'invalid',
         )
         self.assertFalse(User.objects.filter(email=invitation.email).exists())
@@ -320,7 +318,7 @@ class InvitationTests(TestCase):
     def test_expired_invitation_renewal_revokes_old_link(self):
         invitation = self.create()
         token = invitation_token(invitation)
-        EmployerInvitation.objects.filter(pk=invitation.pk).update(
+        Invitation.objects.filter(pk=invitation.pk).update(
             expires_at=timezone.now() - timedelta(seconds=1)
         )
         renewed = self.create()
@@ -328,13 +326,11 @@ class InvitationTests(TestCase):
         browser = Client()
         self.open_link(browser, renewed, token)
         self.assertEqual(
-            browser.post(reverse('employer_invitation_confirm')).context['stage'],
+            browser.post(reverse('invitation_confirm')).context['stage'],
             'invalid',
         )
         self.open_link(browser, renewed)
-        self.assertEqual(
-            browser.post(reverse('employer_invitation_confirm')).status_code, 302
-        )
+        self.assertEqual(browser.post(reverse('invitation_confirm')).status_code, 302)
 
     def test_existing_account_or_pending_invitation_is_not_duplicated(self):
         self.create()
@@ -347,7 +343,7 @@ class InvitationTests(TestCase):
                 reverse('employer_invite'), {'email': email, 'language': 'en'}
             )
             self.assertTrue(response.context['form'].errors)
-        self.assertEqual(EmployerInvitation.objects.count(), 1)
+        self.assertEqual(Invitation.objects.count(), 1)
 
     def test_account_created_elsewhere_is_not_promoted_or_modified(self):
         invitation = self.create()
@@ -355,7 +351,7 @@ class InvitationTests(TestCase):
         browser = Client()
         self.open_link(browser, invitation)
         self.assertEqual(
-            browser.post(reverse('employer_invitation_confirm')).context['stage'],
+            browser.post(reverse('invitation_confirm')).context['stage'],
             'invalid',
         )
         user.refresh_from_db()
@@ -370,7 +366,7 @@ class InvitationTests(TestCase):
             {'email': 'blocked@example.invalid', 'language': 'en'},
         )
         self.assertTrue(page.context['form'].errors)
-        self.assertEqual(EmployerInvitation.objects.count(), 10)
+        self.assertEqual(Invitation.objects.count(), 10)
 
     def test_permissions_are_versioned_and_new_advisers_get_only_invitation_rights(
         self,
@@ -378,21 +374,19 @@ class InvitationTests(TestCase):
         user = User.objects.create_user(
             email='new-adviser@example.invalid', kind='adviser'
         )
-        self.assertTrue(user.has_perm('users.add_employerinvitation'))
+        self.assertTrue(user.has_perm('users.add_invitation'))
         self.assertFalse(user.has_perm('users.add_user'))
         self.assertFalse(user.is_staff)
         user.groups.clear()
         call_command('sync_group_and_perms', stdout=StringIO())
-        self.assertTrue(
-            User.objects.get(pk=user.pk).has_perm('users.view_employerinvitation')
-        )
+        self.assertTrue(User.objects.get(pk=user.pk).has_perm('users.view_invitation'))
         self.assertEqual(
             set(
                 Group.objects.get(name=EMPLOYER_INVITER_GROUP).permissions.values_list(
                     'codename', flat=True
                 )
             ),
-            {'add_employerinvitation', 'view_employerinvitation'},
+            {'add_invitation', 'view_invitation'},
         )
 
     def test_https_csrf_required_for_inviting_and_accepting(self):
@@ -409,7 +403,7 @@ class InvitationTests(TestCase):
         invitation = self.create()
         client = Client(enforce_csrf_checks=True)
         page = client.get(
-            reverse('employer_invitation_confirm'),
+            reverse('invitation_confirm'),
             {'invitation': invitation_token(invitation)},
             secure=True,
         )
@@ -446,7 +440,7 @@ class InvitationTests(TestCase):
 
     def test_link_durations_are_one_hour_and_one_week(self):
         self.assertEqual(settings.SESAME_MAX_AGE, 3600)
-        self.assertEqual(settings.EMPLOYER_INVITATION_MAX_AGE, 7 * 86400)
+        self.assertEqual(settings.INVITATION_MAX_AGE, 7 * 86400)
         token = get_token(self.adviser)
         import time
 

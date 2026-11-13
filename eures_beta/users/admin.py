@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from .admin_base import ReadOnlyAdmin, MetadataOnlyAdmin
-from .models import User, EmployerInvitation, LoginRateLimit
+from .models import User, Invitation, LoginRateLimit
 
 
 @admin.register(User)
@@ -38,21 +38,21 @@ class AccountAdmin(ReadOnlyAdmin):
         )
 
 
-@admin.register(EmployerInvitation)
+@admin.register(Invitation)
 class InvitationAdmin(ReadOnlyAdmin):
     list_display = (
         'email',
-        'audience',
+        'recipient_kind',
         'language',
-        'invited_by',
+        'sender',
         'created_at',
         'expires_at',
         'accepted_at',
         'email_sent_at',
     )
-    list_filter = ('audience', 'language', 'accepted_at')
-    search_fields = ('email', 'invited_by__email')
-    list_select_related = ('invited_by',)
+    list_filter = ('recipient_kind', 'language', 'accepted_at')
+    search_fields = ('email', 'sender__email')
+    list_select_related = ('sender',)
     ordering = ('-created_at',)
 
 

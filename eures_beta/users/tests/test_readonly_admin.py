@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.utils import timezone
 from io import StringIO
 
-from eures_beta.users.models import User, EmployerInvitation, LoginRateLimit
+from eures_beta.users.models import User, Invitation, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (
@@ -72,8 +72,8 @@ class ReadOnlyAdminTests(TestCase):
         self.event = EmployerSearchEvent.objects.create(
             operation=self.operation, actor=self.employer, state='started'
         )
-        self.invitation = EmployerInvitation.objects.create(
-            email='invited@example.invalid', invited_by=self.superuser
+        self.invitation = Invitation.objects.create(
+            email='invited@example.invalid', sender=self.superuser
         )
         self.limit = LoginRateLimit.objects.create(
             key='fictional-rate-bucket', expires=timezone.now() + timedelta(hours=1)

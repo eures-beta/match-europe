@@ -16,17 +16,17 @@ class LoginRateLimit(models.Model):
 
 
 def invitation_expiry():
-    return timezone.now() + timedelta(seconds=settings.EMPLOYER_INVITATION_MAX_AGE)
+    return timezone.now() + timedelta(seconds=settings.INVITATION_MAX_AGE)
 
 
-class EmployerInvitation(models.Model):
-    class Audience(models.TextChoices):
+class Invitation(models.Model):
+    class RecipientKind(models.TextChoices):
         EMPLOYER = 'employer', 'Employeur'
         CANDIDATE = 'candidate', 'Candidat'
         ADVISER = 'adviser', 'Conseiller'
 
-    audience = models.CharField(
-        max_length=10, choices=Audience.choices, default=Audience.EMPLOYER
+    recipient_kind = models.CharField(
+        max_length=10, choices=RecipientKind.choices, default=RecipientKind.EMPLOYER
     )
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
@@ -36,20 +36,20 @@ class EmployerInvitation(models.Model):
     nonce = models.UUIDField(default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
-    invited_by = models.ForeignKey(
+    sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        related_name='sent_employer_invitations',
+        related_name='sent_invitations',
     )
     created_at = models.DateTimeField(default=timezone.now)
     expires_at = models.DateTimeField(default=invitation_expiry)
     accepted_at = models.DateTimeField(null=True, blank=True)
-    employer = models.OneToOneField(
+    recipient = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         null=True,
         blank=True,
-        related_name='employer_invitation',
+        related_name='invitation',
     )
     email_sent_at = models.DateTimeField(null=True, blank=True)
 
@@ -90,9 +90,8 @@ class User(AbstractUser):
     def has_candidate_invitation(self):
         return (
             self.kind == self.Kind.CANDIDATE
-            and hasattr(self, 'employer_invitation')
-            and self.employer_invitation.audience
-            == EmployerInvitation.Audience.CANDIDATE
+            and hasattr(self, 'invitation')
+            and self.invitation.recipient_kind == Invitation.RecipientKind.CANDIDATE
         )
 
     class Kind(models.TextChoices):
@@ -103,8 +102,8 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     kind = models.CharField(max_length=16, choices=Kind.choices)
-    adviser_organisation = models.CharField(
-        _('Adviser organisation'), max_length=150, blank=True, db_default=''
+    organization_name = models.CharField(
+        _('Organisation'), max_length=150, blank=True, db_default=''
     )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['kind']
