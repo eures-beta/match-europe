@@ -2,7 +2,7 @@ import time
 from django.test import TestCase, Client, override_settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils.html import strip_tags
-from eures_beta.candidates.journey import KEY, SCHEMA, ConditionsForm, MobilityForm
+from eures_beta.candidates.forms import KEY, SCHEMA, ConditionsForm, MobilityForm
 
 
 class CandidateJourneyTests(TestCase):

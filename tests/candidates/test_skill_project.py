@@ -3,9 +3,8 @@ from django.core.exceptions import ValidationError
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from eures_beta.candidates import registration
-from eures_beta.candidates import behaviour_help
-from eures_beta.candidates.journey import KEY, ProjectForm
+from eures_beta.candidates import registration, behaviour_help
+from eures_beta.candidates.forms import KEY, ProjectForm
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates.skill_choices import (
     FIELDS,

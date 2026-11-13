@@ -98,7 +98,7 @@ class EmployerContactTests(TestCase):
             'contact': dict(self.contact, name='Changed fictional contact'),
         }
         url = f'/api/imports/{self.obj.pk}/'
-        with patch('eures_beta.employers.employer_api.aglae') as api:
+        with patch('eures_beta.www.employer.imports.aglae') as api:
             response = self.owner.post(
                 url, json.dumps(payload), content_type='application/json'
             )
@@ -126,10 +126,10 @@ class EmployerContactTests(TestCase):
             404,
         )
 
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.aglae')
     def test_contact_not_sent_to_aglae_initial_or_final(self, api):
         from eures_beta.employers.offer_ingestion import empty_data
-        from eures_beta.employers.employer_api import initial_send
+        from eures_beta.www.employer.imports import initial_send
 
         data = empty_data()
         data.update(

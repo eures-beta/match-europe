@@ -56,7 +56,7 @@ class WorkspaceTests(TestCase):
         return reverse(action, args=[(offer or self.offer).pk])
 
     def payload(self, offer=None):
-        from eures_beta.employers.employer_workspace import OfferEditForm
+        from eures_beta.www.employer.workspace import OfferEditForm
 
         offer = offer or self.offer
         form = OfferEditForm(offer=offer)
@@ -222,8 +222,8 @@ class WorkspaceTests(TestCase):
         self.offer.refresh_from_db()
         self.assertIsNone(self.offer.search_started_at)
 
-    @patch('eures_beta.employers.employer_api.aglae')
-    @patch('eures_beta.employers.employer_api.geocode')
+    @patch('eures_beta.www.employer.imports.aglae')
+    @patch('eures_beta.www.employer.imports.geocode')
     def test_duplicate_resets_state_and_shares_only_authorised(self, geo, external):
         self.offer.search_started_at = self.offer.initial_sent_at = (
             self.offer.synced_at

@@ -89,7 +89,7 @@ class ReadingTests(SimpleTestCase):
         )
 
     def test_requirements_validation_and_backward_compatible_defaults(self):
-        from eures_beta.employers.employer_api import clean_data
+        from eures_beta.www.employer.imports import clean_data
 
         data = clean_data(
             {
@@ -219,7 +219,7 @@ class ImportFlowTests(TestCase):
             )
         )
 
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.aglae')
     def test_occupation_choices_are_saved_reopened_and_validated_locally(self, api):
         from eures_beta.occupations.catalog import suggestions, catalog
 
@@ -342,10 +342,10 @@ class ImportFlowTests(TestCase):
             Client().get('/api/imports/' + obj['id'] + '/').status_code, 403
         )
 
-    @patch('eures_beta.employers.employer_api.aglae')
-    @patch('eures_beta.employers.employer_api.geocode')
+    @patch('eures_beta.www.employer.imports.aglae')
+    @patch('eures_beta.www.employer.imports.geocode')
     @patch(
-        'eures_beta.employers.employer_api.read_pdf',
+        'eures_beta.www.employer.imports.read_pdf',
         return_value={
             'title': 'Original title',
             'description': 'Fictional PDF text',
@@ -520,7 +520,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(r.status_code, 400)
 
     @patch(
-        'eures_beta.employers.employer_api.read_pdf',
+        'eures_beta.www.employer.imports.read_pdf',
         return_value={'description': 'Fictional PDF text'},
     )
     def test_pdf_read_before_email_and_reused_once(self, read):
@@ -551,7 +551,7 @@ class ImportFlowTests(TestCase):
         read.assert_called_once()
 
     @patch(
-        'eures_beta.employers.employer_api.read_pdf',
+        'eures_beta.www.employer.imports.read_pdf',
         side_effect=ImportFailure('unreadable'),
     )
     def test_unreadable_pdf_fails_before_email(self, read):
@@ -571,7 +571,7 @@ class ImportFlowTests(TestCase):
         self.assertEqual(JobOffer.objects.count(), 0)
 
     @patch(
-        'eures_beta.employers.employer_api.read_pdf',
+        'eures_beta.www.employer.imports.read_pdf',
         return_value={'description': 'Fictional PDF text'},
     )
     def test_expired_pdf_preflight_is_rejected(self, read):
@@ -617,7 +617,7 @@ class ImportFlowTests(TestCase):
         )
         self.assertEqual(self.update(obj).status_code, 409)
 
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.aglae')
     def test_no_api_call_without_validation_or_location(self, api):
         obj = self.create().json()
         self.assertEqual(self.update(obj).status_code, 200)
@@ -625,9 +625,9 @@ class ImportFlowTests(TestCase):
         self.assertEqual(self.update(obj, 'validate', confirmed=True).status_code, 400)
         api.assert_not_called()
 
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.aglae')
     @patch(
-        'eures_beta.employers.employer_api.geocode',
+        'eures_beta.www.employer.imports.geocode',
         return_value={
             'latitude': 48.0,
             'longitude': 2.0,
@@ -657,11 +657,11 @@ class ImportFlowTests(TestCase):
         )
 
     @patch(
-        'eures_beta.employers.employer_api.aglae',
+        'eures_beta.www.employer.imports.aglae',
         side_effect=ImportFailure('sandbox_error'),
     )
     @patch(
-        'eures_beta.employers.employer_api.geocode',
+        'eures_beta.www.employer.imports.geocode',
         return_value={
             'latitude': 48.0,
             'longitude': 2.0,
@@ -680,7 +680,7 @@ class ImportFlowTests(TestCase):
         self.assertIsNone(row.synced_at)
 
     @patch(
-        'eures_beta.employers.employer_api.geocode',
+        'eures_beta.www.employer.imports.geocode',
         return_value={
             'latitude': 48.0,
             'longitude': 2.0,
@@ -688,7 +688,7 @@ class ImportFlowTests(TestCase):
             'label': 'Testville',
         },
     )
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.aglae')
     def test_initial_send_and_readback_precede_review(self, api, geo):
         obj = self.create().json()
         self.assertEqual(obj['stage'], 'prepare')

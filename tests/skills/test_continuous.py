@@ -9,12 +9,12 @@ from eures_beta.skills import continuous, albert_skills
 from eures_beta.skills.skills_pilot import catalogue
 from eures_beta.occupations.catalog import catalog, occupation_index
 from eures_beta.skills.models import OccupationSkillSuggestion
-from eures_beta.candidates.journey import KEY, TTL, ProjectForm, ContactForm
+from eures_beta.candidates.forms import KEY, TTL, ProjectForm, ContactForm
 from tests.candidates.test_registration import answers
 from eures_beta.candidates import registration
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.users.models import User
-from eures_beta.employers.employer_api import clean_data
+from eures_beta.www.employer.imports import clean_data
 from eures_beta.employers.offer_ingestion import ImportFailure, empty_data
 from eures_beta.employers.models import JobOffer, Company, CompanyMembership
 
@@ -284,7 +284,7 @@ class ContinuousTests(TestCase):
             source_kind='manual',
             preparation_agreed_at=timezone.now(),
         )
-        from eures_beta.employers.employer_workspace import OfferEditForm
+        from eures_beta.www.employer.workspace import OfferEditForm
 
         form = OfferEditForm(offer=offer)
         payload = {field.name: field.value() or '' for field in form}

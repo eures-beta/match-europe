@@ -89,7 +89,7 @@ class JobOfferCompatibilityTests(TestCase):
 
     def test_old_login_destinations_are_normalized_without_allowing_external_urls(self):
         from django.test import RequestFactory
-        from eures_beta.users.login_return import consume, remember
+        from eures_beta.www.accounts.return_path import consume, remember
 
         for language in ('fr', 'en', 'de'):
             old = f'/employer/pages/import-v2-{language}.html'

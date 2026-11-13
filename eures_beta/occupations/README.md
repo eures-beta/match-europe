@@ -9,7 +9,7 @@ compétence aux personnes et ne calcule pas de matching.
 - [tools/](tools/) : lecture des exports, reconstruction, validation et mesures.
 - [tests/occupations/](../../tests/occupations/) : intégrité, recherche et importateurs sans réseau externe.
 - [catalog.py](catalog.py) : chargement local en cache et recherches multilingues.
-- [views.py](views.py) : interface HTTP de recherche de métiers.
+- [views.py](../www/occupations/views.py) : interface HTTP de recherche de métiers.
 - [test_picker.cjs](test_picker.cjs) : tests JavaScript du sélecteur.
 - [__init__.py](__init__.py) : déclaration du paquet Python.
 

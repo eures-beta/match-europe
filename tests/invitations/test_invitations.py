@@ -426,12 +426,12 @@ class InvitationTests(TestCase):
         with (
             override_settings(LOGIN_EMAIL_ENABLED=True),
             patch(
-                'eures_beta.invitations.views.send_mail',
+                'eures_beta.www.invitations.views.send_mail',
                 side_effect=RuntimeError('sensitive payload'),
             ),
         ):
             with self.assertLogs(
-                'eures_beta.invitations.views', level='ERROR'
+                'eures_beta.www.invitations.views', level='ERROR'
             ) as captured:
                 page = self.client.post(
                     reverse('employer_invite') + '?lang=en',

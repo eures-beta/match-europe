@@ -2,12 +2,12 @@
 
 Application Django dédiée aux invitations d'employeurs, de candidats et de
 conseillers. `users` conserve les comptes, l'authentification et la synchronisation
-commune des droits ; cette application possède le parcours d'invitation.
+commune des droits ; cette application possède les données et services d’invitation.
+L’interface HTTP est dans [www/invitations/](../www/invitations/).
 
 - `models.py`, `defaults.py` : invitation, destinataire, dates et expiration ;
 - `services.py` : création, signature des liens, validation et quota ;
-- `adviser.py` : préparation manuelle/CSV, aperçu, envoi, suivi et relances ;
-- `views.py`, `forms.py`, `urls.py` : invitation simple et acceptation protégée ;
+- [Interface web](../www/invitations/) : préparation manuelle/CSV, aperçu, envoi, suivi, relances et acceptation protégée ;
 - `permissions.py`, `signals.py`, `eligibility.py` : rôle conseiller actif,
   droits historiques et reconnaissance des candidats invités ;
 - `templates/invitations/`, `static/invitations/` : pages, e-mails et styles ;

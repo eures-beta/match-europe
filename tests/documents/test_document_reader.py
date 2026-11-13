@@ -120,8 +120,8 @@ class MultipleImageTests(TestCase):
             )
         )
 
-    @patch('eures_beta.employers.employer_api.geocode')
-    @patch('eures_beta.employers.employer_api.aglae')
+    @patch('eures_beta.www.employer.imports.geocode')
+    @patch('eures_beta.www.employer.imports.aglae')
     def test_saving_import_never_calls_external_services(self, api, geo):
         response = self.client.post(
             '/api/imports/',
@@ -140,7 +140,7 @@ class MultipleImageTests(TestCase):
         api.assert_not_called()
         geo.assert_not_called()
 
-    @patch('eures_beta.employers.employer_api.read_pdf')
+    @patch('eures_beta.www.employer.imports.read_pdf')
     def test_ordered_images_read_before_creating_draft(self, read):
         read.side_effect = [
             {
@@ -166,7 +166,7 @@ class MultipleImageTests(TestCase):
         self.assertEqual(data['extraction'], 'document_ocr')
         self.assertIn('Permis B souhaité', data['desiredProfile'])
 
-    @patch('eures_beta.employers.employer_api.read_pdf')
+    @patch('eures_beta.www.employer.imports.read_pdf')
     def test_multiple_pdfs_rejected_without_reading(self, read):
         response = self.client.post(
             '/api/imports/source/',
