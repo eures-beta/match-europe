@@ -52,11 +52,11 @@ class Command(BaseCommand):
         call_command('sync_group_and_perms', stdout=self.stdout)
         if seed_pwa:
             from eures_beta.matching.confirmation_services import request_confirmation
-            from eures_beta.matching.models import MatchPair
+            from eures_beta.matching.models import CandidateOfferMatch
 
             call_command('seed_matching_trial', stdout=self.stdout)
             for key in PWA_ACCOUNTS:
-                pair = MatchPair.objects.get(
+                pair = CandidateOfferMatch.objects.get(
                     candidate__user=users[key],
                     offer__source_kind='matching',
                     offer__email='employer@matching-trial.invalid',
