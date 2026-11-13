@@ -44,7 +44,7 @@ class TestAccountAccessTests(TestCase):
 
         self.seed()
         self.seed()
-        self.assertFalse(CandidateOfferReview.objects.exists())
+        self.assertEqual(CandidateOfferReview.objects.count(), 1)
         for key in ('candidate-pwa', 'candidate-pwa-replay'):
             client = Client()
             response = client.post(
@@ -53,7 +53,15 @@ class TestAccountAccessTests(TestCase):
             self.assertEqual(response.request['PATH_INFO'], '/candidate/profile/')
             user = prepared_user(key)
             self.assertEqual(client.session['_auth_user_id'], str(user.pk))
-            self.assertTrue(pending_pairs().filter(candidate__user=user).exists())
+            if key == 'candidate-pwa-replay':
+                from eures_beta.matching.confirmation_services import review
+
+                confirmation = ConfirmationRequest.objects.get(
+                    pair__candidate__user=user
+                )
+                self.assertIsNone(review(confirmation)['pending'])
+            else:
+                self.assertTrue(pending_pairs().filter(candidate__user=user).exists())
             self.assertContains(response, 'data-preview-push')
 
     @override_settings(
