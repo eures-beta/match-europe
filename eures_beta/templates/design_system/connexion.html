@@ -1,0 +1,38 @@
+{% extends "design_system/example_base.html" %}
+{% block header_nav %}
+  <a class="btn btn-link" href="#">Aide</a>
+{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <h1>Se connecter</h1>
+      <p class="lead">Pas de mot de passe : nous vous envoyons un lien de connexion par e-mail.</p>
+      <form class="ds-card" novalidate>
+        <div class="mb-4">
+          <label class="form-label" for="ex-login-email">Adresse e-mail</label>
+          <input class="form-control"
+                 id="ex-login-email"
+                 type="email"
+                 autocomplete="email"
+                 aria-describedby="ex-login-help">
+          <div class="form-text" id="ex-login-help">Celle de votre compte Match Europe.</div>
+        </div>
+        <button type="button" class="btn btn-primary w-100">Recevoir mon lien de connexion</button>
+      </form>
+      <div class="alert alert-success mt-4" role="status">
+        <strong>Lien envoyé :</strong> consultez votre boîte de réception. Le lien reste valable 15 minutes.
+      </div>
+      <div class="ds-card ds-card-brand mt-4">
+        <h2 class="h5">Vous n’avez pas encore de compte ?</h2>
+        <p>
+          Les employeurs rejoignent Match Europe sur invitation d’un conseiller EURES. Les candidats peuvent
+          s’inscrire directement.
+        </p>
+        <div class="ds-row">
+          <a class="btn btn-outline-primary" href="#">Je cherche un emploi</a>
+          <a class="btn btn-link" href="#">Contacter un conseiller</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
