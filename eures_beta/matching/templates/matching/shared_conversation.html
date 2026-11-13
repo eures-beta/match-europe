@@ -1,0 +1,77 @@
+{% extends base_template %}
+{% load i18n static %}
+{% block page_title %}{% translate "Three-way conversation" %} — Match Europe{% endblock %}
+{% block extra_head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'matching/confirmations.css' %}">
+  <link rel="stylesheet" href="{% static 'matching/conversation.css' %}">
+{% endblock %}
+{% block public_content %}
+  <div class="confirmation-flow">
+    <section class="surface-card home-section">
+      {% if role == "candidate" %}
+        <a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a>
+      {% else %}
+        <a href="{% url 'dashboard' %}?lang={{ page_language }}{% if role == 'adviser' %}&amp;view=conversations{% endif %}">{% translate "Dashboard" context "account navigation" %}</a>
+      {% endif %}
+      <h1>{% translate "Three-way conversation" %}</h1>
+      <p>{{ thread.confirmation.pair.offer.data.title }} · {{ thread.confirmation.pair.offer.data.companyName }}</p>
+      {% if thread.state == "requested" and role == "candidate" %}
+        <p>{% translate "If you agree, your display name and the messages in this conversation will be visible to the adviser and employer. Sharing your profile requires separate permission." %}</p>
+        <p>{% translate "First message" %}</p>
+        <p>{{ thread.introduction|linebreaksbr }}</p>
+        <form method="post">
+          {% csrf_token %}
+          <button class="primary-action"
+                  name="action"
+                  value="approve"
+                  type="submit">{% translate "I agree to join" %}</button>
+          <button class="btn btn-secondary"
+                  name="action"
+                  value="decline"
+                  type="submit">{% translate "Decline" %}</button>
+        </form>
+      {% elif thread.state == "requested" %}
+        <p>{% translate "Waiting for the candidate’s agreement." %}</p>
+        {% if can_resend %}
+          <form method="post">
+            {% csrf_token %}
+            <button class="primary-action" name="action" value="resend" type="submit">{% translate "Resend notification" %}</button>
+          </form>
+        {% endif %}
+        {% if push_result %}<p role="status">{{ push_result }}</p>{% endif %}
+      {% elif thread.state == "declined" %}
+        <p>{% translate "The candidate declined the shared conversation." %}</p>
+      {% elif thread.state == "approved" %}
+        <p>{% translate "The candidate agreed to join." %}</p>
+        {% if role == "adviser" and can_write %}
+          <p>{{ thread.introduction|linebreaksbr }}</p>
+          <form method="post">
+            {% csrf_token %}
+            <button class="primary-action"
+                    name="action"
+                    value="open"
+                    type="submit">{% translate "Open the three-way conversation" %}</button>
+          </form>
+        {% endif %}
+      {% elif thread.state == "open" %}
+        <div class="conversation-thread">
+          {% for message, author_role, author_name in messages %}
+            <article class="dialogue-bubble{% if message.author_id == request.user.pk %} dialogue-bubble-reply{% endif %}">
+              <strong>{{ author_role }}{% if author_name %} · {{ author_name }}{% endif %}</strong>
+              <time datetime="{{ message.created_at|date:'c' }}">{{ message.created_at|date:"SHORT_DATETIME_FORMAT" }}</time>
+              <div>{{ message.body|linebreaksbr }}</div>
+            </article>
+          {% endfor %}
+        </div>
+        {% if can_write %}
+          <form method="post" class="confirmation-form dialogue-composer">
+            {% csrf_token %}
+            {{ form.body.as_field_group }}
+            <button class="primary-action" name="action" value="send" type="submit">{% translate "Send" %}</button>
+          </form>
+        {% endif %}
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}

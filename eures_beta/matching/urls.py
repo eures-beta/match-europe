@@ -1,7 +1,11 @@
 from django.urls import path
-from . import confirmation_views, dialogue_views, views
+from . import confirmation_views, dialogue_views, shared_views, views
 
 urlpatterns = [
+    path(
+        'shared/start/<int:pk>/', shared_views.start, name='shared_conversation_start'
+    ),
+    path('shared/<int:pk>/', shared_views.detail, name='shared_conversation'),
     path(
         "candidate/<int:pk>/dialogue/",
         dialogue_views.conversation,

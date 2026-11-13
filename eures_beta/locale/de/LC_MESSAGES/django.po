@@ -7342,3 +7342,141 @@ msgstr "Meine Situation hat sich geändert"
 
 msgid "More details needed"
 msgstr "Weitere Angaben erforderlich"
+
+msgid "Albert’s opinion"
+msgstr "Alberts Einschätzung"
+
+msgid "Simulated analysis"
+msgstr "Simulierte Analyse"
+
+msgid "The adviser decides what to do next. Sharing the profile requires separate candidate permission."
+msgstr "Die Beratung entscheidet über das weitere Vorgehen. Für die Weitergabe des Profils ist eine gesonderte Einwilligung erforderlich."
+
+msgid "Analyse the replies"
+msgstr "Antworten analysieren"
+
+msgid "Analysis is unavailable."
+msgstr "Die Analyse ist nicht verfügbar."
+
+msgid "The conversation changed or analysis is unavailable."
+msgstr "Die Unterhaltung wurde geändert oder die Analyse ist nicht verfügbar."
+
+msgid "Albert could not analyse the replies. Try again later."
+msgstr "Albert konnte die Antworten nicht analysieren. Versuchen Sie es später erneut."
+
+msgid "Proceed"
+msgstr "Fortfahren"
+
+msgid "Ask for clarification"
+msgstr "Um Klärung bitten"
+
+msgid "Consider closing the match"
+msgstr "Abschluss des Abgleichs erwägen"
+
+msgid "The candidate confirms: %(requirement)s."
+msgstr "Die Person bestätigt diese Bedingung: %(requirement)s."
+
+msgid "The offer lacks enough information to assess this condition."
+msgstr "Das Angebot enthält zu wenig Informationen, um diese Bedingung zu bewerten."
+
+msgid "Ask the employer to specify this condition."
+msgstr "Den Arbeitgeber um genauere Angaben zu dieser Bedingung bitten."
+
+msgid "The candidate declines: %(requirement)s."
+msgstr "Die Person lehnt diese Bedingung ab: %(requirement)s."
+
+msgid "Ask the employer whether this condition can be adjusted."
+msgstr "Den Arbeitgeber fragen, ob diese Bedingung angepasst werden kann."
+
+msgid "The reply requires review against: %(requirement)s."
+msgstr "Die Antwort muss anhand dieser Anforderung geprüft werden: %(requirement)s."
+
+msgid "Ask the candidate to specify what they can commit to."
+msgstr "Die Person um eine konkrete Zusage bitten."
+
+msgid "Continue with the employer"
+msgstr "Mit dem Arbeitgeber fortfahren"
+
+msgid "Prepare the first message. The candidate must agree before you can open the conversation."
+msgstr "Bereiten Sie die erste Nachricht vor. Vor dem Öffnen ist die Zustimmung der Person erforderlich."
+
+msgid "Ask for the candidate’s agreement"
+msgstr "Zustimmung einholen"
+
+msgid "Three-way conversation"
+msgstr "Gespräch zu dritt"
+
+msgid "Three-way conversations"
+msgstr "Gespräche zu dritt"
+
+msgid "If you agree, your display name and the messages in this conversation will be visible to the adviser and employer. Sharing your profile requires separate permission."
+msgstr "Wenn Sie zustimmen, können Beratung und Arbeitgeber Ihren Anzeigenamen und die Nachrichten in diesem Gespräch sehen. Die Weitergabe Ihres Profils erfordert eine gesonderte Einwilligung."
+
+msgid "First message"
+msgstr "Erste Nachricht"
+
+msgid "I agree to join"
+msgstr "Ich möchte teilnehmen"
+
+msgid "Decline"
+msgstr "Ablehnen"
+
+msgid "Waiting for the candidate’s agreement."
+msgstr "Zustimmung steht noch aus."
+
+msgid "The candidate declined the shared conversation."
+msgstr "Die Person hat das gemeinsame Gespräch abgelehnt."
+
+msgid "The candidate agreed to join."
+msgstr "Die Person hat der Teilnahme zugestimmt."
+
+msgid "Open the three-way conversation"
+msgstr "Gespräch zu dritt öffnen"
+
+msgid "Unread messages"
+msgstr "Ungelesene Nachrichten"
+
+msgid "Agreement requested"
+msgstr "Zustimmung angefragt"
+
+msgid "Ready to open"
+msgstr "Kann geöffnet werden"
+
+msgid "Declined"
+msgstr "Abgelehnt"
+
+msgid "Message"
+msgstr "Nachricht"
+
+msgid "The adviser invites you to join a shared conversation."
+msgstr "Die Beratung lädt Sie zu einem gemeinsamen Gespräch ein."
+
+msgid "You have a new message in a shared conversation."
+msgstr "Sie haben eine neue Nachricht in einem gemeinsamen Gespräch."
+
+msgid "Employer for the matching trial"
+msgstr "Arbeitgeber für den Abgleichtest"
+
+msgid "We verified with the candidate that they meet the prerequisites for the role."
+msgstr "Wir haben gemeinsam geprüft, dass die Voraussetzungen für die Stelle erfüllt sind."
+
+msgid "I have verified the prerequisites with the candidate. Add this to the message."
+msgstr "Ich habe die Voraussetzungen geprüft. Dies in die Nachricht aufnehmen."
+
+msgid "Shorten the message to leave room for the prerequisites sentence."
+msgstr "Kürzen Sie die Nachricht, um den Satz zu den Voraussetzungen einzufügen."
+
+msgid "Hello, I’m %(adviser)s from Match Europe. I’m putting you in touch about the %(title)s role in %(city)s.\n\n%(candidate)s, I’d like to introduce %(employer)s, who is recruiting for %(company)s. %(employer)s, %(candidate)s is interested in the role and would like to speak with you.\n\nCould you suggest one or two times for an initial conversation? You can reply and ask questions here. I’m available in this conversation if you need me."
+msgstr "Guten Tag,\n\nich bin %(adviser)s von Match Europe. Ich bringe Sie wegen der Stelle %(title)s in %(city)s zusammen.\n\n%(candidate)s, ich stelle Ihnen %(employer)s vor, zuständig für die Einstellung bei %(company)s. %(employer)s, %(candidate)s interessiert sich für die Stelle und möchte mit Ihnen sprechen.\n\nKönnten Sie ein oder zwei Termine für ein erstes Gespräch vorschlagen? Sie können hier antworten und Fragen stellen. Ich bin bei Bedarf erreichbar."
+
+msgid "the company"
+msgstr "das Unternehmen"
+
+msgid "your adviser"
+msgstr "Ihre Beratung"
+
+msgid "job"
+msgstr "Stelle"
+
+msgid "the location in the offer"
+msgstr "dem ausgeschriebenen Ort"

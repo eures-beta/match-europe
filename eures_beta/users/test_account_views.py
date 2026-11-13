@@ -6,8 +6,7 @@ from django.utils import translation
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
 from .test_accounts import (
-    ACCOUNTS,
-    PWA_ACCOUNTS,
+    account_specs,
     enabled,
     fictional_database,
     prepared_user,
@@ -32,7 +31,7 @@ def account_list(request):
                 'label': specification['label'],
                 'email': specification['email'],
             }
-            for key, specification in {**ACCOUNTS, **PWA_ACCOUNTS}.items()
+            for key, specification in account_specs().items()
             if prepared_user(key)
         ]
         return render(
