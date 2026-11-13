@@ -82,7 +82,7 @@ class AdviserMatchingTests(TestCase):
 
     def test_albert_opinion_uses_current_answers_and_never_decides(self):
         self.assertEqual(self.decide('retained').status_code, 302)
-        conversation = ConfirmationRequest.objects.get(pair=self.pair)
+        conversation = CandidateOfferReview.objects.get(pair=self.pair)
         follow = reverse('adviser_conversation', args=[conversation.pk]) + '?lang=fr'
         state = confirmation_services.review(conversation)
         self.assertTrue(state['pending'])
@@ -143,7 +143,7 @@ class AdviserMatchingTests(TestCase):
     )
     def test_albert_opinion_validates_model_output_before_showing_it(self):
         self.assertEqual(self.decide('retained').status_code, 302)
-        conversation = ConfirmationRequest.objects.get(pair=self.pair)
+        conversation = CandidateOfferReview.objects.get(pair=self.pair)
         follow = reverse('adviser_conversation', args=[conversation.pk]) + '?lang=fr'
         rows = [
             row

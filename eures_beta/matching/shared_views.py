@@ -17,7 +17,12 @@ from django.views.decorators.http import require_http_methods
 from eures_beta.candidates import preview_push
 from eures_beta.users.views import selected_language
 from . import access, adviser_opinion, confirmation_services
-from .models import ConfirmationRequest, MatchPair, SharedConversation, SharedMessage
+from .models import (
+    CandidateOfferReview,
+    CandidateOfferMatch,
+    SharedConversation,
+    SharedMessage,
+)
 
 State = SharedConversation.State
 ROLES = {
@@ -134,7 +139,7 @@ def start(request, pk):
     language = selected_language(request)
     with translation.override(language), transaction.atomic():
         confirmation = get_object_or_404(
-            ConfirmationRequest.objects.select_related(
+            CandidateOfferReview.objects.select_related(
                 'pair__offer__created_by', 'pair__candidate'
             ),
             pk=pk,
@@ -143,8 +148,8 @@ def start(request, pk):
             pair__candidate__in=access.candidates(),
             pair__offer__in=access.matchable_offers(),
         )
-        MatchPair.objects.select_for_update().get(pk=confirmation.pair_id)
-        confirmation = ConfirmationRequest.objects.select_related(
+        CandidateOfferMatch.objects.select_for_update().get(pk=confirmation.pair_id)
+        confirmation = CandidateOfferReview.objects.select_related(
             'pair__offer__created_by', 'pair__candidate'
         ).get(pk=pk)
         pair = confirmation.pair

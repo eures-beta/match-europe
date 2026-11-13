@@ -55,7 +55,9 @@ class Command(BaseCommand):
         if seed_pwa:
             call_command('seed_matching_trial', stdout=self.stdout)
             # Leave a separate, answered fixture ready for the invitation push trial.
-            pair = CandidateOfferMatch.objects.get(candidate__user=users['candidate-pwa-replay'])
+            pair = CandidateOfferMatch.objects.get(
+                candidate__user=users['candidate-pwa-replay']
+            )
             if (
                 pair.decision == 'pending'
                 and not CandidateOfferReview.objects.filter(pair=pair).exists()

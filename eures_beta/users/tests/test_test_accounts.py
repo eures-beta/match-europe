@@ -56,7 +56,7 @@ class TestAccountAccessTests(TestCase):
             if key == 'candidate-pwa-replay':
                 from eures_beta.matching.confirmation_services import review
 
-                confirmation = ConfirmationRequest.objects.get(
+                confirmation = CandidateOfferReview.objects.get(
                     pair__candidate__user=user
                 )
                 self.assertIsNone(review(confirmation)['pending'])

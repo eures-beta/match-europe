@@ -117,6 +117,7 @@ class CandidateProfileSharing(models.Model):
     class Meta:
         db_table = 'matching_transmissionagreement'
 
+
 class SharedConversation(models.Model):
     class State(models.TextChoices):
         REQUESTED = 'requested'
