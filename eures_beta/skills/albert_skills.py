@@ -27,16 +27,12 @@ class SuggestionUnavailable(Exception):
 
 
 def enabled():
-    return bool(
-        settings.SKILLS_ALBERT_ENABLED
-        and settings.CONTINUOUS_SKILLS_ENABLED
-        and (settings.SKILLS_ALBERT_SIMULATED or settings.ALBERT_API_KEY)
-    )
+    return bool(settings.ALBERT_SIMULATED or settings.ALBERT_API_KEY)
 
 
 def method():
     return 'shortlist-v1:' + (
-        'simulation' if settings.SKILLS_ALBERT_SIMULATED else settings.ALBERT_MODEL
+        'simulation' if settings.ALBERT_SIMULATED else settings.ALBERT_MODEL
     )
 
 
@@ -53,7 +49,7 @@ def validate(value, linked):
 
 @sensitive_variables()
 def ask(uri, skills, linked):
-    if settings.SKILLS_ALBERT_SIMULATED:
+    if settings.ALBERT_SIMULATED:
         return sorted(linked)[:8]
     if not settings.ALBERT_API_KEY:
         raise SuggestionUnavailable()
@@ -97,7 +93,7 @@ def card(uri, values, skills, linked):
         'behaviours': [],
         '_skills': skills,
         'generated': True,
-        'simulated': settings.SKILLS_ALBERT_SIMULATED,
+        'simulated': settings.ALBERT_SIMULATED,
     }
 
 

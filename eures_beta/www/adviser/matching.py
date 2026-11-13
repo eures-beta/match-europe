@@ -97,7 +97,7 @@ def render_workspace(request, template, status=200, **context):
 
 def queue(request):
     tracking = request.GET.get('view') == 'conversations'
-    allowed = access.enabled() and access.can_view_pairs(request.user)
+    allowed = access.can_view_pairs(request.user)
     entries = []
     if allowed:
         entries = (
@@ -339,5 +339,5 @@ def follow(request, pk):
             recommendation=(
                 adviser_opinion.LABELS[opinion['recommendation']] if opinion else ''
             ),
-            simulated_opinion=settings.CONFIRMATION_DIALOGUE_SIMULATED,
+            simulated_opinion=settings.ALBERT_SIMULATED,
         )

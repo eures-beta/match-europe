@@ -1,7 +1,7 @@
 import json
 import secrets
 import time
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.cache import never_cache
 from eures_beta.skills import continuous, albert_skills
@@ -11,8 +11,6 @@ from eures_beta.skills.skills_pilot import choices
 @never_cache
 @require_POST
 def suggestions(request):
-    if not continuous.trial_request(request):
-        raise Http404
     if len(request.body) > 4000:
         return JsonResponse({'error': 'invalid_data'}, status=400)
     try:

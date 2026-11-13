@@ -1,20 +1,10 @@
 """Reference choices shared by the real forms, never inferred declarations."""
 
 from zipfile import BadZipFile
-from django.conf import settings
 from . import albert_skills
 from eures_beta.occupations.catalog import occupation_index
 from .skill_source import source_for
 from .skills_pilot import catalogue
-
-
-def enabled():
-    return settings.CONTINUOUS_SKILLS_ENABLED
-
-
-def trial_request(request):
-    # Compatibility name: availability is independent of deployment or client IP.
-    return enabled()
 
 
 def reference_card(uri, *, generate=False):

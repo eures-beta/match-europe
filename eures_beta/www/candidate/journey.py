@@ -18,7 +18,6 @@ from eures_beta.candidates.schedule_rules import suggested_conditions
 from eures_beta.candidates.language_choices import upgrade_language_answers
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.candidates import skill_choices
-from eures_beta.skills.continuous import trial_request as continuous_trial_request
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import never_cache
 
@@ -372,7 +371,6 @@ def workflow(request, language):
         {
             'form': form,
             'invited_candidate': invited_candidate,
-            'continuous_skills': continuous_trial_request(request),
             'skill_sections': (
                 skill_choices.sections(form, language) if step == 1 else []
             ),

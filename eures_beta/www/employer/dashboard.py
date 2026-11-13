@@ -10,8 +10,6 @@ from eures_beta.employers.employer_ownership import accessible_imports
 
 
 def employer_dashboard(request):
-    from eures_beta.skills.continuous import trial_request
-
     # Never include browser-only anonymous drafts in an authenticated account list.
     offers = (
         accessible_imports(request)
@@ -25,7 +23,6 @@ def employer_dashboard(request):
         {
             'shared_conversations': listed(request.user),
             'page_language': selected_language(request),
-            'continuous_skills': trial_request(request),
             'offers': Paginator(offers, 25).get_page(request.GET.get('offers_page')),
             # Shown once, right after an invitation has created the account.
             'welcome': request.session.pop('employer_welcome', False),

@@ -485,11 +485,9 @@
           </div>
         {% endif %}
     {% endfor %}
-    {% if continuous_skills %}
-      {% include "occupations/continuous.html" with skills_role="employer" %}
-      <link rel="stylesheet" href="/static/occupations/skills-pilot.css">
-      <script src="/static/skills/continuous.js" defer></script>
-    {% endif %}
+    {% include "occupations/continuous.html" with skills_role="employer" %}
+    <link rel="stylesheet" href="/static/occupations/skills-pilot.css">
+    <script src="/static/skills/continuous.js" defer></script>
     <fieldset>
       <legend>{% trans "Contact for the adviser" %}</legend>
       <p>{% trans "This contact may differ from the signed-in person." %}</p>

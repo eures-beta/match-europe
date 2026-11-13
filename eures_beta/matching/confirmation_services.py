@@ -29,12 +29,7 @@ def digest(value):
 
 
 def candidate_requests(user):
-    if (
-        not access.enabled()
-        or not user.is_authenticated
-        or not user.is_active
-        or user.kind != 'candidate'
-    ):
+    if not user.is_authenticated or not user.is_active or user.kind != 'candidate':
         return CandidateOfferReview.objects.none()
     return CandidateOfferReview.objects.filter(
         pair__candidate__in=access.candidates().filter(user=user),

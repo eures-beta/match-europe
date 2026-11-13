@@ -58,13 +58,12 @@ archives demande une revue de version et un redémarrage du chargeur mémoire.
 
 ## Protections et recette
 
-`SKILLS_ALBERT_ENABLED=0` par défaut. Le service exige le pilote activé,
-`DJANGO_ENVIRONMENT=local` et les e-mails réels désactivés ; les vues exigent
-en plus une adresse loopback réelle, sans croire `X-Forwarded-For`. Les rôles
-acceptés restent `employer` et `candidate`. Même CSRF, expiration et plafonds
-de sélection que le pilote existant. Les suggestions ne sont jamais précochées.
+Le service est disponible dans tous les environnements. Les rôles acceptés
+restent `employer` et `candidate`, avec contrôle de propriété du brouillon, CSRF,
+expiration et plafonds de sélection. Les suggestions ne sont jamais précochées.
 
-`SKILLS_ALBERT_SIMULATED=1` par défaut. Le chemin réel existe côté serveur,
+`ALBERT_SIMULATED=0` par défaut ; la valeur `1` simule tous les usages Albert.
+Le chemin réel existe côté serveur,
 avec la clé Albert existante, délai réseau de 35 secondes, refus des redirections,
 limites de requête/réponse et absence de relance automatique. Aucun appel réel
 n’a été effectué pour ce lot ; coût, qualité et délai réels restent non mesurés.
@@ -78,8 +77,8 @@ Cette étape ne télécharge rien automatiquement. `make skills-source-check`
 vérifie les empreintes et la complétude trilingue.
 
 `make run PORT=9039` démarre le serveur sur loopback au port 9039. Pour
-cet essai simulé, définir explicitement `SKILLS_ALBERT_SIMULATED=1`,
-`EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0` dans le `.env` du worktree.
+cet essai simulé, définir explicitement `ALBERT_SIMULATED=1`,
+`EMAIL_DELIVERY_ENABLED=0` dans le `.env` du worktree.
 Le démarrage ne force aucun réglage. Choisir un rôle, rechercher par
 exemple « photographe », confirmer le métier, préparer les propositions,
 sélectionner jusqu’à cinq compétences et relire. Tester les trois langues,

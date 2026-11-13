@@ -26,7 +26,6 @@ from eures_beta.invitations.permissions import EMPLOYER_INVITER_GROUP
 
 @override_settings(
     EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
-    LOGIN_EMAIL_ENABLED=False,
     DJANGO_ENVIRONMENT='production',
     EMAIL_DELIVERY_ENABLED=True,
     LOGIN_EMAIL_ORIGIN='https://testserver',
@@ -103,6 +102,7 @@ class InvitationTests(TestCase):
                 )
                 self.assertEqual(invitation.sender, adviser)
 
+    @override_settings(EMAIL_DELIVERY_ENABLED=False)
     def test_disabled_delivery_saves_invitation_without_user_email_or_public_link(self):
         count = User.objects.count()
         page = self.client.post(
@@ -132,7 +132,7 @@ class InvitationTests(TestCase):
     def test_configured_backend_simulates_real_email_and_never_exposes_token_in_ui(
         self,
     ):
-        with override_settings(LOGIN_EMAIL_ENABLED=True):
+        with override_settings(EMAIL_DELIVERY_ENABLED=True):
             page = self.client.post(
                 reverse('employer_invite'),
                 {'email': 'mail@example.invalid', 'language': 'en'},
@@ -424,7 +424,7 @@ class InvitationTests(TestCase):
 
     def test_delivery_failure_is_logged_without_personal_data(self):
         with (
-            override_settings(LOGIN_EMAIL_ENABLED=True),
+            override_settings(EMAIL_DELIVERY_ENABLED=True),
             patch(
                 'eures_beta.www.invitations.views.send_mail',
                 side_effect=RuntimeError('sensitive payload'),

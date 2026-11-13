@@ -35,9 +35,7 @@ class TestAccountAccessTests(TestCase):
         self.assertFalse(User.objects.exists())
         self.assertIn('no-store', page['Cache-Control'])
 
-    @override_settings(
-        DJANGO_ENVIRONMENT='preview', MATCHING_ENABLED=True, LOGIN_EMAIL_ENABLED=False
-    )
+    @override_settings(DJANGO_ENVIRONMENT='preview', EMAIL_DELIVERY_ENABLED=False)
     def test_preview_candidates_are_ready_for_adviser_review(self):
         from eures_beta.www.adviser.matching import pending_pairs
         from eures_beta.matching.models import CandidateOfferReview
@@ -65,9 +63,8 @@ class TestAccountAccessTests(TestCase):
             self.assertContains(response, 'data-preview-push')
 
     @override_settings(
-        MATCHING_ENABLED=True,
-        LOGIN_EMAIL_ENABLED=False,
-        CONFIRMATION_DIALOGUE_SIMULATED=True,
+        EMAIL_DELIVERY_ENABLED=False,
+        ALBERT_SIMULATED=True,
     )
     def test_preview_push_starts_only_after_adviser_validation(self):
         import base64
@@ -141,7 +138,7 @@ class TestAccountAccessTests(TestCase):
             )
             resend.assert_called_once_with(confirmation)
 
-    @override_settings(MATCHING_ENABLED=True, CONFIRMATION_DIALOGUE_SIMULATED=True)
+    @override_settings(ALBERT_SIMULATED=True)
     def test_push_is_universal_and_subscription_is_optional(self):
         from unittest.mock import patch
         from eures_beta.candidates import preview_push

@@ -18,7 +18,6 @@ AFTER = '0008_sharedconversation_sharedmessage'
 
 
 @override_settings(
-    MATCHING_ENABLED=True,
     TEST_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,

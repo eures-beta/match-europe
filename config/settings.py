@@ -31,33 +31,21 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # A fixed, trusted origin prevents Host-header poisoning of emailed links.
 LOGIN_EMAIL_ORIGIN = os.environ.get('LOGIN_EMAIL_ORIGIN', '')
-LOGIN_EMAIL_ENABLED = os.environ.get('LOGIN_EMAIL_ENABLED', '0') == '1'
 DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 
-# Matching is available in every environment unless explicitly disabled.
-MATCHING_ENABLED = os.environ.get('MATCHING_ENABLED', '1') == '1'
-CONFIRMATION_DIALOGUE_SIMULATED = (
-    os.environ.get("CONFIRMATION_DIALOGUE_SIMULATED", "0") == "1"
-)
-CONFIRMATION_DIALOGUE_ENABLED = (
-    os.environ.get("CONFIRMATION_DIALOGUE_ENABLED", "1") == "1"
-)
+# Business journeys are permanent; simulation is an explicit test setting.
+ALBERT_SIMULATED = os.environ.get('ALBERT_SIMULATED', '0') == '1'
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
-ALBERT_IMPORT_ENABLED = os.environ.get('ALBERT_IMPORT_ENABLED', '1') == '1'
-ALBERT_IMPORT_SIMULATED = os.environ.get('ALBERT_IMPORT_SIMULATED', '0') == '1'
 ALBERT_API_KEY = os.environ.get('ALBERT_API_KEY', '')
 ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'mistral-small-3-2-24b-instruct-2506')
 CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
-SKILLS_ALBERT_ENABLED = os.environ.get('SKILLS_ALBERT_ENABLED', '1') == '1'
 # Simulation is explicit; real calls require the private API key.
-SKILLS_ALBERT_SIMULATED = os.environ.get('SKILLS_ALBERT_SIMULATED', '0') == '1'
 ALBERT_DIALOGUE_MODEL = os.environ.get('ALBERT_DIALOGUE_MODEL', ALBERT_MODEL)
 SKILLS_ALBERT_SOURCE_DIR = BASE_DIR / '.runtime' / 'catalog-sources'
-CONTINUOUS_SKILLS_ENABLED = os.environ.get('CONTINUOUS_SKILLS_ENABLED', '1') == '1'
 TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
 # Team contact for employers requesting a Match Europe invitation.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
-    'ME_EMPLOYER_ADVISER_CONTACT_URL',
+    'EMPLOYER_ADVISER_CONTACT_URL',
     'mailto:eric.barthelemy@francetravail.fr',
 )
 if TEST_ACCOUNTS_ENABLED and (
@@ -169,10 +157,9 @@ DATABASES = {
     }
 }
 
-# The single-worker disposable trial keeps at most one connection per Gunicorn
-# thread (four), instead of repeating the remote connection handshake per request.
-# Production and the other previews retain their existing configuration.
-if DJANGO_ENVIRONMENT == 'preview' and CONTINUOUS_SKILLS_ENABLED:
+# Preserve the existing preview connection policy independently of business
+# features. Harmonising this policy with production is a separate decision.
+if DJANGO_ENVIRONMENT == 'preview':
     DATABASES['default']['CONN_MAX_AGE'] = 60
     DATABASES['default']['CONN_HEALTH_CHECKS'] = True
     DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}

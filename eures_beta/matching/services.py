@@ -5,7 +5,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.utils import timezone
 from . import engine, validation
-from .access import candidates, enabled, matchable_offers
+from .access import candidates, matchable_offers
 from .models import CandidateOfferMatch, MatchEvaluation, MatchDecision
 
 
@@ -59,8 +59,6 @@ def inputs(pair, *, lock=False, offer_revision=None):
 
 @transaction.atomic
 def calculate(candidate, offer, *, offer_revision=None):
-    if not enabled():
-        raise ValueError('Matching is disabled')
     pair, _ = CandidateOfferMatch.objects.get_or_create(
         candidate=candidate, offer=offer
     )
@@ -89,7 +87,7 @@ def calculate(candidate, offer, *, offer_revision=None):
 
 @transaction.atomic
 def decide(pair_id, evaluation_id, value, *, actor='local_operator'):
-    if not enabled() or value not in ('retained', 'refused'):
+    if value not in ('retained', 'refused'):
         raise ValueError('Invalid matching decision')
     pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair_id)
     evaluation = pair.evaluations.order_by('-id').first()
@@ -121,8 +119,6 @@ def decide(pair_id, evaluation_id, value, *, actor='local_operator'):
 
 
 def calculate_for_saved_offer(offer_id, revision):
-    if not enabled():
-        return
     offer = matchable_offers().filter(pk=offer_id, revision=revision).first()
     if offer is None:
         return
@@ -135,9 +131,8 @@ def calculate_for_saved_offer(offer_id, revision):
 
 
 def schedule_offer_matching(offer):
-    if enabled():
-        offer_id, revision = offer.pk, offer.revision
-        transaction.on_commit(
-            lambda: calculate_for_saved_offer(offer_id, revision),
-            robust=True,
-        )
+    offer_id, revision = offer.pk, offer.revision
+    transaction.on_commit(
+        lambda: calculate_for_saved_offer(offer_id, revision),
+        robust=True,
+    )

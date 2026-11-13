@@ -7,7 +7,7 @@ import sys
 PROGRAM = '''
 import json, os, resource, sys, time
 from pathlib import Path
-os.environ.update(DJANGO_SETTINGS_MODULE='config.settings', DJANGO_SECRET_KEY='memory-test-only', DJANGO_ALLOWED_HOSTS='testserver', EMAIL_DELIVERY_ENABLED='0', LOGIN_EMAIL_ENABLED='0')
+os.environ.update(DJANGO_SETTINGS_MODULE='config.settings', DJANGO_SECRET_KEY='memory-test-only', DJANGO_ALLOWED_HOSTS='testserver', EMAIL_DELIVERY_ENABLED='0')
 import django
 django.setup()
 from django.test import Client

@@ -88,6 +88,15 @@
   `.env` du worktree ; démarrer le serveur ne doit pas les imposer.
 - Les dispositifs WSGI et hooks de déploiement restent des opérations distinctes.
 
+## Réglages permanents et simulations
+
+- Les parcours métier sont permanents : ne pas réintroduire un interrupteur
+  par fonctionnalité. L’accès réel à Albert dépend de sa configuration ; les
+  erreurs gardent un repli explicite, jamais une simulation automatique.
+- Utiliser `ALBERT_SIMULATED` pour tous les usages Albert et
+  `EMAIL_DELIVERY_ENABLED` comme unique autorisation d’envoi. Les comptes fictifs
+  restent un outil distinct, explicitement activé et interdit en production.
+
 ## Création des comptes
 
 - Le parcours candidat est disponible dans tous les environnements : compte et

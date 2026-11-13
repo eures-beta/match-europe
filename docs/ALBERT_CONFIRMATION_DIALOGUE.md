@@ -50,7 +50,7 @@ nouvelles disponibilités et ne supprime pas automatiquement les autres conditio
 
 ## Accès et données
 
-`CONFIRMATION_DIALOGUE_SIMULATED` est désactivé par défaut. La route conserve
+`ALBERT_SIMULATED` est désactivé par défaut. La route conserve
 les gardes locales existantes : loopback, données fictives, comptes actifs,
 candidat propriétaire, profil vérifié et offre validée. Pas d’accès implicite
 employeur, conseiller ou superutilisateur ; pas d’emails réels ni mode production.
@@ -79,7 +79,7 @@ Environnement local isolé déjà préparé pour #162 ; voir
 - `make matching-seed` : préparer les paires fictives dans une base d’essai.
   Un conseiller de recette habilité sollicite la confirmation depuis le détail de la paire.
 - `make run PORT=9044` : serveur sur loopback, port 9044. Pour simuler sans Albert réel,
-  définir `CONFIRMATION_DIALOGUE_SIMULATED=1` dans le `.env` du worktree.
+  définir `ALBERT_SIMULATED=1` dans le `.env` du worktree.
 - `make test TESTS=tests.matching.test_dialogue` : protections, corpus trilingue, validation et mise à jour
   complète du profil sur PostgreSQL jetable.
 - `make test`, `make check`, `make format-check`, `make format-html-check`,

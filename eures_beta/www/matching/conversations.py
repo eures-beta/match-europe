@@ -94,8 +94,7 @@ def introduction(pair, adviser):
 def conversations(user):
     rows = SharedConversation.objects.all()
     if (
-        not access.enabled()
-        or not user.is_authenticated
+        not user.is_authenticated
         or not user.is_active
         or user.kind not in ROLES
         or (user.kind == 'adviser' and not access.can_view_pairs(user))

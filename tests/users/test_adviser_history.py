@@ -1,4 +1,4 @@
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
@@ -8,7 +8,6 @@ from eures_beta.users.models import User
 from eures_beta.users.permissions import synchronize_permissions
 
 
-@override_settings(MATCHING_ENABLED=True)
 class AdviserHistoryTests(TestCase):
     @classmethod
     def setUpTestData(cls):

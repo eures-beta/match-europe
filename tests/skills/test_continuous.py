@@ -20,9 +20,7 @@ from eures_beta.employers.models import JobOffer, Company, CompanyMembership
 
 
 @override_settings(
-    CONTINUOUS_SKILLS_ENABLED=True,
-    SKILLS_ALBERT_ENABLED=True,
-    SKILLS_ALBERT_SIMULATED=True,
+    ALBERT_SIMULATED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
 )
@@ -129,8 +127,6 @@ class ContinuousTests(TestCase):
             403,
         )
         self.assertEqual(self.client.get(self.endpoint).status_code, 405)
-        with override_settings(CONTINUOUS_SKILLS_ENABLED=False):
-            self.assertEqual(self.api(token=token).status_code, 404)
         session = self.client.session
         draft = session[KEY]
         draft['touched_at'] = time() - TTL - 1
@@ -343,7 +339,7 @@ class ContinuousTests(TestCase):
             404,
         )
 
-    @override_settings(ALBERT_IMPORT_ENABLED=True, ALBERT_IMPORT_SIMULATED=True)
+    @override_settings(ALBERT_SIMULATED=True)
     @patch('eures_beta.integrations.albert.build_opener')
     def test_offer_structuring_simulation_never_calls_albert(self, opener):
         from eures_beta.employers.offer_structuring import structure
@@ -385,11 +381,6 @@ class ContinuousTests(TestCase):
         self.assertEqual(
             self.client.get(reverse('employer_offer', args=[offer.pk])).status_code, 200
         )
-        with override_settings(CONTINUOUS_SKILLS_ENABLED=False):
-            self.assertEqual(
-                self.client.get(reverse('employer_offer', args=[offer.pk])).status_code,
-                200,
-            )
 
     def test_candidate_suggestions_reject_a_draft_owned_by_another_account(self):
         token = self.candidate()
