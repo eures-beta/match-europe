@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
+from eures_beta.users.adviser_invitations import render_message
+
 
 class AccountPageTests(TestCase):
     def setUp(self):
@@ -39,10 +41,46 @@ class AccountPageTests(TestCase):
                 self.client.post(
                     reverse('account'), {'email': 'changed@example.invalid'}
                 ).status_code,
-                405,
+                405 if user == self.user else 302,
             )
             user.refresh_from_db()
             self.assertNotEqual(user.email, 'changed@example.invalid')
+
+    def test_adviser_updates_own_employer_email_signature(self):
+        self.client.force_login(self.other)
+        url = reverse('account', query={'lang': 'fr'})
+        page = self.client.get(url)
+        for label in ('Prénom', 'Nom', 'Structure', 'Ces informations seront reprises'):
+            self.assertContains(page, label)
+        response = self.client.post(
+            url,
+            {
+                'first_name': 'Lou',
+                'last_name': 'Martin',
+                'adviser_organisation': 'Structure fictive',
+                'user': self.user.pk,
+                'email': 'changed@example.invalid',
+            },
+            follow=True,
+        )
+        self.assertContains(response, 'Votre signature a été enregistrée.')
+        self.other.refresh_from_db()
+        self.user.refresh_from_db()
+        self.assertEqual(self.other.email, 'other@example.invalid')
+        self.assertEqual(self.user.get_full_name(), 'Fictional Example')
+        _, body, html = render_message(
+            'employer', {'first_name': '', 'last_name': ''}, adviser=self.other
+        )
+        for version in (body, html):
+            self.assertIn('Lou Martin', version)
+            self.assertIn('Structure fictive', version)
+
+    def test_adviser_signature_update_requires_csrf(self):
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.other)
+        self.assertEqual(
+            client.post(reverse('account'), {'first_name': 'Lou'}).status_code, 403
+        )
 
     def test_account_content_and_navigation_are_translated(self):
         self.client.force_login(self.user)

@@ -64,8 +64,8 @@
                 <p style="margin:0;font-size:13px;line-height:1.6;color:#627892;">
                   {% translate "Kind regards," %}
                   <br>
-                  {% if adviser_first_name %}{{ adviser_first_name }}<br>{% endif %}
-                  {% if adviser_organisation %}{{ adviser_organisation }}{% elif not adviser_first_name %}Match Europe{% endif %}
+                  {% if adviser_name %}{{ adviser_name }}<br>{% endif %}
+                  {% if adviser_organisation %}{{ adviser_organisation }}{% elif not adviser_name %}Match Europe{% endif %}
                 </p>
                 <div style="margin-top:18px">
                   {% for src, alt, width in partner_logos %}
