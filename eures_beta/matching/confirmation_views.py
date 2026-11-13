@@ -250,7 +250,7 @@ def display_rows(rows, language):
 @entry_candidate
 @require_http_methods(['GET'])
 def inbox(request):
-    from . import dialogue_services
+    from .shared_views import listed
 
     return render(
         request,
@@ -260,6 +260,7 @@ def inbox(request):
                 'pair__offer', 'pair'
             ),
             albert_available=dialogue_services.enabled(),
+            shared_conversations=listed(request.user),
             page_language=selected_language(request),
         ),
     )

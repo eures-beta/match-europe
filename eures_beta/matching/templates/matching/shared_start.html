@@ -1,0 +1,16 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block public_content %}
+  <section class="surface-card home-section">
+    <a href="{% url 'dashboard' %}?lang={{ page_language }}&amp;view=conversations">{% translate "Open conversations" %}</a>
+    <h1>{% translate "Continue with the employer" %}</h1>
+    <p>{{ confirmation.pair.offer.data.title }} · {{ confirmation.pair.offer.data.companyName }}</p>
+    <p>{% translate "Prepare the first message. The candidate must agree before you can open the conversation." %}</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.body.as_field_group }}
+      {{ form.prerequisites_verified.as_field_group }}
+      <button class="primary-action" type="submit">{% translate "Ask for the candidate’s agreement" %}</button>
+    </form>
+  </section>
+{% endblock %}
