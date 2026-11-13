@@ -9,7 +9,7 @@ from django.shortcuts import render
 from eures_beta.candidates.registration import profile_answers
 from eures_beta.candidates.registration_views import answer_groups
 from eures_beta.matching import access
-from eures_beta.matching.models import MatchEvaluation, MatchPair
+from eures_beta.matching.models import CandidateOfferMatch, MatchEvaluation
 
 from .models import EmployerInvitation
 from .permissions import can_manage_employers
@@ -98,7 +98,7 @@ def history_rows(section, search):
 
     latest = MatchEvaluation.objects.filter(pair_id=OuterRef('pk')).order_by('-pk')
     return (
-        MatchPair.objects.select_related('candidate__user', 'offer')
+        CandidateOfferMatch.objects.select_related('candidate__user', 'offer')
         .filter(
             candidate__in=access.candidates(),
             offer__in=access.employer_offers(),

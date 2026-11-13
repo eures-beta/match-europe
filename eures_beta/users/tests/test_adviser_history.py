@@ -1,4 +1,3 @@
-from django.contrib.auth.models import Permission
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -49,20 +48,21 @@ class AdviserHistoryTests(TestCase):
     def history(self, **params):
         return self.client.get(reverse('dashboard'), {'tab': 'history', **params})
 
-    def test_invitation_permission_does_not_expose_matching_data(self):
+    def test_adviser_without_extra_permissions_reads_history(self):
+        self.adviser.groups.clear()
+        self.adviser.user_permissions.clear()
         self.client.force_login(self.adviser)
-        response = self.history()
+        response = self.history(view='invitations')
         self.assertContains(response, 'sent@example.invalid')
         self.assertNotContains(response, 'unsent@example.invalid')
-        self.assertEqual(self.history(view='matchings').status_code, 404)
-        self.assertNotContains(self.history(q='no result'), 'sent@example.invalid')
-
-    def test_matching_permission_opens_other_sections(self):
-        self.adviser.user_permissions.add(
-            Permission.objects.get(
-                content_type__app_label='matching', codename='view_matchpair'
-            )
+        self.assertEqual(self.history(view='matchings').status_code, 200)
+        self.assertNotContains(
+            self.history(view='invitations', q='no result'), 'sent@example.invalid'
         )
+
+    def test_adviser_role_opens_all_sections(self):
+        self.adviser.groups.clear()
+        self.adviser.user_permissions.clear()
         self.client.force_login(self.adviser)
         for section in ('candidates', 'employers', 'matchings', 'invitations'):
             with self.subTest(section=section):
