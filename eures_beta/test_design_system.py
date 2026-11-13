@@ -1,4 +1,7 @@
-from django.test import SimpleTestCase, TestCase, override_settings
+from django.conf import settings
+from django.test import SimpleTestCase, TestCase
+
+from eures_beta.users.models import User
 
 from eures_beta.design_system import (
     RAW_COLOUR,
@@ -99,30 +102,51 @@ class DesignSystemPageTests(TestCase):
         '/design-system/exemple/conseiller/',
     )
 
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
+    @classmethod
+    def setUpTestData(cls):
+        cls.staff = User.objects.create_user(
+            'equipe@example.invalid', kind='adviser', is_staff=True
+        )
+        cls.adviser = User.objects.create_user(
+            'conseil@example.invalid', kind='adviser'
+        )
+        cls.employer = User.objects.create_user('rh@example.invalid', kind='employer')
+
+    def test_anonymous_visitors_are_sent_to_login(self):
+        for url in self.urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertRedirects(
+                    response,
+                    f'{settings.LOGIN_URL}?next={url}',
+                    fetch_redirect_response=False,
+                )
+
+    def test_pages_are_hidden_from_non_staff_accounts(self):
+        for user in (self.adviser, self.employer):
+            self.client.force_login(user)
+            for url in self.urls:
+                with self.subTest(user=user.email, url=url):
+                    self.assertEqual(self.client.get(url).status_code, 404)
+
+    def test_inactive_staff_is_refused(self):
+        self.staff.is_active = False
+        self.staff.save(update_fields=['is_active'])
+        self.client.force_login(self.staff)
+        self.assertNotEqual(self.client.get(self.url).status_code, 200)
+
     def test_unknown_example_screen_is_not_found(self):
-        response = self.client.get('/design-system/exemple/admin/', secure=True)
+        self.client.force_login(self.staff)
+        response = self.client.get('/design-system/exemple/admin/')
         self.assertEqual(response.status_code, 404)
 
-    @override_settings(DEMO_MODE=False, SHARED_DEMO=False)
-    def test_pages_are_hidden_outside_demo_mode(self):
-        for url in self.urls:
-            with self.subTest(url=url):
-                response = self.client.get(url, secure=True)
-                self.assertEqual(response.status_code, 404)
-
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
-    def test_pages_require_https_on_shared_demo(self):
-        for url in self.urls:
-            with self.subTest(url=url):
-                self.assertEqual(self.client.get(url).status_code, 404)
-
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
     def test_pages_load_the_three_stylesheets_in_order(self):
+        self.client.force_login(self.staff)
         for url in self.urls:
             with self.subTest(url=url):
-                response = self.client.get(url, secure=True)
+                response = self.client.get(url)
                 self.assertEqual(response.status_code, 200)
+                self.assertIn('no-store', response.headers.get('Cache-Control', ''))
                 page = response.content.decode()
                 positions = [
                     page.index(f'/static/{path}')
@@ -135,9 +159,9 @@ class DesignSystemPageTests(TestCase):
                 self.assertEqual(positions, sorted(positions))
                 self.assertNotIn('employer/site.css', page)
 
-    @override_settings(DEMO_MODE=True, SHARED_DEMO=True)
     def test_page_shows_every_colour_token(self):
-        response = self.client.get(self.url, secure=True)
+        self.client.force_login(self.staff)
+        response = self.client.get(self.url)
         for prefix in ('--me-color-', '--me-palette-'):
             for token in colour_tokens(prefix):
                 with self.subTest(token=token['name']):
