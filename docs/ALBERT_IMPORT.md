@@ -24,10 +24,12 @@ initiale est `mistral-small-3-2-24b-instruct-2506`. Ce choix doit encore être c
 à d'autres modèles sur plusieurs annonces. Les tests automatiques simulent Albert.
 
 Après `make db-create`, `make migrate` et `make test-accounts-seed`, lancer
-`make albert-run` et ouvrir le parcours employeur sur le port local 9037.
+`make run PORT=9037` et ouvrir le parcours employeur sur le port local 9037.
 Le compte employeur fictif se choisit depuis `/accounts/test-accounts/`.
-Le lancement active l'essai et le mode de relecture local, sans envoi d'email réel
-ni transmission à l'ancien service de préparation. Les destinations et secrets
+Configurer explicitement `TEST_ACCOUNTS_ENABLED=1`, `DJANGO_ENVIRONMENT=local`,
+`EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0` dans le `.env` du worktree
+avant le peuplement ; le démarrage ne modifie aucun réglage. L’accès Albert
+reste configuré séparément. Les destinations et secrets
 des recettes jetables restent dans les dépôts privés de déploiement.
 
 ## Contrôles et limites

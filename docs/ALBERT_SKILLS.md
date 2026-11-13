@@ -77,8 +77,10 @@ et `make migrate`. Placer les trois archives épinglées `esco-1.2.1-fr.zip`,
 Cette étape ne télécharge rien automatiquement. `make skills-source-check`
 vérifie les empreintes et la complétude trilingue.
 
-`make skills-albert-run` ouvre le pilote sur loopback au port 9039 en forçant
-la simulation, sans Albert ni e-mail réel. Choisir un rôle, rechercher par
+`make run PORT=9039` démarre le serveur sur loopback au port 9039. Pour
+cet essai simulé, définir explicitement `SKILLS_ALBERT_SIMULATED=1`,
+`EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0` dans le `.env` du worktree.
+Le démarrage ne force aucun réglage. Choisir un rôle, rechercher par
 exemple « photographe », confirmer le métier, préparer les propositions,
 sélectionner jusqu’à cinq compétences et relire. Tester les trois langues,
 la modification, le changement de métier et le second rôle. La simulation

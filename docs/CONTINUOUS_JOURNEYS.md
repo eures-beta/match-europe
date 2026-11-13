@@ -87,8 +87,11 @@ selon `ALBERT_SKILLS.md`, puis `make skills-source-check`.
 Préparer les seuls comptes fictifs avec `make test-accounts-seed`, après activation
 locale explicite de `TEST_ACCOUNTS_ENABLED=1`.
 
-`make continuous-run` ouvre l’accueil sur le port 9040. Le port 9039 conserve
-l’ancienne recette séparée et n’est pas la recette continue. Aucun déploiement.
+`make run PORT=9040` ouvre l’accueil sur le port choisi. Pour cet essai,
+configurer explicitement `SKILLS_ALBERT_SIMULATED=1`, `TEST_ACCOUNTS_ENABLED=1`,
+`DJANGO_ENVIRONMENT=local`, `EMAIL_DELIVERY_ENABLED=0` et `LOGIN_EMAIL_ENABLED=0`
+dans le `.env` du worktree. Le port ne sélectionne aucun parcours ni simulation.
+Aucun déploiement.
 
 Employeur : choisir le compte de test depuis le bandeau de l’accueil, décrire une
 offre fictive, choisir un résultat ESCO, sélectionner ses compétences, finir les
