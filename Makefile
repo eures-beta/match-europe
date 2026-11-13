@@ -308,7 +308,7 @@ format-html-check: ## Vérifier le formatage des templates sans les modifier
 	$(QUALITY_PYTHON) -m djlint eures_beta --check
 	$(QUALITY_PYTHON) -m eures_beta.template_layout
 translations-extract: ## Actualiser les catalogues FR/DE depuis le code et les templates
-	@$(MANAGE) makemessages --locale fr --locale de --no-wrap --no-obsolete --ignore build --ignore staticfiles --ignore '.venv*'
+	@$(MANAGE) makemessages --locale fr --locale de --extension html,txt,py,subject --no-wrap --no-obsolete --ignore build --ignore staticfiles --ignore '.venv*'
 
 translations-check: ## Refuser les messages gettext non traduits ou encore marqués fuzzy
 	$(PYTHON) -m eures_beta.translation_check

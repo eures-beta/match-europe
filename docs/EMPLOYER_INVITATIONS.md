@@ -36,6 +36,10 @@ L’exploitant renseigne ce champ sur le compte conseiller lors de sa configurat
 Les logos EURES/ELA, France Travail, ADEM et Le Forem utilisent les ressources
 du site, avec des adresses absolues dans le message envoyé.
 
+`make translations-extract` extrait aussi les objets d’e-mail des templates
+`.subject`. Sans cette extension explicite, une extraction suivie de compilation
+retirerait leurs traductions et ferait revenir les objets en anglais.
+
 Pour essayer le parcours, utiliser `make run PORT=9060` dans la copie locale
 configurée, puis ouvrir `/accounts/test-accounts/`. Le conseiller
 fictif permet de tester les trois types. `make adviser-invitations-test` couvre
