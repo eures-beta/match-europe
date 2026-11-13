@@ -124,7 +124,7 @@ class MultipleImageTests(TestCase):
     @patch('eures_beta.www.employer.imports.aglae')
     def test_saving_import_never_calls_external_services(self, api, geo):
         response = self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'agreement': 'true',
@@ -149,7 +149,7 @@ class MultipleImageTests(TestCase):
             {'description': 'CDI\nTemps plein\nQualifications\nPermis B souhaité.'},
         ]
         response = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',
@@ -169,7 +169,7 @@ class MultipleImageTests(TestCase):
     @patch('eures_beta.www.employer.imports.read_pdf')
     def test_multiple_pdfs_rejected_without_reading(self, read):
         response = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {
                 'kind': 'pdf',
                 'agreement': 'true',

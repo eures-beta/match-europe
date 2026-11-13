@@ -167,12 +167,12 @@ class EndpointTests(TestCase):
                 ),
             ):
                 response = self.client.get(
-                    '/employer/pages/import-fr.html', REMOTE_ADDR='192.0.2.1'
+                    '/employer/import/?lang=fr', REMOTE_ADDR='192.0.2.1'
                 )
                 self.assertContains(response, 'id="file-form"')
                 self.assertEqual(
                     self.client.get(
-                        '/api/imports/', REMOTE_ADDR='192.0.2.1'
+                        '/api/job-offers/', REMOTE_ADDR='192.0.2.1'
                     ).status_code,
                     200,
                 )
@@ -187,11 +187,11 @@ class EndpointTests(TestCase):
         from eures_beta.employers.models import JobOffer
 
         source = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'agreement': 'true', 'kind': 'manual', 'text': SOURCE},
         ).json()
         response = self.client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'agreement': 'true',
                 'kind': 'manual',
@@ -215,7 +215,7 @@ class EndpointTests(TestCase):
     )
     def test_manual_path_returns_grounded_data_without_storing_key(self, model):
         response = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'agreement': 'true', 'kind': 'manual', 'text': SOURCE},
         )
         self.assertEqual(response.status_code, 200)
@@ -227,14 +227,14 @@ class EndpointTests(TestCase):
     def test_other_roles_and_missing_agreement_never_send_content(self, model):
         self.assertEqual(
             self.client.post(
-                '/api/imports/source/', {'kind': 'manual', 'text': SOURCE}
+                '/api/job-offers/source/', {'kind': 'manual', 'text': SOURCE}
             ).status_code,
             400,
         )
         self.client.logout()
         self.assertEqual(
             self.client.post(
-                '/api/imports/source/',
+                '/api/job-offers/source/',
                 {'agreement': 'true', 'kind': 'manual', 'text': SOURCE},
             ).status_code,
             403,
@@ -242,11 +242,10 @@ class EndpointTests(TestCase):
         model.assert_not_called()
 
     def test_ai_disclosure_in_import_and_all_languages(self):
-        for variant in ('import',):
-            for language in ('fr', 'en', 'de'):
-                page = self.client.get(f'/employer/pages/{variant}-{language}.html')
-                self.assertContains(page, 'Albert')
-                self.assertNotContains(page, 'test-secret')
+        for language in ('fr', 'en', 'de'):
+            page = self.client.get('/employer/import/?lang=' + language)
+            self.assertContains(page, 'Albert')
+            self.assertNotContains(page, 'test-secret')
 
     @patch('eures_beta.www.employer.imports.read_pdf')
     @patch(
@@ -261,7 +260,7 @@ class EndpointTests(TestCase):
             '_sourceText': SOURCE,
         }
         response = self.client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {
                 'agreement': 'true',
                 'kind': 'pdf',
@@ -280,7 +279,7 @@ class EndpointTests(TestCase):
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.user)
         response = client.post(
-            '/api/imports/source/',
+            '/api/job-offers/source/',
             {'agreement': 'true', 'kind': 'manual', 'text': SOURCE},
         )
         self.assertEqual(response.status_code, 403)

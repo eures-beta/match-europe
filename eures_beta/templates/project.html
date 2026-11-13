@@ -213,7 +213,7 @@
         <a class="primary-action"
            href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
         <a class="secondary-action"
-           href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "employer landing" %}</a>
+           href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer landing" %}</a>
       </div>
     </section>
     <section class="home-section" id="sources" aria-labelledby="sources-title">

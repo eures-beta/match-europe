@@ -1068,7 +1068,7 @@
             <a class="nav-pill"
                href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer auth-shell" %}</a>
             <a class="nav-pill is-active"
-               href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "employer auth-shell" %}</a>
+               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer auth-shell" %}</a>
             <a class="nav-pill"
                href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer auth-shell" %}</a>
           </div>

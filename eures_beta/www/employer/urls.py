@@ -1,12 +1,16 @@
 from django.urls import path
 from eures_beta.www.occupations.views import search_api
 from eures_beta.www.employer import (
+    pages,
     workspace as employer_workspace,
     imports as employer_api,
     response_practice as response_practice_views,
 )
 
 urlpatterns = [
+    path('employer/', pages.landing, name='employer_landing'),
+    path('employer/import/', pages.import_offer, name='employer_import'),
+    path('employer/privacy/', pages.privacy, name='employer_privacy'),
     path(
         'api/employer/response-practice/',
         response_practice_views.response_practice,
@@ -33,9 +37,7 @@ urlpatterns = [
         name='employer_offer_duplicate',
     ),
     path('employer/attach/', employer_workspace.attach, name='employer_attach'),
-    path('employer/connected/', employer_workspace.offers, name='employer_connected'),
-    path('employer/pages/<path:path>', employer_api.employer_page),
-    path('api/imports/', employer_api.imports),
-    path('api/imports/source/', employer_api.read_source),
-    path('api/imports/<uuid:id>/', employer_api.imports),
+    path('api/job-offers/', employer_api.imports, name='job_offer_list'),
+    path('api/job-offers/source/', employer_api.read_source, name='job_offer_source'),
+    path('api/job-offers/<uuid:id>/', employer_api.imports, name='job_offer_data'),
 ]

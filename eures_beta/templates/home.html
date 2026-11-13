@@ -17,7 +17,7 @@
       <article class="surface-card">
         <h3>{% translate "Recruit in another country" context "public positioning" %}</h3>
         <p>{% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}</p>
-        <a href="/employer/pages/{{ page_language }}.html">{% translate "I’m an employer" context "public positioning" %}</a>
+        <a href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "I’m an employer" context "public positioning" %}</a>
       </article>
     </div>
     <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>

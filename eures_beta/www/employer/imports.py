@@ -7,7 +7,6 @@ import os
 import time
 import threading
 import secrets
-from html import escape
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, build_opener, HTTPRedirectHandler
@@ -19,20 +18,14 @@ from django.core.validators import validate_email
 from django.db import transaction, connection
 from django.http import (
     JsonResponse,
-    HttpResponse,
-    FileResponse,
-    Http404,
-    HttpResponsePermanentRedirect,
 )
-from django.template.loader import get_template
-from django.utils import timezone, translation
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils import timezone
 from django.views.decorators.cache import never_cache
 
 from eures_beta.employers.models import JobOffer
 from eures_beta.employers.employer_ownership import accessible_imports, identity
 from eures_beta.www.employer.forms import EmployerContactForm
-from eures_beta.www.employer.access import access_page, employer_required
+from eures_beta.www.employer.access import employer_required
 from eures_beta.employers.offer_ingestion import (
     ImportFailure,
     empty_data,
@@ -44,86 +37,6 @@ from eures_beta.employers.offer_ingestion import (
 ROOT = Path(__file__).resolve().parents[2]
 lock = threading.Lock()
 last_geocode = 0.0
-
-
-@never_cache
-@ensure_csrf_cookie
-def employer_page(request, path):
-    return _employer_page(request, path)
-
-
-def _employer_page(request, path):
-    from eures_beta.www.public.redirects import EMPLOYER_IMPORT_ALIASES
-
-    if path in EMPLOYER_IMPORT_ALIASES:
-        destination = '/employer/pages/' + EMPLOYER_IMPORT_ALIASES[path]
-        query = request.META.get('QUERY_STRING')
-        if query:
-            destination += '?' + query
-        return HttpResponsePermanentRedirect(destination)
-    public_pages = (
-        'fr.html',
-        'en.html',
-        'de.html',
-        'privacy-fr.html',
-        'privacy-en.html',
-        'privacy-de.html',
-    )
-    base = settings.APPS_DIR / 'templates' / 'employer'
-    template_name = (
-        'landing.html' if path in ('fr.html', 'en.html', 'de.html') else path
-    )
-    if path in ('privacy-en.html', 'privacy-fr.html', 'privacy-de.html'):
-        template_name = 'privacy.html'
-    if path in ('import-en.html', 'import-fr.html', 'import-de.html'):
-        template_name = 'import.html'
-    candidate = (base / template_name).resolve()
-    if (
-        not candidate.is_relative_to(base.resolve())
-        or not candidate.is_file()
-        or candidate.suffix != '.html'
-    ):
-        raise Http404()
-    if path not in public_pages and not identity(request):
-        return access_page(request, path)
-    if candidate.suffix == '.html':
-        # Static build templates remain usable; served HTML activates the real same-origin API.
-        person = identity(request)
-        authenticated = bool(person)
-        # The account email pre-fills the adviser contact (WCAG 3.3.7, redundant entry).
-        body_tag = (
-            '<body data-employer-api="true" data-employer-connected="'
-            + ('true' if authenticated else 'false')
-            + '"'
-            + (
-                ' data-employer-email="' + escape(person.email, quote=True) + '"'
-                if authenticated
-                else ''
-            )
-            + '>'
-        )
-        language = Path(path).stem.rsplit('-', 1)[-1]
-        language = language if language in ('fr', 'en', 'de') else request.LANGUAGE_CODE
-        with translation.override(language):
-            from eures_beta.employers.offer_structuring import enabled as albert_enabled
-
-            context = {'signed_in': authenticated, 'albert_import': albert_enabled()}
-            from eures_beta.skills.continuous import trial_request
-
-            context['continuous_skills'] = trial_request(request)
-            if context['continuous_skills']:
-                context['albert_import'] = False
-            if authenticated and template_name == 'import.html':
-                from eures_beta.www.employer.response_practice import page_context
-
-                context.update(page_context(person))
-            body = (
-                get_template('employer/' + template_name)
-                .render(context, request=request)
-                .replace('<body>', body_tag)
-            )
-        return HttpResponse(body)
-    return FileResponse(candidate.open('rb'))
 
 
 def failure(code, status=400):

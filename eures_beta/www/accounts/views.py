@@ -3,7 +3,7 @@ from eures_beta.users.email_login import email_ready
 """Closed, passwordless sign-in using django-sesame, not a signup endpoint."""
 
 import logging
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 from django.conf import settings
 from django.contrib import messages
@@ -31,7 +31,12 @@ from eures_beta.users.models import User
 from eures_beta.invitations.eligibility import has_candidate_invitation
 from eures_beta.emails.backend import real_email_allowed
 from eures_beta.users.rate_limits import allow_request
-from eures_beta.www.accounts.return_path import remember, consume, IMPORT_PATHS
+from eures_beta.www.accounts.return_path import (
+    remember,
+    consume,
+    canonical_destination,
+    is_import_destination,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -137,8 +142,10 @@ def login(request):
                     + reverse('magic_confirm')
                     + get_query_string(user)
                 )
-                destination = request.session.get('login_return_path', '')
-                if destination in IMPORT_PATHS:
+                destination = canonical_destination(
+                    request.session.get('login_return_path', '')
+                )
+                if is_import_destination(destination):
                     from urllib.parse import urlencode
 
                     link += '&' + urlencode({'next': destination})
@@ -201,9 +208,10 @@ def confirm(request):
 @never_cache
 @require_POST
 def logout(request):
-    destination = request.GET.get('next', '')
+    destination = canonical_destination(request.GET.get('next', ''))
+    language = selected_language(request)
     auth_logout(request)
-    if destination in IMPORT_PATHS:
+    if is_import_destination(destination):
         from urllib.parse import urlencode
 
         return redirect(
@@ -212,7 +220,9 @@ def logout(request):
             + urlencode(
                 {
                     'next': destination,
-                    'lang': destination.rsplit('-', 1)[-1].removesuffix('.html'),
+                    'lang': parse_qs(urlsplit(destination).query).get(
+                        'lang', [language]
+                    )[0],
                 }
             )
         )
