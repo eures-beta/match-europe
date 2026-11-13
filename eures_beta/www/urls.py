@@ -22,6 +22,7 @@ urlpatterns = [
     path("statistics/", views.statistics, name="statistics"),
     path("project/", views.project, name="project"),
     path("journal/", views.journal, name="journal"),
+    path("design-system/", views.design_system, name="design_system"),
     # Compatibility only: templates must use the canonical named routes.
     *[
         path(
