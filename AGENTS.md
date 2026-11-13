@@ -68,7 +68,7 @@
   Ne pas réintroduire de `get_or_create` d’utilisateur dans ces vues.
 - Les invitations et listes blanches demandent une implémentation distincte.
 - Les invitations employeurs sont explicites et réservées aux conseillers actifs
-  (`docs/EMPLOYER_INVITATIONS.md`) : sept jours et confirmation POST. Ce parcours
+  (`docs/INVITATIONS.md`) : sept jours et confirmation POST. Ce parcours
   distinct peut créer un compte employeur ; la connexion habituelle (une heure)
   ne crée jamais de compte. Sans envoi configuré, les liens ne doivent être simulés
   que par les commandes d'opérateur, jamais exposés dans une page publique.

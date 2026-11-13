@@ -162,12 +162,12 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
         )
     base = 'users/invitations/'
     if recipient_kind == RecipientKind.ADVISER:
-        stem = base + 'adviser'
+        stem = base + 'adviser/invitation'
         subject = 'Rejoignez l’équipe de conseillers Match Europe'
         if reminder:
             subject = 'Rappel — ' + subject
     else:
-        stem = base + recipient_kind + ('-reminder' if reminder else '-initial')
+        stem = base + recipient_kind + ('/reminder' if reminder else '/invitation')
         subject = render_to_string(stem + '.subject').strip()
     context['subject'] = subject
     return (
