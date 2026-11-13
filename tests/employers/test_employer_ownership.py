@@ -36,7 +36,7 @@ class OwnershipTests(TestCase):
             session.save()
             return {'id': str(offer.pk)}
         response = client.post(
-            '/api/imports/',
+            '/api/job-offers/',
             {
                 'kind': 'manual',
                 'text': 'Fictional role.',
@@ -63,7 +63,7 @@ class OwnershipTests(TestCase):
         person = self.login(self.client, 'first@fiction.invalid')
         self.assertRedirects(
             self.client.post('/employer/attach/', {'name': 'Fictional company'}),
-            '/employer/connected/',
+            '/employer/offers/',
         )
         return draft, person, Company.objects.get()
 
@@ -80,7 +80,7 @@ class OwnershipTests(TestCase):
 
     def test_shared_offer_revocation_and_outsider(self):
         draft, person, company = self.attach()
-        url = '/api/imports/' + draft['id'] + '/'
+        url = '/api/job-offers/' + draft['id'] + '/'
         other = Client()
         colleague = self.login(other, 'second@fiction.invalid')
         self.assertEqual(other.get(url).status_code, 404)
@@ -115,7 +115,7 @@ class OwnershipTests(TestCase):
 
     def test_reconnect_other_browser_logout_and_no_email_claim(self):
         draft, person, company = self.attach()
-        url = '/api/imports/' + draft['id'] + '/'
+        url = '/api/job-offers/' + draft['id'] + '/'
         self.client.post('/accounts/logout/')
         self.assertEqual(self.client.get(url).status_code, 403)
         other = Client()
@@ -167,9 +167,7 @@ class OwnershipTests(TestCase):
             ('en', 'Attach your offer'),
             ('de', 'Ihr Angebot einer Betriebsstätte'),
         ]:
-            self.assertContains(
-                self.client.get('/employer/connected/?lang=' + lang), text
-            )
+            self.assertContains(self.client.get('/employer/offers/?lang=' + lang), text)
         self.assertEqual(self.client.get('/employer/attach/').status_code, 405)
         self.assertEqual(
             Client(enforce_csrf_checks=True)
@@ -184,19 +182,19 @@ class OwnershipTests(TestCase):
         self.client.post('/accounts/logout/')
         other = Client()
         self.login(other, person.email)
-        self.assertContains(other.get('/employer/connected/'), 'Rattacher votre offre')
+        self.assertContains(other.get('/employer/offers/'), 'Rattacher votre offre')
         self.assertRedirects(
             other.post('/employer/attach/', {'name': 'Fictional workspace'}),
-            '/employer/connected/',
+            '/employer/offers/',
         )
         self.assertEqual(
-            other.get('/api/imports/' + draft['id'] + '/').status_code, 200
+            other.get('/api/job-offers/' + draft['id'] + '/').status_code, 200
         )
 
     def test_first_establishment_requires_only_a_name(self):
         draft = self.create()
         self.login(self.client, 'first@fiction.invalid')
-        screen = self.client.get('/employer/connected/')
+        screen = self.client.get('/employer/offers/')
         self.assertContains(screen, 'Nom de l’établissement')
         self.assertNotContains(screen, 'name="country"')
         self.assertNotContains(screen, 'name="registration_id"')
@@ -206,7 +204,7 @@ class OwnershipTests(TestCase):
         self.assertIsNone(JobOffer.objects.get(pk=draft['id']).company)
         self.assertRedirects(
             self.client.post('/employer/attach/', {'name': 'Fictional establishment'}),
-            '/employer/connected/',
+            '/employer/offers/',
         )
         self.assertEqual(Company.objects.get().name, 'Fictional establishment')
 
@@ -214,7 +212,7 @@ class OwnershipTests(TestCase):
         _, _, company = self.attach()
         draft = self.create()
         self.login(self.client, 'first@fiction.invalid')
-        screen = self.client.get('/employer/connected/')
+        screen = self.client.get('/employer/offers/')
         self.assertContains(screen, 'Enregistrer l’offre pour cet établissement')
         self.assertNotContains(screen, 'name="name"')
         self.assertNotContains(screen, 'Enregistrer un autre établissement')
@@ -232,7 +230,7 @@ class OwnershipTests(TestCase):
         CompanyMembership.objects.create(person=person, company=second)
         draft = self.create()
         self.login(self.client, 'first@fiction.invalid')
-        screen = self.client.get('/employer/connected/')
+        screen = self.client.get('/employer/offers/')
         self.assertContains(screen, 'id="establishment-choice"')
         self.assertEqual(self.client.post('/employer/attach/', {}).status_code, 404)
         self.assertIsNone(JobOffer.objects.get(pk=draft['id']).company)
@@ -250,5 +248,5 @@ class OwnershipTests(TestCase):
             CompanyMembership.objects.filter(company=existing, person=outsider).exists()
         )
         self.assertEqual(
-            other.get('/api/imports/' + draft['id'] + '/').status_code, 404
+            other.get('/api/job-offers/' + draft['id'] + '/').status_code, 404
         )

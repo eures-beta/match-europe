@@ -65,9 +65,9 @@ class PublicNavigationTests(TestCase):
             for path in (
                 reverse('home'),
                 reverse('candidate_landing'),
-                f'/employer/pages/{language}.html',
-                f'/employer/pages/import-{language}.html',
-                f'/employer/pages/privacy-{language}.html',
+                f'/employer/?lang={language}',
+                f'/employer/import/?lang={language}',
+                f'/employer/privacy/?lang={language}',
             ):
                 with self.subTest(path=path, language=language):
                     response = self.client.get(path, {'lang': language}, secure=True)

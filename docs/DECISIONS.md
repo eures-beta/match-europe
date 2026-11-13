@@ -1,3 +1,12 @@
+## 13 novembre 2026 — Adresses canoniques employeur
+
+Demande de dejafait : routes explicites, sans pages/.html ni langue dans le
+chemin ; un template gettext par page. Les anciennes adresses sont uniquement
+des vestiges de compatibilité destinés à un retrait ultérieur, notamment
+`/employer/connected/`. Nommer l'API `/api/job-offers/`. Conserver les deux
+interfaces matching et leurs comportements ; leurs renommages, ceux des
+invitations, du profil employeur et du Push restent en discussion.
+
 ## 13 novembre 2026 — noms explicites des modèles de rapprochement et revue
 
 Choix validé par dejafait dans la PR #162 : `MatchPair` devient

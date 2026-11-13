@@ -204,7 +204,7 @@
                aria-current="page"
                href="/candidate/?lang={{ page_language }}">{% translate "Candidate" context "candidate shell" %}</a>
             <a class="nav-pill"
-               href="/employer/pages/{{ page_language }}.html">{% translate "Employer" context "candidate shell" %}</a>
+               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "candidate shell" %}</a>
             <a class="nav-pill"
                href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "candidate shell" %}</a>
           </div>

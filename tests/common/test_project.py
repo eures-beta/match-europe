@@ -60,7 +60,7 @@ class ProjectPageTests(SimpleTestCase):
                 )  # Skip link and 15 contents links.
                 self.assertTrue(set(links.anchors).issubset(links.ids))
                 self.assertContains(response, f'/candidate/?lang={language}')
-                self.assertContains(response, f'/employer/pages/{language}.html')
+                self.assertContains(response, f'/employer/?lang={language}')
                 self.assertNotContains(response, 'id="app"')
 
     def test_fallback_language_and_safe_methods(self):

@@ -2,7 +2,7 @@
 
 Ce paquet contient les adaptateurs HTTP : routes, vues, formulaires d’interface et préparation des pages. Il ne contient ni modèle ni migration et n’est pas une application ajoutée à `INSTALLED_APPS`.
 
-Les modèles, services, validations partagées et commandes restent dans les applications métier. Templates, statiques et traductions restent dans leurs dossiers communs. Les URL et les protections d’accès sont conservées.
+Les modèles, services, validations partagées et commandes restent dans les applications métier. Templates, statiques et traductions restent dans leurs dossiers communs. Les routes employeur explicites et leurs vestiges temporaires sont décrits dans [le contrat des URL](../../docs/API_NAMING.md) ; les protections d’accès restent conservées.
 
 [Paquet applicatif](../) · [Guide d’architecture](../../docs/ARCHITECTURE_WEB.md)
 

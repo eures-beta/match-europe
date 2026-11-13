@@ -88,9 +88,9 @@ class MagicLoginTests(TestCase):
                 '/project/',
                 '/journal/',
                 '/statistics/',
-                f'/employer/pages/{lang}.html',
-                f'/employer/pages/import-{lang}.html',
-                f'/employer/pages/privacy-{lang}.html',
+                f'/employer/?lang={lang}',
+                f'/employer/import/?lang={lang}',
+                f'/employer/privacy/?lang={lang}',
             ]:
                 with self.subTest(path=path, lang=lang):
                     response = self.client.get(path, {'lang': lang})

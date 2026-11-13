@@ -668,7 +668,7 @@
             <a class="nav-pill"
                href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer import" %}</a>
             <a class="nav-pill is-active"
-               href="{{ page_language }}.html">{% translate "Employer" context "employer import" %}</a>
+               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer import" %}</a>
             <a class="nav-pill"
                href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer import" %}</a>
           </div>
@@ -681,11 +681,11 @@
           <div class="lang-switch"
                aria-label="{% translate "Language" context "employer import" %}">
             <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-               href="import-fr.html">FR</a>
+               href="{% url 'employer_import' %}?lang=fr">FR</a>
             <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-               href="import-en.html">EN</a>
+               href="{% url 'employer_import' %}?lang=en">EN</a>
             <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-               href="import-de.html">DE</a>
+               href="{% url 'employer_import' %}?lang=de">DE</a>
           </div>
           {% include "includes/account_link.html" %}
         </nav>
@@ -732,7 +732,7 @@
           </div>
           <p class="mini-note choice-reassurance">{% translate "Your offer will not be published. The candidate search starts only after your validation." context "employer import" %}</p>
           <a class="import-text-button"
-             href="{{ page_language }}.html">{% translate "Back" context "employer import" %}</a>
+             href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Back" context "employer import" %}</a>
         </section>
         <section id="file-step" data-step class="surface-card import-card" hidden>
           <h1 tabindex="-1">{% translate "Import a PDF" context "employer import" %}</h1>
@@ -1494,7 +1494,7 @@
           </details>
           <div class="landing-actions">
             <a class="primary-action"
-               href="{{ page_language }}.html"
+               href="{% url 'employer_landing' %}?lang={{ page_language }}"
                id="completion-home">{% translate "Back to the employer home" context "employer import" %}</a>
             <button type="button"
                     class="ghost-action"
