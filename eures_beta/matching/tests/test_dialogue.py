@@ -1,7 +1,6 @@
 from io import StringIO
 from unittest.mock import patch
 
-from django.contrib.auth.models import Permission
 from django.core import signing
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
@@ -10,7 +9,7 @@ from django.urls import reverse
 from eures_beta.candidates.journey import KEY, ConditionsForm
 from eures_beta.matching import confirmation_services as confirmations
 from eures_beta.matching import dialogue_services as dialogue
-from eures_beta.matching.models import MatchPair
+from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.matching.services import StaleEvaluation
 from eures_beta.users.test_accounts import prepared_user
 
@@ -29,16 +28,10 @@ class DialogueTests(TestCase):
     def setUpTestData(cls):
         call_command('seed_test_accounts', stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
-        prepared_user('adviser').user_permissions.add(
-            *Permission.objects.filter(
-                content_type__app_label='matching',
-                codename__in=('view_matchpair', 'change_matchpair'),
-            )
-        )
 
     def setUp(self):
         self.adviser = prepared_user('adviser')
-        self.pair = MatchPair.objects.get(
+        self.pair = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
         self.user = self.pair.candidate.user
