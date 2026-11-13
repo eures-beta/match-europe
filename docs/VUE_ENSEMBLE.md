@@ -17,6 +17,17 @@ permission Django ou groupe supplémentaire. Les protections candidat/employeur
 et l'administration Django restent distinctes. Voir [la décision](DECISIONS.md)
 et [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
 
+## 13 novembre 2026 — retrait des trois modèles employeurs hérités
+
+EMPLOYEURS / ADMIN : après retrait des parcours obsolètes, suppression de
+EmployerEmailLink, EmployerSearchOperation et EmployerSearchEvent et de leur
+administration. La migration employers.0007 exige trois tables vides et refuse
+sinon toute suppression ; les migrations historiques restent en place.
+Company, CompanyMembership, EmployerProfile et JobOffer sont conservés.
+Le verrouillage par search_started_at reste actif, sans les états du simulateur.
+Aucune fusion ni intervention sur une base distante par ce changement.
+Voir [le contrat de retrait](EMPLOYER_SEARCH_LAUNCH.md).
+
 ## 12 novembre 2026 — onglet Inviter en recette locale
 
 CONSEILLERS : l’onglet Django réunit la préparation, l’aperçu et le suivi des

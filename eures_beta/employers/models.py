@@ -69,12 +69,7 @@ class JobOffer(models.Model):
 
     @property
     def search_write_blocked(self):
-        return bool(
-            self.search_started_at
-            or self.search_operations.filter(
-                state__in=['pending', 'uncertain']
-            ).exists()
-        )
+        return bool(self.search_started_at)
 
     session_key = models.CharField(max_length=64, db_index=True)
     email = models.EmailField()
@@ -109,65 +104,6 @@ class JobOffer(models.Model):
         db_table = 'journeys_employerimport'
         verbose_name = _('Job offer')
         verbose_name_plural = _('Job offers')
-
-
-class EmployerEmailLink(models.Model):
-    """Historical verification records; the retired login no longer creates or consumes them."""
-
-    pending_import = models.ForeignKey(
-        JobOffer, null=True, blank=True, on_delete=models.PROTECT
-    )
-    email = models.EmailField()
-    digest = models.CharField(max_length=64, unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-    expires = models.DateTimeField()
-    used = models.BooleanField(default=False)
-
-    class Meta:
-        db_table = 'journeys_employeremaillink'
-
-
-class EmployerSearchOperation(models.Model):
-    """Historical simulator records retained without an active launch endpoint."""
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    offer = models.ForeignKey(
-        JobOffer, on_delete=models.PROTECT, related_name='search_operations'
-    )
-    requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    revision = models.PositiveIntegerField()
-    state = models.CharField(
-        max_length=12,
-        choices=[
-            ('pending', 'Pending'),
-            ('uncertain', 'Uncertain'),
-            ('failed', 'Failed'),
-            ('started', 'Started'),
-        ],
-    )
-    scenario = models.CharField(max_length=24, editable=False)
-    created = models.DateTimeField(auto_now_add=True)
-    resolved_at = models.DateTimeField(null=True, editable=False)
-
-    class Meta:
-        db_table = 'journeys_employersearchoperation'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['offer', 'revision'], name='unique_search_offer_revision'
-            )
-        ]
-
-
-class EmployerSearchEvent(models.Model):
-    operation = models.ForeignKey(
-        EmployerSearchOperation, on_delete=models.PROTECT, related_name='events'
-    )
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    state = models.CharField(max_length=12)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'journeys_employersearchevent'
 
 
 class EmployerProfile(models.Model):
