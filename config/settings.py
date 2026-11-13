@@ -157,12 +157,11 @@ DATABASES = {
     }
 }
 
-# Preserve the existing preview connection policy independently of business
-# features. Harmonising this policy with production is a separate decision.
-if DJANGO_ENVIRONMENT == 'preview':
-    DATABASES['default']['CONN_MAX_AGE'] = 60
-    DATABASES['default']['CONN_HEALTH_CHECKS'] = True
-    DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
+# One connection policy for local development, previews and production.
+# Reuse is per worker thread; deployments must budget their total connections.
+DATABASES['default']['CONN_MAX_AGE'] = 60
+DATABASES['default']['CONN_HEALTH_CHECKS'] = True
+DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 
 if os.environ.get("PGSSLMODE"):
     DATABASES['default'].setdefault('OPTIONS', {})['sslmode'] = os.environ['PGSSLMODE']
