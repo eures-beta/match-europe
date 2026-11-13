@@ -1627,3 +1627,12 @@ base seulement si absente ; `make test` refuse de démarrer si le précontrôle 
 Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
 Aucun modèle, migration, environnement distant ou parcours métier modifié.
 Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.
+## Push candidat universel — correctif de #192
+
+Les notifications utilisent le même parcours en local, recette et production, sans
+filtre sur une adresse fictive ni activation des comptes de test. L’absence
+d’abonnement navigateur ne bloque pas la validation du rapprochement. La route
+canonique est `/candidate/push-subscriptions/`. Authentification, propriété, CSRF,
+consentement navigateur et validation des destinations Push sont conservés.
+La dérivation de clé et la table existante sont préservées pour les abonnements
+déjà enregistrés ; aucune migration supplémentaire. Tests sans notification réelle.
