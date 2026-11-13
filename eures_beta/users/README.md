@@ -19,9 +19,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 - [Backend e-mail partagé](../emails/backend.py) — Transport SMTP commun, indépendant du fournisseur, activé explicitement dans tous les environnements ; affichage des parcours identique.
 
-- [Invitations](../../../docs/INVITATIONS.md) — Tableau conseiller, invitation de sept jours et simulation privée des e-mails.
-- [invitations.py](invitations.py) — Création explicite, jetons signés et limites.
-- [invitation_views.py](invitation_views.py) — Vues conseiller et acceptation publique protégée.
+- [Application invitations](../invitations/) — Modèle, création, suivi, e-mails et acceptation des invitations.
 
 - [Droits administratifs](../../../docs/ADMIN_PERMISSIONS.md) — Politique versionnée, synchronisation et création restreinte de conseillers.
 - [permissions.py](permissions.py) — Accès métier fondé sur le rôle conseiller actif et réconciliation des droits administratifs historiques.

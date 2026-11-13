@@ -8,7 +8,7 @@ Voir [la documentation de transition](../../../../docs/USER_MODEL.md).
 
 - [seed_test_accounts.py](seed_test_accounts.py) — Prépare les comptes et offres fictifs sans réinitialisation ; `make test-accounts-seed`.
 
-- [invitation_email.py](invitation_email.py) — Simulation privée d'une invitation existante, sans envoi.
+- [Simulation des invitations](../../../invitations/management/commands/invitation_email.py) — Commande possédée par l'application invitations.
 - [login_email.py](login_email.py) — Simulation privée d'une connexion pour un compte actif existant, sans envoi.
 
 - [sync_group_and_perms.py](sync_group_and_perms.py) — Réapplique la politique administrative versionnée ; `make permissions-sync`. La commande complète `migrate` l'appelle automatiquement après réussite.

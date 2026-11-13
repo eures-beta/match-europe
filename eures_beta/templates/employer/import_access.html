@@ -5,7 +5,7 @@
   <section class="account-panel" aria-labelledby="import-access-title">
     <h1 id="import-access-title">{% translate "An employer account is required" %}</h1>
     <p>{% translate "Importing a job offer is only available to employer accounts." %}</p>
-    {% include "includes/employer_invitation_help.html" %}
+    {% include "invitations/includes/employer_invitation_help.html" %}
     <p>{% translate "Already have an employer account? Sign in to continue importing your offer." %}</p>
     {% if user.is_authenticated %}
       <p>{% translate "Your current account is not an employer account." %}</p>

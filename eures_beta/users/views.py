@@ -26,6 +26,7 @@ from sesame.utils import get_query_string, get_user
 
 from .forms import AdviserSignatureForm, LoginForm
 from .models import User
+from eures_beta.invitations.eligibility import has_candidate_invitation
 from eures_beta.emails.backend import real_email_allowed
 from .rate_limits import allow_request
 from .login_return import remember, consume, IMPORT_PATHS
@@ -61,8 +62,8 @@ def account(request):
 def dashboard(request):
     with translation.override(selected_language(request)):
         if request.user.kind == 'adviser':
-            from .adviser_invitations import invitations_tab
-            from .invitation_views import adviser_dashboard
+            from eures_beta.invitations.adviser import invitations_tab
+            from eures_beta.invitations.views import adviser_dashboard
 
             if request.GET.get('tab') == 'employers':
                 return adviser_dashboard(request)
@@ -70,7 +71,7 @@ def dashboard(request):
         if request.user.kind == 'candidate':
             if hasattr(request.user, 'candidate_profile'):
                 return redirect('candidate_profile')
-            if request.user.has_candidate_invitation:
+            if has_candidate_invitation(request.user):
                 return redirect('candidate_prepare')
             return render(request, 'users/dashboard.html')
         from eures_beta.employers.dashboard import employer_dashboard

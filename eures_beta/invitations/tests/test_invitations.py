@@ -14,13 +14,14 @@ from django.utils import timezone
 from sesame.utils import get_token, get_user
 
 from eures_beta.logging import RedactAccessLinks
-from eures_beta.users.invitations import (
+from eures_beta.invitations.services import (
     create_invitation,
     invitation_token,
     invitation_message,
 )
-from eures_beta.users.models import Invitation, User
-from eures_beta.users.permissions import EMPLOYER_INVITER_GROUP
+from eures_beta.invitations.models import Invitation
+from eures_beta.users.models import User
+from eures_beta.invitations.permissions import EMPLOYER_INVITER_GROUP
 
 
 @override_settings(
@@ -211,7 +212,7 @@ class InvitationTests(TestCase):
 
     def test_invitation_is_valid_near_one_week_but_not_after(self):
         import time
-        from eures_beta.users.invitations import find_invitation
+        from eures_beta.invitations.services import find_invitation
 
         invitation = self.create()
         token = invitation_token(invitation)
@@ -226,7 +227,7 @@ class InvitationTests(TestCase):
                     return_value=time.time() + delta.total_seconds(),
                 ),
                 patch(
-                    'eures_beta.users.invitations.timezone.now',
+                    'eures_beta.invitations.services.timezone.now',
                     return_value=now + delta,
                 ),
             ):
@@ -374,12 +375,14 @@ class InvitationTests(TestCase):
         user = User.objects.create_user(
             email='new-adviser@example.invalid', kind='adviser'
         )
-        self.assertTrue(user.has_perm('users.add_invitation'))
+        self.assertTrue(user.has_perm('invitations.add_invitation'))
         self.assertFalse(user.has_perm('users.add_user'))
         self.assertFalse(user.is_staff)
         user.groups.clear()
         call_command('sync_group_and_perms', stdout=StringIO())
-        self.assertTrue(User.objects.get(pk=user.pk).has_perm('users.view_invitation'))
+        self.assertTrue(
+            User.objects.get(pk=user.pk).has_perm('invitations.view_invitation')
+        )
         self.assertEqual(
             set(
                 Group.objects.get(name=EMPLOYER_INVITER_GROUP).permissions.values_list(
@@ -423,12 +426,12 @@ class InvitationTests(TestCase):
         with (
             override_settings(LOGIN_EMAIL_ENABLED=True),
             patch(
-                'eures_beta.users.invitation_views.send_mail',
+                'eures_beta.invitations.views.send_mail',
                 side_effect=RuntimeError('sensitive payload'),
             ),
         ):
             with self.assertLogs(
-                'eures_beta.users.invitation_views', level='ERROR'
+                'eures_beta.invitations.views', level='ERROR'
             ) as captured:
                 page = self.client.post(
                     reverse('employer_invite') + '?lang=en',

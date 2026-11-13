@@ -349,7 +349,7 @@ login-email: ## Simuler un email privé de connexion, sans envoi (EMAIL et ORIGI
 	@$(MANAGE) login_email "$(EMAIL)" --origin "$(ORIGIN)" --language "$(LANGUAGE)"
 
 invitations-test: ## Tester invitations, rôles, expiration et confirmation sur PostgreSQL local
-	@$(MANAGE) test eures_beta.users.tests.test_invitations --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.invitations.tests.test_invitations --noinput $(TEST_ARGS)
 
 INVITATION ?=
 ORIGIN ?=
@@ -421,4 +421,4 @@ emails-test: ## Vérifier le transport SMTP partagé et les protections sans env
 
 .PHONY: adviser-invitations-test
 adviser-invitations-test: ## Tester le tableau de bord conseiller et les invitations
-	@$(MANAGE) test eures_beta.users.tests.test_adviser_invitations eures_beta.users.tests.test_invitations eures_beta.candidates.tests.test_registration --noinput $(TEST_ARGS)
+	@$(MANAGE) test eures_beta.invitations.tests.test_adviser_invitations eures_beta.invitations.tests.test_invitations eures_beta.candidates.tests.test_registration --noinput $(TEST_ARGS)

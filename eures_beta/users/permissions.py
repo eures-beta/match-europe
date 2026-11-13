@@ -3,22 +3,19 @@
 from django.contrib.auth.models import Group, Permission
 from django.core.management.base import CommandError
 from django.db import transaction
+from django.db.models import Q
 
 ACCOUNT_ADMIN_GROUP = 'account-admin'
-EMPLOYER_INVITER_GROUP = 'employer-inviters'
 
 
 def get_group_permissions():
-    from .models import User, Invitation
+    from .models import User
+    from eures_beta.invitations.permissions import get_group_permissions as invitations
 
     return {
         ACCOUNT_ADMIN_GROUP: {User: {'view'}},
-        EMPLOYER_INVITER_GROUP: {Invitation: {'add', 'view'}},
+        **invitations(),
     }
-
-
-def can_manage_employers(user):
-    return bool(user.is_authenticated and user.is_active and user.kind == 'adviser')
 
 
 def synchronize_permissions(database='default'):
@@ -28,9 +25,14 @@ def synchronize_permissions(database='default'):
         # Resolve every permission first; a typo or missing migration must not
         # leave a partially applied administration policy.
         definitions = {}
+        managed_models = Q(pk__in=[])
         for name, models in get_group_permissions().items():
             permissions = []
             for model, actions in models.items():
+                managed_models |= Q(
+                    content_type__app_label=model._meta.app_label,
+                    content_type__model=model._meta.model_name,
+                )
                 for action in sorted(actions):
                     try:
                         permission = Permission.objects.using(database).get(
@@ -78,10 +80,7 @@ def synchronize_permissions(database='default'):
         # unrelated business permissions or unrelated group memberships.
         admin_permissions = (
             Permission.objects.using(database)
-            .filter(
-                content_type__app_label=User._meta.app_label,
-                content_type__model__in=[User._meta.model_name, 'invitation'],
-            )
+            .filter(managed_models)
             .values_list('pk', flat=True)
         )
         removed_direct, _ = (

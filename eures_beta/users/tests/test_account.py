@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from eures_beta.users.adviser_invitations import render_message
+from eures_beta.invitations.adviser import render_message
 
 
 class AccountPageTests(TestCase):

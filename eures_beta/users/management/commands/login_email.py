@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import override, gettext
 from sesame.utils import get_query_string
-from eures_beta.users.invitations import validate_origin
+from eures_beta.emails.origins import validate_origin
 from eures_beta.users.models import User
 
 

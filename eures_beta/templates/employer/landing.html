@@ -280,7 +280,7 @@
             <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
             <p>{% translate "Upload your job offer as a PDF, add a link to your advert or enter your recruitment needs." context "public positioning" %}</p>
             {% if not user.is_authenticated or user.kind != "employer" %}
-              {% include "includes/employer_invitation_help.html" %}
+              {% include "invitations/includes/employer_invitation_help.html" %}
             {% endif %}
           </div>
           <section class="candidate-message">

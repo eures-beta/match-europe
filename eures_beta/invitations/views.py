@@ -15,10 +15,11 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
 from .forms import InvitationForm
-from .invitations import create_invitation, find_invitation, invitation_message
-from .models import Invitation, User
-from .permissions import can_manage_employers
-from .views import email_ready, selected_language
+from .services import create_invitation, find_invitation, invitation_message
+from .models import Invitation
+from eures_beta.users.models import User
+from .permissions import can_invite
+from eures_beta.users.views import email_ready, selected_language
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ logger = logging.getLogger(__name__)
 @sensitive_post_parameters('email')
 @require_http_methods(['GET', 'POST'])
 def invite(request):
-    if not can_manage_employers(request.user):
+    if not can_invite(request.user):
         raise PermissionDenied
     with translation.override(selected_language(request)):
         form = InvitationForm(
@@ -71,13 +72,13 @@ def invite(request):
                     )
         return render(
             request,
-            'users/invite_employer.html',
+            'invitations/invite_employer.html',
             {'form': form, 'invitation': invitation, 'sent': sent},
         )
 
 
 def adviser_dashboard(request):
-    if not can_manage_employers(request.user):
+    if not can_invite(request.user):
         raise PermissionDenied
 
     employers = Paginator(
@@ -91,7 +92,7 @@ def adviser_dashboard(request):
     ).get_page(request.GET.get('invitations_page'))
     return render(
         request,
-        'users/adviser_dashboard.html',
+        'invitations/adviser_dashboard.html',
         {'employers': employers, 'invitations': invitations},
     )
 
@@ -100,7 +101,7 @@ def confirmation_page(request, stage, invitation=None):
     with translation.override(selected_language(request)):
         response = render(
             request,
-            'users/accept_invitation.html',
+            'invitations/accept_invitation.html',
             {'stage': stage, 'invitation': invitation},
         )
     response['Referrer-Policy'] = 'same-origin'
@@ -140,7 +141,7 @@ def confirm(request):
                 return confirmation_page(request, 'invalid')
             if (
                 invitation.recipient_kind == Invitation.RecipientKind.ADVISER
-                and not can_manage_employers(invitation.sender)
+                and not can_invite(invitation.sender)
             ):
                 return confirmation_page(request, 'invalid')
             recipient = User.objects.create_user(

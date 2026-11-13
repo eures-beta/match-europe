@@ -3,8 +3,8 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
-from eures_beta.users.invitations import invitation_message
-from eures_beta.users.models import Invitation
+from eures_beta.invitations.services import invitation_message
+from eures_beta.invitations.models import Invitation
 
 
 class Command(BaseCommand):

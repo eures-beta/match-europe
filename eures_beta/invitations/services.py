@@ -2,7 +2,6 @@
 
 from datetime import timedelta
 import uuid
-from urllib.parse import urlsplit
 
 from django.conf import settings
 from django.core import signing
@@ -14,8 +13,11 @@ from django.utils import timezone, translation
 from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext as _
 
-from .models import Invitation, LoginRateLimit, User, invitation_expiry
-from .permissions import can_manage_employers
+from .models import Invitation
+from .defaults import invitation_expiry
+from eures_beta.users.models import LoginRateLimit, User
+from .permissions import can_invite
+from eures_beta.emails.origins import validate_origin
 
 # Keep this historical salt so invitations already sent remain valid.
 SALT = 'users.employer-invitation.v1'
@@ -76,7 +78,7 @@ def create_invitation(
 ):
     # Serialize simultaneous invitations by one adviser, including the rate limit.
     adviser = User.objects.select_for_update().get(pk=adviser.pk)
-    if not can_manage_employers(adviser):
+    if not can_invite(adviser):
         raise ValidationError(_('You are not allowed to invite employers.'))
     email = email.strip().lower()
     if User.objects.filter(email__iexact=email).exists():
@@ -112,28 +114,6 @@ def create_invitation(
     return invitation
 
 
-def validate_origin(origin):
-    parsed = urlsplit(origin)
-    local = (
-        settings.DEBUG
-        and parsed.scheme == 'http'
-        and parsed.hostname in ('localhost', '127.0.0.1', '[::1]')
-    )
-    if (
-        not (parsed.scheme == 'https' or local)
-        or parsed.hostname not in settings.ALLOWED_HOSTS
-        or parsed.username
-        or parsed.password
-        or parsed.query
-        or parsed.fragment
-        or parsed.path not in ('', '/')
-    ):
-        raise ValidationError(
-            'Use an allowed HTTPS origin (HTTP loopback only in DEBUG).'
-        )
-    return origin.rstrip('/')
-
-
 def invitation_message(invitation, origin):
     origin = validate_origin(origin)
     if invitation.accepted_at or invitation.expired:
@@ -148,7 +128,7 @@ def invitation_message(invitation, origin):
         return (
             _('Your invitation to Match Europe'),
             render_to_string(
-                'users/invitation_email.txt',
+                'invitations/invitation_email.txt',
                 {'link': link, 'expires_at': invitation.expires_at},
             ),
         )
