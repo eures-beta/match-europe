@@ -170,6 +170,7 @@ def owned_profile(request):
 def profile(request):
     obj = owned_profile(request)
     from eures_beta.matching.confirmation_services import candidate_requests
+    from eures_beta.candidates.models import CandidatePushSubscription
     from eures_beta.candidates.push import public_key, available
 
     language = selected_language(request)
@@ -177,14 +178,16 @@ def profile(request):
     with translation.override(language):
         return render(
             request,
-            (
-                'candidates/preview_profile.html'
-                if push_key
-                else 'candidates/profile.html'
-            ),
+            ('candidates/pwa_profile.html' if push_key else 'candidates/profile.html'),
             {
                 'profile': obj,
                 'candidate_push_key': push_key,
+                'candidate_push_endpoint': (
+                    CandidatePushSubscription.objects.filter(candidate=obj)
+                    .values_list('endpoint', flat=True)
+                    .first()
+                    or ''
+                ),
                 'page_language': language,
                 'groups': answer_groups(registration.profile_answers(obj), language),
                 'offer_confirmations_available': candidate_requests(

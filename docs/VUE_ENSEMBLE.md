@@ -372,3 +372,11 @@ restent en place ; leur migration vers les tokens sera une évolution distincte.
 et ses tests de régression. Exceptions limitées aux e-mails et aux attributs du
 catalogue de tokens ; les pages métier ne peuvent pas embarquer de CSS.
 Voir [la séparation HTML/CSS](HTML_CSS.md) pour les ressources et contrôles.
+
+## 16 novembre 2026 — notifications Push sans nom de recette
+
+CANDIDATS / CONSEILLERS : noms techniques indépendants de l'environnement et
+rotation du contexte VAPID vers `match-europe-push-v1`. Les navigateurs déjà
+abonnés se renouvellent à la prochaine visite du profil, sans nouveau consentement
+ni suppression de comptes. Les nouveaux abonnements restent explicites.
+Voir [les notifications Push et leur renouvellement](CANDIDATE_PUSH.md).

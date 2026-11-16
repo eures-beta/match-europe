@@ -16,6 +16,7 @@ from .models import CandidatePushSubscription
 
 logger = logging.getLogger(__name__)
 P256_ORDER = 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551
+KEY_DERIVATION_CONTEXT = b'match-europe-push-v1'
 
 
 def available():
@@ -25,10 +26,8 @@ def available():
 def private_key():
     from cryptography.hazmat.primitives.asymmetric import ec
 
-    # Keep this historical derivation context: changing it would rotate the
-    # VAPID key and invalidate existing browser subscriptions.
     seed = hmac.digest(
-        settings.SECRET_KEY.encode(), b'match-europe-preview-push-v1', hashlib.sha256
+        settings.SECRET_KEY.encode(), KEY_DERIVATION_CONTEXT, hashlib.sha256
     )
     return ec.derive_private_key(
         int.from_bytes(seed) % (P256_ORDER - 1) + 1, ec.SECP256R1()

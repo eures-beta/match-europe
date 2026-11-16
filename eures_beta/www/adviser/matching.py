@@ -304,7 +304,7 @@ def follow(request, pk):
         elif request.method == 'POST':
             if not can_resend or action != 'resend':
                 raise Http404
-            if not cache.add(f'preview-push-resend:{pk}', True, 30):
+            if not cache.add(f'candidate-push-resend:{pk}', True, 30):
                 result, status = _('Wait a moment before resending.'), 429
             elif push.notify(conversation):
                 result = _('The push service accepted the notification.')
