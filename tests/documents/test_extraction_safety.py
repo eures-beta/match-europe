@@ -56,7 +56,7 @@ from eures_beta.documents.document_fields import (
     printed_url_page, commission_percentage, required_experience,
 )
 assert not printed_url_page('http://' + '0' * 100000 + '!')
-assert not commission_percentage('commissiona' * 10000)
+assert not commission_percentage('commissiona' * 100000)
 assert not required_experience('experience' * 10000)
 '''
         result = subprocess.run(
