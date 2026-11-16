@@ -37,7 +37,7 @@
     </dl>
     {% if can_start_shared %}
       <p><a class="primary-action"
-   href="{% url 'shared_conversation_start' conversation.pk %}?lang={{ dashboard_language }}">{% translate "Continue with the employer" %}</a></p>
+            href="{% url 'shared_conversation_start' conversation.pk %}?lang={{ dashboard_language }}">{% translate "Continue with the employer" %}</a></p>
     {% endif %}
   </section>
   {% if analysis_ready or analysis_error %}
