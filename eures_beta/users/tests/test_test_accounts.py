@@ -122,9 +122,7 @@ class TestAccountAccessTests(TestCase):
         self.assertEqual(page.status_code, 200)
         self.assertEqual(page.context['current']['kind'], 'schedule')
         follow = reverse('adviser_conversation', args=[confirmation.pk])
-        with patch(
-            'eures_beta.candidates.push.notify', return_value=True
-        ) as resend:
+        with patch('eures_beta.candidates.push.notify', return_value=True) as resend:
             self.assertEqual(
                 adviser.post(follow, {'action': 'resend'}).status_code, 200
             )
