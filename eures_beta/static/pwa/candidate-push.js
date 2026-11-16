@@ -1,9 +1,9 @@
-const form = document.querySelector('[data-preview-push]');
+const form = document.querySelector('[data-candidate-push]');
 const button = form.querySelector('button');
 const status = form.querySelector('[role="status"]');
 
 const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-form.closest('[data-preview-push-step]').hidden = !standalone;
+form.closest('[data-candidate-push-step]').hidden = !standalone;
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -17,7 +17,7 @@ form.addEventListener('submit', async (event) => {
     }
     const registration = await navigator.serviceWorker.ready;
     const existing = await registration.pushManager.getSubscription();
-    const publicKey = form.dataset.previewPush;
+    const publicKey = form.dataset.candidatePush;
     const encoded = publicKey.replace(/-/g, '+').replace(/_/g, '/');
     const applicationServerKey = Uint8Array.from(atob(encoded), (char) => char.charCodeAt(0));
     const subscription =

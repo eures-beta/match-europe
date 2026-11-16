@@ -39,7 +39,7 @@ class TestAccountAccessTests(TestCase):
     @override_settings(
         DJANGO_ENVIRONMENT='preview', MATCHING_ENABLED=True, LOGIN_EMAIL_ENABLED=False
     )
-    def test_preview_candidates_are_ready_for_adviser_review(self):
+    def test_demo_candidates_are_ready_for_adviser_review(self):
         from eures_beta.users.adviser_matching import pending_pairs
         from eures_beta.matching.models import CandidateOfferReview
 
@@ -55,14 +55,14 @@ class TestAccountAccessTests(TestCase):
             user = prepared_user(key)
             self.assertEqual(client.session['_auth_user_id'], str(user.pk))
             self.assertTrue(pending_pairs().filter(candidate__user=user).exists())
-            self.assertContains(response, 'data-preview-push')
+            self.assertContains(response, 'data-candidate-push')
 
     @override_settings(
         MATCHING_ENABLED=True,
         LOGIN_EMAIL_ENABLED=False,
         CONFIRMATION_DIALOGUE_SIMULATED=True,
     )
-    def test_preview_push_starts_only_after_adviser_validation(self):
+    def test_push_starts_only_after_adviser_validation(self):
         import base64
         from unittest.mock import patch
 
@@ -130,7 +130,7 @@ class TestAccountAccessTests(TestCase):
     @override_settings(MATCHING_ENABLED=True, CONFIRMATION_DIALOGUE_SIMULATED=True)
     def test_push_is_universal_and_subscription_is_optional(self):
         from unittest.mock import patch
-        from eures_beta.candidates import preview_push
+        from eures_beta.candidates import push
         from eures_beta.matching.models import CandidateOfferReview
         from eures_beta.users.adviser_matching import pending_pairs, record_review
 
@@ -140,7 +140,7 @@ class TestAccountAccessTests(TestCase):
         user.save(update_fields=["email"])
         adviser = prepared_user("adviser")
         pair = pending_pairs().get(candidate__user=user)
-        with patch.object(preview_push, "notify") as notify:
+        with patch.object(push, "notify") as notify:
             for environment in ("local", "preview", "production"):
                 with (
                     self.subTest(environment=environment),
@@ -148,7 +148,7 @@ class TestAccountAccessTests(TestCase):
                         DJANGO_ENVIRONMENT=environment, DEMO_ACCOUNTS_ENABLED=False
                     ),
                 ):
-                    self.assertTrue(preview_push.available())
+                    self.assertTrue(push.available())
                     self.client.force_login(user)
                     page = self.client.get(reverse("candidate_profile"))
                     self.assertContains(page, reverse("candidate_push_subscriptions"))

@@ -14,7 +14,7 @@
     {% include "candidates/install_pwa_phone_steps.html" %}
   </details>
   <p data-install-pwa-complete hidden>{% translate "Match Europe is open as an app." %}</p>
-  {% if not preview_push_key %}
+  {% if not candidate_push_key %}
     {% include "candidates/install_pwa_notification_note.html" %}
   {% endif %}
   <script src="{% static 'pwa/candidate-install-pwa.js' %}" defer></script>
