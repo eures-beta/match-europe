@@ -24,7 +24,7 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
                 DJANGO_ENVIRONMENT=environment,
                 DJANGO_SECRET_KEY='fictional-parity-settings',
                 EMAIL_DELIVERY_ENABLED='1',
-                TEST_ACCOUNTS_ENABLED='0',
+                DEMO_ACCOUNTS_ENABLED='0',
             )
             with self.subTest(environment=environment):
                 result = subprocess.run(

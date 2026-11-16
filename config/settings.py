@@ -54,13 +54,13 @@ SKILLS_ALBERT_SIMULATED = os.environ.get('SKILLS_ALBERT_SIMULATED', '0') == '1'
 ALBERT_DIALOGUE_MODEL = os.environ.get('ALBERT_DIALOGUE_MODEL', ALBERT_MODEL)
 SKILLS_ALBERT_SOURCE_DIR = BASE_DIR / '.runtime' / 'catalog-sources'
 CONTINUOUS_SKILLS_ENABLED = os.environ.get('CONTINUOUS_SKILLS_ENABLED', '1') == '1'
-TEST_ACCOUNTS_ENABLED = os.environ.get('TEST_ACCOUNTS_ENABLED', '0') == '1'
+DEMO_ACCOUNTS_ENABLED = os.environ.get('DEMO_ACCOUNTS_ENABLED', '0') == '1'
 # Team contact for employers requesting a Match Europe invitation.
 EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
     'ME_EMPLOYER_ADVISER_CONTACT_URL',
     'mailto:eric.barthelemy@francetravail.fr',
 )
-if TEST_ACCOUNTS_ENABLED and (
+if DEMO_ACCOUNTS_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
 ):
     from django.core.exceptions import ImproperlyConfigured

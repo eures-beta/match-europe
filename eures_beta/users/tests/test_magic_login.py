@@ -231,7 +231,7 @@ class MagicLoginTests(TestCase):
                             DJANGO_ENVIRONMENT=environment,
                             LOGIN_EMAIL_ENABLED=enabled,
                             EMAIL_DELIVERY_ENABLED=enabled,
-                            TEST_ACCOUNTS_ENABLED=False,
+                            DEMO_ACCOUNTS_ENABLED=False,
                         ),
                         patch(
                             'eures_beta.users.views.send_mail', return_value=1

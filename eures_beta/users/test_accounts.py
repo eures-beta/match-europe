@@ -48,7 +48,7 @@ PWA_ACCOUNTS = {
 
 def enabled():
     return bool(
-        settings.TEST_ACCOUNTS_ENABLED
+        settings.DEMO_ACCOUNTS_ENABLED
         and settings.DJANGO_ENVIRONMENT in ('local', 'preview')
         and not settings.EMAIL_DELIVERY_ENABLED
     )

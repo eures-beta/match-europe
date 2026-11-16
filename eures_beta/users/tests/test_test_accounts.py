@@ -20,7 +20,7 @@ User = get_user_model()
 
 
 @override_settings(
-    TEST_ACCOUNTS_ENABLED=True,
+    DEMO_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='preview',
     EMAIL_DELIVERY_ENABLED=False,
 )
@@ -64,10 +64,10 @@ class TestAccountAccessTests(TestCase):
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
-        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.count(), 9)
         self.assertEqual(Company.objects.count(), 1)
         self.assertEqual(CompanyMembership.objects.count(), 1)
-        self.assertEqual(JobOffer.objects.count(), 2)
+        self.assertEqual(JobOffer.objects.count(), 3)
         identities = list(User.objects.order_by('pk').values_list('pk', flat=True))
         offer = JobOffer.objects.first()
         offer.data = {'description': 'An edit that must survive redeployment'}
@@ -76,7 +76,7 @@ class TestAccountAccessTests(TestCase):
         self.assertEqual(
             list(User.objects.order_by('pk').values_list('pk', flat=True)), identities
         )
-        self.assertEqual(JobOffer.objects.count(), 2)
+        self.assertEqual(JobOffer.objects.count(), 3)
         offer.refresh_from_db()
         self.assertEqual(
             offer.data, {'description': 'An edit that must survive redeployment'}
@@ -85,6 +85,31 @@ class TestAccountAccessTests(TestCase):
             user = prepared_user(key)
             self.assertIsNotNone(user)
             self.assertFalse(user.has_usable_password())
+
+    @override_settings(LOGIN_EMAIL_ENABLED=True)
+    def test_local_and_preview_prepare_the_same_complete_demo(self):
+        from eures_beta.candidates.models import CandidateProfile
+        from eures_beta.matching.models import CandidateOfferMatch, CandidateOfferReview
+        from eures_beta.users.test_accounts import PWA_ACCOUNTS
+
+        identities = None
+        for environment in ('local', 'preview'):
+            with (
+                self.subTest(environment=environment),
+                override_settings(DJANGO_ENVIRONMENT=environment),
+            ):
+                self.seed()
+                current = list(User.objects.order_by('pk').values_list('pk', flat=True))
+                if identities is not None:
+                    self.assertEqual(current, identities)
+                identities = current
+                self.assertEqual(len(current), 9)
+                self.assertEqual(CandidateProfile.objects.count(), 5)
+                self.assertEqual(CandidateOfferMatch.objects.count(), 5)
+                self.assertEqual(CandidateOfferReview.objects.count(), 2)
+                for key in PWA_ACCOUNTS:
+                    self.assertIsNotNone(prepared_user(key))
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_seeding_refuses_real_addresses_before_creating_any_fixture(self):
         user = User.objects.create_user(email='someone@example.org', kind='adviser')
@@ -246,7 +271,7 @@ class TestAccountAccessTests(TestCase):
                 ),
                 override_settings(
                     DJANGO_ENVIRONMENT=environment,
-                    TEST_ACCOUNTS_ENABLED=enabled,
+                    DEMO_ACCOUNTS_ENABLED=enabled,
                     EMAIL_DELIVERY_ENABLED=email_enabled,
                 ),
             ):
@@ -264,6 +289,8 @@ class TestAccountAccessTests(TestCase):
                 )
                 with self.assertRaises(CommandError):
                     self.seed()
+                with self.assertRaises(CommandError):
+                    call_command('seed_matching_trial', stdout=StringIO())
         self.assertFalse(User.objects.exists())
 
     def test_invalid_startup_configuration_fails_before_serving_requests(self):
@@ -277,7 +304,7 @@ class TestAccountAccessTests(TestCase):
                 env={
                     **os.environ,
                     'DJANGO_ENVIRONMENT': environment,
-                    'TEST_ACCOUNTS_ENABLED': '1',
+                    'DEMO_ACCOUNTS_ENABLED': '1',
                     'EMAIL_DELIVERY_ENABLED': delivery,
                     'DJANGO_SECRET_KEY': 'fictional-key',
                 },

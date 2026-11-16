@@ -20,7 +20,7 @@ from eures_beta.matching.services import StaleEvaluation
 
 @override_settings(
     MATCHING_ENABLED=True,
-    TEST_ACCOUNTS_ENABLED=True,
+    DEMO_ACCOUNTS_ENABLED=True,
     DJANGO_ENVIRONMENT='local',
     EMAIL_DELIVERY_ENABLED=False,
     LOGIN_EMAIL_ENABLED=False,

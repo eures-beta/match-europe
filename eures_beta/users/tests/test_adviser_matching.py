@@ -22,6 +22,8 @@ class AdviserMatchingTests(TestCase):
         cls.pair = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
+        # Exercise the adviser decision before any candidate review is requested.
+        CandidateOfferReview.objects.filter(pair=cls.pair).delete()
 
     def setUp(self):
         self.client.force_login(self.adviser)

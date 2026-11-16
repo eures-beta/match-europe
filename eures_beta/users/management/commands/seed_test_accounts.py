@@ -1,6 +1,5 @@
 """Idempotent, opt-in fictional data; never resets a database."""
 
-from django.conf import settings
 from django.core.management import BaseCommand, CommandError, call_command
 from django.db import transaction
 from eures_beta.users.models import User
@@ -22,10 +21,7 @@ class Command(BaseCommand):
             raise CommandError(
                 'Test seeding requires an explicitly enabled local/preview database with only .invalid accounts.'
             )
-        from eures_beta.matching.access import test_data_enabled
-
-        seed_pwa = settings.DJANGO_ENVIRONMENT == 'preview' and test_data_enabled()
-        accounts = {**ACCOUNTS, **PWA_ACCOUNTS} if seed_pwa else ACCOUNTS
+        accounts = {**ACCOUNTS, **PWA_ACCOUNTS}
         for key, specification in accounts.items():
             if (
                 User.objects.filter(email__iexact=specification['email']).exists()
@@ -50,18 +46,17 @@ class Command(BaseCommand):
 
         seed_test_offers(users['employer'])
         call_command('sync_group_and_perms', stdout=self.stdout)
-        if seed_pwa:
-            from eures_beta.matching.confirmation_services import request_confirmation
-            from eures_beta.matching.models import CandidateOfferMatch
+        from eures_beta.matching.confirmation_services import request_confirmation
+        from eures_beta.matching.models import CandidateOfferMatch
 
-            call_command('seed_matching_trial', stdout=self.stdout)
-            for key in PWA_ACCOUNTS:
-                pair = CandidateOfferMatch.objects.get(
-                    candidate__user=users[key],
-                    offer__source_kind='matching',
-                    offer__email='employer@matching-trial.invalid',
-                )
-                request_confirmation(users['admin'], pair.pk)
+        call_command('seed_matching_trial', stdout=self.stdout)
+        for key in PWA_ACCOUNTS:
+            pair = CandidateOfferMatch.objects.get(
+                candidate__user=users[key],
+                offer__source_kind='matching',
+                offer__email='employer@matching-trial.invalid',
+            )
+            request_confirmation(users['admin'], pair.pk)
         self.stdout.write(
             'Fictional test accounts and offers are ready; existing data preserved.'
         )

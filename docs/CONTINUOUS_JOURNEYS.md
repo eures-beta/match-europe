@@ -85,7 +85,7 @@ Environnement et base PostgreSQL propres à ce dossier : `make install-test`,
 Installer les trois archives officielles épinglées dans `.runtime/catalog-sources/`
 selon `ALBERT_SKILLS.md`, puis `make skills-source-check`.
 Préparer les seuls comptes fictifs avec `make test-accounts-seed`, après activation
-locale explicite de `TEST_ACCOUNTS_ENABLED=1`.
+locale explicite de `DEMO_ACCOUNTS_ENABLED=1`.
 
 `make continuous-run` ouvre l’accueil sur le port 9040. Le port 9039 conserve
 l’ancienne recette séparée et n’est pas la recette continue. Aucun déploiement.
@@ -118,7 +118,7 @@ la fusion et le déploiement de production restent distincts de cet essai.
 La recette doit être configurée extérieurement au dépôt avec
 `DJANGO_ENVIRONMENT=preview`, `ME_SHARED_DEMO=1`, HTTPS,
 `CONTINUOUS_SKILLS_ENABLED=1`, `SKILLS_ALBERT_ENABLED=1`,
-`ALBERT_IMPORT_ENABLED=1`, `TEST_ACCOUNTS_ENABLED=1` et les e-mails réels
+`ALBERT_IMPORT_ENABLED=1`, `DEMO_ACCOUNTS_ENABLED=1` et les e-mails réels
 désactivés. Albert est forcé en simulation par le raccordement, sans clé requise.
 Le pilote séparé reste désactivé. Les migrations et le peuplement fictif suivent
 les mécanismes de recette existants ; seuls les comptes .invalid sont admis.
