@@ -23,17 +23,6 @@ La pile contient des changements encore non fusionnés : ne pas les présenter
 comme déjà déployés. Son ordre et ses SHA sont des informations GitHub périssables,
 pas une liste à dupliquer dans ce fichier.
 
-- [#193](https://github.com/eures-beta/match-europe/pull/193) et
-  [#197](https://github.com/eures-beta/match-europe/pull/197) : profil PWA, suivi
-  conseiller, avis Albert et conversation à trois. Ne pas confondre revue par
-  offre et conversation réelle ; consulter les limites de leurs descriptions.
-- [#195](https://github.com/eures-beta/match-europe/pull/195) : retrait de trois
-  modèles employeur hérités ; préserver l'historique des migrations.
-- [#196](https://github.com/eures-beta/match-europe/pull/196),
-  [#199](https://github.com/eures-beta/match-europe/pull/199),
-  [#200](https://github.com/eures-beta/match-europe/pull/200) :
-  commandes de tests paramétrées, serveur unique et tests dans `tests/`.
-- [#202](https://github.com/eures-beta/match-europe/pull/202) : couche web `www`.
 - [#203](https://github.com/eures-beta/match-europe/pull/203) : design system Bootstrap/ECL.
 - [#204](https://github.com/eures-beta/match-europe/pull/204) et
   [#208](https://github.com/eures-beta/match-europe/pull/208) : routes explicites
@@ -46,6 +35,12 @@ pas une liste à dupliquer dans ce fichier.
 - [#211](https://github.com/eures-beta/match-europe/pull/211) : CSS web externe et lint.
 - [#216](https://github.com/eures-beta/match-europe/pull/216) : noms Push neutres,
   nouveau contexte VAPID et renouvellement des abonnements existants autorisés.
+- [#226](https://github.com/eures-beta/match-europe/pull/226) : noms des modèles,
+  relations et objets PostgreSQL, avec migrations réversibles et données conservées.
+- [#228](https://github.com/eures-beta/match-europe/pull/228) : maintenance Python ;
+  [#229](https://github.com/eures-beta/match-europe/pull/229) et
+  [#230](https://github.com/eures-beta/match-europe/pull/230) : recherches bornées
+  et outillage de triage CodeQL.
 
 Retirer les entrées après intégration et mise à jour des guides concernés.
 N'ajouter ici que ce qui change concrètement la prochaine reprise.
@@ -61,10 +56,9 @@ N'ajouter ici que ce qui change concrètement la prochaine reprise.
 - Albert : clé et sources officielles préparées pour les appels réels ; les tests
   utilisent une frontière simulée. Un test simulé ne prouve pas la disponibilité externe.
 - Production/recette : configuration et secrets dans les dépôts privés.
-  [#27 privé](https://github.com/eures-beta/match-europe-deploy-clever/pull/27)
-  accompagne le réglage `DEMO_ACCOUNTS_ENABLED` de
-  [#191](https://github.com/eures-beta/match-europe/pull/191) ; vérifier sa livraison
-  avant de promettre une recette peuplée.
+  Vérifier le réglage effectif `DEMO_ACCOUNTS_ENABLED` et les protections de la
+  base fictive avant de promettre une recette peuplée. Une mise à jour du
+  contrôleur ne reconfigure pas automatiquement les anciennes recettes.
 - Suppression automatique selon les durées annoncées et revue juridique complète :
   vérifier les capacités réellement implémentées dans [la notice](docs/DATA_PROTECTION.md).
   Ne pas annoncer une purge effective sur la seule présence d'une durée dans un texte.
