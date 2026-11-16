@@ -320,3 +320,16 @@ ci-status: ## Lire l'état des jobs GitHub Actions (RUN requis, REPO optionnel)
 
 ci-errors: ## Lire les erreurs/arrêts CI avec cache local (RUN, JOB/PATTERN optionnels)
 	python3 -m config.ci_diagnostics errors
+
+# Passer le chemin comme donnée, jamais dans une recette shell interpolée.
+unexport FILE
+export SECURITY_ALERT_FILE = $(value FILE)
+.PHONY: security-alerts security-plan security-apply
+security-alerts: ## Consulter les alertes CodeQL et préparer leurs métadonnées de revue (lecture seule)
+	python3 -m config.security_alerts list
+
+security-plan: ## Vérifier et afficher les décisions JSON, sans modifier GitHub (FILE=…)
+	python3 -m config.security_alerts plan
+
+security-apply: ## Appliquer uniquement les décisions explicites vérifiées du fichier JSON (FILE=…)
+	python3 -m config.security_alerts apply

@@ -34,3 +34,7 @@ les deux interfaces matching et les redirections de compatibilité sans perte de
 
 `candidates/service_worker.test.cjs` vérifie les destinations Push canoniques,
 la compatibilité des anciennes notifications et le refus des destinations externes.
+
+- [config/test_security_alerts.py](config/test_security_alerts.py) vérifie les plans
+  de classement CodeQL, les refus, la reprise et les paramètres littéraux Make,
+  avec l’API GitHub simulée et sans modifier d’alerte réelle.
