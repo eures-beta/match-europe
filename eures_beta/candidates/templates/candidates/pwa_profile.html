@@ -15,8 +15,9 @@
         <form method="post"
               action="{% url 'candidate_push_subscriptions' %}"
               data-candidate-push="{{ candidate_push_key }}"
-              data-success="{% translate 'Phone ready for the test. You can close the app and validate the match on your computer.' %}"
-              data-failure="{% translate 'Open the installed app and allow notifications to continue the test.' %}">
+              data-candidate-push-endpoint="{{ candidate_push_endpoint }}"
+              data-success="{% translate 'Notifications are enabled. You can close the app.' %}"
+              data-failure="{% translate 'Open the installed app and allow notifications, then try again.' %}">
           {% csrf_token %}
           <button class="primary-action" type="submit">{% translate "Enable notifications" %}</button>
           <p role="status"></p>

@@ -22,7 +22,7 @@ Profils, validation des réponses, inscription vérifiée et brouillons. L’int
 - [models.py](models.py) — Définit les données persistantes, leurs relations et contraintes.
 - [occupation_choices.py](occupation_choices.py) — Résout les métiers et références du questionnaire.
 - [pending.py](pending.py) — Gère les brouillons et demandes de confirmation temporaires.
-- [push.py](push.py) — Gère les clés et envois Push candidats ; l’abonnement HTTP est dans www.
+- [push.py](push.py) — Gère les clés et envois Push candidats ; l’abonnement HTTP est dans www. Voir [la rotation et le renouvellement des abonnements](../../docs/CANDIDATE_PUSH.md).
 - [registration.py](registration.py) — Vérifie l’inscription et conserve le profil après confirmation.
 - [schedule_rules.py](schedule_rules.py) — Valide la cohérence des horaires et conditions déclarées.
 - [skill_choices.py](skill_choices.py) — Définit les choix de compétences du profil candidat.

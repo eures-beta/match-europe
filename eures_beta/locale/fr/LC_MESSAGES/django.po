@@ -7660,3 +7660,9 @@ msgstr "Horaires impératifs"
 #: eures_beta/www/adviser/offer_details.py:91
 msgid "Maximum salary"
 msgstr "Salaire maximum"
+
+msgid "Notifications are enabled. You can close the app."
+msgstr "Les notifications sont activées. Vous pouvez fermer l’application."
+
+msgid "Open the installed app and allow notifications, then try again."
+msgstr "Ouvrez l’application installée et autorisez les notifications, puis réessayez."

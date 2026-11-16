@@ -7660,3 +7660,9 @@ msgstr "Verbindliche Arbeitszeiten"
 #: eures_beta/www/adviser/offer_details.py:91
 msgid "Maximum salary"
 msgstr "Höchstgehalt"
+
+msgid "Notifications are enabled. You can close the app."
+msgstr "Benachrichtigungen sind aktiviert. Sie können die App schließen."
+
+msgid "Open the installed app and allow notifications, then try again."
+msgstr "Öffnen Sie die installierte App und erlauben Sie Benachrichtigungen. Versuchen Sie es anschließend erneut."

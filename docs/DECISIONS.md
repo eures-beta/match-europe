@@ -461,3 +461,13 @@ restent en place ; leur migration vers les tokens sera une évolution distincte.
 et ses tests de régression. Exceptions limitées aux e-mails et aux attributs du
 catalogue de tokens ; les pages métier ne peuvent pas embarquer de CSS.
 Voir [la séparation HTML/CSS](HTML_CSS.md) pour les ressources et contrôles.
+
+## 16 novembre 2026 — noms et rotation des notifications Push
+
+Dejafait conserve le terme `push` et demande le contexte cryptographique
+`b'match-europe-push-v1'`, sans référence aux recettes. La rotation renouvelle
+les abonnements déjà consentis lors de la prochaine visite du profil, sans
+changer la clé secrète Django, supprimer des données ni inscrire de nouveaux
+navigateurs sans action explicite. Le template devient `pwa_profile.html` et
+la limitation de renvoi utilise `candidate-push-resend`. Un appareil maximum
+par candidat reste accepté. Voir [le fonctionnement et les limites](CANDIDATE_PUSH.md).

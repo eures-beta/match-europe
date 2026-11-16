@@ -8,6 +8,28 @@ Voir [le périmètre, les limites et la gestion des secrets](docs/SECURITY_MAINT
 CodeQL reste à expliquer et valider avant activation. Aucun modèle, migration,
 compte, parcours ou configuration d’exécution n’est modifié par cette PR.
 
+## 16 novembre 2026 — noms Push et renouvellement après rotation
+
+Demande de dejafait : garder `push` dans les noms du code et utiliser le contexte
+cryptographique `b'match-europe-push-v1'`. Le profil adapté à l'application
+installée devient `pwa_profile.html` et la clé de cache de renvoi devient
+`candidate-push-resend`. Les messages FR/EN/DE ne parlent plus de test.
+
+Le navigateur renouvelle un ancien abonnement uniquement après permission déjà
+accordée et correspondance avec l'endpoint du candidat connecté. Ni premier
+abonnement automatique ni transfert implicite entre comptes d'un navigateur
+partagé ; aucun POST automatique pour une clé déjà à jour. Échecs visibles et
+nouvel essai possible. Aucun modèle ou schéma modifié, aucune suppression de
+compte, profil ou offre. La clé secrète Django n'est pas changée.
+
+Validation après raccordement au sommet de la pile : suite Django de 705 tests,
+dont huit tests de qualité exécutés séparément avec djLint ; 36 tests Node,
+dont douze scénarios Push navigateur et trois contrôles Python dédiés.
+Cinq groupes HTTPS Docker réussis sous 256 Mio (pic 176 181 248 octets, aucun OOM).
+Django/migrations, Black, djLint, Prettier JS/CSS et gettext vérifiés.
+Services externes simulés ; aucune réception sur téléphone réel ni opération de
+production prétendue. Voir [le fonctionnement et les limites](docs/CANDIDATE_PUSH.md).
+
 ## 16 novembre 2026 — doublons de validation GitHub non annulés
 
 TRANSVERSE : les tests PostgreSQL et HTTP partent du push pour toutes les
