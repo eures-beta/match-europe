@@ -17,7 +17,6 @@ from django.urls import reverse
 from django.utils.translation import gettext, override
 from django.views.decorators.http import require_POST
 
-from eures_beta.matching.confirmation_services import questions, short_question
 from .models import CandidatePushSubscription
 from .registration_views import owned_profile
 
