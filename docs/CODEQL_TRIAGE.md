@@ -77,3 +77,8 @@ Références : [résolution](https://docs.github.com/en/code-security/how-tos/ma
 [détails des alertes](https://docs.github.com/en/code-security/concepts/code-scanning/code-scanning-alerts),
 [API](https://docs.github.com/en/rest/code-scanning/code-scanning#update-a-code-scanning-alert),
 [TLS Python](https://docs.python.org/3.14/library/ssl.html#ssl.SSLContext).
+
+Pour les opérations répétées, utiliser `make security-alerts`,
+`make security-plan FILE=…`, puis `make security-apply FILE=…` après revue du plan.
+[Le guide de l’outil](SECURITY_ALERTS.md) détaille les justifications individuelles,
+les contrôles de concurrence et la reprise après échec, sans changer ce triage.
