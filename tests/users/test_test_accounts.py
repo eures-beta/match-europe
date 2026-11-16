@@ -191,7 +191,6 @@ class TestAccountAccessTests(TestCase):
             self.assertIsNotNone(user)
             self.assertFalse(user.has_usable_password())
 
-    @override_settings(LOGIN_EMAIL_ENABLED=True)
     def test_local_and_preview_prepare_the_same_complete_demo(self):
         from eures_beta.candidates.models import CandidateProfile
         from eures_beta.matching.models import CandidateOfferMatch, CandidateOfferReview
