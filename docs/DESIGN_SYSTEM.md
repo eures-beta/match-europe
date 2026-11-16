@@ -43,7 +43,7 @@ réelles, avec le contraste mesuré de chaque couleur. C’est un outil interne 
 français seulement, et non une fonctionnalité métier. Elle est réservée aux comptes staff actifs,
 avec la même règle dans tous les environnements (`require_staff`) : un visiteur anonyme est envoyé
 vers la connexion, un autre compte reçoit une 404. En local, utiliser le compte fictif
-superadministrateur (`TEST_ACCOUNTS_ENABLED=1`, puis `make test-accounts-seed`, voir
+superadministrateur (`DEMO_ACCOUNTS_ENABLED=1`, puis `make test-accounts-seed`, voir
 `docs/TEST_ACCOUNTS.md`).
 
 Pour une page qui utilise Bootstrap, charger les trois feuilles dans cet ordre :
