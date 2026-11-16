@@ -19,7 +19,7 @@ Vérifier le succès de la commande avant toute modification du fichier ou édit
 de la PR. Aucun push, commentaire, modification de PR ou déploiement n'est effectué.
 
 ```bash
-make test TESTS=config.test_pr_description
+make test TESTS=tests.config.test_pr_description
 ```
 
 Les tests sont hors réseau : succès Unicode, paramètres invalides, résultat vide,
