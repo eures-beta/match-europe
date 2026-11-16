@@ -4,6 +4,16 @@ unexport RUN REPO JOB PATTERN CONTEXT LINES REFRESH
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
+# Transmettre PR comme donnée, jamais comme fragment de commande shell.
+unexport PR
+export MATCH_PR_NUMBER := $(value PR)
+.PHONY: pr-description pr-description-test
+pr-description: ## Lire la description GitHub : make pr-description PR=195
+	python3 -m config.pr_description
+
+pr-description-test: ## Vérifier lecture atomique, paramètres et échecs, sans réseau
+	python3 -m unittest config.test_pr_description
+
 # Docker limite réellement le serveur Linux ; aucun secret ni service distant.
 .PHONY: e2e-test e2e-regression e2e-unit-test
 e2e-unit-test: ## Vérifier le lecteur des e-mails capturés sans Docker ni envoi

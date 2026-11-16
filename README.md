@@ -27,3 +27,4 @@ Ouvrir [localhost:8000](http://127.0.0.1:8000/). `make test` lance les tests ;
 `make help` présente les autres commandes.
 
 Pour aller plus loin : [guide de développement détaillé](docs/DEVELOPPEMENT.md).
+Pour les revues : [lire une description de PR avec Make](docs/PR_DESCRIPTION.md).
