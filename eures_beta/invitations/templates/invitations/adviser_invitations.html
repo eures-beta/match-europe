@@ -32,7 +32,7 @@
             <label for="recipient_kind">Type de destinataire</label>
             <select name="recipient_kind" id="recipient_kind">
               {% for value, label in recipient_kinds %}<option value="{{ value }}"
-        {% if value == recipient_kind %}selected{% endif %}>{{ label }}</option>{% endfor %}
+                                                               {% if value == recipient_kind %}selected{% endif %}>{{ label }}</option>{% endfor %}
             </select>
             {% if mode == "csv" %}
               <label for="csv">Fichier CSV</label>

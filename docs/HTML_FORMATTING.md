@@ -21,3 +21,8 @@ messages gettext indivisibles sont exclus de ce contrôle de structure.
 Les blocs `<style>` sont formatés par djLint (`format_css` activé). Les feuilles
 CSS autonomes sont traitées par le même Prettier que le JavaScript, avec
 `make format-css` et `make format-css-check` ; voir [le guide](JAVASCRIPT_FORMATTING.md).
+
+La version de djLint est épinglée dans `requirements/quality.txt`. Une mise à jour
+du formateur peut modifier son résultat : appliquer `make format-html`, revoir
+le diff puis vérifier `make format-html-check`. Ces changements de présentation
+doivent être isolés des mises à jour des dépendances applicatives.

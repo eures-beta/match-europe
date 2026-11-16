@@ -132,9 +132,9 @@
                     {% for row in reference_rows %}
                       <article class="occupation-result">
                         <label><input type="checkbox"
-       name="occupation_references"
-       value="{{ row.value }}"
-       {% if row.value in field.value %}checked{% endif %}> <strong>{{ row.label }}</strong></label>
+                                      name="occupation_references"
+                                      value="{{ row.value }}"
+                                      {% if row.value in field.value %}checked{% endif %}> <strong>{{ row.label }}</strong></label>
                         {% if row.description %}<p>{{ row.description }}</p>{% endif %}
                       </article>
                     {% endfor %}
@@ -192,7 +192,7 @@
                      {% if field.name == "occupation_query" or field.name == "desired_occupations" %} data-occupation-only{% endif %}>
                   {% if field.field.widget.input_type == "checkbox" %}{{ field }} {{ field.label_tag }}{% else %}{{ field.label_tag }}{% if field.field.required %} <span>({% translate "required" %})</span>{% endif %}{{ field }}{% endif %}
                   {% if field.help_text %}<p class="helptext"
-   id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
+                                             id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
                   {% if field.name == "occupation_query" %}
                     <button class="nav-pill"
                             name="action"
