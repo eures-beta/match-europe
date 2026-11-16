@@ -118,17 +118,17 @@ class CandidateProfileSharing(models.Model):
         db_table = 'matching_transmissionagreement'
 
 
-class SharedConversation(models.Model):
+class CandidateOfferConversation(models.Model):
     class State(models.TextChoices):
         REQUESTED = 'requested'
         APPROVED = 'approved'
         DECLINED = 'declined'
         OPEN = 'open'
 
-    confirmation = models.OneToOneField(
+    offer_review = models.OneToOneField(
         CandidateOfferReview,
         on_delete=models.CASCADE,
-        related_name='shared_conversation',
+        related_name='candidate_offer_conversation',
     )
     adviser = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='+'
@@ -149,9 +149,9 @@ class SharedConversation(models.Model):
     employer_read = models.PositiveBigIntegerField(default=0)
 
 
-class SharedMessage(models.Model):
+class CandidateOfferConversationMessage(models.Model):
     conversation = models.ForeignKey(
-        SharedConversation, on_delete=models.CASCADE, related_name='messages'
+        CandidateOfferConversation, on_delete=models.CASCADE, related_name='messages'
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     body = models.TextField(max_length=2000)

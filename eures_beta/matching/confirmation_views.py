@@ -250,7 +250,7 @@ def display_rows(rows, language):
 @entry_candidate
 @require_http_methods(['GET'])
 def inbox(request):
-    from .shared_views import listed
+    from .candidate_offer_conversation_views import listed
 
     return render(
         request,

@@ -146,7 +146,7 @@ def notify(confirmation):
 
 
 def notify_shared(thread, *, invitation=False):
-    candidate = thread.confirmation.pair.candidate
+    candidate = thread.offer_review.pair.candidate
     with override(candidate.language):
         payload = {
             'url': reverse('shared_conversation', args=[thread.pk]),

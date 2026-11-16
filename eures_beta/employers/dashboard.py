@@ -3,7 +3,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from eures_beta.matching.shared_views import listed
+from eures_beta.matching.candidate_offer_conversation_views import listed
 from eures_beta.users.views import selected_language
 
 from .employer_ownership import accessible_imports

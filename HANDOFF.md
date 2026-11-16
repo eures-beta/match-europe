@@ -57,6 +57,15 @@ Services externes simulés ; aucune fusion ni modification de base distante.
 
 ## 13 novembre 2026 — conversations partagées compatibles avec les modèles actuels
 
+Mise à jour du 16 novembre, PR #197 : noms métier explicites
+`CandidateOfferConversation` et `CandidateOfferConversationMessage`, relation
+`offer_review` vers `CandidateOfferReview` et accès inverse
+`candidate_offer_conversation`. La migration additive `matching.0009_candidate_offer_conversation_names`
+renomme les tables, la colonne, les contraintes, index, séquences, types de
+contenu et permissions administratives en conservant les données. Les migrations
+historiques ci-dessous restent intactes. Le module de vues et le test du parcours
+portent aussi le nouveau nom. Les chemins HTTP existants restent compatibles.
+
 CONSEILLERS / CANDIDATS / EMPLOYEURS : les fils partagés utilisent
 `CandidateOfferReview` ; les contrôles de rôle et des trois participants sont
 conservés, sans permission métier Django supplémentaire. L’avis conseiller

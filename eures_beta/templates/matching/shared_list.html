@@ -5,7 +5,7 @@
     <ul>
       {% for thread in shared_conversations %}
         <li>
-          <a href="{% url 'shared_conversation' thread.pk %}?lang={{ shared_language }}">{{ thread.confirmation.pair.offer.data.title }}</a>
+          <a href="{% url 'shared_conversation' thread.pk %}?lang={{ shared_language }}">{{ thread.offer_review.pair.offer.data.title }}</a>
           {% if thread.unread %} · {% translate "Unread messages" %}{% endif %}
           {% if thread.state == "requested" %} · {% translate "Agreement requested" %}{% endif %}
           {% if thread.state == "approved" %} · {% translate "Ready to open" %}{% endif %}

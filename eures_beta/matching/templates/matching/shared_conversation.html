@@ -15,7 +15,7 @@
         <a href="{% url 'dashboard' %}?lang={{ page_language }}{% if role == 'adviser' %}&amp;view=conversations{% endif %}">{% translate "Dashboard" context "account navigation" %}</a>
       {% endif %}
       <h1>{% translate "Three-way conversation" %}</h1>
-      <p>{{ thread.confirmation.pair.offer.data.title }} · {{ thread.confirmation.pair.offer.data.companyName }}</p>
+      <p>{{ thread.offer_review.pair.offer.data.title }} · {{ thread.offer_review.pair.offer.data.companyName }}</p>
       {% if thread.state == "requested" and role == "candidate" %}
         <p>{% translate "If you agree, your display name and the messages in this conversation will be visible to the adviser and employer. Sharing your profile requires separate permission." %}</p>
         <p>{% translate "First message" %}</p>

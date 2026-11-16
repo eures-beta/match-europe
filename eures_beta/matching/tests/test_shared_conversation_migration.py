@@ -24,6 +24,131 @@ AFTER = '0008_sharedconversation_sharedmessage'
     EMAIL_DELIVERY_ENABLED=False,
 )
 class SharedConversationMigrationTests(TransactionTestCase):
+    def test_complete_rename_preserves_rows_schema_objects_and_permissions(self):
+        fixture = self.prepare()
+        apps = self.migrate(AFTER)
+        conversation = apps.get_model('matching', 'SharedConversation')
+        message = apps.get_model('matching', 'SharedMessage')
+        thread_id, message_id = self.populate(conversation, message, fixture)
+        expected = list(self.snapshot().values())
+        content_type, _ = apps.get_model(
+            'contenttypes', 'ContentType'
+        ).objects.get_or_create(app_label='matching', model='sharedconversation')
+        permission, _ = apps.get_model('auth', 'Permission').objects.get_or_create(
+            content_type_id=content_type.pk,
+            codename='view_sharedconversation',
+            defaults={'name': 'Can view shared conversation'},
+        )
+        group = apps.get_model('auth', 'Group').objects.create(name='Migration fixture')
+        group.permissions.add(permission)
+        before_objects = self.schema_objects(
+            'matching_sharedconversation', 'matching_sharedmessage'
+        )
+        apps = self.migrate('0009_candidate_offer_conversation_names')
+        conversation = apps.get_model('matching', 'CandidateOfferConversation')
+        message = apps.get_model('matching', 'CandidateOfferConversationMessage')
+        self.assertEqual(
+            conversation.objects.get(pk=thread_id).offer_review_id, fixture[1]
+        )
+        self.assertEqual(message.objects.get(pk=message_id).conversation_id, thread_id)
+        self.assertEqual(
+            conversation._meta.get_field('offer_review').remote_field.related_name,
+            'candidate_offer_conversation',
+        )
+        new_tables = (
+            'matching_candidateofferconversation',
+            'matching_candidateofferconversationmessage',
+        )
+        with connection.cursor() as cursor:
+            for table, (old_oid, old_rows) in zip(new_tables, expected):
+                cursor.execute('SELECT %s::regclass::oid', [table])
+                self.assertEqual(cursor.fetchone()[0], old_oid)
+                cursor.execute(
+                    f'SELECT * FROM {connection.ops.quote_name(table)} ORDER BY id'
+                )
+                self.assertEqual(cursor.fetchall(), old_rows)
+            for table in new_tables:
+                columns = connection.introspection.get_table_description(cursor, table)
+                self.assertNotIn('confirmation_id', [c.name for c in columns])
+        objects = self.schema_objects(*new_tables)
+        # Django rebuilds affected foreign-key constraints during RenameField;
+        # rows, table identities and sequence identities must survive.
+        self.assertEqual(len(objects), len(before_objects))
+        self.assertEqual(
+            {oid for oid, name in objects.items() if name.endswith('_id_seq')},
+            {oid for oid, name in before_objects.items() if name.endswith('_id_seq')},
+        )
+        self.assertTrue(
+            all(
+                'sharedconversation' not in n
+                and 'sharedmessage' not in n
+                and 'confirmation' not in n
+                for n in objects.values()
+            ),
+            objects,
+        )
+        self.assertNotIn(
+            'matching_sharedconversation', connection.introspection.table_names()
+        )
+        self.assertNotIn(
+            'matching_sharedmessage', connection.introspection.table_names()
+        )
+        self.assertEqual(
+            apps.get_model('contenttypes', 'ContentType')
+            .objects.get(pk=content_type.pk)
+            .model,
+            'candidateofferconversation',
+        )
+        self.assertEqual(
+            apps.get_model('auth', 'Permission').objects.get(pk=permission.pk).codename,
+            'view_candidateofferconversation',
+        )
+        self.assertEqual(
+            list(
+                apps.get_model('auth', 'Group')
+                .objects.get(pk=group.pk)
+                .permissions.values_list('pk', flat=True)
+            ),
+            [permission.pk],
+        )
+        later = message.objects.create(
+            conversation_id=thread_id, author_id=fixture[3], body='Next fictional reply'
+        )
+        self.assertGreater(later.pk, message_id)
+        later.delete()
+        apps = self.migrate(AFTER)
+        self.assertEqual(list(self.snapshot().values()), expected)
+        self.assertEqual(
+            apps.get_model('auth', 'Permission').objects.get(pk=permission.pk).codename,
+            'view_sharedconversation',
+        )
+        self.assertEqual(
+            apps.get_model('contenttypes', 'ContentType')
+            .objects.get(pk=content_type.pk)
+            .model,
+            'sharedconversation',
+        )
+        self.migrate('0009_candidate_offer_conversation_names')
+        self.assertEqual(len(self.schema_objects(*new_tables)), len(before_objects))
+
+    def schema_objects(self, *tables):
+        result = {}
+        with connection.cursor() as cursor:
+            for table in tables:
+                cursor.execute(
+                    'SELECT oid, conname FROM pg_constraint WHERE conrelid=%s::regclass',
+                    [table],
+                )
+                result.update(cursor.fetchall())
+                cursor.execute(
+                    'SELECT c.oid, c.relname FROM pg_class c WHERE c.oid IN '
+                    '(SELECT indexrelid FROM pg_index WHERE indrelid=%s::regclass) '
+                    'OR c.oid=pg_get_serial_sequence(%s, %s)::regclass',
+                    [table, table, 'id'],
+                )
+                result.update(cursor.fetchall())
+        return result
+
     def migrate(self, target):
         executor = MigrationExecutor(connection)
         executor.migrate([('matching', target)])

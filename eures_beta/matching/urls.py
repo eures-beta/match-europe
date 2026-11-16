@@ -1,11 +1,22 @@
 from django.urls import path
-from . import confirmation_views, dialogue_views, shared_views, views
+from . import (
+    confirmation_views,
+    dialogue_views,
+    candidate_offer_conversation_views,
+    views,
+)
 
 urlpatterns = [
     path(
-        'shared/start/<int:pk>/', shared_views.start, name='shared_conversation_start'
+        'shared/start/<int:pk>/',
+        candidate_offer_conversation_views.start,
+        name='shared_conversation_start',
     ),
-    path('shared/<int:pk>/', shared_views.detail, name='shared_conversation'),
+    path(
+        'shared/<int:pk>/',
+        candidate_offer_conversation_views.detail,
+        name='shared_conversation',
+    ),
     path(
         "candidate/<int:pk>/dialogue/",
         dialogue_views.conversation,
