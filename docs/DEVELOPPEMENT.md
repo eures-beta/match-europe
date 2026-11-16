@@ -15,6 +15,7 @@ make install-test
 make install-quality
 make install-js
 make db-create
+make db-check
 make migrate
 make run
 ```
@@ -23,6 +24,53 @@ make run
 Les versions Python sont verrouillées dans `requirements/`, Prettier dans npm.
 `requirements/test.txt` inclut les dépendances applicatives ; les dépendances du
 diagnostic Push supprimé ne sont plus installées. Aucun compte n'est créé au démarrage.
+
+## Préparation PostgreSQL locale
+
+Identifier une fois l’instance et le rôle de développement de la machine, puis
+réutiliser ces valeurs dans les worktrees. Ne pas changer automatiquement de
+serveur ou d’utilisateur quand une connexion échoue. Les anciennes commandes
+`matching-db-*` pilotent une instance particulière sur 55441 ; ce port n’est pas
+une exigence générale et cette instance ne doit pas être démarrée ou arrêtée
+pour remplacer une autre instance utilisée par des sessions parallèles.
+
+Renseigner explicitement dans chaque `.env` :
+
+| Variable | Choix |
+| --- | --- |
+| `PGHOST` | Instance locale choisie : loopback ou répertoire de socket Unix |
+| `PGPORT` | Port exact de cette instance |
+| `PGUSER` | Rôle existant avec droit `CREATEDB`, nécessaire aux bases de test Django |
+| `PGDATABASE` | Nom unique par worktree, distinct des bases système, au plus 58 octets |
+| `PGPASSWORD` / `PGPASSFILE` | Authentification locale si nécessaire, jamais versionnée |
+| `PGSSLMODE` | Transport TLS si nécessaire, conservé par les commandes |
+
+Le nom `skeleton` n’est pas un compte fourni par le projet. L’exemple laisse
+`PGUSER` et `PGDATABASE` vides pour demander un choix réel plutôt qu’une valeur
+inexistante sur la machine. Un opérateur PostgreSQL prépare le rôle une fois ;
+ces outils ne créent pas de rôle, ne donnent aucun droit et ne cherchent pas
+un superutilisateur. Le rôle n’a pas besoin d’être superutilisateur.
+
+- `make db-check` : lecture seule des droits, de l’existence, de la propriété et
+  de l’accès à la base configurée ; ouverture effective de cette base et `SELECT 1`.
+  Le contrôle se connecte d’abord à la base de maintenance `postgres` avec le
+  même rôle. Si la base manque, il indique `make db-create` et échoue.
+- `make db-create` : mêmes vérifications, puis création de la seule base configurée
+  si elle manque. Si elle existe déjà et appartient au rôle, la commande réussit
+  sans la recréer. Une base d’un autre rôle est refusée, jamais reprise ou effacée.
+- `make test` : exécute `db-check` avant la suite Django. Un précontrôle en échec
+  bloque les tests ; aucune réparation ou sélection d’un autre compte n’est cachée.
+
+Les connexions du précontrôle ont un délai d’ouverture de cinq secondes. Les
+messages ne contiennent ni mot de passe, ni chaîne de connexion, ni erreur brute
+du serveur. Ces commandes acceptent uniquement une instance locale en environnement
+`local` ou `preview`, jamais la production. Les tests HTTP Docker et le diagnostic
+de migration historique conservent leurs dispositifs isolés.
+
+Les approbations restent propres aux opérations : `db-check` lit, `db-create`
+peut créer une base, `test` crée sa base temporaire. Les recettes sont visibles
+dans le Makefile ; ne pas remplacer ces contrôles par une autorisation générale
+sur des commandes SQL libres.
 
 ## Comptes et parcours réels
 

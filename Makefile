@@ -215,7 +215,7 @@ install: ## Installer les dépendances dans .venv (Python 3.14 requis)
 run: ## Démarrer le serveur local, http://127.0.0.1:8000/
 	@$(MANAGE) runserver "$(HOST):$(PORT)"
 
-test: ## Tests PostgreSQL : scénarios fictifs explicites et protections des parcours réels
+test: db-check ## Tests PostgreSQL : scénarios fictifs explicites et protections des parcours réels
 	@$(LOAD_ENV) "$(PYTHON)" manage.py test eures_beta config --noinput $(TEST_ARGS)
 
 .PHONY: employer-test
@@ -266,7 +266,7 @@ dbshell: ## Ouvrir psql sur la base locale configurée (SQL interactif)
 collectstatic: ## Collecter les statiques dans staticfiles/
 	@$(MANAGE) collectstatic --noinput
 
-.PHONY: install-test test-local serve db-create
+.PHONY: install-test test-local serve db-check db-create
 install-test: ## Installer les dépendances pour les tests
 	python3.14 -m venv .venv
 	.venv/bin/python -m pip install -r requirements/test.txt
@@ -276,8 +276,11 @@ test-local: test ## Alias historique : tests via la configuration racine unique
 serve: ## Tester le serveur WSGI sur loopback, avec un worker
 	@$(LOAD_ENV) "$(PYTHON)" -m gunicorn config.wsgi:application --bind "127.0.0.1:$(PORT)" --workers 1
 
-db-create: ## Créer une base PostgreSQL locale vide nommée PGDATABASE
-	@$(LOAD_ENV) createdb --maintenance-db=postgres "$${PGDATABASE:?Renseigner PGDATABASE dans .env}"
+db-check: ## Vérifier la configuration PostgreSQL locale sans modification (rôle, CREATEDB, base)
+	@$(LOAD_ENV) "$(PYTHON)" -m config.local_database check
+
+db-create: ## Préparer la base locale du worktree si absente, sans créer de rôle
+	@$(LOAD_ENV) "$(PYTHON)" -m config.local_database create
 
 
 .PHONY: test-navigation

@@ -43,6 +43,21 @@
 - Lors d’une reprise sur une branche ancienne, relire les consignes de la branche
   de travail et les changements de consignes de `main` avant de poursuivre.
 
+## Préparation PostgreSQL locale
+
+- Utiliser `make db-check` pour diagnostiquer la configuration locale et
+  `make db-create` pour préparer la seule base du worktree si elle manque.
+  `make test` exécute ce précontrôle avant Django.
+- Réutiliser l’instance et le rôle de développement déjà identifiés sur la machine,
+  avec un `PGDATABASE` unique par worktree. Renseigner explicitement `PGHOST`,
+  `PGPORT`, `PGUSER` et `PGDATABASE` ; ne pas supposer que `skeleton` existe.
+- Ne pas rechercher automatiquement un autre serveur/compte, créer un rôle,
+  attribuer des droits, reprendre une base existante d’un autre rôle ou arrêter
+  une instance partagée pour résoudre une erreur de configuration.
+- Les requêtes ad hoc restent possibles pour un diagnostic exceptionnel ; un
+  besoin récurrent doit améliorer ce point d’entrée commun, pas multiplier les
+  cibles SQL ni élargir les approbations. Voir `docs/DEVELOPPEMENT.md`.
+
 ## Droits métier des conseillers
 
 - Tous les conseillers connectés et actifs ont les mêmes droits métier.

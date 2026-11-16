@@ -1608,3 +1608,12 @@ son profil après vérification de son adresse par le lien d’invitation.
 L’aperçu employeur a été contrôlé dans le navigateur. Voir
 [la recette et le contrat](docs/INVITATIONS.md). Le SMTP réel de Brevo
 reste à vérifier dans un environnement explicitement autorisé.
+
+## 16 novembre 2026 — préparation PostgreSQL locale réutilisable
+
+TRANSVERSE : `make db-check` vérifie sans modification l’instance, le rôle,
+CREATEDB et l’accès/propriété de la base du worktree. `make db-create` crée cette
+base seulement si absente ; `make test` refuse de démarrer si le précontrôle échoue.
+Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
+Aucun modèle, migration, environnement distant ou parcours métier modifié.
+Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.
