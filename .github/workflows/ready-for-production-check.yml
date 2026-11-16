@@ -78,7 +78,7 @@ jobs:
         with:
           python-version-file: '.python-version'
       - name: Vérifier la maintenance du runtime sans réseau
-        run: make python-runtime-test
+        run: make python-runtime-verify
       - name: Installer les dépendances applicatives et de test
         run: make install-test
       - name: Installer GNU gettext

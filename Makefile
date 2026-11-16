@@ -17,18 +17,16 @@ PYTHON_VERSION := $(shell cat .python-version)
 PYTHON_MINOR := $(word 1,$(subst ., ,$(PYTHON_VERSION))).$(word 2,$(subst ., ,$(PYTHON_VERSION)))
 PYTHON_BOOTSTRAP ?= python$(PYTHON_MINOR)
 
-.PHONY: python-update-check python-update python-runtime-test python-runtime-verify
-python-runtime-verify: ## Vérifier la version de l'interpréteur avant de créer un environnement
+.PHONY: python-update-check python-update python-runtime-verify
+python-runtime-verify: ## Vérifier l'interpréteur et sa maintenance hors réseau, avant installation
 	$(PYTHON_BOOTSTRAP) -m config.python_runtime --verify
+	$(PYTHON_BOOTSTRAP) -m unittest tests.config.test_python_runtime
 
 python-update-check: ## Chercher une version Python stable et son image Docker, sans écrire
 	python3 -m config.python_runtime
 
 python-update: ## Mettre à jour la déclaration Python et son empreinte Docker (sans commit)
 	python3 -m config.python_runtime --update
-
-python-runtime-test: ## Tester hors réseau la sélection des versions Python stables
-	python3 -m unittest tests.config.test_python_runtime
 
 # Docker limite réellement le serveur Linux ; aucun secret ni service distant.
 .PHONY: e2e-test e2e-regression
