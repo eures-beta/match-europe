@@ -21,6 +21,31 @@ from .engine import evaluate, DAYS
 VERSION = 'offer-confirmation-v1'
 VALUES = {'yes', 'conditional', 'no', 'changed', 'clarify'}
 
+QUESTION_TEMPLATES = {
+    'schedule': _('Can you work these hours: %(requirement)s?'),
+    'availability': _(
+        'Can you start within the timeframe stated in the offer: %(requirement)s?'
+    ),
+    'working_time': _('Would this working arrangement suit you: %(requirement)s?'),
+    'work_condition': _(
+        'The offer mentions this working condition: %(requirement)s. Would it suit you?'
+    ),
+    'mobility': _(
+        'Can you get to the workplace under these conditions: %(requirement)s?'
+    ),
+    'contract': _('Would this type of contract suit you: %(requirement)s?'),
+    'salary': _(
+        'Does the pay stated in the offer meet your expectations: %(requirement)s?'
+    ),
+    'permit': _('Do you have the permit stated in the offer: %(requirement)s?'),
+    'skill': _('Can you use this skill on the job: %(requirement)s?'),
+    'language': _(
+        'Can you work in the language and at the level stated: %(requirement)s?'
+    ),
+}
+
+DEFAULT_QUESTION_TEMPLATE = _('%(condition)s: %(requirement)s. Would that suit you?')
+
 
 def digest(value):
     return hashlib.sha256(
@@ -66,6 +91,14 @@ def short_question(row):
     ):
         return _('The job requires Saturday mornings. Can you work those hours?')
     return ''
+
+
+def question_text(row):
+    short = short_question(row)
+    if short:
+        return str(short)
+    template = QUESTION_TEMPLATES.get(row['kind'], DEFAULT_QUESTION_TEMPLATE)
+    return str(template % {'condition': row['label'], 'requirement': row['expected']})
 
 
 def questions(request):
