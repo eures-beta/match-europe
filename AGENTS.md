@@ -2,6 +2,12 @@
 
 ## Commandes locales réutilisables pour les agents
 
+- Pour examiner GitHub Actions, utiliser `make ci-status RUN=…` puis
+  `make ci-errors RUN=…`, avec `JOB`, `PATTERN`, `CONTEXT`, `LINES` ou `REFRESH=1`
+  au besoin. Réutiliser le cache de logs terminés plutôt que répéter des pipelines
+  `gh api | rg`. Ces diagnostics sont en lecture seule ; ne pas les confondre avec
+  une autorisation de relance ou de fusion. Voir `docs/CI_DIAGNOSTICS.md`.
+
 - Toute opération de développement, test, qualité ou maintenance destinée à être
   répétée doit disposer d’une cible dans le Makefile racine. Réutiliser une cible
   existante ou la créer dans la même PR, avec un nom court et explicite et une
