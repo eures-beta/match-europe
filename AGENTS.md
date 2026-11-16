@@ -8,6 +8,11 @@
   `gh api | rg`. Ces diagnostics sont en lecture seule ; ne pas les confondre avec
   une autorisation de relance ou de fusion. Voir `docs/CI_DIAGNOSTICS.md`.
 
+- Pour enregistrer une description de PR, utiliser `make pr-description PR=195`
+  (remplacer le numéro), sans `gh ... > fichier` ni script ad hoc. Le chemin du
+  fichier local est affiché ; vérifier le succès avant toute étape dépendante.
+  Un échec invalide l'ancien fichier. Voir `docs/PR_DESCRIPTION.md` ; les règles
+  d'approbation du client restent distinctes des consignes du dépôt.
 - Toute opération de développement, test, qualité ou maintenance destinée à être
   répétée doit disposer d’une cible dans le Makefile racine. Réutiliser une cible
   existante ou la créer dans la même PR, avec un nom court et explicite et une
