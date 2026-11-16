@@ -31,7 +31,7 @@ installé. `PYTHON_BOOTSTRAP` permet de préciser son chemin.
 ## Commandes
 
 ```bash
-make python-runtime-test
+make test TESTS=tests.config.test_python_runtime
 ```
 
 Ce test est sans réseau et couvre la sélection stable, les correctifs, les refus
