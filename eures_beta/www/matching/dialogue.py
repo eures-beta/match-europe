@@ -283,7 +283,9 @@ def conversation(request, pk):
         'matching/dialogue.html',
         dict(
             obj=obj,
-            shared_conversation=conversations(request.user).filter(offer_review=obj).first(),
+            shared_conversation=conversations(request.user)
+            .filter(offer_review=obj)
+            .first(),
             current=current,
             prompt=prompt,
             answered=answered,
