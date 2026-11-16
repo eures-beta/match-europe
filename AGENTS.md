@@ -857,7 +857,7 @@ The five permanent quality pillars for every user-facing feature are:
 # E-mails réels
 
 - L’identification instantanée des comptes fictifs est réservée à `local` et
-  `preview`, avec `TEST_ACCOUNTS_ENABLED=1` et les e-mails réels désactivés.
+  `preview`, avec `DEMO_ACCOUNTS_ENABLED=1` et les e-mails réels désactivés.
   Ne jamais l’activer en production ni la déduire des anciens réglages de démo.
   Voir [les protections et le peuplement idempotent](docs/TEST_ACCOUNTS.md).
 

@@ -492,7 +492,7 @@ class CandidateRegistrationTests(TestCase):
                             DJANGO_ENVIRONMENT=environment,
                             LOGIN_EMAIL_ENABLED=enabled,
                             EMAIL_DELIVERY_ENABLED=enabled,
-                            TEST_ACCOUNTS_ENABLED=False,
+                            DEMO_ACCOUNTS_ENABLED=False,
                         ),
                     ):
                         response = Client().get(

@@ -152,7 +152,7 @@ class ImportAccessTests(TestCase):
             )
 
     @override_settings(
-        TEST_ACCOUNTS_ENABLED=True,
+        DEMO_ACCOUNTS_ENABLED=True,
         DJANGO_ENVIRONMENT='preview',
         EMAIL_DELIVERY_ENABLED=False,
     )

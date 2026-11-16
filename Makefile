@@ -21,11 +21,11 @@ confirmations-migrations-test: ## Vérifier l'upgrade de l'ancien schéma de con
 dialogue-live-evaluate: ## Evaluer Albert réel sur six échanges fictifs, sans base ni données utilisateur
 	@$(MANAGE) evaluate_dialogue_albert --live
 dialogue-live-run: ## Essayer le raccordement Albert local sur 9045, données fictives uniquement
-	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_ENABLED=1 CONFIRMATION_DIALOGUE_SIMULATED=0 REQUEST_METRICS_ENABLED=0 MATCHING_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9045 --noreload
+	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_ENABLED=1 CONFIRMATION_DIALOGUE_SIMULATED=0 REQUEST_METRICS_ENABLED=0 MATCHING_ENABLED=1 DEMO_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9045 --noreload
 dialogue-live-test: ## Vérifier le raccordement avec API mockée, sans secret
 	@$(MANAGE) test eures_beta.matching.tests.test_dialogue_albert --noinput $(TEST_ARGS)
 dialogue-run: ## Essayer le dialogue Albert simulé local sur 9044, sans appel externe
-	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_SIMULATED=1 REQUEST_METRICS_ENABLED=0 MATCHING_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9044 --noreload
+	@$(LOAD_ENV) CONFIRMATION_DIALOGUE_SIMULATED=1 REQUEST_METRICS_ENABLED=0 MATCHING_ENABLED=1 DEMO_ACCOUNTS_ENABLED=1 DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 ALBERT_IMPORT_ENABLED=0 SKILLS_ALBERT_ENABLED=0 "$(PYTHON)" manage.py runserver 127.0.0.1:9044 --noreload
 dialogue-test: ## Tester les propositions simulées et leur validation privée
 	@$(MANAGE) test eures_beta.matching.tests.test_dialogue --noinput $(TEST_ARGS)
 
@@ -59,7 +59,7 @@ continuous-source-prepare: ## Télécharger explicitement les trois exports publ
 continuous-ui-test: ## Tester l'affichage, les choix, les erreurs et réponses périmées sans navigateur
 	node --test eures_beta/skills/tests/continuous.test.cjs
 continuous-run: ## Tester toute la pile depuis l'accueil sur 9040, données fictives et Albert simulé
-	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
+	@$(LOAD_ENV) CONTINUOUS_SKILLS_ENABLED=1 SKILLS_ALBERT_ENABLED=1 SKILLS_ALBERT_SIMULATED=1 ALBERT_IMPORT_ENABLED=1 ALBERT_API_KEY= DJANGO_ENVIRONMENT=local EMAIL_DELIVERY_ENABLED=0 LOGIN_EMAIL_ENABLED=0 DEMO_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9040" --noreload
 
 continuous-test: ## Vérifier les choix employeur/candidat, leur conservation et les protections locales
 	@$(MANAGE) test eures_beta.skills.tests.test_continuous eures_beta.skills.tests.test_skill_source_prepare --noinput $(TEST_ARGS)
@@ -88,7 +88,7 @@ albert-test: ## Tester Albert sans réseau : validation, repli, droits et confid
 	@$(MANAGE) test eures_beta.employers.tests.test_albert eures_beta.integrations.tests.test_albert --noinput $(TEST_ARGS)
 
 albert-run: ## Essayer le parcours Albert sur 9037, avec comptes fictifs et sans email réel
-	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9037" --noreload
+	@$(LOAD_ENV) ALBERT_IMPORT_ENABLED=1 DEMO_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9037" --noreload
 
 ALBERT_INPUT ?=
 ALBERT_OUTPUT ?= .runtime/albert-evaluation.json
@@ -397,7 +397,7 @@ occupations-ui-test: ## Tester la recherche métier du navigateur, ses erreurs e
 
 .PHONY: employer-response-run employer-response-test
 employer-response-run: ## Essayer les réponses employeur sur 9036, sans email réel
-	@$(LOAD_ENV) TEST_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"
+	@$(LOAD_ENV) DEMO_ACCOUNTS_ENABLED=1 "$(PYTHON)" manage.py runserver "127.0.0.1:9036"
 
 employer-response-test: ## Vérifier les réponses par compte, droits, conflits et traductions
 	@$(MANAGE) test eures_beta.employers.tests.test_response_practice eures_beta.employers.tests.test_profile_rename --noinput $(TEST_ARGS)

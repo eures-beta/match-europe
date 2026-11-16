@@ -17,14 +17,12 @@ def require_matching_enabled():
 
 
 def test_data_enabled():
-    # Seeding fictional accounts is a separate, explicit operator action.
-    return (
-        enabled()
-        and settings.TEST_ACCOUNTS_ENABLED
-        and settings.DJANGO_ENVIRONMENT in ('local', 'preview')
-        and not settings.EMAIL_DELIVERY_ENABLED
-        and not settings.LOGIN_EMAIL_ENABLED
+    from eures_beta.users.test_accounts import (
+        enabled as demo_enabled,
+        fictional_database,
     )
+
+    return demo_enabled() and fictional_database()
 
 
 def candidates():

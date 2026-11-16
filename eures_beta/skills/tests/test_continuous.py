@@ -352,7 +352,7 @@ class ContinuousTests(TestCase):
         )
         opener.assert_not_called()
 
-    @override_settings(TEST_ACCOUNTS_ENABLED=True)
+    @override_settings(DEMO_ACCOUNTS_ENABLED=True)
     def test_test_account_can_reopen_own_unassigned_offer_from_dashboard(self):
         from django.core.management import call_command
         from io import StringIO

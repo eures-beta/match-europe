@@ -208,7 +208,7 @@ def run(legacy=False):
                 'EMAIL_HOST': 'captured.invalid',
                 'DEFAULT_FROM_EMAIL': 'sender@example.invalid',
                 'LOGIN_EMAIL_ORIGIN': 'https://web:8443',
-                'TEST_ACCOUNTS_ENABLED': '0',
+                'DEMO_ACCOUNTS_ENABLED': '0',
                 'ALBERT_IMPORT_ENABLED': '1',
                 'ALBERT_IMPORT_SIMULATED': '0',
                 'ALBERT_API_KEY': 'fictional-e2e-key',

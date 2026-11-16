@@ -137,7 +137,7 @@ Puis `make db-create`, `make migrate`, `make matching-translations`,
 `make matching-run`.
 Ouvrir http://127.0.0.1:9041/matching/ avec un compte conseiller actif.
 Pour des scénarios fictifs dans une base de développement ou de recette dédiée,
-activer explicitement `TEST_ACCOUNTS_ENABLED=1`, garder les e-mails désactivés,
+activer explicitement `DEMO_ACCOUNTS_ENABLED=1`, garder les e-mails désactivés,
 puis utiliser `make matching-seed`. Ce peuplement est distinct de l'accès métier.
 Choisir ensuite une paire ou un scénario.
 Le peuplement ne remplace pas les réponses ni les décisions existantes.
