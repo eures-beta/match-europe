@@ -22,4 +22,5 @@ jobs:
         with:
           python-version: '3.14'
       - run: make install-quality
+      - run: make docs-check
       - run: make format-check

@@ -181,9 +181,13 @@ test: db-check ## Tests Django/PostgreSQL ; TESTS=module.Classe.methode, TEST_AR
 	@test -n "$(strip $(TESTS))" || { echo 'TESTS ne doit pas être vide.' >&2; exit 2; }
 	@$(MANAGE) test $(TESTS) --noinput $(TEST_ARGS)
 
-check: ## Vérifier Django et l'absence de migrations oubliées
+check: docs-check ## Vérifier les budgets documentaires, Django et les migrations
 	@$(MANAGE) check
 	@$(MANAGE) makemigrations --check --dry-run
+
+.PHONY: docs-check
+docs-check: ## Vérifier les tailles des consignes, skills et documents de reprise (sans base)
+	python3 -m config.documentation
 
 migrate: ## Appliquer les migrations à la base sélectionnée par .env
 	@$(MANAGE) migrate

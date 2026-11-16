@@ -1,958 +1,134 @@
-# Consignes de développement
-
-## Commandes locales réutilisables pour les agents
-
-- Pour examiner GitHub Actions, utiliser `make ci-status RUN=…` puis
-  `make ci-errors RUN=…`, avec `JOB`, `PATTERN`, `CONTEXT`, `LINES` ou `REFRESH=1`
-  au besoin. Réutiliser le cache de logs terminés plutôt que répéter des pipelines
-  `gh api | rg`. Ces diagnostics sont en lecture seule ; ne pas les confondre avec
-  une autorisation de relance ou de fusion. Voir `docs/CI_DIAGNOSTICS.md`.
-
-- Pour enregistrer une description de PR, utiliser `make pr-description PR=195`
-  (remplacer le numéro), sans `gh ... > fichier` ni script ad hoc. Le chemin du
-  fichier local est affiché ; vérifier le succès avant toute étape dépendante.
-  Un échec invalide l'ancien fichier. Voir `docs/PR_DESCRIPTION.md` ; les règles
-  d'approbation du client restent distinctes des consignes du dépôt.
-- Toute opération de développement, test, qualité ou maintenance destinée à être
-  répétée doit disposer d’une cible dans le Makefile racine. Réutiliser une cible
-  existante ou la créer dans la même PR, avec un nom court et explicite et une
-  description visible dans `make help`.
-- Pour sélectionner des tests, utiliser `make test TESTS=module.Classe.methode`
-  ou `TEST_ARGS='-k motif'`, et `make test-js JS_TESTS=chemin.test.cjs` pour Node.
-  Ne pas créer une cible par fonctionnalité, module ou sous-ensemble de tests.
-  Une cible distincte se justifie par un dispositif différent (Docker, diagnostic
-  de mise à niveau historique), pas par une simple liste de tests. Voir
-  [le guide des tests](docs/TESTS.md).
-- Tous les tests automatisés Python et JavaScript vivent dans `tests/` à la
-  racine, classés par domaine (`tests/candidates/`, `tests/employers/`, etc.).
-  Les tests transverses sont dans `tests/common/`, ceux du socle dans
-  `tests/config/`, et le banc HTTP Docker dans `tests/e2e/`. Placer les fixtures
-  et helpers de test avec leur domaine ; ne pas recréer de tests dans les
-  applications ou `config/`. Ce paquet n'est pas une application Django.
-- Dans les README, la documentation et les descriptions de PR, présenter la
-  commande `make` correspondante. Conserver les détails d’exécution dans sa
-  recette, plutôt que recopier de longues commandes shell dans les fichiers
-  Markdown. Documenter les paramètres utiles sans dupliquer l’implémentation.
-- Avant publication, vérifier que les opérations documentées sont exposées et
-  testées via ces cibles. Les diagnostics ponctuels et les commandes Git/GitHub
-  peuvent rester directs lorsqu’une cible n’apporte pas de valeur réutilisable.
-- Pour le JavaScript, utiliser `make install-js`, puis `make format-js` et
-  `make format-js-check` ; vérifier la syntaxe avec `make check-js`. Respecter
-  la configuration Prettier du dépôt (deux espaces, largeur cible 100 caractères).
-  Ne pas compacter les sources à la main ; Black ne formate pas le JavaScript.
-- Pour les CSS autonomes, utiliser le même Prettier avec `make format-css` et
-  `make format-css-check`. Garder une déclaration par ligne ; ne pas compacter
-  les règles à la main. Les ressources tierces sous `eures_beta/static/vendor/`
-  sont exclues. Les templates web ne doivent contenir ni bloc `<style>` ni
-  attribut `style` : charger les feuilles CSS avec `{% static %}`. Réutiliser
-  Bootstrap, les composants et les tokens du design system avant d'ajouter des
-  règles propres à un parcours. Partager les règles communes plutôt que créer
-  un fichier par template ou dupliquer des blocs.
-- `make format-html-check` bloque le CSS embarqué avec djLint (H021 et C901).
-  Les exceptions sont explicites et limitées : e-mails HTML pour compatibilité
-  des clients, et attributs dynamiques du catalogue `design_system.html` pour
-  présenter les tokens. Le catalogue ne peut pas ajouter de bloc `<style>`.
-  Ne pas ajouter une exemption de page métier ou un commentaire `djlint:off`
-  pour contourner cette règle. Voir [la séparation HTML/CSS](docs/HTML_CSS.md).
-- Utiliser les cibles existantes directement : `make test` pour la suite complète,
-  `make test TEST_ARGS='-k employer -k occupation'` pour filtrer les tests
-  employeurs et métiers, `make check`
-  pour Django et les migrations. Le filtre employeur ne remplace pas la suite
-  complète pour valider les interactions entre domaines.
-- Chaque worktree possède son propre `.venv`, installé avec `make install-test`,
-  et son `.env` ignoré par Git. Ne pas utiliser le Python d’un autre worktree ou
-  d’une ancienne PR. Installer les dépendances avant de lancer les tests.
-- Configurer une valeur `PGDATABASE` distincte par worktree dans `.env`, avec un
-  rôle PostgreSQL de développement autorisé à créer la base de test. Django
-  utilise normalement `test_<PGDATABASE>`. Ne pas partager cette base entre
-  exécutions concurrentes ; ne jamais utiliser des identifiants de production.
-- Pour les vérifications usuelles, lancer les commandes sans paramètres, sans
-  wrapper `bash -lc`, sans `cd` incorporé et sans redirection shell `> … 2>&1`.
-  Utiliser le répertoire de travail de l’outil et récupérer directement sa sortie.
-  Cela permet la reconnaissance des préfixes d’approbation ciblés lorsque le
-  client les a autorisés. Les options de diagnostic restent possibles au besoin.
-- Ne pas masquer une opération supplémentaire dans une cible Makefile pour
-  contourner une approbation. Ces consignes ne constituent pas une règle
-  d’autorisation : les droits et règles locales du client continuent de s’appliquer.
-- Lors d’une reprise sur une branche ancienne, relire les consignes de la branche
-  de travail et les changements de consignes de `main` avant de poursuivre.
-
-## Préparation PostgreSQL locale
-
-- Utiliser `make db-check` pour diagnostiquer la configuration locale et
-  `make db-create` pour préparer la seule base du worktree si elle manque.
-  `make test` exécute ce précontrôle avant Django.
-- Réutiliser l’instance et le rôle de développement déjà identifiés sur la machine,
-  avec un `PGDATABASE` unique par worktree. Renseigner explicitement `PGHOST`,
-  `PGPORT`, `PGUSER` et `PGDATABASE` ; ne pas supposer que `skeleton` existe.
-- Ne pas rechercher automatiquement un autre serveur/compte, créer un rôle,
-  attribuer des droits, reprendre une base existante d’un autre rôle ou arrêter
-  une instance partagée pour résoudre une erreur de configuration.
-- Les requêtes ad hoc restent possibles pour un diagnostic exceptionnel ; un
-  besoin récurrent doit améliorer ce point d’entrée commun, pas multiplier les
-  cibles SQL ni élargir les approbations. Voir `docs/DEVELOPPEMENT.md`.
-
-## Droits métier des conseillers
-
-- Tous les conseillers connectés et actifs ont les mêmes droits métier.
-- Ne pas conditionner leurs parcours à des permissions Django supplémentaires,
-  à un groupe ou à une habilitation individuelle. Vérifier le rôle et l'activité
-  côté serveur ; conserver les contrôles de propriété, CSRF et de validité des données.
-- Cette règle ne donne pas accès à l'administration Django et ne modifie pas
-  ses protections de consultation.
-
-## Routes canoniques
-
-- Utiliser des routes anglaises explicites et nommées Django, indépendantes des
-  noms de templates et des langues. Générer les liens avec `reverse` ou `{% url %}`.
-- Les pages employeur sont `/employer/`, `/employer/import/` et
-  `/employer/privacy/` ; l'API des offres est `/api/job-offers/`.
-  Ne pas réintroduire un serveur de templates choisi par un chemin d'URL.
-- Les vestiges restent uniquement dans `www/public/legacy_urls.py` et leurs
-  helpers de compatibilité, la documentation de retrait et les tests associés.
-  Aucun lien ou appel nouveau ne doit les émettre. Ils sont destinés à un retrait
-  ultérieur explicite, pas à devenir des alias permanents.
-- Conserver les méthodes HTTP, CSRF, droits et retours après connexion lors d'un
-  renommage ; un POST ne doit pas être converti silencieusement en GET.
-
-## Serveur de développement
-
-- Utiliser uniquement `make run PORT=…` pour démarrer Django, avec un port libre
-  par session et une base propre au worktree. Ne pas créer une cible de démarrage
-  par domaine ou parcours. `HOST` est configurable et vaut `127.0.0.1` par défaut.
-- Les réglages de simulation et de comptes fictifs restent explicites dans le
-  `.env` du worktree ; démarrer le serveur ne doit pas les imposer.
-- Les dispositifs WSGI et hooks de déploiement restent des opérations distinctes.
-
-## Réglages permanents et simulations
-
-- Les parcours métier sont permanents : ne pas réintroduire un interrupteur
-  par fonctionnalité. L’accès réel à Albert dépend de sa configuration ; les
-  erreurs gardent un repli explicite, jamais une simulation automatique.
-- Utiliser `ALBERT_SIMULATED` pour tous les usages Albert et
-  `EMAIL_DELIVERY_ENABLED` comme unique autorisation d’envoi. Les comptes fictifs
-  restent un outil distinct, explicitement activé et interdit en production.
-
-## Création des comptes
-
-- Le parcours candidat est disponible dans tous les environnements : compte et
-  profil sont créés uniquement après vérification du lien et confirmation POST.
-  Il reste distinct de la connexion et des invitations employeurs/conseillers.
-  Les e-mails suivent le backend Django commun, désactivé par défaut et
-  activé explicitement avec un transport configuré, indépendamment de l’environnement. Voir
-  `docs/CANDIDATE_EMAIL_REGISTRATION.md`.
-
-- La création autonome de comptes est fermée, pour les conseillers comme pour
-  les employeurs. Un formulaire public, une adresse de contact ou la validation
-  d’un lien de connexion ne doit jamais créer implicitement un utilisateur.
-- Les liens de connexion concernent uniquement les comptes existants et actifs.
-  Ne pas réintroduire de `get_or_create` d’utilisateur dans ces vues.
-- Les invitations et listes blanches demandent une implémentation distincte.
-- Les invitations employeurs sont explicites et réservées aux conseillers actifs
-  (`docs/INVITATIONS.md`) : sept jours et confirmation POST. Ce parcours
-  distinct peut créer un compte employeur ; la connexion habituelle (une heure)
-  ne crée jamais de compte. Sans envoi configuré, les liens ne doivent être simulés
-  que par les commandes d'opérateur, jamais exposés dans une page publique.
-  La création manuelle par un administrateur habilité, les migrations et les
-  fixtures de test restent des opérations internes explicites.
-
-## Pull requests et collaboration en équipe
-
-### Administration Django en consultation
-
-- Les modèles enregistrés dans Django Admin sont en lecture seule, même pour
-  les superutilisateurs : pas de création, modification, suppression ni action
-  groupée. Ne pas réactiver ces opérations sans demande explicite.
-- Utiliser la base commune `users/admin_base.py`, préserver le masquage des
-  secrets et vérifier les endpoints directs avec `make test TESTS=tests.users.test_readonly_admin`.
-- Tout nouveau modèle doit faire l'objet d'un enregistrement explicite et revu ;
-  les modèles sensibles peuvent ne montrer que leurs métadonnées.
-
-### Création
-
-- Créer une branche dédiée au travail demandé, avec le préfixe `codex/` sauf
-  instruction contraire. La destination habituelle est `main`.
-- L'agent peut choisir un titre court et descriptif sans demander de confirmation.
-  Respecter un titre fourni par l'humain ; celui-ci peut aussi le modifier ensuite.
-- L'agent peut rédiger automatiquement la description : problème, changement
-  apporté, vérifications et limites utiles à la relecture.
-- Assigner la PR au compte GitHub de l'humain qui demande le travail. Vérifier
-  son identifiant ; s'il est inconnu ou ambigu, le demander sans l'inventer.
-  L'agent agit comme assistant de cet humain.
-- Demander la relecture au compte GitHub `dejafait` par défaut, sauf consigne
-  explicite différente. Si GitHub empêche cette demande ou l'assignation,
-  signaler la limite sans prétendre que l'opération a réussi.
-- Les PR empilées sont permises : une branche B peut cibler la branche A d'une
-  PR encore ouverte, plutôt que `main`. Vérifier le contexte et demander la
-  branche de base lorsque ce choix est ambigu ; ne pas poser systématiquement
-  la question si la destination est déjà claire.
-
-### Pendant la relecture
-
-- Ne pas rebaser automatiquement les PR sur les nouveaux commits de leur
-  branche de destination pendant leur vie courante. Le faire sur demande ou
-  dans la préparation de la fusion décrite ci-dessous.
-- Communiquer à l'humain les commentaires des reviewers, en expliquer les
-  conséquences et proposer les suites à donner. Distinguer les corrections
-  nécessaires des suggestions et des points de désaccord.
-
-### Fusion et nettoyage
-
-- Une demande de création ou de relecture de PR n'autorise pas sa fusion.
-- Lorsqu'une fusion est autorisée, actualiser la branche de destination et
-  rebaser la branche de travail sur ses derniers commits avant la fusion.
-  Résoudre les conflits, revoir le diff et refaire les vérifications pertinentes.
-- Ne jamais créer de merge commit. Ne pas squasher les commits sauf demande
-  explicite de l'humain. Utiliser une fusion conservant un historique linéaire
-  sans squash ; si les réglages GitHub l'empêchent, signaler le blocage sans
-  contourner les règles du dépôt.
-- Si le rebase impose de réécrire une branche déjà publiée, utiliser uniquement
-  `--force-with-lease`, après vérification de l'état distant.
-- Après la fusion d'une PR A, retargeter les PR empilées qui ciblaient sa branche
-  vers sa destination effective (généralement `main`). Vérifier leur diff pour
-  éviter de représenter les changements déjà intégrés. Si nécessaire, adapter
-  uniquement les branches dépendantes concernées pour préserver leur travail.
-- Supprimer la branche distante fusionnée lorsqu'elle ne sert plus de base à
-  une PR ouverte. Ne pas supprimer une branche encore nécessaire.
-- Ne pas rebaser ni modifier automatiquement les autres PR ou branches
-  indépendantes après une fusion : cela crée du bruit et des notifications
-  inutiles. Le traitement des PR empilées directement dépendantes est la seule
-  exception à ce nettoyage ciblé, sauf demande explicite de l'humain.
-
-## Séparation entre code et exploitation
-
-### Rangement des outils par domaine
-
-- Ne pas créer de dossier `scripts/` à la racine du dépôt.
-- Placer les scripts et outils spécifiques à un domaine dans le paquet de
-  l’application concernée, par exemple `eures_beta/occupations/tools/` pour
-  l’entretien du catalogue métiers. Préférer des modules Python exécutables
-  avec `python -m`, sans manipulation ad hoc de `sys.path`.
-- Exposer les opérations répétables par des cibles Makefile documentées à la
-  racine. Ne pas confondre ce point d’entrée commun avec l’emplacement du code.
-- Avant de placer un outil transverse à la racine, identifier sa responsabilité
-  et choisir un paquet commun explicite ; ne pas utiliser la racine par défaut.
-
-### Reprise quotidienne et vocabulaire des revues
-
-- Lors du premier point de reprise quotidien demandé par dejafait, vérifier les
-  piles GitHub. Maintenir une pile active composée uniquement des PR ouvertes
-  non fusionnées, dans leur ordre de dépendance. Si GitHub conserve les PR déjà
-  fusionnées, détacher les PR actives et recréer une pile avec elles ; conserver
-  les branches, commits et PR, sans fusionner. Exclure les essais et sauvegardes.
-- Cette vérification se fait pendant la session, sans automatisme en arrière-plan.
-- Dans les récapitulatifs, préciser le rôle utilisateur concerné : employeur,
-  candidat, conseiller, administrateur ou outillage transverse. Distinguer la
-  recherche de métiers pour décrire une offre de la recherche de candidats.
-
-Ce dépôt public contient le code et les instructions de développement local.
-Les destinations, configurations et procédures propres aux environnements
-restent dans les dépôts privés de déploiement. Ne pas inscrire ici de secrets,
-d’accès serveur ou de consigne imposant une infrastructure particulière.
-
-## Descriptions des pull requests
-
-Avant de créer ou de modifier une description de PR, lire le modèle commun :
-https://github.com/eures-beta/.github/blob/main/pull_request_template.md
-
-Cette lecture est obligatoire, y compris avec la CLI ou l’API GitHub : le modèle
-hérité n’est pas présent dans le clone local. Rédiger en français, conserver les
-rubriques pertinentes et remplacer les textes d’aide par le pourquoi, le comment
-et les instructions de test propres à la PR. Les sections indiquées comme
-optionnelles peuvent être omises si elles ne s’appliquent pas.
-
-Distinguer les tests exécutés de ceux restant à faire ; ne cocher que les
-vérifications réalisées. Si le modèle est inaccessible, le signaler et utiliser
-les rubriques Pourquoi, Comment, À vérifier et Comment tester, sans inventer
-son contenu. Ne pas recopier le modèle dans ce dépôt : GitHub utilise le modèle
-commun en l’absence de modèle local.
----
-
-# AGENTS.md
-
-This file defines the permanent working rules for the Match Europe project.
-
-It applies to both human developers and AI agents working in the repository.
-
-Rules are classified into three levels:
-
-- **MUST**: mandatory and non-negotiable without explicit approval.
-- **SHOULD**: architecture or quality rule to follow unless there is a clear justification.
-- **CONVENTION**: shared working rule intended to maintain consistency across the project.
-
----
-
-## Shared project references — read at the start of a task
-
-Before working on any EURES beta / Match Europe area, read:
-
-1. `docs/VUE_ENSEMBLE.md` — overall purpose, four functional areas and their dependencies.
-2. `docs/DECISIONS.md` — validated decisions, constraints and open questions.
-3. `HANDOFF.md` — documented progress, dated validation and remaining limits.
-
-Identify the area concerned: EMPLOYEURS, CANDIDATS, CONSEILLERS, ADMIN or TRANSVERSE. Read the relevant implementation documentation and files before changing them. Report material consequences for the other areas; do not expand implementation scope without authorisation.
-
-At significant milestones, update the relevant shared references within the authorised task scope. Record only supported facts and validated decisions; label proposals, uncertainties and unverified environment state explicitly. Preserve previous useful handoff information and distinguish historical test results from checks performed now. Never record secrets, real personal data or private FT procedures in these public documents.
-
-These files are shared written context, not automatic access to every chat transcript. Their contents do not override the mandatory working rules below.
-
----
-
-## Repository scope — application livrable
-
-This repository contains the Match Europe Django/PostgreSQL/Bootstrap application.
-The historical Flask/Grist application stays in `eures-beta/eures-beta` and is not migrated here.
-Employer pages use Django templates and gettext catalogues; browser styles live in `eures_beta/static/employer/`.
-Les fonctionnalités livrées sont destinées à tous les environnements, y compris la production après fusion et déploiement.
-Do not merge or deploy without separate explicit authorisation. Preserve `main` and work on branches.
-Use fictional data for tests. Keep databases, sessions, keys, uploads and private FT procedures outside Git.
-Local test integrations are opt-in; automated tests mock external requests.
-
-
----
-
-# 1. BEFORE YOU CODE
-
-Before modifying any code, check the following points.
-
-## 1.1 Understand the requirement
-
-- Identify precisely the feature, bug or task concerned.
-- Do not expand the scope spontaneously.
-- Do not refactor unrelated code.
-- Do not modify another functional area only to "clean up" the project.
-- When an important ambiguity exists, state the assumption being made before modifying a sensitive part of the system.
-
-## 1.2 Verify the reference stack
-
-The reference stack is:
-
-- Django
-- PostgreSQL
-- Bootstrap
-
-Prefer native Django functionality before adding an external dependency.
-
-## 1.3 Verify the five structural requirements
-
-Every user-facing feature must be designed from the beginning around the following five requirements:
-
-1. FR / EN / DE
-2. Security
-3. Accessibility
-4. Test quality
-5. EURES / ELA brand compliance
-
-A user-facing feature that does not satisfy these five requirements is not considered complete.
-
-These requirements are structural and continuous. They are not final-stage checks.
-
-## 1.4 Verify data and permissions
-
-Before making a change:
-
-- identify which data is read or modified;
-- identify the roles concerned;
-- verify permissions server-side;
-- identify whether personal or sensitive data is involved;
-- verify whether a PostgreSQL migration is required.
-
-## 1.5 Verify business impact
-
-For any change affecting candidates, employers, advisers or matching:
-
-- preserve explainability;
-- preserve human validation where required;
-- do not introduce opaque automated decisions;
-- do not interpret missing data as a negative criterion without an explicitly validated business rule.
-
-## 1.6 Prepare validation
-
-Before coding, identify:
-
-- tests that must be added or adapted;
-- FR / EN / DE translations required;
-- accessibility checks required;
-- permissions that must be tested;
-- database migrations that may be required;
-- EURES / ELA visual-brand implications for user-facing changes;
-- documentation that may need to be updated.
-
----
-
-# 2. MUST — TECHNICAL STACK
-
-Match Europe uses the following reference stack:
-
-- Django;
-- PostgreSQL;
-- Bootstrap.
-
-The project must favour a simple and maintainable architecture.
-
-The preferred application structure is:
-
-Django → Django Templates → Bootstrap → PostgreSQL
-
-JavaScript should be used where needed, but a major frontend framework must not be introduced without an identified requirement and prior validation.
-
-Introducing another ORM, database, major frontend framework or structural infrastructure component must be explicitly justified and approved before implementation.
-
----
-
-# 3. MUST — HOSTING AND CONFIGURATION
-
-Hosting destinations and operational procedures belong in the private deployment repositories.
-
-The application core must not depend directly on a particular hosting provider.
-
-Environment-specific configuration must be managed through:
-
-- environment variables;
-- appropriate configuration files;
-- deployment-compatible mechanisms.
-
-Never hard-code:
-
-- environment URLs;
-- secrets;
-- passwords;
-- tokens;
-- API keys;
-- sensitive technical identifiers.
-
-The project must remain runnable locally in an environment reasonably close to production.
-
----
-
-# 4. MUST — INTERNATIONALISATION
-
-Match Europe is a trilingual application.
-
-The mandatory languages are:
-
-- French — FR;
-- English — EN;
-- German — DE.
-
-Every new user-facing feature must be available in all three languages before it is considered complete.
-
-Use Django's internationalisation system.
-
-Do not hard-code user-facing strings when they must be translatable.
-
-This applies in particular to:
-
-- pages;
-- forms;
-- error messages;
-- validation messages;
-- emails;
-- notifications;
-- help text;
-- navigation;
-- visible states and statuses.
-
-A missing translation is considered a functional regression.
-
----
-
-# 5. MUST — SECURITY
-
-Security is a permanent requirement and not a finishing step.
-
-Apply, in particular, the following principles:
-
-- least privilege;
-- server-side permission checks;
-- personal-data protection;
-- user-input validation;
-- CSRF protection;
-- secure session management;
-- appropriate use of Django authentication mechanisms;
-- systematic object-level access control;
-- no secrets in Git;
-- limited and maintained external dependencies;
-- appropriate logging of sensitive actions.
-
-Never assume that hiding something in the user interface protects the underlying data.
-
-Permissions must always be enforced server-side.
-
-Never place real personal data in:
-
-- fixtures;
-- tests;
-- examples;
-- screenshots;
-- logs;
-- demonstration files.
-
----
-
-# 6. MUST — DATA PROTECTION
-
-Collect only data required for a defined business purpose.
-
-Prefer progressive data collection.
-
-Do not request sensitive data before it is genuinely necessary.
-
-Reuse information already provided when it is available and reliable.
-
-Avoid unnecessary duplication of personal information.
-
-Candidate and employer contact details must not be exposed prematurely in the journey.
-
-Technical and audit logs must not become a hidden duplicate of the business database.
-
-Any destructive or irreversible operation on real data requires explicit approval.
-
----
-
-# 7. MUST — EXPLAINABLE MATCHING
-
-Match Europe matching must remain explainable.
-
-The reference business model is a weighted score out of 100 points.
-
-The main dimensions are:
-
-- job / job title;
-- key skills;
-- languages;
-- mobility / location;
-- availability / working conditions / driving licences or qualifications;
-- salary.
-
-Sub-scores must remain explainable.
-
-Clearly distinguish between:
-
-- weighted criteria;
-- mandatory criteria;
-- possible exclusion criteria.
-
-Do not introduce an opaque score without explicit justification.
-
-Do not automatically turn missing information into a penalty unless a validated business rule explicitly requires it.
-
-Matching produces a recommendation.
-
-It must not become an irreversible automated decision without explicit approval of that business-rule change.
-
----
-
-# 8. MUST — HUMAN IN THE LOOP
-
-Match Europe must preserve human validation in business processes where it is required.
-
-The system may:
-
-- calculate;
-- suggest;
-- rank;
-- explain;
-- prepare an introduction.
-
-It must not automatically make a sensitive decision when the business process requires human validation.
-
-Any increase in automation must preserve:
-
-- understandability;
-- traceability;
-- explainability;
-- the possibility of human intervention.
-
----
-
-# 9. MUST — ROLES AND AUTHORISATION
-
-Business roles must be explicitly distinguished.
-
-At minimum:
-
-- candidate;
-- employer;
-- adviser;
-- administrator / operator.
-
-Permissions must be defined according to both the user's role and the object concerned.
-
-Never infer user rights only from the interface displayed to them.
-
-Access-control rules should be centralised where reasonably possible and covered by tests.
-
----
-
-# 10. MUST — ACCESSIBILITY
-
-Accessibility is part of the Definition of Done.
-
-Interfaces must, in particular:
-
-- be usable with a keyboard;
-- use semantic HTML;
-- provide explicit form labels;
-- maintain sufficient contrast;
-- never communicate information through colour alone;
-- provide appropriate text alternatives;
-- remain usable with assistive technologies;
-- work on mobile, tablet and desktop.
-
-The minimum target is **WCAG AA**.
-
-Bootstrap is a component foundation.
-
-It does not replace accessibility review.
-
-Avoid custom components when native HTML or Bootstrap already provides an appropriate accessible solution.
-
----
-
-# 11. MUST — EURES / ELA BRAND GUIDELINES
-
-## EURES / ELA brand guidelines
-
-Match Europe is developed within the EURES context.
-
-The official **EURES Graphic Guidelines 2022**, transmitted directly by EURES / ELA, are the authoritative visual-brand reference for the project.
-
-Any work affecting the visual identity, user interface, public-facing pages, documents, presentations, communication assets, or partner co-branding must remain compatible with these guidelines.
-
-In particular:
-
-- respect the official EURES logo and its protection area;
-- use EURES branding and colours consistently;
-- preserve appropriate EURES prominence in co-branded materials;
-- respect the distinction between jobseeker and employer visual universes where relevant;
-- maintain at least WCAG AA accessibility and sufficient contrast;
-- do not alter official EURES graphical elements or logos;
-- Match Europe may have its own product identity, but it must remain visibly and coherently affiliated with EURES;
-- do not invent or modify EURES branding rules;
-- if a newer guideline or explicit instruction is provided by EURES / ELA, that newer instruction takes precedence.
-
-The EURES Brand Book is a design authority, not a requirement to reproduce the 2022 templates literally.
-
-Product UX, usability, accessibility and the Match Europe design system should modernise the implementation while staying within the EURES identity framework.
-
-When in doubt about branding, preserve EURES compliance rather than creating a new visual convention.
-
-EURES / ELA brand compliance applies to, among other things:
-
-- application interfaces;
-- authentication and onboarding pages;
-- dashboards;
-- public landing pages;
-- forms;
-- emails and notifications where visual branding is used;
-- downloadable documents;
-- reports;
-- presentations;
-- communication materials;
-- social or campaign assets;
-- partner-facing materials;
-- co-branded content.
-
-Match Europe may define and maintain its own product design system where useful, provided that it remains compatible with the authoritative EURES / ELA visual framework.
-
-No implementation decision may redefine an official EURES logo, colour, graphical element, protection area, or branding rule.
-
----
-
-# 12. MUST — TESTS
-
-A feature is not complete if it is not sufficiently tested.
-
-Test as appropriate:
-
-- models;
-- business logic;
-- services;
-- forms;
-- validation;
-- views;
-- permissions;
-- authentication;
-- APIs;
-- matching;
-- internationalisation;
-- critical migrations;
-- important security behaviours.
-
-Integration tests must use PostgreSQL where behaviour may differ from SQLite.
-
-An important bug fix should, whenever reasonably possible, include a regression test reproducing the original issue.
-
-A test must not merely verify that a page returns HTTP 200 when the underlying business behaviour is more complex.
-
----
-
-# 13. SHOULD — DJANGO FIRST
-
-Prefer native Django features before introducing an external library.
-
-This applies especially to:
-
-- ORM;
-- migrations;
-- forms;
-- authentication;
-- permissions;
-- administration;
-- sessions;
-- CSRF protection;
-- internationalisation;
-- validation.
-
-An external dependency should provide clearly identifiable value.
-
-Avoid dependencies added only to save a few lines of straightforward code.
-
----
-
-# 14. SHOULD — MODULAR ARCHITECTURE
-
-Organise the project around coherent business domains.
-
-Avoid:
-
-- oversized views;
-- models containing all business logic;
-- functions with multiple unrelated responsibilities;
-- duplicated business rules.
-
-Important business rules should be isolated enough to be tested independently from the interface.
-
-Avoid tightly coupling business logic to:
-
-- HTML;
-- the hosting provider;
-- the email delivery system;
-- external storage;
-- a specific external API.
-
----
-
-# 15. SHOULD — UX AND TRUST
-
-Match Europe should minimise user friction.
-
-Principles include:
-
-- request only information that is useful at the point where it becomes useful;
-- explain why data is requested;
-- avoid unnecessarily long forms;
-- reuse known information;
-- avoid duplicate data entry;
-- make journey steps understandable;
-- favour progressive data collection.
-
-When choosing between maximum immediate data collection and user trust, prefer the progressive journey by default.
-
-Visual design should reinforce trust through consistency, clarity and appropriate affiliation with EURES.
-
----
-
-# 16. SHOULD — AUDITABILITY
-
-Significant business actions should make it reasonably possible to answer:
-
-- who?
-- what?
-- when?
-- on which object?
-
-Do not unnecessarily store sensitive business values in logs.
-
-Prefer stable and understandable technical references.
-
-Audit logs must not contain secrets or unnecessary personal information.
-
----
-
-# 17. CONVENTION — GIT AND COLLABORATIVE WORK
-
-Do not work directly on the main branch when the project workflow uses branches and pull requests.
-
-Prefer:
-
-- one branch per coherent task;
-- understandable commits;
-- reasonably sized pull requests;
-- targeted changes.
-
-Do not include in a pull request:
-
-- unrelated refactoring;
-- unnecessary mass renaming;
-- formatting changes to unrelated files;
-- generated files without a clear reason.
-
-Any database migration must be clearly identified.
-
-Any change to an API contract must be explicitly documented.
-
-Any deliberate change to the Match Europe visual design system that may affect EURES / ELA compliance must be clearly identified in the pull request.
-
----
-
-# 18. CONVENTION — AI AGENTS
-
-An AI agent must remain strictly within the scope of the requested task.
-
-It must not spontaneously:
-
-- rewrite a large part of the project;
-- change framework;
-- change database;
-- replace Bootstrap;
-- add an external service;
-- modify an approved architecture;
-- redefine EURES / ELA visual-brand rules;
-- alter official EURES assets;
-- remove code it considers unnecessary without checking its role;
-- perform global refactoring.
-
-An agent must never silently bypass a rule in this file.
-
-If an agent believes that a rule prevents a correct implementation, it must explain the conflict before introducing an exception.
-
-If visual-brand guidance is ambiguous, the agent must preserve known EURES compliance rather than inventing a new convention.
-
----
-
-# 19. BEFORE YOU FINISH
-
-Before considering a task complete, verify all of the following.
-
-## Functional
-
-- The requested feature is actually complete.
-- Existing behaviour has not been unintentionally broken.
-- The initial scope has been respected.
-
-## Internationalisation
-
-- User-facing content exists in FR.
-- User-facing content exists in EN.
-- User-facing content exists in DE.
-- No important user-facing text is hard-coded outside the translation system.
-
-## Security
-
-- Permissions are checked server-side.
-- New user inputs are validated.
-- No secret has been added to the repository.
-- Logs do not unnecessarily expose sensitive information.
-- Unauthorised-access scenarios have been tested where relevant.
-
-## Accessibility
-
-- The interface is keyboard accessible.
-- Form fields have appropriate labels.
-- HTML structure is coherent and semantic.
-- Error messages are understandable.
-- Information is not conveyed through colour alone.
-- Responsive behaviour remains usable.
-- WCAG AA requirements are respected where applicable.
-
-## Tests
-
-- Existing relevant tests pass.
-- Significant new behaviour is tested.
-- Permissions are tested where relevant.
-- Important error cases are tested.
-- PostgreSQL is used for tests that may depend on database-engine behaviour.
-
-## EURES / ELA brand compliance
-
-For any user-facing or communication-related change:
-
-- EURES / ELA brand requirements have been considered;
-- official EURES graphical assets have not been altered;
-- official logo protection requirements are respected where relevant;
-- branding and colours remain compatible with the official guidelines;
-- EURES prominence remains appropriate in co-branded materials;
-- the visual treatment remains consistent with the relevant jobseeker or employer universe where applicable;
-- Match Europe remains visibly and coherently affiliated with EURES;
-- accessibility has not been sacrificed for visual-brand conformity;
-- no new EURES branding rule has been invented.
-
-## Database
-
-- Required migrations have been created.
-- Migrations work from a clean state.
-- No unapproved destructive migration has been introduced.
-
-## Quality
-
-- No obvious dead code has been created.
-- Added dependencies are genuinely necessary.
-- Code remains readable.
-- Relevant documentation has been updated where necessary.
-
----
-
-# 20. DEFINITION OF DONE
-
-A Match Europe user-facing feature is considered complete only if:
-
-1. it satisfies the functional requirement;
-2. it works with PostgreSQL;
-3. it respects permissions and access-control rules;
-4. it respects security requirements;
-5. it respects accessibility requirements;
-6. it is available in FR, EN and DE;
-7. it complies with the applicable EURES / ELA brand guidelines;
-8. it has appropriate tests;
-9. the relevant tests pass;
-10. no sensitive information or secret has been added to the repository;
-11. any database migrations are controlled and understood;
-12. required documentation is up to date.
-
-The five permanent quality pillars for every user-facing feature are:
-
-1. **FR / EN / DE**
-2. **Security**
-3. **Accessibility**
-4. **Test quality**
-5. **EURES / ELA brand compliance**
-
-**A feature missing any of these five pillars is not considered complete.**
-# E-mails réels
-
-- L’identification instantanée des comptes fictifs est réservée à `local` et
-  `preview`, avec `DEMO_ACCOUNTS_ENABLED=1` et les e-mails réels désactivés.
-  Ne jamais l’activer en production ni la déduire des anciens réglages de démo.
-  Voir [les protections et le peuplement idempotent](docs/TEST_ACCOUNTS.md).
-
-- Tous les e-mails applicatifs passent par le backend Django protégé ; ne pas
-  le contourner avec SMTP direct ou une API de prestataire.
-- Le même SMTP configuré est disponible dans tous les environnements après activation explicite ; l’envoi reste désactivé par défaut. Les tests emploient des transports simulés.
-
-
-## Parité fonctionnelle des environnements
-
-- Les parcours ont le même affichage en local, en recette et en production,
-  y compris lorsque le transport d’e-mails est désactivé. Ne pas ajouter de
-  bandeau « aucun e-mail envoyé » ni désactiver le formulaire de connexion pour
-  présenter une recette. Les protections d’envoi restent côté serveur ; aucun
-  lien secret ne doit être affiché pour remplacer un e-mail.
-- Une fonctionnalité métier livrée fonctionne en local, en recette jetable et en production. Ne pas la conditionner au nom de l’environnement, au mode démo, à une adresse loopback, à une adresse fictive ou à la désactivation des e-mails.
-- Les fonctionnalités sont actives par défaut. Les secrets, origines de confiance et connexions aux services restent configurables ; leur absence doit produire un état explicite ou un repli prévu, pas une simulation silencieuse.
-- Les simulations et outils de peuplement fictif restent des outils de test explicitement activés et isolés. Ils ne constituent jamais une condition d’accès au parcours métier.
-- Conserver les contrôles de rôle, de propriété, d’équipe, de consentement, de CSRF et de validation des entrées. Tester les mêmes opérations autorisées et interdites dans les trois environnements.
-- L’absence d’autorisation de fusionner ou de déployer concerne les actions de l’agent ; elle ne justifie pas un verrou fonctionnel dans le code.
-- Une exception fonctionnelle doit être demandée explicitement par l’utilisateur et documentée ; ne pas prolonger les anciennes limites de prototype dans les nouveaux lots.
-
-
-## 13 novembre 2026 — couche web séparée des domaines
-
-À la demande de dejafait, les routes, vues et formulaires d’interface sont rangés
-dans `eures_beta/www/` par parcours. Modèles, migrations et services restent dans
-les applications métier, qui ne doivent pas importer la couche web. Conserver
-les validations partagées dans le domaine. Templates, statiques, traductions et
-tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
-créé ou déplacé, aucune nouvelle migration. Voir
-[le guide](docs/ARCHITECTURE_WEB.md).
+# Match Europe — consignes communes
+
+## Avant chaque tâche
+
+- Travailler sur une branche `codex/`, dans le périmètre demandé ; ne pas modifier
+  `main`, une branche d'une autre session ou un environnement sans autorisation.
+- Sur une reprise, lire les consignes de la branche et leurs évolutions sur
+  `main`. Une ancienne branche ou session ne reçoit pas magiquement les nouveautés.
+- Lire [la vue d'ensemble](docs/VUE_ENSEMBLE.md), [les décisions actuelles](docs/DECISIONS.md)
+  et [la reprise](HANDOFF.md). Identifier le rôle concerné : candidat, employeur,
+  conseiller, administration ou transverse.
+- Lire les guides, [retours](docs/AGENT_FEEDBACK.md) et [skills](.agents/skills/)
+  utiles ; voir le [guide des agents](docs/AGENT_WORKFLOW.md).
+- Distinguer faits, décisions, propositions et preuves historiques ; ces fichiers
+  n'autorisent aucune fusion ni accès aux conversations privées.
+
+## Règles essentielles
+
+- Stack : Django, PostgreSQL, templates Django et Bootstrap ; privilégier Django
+  natif. Pas de nouveau framework, ORM, service ou changement architectural non demandé.
+- Les fonctionnalités métier fonctionnent en local, recette et production avec
+  les mêmes contrôles. Ne pas les conditionner au mode démo, à une IP locale,
+  à une adresse fictive ou à la désactivation des e-mails.
+- Une interdiction de fusionner/déployer vise l'action de l'agent, jamais le
+  fonctionnement du code. Les services restent configurables ; un service absent
+  donne un état explicite ou le repli prévu, pas une simulation silencieuse.
+- `ALBERT_SIMULATED` est explicite et désactivé par défaut.
+  `EMAIL_DELIVERY_ENABLED` est l'unique autorisation d'envoi, avec le transport configuré.
+  Tous les e-mails passent par le backend Django commun, jamais par un accès direct.
+- `DEMO_ACCOUNTS_ENABLED` concerne seulement les comptes et données fictifs :
+  local/recette, base fictive, envoi réel désactivé ; jamais en production.
+  Ces protections ne doivent pas restreindre un parcours métier.
+- Vérifier côté serveur authentification, rôle actif, propriété, consentement,
+  CSRF et validité des données. Pas de droits déduits de l'interface ou d'une IP.
+- Tous les conseillers actifs ont les mêmes droits métier, sans habilitation
+  Django individuelle ni groupe supplémentaire. Cela ne donne aucun droit admin.
+- L'admin Django est en consultation, même pour les superutilisateurs : pas
+  d'ajout, modification, suppression ou action groupée ; utiliser `users/admin_base.py`.
+- Connexion : seulement un compte existant actif, jamais de création implicite.
+  Conseillers/employeurs : invitation explicite ; candidat : vérification du lien
+  puis confirmation POST avant création du compte/profil. Ne pas convertir un autre rôle.
+- Les rôles candidat/employeur/conseiller sont distincts ; email unique sans casse,
+  rôle obligatoire et immuable. Voir [le modèle utilisateur](docs/USER_MODEL.md).
+- Aucun secret, donnée personnelle réelle, dump, session, document privé ou accès
+  serveur dans Git, fixtures ou logs. Les destinations et procédures de production
+  restent dans les dépôts privés ; les tests simulent les services externes.
+- Ne collecter que l'utile ; pas de contact candidat/employeur exposé prématurément.
+  Pas de destruction de données réelles sans autorisation explicite.
+- Le matching est explicable et conserve la décision humaine, les inconnus et les
+  consentements distincts. Pas de nouveaux poids, pénalités ou rejets opaques non validés.
+- Chaque fonctionnalité visible respecte FR/EN/DE, sécurité, accessibilité WCAG AA,
+  tests pertinents et identité EURES/ELA. Les cinq exigences sont obligatoires.
+- Utiliser un template commun et gettext, pas une copie HTML par langue.
+  Tous les messages visibles, y compris JavaScript, erreurs et e-mails, sont traduits.
+- Avant une interface, réutiliser Bootstrap et les composants communs.
+  Les EURES Graphic Guidelines 2022 font autorité ;
+  ne pas réinventer les logos, couleurs ou règles officielles.
+- Clavier, labels, sémantique HTML, contrastes, alternatives et responsive sont
+  nécessaires ; une information ne repose jamais uniquement sur la couleur.
+- Vues, formulaires et routes web dans `eures_beta/www/` ; modèles, migrations
+  et services dans les applications métier, sans dépendance vers la couche web.
+  Garder les validations partagées dans le domaine ; éviter les duplications.
+- Aucun dossier `scripts/` racine. Les outils vont dans leur domaine ou un paquet
+  transverse explicite ; les tests Python/JS et leurs fixtures dans `tests/` par domaine.
+- Un renommage aligne modèles, modules, relations et objets SQL actifs ; migration
+  additive réversible, données/droits conservés. Examiner à part les identifiants cryptographiques.
+- Routes anglaises nommées et indépendantes des templates/langues ; utiliser
+  `reverse` ou `{% url %}`. Les alias historiques ne sont plus émis et restent
+  isolés dans `www/public/legacy_urls.py`, leurs helpers et tests de compatibilité.
+  Préserver méthode HTTP, corps, CSRF et droits dans une redirection.
+
+## Commandes et validation
+
+- GitHub : `make pr-description PR=…`, puis lire le fichier produit ; CI :
+  `make ci-status RUN=…` et `make ci-errors RUN=…`. Voir le guide des agents.
+- Toute opération récurrente ou complexe passe par une cible Make lisible et
+  documentée ; README et descriptions de PR montrent cette cible, pas sa longue recette.
+  Les diagnostics ponctuels simples et Git/GitHub peuvent rester directs.
+- Une seule entrée Django : `make run PORT=…`. Tests : `make test`,
+  `make test TESTS=module.Classe.methode` ou `TEST_ARGS='-k motif'` ;
+  JavaScript : `make test-js JS_TESTS=chemin.test.cjs`. Pas de cible par catégorie de test.
+- Chaque worktree a son `.venv` (`make install-test`), son `.env` ignoré et sa base
+  `PGDATABASE` unique. `PGHOST`, `PGPORT`, `PGUSER` sont explicites.
+  Réutiliser le serveur/rôle identifié, jamais des identifiants de production.
+- `make db-check` diagnostique ; `make db-create` prépare la seule base locale
+  absente. `make test` exécute le précontrôle. Pas de création de rôle, attribution
+  de droits, arrêt d'un serveur partagé ou recherche automatique d'un autre compte.
+- Lancer les commandes Make directement, avec le répertoire de travail de l'outil,
+  sans wrapper ou redirection inutile. Ne jamais masquer une action dans Make
+  pour contourner une approbation ; conserver les contrôles de permissions du client.
+- Valider le comportement réel et les refus d'accès, pas seulement HTTP 200.
+  Corriger le contrat d'un test erroné ; ajouter une régression pour un bug important.
+  Utiliser PostgreSQL, tester les migrations et les données non vides quand pertinent.
+- Avant publication : `make check`, tests adaptés, Black, djLint HTML,
+  Prettier JS/CSS, syntaxe JS et gettext. Voir [les tests](docs/TESTS.md).
+  `make docs-check` contrôle les budgets documentaires, y compris les nouveaux AGENTS/skills.
+- CSS web externe via `{% static %}`, Bootstrap/tokens d'abord. Pas de bloc
+  `<style>` ni d'attribut `style`. Exceptions limitées aux e-mails HTML et aux
+  attributs dynamiques du catalogue design-system, jamais à une page métier.
+  `make format-html-check` applique djLint H021/C901 ; pas de contournement `djlint:off`.
+- Black ne formate pas HTML/JS/CSS. Voir [HTML](docs/HTML_FORMATTING.md),
+  [séparation CSS](docs/HTML_CSS.md) et [JavaScript](docs/JAVASCRIPT_FORMATTING.md).
+
+## Collaboration, documentation et publication
+
+- Les descriptions de PR sont en français selon le
+  [modèle commun](https://github.com/eures-beta/.github/blob/main/pull_request_template.md),
+  à lire avant édition. Assigner au demandeur identifié et demander la relecture
+  à `dejafait` ; signaler les refus.
+- Décrire le rôle utilisateur, changements, données/modèles/migrations, tests
+  exécutés et limites. Si le modèle est inaccessible, le signaler et utiliser
+  Pourquoi, Comment, À vérifier, Comment tester, sans inventer son contenu.
+- Une création/relecture de PR n'autorise ni fusion ni déploiement. Pas de merge
+  commit, ni squash sans demande. Avant fusion autorisée : destination à jour,
+  rebase, résolution revue et contrôles réussis ; réécriture par lease explicite.
+- Pas de rebase automatique pendant une revue, sauf demande/préparation de fusion.
+  Préserver commits concurrents, auteurs, brouillons et comportement après conflit.
+  Ne pas modifier une autre PR indépendante sous prétexte de rafraîchissement.
+- Après fusion, retargeter les descendantes directes et vérifier leur diff.
+  Supprimer une branche fusionnée seulement si elle n'est plus nécessaire.
+  Au point quotidien demandé, maintenir une pile d'actives sans essais, backups ou PR fusionnées ;
+  pas de surveillance en arrière-plan. Voir le skill de maintenance de pile.
+- Mettre à jour les README des dossiers touchés : rôle, liens vers les sous-dossiers
+  (pas leurs README), fichiers et descriptions. Garder les guides spécifiques cohérents.
+- `HANDOFF.md` décrit seulement la reprise actuelle ; `DECISIONS.md` garde les
+  choix durables et leur pourquoi. Statuts vérifiés et limites datés, jamais de succès promis.
+- Git et les PR archivent les anciennes versions : pas de fichier d'archives
+  ni de recopie chronologique. Remplacer une décision en expliquant ce qu'elle supplante.
+  Les guides actuels ne doivent pas affirmer une ancienne restriction.
+- Les retours génériques utiles vont dans `docs/AGENT_FEEDBACK.md` avec exemple,
+  règle et vérification ; pas de procès personnel ni de transcript privé.
+  Déplacer un retour résolu vers un guide/test pertinent puis retirer l'entrée.
+- Les plafonds de `docs/DOCUMENTATION.md` sont des maxima, pas des objectifs.
+  Scinder par sujet utile plutôt qu'augmenter le budget ou multiplier les consignes globales.
