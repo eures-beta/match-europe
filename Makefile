@@ -1,11 +1,12 @@
 # Avant tout $(shell), empêcher l'export automatique des paramètres de diagnostic.
 unexport RUN REPO JOB PATTERN CONTEXT LINES REFRESH
+# Même protection pour le numéro de PR.
+unexport PR
 
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
 
 # Transmettre PR comme donnée, jamais comme fragment de commande shell.
-unexport PR
 export MATCH_PR_NUMBER := $(value PR)
 .PHONY: pr-description pr-description-test
 pr-description: ## Lire la description GitHub : make pr-description PR=195
