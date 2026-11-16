@@ -1,5 +1,6 @@
 name: Format des templates Django
 on:
+  workflow_dispatch:
   push:
   pull_request:
 permissions:
@@ -13,7 +14,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          python-version: '3.14'
+          python-version-file: '.python-version'
       - run: python -m venv .venv-quality
       - run: .venv-quality/bin/python -m pip install -r requirements/quality.txt
       - run: make format-html-check

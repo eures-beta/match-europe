@@ -74,6 +74,8 @@
 
 - GitHub : `make pr-description PR=…`, puis lire le fichier produit ; CI :
   `make ci-status RUN=…` et `make ci-errors RUN=…`. Voir le guide des agents.
+- Python vient de `.python-version` ; suivre [sa maintenance](docs/PYTHON_RUNTIME.md),
+  sans recopier une version dans Make, CI ou Docker.
 - Toute opération récurrente ou complexe passe par une cible Make lisible et
   documentée ; README et descriptions de PR montrent cette cible, pas sa longue recette.
   Les diagnostics ponctuels simples et Git/GitHub peuvent rester directs.

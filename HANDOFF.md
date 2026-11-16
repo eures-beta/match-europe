@@ -51,6 +51,8 @@ N'ajouter ici que ce qui change concrètement la prochaine reprise.
 
 ## Points à vérifier selon la tâche
 
+- Python : [maintenance hebdomadaire](docs/PYTHON_RUNTIME.md) en revue ; activation
+  sur main et autorisation GitHub Actions de créer des PR à vérifier après fusion.
 - Migration : données existantes, relations, ContentTypes et permissions conservés,
   aller-retour testé quand applicable ; pas de réécriture d'une migration publiée.
 - Push : réception et reprise sur les téléphones ciblés à vérifier manuellement.
