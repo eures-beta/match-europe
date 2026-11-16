@@ -20,11 +20,11 @@ from . import access, adviser_opinion, confirmation_services
 from .models import (
     CandidateOfferReview,
     CandidateOfferMatch,
-    SharedConversation,
-    SharedMessage,
+    CandidateOfferConversation,
+    CandidateOfferConversationMessage,
 )
 
-State = SharedConversation.State
+State = CandidateOfferConversation.State
 ROLES = {
     'adviser': _('Adviser'),
     'candidate': _('Candidate'),
@@ -92,7 +92,7 @@ def introduction(pair, adviser):
 
 
 def conversations(user):
-    rows = SharedConversation.objects.all()
+    rows = CandidateOfferConversation.objects.all()
     if (
         not access.enabled()
         or not user.is_authenticated
@@ -102,8 +102,8 @@ def conversations(user):
     ):
         return rows.none()
     rows = rows.filter(**{user.kind: user}).filter(
-        confirmation__pair__offer__created_by_id=F('employer_id'),
-        confirmation__pair__candidate__user_id=F('candidate_id'),
+        offer_review__pair__offer__created_by_id=F('employer_id'),
+        offer_review__pair__candidate__user_id=F('candidate_id'),
     )
     if user.kind == 'employer':
         rows = rows.filter(state=State.OPEN)
@@ -114,13 +114,13 @@ def listed(user):
     if user.kind not in ROLES:
         return conversations(user)
     read = user.kind + '_read'
-    unread = SharedMessage.objects.filter(
+    unread = CandidateOfferConversationMessage.objects.filter(
         conversation=OuterRef('pk'), pk__gt=OuterRef(read)
     ).exclude(author=user)
     return (
         conversations(user)
         .annotate(unread=Exists(unread))
-        .select_related('confirmation__pair__offer')
+        .select_related('offer_review__pair__offer')
         .order_by('-pk')
     )
 
@@ -161,10 +161,12 @@ def start(request, pk):
             or not employer.is_active
         ):
             raise Http404
-        existing = conversations(request.user).filter(confirmation=confirmation).first()
+        existing = conversations(request.user).filter(offer_review=confirmation).first()
         if existing:
             return redirect(destination('shared_conversation', existing.pk, language))
-        if SharedConversation.objects.filter(confirmation=confirmation).exists():
+        if CandidateOfferConversation.objects.filter(
+            offer_review=confirmation
+        ).exists():
             raise Http404
         if not adviser_opinion.ready(confirmation_services.review(confirmation)):
             raise Http404
@@ -173,8 +175,8 @@ def start(request, pk):
             initial={'body': introduction(pair, request.user)},
         )
         if request.method == 'POST' and form.is_valid():
-            thread = SharedConversation.objects.create(
-                confirmation=confirmation,
+            thread = CandidateOfferConversation.objects.create(
+                offer_review=confirmation,
                 adviser=request.user,
                 candidate_id=pair.candidate.user_id,
                 employer=employer,
@@ -204,8 +206,8 @@ def detail(request, pk):
         thread = get_object_or_404(
             conversations(user)
             .select_related(
-                'confirmation__pair__offer',
-                'confirmation__pair__candidate',
+                'offer_review__pair__offer',
+                'offer_review__pair__candidate',
                 'adviser',
                 'candidate',
                 'employer',
@@ -252,13 +254,13 @@ def detail(request, pk):
             elif role == 'adviser' and action == 'open' and state == State.APPROVED:
                 thread.state = State.OPEN
                 thread.save(update_fields=['state'])
-                message = SharedMessage.objects.create(
+                message = CandidateOfferConversationMessage.objects.create(
                     conversation=thread, author=user, body=thread.introduction
                 )
             elif action == 'send' and state == State.OPEN:
                 form = MessageForm(request.POST)
                 if form.is_valid():
-                    message = SharedMessage.objects.create(
+                    message = CandidateOfferConversationMessage.objects.create(
                         conversation=thread, author=user, body=form.cleaned_data['body']
                     )
                 else:
@@ -275,12 +277,12 @@ def detail(request, pk):
                 thread.adviser_id: (ROLES['adviser'], thread.adviser.get_full_name()),
                 thread.candidate_id: (
                     ROLES['candidate'],
-                    thread.confirmation.pair.candidate.display_name,
+                    thread.offer_review.pair.candidate.display_name,
                 ),
                 thread.employer_id: (
                     ROLES['employer'],
                     thread.employer.get_full_name()
-                    or thread.confirmation.pair.offer.data.get('companyName', ''),
+                    or thread.offer_review.pair.offer.data.get('companyName', ''),
                 ),
             }
             messages = [

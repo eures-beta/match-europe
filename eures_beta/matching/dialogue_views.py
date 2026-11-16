@@ -269,7 +269,7 @@ def conversation(request, pk):
                     after=show(value),
                 )
             )
-    from .shared_views import conversations
+    from .candidate_offer_conversation_views import conversations
 
     return render(
         request,
@@ -277,7 +277,7 @@ def conversation(request, pk):
         dict(
             obj=obj,
             shared_conversation=conversations(request.user)
-            .filter(confirmation=obj)
+            .filter(offer_review=obj)
             .first(),
             current=current,
             prompt=prompt,

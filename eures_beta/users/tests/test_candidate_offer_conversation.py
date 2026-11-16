@@ -8,7 +8,7 @@ from eures_beta.matching import confirmation_services, services
 from eures_beta.matching.models import (
     CandidateOfferReview,
     CandidateOfferMatch,
-    SharedConversation,
+    CandidateOfferConversation,
 )
 from eures_beta.matching.tests.test_dialogue import SETTINGS
 from eures_beta.users.models import User
@@ -16,7 +16,7 @@ from eures_beta.users.test_accounts import prepared_user
 
 
 @override_settings(**{**SETTINGS, 'CONFIRMATION_DIALOGUE_SIMULATED': True})
-class SharedConversationTests(TestCase):
+class CandidateOfferConversationTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         call_command('seed_test_accounts', stdout=StringIO())
@@ -129,7 +129,7 @@ class SharedConversationTests(TestCase):
         self.assertContains(self.adviser_client.get(url), 'Yes, thank you.')
         self.assertNotContains(self.employer_client.get(url), 'Private Albert dialogue')
         self.assertFalse(self.confirmation.agreements.exists())
-        self.assertEqual(SharedConversation.objects.get().messages.count(), 3)
+        self.assertEqual(CandidateOfferConversation.objects.get().messages.count(), 3)
 
     def test_candidate_refusal_leaves_employer_out(self):
         url = self.request_conversation()
@@ -140,4 +140,4 @@ class SharedConversationTests(TestCase):
             self.adviser_client.post(url, {'action': 'open'}).status_code, 404
         )
         self.assertEqual(self.employer_client.get(url).status_code, 404)
-        self.assertFalse(SharedConversation.objects.get().messages.exists())
+        self.assertFalse(CandidateOfferConversation.objects.get().messages.exists())

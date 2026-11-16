@@ -2,6 +2,21 @@
 
 ## Modèles et relations
 
+La mise en relation à trois utilise `CandidateOfferConversation` : zéro ou une
+conversation par `CandidateOfferReview`, liée par `offer_review` (accès inverse
+`candidate_offer_conversation`). Ses messages sont des
+`CandidateOfferConversationMessage`, liés par `conversation` et accessibles via
+`messages`. Le nom des tables suit celui des modèles :
+`matching_candidateofferconversation` et
+`matching_candidateofferconversationmessage` ; la colonne de revue est
+`offer_review_id`. Les vues sont dans `matching/candidate_offer_conversation_views.py`.
+La migration `0009_candidate_offer_conversation_names` renomme en place les objets
+PostgreSQL et les métadonnées administratives. Les identifiants, textes, dates,
+états, participants et abonnements aux permissions restent conservés, y compris
+au retour arrière. Les anciens noms ne subsistent que dans l’historique de
+migrations et les tests qui reconstruisent cet ancien état. Vérification :
+`make test TESTS=eures_beta.matching.tests.test_shared_conversation_migration`.
+
 - `CandidateOfferMatch` représente le rapprochement unique candidat–offre.
 - `CandidateOfferReview` représente l’examen de cette offre par le candidat,
   ouvert par un conseiller : zéro ou un examen par rapprochement.

@@ -32,7 +32,7 @@ from eures_beta.matching.models import (
     CandidateOfferMatch,
 )
 from eures_beta.matching.presentation import present
-from eures_beta.matching.shared_views import listed
+from eures_beta.matching.candidate_offer_conversation_views import listed
 from .views import selected_language
 
 
