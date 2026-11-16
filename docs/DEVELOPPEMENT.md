@@ -36,7 +36,7 @@ candidat, employeur et dialogue sont retirées.
 
 Le serveur charge le `.env` du worktree sans imposer de réglages métier. Pour un
 essai fictif, configurer explicitement `DJANGO_ENVIRONMENT=local`,
-`TEST_ACCOUNTS_ENABLED=1`, `EMAIL_DELIVERY_ENABLED=0` ;
+`DEMO_ACCOUNTS_ENABLED=1`, `EMAIL_DELIVERY_ENABLED=0` ;
 le peuplement reste une action séparée avec `make test-accounts-seed` ou
 `make matching-seed`. Les simulations Albert se configurent explicitement avec
 `ALBERT_SIMULATED=1` pour tous les usages.

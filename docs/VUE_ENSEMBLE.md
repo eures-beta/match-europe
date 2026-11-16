@@ -1,382 +1,69 @@
-## 16 novembre 2026 — validation GitHub sans annulations parasites
-
-TRANSVERSE : les pushes internes valident le code, les événements PR internes
-ignorent le doublon et les forks restent testés sur leur événement PR. Aucun
-résultat d'échec n'est transformé en succès ; la validation de main précédant
-le relais de production est conservée. Voir [les tests](TESTS.md).
-
-## 13 novembre 2026 — Routes employeur explicites
-
-EMPLOYEURS : `/employer/`, `/employer/import/`, `/employer/privacy/` remplacent
-les adresses contenant pages, .html et une langue. Les offres et l'extraction
-utilisent `/api/job-offers/`. Les anciennes adresses restent uniquement des
-redirections temporaires ; les deux interfaces matching sont conservées.
-Voir [le contrat et les vestiges](API_NAMING.md).
-
-## 13 novembre 2026 — tests centralisés à la racine
-
-TRANSVERSE : tous les tests automatisés Python et JavaScript sont sous
-`tests/`, classés par domaine. Les contrôles communs sont dans `tests/common/`,
-ceux du socle dans `tests/config/`, le banc HTTP Docker dans `tests/e2e/`.
-Ce sont des paquets de tests, sans application Django supplémentaire.
-Imports, fixtures, sélection Make, CI et guides suivent les nouveaux chemins.
-Le peuplement fictif utilisable par les recettes reste du code applicatif.
-Aucun changement métier, modèle, migration ou donnée persistante.
-Voir [le guide des tests](TESTS.md).
-
-## 13 novembre 2026 — application dédiée aux invitations
-
-TRANSVERSE / CONSEILLERS : le domaine invitations quitte users pour
-`eures_beta/invitations/` : modèle, services, formulaires, vues, routes,
-administration, commande, templates, styles et tests. Les comptes et la connexion
-restent dans users ; la validation commune des origines de liens est dans emails.
-`invitations.0001` et `users.0009` déplacent l'état Django sans recréer la table,
-copier ou supprimer des lignes. Identifiants, relations, permissions, journal et
-liens existants conservés ; transfert réversible. L'historique n'est pas réécrit.
-Voir [l'architecture et les migrations](../eures_beta/invitations/README.md).
-
-## 13 novembre 2026 — accès commun des conseillers
-
-CONSEILLERS : tout conseiller connecté et actif peut consulter et modifier le
-matching, demander une confirmation candidat et inviter un employeur, sans
-permission Django ou groupe supplémentaire. Les protections candidat/employeur
-et l'administration Django restent distinctes. Voir [la décision](DECISIONS.md)
-et [les confirmations par offre](CANDIDATE_OFFER_CONFIRMATIONS.md).
-
-## 13 novembre 2026 — un seul serveur de développement
-
-TRANSVERSE : utiliser `make run PORT=…` pour tous les parcours Django, avec un
-port libre, une base et un `.env` propres à chaque worktree. Les huit variantes
-de démarrage par domaine sont retirées. Le port ne choisit aucune simulation ;
-les réglages restent explicites dans le `.env`. Les dispositifs WSGI et les
-tests restent distincts. Voir [le guide de développement](DEVELOPPEMENT.md).
-
-## 13 novembre 2026 — sélection des tests sans multiplication des cibles
-
-TRANSVERSE : à la demande de dejafait, une entrée Django `make test` avec
-`TESTS` et `TEST_ARGS`, et une entrée Node `make test-js` avec `JS_TESTS`.
-Les sélections par fonctionnalité ne créent plus de cible supplémentaire.
-Les bancs Docker et le diagnostic de mise à niveau restent distincts.
-Documentation, consignes agents et CI utilisent ces mêmes entrées ; aucun
-changement métier ou de données. Voir [les exemples](TESTS.md).
-
-## 13 novembre 2026 — retrait des trois modèles employeurs hérités
-
-EMPLOYEURS / ADMIN : après retrait des parcours obsolètes, suppression de
-EmployerEmailLink, EmployerSearchOperation et EmployerSearchEvent et de leur
-administration. La migration employers.0007 exige trois tables vides et refuse
-sinon toute suppression ; les migrations historiques restent en place.
-Company, CompanyMembership, EmployerProfile et JobOffer sont conservés.
-Le verrouillage par search_started_at reste actif, sans les états du simulateur.
-Aucune fusion ni intervention sur une base distante par ce changement.
-Voir [le contrat de retrait](EMPLOYER_SEARCH_LAUNCH.md).
-
-## 12 novembre 2026 — onglet Inviter en recette locale
-
-CONSEILLERS : l’onglet Django réunit la préparation, l’aperçu et le suivi des
-invitations employeurs, candidats et conseillers. La recette utilise des comptes
-fictifs et une boîte locale. Voir [les invitations](INVITATIONS.md).
-
-## 10 novembre 2026 — retrait des anciens parcours de présentation
-
-TRANSVERSE / EMPLOYEURS : connexion indépendante avec boîte simulée, diagnostic
-Push et simulateur de lancement retirés. L'espace employeur utilise la connexion
-commune et conserve le rattachement, les appartenances et les contrôles de révision.
-Les anciennes variables de présentation ne sont plus lues. Les données et les
-migrations historiques restent conservées ; aucune suppression de table.
-Voir [connexion](EMPLOYER_EMAIL_LOGIN.md) et [parité](ENVIRONMENT_PARITY.md).
-
-## 9 novembre 2026 — livraison dans tous les environnements
-
-Décision d’Eric : retirer les restrictions arbitraires local/recette/production des fonctionnalités métier. Configuration et droits réels conservés, fonctionnalités actives par défaut, simulations explicites. Autorisation explicite reçue pour les trois usages Albert, les accès propriétaires employeur et le transport commun des e-mails configuré dans chaque environnement. La pile distante a été actualisée sans perdre les correctifs publiés en parallèle. Validation locale : 605 tests PostgreSQL réussis après intégration du client Albert partagé ; aucun appel Albert ou e-mail réel, aucune fusion ni opération de production. Voir [le contrat actuel et les prérequis](ENVIRONMENT_PARITY.md).
-
-## 9 novembre 2026 — correction de la parité des environnements
-
-La décision d’Eric remplace les anciennes limites de prototype ci-dessous : les fonctionnalités métier sont destinées au local, aux recettes et à la production, avec les mêmes droits. L’import Albert est actif par défaut, sans dépendance au mode démo ni aux e-mails. Une clé privée reste nécessaire aux appels réels ; le repli manuel est conservé. Les outils fictifs restent isolés. Aucune fusion ni opération de production n’est réalisée par cette correction.
-
-## 9 novembre 2026 — profil du compte employeur (#133)
-
-À la demande de dejafait, `EmployerResponsePractice` devient `EmployerProfile`,
-avec le champ `user` et l'accès inverse `user.employer_profile`, en parallèle de
-`CandidateProfile`. Il décrit le compte personnel, pas l'entreprise. Relation
-zéro ou un profil par compte, créée lors des premières réponses ; aucune création
-automatique. Migration de renommage réversible, sans perte des réponses existantes.
-Les questions, l'API, les droits et les règles de validation restent inchangés.
-
-## 8 novembre 2026 — scores et résultats du matching visibles
-
-TRANSVERSE : Eric demande une présentation comparable à Flask. Lecture de
-l’administration Flask puis adaptation locale : ligne candidat/employeur/poste,
-score global /100 visible, sous-scores, statuts et trois rubriques d’explication.
-Aucune modification des poids, blocages, décisions ou droits. Trente tests matching
-PostgreSQL réussis, contrôle navigateur et petit écran 390 px. Aucun envoi,
-publication ou déploiement distant. Voir [le contrat de matching](MATCHING.md).
-
-## 7 novembre 2026 — matching local autorisé
-
-TRANSVERSE / CANDIDATS / EMPLOYEURS : Eric autorise le matching local avant
-l’outil conversationnel. Base de pile #159 (`c39c728`) vérifiée ; aucune publication,
-fusion ou recette distante autorisée. Correspondances, inconnus, trois blocages
-explicites et décisions humaines distinctes. Métier hors score ; poids expérimentaux,
-pas de classement ni seuil de rejet validé. Albert et ses confirmations par offre
-ou générales restent à développer. Voir [contrat et recette](MATCHING.md).
-
-## 7 novembre 2026 — parcours continus de recette
-
-EMPLOYEURS / CANDIDATS : raccordement local des compétences ESCO dans les formulaires habituels, conservation dans les offres et profils, recette unique depuis l’accueil. Albert simulé, données fictives, confirmation candidat privée de session. Base de pile #157 vérifiée, pas de production. Voir [recette continue](CONTINUOUS_JOURNEYS.md).
-
-## 6 novembre 2026 — métiers hors sélection, essai local
-
-TRANSVERSE / EMPLOYEURS / CANDIDATS : recherche d’un métier ESCO hors des 50 fiches, préparation serveur des suggestions parmi ses relations officielles vérifiées, cache PostgreSQL partagé et choix temporaires par rôle. Simulation par défaut, accès loopback uniquement ; aucun raccordement aux offres/profils réels ni appel Albert réel. Voir [contrat et recette](ALBERT_SKILLS.md).
-
-# EURES beta / Match Europe — vue d’ensemble
-
-## 6 novembre 2026 — projet candidat sans métier
-
-CANDIDATS : mode ouvert dans la première étape du questionnaire, trois listes ESCO transversales et réponses raccordées à la confirmation email puis au profil privé. Migration additive, anciens profils conservés sans compétences inventées. Parcours métier et pilote employeur conservés ; aucun matching ni nouveau droit. Voir [périmètre](CANDIDATE_OPEN_SKILLS.md).
-
-## 6 novembre 2026 — extension locale proposée à 50 métiers
-
-TRANSVERSE / EMPLOYEURS / CANDIDATS : préparation de deux JSON compatibles avec
-le pilote #154, sept métiers existants conservés et 43 ajouts officiels ESCO 1.2.1.
-La liste et les sélections éditoriales restent proposées à Eric. Aucun profil,
-offre ou matching raccordé ; mêmes protections de recette locale. Voir
-[liste et identifiants](SKILLS_CATALOGUE_50.md) et [contrôles](SKILLS.md).
-
-## 6 novembre 2026 — pilote local des compétences
-
-TRANSVERSE / EMPLOYEURS / CANDIDATS : parcours de recette autonome dans Django,
-`/skills-pilot/`, désactivé par défaut et réservé au loopback local. Six métiers,
-références ESCO FR/EN/DE partagées et sélections temporaires distinctes. Aucune
-connexion aux offres, profils durables, conseillers ou matching existants.
-La validation utilisateur et le push sont à venir. Voir [périmètre et recette](SKILLS.md).
-
-## 6 novembre 2026 — essai Albert pour les offres employeurs
-
-Essai opt-in local/recette de structuration du texte PDF ou collé par Albert, suivi de recherches ESCO/ROME indépendantes et de la relecture employeur. Désactivé par défaut, interdit en production. Aucun changement candidat ni matching. Voir [périmètre et limites](ALBERT_IMPORT.md).
-
-## 5 novembre 2026 — réponses habituelles des employeurs
-
-Le parcours employeur conserve les pratiques de réponse dans une fiche dédiée
-par compte et les réaffiche aux prochains dépôts. Aucun partage implicite entre
-collègues d'un établissement. Les relances restent à développer. Voir
-[le périmètre et les limites](EMPLOYER_RESPONSE_PRACTICE.md).
-
-## 4 novembre 2026 — premier lot candidat
-
-Le modèle `users.User` accepte désormais `kind=candidate`. Son ajout ne crée
-pas encore de profil persistant : le questionnaire reste temporaire en session.
-Le candidat ne reçoit aucun droit employeur ou conseiller. Voir
-[le périmètre et la migration](USER_MODEL.md).
-Le stockage futur des réponses utilisera des champs et tables dédiés, selon
-le choix d’Eric ; la création du compte à la fin du questionnaire et la
-vérification par email restent à développer.
-
-## 2 novembre 2026 — retrait du premier prototype
-
-Les quatre parcours de `/access/` sont retirés, avec leurs connexions fictives,
-vues, templates et initialisation automatique. Le prototype actuel reste celui
-de l’accueil public, du candidat à trois choix et de l’import employeur trilingue.
-Les descriptions historiques de matching/conversations ci-dessous décrivent des
-travaux antérieurs, pas des fonctionnalités actuellement exposées.
-Voir [le périmètre, le nettoyage des comptes et le stockage](LEGACY_PROTOTYPE_RETIREMENT.md).
-
-Les migrations actuelles sont maintenant autonomes dans `employers`.
-Le dossier d'archives et ses applications de compatibilité sont supprimés dans
-le second lot, à déployer après confirmation du marqueur de transition.
-Voir [le guide des deux déploiements](AUTONOMOUS_MIGRATIONS.md).
-
-Référence commune créée le 16 octobre 2026 à partir des README et de HANDOFF.md. Ce document décrit le cadre produit ; il ne constitue pas une vérification de production.
-
-## Objectif et périmètre
-
-Organiser les parcours employeur, candidat, conseiller et administrateur pour préparer une mise en relation explicable, avec validation humaine et accords des participants.
-
-Deux implémentations coexistent :
-
-- **EURES beta historique** : Flask/Grist, formulaires, statistiques et administration/suivi. Voir le dépôt historique [eures-beta/eures-beta](https://github.com/eures-beta/eures-beta).
-- **Match Europe local** : Django/PostgreSQL/Bootstrap dans `eures_beta/`, pour essayer les nouveaux parcours. Voir [documentation locale](../eures_beta/README.md). Ce prototype n’est pas prêt pour la production.
-
-## Les quatre volets
-
-| Volet | Responsabilité et parcours | Liens avec les autres volets |
-| --- | --- | --- |
-| EMPLOYEURS | Préparer/importer une offre, vérifier ses informations et son contact, définir les questions, examiner les réponses et accepter la présentation. | Le conseiller suit les offres attribuées ; le candidat répond ; les accords ouvrent la conversation. |
-| CANDIDATS | Préparer un profil, préciser souhaits et mobilité, manifester un intérêt, répondre aux questions et accepter la présentation. | Le conseiller accompagne la qualification ; l’employeur reçoit les réponses selon les droits. |
-| CONSEILLERS | Examiner les propositions, demander des précisions, accompagner la mise en relation et participer à la conversation. | Accès limité aux objets et participants autorisés ; suivi des imports attribués par l’administration. |
-| ADMIN | Superviser les accès et activités autorisées, attribuer ou retirer un conseiller sur un import. | Droits spécifiques à vérifier par objet ; le rôle admin ne donne pas par défaut accès à toutes les conversations. |
-
-Ces volets sont des domaines fonctionnels et des préfixes de discussions, pas quatre projets indépendants ni une nouvelle organisation imposée au code.
-
-## Organisation actuelle du code
-
-- `employers` : six modèles, dont `Company`, `CompanyMembership` et `JobOffer`, pour les espaces employeurs, leurs membres et leurs offres ;
-- `candidates` : questionnaire et modèle `CandidateProfile` pour ses réponses
-  durables ; le parcours de démonstration reste en session, sans raccordement
-  à ce stockage. Voir [le périmètre du modèle](CANDIDATE_PROFILE_STORAGE.md) ;
-- `documents` : lecture et extraction PDF, sans ancien modèle de fichier stocké ;
-- `occupations` : catalogue métiers partagé ;
-- ressources et vues publiques communes directement dans `eures_beta`.
-
-Les anciens parcours ne sont plus des applications installées. Leur historique
-de migrations n'est plus nécessaire après la transition des bases conservées.
-Les tables employeur actuelles gardent leurs noms physiques `journeys_employer*`.
-
-## Parcours et limites à distinguer
-
-La lecture d’offres par URL possède des adaptateurs publics ciblés pour France
-Travail et EURES, sans navigateur ni authentification externe. Voir
-[leur fonctionnement, protections et limites](OFFER_URL_IMPORT.md).
-
-Les pages employeur consolidées utilisent les templates Django et les catalogues
-gettext plutôt que trois copies HTML par langue. Voir [les pages concernées et les limites restantes](EMPLOYER_TRANSLATIONS.md).
-
-- Le scénario de démonstration relie offre, candidat, préqualification, double accord et conversation à trois avec des données fictives.
-- Le parcours employeur d’import possède ses propres brouillons et objets `JobOffer`. Leur affichage aux conseillers/admins ne les convertit pas en `Offer` et ne lance pas le matching.
-- Le scénario initial simule les services externes. Le nouveau parcours employeur peut lire des sources publiques, géocoder et envoyer/relire une offre inactive dans AGLAE sandbox lorsque configuré. Ne pas résumer tous les parcours comme entièrement simulés.
-- E-mails réels, intégration complète, habilitations de production et conformité complète ne sont pas acquis.
-
-## Références et organisation des discussions
-
-- [Décisions communes](DECISIONS.md) : choix validés et contraintes.
-- [État du projet](../HANDOFF.md) : travaux documentés, validations datées, limites et suites.
-- [AGENTS.md](../AGENTS.md) : règles de travail obligatoires.
-
-Noms de discussions : `EMPLOYEURS — Sujet`, `CANDIDATS — Sujet`, `CONSEILLERS — Sujet`, `ADMIN — Sujet`, ou `TRANSVERSE — Sujet`.
-
-Les discussions ne constituent pas une mémoire automatiquement partagée. Conserver dans ces références les informations nécessaires à une reprise ; consulter les fichiers concernés avant toute modification.
-
-## Recette locale employeurs — lot 3 (22 octobre 2026)
-
-L’espace des imports employeurs permet de retrouver les offres des établissements
-habilités, les consulter, les modifier avant recherche et les dupliquer. Le
-verrouillage repose sur une date serveur distincte ; le lancement effectif de la
-recherche reste à raccorder dans un lot suivant. Aucun nouveau résultat candidat
-ni modification des espaces conseillers/admins.
-Voir [périmètre et recette](EMPLOYER_OFFER_WORKSPACE.md).
-
-## Lot 4A employeur — lancement simulé (22 octobre 2026)
-
-Confirmation de recherche incluant qualification/contact, gestion des échecs et
-états incertains, sans appel réel ni nouvelle candidature/conversation.
-Clôture et archivage restent à définir. Voir [lot 4A](EMPLOYER_SEARCH_LAUNCH.md).
-
-## Accueil candidat — 28 octobre 2026
-
-Premier écran repris dans la structure Django actuelle, trois entrées simulées
-CV/LinkedIn/saisie manuelle en FR/EN/DE. Aucun raccordement au matching, aux
-conseillers ou aux données candidat. Voir [périmètre](CANDIDATE_LANDING.md).
-
-La PR #63 conserve un seul template gettext, ses statiques et tests dans
-`candidates`. Le contrôle d’accès de démonstration est partagé dans
-`eures_beta/demo_access.py`, sans dépendance à une API employeur ni modification
-des restrictions. Le générateur candidat et son dictionnaire trilingue sont retirés.
-
-## Catalogue partagé ESCO/ROME — 29 octobre 2026
-
-Le paquet `eures_beta/occupations` fournit des références et recherches métiers
-locales versionnées, indépendantes des applications métier. Aucun import CV ni
-interface candidat ajouté. Voir [catalogue et limites](OCCUPATION_CATALOG_MAINTENANCE.md).
-
-## Métier dans la relecture employeur — 29 octobre 2026
-
-La fiche d’import employeur utilise le catalogue partagé et conserve les choix
-explicites dans son brouillon. Template unique et gettext, aucun parcours candidat
-ajouté. Voir [contrat et limites](EMPLOYER_OCCUPATIONS.md).
-
-
-## Proposition locale candidat — 2 novembre 2026
-
-Parcours commun avec/sans CV en cinq étapes, lecture locale et brouillon temporaire. Aucun compte ou raccordement au matching. Voir [périmètre et recette](CANDIDATE_JOURNEY.md).
-
-
-## Questionnaire candidat simplifié — état local actuel
-
-La proposition initiale avec CV est remplacée à la demande d’Eric : questionnaire sans import ni historique professionnel, avec recherche ESCO/ROME, mobilité/langues, conditions et relecture. Voir [recette et limites](CANDIDATE_JOURNEY.md). Aucun raccordement au matching ou compte durable.
-## 7 novembre 2026 — lisibilité du projet candidat ouvert
-
-Sur #158, préparation d’une évolution : secteurs repliables affichés d’emblée dans les listes techniques et savoir-être présentés en phrases concrètes, un par ligne. Même catalogue et mêmes choix enregistrés. Voir [le contrat du parcours](CANDIDATE_OPEN_SKILLS.md).
-
-## 16 novembre 2026 — préparation PostgreSQL locale réutilisable
-
-TRANSVERSE : `make db-check` vérifie sans modification l’instance, le rôle,
-CREATEDB et l’accès/propriété de la base du worktree. `make db-create` crée cette
-base seulement si absente ; `make test` refuse de démarrer si le précontrôle échoue.
-Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
-Aucun modèle, migration, environnement distant ou parcours métier modifié.
-Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.
-Le candidat authentifié peut enregistrer son abonnement Web Push via
-`/candidate/push-subscriptions/`, dans tous les environnements. Le consentement
-du navigateur reste nécessaire et facultatif pour poursuivre le parcours.
-
-## 13 novembre 2026 — couche web séparée des domaines
-
-À la demande de dejafait, les routes, vues et formulaires d’interface sont rangés
-dans `eures_beta/www/` par parcours. Modèles, migrations et services restent dans
-les applications métier, qui ne doivent pas importer la couche web. Conserver
-les validations partagées dans le domaine. Templates, statiques, traductions et
-tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
-créé ou déplacé, aucune nouvelle migration. Voir
-[le guide](ARCHITECTURE_WEB.md).
-
-## 18 novembre 2026 — offres employeur dans l’historique conseiller
-
-CONSEILLERS : « Offres employeur » remplace « Réponses employeurs ». La liste
-consulte les JobOffer enregistrées, y compris celles en préparation, sans date
-de validation, sans établissement ou sans créateur. Le détail présente le contact,
-le poste, les conditions, compétences, questions, critères explicites et dates.
-Lecture seule pour les conseillers actifs ; les critères d’accès au matching
-restent inchangés. Aucun nouveau modèle ni migration. Voir le contrat
-[de consultation](ADVISER_EMPLOYER_OFFERS.md).
-
-## 13 novembre 2026 — réglages métier simplifiés
-
-TRANSVERSE : parcours permanents sans interrupteur, autorisation d’e-mail unique
-`EMAIL_DELIVERY_ENABLED`, simulation Albert commune `ALBERT_SIMULATED` désactivée
-par défaut et contact `EMPLOYER_ADVISER_CONTACT_URL`. Sources, tests et exemples
-actualisés ; anciens noms non lus. Aucun modèle ni migration. Les réglages
-PostgreSQL et les codes de questions AGLAE restent en discussion, sans modification
-de leur comportement dans ce lot. Voir le guide de développement actuel.
-
-## 13 novembre 2026 — politique PostgreSQL commune
-
-TRANSVERSE : demande de dejafait, les connexions sont réutilisées 60 secondes
-avec contrôle de validité et délai d’ouverture de 10 secondes en local, recette
-et production. Suppression de la condition preview ; `PGSSLMODE` reste conservé.
-Ce choix remplace la réserve de discussion du lot de simplification précédent.
-Aucun modèle, migration, code AGLAE ou réglage de comptes fictifs modifié.
-
-## Routes du rapprochement, des invitations et du profil employeur
-
-Les deux vues matching restent distinctes : détail `/matching/<id>/`, relecture
-conseiller `/matching/<id>/review/`. Les invitations conseiller sont sous
-`/adviser/invitations/` et `/adviser/invitations/new/`, sans déplacer le domaine
-`invitations` ni l’acceptation commune. L’API des habitudes de réponse devient
-`/api/employer/profile/`. Les anciennes adresses redirigent en 308, avec méthode,
-corps et paramètres conservés ; aucun lien actif ne les génère. Pas de modèle
-ni de migration. Les six routes de confirmation/conversation sont désormais explicites :
-`/candidate/offer-reviews/`, `/candidate/offer-reviews/<id>/` et son `dialogue/`
-pour le candidat ; `/matching/offer-reviews/<id>/`, son `conversation/`, et
-`/matching/conversations/<id>/` pour le suivi et les conversations partagées.
-Les vues, droits, décisions et données restent identiques. Les anciens liens
-redirigent en 308. Le service worker accepte les nouvelles destinations et garde
-une compatibilité stricte pour les notifications déjà reçues.
-
-## 16 novembre 2026 — CSS web externalisé et séparation contrôlée
-
-Les 17 blocs style de sept templates sont externalisés en huit feuilles statiques,
-avec partage des blocs identiques et conservation de la cascade. Aucun modèle,
-migration, texte traduit ou choix graphique nouveau. Les anciennes valeurs
-restent en place ; leur migration vers les tokens sera une évolution distincte.
-`make format-html-check` vérifie désormais la politique CSS avec djLint H021/C901
-et ses tests de régression. Exceptions limitées aux e-mails et aux attributs du
-catalogue de tokens ; les pages métier ne peuvent pas embarquer de CSS.
-Voir [la séparation HTML/CSS](HTML_CSS.md) pour les ressources et contrôles.
-
-## 16 novembre 2026 — notifications Push sans nom de recette
-
-CANDIDATS / CONSEILLERS : noms techniques indépendants de l'environnement et
-rotation du contexte VAPID vers `match-europe-push-v1`. Les navigateurs déjà
-abonnés se renouvellent à la prochaine visite du profil, sans nouveau consentement
-ni suppression de comptes. Les nouveaux abonnements restent explicites.
-Voir [les notifications Push et leur renouvellement](CANDIDATE_PUSH.md).
+# Match Europe — vue d'ensemble
+
+Les conseillers actifs consultent toutes les offres employeur enregistrées et
+leur détail en lecture seule ; cela ne modifie pas l’éligibilité au matching.
+Voir [le contrat de consultation](ADVISER_EMPLOYER_OFFERS.md).
+
+Match Europe facilite le recrutement et la mobilité professionnelle entre pays
+européens, avec l'appui des conseillers EURES. Le projet Django/PostgreSQL/Bootstrap
+est distinct de l'ancien prototype Flask/Grist ; une expérimentation historique
+ne constitue pas une restriction permanente du produit.
+
+## Rôles et parcours
+
+- **Candidat** : décrire progressivement son projet et ses compétences, vérifier
+  son adresse, retrouver son profil, examiner une offre et choisir ce qui peut être
+  transmis. Une revue par offre précède, selon le parcours, une conversation à trois.
+- **Employeur** : compte invité, lecture d'une offre par URL/PDF/texte,
+  relecture guidée, sauvegarde et suivi de ses offres. Les droits restent liés
+  au compte propriétaire, pas à une session de démonstration.
+- **Conseiller** : inviter, examiner les rapprochements et leurs explications,
+  décider et accompagner les échanges. Tous les conseillers actifs ont les mêmes
+  droits métier ; les consentements candidat restent distincts.
+- **Administration** : consultation autorisée des modèles, avec secrets masqués
+  et sans écriture, y compris pour les superutilisateurs.
+- **Équipe technique** : tests et données fictives explicites ; déploiement et
+  configuration des services dans les dépôts privés.
+
+## Organisation du code
+
+- `users` porte les comptes, rôles et connexion ; `invitations` les invitations.
+- `candidates` porte questionnaire, profil, consentements du parcours et abonnement Push.
+- `employers` porte offres, établissements et profil employeur.
+- `occupations` porte la recherche métiers ESCO/ROME ; `skills` les compétences
+  et suggestions appuyées sur les sources officielles.
+- `matching` porte rapprochements, évaluations, décisions, revues d'offres et conversations.
+- `documents`, `emails`, `integrations` et `observability` portent les services
+  de support ; toutes ces responsabilités ne sont pas de nouvelles applications installées.
+- `www/` regroupe routes, vues et formulaires par parcours sans porter les modèles.
+- `templates/`, ressources statiques et catalogues gettext gardent leurs emplacements
+  documentés ; les tests automatisés sont dans `tests/` à la racine.
+
+Voir [l'architecture web](ARCHITECTURE_WEB.md), [les décisions](DECISIONS.md)
+et les README des paquets pour le détail des responsabilités.
+
+## Contrats communs
+
+Les mêmes fonctionnalités métier sont disponibles en local, recette et production.
+Les rôles, la propriété, CSRF, les consentements et l'authentification restent
+vérifiés ; la configuration manquante d'un service ne devient pas une simulation.
+`ALBERT_SIMULATED` est explicite ; `EMAIL_DELIVERY_ENABLED` exige le transport.
+Les comptes de démonstration, sous `DEMO_ACCOUNTS_ENABLED`, sont un outil distinct
+réservé aux bases fictives local/recette avec e-mails réels désactivés.
+
+Les interfaces utilisent gettext FR/EN/DE, Bootstrap/ECL et les règles EURES/ELA ;
+les durées, limites et consentements annoncés doivent refléter les capacités réelles.
+Une fusion, un résultat de tests ou une ancienne note ne prouve pas un déploiement.
+
+## Où continuer
+
+- [Reprise actuelle](../HANDOFF.md) : points ouverts et PR de référence.
+- [Décisions](DECISIONS.md) : contrats validés et justification.
+- [Développement](DEVELOPPEMENT.md) et [tests](TESTS.md) : commandes Make et préparation.
+- [Parité](ENVIRONMENT_PARITY.md) : services configurés et différence avec les outils fictifs.
+- [Retours aux agents](AGENT_FEEDBACK.md) : exemples de régressions à éviter.
+- [Politique documentaire](DOCUMENTATION.md) : budgets et entretien.
+
+L'histoire des anciens parcours, écrans prototypes et validations reste dans
+[l'historique Git](https://github.com/eures-beta/match-europe/commits/main/docs/VUE_ENSEMBLE.md)
+et les PR, plutôt que dans une seconde chronologie à maintenir ici.

@@ -79,19 +79,15 @@ En recette, ouvrir les onglets publics puis le bouton de connexion, changer de
 langue et vérifier le message d’inscription sur invitation et la confirmation de demande.
 L’envoi réel ne sera validé qu’après configuration privée du prestataire.
 
-## Transport réservé à la production
+## Transport configuré dans chaque environnement
 
-Tous les e-mails Django passent par `ProductionEmailBackend`. Par défaut,
-`DJANGO_ENVIRONMENT=local` et `EMAIL_DELIVERY_ENABLED=0` interdisent toute connexion
-SMTP. Les recettes jetables restent dans ce mode sans envoi, même si des
-identifiants SMTP leur étaient ajoutés par erreur. Une valeur d’environnement
-inconnue est également bloquée. Ne jamais déclarer une recette « production ».
-
-Seule la production reçoit `DJANGO_ENVIRONMENT=production` et, lors de
-l’activation explicite, `EMAIL_DELIVERY_ENABLED=1`. Les liens de connexion et
-invitations nécessitent aussi `EMAIL_DELIVERY_ENABLED=1` et leur configuration
-existante. Ces indicateurs sont de la configuration de déploiement : aucune
-détection à partir du mode démo ou de DEBUG, communs à plusieurs environnements.
+Tous les e-mails Django passent par `ProductionEmailBackend`. L'envoi est
+désactivé par défaut ; `EMAIL_DELIVERY_ENABLED=1` et le transport SMTP configuré
+l'autorisent indépendamment de `DJANGO_ENVIRONMENT`. Ne jamais déclarer une
+recette « production » pour envoyer un message. Les origines des liens et les
+secrets restent propres à chaque environnement et dans sa configuration privée.
+Les comptes de démonstration exigent au contraire un envoi réel désactivé.
+L'ancienne restriction du backend à la seule production n'est plus applicable.
 
 Le backend refuse un envoi interdit avec une erreur de configuration, avant
 d’ouvrir SMTP, y compris avec une connexion déjà fournie. La configuration ne

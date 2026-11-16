@@ -1,8 +1,10 @@
 # Stockage des réponses candidat
 
-Ce lot prépare le stockage durable après le rôle candidat de la PR #127.
-Le questionnaire de démonstration conserve son fonctionnement en session :
-aucune vue, API publique, création de compte ou vérification d'email n'est ajoutée.
+Le questionnaire conserve un brouillon temporaire en session, distinct du profil
+durable. Après vérification de l'adresse et confirmation POST, le parcours
+[d'inscription candidat](CANDIDATE_EMAIL_REGISTRATION.md) enregistre le compte
+et sa fiche, ou propose une comparaison explicite avec le profil existant.
+Les anciennes étapes limitées à une démonstration restent dans l'historique Git.
 
 ## Une fiche par compte candidat
 
@@ -67,11 +69,10 @@ supprime sa fiche liée (`CASCADE`). Aucun nouveau parcours de suppression
 n'est exposé. La migration inverse supprime la table et ses réponses : après
 collecte réelle, elle exige une décision explicite et une sauvegarde adaptée.
 
-Aucune durée de conservation ou purge automatique n'est définie par ce lot.
-La notice, la durée de conservation, la vérification email et le moment exact
-de création atomique compte/fiche restent à définir avant le raccordement réel.
-La confirmation de démonstration n'est pas un consentement à une collecte réelle.
-Ni matching, ni email, ni transmission à un tiers ne sont déclenchés.
+La création du profil et la transmission à un tiers sont des opérations distinctes,
+avec leurs validations et consentements. La notice et le contrat d'inscription
+décrivent la conservation et l'expiration des brouillons ; une durée annoncée
+ne prouve pas qu'une purge automatique est implémentée.
 
 ## Vérifications locales
 
