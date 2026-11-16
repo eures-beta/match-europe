@@ -30,4 +30,10 @@ Attention : le parcours préexistant sans cet indicateur envoie une offre inacti
 
 Les sections de site inconnues, tableaux complexes, documents avec une mauvaise couche OCR et caractères mal reconnus restent à contrôler. La limite de texte est de 16 000 caractères. Les documents sources fournis pour la recette restent hors Git ; les tests versionnés utilisent des exemples fictifs.
 
+La suite `make test` vérifie aussi la compatibilité du lecteur PDF réel, dans son
+processus isolé : accents FR/EN/DE, flux compressés, ordre des pages, actions PDF
+exclues du texte et refus des fichiers chiffrés, malformés ou dépassant 30 pages.
+Ces exemples synthétiques restent versionnés dans les tests et sont relancés en
+CI ; aucun document personnel ni appel réseau n'est nécessaire.
+
 Le parcours d’import reste distinct du modèle de matching `Offer`. Aucune migration de base, modification des permissions ou activation d’une intégration externe n’est incluse.
