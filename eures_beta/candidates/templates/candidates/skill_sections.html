@@ -10,7 +10,7 @@
              data-maximum="{{ section.maximum }}"
              data-remove="{% translate 'Remove: {label}' %}">
       <h2>{{ section.label }} <span data-skill-count
-       role="status">{{ section.count }} / {{ section.maximum }}</span></h2>
+                                    role="status">{{ section.count }} / {{ section.maximum }}</span></h2>
       {% if section.is_behaviours %}
         <p>{% translate "Choose the three ways of working that describe you best. The examples help you understand each choice." %}</p>
       {% elif section.name == "acquired_skills" %}

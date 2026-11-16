@@ -399,7 +399,7 @@
         <ul class="offer-list">
           {% for offer in private_drafts %}
             <li><p>{{ offer.data.title|default:_("Untitled offer") }}</p><form method="post"
-      action="{% url 'employer_resume_attachment' offer.pk %}">{% csrf_token %}<button class="ghost-action" type="submit">{% trans "Choose an establishment" %}</button></form>
+                                                                               action="{% url 'employer_resume_attachment' offer.pk %}">{% csrf_token %}<button class="ghost-action" type="submit">{% trans "Choose an establishment" %}</button></form>
             </li>
           {% endfor %}
         </ul>
