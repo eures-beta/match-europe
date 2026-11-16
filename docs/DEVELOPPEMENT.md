@@ -6,7 +6,8 @@ Flask/Grist reste dans son dépôt distinct.
 
 ## Installation et commandes
 
-Python 3.14, PostgreSQL et Node.js 24 sont nécessaires. Copier `.env.example` en
+Le Python déclaré dans [`.python-version`](../.python-version), PostgreSQL et Node.js 24
+sont nécessaires. Copier `.env.example` en
 `.env` et renseigner les paramètres locaux ; ne jamais copier de secrets de production.
 Utiliser une base et des environnements virtuels propres à chaque worktree.
 

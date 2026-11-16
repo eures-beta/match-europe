@@ -3,7 +3,8 @@
 `make e2e-test` lance un vrai serveur Gunicorn Linux : un worker, huit threads,
 256 Mio pour **tout le conteneur web**, swap désactivé et un CPU. Docker doit être
 démarré. Python 3 et Git suffisent sur l'hôte ; les dépendances applicatives sont
-installées dans l'image officielle Python 3.14 épinglée par empreinte.
+installées dans l'image officielle du Python déclaré dans
+[`.python-version`](../.python-version), épinglée par [empreinte](../.python-image-digest).
 
 Le serveur utilise PostgreSQL, HTTPS, les cookies, le CSRF, les migrations et les
 catalogues JSON complets du dépôt. Le pilote HTTP et PostgreSQL ont leurs propres
