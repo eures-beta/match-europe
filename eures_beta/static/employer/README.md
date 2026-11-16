@@ -23,8 +23,8 @@ employeur. Les styles communs sont partagés plutôt que copiés dans les templa
 - [occupation-picker.css](occupation-picker.css) — Présentation du sélecteur de métiers.
 - [occupation-picker.js](occupation-picker.js) — Recherche et sélection de références métier.
 - [offer-import-api.js](offer-import-api.js) — Échanges HTTP avec l'API d'import des offres.
-- [response-practice.css](response-practice.css) — Présentation des habitudes de réponse de l'employeur.
-- [response-practice.js](response-practice.js) — Enregistrement des habitudes de réponse dans le profil.
+- [profile.css](profile.css) — Présentation des habitudes de réponse de l'employeur.
+- [profile.js](profile.js) — Enregistrement des habitudes de réponse dans le profil.
 - [review-steps.css](review-steps.css) — Présentation des étapes de relecture de l'offre.
 - [review-steps.js](review-steps.js) — Navigation entre ces étapes.
 - [review.js](review.js) — Interactions de relecture et de validation des informations importées.

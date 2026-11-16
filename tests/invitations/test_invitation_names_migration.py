@@ -1,5 +1,7 @@
 """Existing invitations, accepted accounts and permission grants survive renaming."""
 
+from unittest.mock import patch
+from tests.common.migration_state import prepare_historical
 from django.core import signing
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
@@ -12,6 +14,7 @@ class InvitationNamesMigrationTests(TransactionTestCase):
     after = ('users', '0008_invitation_names')
 
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate([target])
         return executor.loader.project_state([target]).apps
@@ -76,9 +79,9 @@ class InvitationNamesMigrationTests(TransactionTestCase):
         group = Group.objects.create(name='migration-test-inviters')
         group.permissions.add(permission)
 
-        self.migrate(self.after)
-        from eures_beta.invitations.models import Invitation
-        from eures_beta.users.models import User as CurrentUser
+        apps = self.migrate(self.after)
+        Invitation = apps.get_model("users", "Invitation")
+        CurrentUser = apps.get_model("users", "User")
         from eures_beta.invitations.services import find_invitation
         from django.contrib.auth.models import Permission as CurrentPermission
 
@@ -109,7 +112,8 @@ class InvitationNamesMigrationTests(TransactionTestCase):
         self.assertEqual(
             CurrentUser.objects.get(pk=sender.pk).sent_invitations.count(), 4
         )
-        self.assertEqual(find_invitation(token).pk, pending.pk)
+        with patch('eures_beta.invitations.services.Invitation', Invitation):
+            self.assertEqual(find_invitation(token).pk, pending.pk)
         renamed = CurrentPermission.objects.get(pk=permission.pk)
         self.assertEqual(renamed.codename, 'view_invitation')
         self.assertTrue(renamed.group_set.filter(pk=group.pk).exists())

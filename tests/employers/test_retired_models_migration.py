@@ -3,6 +3,7 @@
 from django.apps import apps as current_apps
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
+from tests.common.migration_state import prepare_historical
 from django.test import TransactionTestCase
 from django.utils import timezone
 
@@ -13,6 +14,7 @@ RETIRED = ('EmployerSearchEvent', 'EmployerSearchOperation', 'EmployerEmailLink'
 
 class RetiredModelsMigrationTests(TransactionTestCase):
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate([target])
         return executor.loader.project_state([target]).apps

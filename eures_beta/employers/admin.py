@@ -20,10 +20,10 @@ class CompanyAdmin(ReadOnlyAdmin):
 
 @admin.register(CompanyMembership)
 class CompanyMembershipAdmin(ReadOnlyAdmin):
-    list_display = ('id', 'company', 'person', 'active', 'created')
+    list_display = ('id', 'company', 'user', 'active', 'created')
     list_filter = ('active',)
-    search_fields = ('company__name', 'person__email')
-    list_select_related = ('company', 'person')
+    search_fields = ('company__name', 'user__email')
+    list_select_related = ('company', 'user')
 
 
 @admin.register(JobOffer)

@@ -17,13 +17,13 @@ def identity(request):
 def memberships(request):
     person = identity(request)
     return (
-        CompanyMembership.objects.filter(person=person, active=True)
+        CompanyMembership.objects.filter(user=person, active=True)
         if person
         else CompanyMembership.objects.none()
     )
 
 
-def accessible_imports(request):
+def accessible_offers(request):
     companies = memberships(request).values('company_id')
     allowed = Q(company_id__in=companies)
     person = identity(request)

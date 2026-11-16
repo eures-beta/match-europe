@@ -2,6 +2,7 @@
 
 from django.db import IntegrityError, connection, transaction
 from django.db.migrations.executor import MigrationExecutor
+from tests.common.migration_state import prepare_historical
 from django.test import TransactionTestCase
 
 BEFORE = ('users', '0004_employerinvitation')
@@ -10,6 +11,7 @@ AFTER = ('users', '0005_candidate_kind')
 
 class CandidateKindMigrationTests(TransactionTestCase):
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate([target])
         return executor.loader.project_state([target]).apps.get_model('users', 'User')

@@ -1,23 +1,23 @@
 'use strict';
 (() => {
-  const box = document.getElementById('response-practice');
+  const box = document.getElementById('employer-profile');
   if (!box) return;
-  const form = document.getElementById('response-practice-form');
-  const summary = document.getElementById('response-practice-summary');
-  const edit = document.getElementById('response-practice-edit');
-  const cancel = document.getElementById('response-practice-cancel');
-  const status = document.getElementById('response-practice-status');
-  const error = document.getElementById('response-practice-error');
+  const form = document.getElementById('employer-profile-form');
+  const summary = document.getElementById('employer-profile-summary');
+  const edit = document.getElementById('employer-profile-edit');
+  const cancel = document.getElementById('employer-profile-cancel');
+  const status = document.getElementById('employer-profile-status');
+  const error = document.getElementById('employer-profile-error');
   const submit = form.querySelector('[type="submit"]');
   const names = ['response_coverage', 'response_time'];
   const fields = names.map((name) => form.elements.namedItem(name));
   const messages = Object.fromEntries(
-    [...document.querySelectorAll('#response-practice-messages [data-key]')].map((item) => [
+    [...document.querySelectorAll('#employer-profile-messages [data-key]')].map((item) => [
       item.dataset.key,
       item.textContent,
     ]),
   );
-  let saved = JSON.parse(document.getElementById('response-practice-values').textContent);
+  let saved = JSON.parse(document.getElementById('employer-profile-values').textContent);
   function render() {
     names.forEach((name, index) => {
       fields[index].value = saved[name];

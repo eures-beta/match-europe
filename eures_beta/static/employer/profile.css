@@ -1,38 +1,38 @@
-#response-practice {
+#employer-profile {
   border: 1px solid var(--line, #ccd7e2);
   border-radius: 12px;
   padding: 20px;
   margin: 24px 0;
   min-width: 0;
 }
-#response-practice h2 {
+#employer-profile h2 {
   margin: 0 0 12px;
 }
-#response-practice dt {
+#employer-profile dt {
   font-weight: 700;
   margin-top: 16px;
 }
-#response-practice dd {
+#employer-profile dd {
   margin: 6px 0 18px;
 }
-#response-practice .review-field {
+#employer-profile .review-field {
   margin: 20px 0;
 }
-#response-practice select {
+#employer-profile select {
   width: 100%;
   max-width: 100%;
 }
-#response-practice-status:empty,
-#response-practice-error:empty {
+#employer-profile-status:empty,
+#employer-profile-error:empty {
   display: none;
 }
-#response-practice-error {
+#employer-profile-error {
   color: #8b1a1a;
 }
-#response-practice [hidden] {
+#employer-profile [hidden] {
   display: none !important;
 }
-#response-practice :focus-visible {
+#employer-profile :focus-visible {
   outline: 3px solid var(--accent, #154889);
   outline-offset: 3px;
 }

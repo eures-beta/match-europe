@@ -18,7 +18,7 @@ from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.skills.skills_pilot import catalogue
 from eures_beta.matching import (
     access,
-    confirmation_services as service,
+    offer_review_services as service,
     dialogue_services,
 )
 from eures_beta.matching.services import StaleEvaluation
@@ -109,7 +109,7 @@ def entry_candidate(view):
 @require_http_methods(['POST'])
 def invite(request, pk):
     try:
-        service.request_confirmation(request.user, pk)
+        service.request_offer_review(request.user, pk)
     except ObjectDoesNotExist:
         raise Http404
     return redirect(
@@ -257,10 +257,10 @@ def inbox(request):
 
     return render(
         request,
-        'matching/confirmation_inbox.html',
+        'matching/offer_review_inbox.html',
         dict(
-            entries=service.candidate_requests(request.user).select_related(
-                'pair__offer', 'pair'
+            entries=service.candidate_reviews(request.user).select_related(
+                'match__offer', 'match'
             ),
             albert_available=dialogue_services.enabled(),
             shared_conversations=listed(request.user),
@@ -274,13 +274,13 @@ def inbox(request):
 @require_http_methods(['GET', 'POST'])
 def dialogue(request, pk):
     obj = get_object_or_404(
-        service.candidate_requests(request.user).select_related(
-            'pair__candidate', 'pair__offer'
+        service.candidate_reviews(request.user).select_related(
+            'match__candidate', 'match__offer'
         ),
         pk=pk,
     )
     language = selected_language(request)
-    state = service.review(obj)
+    state = service.review_state(obj)
     error, status = '', 200
     action = request.POST.get('action') if request.method == 'POST' else None
     form = AnswerForm(request.POST if action == 'answer' else None)
@@ -288,7 +288,7 @@ def dialogue(request, pk):
         request.POST if action == 'agree' else None,
         initial={
             'fingerprint': state['fingerprint'],
-            'previous': obj.agreements.order_by('-pk')
+            'previous': obj.profile_sharings.order_by('-pk')
             .values_list('pk', flat=True)
             .first()
             or 0,
@@ -343,7 +343,7 @@ def dialogue(request, pk):
         )
     return render(
         request,
-        'matching/confirmation_dialogue.html',
+        'matching/offer_review_dialogue.html',
         dict(
             obj=obj,
             state=state,

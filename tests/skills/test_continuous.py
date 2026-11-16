@@ -259,7 +259,7 @@ class ContinuousTests(TestCase):
     def test_employer_save_reload_edit_duplicate_and_foreign_access(self):
         person = self.employer()
         company = Company.objects.create(name='Fictional employer')
-        CompanyMembership.objects.create(company=company, person=person)
+        CompanyMembership.objects.create(company=company, user=person)
         data = empty_data()
         data.update(
             title='Serveur',

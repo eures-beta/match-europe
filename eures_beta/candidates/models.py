@@ -82,12 +82,12 @@ class CandidateProfile(models.Model):
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(language__in=['fr', 'en', 'de']),
-                name='candidate_profile_language',
+                name='candidates_candidateprofile_language_valid',
             ),
             models.CheckConstraint(
                 condition=models.Q(salary_amount__isnull=True)
                 | models.Q(salary_amount__gte=0),
-                name='candidate_profile_nonnegative_salary',
+                name='candidates_candidateprofile_salary_nonnegative',
             ),
         ]
 

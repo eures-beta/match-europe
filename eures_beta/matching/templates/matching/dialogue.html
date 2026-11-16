@@ -9,7 +9,7 @@
          aria-label="{% translate 'Offers to confirm' %}">‹</a>
       <div>
         <h1>Albert</h1>
-        <p>{{ obj.pair.offer.data.title }}</p>
+        <p>{{ obj.match.offer.data.title }}</p>
       </div>
     </header>
     <section class="conversation-info">
@@ -22,7 +22,7 @@
             {% translate "Test simulation: no AI service is called. Nothing is sent to the employer." %}
           {% endif %}
         </p>
-        <p>{{ obj.pair.offer.data.companyName }} · {{ obj.pair.offer.data.city }}</p>
+        <p>{{ obj.match.offer.data.companyName }} · {{ obj.match.offer.data.city }}</p>
         <p><a href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Use the guided form" %}</a></p>
         {% if current %}
           <h2>{% translate "You previously declared" %}</h2>
@@ -36,7 +36,7 @@
     </section>
     <div class="conversation-thread">
       <p class="dialogue-bubble">
-        {% blocktranslate with title=obj.pair.offer.data.title city=obj.pair.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
+        {% blocktranslate with title=obj.match.offer.data.title city=obj.match.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
       </p>
     </div>
     {% if answered %}

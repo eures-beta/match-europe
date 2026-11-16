@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from eures_beta.matching import confirmation_services, services
+from eures_beta.matching import offer_review_services, services
 from eures_beta.matching.models import (
     CandidateOfferReview,
     CandidateOfferMatch,
@@ -29,11 +29,11 @@ class CandidateOfferConversationTests(TestCase):
         )
         cls.other.groups.clear()
         cls.other.user_permissions.clear()
-        cls.pair = CandidateOfferMatch.objects.get(
+        cls.match = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
-        cls.candidate = cls.pair.candidate.user
-        cls.employer = cls.pair.offer.created_by
+        cls.candidate = cls.match.candidate.user
+        cls.employer = cls.match.offer.created_by
 
     def setUp(self):
         (
@@ -49,27 +49,27 @@ class CandidateOfferConversationTests(TestCase):
             (self.other_client, self.other),
         ):
             client.force_login(user)
-        evaluation = services.calculate(self.pair.candidate, self.pair.offer)
+        evaluation = services.calculate(self.match.candidate, self.match.offer)
         self.adviser_client.post(
-            reverse('adviser_match', args=[self.pair.pk]),
+            reverse('adviser_match', args=[self.match.pk]),
             {
                 'action': 'retained',
                 'evaluation': evaluation.pk,
             },
         )
-        self.confirmation = CandidateOfferReview.objects.get(pair=self.pair)
-        self.start = reverse('shared_conversation_start', args=[self.confirmation.pk])
+        self.review = CandidateOfferReview.objects.get(match=self.match)
+        self.start = reverse('shared_conversation_start', args=[self.review.pk])
 
     def request_conversation(self):
         self.assertEqual(
             self.adviser_client.post(self.start, {'body': 'Introduction'}).status_code,
             404,
         )
-        for row in confirmation_services.review(self.confirmation)['rows']:
+        for row in offer_review_services.review_state(self.review)['rows']:
             if row['askable']:
-                confirmation_services.answer(
+                offer_review_services.answer(
                     self.candidate,
-                    self.confirmation.pk,
+                    self.review.pk,
                     row['key'],
                     row['fingerprint'],
                     'yes',
@@ -128,7 +128,7 @@ class CandidateOfferConversationTests(TestCase):
         )
         self.assertContains(self.adviser_client.get(url), 'Yes, thank you.')
         self.assertNotContains(self.employer_client.get(url), 'Private Albert dialogue')
-        self.assertFalse(self.confirmation.agreements.exists())
+        self.assertFalse(self.review.profile_sharings.exists())
         self.assertEqual(CandidateOfferConversation.objects.get().messages.count(), 3)
 
     def test_candidate_refusal_leaves_employer_out(self):

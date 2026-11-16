@@ -264,7 +264,7 @@ class LocalMatchingTests(TestCase):
         )
         self.client.force_login(self.operator)
 
-    def pair(self, name='compatible'):
+    def match(self, name='compatible'):
         return CandidateOfferMatch.objects.select_related('candidate', 'offer').get(
             candidate__user__email=name + '@matching-trial.invalid'
         )
@@ -279,14 +279,14 @@ class LocalMatchingTests(TestCase):
         }
         for key, state in expected.items():
             self.assertEqual(
-                self.pair(key).evaluations.latest('id').result['status'], state
+                self.match(key).evaluations.latest('id').result['status'], state
             )
         call_command('seed_matching_trial', stdout=StringIO())
         self.assertEqual(CandidateOfferMatch.objects.count(), 5)
         self.assertEqual(MatchEvaluation.objects.count(), 5)
 
     def test_saved_offer_reuses_evaluations_and_filters_by_offer(self):
-        original = self.pair().offer
+        original = self.match().offer
         offer = JobOffer.objects.create(
             created_by=original.created_by,
             preparation_agreed_at=original.preparation_agreed_at,
@@ -310,89 +310,89 @@ class LocalMatchingTests(TestCase):
             services.calculate_for_saved_offer(offer.pk, offer.revision)
 
         self.assertEqual(pairs.count(), 5)
-        self.assertEqual(MatchEvaluation.objects.filter(pair__in=pairs).count(), 5)
+        self.assertEqual(MatchEvaluation.objects.filter(match__in=pairs).count(), 5)
         page = self.client.get(reverse('matching'), {'offer': offer.pk})
         entries = page.context['entries']
         scores = [entry['result']['established'] for entry in entries]
         self.assertEqual(len(scores), 5)
         self.assertEqual(scores, sorted(scores, reverse=True))
-        self.assertTrue(all(entry['pair'].offer_id == offer.pk for entry in entries))
+        self.assertTrue(all(entry['match'].offer_id == offer.pk for entry in entries))
 
-        pair = pairs.first()
-        detail = self.client.get(reverse('matching_detail', args=[pair.pk]))
-        self.assertFalse(detail.context['can_request_confirmation'])
+        match = pairs.first()
+        detail = self.client.get(reverse('matching_detail', args=[match.pk]))
+        self.assertFalse(detail.context['can_request_review'])
         response = self.client.post(
-            reverse('request_candidate_confirmation', args=[pair.pk])
+            reverse('request_candidate_confirmation', args=[match.pk])
         )
         self.assertEqual(response.status_code, 404)
 
     def test_post_calculates_real_models_without_mutating_profile_or_offer(self):
-        pair = self.pair()
-        before = deepcopy(pair.offer.data)
+        match = self.match()
+        before = deepcopy(match.offer.data)
         with (
             patch('django.core.mail.send_mail') as mail,
             patch('requests.sessions.Session.request') as external,
         ):
             response = self.client.post(
                 reverse('matching'),
-                {'candidate': pair.candidate_id, 'offer': pair.offer_id},
+                {'candidate': match.candidate_id, 'offer': match.offer_id},
             )
         self.assertEqual(response.status_code, 302)
-        pair.offer.refresh_from_db()
-        self.assertEqual(pair.offer.data, before)
-        self.assertEqual(pair.evaluations.count(), 2)
+        match.offer.refresh_from_db()
+        self.assertEqual(match.offer.data, before)
+        self.assertEqual(match.evaluations.count(), 2)
         mail.assert_not_called()
         external.assert_not_called()
 
     def test_human_refusal_survives_recalculation_and_duplicate_post(self):
-        pair = self.pair()
-        evaluation = pair.evaluations.latest('id')
-        services.decide(pair.pk, evaluation.pk, 'refused')
-        services.decide(pair.pk, evaluation.pk, 'refused')
+        match = self.match()
+        evaluation = match.evaluations.latest('id')
+        services.decide(match.pk, evaluation.pk, 'refused')
+        services.decide(match.pk, evaluation.pk, 'refused')
         self.assertEqual(MatchDecision.objects.count(), 1)
-        services.calculate(pair.candidate, pair.offer)
-        pair.refresh_from_db()
-        self.assertEqual(pair.decision, 'refused')
-        self.assertEqual(pair.evaluations.count(), 2)
+        services.calculate(match.candidate, match.offer)
+        match.refresh_from_db()
+        self.assertEqual(match.decision, 'refused')
+        self.assertEqual(match.evaluations.count(), 2)
 
     def test_blocked_pair_cannot_be_retained(self):
-        pair = self.pair('date')
+        match = self.match('date')
         with self.assertRaises(ValueError):
-            services.decide(pair.pk, pair.evaluations.latest('id').pk, 'retained')
+            services.decide(match.pk, match.evaluations.latest('id').pk, 'retained')
         self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_latest_evaluation_and_current_answers_required(self):
-        pair = self.pair()
-        old = pair.evaluations.latest('id')
-        new = services.calculate(pair.candidate, pair.offer)
+        match = self.match()
+        old = match.evaluations.latest('id')
+        new = services.calculate(match.candidate, match.offer)
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(pair.pk, old.pk, 'retained')
-        pair.offer.revision += 1
-        pair.offer.save(update_fields=['revision'])
+            services.decide(match.pk, old.pk, 'retained')
+        match.offer.revision += 1
+        match.offer.save(update_fields=['revision'])
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(pair.pk, new.pk, 'retained')
+            services.decide(match.pk, new.pk, 'retained')
         response = self.client.post(
-            reverse('matching_detail', args=[pair.pk]),
+            reverse('matching_detail', args=[match.pk]),
             {'action': 'retained', 'evaluation': new.pk},
         )
         self.assertEqual(response.status_code, 409)
 
     def test_profile_and_requirement_changes_invalidate_the_result(self):
-        pair = self.pair()
-        old = pair.evaluations.latest('id')
-        pair.candidate.salary_amount = 50
-        pair.candidate.save()
+        match = self.match()
+        old = match.evaluations.latest('id')
+        match.candidate.salary_amount = 50
+        match.candidate.save()
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(pair.pk, old.pk, 'retained')
-        new = services.calculate(pair.candidate, pair.offer)
-        pair.offer.structured_requirements['country'] = 'DE'
-        pair.offer.save(update_fields=['structured_requirements'])
+            services.decide(match.pk, old.pk, 'retained')
+        new = services.calculate(match.candidate, match.offer)
+        match.offer.structured_requirements['country'] = 'DE'
+        match.offer.save(update_fields=['structured_requirements'])
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(pair.pk, new.pk, 'retained')
+            services.decide(match.pk, new.pk, 'retained')
 
     def test_csrf_get_and_unknown_actions_never_change_a_decision(self):
-        pair = self.pair()
-        path = reverse('matching_detail', args=[pair.pk])
+        match = self.match()
+        path = reverse('matching_detail', args=[match.pk])
         self.client.get(path, {'action': 'retained'})
         self.assertEqual(
             Client(enforce_csrf_checks=True)
@@ -416,11 +416,11 @@ class LocalMatchingTests(TestCase):
                 self.assertEqual(
                     self.client.get(path, REMOTE_ADDR='192.0.2.1').status_code, 200
                 )
-                pair = self.pair()
+                match = self.match()
                 self.assertEqual(
                     self.client.post(
                         path,
-                        {'candidate': pair.candidate_id, 'offer': pair.offer_id},
+                        {'candidate': match.candidate_id, 'offer': match.offer_id},
                         REMOTE_ADDR='192.0.2.1',
                     ).status_code,
                     302,
@@ -429,7 +429,7 @@ class LocalMatchingTests(TestCase):
                     call_command('seed_matching_trial', stdout=StringIO())
         self.client.logout()
         self.assertEqual(self.client.get(path).status_code, 403)
-        self.client.force_login(self.pair().candidate.user)
+        self.client.force_login(self.match().candidate.user)
         self.assertEqual(self.client.get(path).status_code, 403)
         self.client.force_login(self.operator)
         self.operator.groups.clear()
@@ -440,9 +440,9 @@ class LocalMatchingTests(TestCase):
         from django.contrib.auth.models import Permission
         from eures_beta.users.models import User
 
-        pair = self.pair()
+        match = self.match()
         path = reverse('matching')
-        payload = {'candidate': pair.candidate_id, 'offer': pair.offer_id}
+        payload = {'candidate': match.candidate_id, 'offer': match.offer_id}
         self.operator.groups.clear()
         self.operator.user_permissions.clear()
         self.assertEqual(self.client.post(path, payload).status_code, 302)
@@ -455,7 +455,7 @@ class LocalMatchingTests(TestCase):
         self.assertEqual(self.client.get(path).status_code, 200)
         self.assertEqual(self.client.post(path, payload).status_code, 302)
 
-        for user in (pair.candidate.user, pair.offer.created_by):
+        for user in (match.candidate.user, match.offer.created_by):
             user.user_permissions.set(
                 Permission.objects.filter(content_type__app_label='matching')
             )
@@ -470,17 +470,18 @@ class LocalMatchingTests(TestCase):
         self.assertEqual(self.client.post(path, payload).status_code, 403)
 
     def test_inactive_objects_are_hidden_and_real_addresses_are_eligible(self):
-        pair = self.pair()
-        user = pair.candidate.user
+        match = self.match()
+        user = match.candidate.user
         user.is_active = False
         user.save(update_fields=['is_active'])
         self.assertEqual(
-            self.client.get(reverse('matching_detail', args=[pair.pk])).status_code, 404
+            self.client.get(reverse('matching_detail', args=[match.pk])).status_code,
+            404,
         )
         self.assertEqual(
             self.client.post(
                 reverse('matching'),
-                {'candidate': pair.candidate_id, 'offer': pair.offer_id},
+                {'candidate': match.candidate_id, 'offer': match.offer_id},
             ).status_code,
             400,
         )
@@ -488,18 +489,19 @@ class LocalMatchingTests(TestCase):
         user.email = 'hidden@example.com'
         user.save(update_fields=['is_active', 'email'])
         self.assertEqual(
-            self.client.get(reverse('matching_detail', args=[pair.pk])).status_code, 200
+            self.client.get(reverse('matching_detail', args=[match.pk])).status_code,
+            200,
         )
 
     def test_result_contains_no_contacts_or_raw_profile_snapshot(self):
-        pair = self.pair()
-        result = pair.evaluations.latest('id').result
+        match = self.match()
+        result = match.evaluations.latest('id').result
         self.assertNotIn('email', str(result))
         self.assertNotIn('display_name', str(result))
         self.assertNotIn('candidate_snapshot', result)
-        response = self.client.get(reverse('matching_detail', args=[pair.pk]))
-        self.assertNotContains(response, pair.candidate.user.email)
-        self.assertNotContains(response, pair.offer.email)
+        response = self.client.get(reverse('matching_detail', args=[match.pk]))
+        self.assertNotContains(response, match.candidate.user.email)
+        self.assertNotContains(response, match.offer.email)
 
     def test_translated_pages_show_states_and_not_only_colours(self):
         titles = {
@@ -510,33 +512,33 @@ class LocalMatchingTests(TestCase):
         for language, title in titles.items():
             response = self.client.get(reverse('matching'), {'lang': language})
             self.assertContains(response, title)
-            pair = self.pair('date')
+            match = self.match('date')
             response = self.client.get(
-                reverse('matching_detail', args=[pair.pk]), {'lang': language}
+                reverse('matching_detail', args=[match.pk]), {'lang': language}
             )
             self.assertContains(response, 'main-content')
             self.assertContains(response, 'name="evaluation"')
             self.assertNotContains(response, 'name="action" value="send"')
 
     def test_reconfirmation_is_a_new_event_for_a_new_evaluation(self):
-        pair = self.pair()
-        first = pair.evaluations.latest('id')
-        services.decide(pair.pk, first.pk, 'retained')
-        second = services.calculate(pair.candidate, pair.offer)
-        services.decide(pair.pk, second.pk, 'retained')
-        self.assertEqual(pair.decisions.count(), 2)
-        self.assertEqual(pair.decisions.latest('id').evaluation_id, second.pk)
+        match = self.match()
+        first = match.evaluations.latest('id')
+        services.decide(match.pk, first.pk, 'retained')
+        second = services.calculate(match.candidate, match.offer)
+        services.decide(match.pk, second.pk, 'retained')
+        self.assertEqual(match.decisions.count(), 2)
+        self.assertEqual(match.decisions.latest('id').evaluation_id, second.pk)
 
     def test_explanations_include_the_compared_values(self):
-        pair = self.pair()
-        result = services.calculate(pair.candidate, pair.offer).result
+        match = self.match()
+        result = services.calculate(match.candidate, match.offer).result
         rows = {row['key']: row for row in result['rows']}
         self.assertEqual(rows['language']['expected'], 'A2')
         self.assertEqual(rows['language']['declared'], 'B1')
         self.assertEqual(rows['schedule']['expected'], 'saturday:morning')
         self.assertEqual(rows['salary']['expected'], '22')
         self.assertEqual(rows['salary']['declared'], '18.00')
-        response = self.client.get(reverse('matching_detail', args=[pair.pk]))
+        response = self.client.get(reverse('matching_detail', args=[match.pk]))
         self.assertContains(response, 'Samedi')
         self.assertContains(response, 'Français')
         self.assertContains(response, 'Mobilité')
@@ -552,10 +554,10 @@ class LocalMatchingTests(TestCase):
             'operator@example.invalid', kind='adviser', is_staff=True, is_superuser=True
         )
         self.client.force_login(person)
-        pair = self.pair()
+        match = self.match()
         for obj in (
-            pair,
-            pair.evaluations.latest('id'),
+            match,
+            match.evaluations.latest('id'),
         ):
             self.assertIsInstance(admin.site._registry[type(obj)], MetadataOnlyAdmin)
             name = obj._meta.model_name
@@ -578,17 +580,17 @@ class LocalMatchingTests(TestCase):
     def test_result_list_shows_persisted_scores_and_flags_stale_data_without_recalculation(
         self,
     ):
-        pair = self.pair('date')
-        evaluation = pair.evaluations.latest('id')
+        match = self.match('date')
+        evaluation = match.evaluations.latest('id')
         before = MatchEvaluation.objects.count()
-        pair.offer.revision += 1
-        pair.offer.save(update_fields=['revision'])
+        match.offer.revision += 1
+        match.offer.save(update_fields=['revision'])
         response = self.client.get(reverse('matching'), {'lang': 'fr'})
         self.assertContains(response, 'Résultats du matching')
         self.assertContains(response, 'Évaluation périmée')
         self.assertContains(response, 'Bloqué pour cette offre')
         entry = next(
-            item for item in response.context['entries'] if item['pair'].pk == pair.pk
+            item for item in response.context['entries'] if item['match'].pk == match.pk
         )
         self.assertEqual(
             entry['result']['established'], evaluation.result['established']
@@ -598,9 +600,9 @@ class LocalMatchingTests(TestCase):
         self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_detail_score_is_visible_without_an_expand_action(self):
-        pair = self.pair('unknown')
+        match = self.match('unknown')
         response = self.client.get(
-            reverse('matching_detail', args=[pair.pk]), {'lang': 'fr'}
+            reverse('matching_detail', args=[match.pk]), {'lang': 'fr'}
         )
         self.assertContains(response, 'Score global')
         self.assertContains(response, 'Détail du score')

@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from eures_beta.candidates.forms import KEY, ConditionsForm
 from eures_beta.matching import (
-    confirmation_services as confirmations,
+    offer_review_services as offer_reviews,
     dialogue_services as dialogue,
 )
 from eures_beta.matching.models import CandidateOfferMatch
@@ -31,13 +31,13 @@ class DialogueTests(TestCase):
 
     def setUp(self):
         self.adviser = prepared_user('adviser')
-        self.pair = CandidateOfferMatch.objects.get(
+        self.match = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
-        self.user = self.pair.candidate.user
-        self.obj = confirmations.request_confirmation(self.adviser, self.pair.pk)
+        self.user = self.match.candidate.user
+        self.obj = offer_reviews.request_offer_review(self.adviser, self.match.pk)
         self.row = next(
-            r for r in confirmations.questions(self.obj) if r['kind'] == 'schedule'
+            r for r in offer_reviews.questions(self.obj) if r['kind'] == 'schedule'
         )
         self.url = reverse('candidate_offer_dialogue', args=[self.obj.pk])
         self.client.force_login(self.user)
@@ -51,7 +51,7 @@ class DialogueTests(TestCase):
         return dict(
             key=self.row['key'],
             fingerprint=self.row['fingerprint'],
-            context=confirmations.review(self.obj)['fingerprint'],
+            context=offer_reviews.review_state(self.obj)['fingerprint'],
             previous=latest.pk if latest else 0,
             text=text,
             scope=scope,
@@ -92,13 +92,13 @@ class DialogueTests(TestCase):
                     self.client.get(page.url), answer.dialogue['prompt']
                 )
             proposal.assert_not_called()
-        self.assertFalse(self.obj.agreements.exists())
+        self.assertFalse(self.obj.profile_sharings.exists())
 
     def test_free_reply_is_only_a_proposal_until_confirmed(self):
         with patch('urllib.request.OpenerDirector.open') as network:
             proposal = self.propose('un samedi sur deux', 'offer')
             self.assertFalse(self.obj.answers.exists())
-            self.assertFalse(self.obj.agreements.exists())
+            self.assertFalse(self.obj.profile_sharings.exists())
             response = self.client.post(
                 self.url, dict(action='accept', token=proposal['token'])
             )
@@ -107,8 +107,8 @@ class DialogueTests(TestCase):
         event = self.obj.answers.get()
         self.assertEqual(event.value, 'conditional')
         self.assertEqual(event.detail, 'un samedi sur deux')
-        self.pair.candidate.refresh_from_db()
-        self.assertEqual(self.pair.candidate.schedule_saturday, ['morning'])
+        self.match.candidate.refresh_from_db()
+        self.assertEqual(self.match.candidate.schedule_saturday, ['morning'])
 
     def test_general_change_opens_review_draft_without_changing_profile(self):
         proposal = self.propose('je ne suis plus disponible le samedi', 'profile')
@@ -124,8 +124,8 @@ class DialogueTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertIn('/candidate/prepare/?step=3', response.url)
-        self.pair.candidate.refresh_from_db()
-        self.assertEqual(self.pair.candidate.schedule_saturday, ['morning'])
+        self.match.candidate.refresh_from_db()
+        self.assertEqual(self.match.candidate.schedule_saturday, ['morning'])
         draft = self.client.session[KEY]
         self.assertEqual(draft['data']['schedule_saturday'], [])
         self.assertEqual(draft['editing_user'], self.user.pk)
@@ -156,15 +156,15 @@ class DialogueTests(TestCase):
             {
                 'token': draft['token'],
                 'action': 'finish',
-                'display_name': self.pair.candidate.display_name,
+                'display_name': self.match.candidate.display_name,
                 'reviewed': 'on',
             },
         )
         self.assertEqual(saved.status_code, 302)
         self.assertEqual(saved.url, reverse('candidate_profile'))
-        self.pair.candidate.refresh_from_db()
-        self.assertEqual(self.pair.candidate.schedule_saturday, [])
-        self.assertEqual(self.pair.candidate.schedule_monday, ['morning'])
+        self.match.candidate.refresh_from_db()
+        self.assertEqual(self.match.candidate.schedule_saturday, [])
+        self.assertEqual(self.match.candidate.schedule_monday, ['morning'])
 
     def test_profile_changed_during_review_is_not_overwritten(self):
         proposal = self.propose('je ne suis plus disponible le samedi', 'profile')
@@ -177,8 +177,8 @@ class DialogueTests(TestCase):
         draft['unlocked'] = 4
         session[KEY] = draft
         session.save()
-        self.pair.candidate.display_name = 'Newer fictional profile'
-        self.pair.candidate.save()
+        self.match.candidate.display_name = 'Newer fictional profile'
+        self.match.candidate.save()
         response = self.client.post(
             '/candidate/prepare/?step=4&lang=en',
             {
@@ -189,9 +189,9 @@ class DialogueTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 409)
-        self.pair.candidate.refresh_from_db()
-        self.assertEqual(self.pair.candidate.display_name, 'Newer fictional profile')
-        self.assertEqual(self.pair.candidate.schedule_saturday, ['morning'])
+        self.match.candidate.refresh_from_db()
+        self.assertEqual(self.match.candidate.display_name, 'Newer fictional profile')
+        self.assertEqual(self.match.candidate.schedule_saturday, ['morning'])
 
     def test_ambiguity_and_instructions_never_create_an_answer_or_profile_patch(self):
         for text, scope in [
@@ -238,7 +238,7 @@ class DialogueTests(TestCase):
 
     def test_old_proposal_cannot_overwrite_new_answer_or_changed_profile(self):
         proposal = self.propose()
-        confirmations.answer(
+        offer_reviews.answer(
             self.user, self.obj.pk, self.row['key'], self.row['fingerprint'], 'no'
         )
         self.assertEqual(
@@ -249,8 +249,8 @@ class DialogueTests(TestCase):
         )
         self.assertEqual(self.obj.answers.get().value, 'no')
         proposal = self.propose()
-        self.pair.candidate.display_name = 'Changed fictional name'
-        self.pair.candidate.save()
+        self.match.candidate.display_name = 'Changed fictional name'
+        self.match.candidate.save()
         self.assertEqual(
             self.client.post(
                 self.url, dict(action='accept', token=proposal['token'])
@@ -310,8 +310,8 @@ class DialogueTests(TestCase):
 
     def test_unverified_profile_closes_proposal_acceptance(self):
         proposal = self.propose()
-        self.pair.candidate.email_verified_at = None
-        self.pair.candidate.save()
+        self.match.candidate.email_verified_at = None
+        self.match.candidate.save()
         self.assertEqual(
             self.client.post(
                 self.url, dict(action='accept', token=proposal['token'])

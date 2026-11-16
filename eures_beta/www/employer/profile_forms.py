@@ -2,10 +2,10 @@
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from eures_beta.employers.response_practice import RESPONSE_COVERAGE, RESPONSE_TIME
+from eures_beta.employers.profile import RESPONSE_COVERAGE, RESPONSE_TIME
 
 
-class ResponsePracticeForm(forms.Form):
+class EmployerProfileForm(forms.Form):
     response_coverage = forms.ChoiceField(
         label=_('Do you reply to all applications received?'),
         help_text=_('Do not count automatic acknowledgements.'),

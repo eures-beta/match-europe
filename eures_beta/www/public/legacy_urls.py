@@ -40,7 +40,7 @@ urlpatterns = [
     path(
         'api/employer/response-practice/',
         legacy_workspace_route,
-        {'target': 'employer_response_practice'},
+        {'target': 'employer_profile'},
     ),
     path('employer/connected/', legacy_employer_connected),
     path('employer/pages/<path:path>', legacy_employer_page),

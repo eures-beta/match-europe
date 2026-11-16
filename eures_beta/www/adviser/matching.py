@@ -21,11 +21,11 @@ from eures_beta.matching import (
     access,
     adviser_opinion,
     dialogue_albert,
-    confirmation_services,
+    offer_review_services,
     dialogue_services,
     services,
 )
-from eures_beta.www.matching.confirmations import display_rows
+from eures_beta.www.matching.offer_reviews import display_rows
 from eures_beta.matching.models import (
     CandidateOfferReview,
     MatchEvaluation,
@@ -57,7 +57,7 @@ def eligible_pairs():
 
 
 def pending_pairs():
-    latest = MatchEvaluation.objects.filter(pair_id=OuterRef('pk')).order_by('-pk')
+    latest = MatchEvaluation.objects.filter(match_id=OuterRef('pk')).order_by('-pk')
     return (
         eligible_pairs()
         .filter(decision='pending')
@@ -73,16 +73,16 @@ def pending_pairs():
 def open_conversations():
     return (
         CandidateOfferReview.objects.filter(
-            pair__in=eligible_pairs().filter(decision='retained')
+            match__in=eligible_pairs().filter(decision='retained')
         )
         .filter(
             ~Exists(
                 CandidateOfferReview.objects.filter(
-                    pk=OuterRef('pk'), agreements__isnull=False
+                    pk=OuterRef('pk'), profile_sharings__isnull=False
                 )
             )
         )
-        .select_related('pair__candidate__user', 'pair__offer')
+        .select_related('match__candidate__user', 'match__offer')
     )
 
 
@@ -109,12 +109,12 @@ def queue(request):
     matchings = []
     if allowed and not tracking:
         evaluations = MatchEvaluation.objects.in_bulk(
-            pair.evaluation_id for pair in page
+            match.evaluation_id for match in page
         )
         matchings = [
-            matching_context(request, pair, evaluations[pair.evaluation_id])
-            for pair in page
-            if pair.evaluation_id in evaluations
+            matching_context(request, match, evaluations[match.evaluation_id])
+            for match in page
+            if match.evaluation_id in evaluations
         ]
     return render_workspace(
         request,
@@ -128,19 +128,19 @@ def queue(request):
 
 
 @transaction.atomic
-def record_review(user, pair, evaluation_id, action):
-    pair = CandidateOfferMatch.objects.select_for_update().get(pk=pair.pk)
-    if pair.decision != 'pending':
+def record_review(user, match, evaluation_id, action):
+    match = CandidateOfferMatch.objects.select_for_update().get(pk=match.pk)
+    if match.decision != 'pending':
         raise services.StaleEvaluation
     if action == 'refresh':
-        services.calculate(pair.candidate, pair.offer)
+        services.calculate(match.candidate, match.offer)
         return
     if action == 'retained' and not dialogue_services.enabled():
         raise ValidationError(_('Albert is currently unavailable. Try again later.'))
-    services.decide(pair.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
+    services.decide(match.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
     if action == 'retained':
         confirmation, created = CandidateOfferReview.objects.get_or_create(
-            pair=pair, defaults={'requested_by': user}
+            match=match, defaults={'requested_by': user}
         )
         if created:
             transaction.on_commit(lambda: push.notify(confirmation))
@@ -152,8 +152,8 @@ def detail(request, pk):
     access.guard(request)
     language = selected_language(request)
     with translation.override(language):
-        pair = get_object_or_404(pending_pairs(), pk=pk)
-        evaluation = get_object_or_404(MatchEvaluation, pk=pair.evaluation_id)
+        match = get_object_or_404(pending_pairs(), pk=pk)
+        evaluation = get_object_or_404(MatchEvaluation, pk=match.evaluation_id)
         status, error = 200, ''
         if request.method == 'POST':
             form = ReviewForm(request.POST)
@@ -162,7 +162,7 @@ def detail(request, pk):
                     raise ValidationError(_('Select a valid matching decision.'))
                 action = form.cleaned_data['action']
                 record_review(
-                    request.user, pair, form.cleaned_data['evaluation'], action
+                    request.user, match, form.cleaned_data['evaluation'], action
                 )
                 if action == 'refresh' and pending_pairs().filter(pk=pk).exists():
                     return redirect(
@@ -181,7 +181,7 @@ def detail(request, pk):
             request,
             'adviser_match_detail.html',
             status,
-            matching=matching_context(request, pair, evaluation),
+            matching=matching_context(request, match, evaluation),
             error=error,
         )
 
@@ -208,10 +208,10 @@ def comparison_rows(rows):
             yield dict(row, expected_label=expected, declared_label=declared)
 
 
-def matching_context(request, pair, evaluation):
+def matching_context(request, match, evaluation):
     language = selected_language(request)
     try:
-        stale = evaluation.fingerprint != services.inputs(pair)[1]
+        stale = evaluation.fingerprint != services.inputs(match)[1]
     except (ObjectDoesNotExist, ValidationError, ValueError):
         stale = True
     result = present(evaluation.result, language)
@@ -224,7 +224,7 @@ def matching_context(request, pair, evaluation):
     else:
         rating = ('amber', _('Borderline'))
     return dict(
-        pair=pair,
+        match=match,
         evaluation=evaluation,
         rating=rating,
         dimensions=result['dimensions'],
@@ -242,15 +242,15 @@ def matching_context(request, pair, evaluation):
         ],
         occupations=[
             occupation['label']
-            for reference in pair.candidate.occupation_references
+            for reference in match.candidate.occupation_references
             if (occupation := resolve_reference(reference, language))
         ],
         languages=[
             (language_label(row['code']), row['level'])
-            for row in pair.candidate.language_skills.get('languages', [])
+            for row in match.candidate.language_skills.get('languages', [])
         ],
         stale=stale,
-        can_decide=access.can_change_pair(request.user),
+        can_decide=access.can_change_match(request.user),
         albert_available=dialogue_services.enabled(),
     )
 
@@ -261,9 +261,9 @@ def follow(request, pk):
     access.guard(request)
     with translation.override(selected_language(request)):
         conversation = get_object_or_404(open_conversations(), pk=pk)
-        can_resend = access.can_change_pair(request.user)
+        can_resend = access.can_change_match(request.user)
         language = selected_language(request)
-        state = confirmation_services.review(conversation)
+        state = offer_review_services.review_state(conversation)
         rows = display_rows(state['rows'], language)
         ready = adviser_opinion.ready(state)
         can_analyse = ready and dialogue_services.enabled()
@@ -292,7 +292,7 @@ def follow(request, pk):
                     current = open_conversations().filter(pk=pk).first()
                     if (
                         current is None
-                        or confirmation_services.review(current)['fingerprint']
+                        or offer_review_services.review_state(current)['fingerprint']
                         != state['fingerprint']
                     ):
                         return redirect(
@@ -323,16 +323,16 @@ def follow(request, pk):
             resend_result=result,
             conversation=conversation,
             tracking=True,
-            pair=conversation.pair,
+            match=conversation.match,
             rows=rows,
             analysis_ready=ready,
             can_start_shared=(
                 ready
                 and conversation.requested_by_id == request.user.pk
-                and access.can_change_pair(request.user)
-                and bool(conversation.pair.offer.created_by_id)
+                and access.can_change_match(request.user)
+                and bool(conversation.match.offer.created_by_id)
             ),
-            can_analyse=can_analyse and access.can_change_pair(request.user),
+            can_analyse=can_analyse and access.can_change_match(request.user),
             analysis_fingerprint=state['fingerprint'],
             analysis_error=error,
             opinion=opinion,

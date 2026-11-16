@@ -13,10 +13,10 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
 from eures_beta.matching import (
-    confirmation_services as confirmations,
+    offer_review_services as offer_reviews,
     dialogue_services as dialogue,
 )
-from eures_beta.www.matching.confirmations import (
+from eures_beta.www.matching.offer_reviews import (
     AnswerForm,
     entry_candidate,
     display_rows,
@@ -78,13 +78,13 @@ def conversation(request, pk):
     if not dialogue.enabled():
         raise Http404
     obj = get_object_or_404(
-        confirmations.candidate_requests(request.user).select_related(
-            'pair__candidate', 'pair__offer'
+        offer_reviews.candidate_reviews(request.user).select_related(
+            'match__candidate', 'match__offer'
         ),
         pk=pk,
     )
     language = selected_language(request)
-    state = confirmations.review(obj)
+    state = offer_reviews.review_state(obj)
     rows = display_rows(state['rows'], language)
     key = request.POST.get('key') or request.GET.get('question')
     current = (
@@ -96,7 +96,7 @@ def conversation(request, pk):
             default=None,
         )
     )
-    prompt = confirmations.question_text(current) if current else ''
+    prompt = offer_reviews.question_text(current) if current else ''
     rows_by_key = {row['key']: row for row in rows}
     answered = []
     for answer in obj.answers.order_by('pk'):
@@ -114,7 +114,7 @@ def conversation(request, pk):
         answered.append(
             {
                 'answer': answer,
-                'prompt': saved_prompt or confirmations.question_text(row),
+                'prompt': saved_prompt or offer_reviews.question_text(row),
                 'answer_label': label,
             }
         )
@@ -135,7 +135,7 @@ def conversation(request, pk):
                     or quick.cleaned_data['detail']
                 ):
                     raise ValueError
-                confirmations.answer(
+                offer_reviews.answer(
                     request.user, pk, **quick.cleaned_data, dialogue={'prompt': prompt}
                 )
                 return redirect(
@@ -159,7 +159,7 @@ def conversation(request, pk):
                     request.user, pk, accepted.cleaned_data['token']
                 )
                 if patch:
-                    profile = event.request.pair.candidate
+                    profile = event.review.match.candidate
                     data = registration.profile_answers(profile)
                     data.update(patch)
                     now = time.time()
@@ -272,7 +272,7 @@ def conversation(request, pk):
             changes.append(
                 dict(
                     label=field.label,
-                    before=show(getattr(obj.pair.candidate, name)),
+                    before=show(getattr(obj.match.candidate, name)),
                     after=show(value),
                 )
             )
@@ -283,9 +283,7 @@ def conversation(request, pk):
         'matching/dialogue.html',
         dict(
             obj=obj,
-            shared_conversation=conversations(request.user)
-            .filter(offer_review=obj)
-            .first(),
+            shared_conversation=conversations(request.user).filter(offer_review=obj).first(),
             current=current,
             prompt=prompt,
             answered=answered,
@@ -298,7 +296,7 @@ def conversation(request, pk):
             error=error,
             before=[
                 dict(SCHEDULE_PERIODS)[value]
-                for value in obj.pair.candidate.schedule_saturday
+                for value in obj.match.candidate.schedule_saturday
             ],
             page_language=language,
             language_question=current['key'] if current else '',

@@ -1,9 +1,9 @@
 """Existing offer requirements survive consolidation and rollback."""
 
-from io import StringIO
+from .fixtures.historical import seed_matching
+from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.core.exceptions import ValidationError
-from django.core.management import call_command
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TestCase, TransactionTestCase, override_settings
@@ -18,11 +18,13 @@ from eures_beta.employers.models import JobOffer
 )
 class OfferRequirementsMigrationTests(TransactionTestCase):
     def migrate(self, name):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         targets = [
             ('matching', name),
             ('employers', '0006_joboffer_structured_requirements'),
         ]
+        targets = historical_targets(targets)
         executor.migrate(targets)
         return executor.loader.project_state(targets).apps
 
@@ -33,7 +35,7 @@ class OfferRequirementsMigrationTests(TransactionTestCase):
 
     def prepare(self):
         apps = self.migrate('0003_rename_match_decision')
-        call_command('seed_matching_trial', stdout=StringIO())
+        seed_matching(apps)
         Offer = apps.get_model('employers', 'JobOffer')
         offer = Offer.objects.first()
         payload = offer.structured_requirements

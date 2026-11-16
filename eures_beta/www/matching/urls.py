@@ -1,7 +1,7 @@
 from django.urls import path
 from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.matching import (
-    confirmations as confirmation_views,
+    offer_reviews as confirmation_views,
     conversations,
     views,
 )

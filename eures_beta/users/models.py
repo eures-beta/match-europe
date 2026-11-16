@@ -54,15 +54,13 @@ class User(AbstractUser):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(
-                Lower('email'), name='users_email_case_insensitive'
-            ),
+            models.UniqueConstraint(Lower('email'), name='users_user_email_ci_unique'),
             models.CheckConstraint(
                 condition=models.Q(kind__in=['adviser', 'employer', 'candidate']),
-                name='users_valid_kind',
+                name='users_user_kind_valid',
             ),
             models.CheckConstraint(
-                condition=~models.Q(email=''), name='users_email_required'
+                condition=~models.Q(email=''), name='users_user_email_required'
             ),
         ]
 

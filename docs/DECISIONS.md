@@ -106,10 +106,12 @@ Références : [catalogues](OCCUPATION_CATALOG_MAINTENANCE.md), [compétences](S
 
 Une migration publiée reste immuable ; toute évolution est additive, revue et
 testée avec des données non vides et, quand applicable, en retour arrière.
-Préserver identifiants, relations, droits et données. Les noms physiques hérités
-encore présents sont un état de compatibilité, pas un objectif de nomenclature :
-tout renommage complet futur doit traiter les objets actifs concernés avec une
-migration sûre, pas effacer les anciennes migrations.
+Préserver identifiants, relations, droits et données. Les tables actives suivent
+`app_label_modelname`, avec fichiers métier, relations, colonnes et objets SQL
+cohérents. Les migrations d'harmonisation remplacent l'état de compatibilité des
+anciens noms physiques, sans effacer l'histoire ni les contrats cryptographiques.
+Les contrôles Django et tests de schéma/aller-retour empêchent cette dette de
+revenir ; voir [la convention et les migrations](MODEL_NAMING.md).
 Créer une PR n'autorise ni fusion ni déploiement. L'historique reste linéaire,
 sans squash sauf demande. La pile active contient seulement les PR destinées
 à la production encore ouvertes ; les essais/backups restent indépendants.

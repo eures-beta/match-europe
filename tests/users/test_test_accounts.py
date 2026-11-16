@@ -52,12 +52,12 @@ class TestAccountAccessTests(TestCase):
             user = prepared_user(key)
             self.assertEqual(client.session['_auth_user_id'], str(user.pk))
             if key == 'candidate-pwa-replay':
-                from eures_beta.matching.confirmation_services import review
+                from eures_beta.matching.offer_review_services import review_state
 
                 confirmation = CandidateOfferReview.objects.get(
-                    pair__candidate__user=user
+                    match__candidate__user=user
                 )
-                self.assertIsNone(review(confirmation)['pending'])
+                self.assertIsNone(review_state(confirmation)['pending'])
             else:
                 self.assertTrue(pending_pairs().filter(candidate__user=user).exists())
             self.assertContains(response, 'data-candidate-push')
@@ -77,11 +77,11 @@ class TestAccountAccessTests(TestCase):
 
         self.seed()
         user = prepared_user('candidate-pwa')
-        pair = pending_pairs().get(candidate__user=user)
+        match = pending_pairs().get(candidate__user=user)
         adviser = Client()
         adviser.force_login(prepared_user('adviser'))
-        detail = reverse('adviser_match', args=[pair.pk])
-        decision = {'action': 'retained', 'evaluation': pair.evaluation_id}
+        detail = reverse('adviser_match', args=[match.pk])
+        decision = {'action': 'retained', 'evaluation': match.evaluation_id}
 
         candidate = Client()
         candidate.force_login(user)
@@ -118,7 +118,7 @@ class TestAccountAccessTests(TestCase):
                 self.assertEqual(adviser.post(detail, decision).status_code, 302)
                 send.assert_not_called()
             send.assert_called_once()
-        confirmation = CandidateOfferReview.objects.get(pair=pair)
+        confirmation = CandidateOfferReview.objects.get(match=match)
         dialogue = reverse('candidate_offer_dialogue', args=[confirmation.pk])
         payload = json.loads(send.call_args.kwargs['data'])
         self.assertTrue(payload['body'])
@@ -148,7 +148,7 @@ class TestAccountAccessTests(TestCase):
         user.email = "candidate@example.org"
         user.save(update_fields=["email"])
         adviser = prepared_user("adviser")
-        pair = pending_pairs().get(candidate__user=user)
+        match = pending_pairs().get(candidate__user=user)
         with patch.object(push, "notify") as notify:
             for environment in ("local", "preview", "production"):
                 with (
@@ -162,9 +162,11 @@ class TestAccountAccessTests(TestCase):
                     page = self.client.get(reverse("candidate_profile"))
                     self.assertContains(page, reverse("candidate_push_subscriptions"))
             with self.captureOnCommitCallbacks(execute=True):
-                record_review(adviser, pair, pair.evaluation_id, "retained")
+                record_review(adviser, match, match.evaluation_id, "retained")
                 notify.assert_not_called()
-            notify.assert_called_once_with(CandidateOfferReview.objects.get(pair=pair))
+            notify.assert_called_once_with(
+                CandidateOfferReview.objects.get(match=match)
+            )
 
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):

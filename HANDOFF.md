@@ -42,6 +42,10 @@ pas une liste à dupliquer dans ce fichier.
   [#230](https://github.com/eures-beta/match-europe/pull/230) : recherches bornées
   et outillage de triage CodeQL.
 
+- Harmonisation des modèles : 11 tables, relations, contraintes et objets SQL
+  renommés en place ; [guide et retour arrière](docs/MODEL_NAMING.md).
+  Prévoir les verrous DDL au déploiement ; conserver les migrations historiques.
+
 Retirer les entrées après intégration et mise à jour des guides concernés.
 N'ajouter ici que ce qui change concrètement la prochaine reprise.
 

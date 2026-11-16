@@ -1,6 +1,6 @@
 import uuid
 from .offer_requirements import validate_requirements
-from .response_practice import RESPONSE_COVERAGE, RESPONSE_TIME
+from .profile import RESPONSE_COVERAGE, RESPONSE_TIME
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -13,7 +13,6 @@ class Company(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'journeys_employercompany'
         verbose_name = _('Company')
         verbose_name_plural = _('Companies')
 
@@ -22,19 +21,19 @@ class CompanyMembership(models.Model):
     company = models.ForeignKey(
         Company, on_delete=models.PROTECT, related_name='memberships'
     )
-    person = models.ForeignKey(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='memberships'
     )
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'journeys_employermembership'
         verbose_name = _('Company membership')
         verbose_name_plural = _('Company memberships')
         constraints = [
             models.UniqueConstraint(
-                fields=['company', 'person'], name='unique_employer_membership'
+                fields=['company', 'user'],
+                name='employers_companymembership_company_user_unique',
             )
         ]
 
@@ -48,14 +47,14 @@ class JobOffer(models.Model):
         null=True,
         blank=True,
         on_delete=models.PROTECT,
-        related_name='imports',
+        related_name='job_offers',
     )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.PROTECT,
-        related_name='created_imports',
+        related_name='created_job_offers',
     )
     search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
     duplicated_from = models.ForeignKey(
@@ -79,7 +78,7 @@ class JobOffer(models.Model):
         null=True,
         blank=True,
         on_delete=models.PROTECT,
-        related_name='advised_imports',
+        related_name='advised_job_offers',
     )
     preparation_agreed_at = models.DateTimeField()
     source_kind = models.CharField(max_length=10)
@@ -101,7 +100,6 @@ class JobOffer(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
-        db_table = 'journeys_employerimport'
         verbose_name = _('Job offer')
         verbose_name_plural = _('Job offers')
 
@@ -142,7 +140,7 @@ class EmployerProfile(models.Model):
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(response_coverage__in=['all', 'selected', 'varies']),
-                name='employer_response_coverage_valid',
+                name='employers_employerprofile_response_coverage_valid',
             ),
             models.CheckConstraint(
                 condition=models.Q(
@@ -154,10 +152,10 @@ class EmployerProfile(models.Model):
                         'variable',
                     ]
                 ),
-                name='employer_response_time_valid',
+                name='employers_employerprofile_response_time_valid',
             ),
             models.CheckConstraint(
                 condition=models.Q(revision__gte=1),
-                name='employer_response_revision_positive',
+                name='employers_employerprofile_revision_positive',
             ),
         ]

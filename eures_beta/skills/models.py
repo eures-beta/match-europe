@@ -13,10 +13,9 @@ class OccupationSkillSuggestion(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'occupations_occupationskillsuggestion'
         constraints = [
             models.UniqueConstraint(
                 fields=('occupation_uri', 'source_version', 'method'),
-                name='unique_occupation_skill_suggestion',
+                name='skills_occupationskillsuggestion_reference_unique',
             )
         ]

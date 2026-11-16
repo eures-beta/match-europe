@@ -2,18 +2,18 @@
 {% load i18n static %}
 {% block page_title %}{% translate "Confirm this offer" %} — Match Europe{% endblock %}
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'matching/confirmations.css' %}">
+  <link rel="stylesheet" href="{% static 'matching/offer_reviews.css' %}">
 {% endblock %}
 {% block public_content %}
   <div class="confirmation-flow">
     <section class="surface-card home-section">
       <h1>{% translate "Confirm this offer" %}</h1>
-      <h2>{{ obj.pair.offer.data.title }}</h2>
-      <p>{{ obj.pair.offer.data.companyName }} · {{ obj.pair.offer.data.city }}</p>
+      <h2>{{ obj.match.offer.data.title }}</h2>
+      <p>{{ obj.match.offer.data.companyName }} · {{ obj.match.offer.data.city }}</p>
       <details>
         <summary>{% translate "Offer details" %}</summary>
-        <p>{{ obj.pair.offer.data.description|linebreaksbr }}</p>
-        <p>{{ obj.pair.offer.data.desiredProfile|linebreaksbr }}</p>
+        <p>{{ obj.match.offer.data.description|linebreaksbr }}</p>
+        <p>{{ obj.match.offer.data.desiredProfile|linebreaksbr }}</p>
       </details>
       <p role="note">{% translate "Your existing answers are a starting point. Confirm what still applies to this specific offer. Nothing is sent to the employer." %}</p>
       <p><a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a></p>

@@ -23,5 +23,5 @@ Offres, établissements, propriété et lecture des sources. Les pages et endpoi
 - [offer_requirements.py](offer_requirements.py) — Valide les conditions et critères structurés d’une offre.
 - [offer_structuring.py](offer_structuring.py) — Structure les offres avec Albert puis valide le résultat.
 - [offer_validation.py](offer_validation.py) — Valide les données communes aux imports, aux écrans et aux commandes.
-- [response_practice.py](response_practice.py) — Définit les choix métier des habitudes de réponse employeur.
+- [profile.py](profile.py) — Définit les choix métier des habitudes de réponse employeur.
 - [test_data.py](test_data.py) — Prépare les offres fictives des environnements explicitement autorisés.

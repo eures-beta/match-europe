@@ -27,8 +27,8 @@
       <h1>{% translate "Matching" %}</h1>
       <p class="alert alert-info"
          role="note">{% translate "No message, notification or introduction is sent automatically." %}</p>
-      {% if confirmation or can_request_confirmation %}
-        {% include "matching/confirmation_adviser.html" %}
+      {% if review or can_request_review %}
+        {% include "matching/offer_review_adviser.html" %}
       {% endif %}
       {% if error %}<p role="alert" class="alert alert-danger">{{ error }}</p>{% endif %}
       {% if form %}
@@ -45,13 +45,13 @@
               <span class="result-row">
                 <span class="result-person">
                   <span class="result-kicker">{% translate "Candidate" %}</span>
-                  <strong class="result-main">{{ entry.pair.candidate.display_name }}</strong>
-                  <span class="result-sub">{{ entry.pair.candidate.get_project_mode_display }}</span>
+                  <strong class="result-main">{{ entry.match.candidate.display_name }}</strong>
+                  <span class="result-sub">{{ entry.match.candidate.get_project_mode_display }}</span>
                 </span>
                 <span class="result-offer">
                   <span class="result-kicker">{% translate "Employer and position" %}</span>
                   <strong class="result-main">{{ entry.title }}</strong>
-                  <span class="result-sub">{{ entry.pair.offer.data.companyName }} · {{ entry.pair.offer.data.city }}</span>
+                  <span class="result-sub">{{ entry.match.offer.data.companyName }} · {{ entry.match.offer.data.city }}</span>
                 </span>
                 <span class="result-score">
                   <strong>{% if entry.result %}{{ entry.result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
@@ -79,7 +79,7 @@
                 <p>{% translate "No evaluation yet." %}</p>
               {% endif %}
               <a class="btn btn-primary"
-                 href="{% url 'matching_detail' entry.pair.pk %}?lang={{ page_language }}">{% translate "Compare and decide" %}</a>
+                 href="{% url 'matching_detail' entry.match.pk %}?lang={{ page_language }}">{% translate "Compare and decide" %}</a>
             </div>
           </details>
         {% empty %}
@@ -101,10 +101,10 @@
         <section class="result-hero" aria-label="{% translate 'Matching summary' %}">
           <div>
             <span class="result-kicker">{% translate "Candidate" %}</span>
-            <h2>{{ pair.candidate.display_name }}</h2>
+            <h2>{{ match.candidate.display_name }}</h2>
             <span class="result-kicker">{% translate "Employer and position" %}</span>
-            <h2>{{ pair.offer.data.title }}</h2>
-            <p>{{ pair.offer.data.companyName }} · {{ pair.offer.data.city }}</p>
+            <h2>{{ match.offer.data.title }}</h2>
+            <p>{{ match.offer.data.companyName }} · {{ match.offer.data.city }}</p>
             {% if result %}<p class="result-status{% if result.blocked %} result-status-blocked{% endif %}">{{ result.status_label }}</p>{% endif %}
             <p>{% translate "Human decision" %}: <strong>{{ decision }}</strong></p>
             {% if evaluation %}<p class="result-caption">{% translate "Calculated on" %}: {{ evaluation.created_at }}</p>{% endif %}
@@ -117,13 +117,13 @@
           </div>
         </section>
         <p>{% translate "Occupation preferences are shown for discussion and do not add points." %}</p>
-        <p>{{ pair.candidate.get_project_mode_display }}</p>
+        <p>{{ match.candidate.get_project_mode_display }}</p>
         {% if occupation_labels %}
           <ul>
             {% for label in occupation_labels %}<li>{{ label }}</li>{% endfor %}
           </ul>
         {% endif %}
-        {% if pair.candidate.desired_occupations %}<p>{{ pair.candidate.desired_occupations }}</p>{% endif %}
+        {% if match.candidate.desired_occupations %}<p>{{ match.candidate.desired_occupations }}</p>{% endif %}
         {% if stale %}
           <p role="alert"
              class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>

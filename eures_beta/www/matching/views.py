@@ -12,10 +12,10 @@ from eures_beta.matching.access import (
     guard,
     candidates,
     matchable_offers,
-    can_change_pair,
+    can_change_match,
 )
-from eures_beta.matching.confirmation_services import review
-from eures_beta.www.matching.confirmations import display_rows
+from eures_beta.matching.offer_review_services import review_state
+from eures_beta.www.matching.offer_reviews import display_rows
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     MatchEvaluation,
@@ -56,8 +56,8 @@ def lang(request):
     return value if value in ('fr', 'en', 'de') else 'fr'
 
 
-def destination(pair, language):
-    return reverse('matching_detail', args=[pair.pk]) + '?lang=' + language
+def destination(match, language):
+    return reverse('matching_detail', args=[match.pk]) + '?lang=' + language
 
 
 @never_cache
@@ -69,7 +69,7 @@ def index(request):
         form = PairForm(request.POST if request.method == 'POST' else None)
         if request.method == 'POST' and form.is_valid():
             evaluation = calculate(**form.cleaned_data)
-            return redirect(destination(evaluation.pair, language))
+            return redirect(destination(evaluation.match, language))
         pairs = (
             CandidateOfferMatch.objects.filter(
                 candidate__in=candidates(), offer__in=matchable_offers()
@@ -77,7 +77,7 @@ def index(request):
             .select_related('candidate', 'offer')
             .annotate(
                 latest_evaluation_id=Subquery(
-                    MatchEvaluation.objects.filter(pair_id=OuterRef('pk'))
+                    MatchEvaluation.objects.filter(match_id=OuterRef('pk'))
                     .order_by('-id')
                     .values('pk')[:1]
                 )
@@ -94,20 +94,20 @@ def index(request):
             [p.latest_evaluation_id for p in pairs if p.latest_evaluation_id]
         )
         entries = []
-        for pair in pairs:
-            evaluation = evaluations.get(pair.latest_evaluation_id)
+        for match in pairs:
+            evaluation = evaluations.get(match.latest_evaluation_id)
             stale = False
             if evaluation:
                 try:
-                    data, fingerprint = inputs(pair)
+                    data, fingerprint = inputs(match)
                     stale = fingerprint != evaluation.fingerprint
                 except ObjectDoesNotExist:
                     continue
             entries.append(
                 dict(
-                    pair=pair,
-                    decision=DECISIONS[pair.decision],
-                    title=pair.offer.data.get('title', ''),
+                    match=match,
+                    decision=DECISIONS[match.decision],
+                    title=match.offer.data.get('title', ''),
                     evaluation=evaluation,
                     result=present(evaluation.result, language) if evaluation else None,
                     stale=stale,
@@ -134,7 +134,7 @@ def index(request):
 @require_http_methods(['GET', 'POST'])
 def detail(request, pk):
     guard(request)
-    pair = get_object_or_404(
+    match = get_object_or_404(
         CandidateOfferMatch.objects.filter(
             candidate__in=candidates(), offer__in=matchable_offers()
         ).select_related('candidate', 'offer'),
@@ -146,16 +146,16 @@ def detail(request, pk):
         if request.method == 'POST':
             try:
                 if request.POST.get('action') == 'calculate':
-                    calculate(pair.candidate, pair.offer)
+                    calculate(match.candidate, match.offer)
                 elif request.POST.get('action') in ('retained', 'refused'):
                     decide(
-                        pair.pk,
+                        match.pk,
                         int(request.POST.get('evaluation', '')),
                         request.POST['action'],
                     )
                 else:
                     raise ValueError()
-                return redirect(destination(pair, language))
+                return redirect(destination(match, language))
             except StaleEvaluation:
                 error, status = (
                     _(
@@ -171,14 +171,14 @@ def detail(request, pk):
                     400,
                 )
         confirmation = (
-            CandidateOfferReview.objects.filter(pair=pair).first()
-            if pair.offer.validated_at
+            CandidateOfferReview.objects.filter(match=match).first()
+            if match.offer.validated_at
             else None
         )
-        evaluation = pair.evaluations.order_by('-id').first()
+        evaluation = match.evaluations.order_by('-id').first()
         try:
-            input_data, current = inputs(pair)
-            confirmation_state = review(confirmation) if confirmation else None
+            input_data, current = inputs(match)
+            confirmation_state = review_state(confirmation) if confirmation else None
         except ObjectDoesNotExist:
             raise Http404
         if confirmation_state:
@@ -189,23 +189,23 @@ def detail(request, pk):
             request,
             'matching/results.html',
             dict(
-                pair=pair,
-                can_request_confirmation=bool(pair.offer.validated_at)
-                and can_change_pair(request.user),
-                confirmation=confirmation,
+                match=match,
+                can_request_review=bool(match.offer.validated_at)
+                and can_change_match(request.user),
+                review=confirmation,
                 confirmation_state=confirmation_state,
                 occupation_labels=[
                     row['label']
-                    for value in pair.candidate.occupation_references
+                    for value in match.candidate.occupation_references
                     if (row := resolve_reference(value, language))
                 ],
                 evaluation=evaluation,
                 result=result,
-                decision=DECISIONS[pair.decision],
+                decision=DECISIONS[match.decision],
                 stale=stale,
                 error=error,
                 page_language=language,
-                decisions=pair.decisions.order_by('-created_at'),
+                decisions=match.decisions.order_by('-created_at'),
                 can_retain=bool(
                     result and not stale and not result['blocked'] and result['matched']
                 ),

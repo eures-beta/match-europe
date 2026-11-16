@@ -1,8 +1,8 @@
 """Upgrade the deployed confirmation schema without recreating its tables."""
 
-from io import StringIO
+from .fixtures.historical import seed_matching
+from tests.common.migration_state import historical_targets, prepare_historical
 
-from django.core.management import call_command
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.recorder import MigrationRecorder
@@ -26,9 +26,10 @@ class ConfirmationMigrationTests(TransactionTestCase):
         self.leaves = MigrationExecutor(connection).loader.graph.leaf_nodes()
 
     def migrate(self, name):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
-        executor.migrate([('matching', name)])
-        return executor.loader.project_state([('matching', name)])
+        executor.migrate(historical_targets([('matching', name)]))
+        return executor.loader.project_state(historical_targets([('matching', name)]))
 
     def tearDown(self):
         # Only the isolated test DB: restore a clean current schema even if the
@@ -52,7 +53,7 @@ class ConfirmationMigrationTests(TransactionTestCase):
 
     def legacy(self):
         state = self.migrate('0004_merge_offer_requirements')
-        call_command('seed_matching_trial', stdout=StringIO())
+        seed_matching(state.apps)
         for operation in LegacyMigration.operations:
             operation.state_forwards('matching', state)
         with connection.schema_editor() as editor:

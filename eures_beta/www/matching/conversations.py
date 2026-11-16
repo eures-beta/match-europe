@@ -16,7 +16,7 @@ from django.views.decorators.http import require_http_methods
 
 from eures_beta.candidates import push
 from eures_beta.www.accounts.views import selected_language
-from eures_beta.matching import access, adviser_opinion, confirmation_services
+from eures_beta.matching import access, adviser_opinion, offer_review_services
 from eures_beta.matching.models import (
     CandidateOfferReview,
     CandidateOfferMatch,
@@ -72,8 +72,8 @@ class IntroductionForm(MessageForm):
         return data
 
 
-def introduction(pair, adviser):
-    offer = pair.offer.data
+def introduction(match, adviser):
+    offer = match.offer.data
     company = offer.get('companyName') or _('the company')
     return _(
         'Hello, I’m %(adviser)s from Match Europe. I’m putting you in touch about the %(title)s role in %(city)s.\n\n'
@@ -85,8 +85,8 @@ def introduction(pair, adviser):
         'adviser': adviser.get_full_name() or _('your adviser'),
         'title': offer.get('title') or _('job'),
         'city': offer.get('city') or _('the location in the offer'),
-        'candidate': pair.candidate.display_name or _('Candidate'),
-        'employer': pair.offer.created_by.get_full_name() or company,
+        'candidate': match.candidate.display_name or _('Candidate'),
+        'employer': match.offer.created_by.get_full_name() or company,
         'company': company,
     }
 
@@ -101,8 +101,8 @@ def conversations(user):
     ):
         return rows.none()
     rows = rows.filter(**{user.kind: user}).filter(
-        offer_review__pair__offer__created_by_id=F('employer_id'),
-        offer_review__pair__candidate__user_id=F('candidate_id'),
+        offer_review__match__offer__created_by_id=F('employer_id'),
+        offer_review__match__candidate__user_id=F('candidate_id'),
     )
     if user.kind == 'employer':
         rows = rows.filter(state=State.OPEN)
@@ -119,7 +119,7 @@ def listed(user):
     return (
         conversations(user)
         .annotate(unread=Exists(unread))
-        .select_related('offer_review__pair__offer')
+        .select_related('offer_review__match__offer')
         .order_by('-pk')
     )
 
@@ -133,51 +133,49 @@ def destination(name, pk, language):
 @sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
 def start(request, pk):
-    if not access.can_change_pair(request.user):
+    if not access.can_change_match(request.user):
         raise Http404
     language = selected_language(request)
     with translation.override(language), transaction.atomic():
-        confirmation = get_object_or_404(
+        review = get_object_or_404(
             CandidateOfferReview.objects.select_related(
-                'pair__offer__created_by', 'pair__candidate'
+                'match__offer__created_by', 'match__candidate'
             ),
             pk=pk,
             requested_by=request.user,
-            pair__decision='retained',
-            pair__candidate__in=access.candidates(),
-            pair__offer__in=access.matchable_offers(),
+            match__decision='retained',
+            match__candidate__in=access.candidates(),
+            match__offer__in=access.matchable_offers(),
         )
-        CandidateOfferMatch.objects.select_for_update().get(pk=confirmation.pair_id)
-        confirmation = CandidateOfferReview.objects.select_related(
-            'pair__offer__created_by', 'pair__candidate'
+        CandidateOfferMatch.objects.select_for_update().get(pk=review.match_id)
+        review = CandidateOfferReview.objects.select_related(
+            'match__offer__created_by', 'match__candidate'
         ).get(pk=pk)
-        pair = confirmation.pair
-        employer = pair.offer.created_by
+        match = review.match
+        employer = match.offer.created_by
         if (
-            pair.decision != 'retained'
+            match.decision != 'retained'
             or not employer
             or employer.kind != 'employer'
             or not employer.is_active
         ):
             raise Http404
-        existing = conversations(request.user).filter(offer_review=confirmation).first()
+        existing = conversations(request.user).filter(offer_review=review).first()
         if existing:
             return redirect(destination('shared_conversation', existing.pk, language))
-        if CandidateOfferConversation.objects.filter(
-            offer_review=confirmation
-        ).exists():
+        if CandidateOfferConversation.objects.filter(offer_review=review).exists():
             raise Http404
-        if not adviser_opinion.ready(confirmation_services.review(confirmation)):
+        if not adviser_opinion.ready(offer_review_services.review_state(review)):
             raise Http404
         form = IntroductionForm(
             request.POST if request.method == 'POST' else None,
-            initial={'body': introduction(pair, request.user)},
+            initial={'body': introduction(match, request.user)},
         )
         if request.method == 'POST' and form.is_valid():
             thread = CandidateOfferConversation.objects.create(
-                offer_review=confirmation,
+                offer_review=review,
                 adviser=request.user,
-                candidate_id=pair.candidate.user_id,
+                candidate_id=match.candidate.user_id,
                 employer=employer,
                 introduction=form.cleaned_data['body'],
             )
@@ -189,7 +187,7 @@ def start(request, pk):
         return render(
             request,
             'matching/shared_start.html',
-            {'confirmation': confirmation, 'form': form, 'page_language': language},
+            {'review': review, 'form': form, 'page_language': language},
             status=400 if form.errors else 200,
         )
 
@@ -205,8 +203,8 @@ def detail(request, pk):
         thread = get_object_or_404(
             conversations(user)
             .select_related(
-                'offer_review__pair__offer',
-                'offer_review__pair__candidate',
+                'offer_review__match__offer',
+                'offer_review__match__candidate',
                 'adviser',
                 'candidate',
                 'employer',
@@ -215,7 +213,7 @@ def detail(request, pk):
             pk=pk,
         )
         role = user.kind
-        can_write = role != 'adviser' or access.can_change_pair(user)
+        can_write = role != 'adviser' or access.can_change_match(user)
         state = thread.state
         form = MessageForm()
         status = 200
@@ -276,12 +274,12 @@ def detail(request, pk):
                 thread.adviser_id: (ROLES['adviser'], thread.adviser.get_full_name()),
                 thread.candidate_id: (
                     ROLES['candidate'],
-                    thread.offer_review.pair.candidate.display_name,
+                    thread.offer_review.match.candidate.display_name,
                 ),
                 thread.employer_id: (
                     ROLES['employer'],
                     thread.employer.get_full_name()
-                    or thread.offer_review.pair.offer.data.get('companyName', ''),
+                    or thread.offer_review.match.offer.data.get('companyName', ''),
                 ),
             }
             messages = [
