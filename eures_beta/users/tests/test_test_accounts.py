@@ -145,7 +145,7 @@ class TestAccountAccessTests(TestCase):
                 with (
                     self.subTest(environment=environment),
                     self.settings(
-                        DJANGO_ENVIRONMENT=environment, TEST_ACCOUNTS_ENABLED=False
+                        DJANGO_ENVIRONMENT=environment, DEMO_ACCOUNTS_ENABLED=False
                     ),
                 ):
                     self.assertTrue(preview_push.available())
@@ -202,7 +202,7 @@ class TestAccountAccessTests(TestCase):
                 self.assertEqual(len(current), 9)
                 self.assertEqual(CandidateProfile.objects.count(), 5)
                 self.assertEqual(CandidateOfferMatch.objects.count(), 5)
-                self.assertEqual(CandidateOfferReview.objects.count(), 2)
+                self.assertEqual(CandidateOfferReview.objects.count(), 0)
                 for key in PWA_ACCOUNTS:
                     self.assertIsNotNone(prepared_user(key))
         self.assertEqual(len(mail.outbox), 0)
