@@ -214,7 +214,7 @@ class TestAccountAccessTests(TestCase):
                 self.assertEqual(len(current), 9)
                 self.assertEqual(CandidateProfile.objects.count(), 5)
                 self.assertEqual(CandidateOfferMatch.objects.count(), 5)
-                self.assertEqual(CandidateOfferReview.objects.count(), 0)
+                self.assertEqual(CandidateOfferReview.objects.count(), 1)
                 for key in PWA_ACCOUNTS:
                     self.assertIsNotNone(prepared_user(key))
         self.assertEqual(len(mail.outbox), 0)
