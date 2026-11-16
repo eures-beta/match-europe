@@ -9,7 +9,7 @@ conversation par `CandidateOfferReview`, liée par `offer_review` (accès invers
 `messages`. Le nom des tables suit celui des modèles :
 `matching_candidateofferconversation` et
 `matching_candidateofferconversationmessage` ; la colonne de revue est
-`offer_review_id`. Les vues sont dans `matching/candidate_offer_conversation_views.py`.
+`offer_review_id`. Les vues sont dans `www/matching/conversations.py`.
 La migration `0009_candidate_offer_conversation_names` renomme en place les objets
 PostgreSQL et les métadonnées administratives. Les identifiants, textes, dates,
 états, participants et abonnements aux permissions restent conservés, y compris
