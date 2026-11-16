@@ -16,7 +16,7 @@ class CandidateProfileMigrationTests(TransactionTestCase):
             user_id=user.pk, display_name='Fictional candidate'
         )
         subscription = apps.get_model(
-            'candidates', 'CandidatePushSubscription'
+            'candidates', 'PreviewPushSubscription'
         ).objects.create(
             candidate_id=profile.pk,
             endpoint='https://web.push.apple.com/fictional-subscription',
@@ -40,7 +40,7 @@ class CandidateProfileMigrationTests(TransactionTestCase):
         )
         apps = self.migrate(before)
         self.assertEqual(
-            apps.get_model('candidates', 'CandidatePushSubscription')
+            apps.get_model('candidates', 'PreviewPushSubscription')
             .objects.values()
             .get(pk=subscription.pk),
             original,
