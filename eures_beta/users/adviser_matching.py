@@ -263,7 +263,7 @@ def follow(request, pk):
                 raise Http404
             if not cache.add(f'preview-push-resend:{pk}', True, 30):
                 result, status = _('Wait a moment before resending.'), 429
-            elif preview_push.notify(conversation):
+            elif push.notify(conversation):
                 result = _('The push service accepted the notification.')
             else:
                 result, status = (
