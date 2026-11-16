@@ -8,6 +8,16 @@ Voir [le périmètre, les limites et la gestion des secrets](docs/SECURITY_MAINT
 CodeQL reste à expliquer et valider avant activation. Aucun modèle, migration,
 compte, parcours ou configuration d’exécution n’est modifié par cette PR.
 
+## 16 novembre 2026 — doublons de validation GitHub non annulés
+
+TRANSVERSE : les tests PostgreSQL et HTTP partent du push pour toutes les
+branches internes ; les événements PR internes ignorent ces jobs, tandis que
+les PR de forks les exécutent. Suppression du groupe de concurrence qui faisait
+s'annuler push et PR sur un même commit. Les étapes de test et le relais de
+production restent inchangés. Aucun modèle, migration ou donnée modifié.
+Quatre tests de contrat : échec reproduit avant correctif, puis réussite.
+Voir [les contrôles et leur interprétation](docs/TESTS.md).
+
 ## 13 novembre 2026 — Routes employeur explicites et API job-offers
 
 EMPLOYEURS / TRANSVERSE : accueil, import et notice possèdent des routes nommées
