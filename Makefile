@@ -242,6 +242,8 @@ format-html: ## Indenter les templates Django avec djLint (cible 120 colonnes)
 format-html-check: ## Vérifier le formatage des templates sans les modifier
 	$(QUALITY_PYTHON) -m djlint eures_beta --check
 	$(QUALITY_PYTHON) -m eures_beta.template_layout
+	$(QUALITY_PYTHON) -m djlint eures_beta --lint --configuration .djlint-css.json --rules .djlint_rules.yaml
+	$(QUALITY_PYTHON) -m unittest tests.common.test_template_styles
 translations-extract: ## Actualiser les catalogues FR/DE depuis le code et les templates
 	@$(MANAGE) makemessages --locale fr --locale de --extension html,txt,py,subject --no-wrap --no-obsolete --ignore build --ignore staticfiles --ignore '.venv*'
 

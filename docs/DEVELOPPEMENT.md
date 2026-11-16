@@ -143,6 +143,7 @@ Les migrations se vérifient depuis une base neuve et lors des transitions prise
 en charge. Ne pas réécrire les migrations appliquées.
 
 Voir les guides [Python/HTML](HTML_FORMATTING.md), [JavaScript/CSS](JAVASCRIPT_FORMATTING.md),
+la [séparation HTML/CSS et ses exceptions contrôlées](HTML_CSS.md),
 la [parité des environnements](ENVIRONMENT_PARITY.md), [l'état des travaux](../HANDOFF.md)
 et les [consignes de contribution](../AGENTS.md). L'historique des choix reste
 consultable dans Git et le [registre des décisions](DECISIONS.md).

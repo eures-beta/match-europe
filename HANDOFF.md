@@ -1802,3 +1802,14 @@ pour le candidat ; `/matching/offer-reviews/<id>/`, son `conversation/`, et
 Les vues, droits, décisions et données restent identiques. Les anciens liens
 redirigent en 308. Le service worker accepte les nouvelles destinations et garde
 une compatibilité stricte pour les notifications déjà reçues.
+
+## 16 novembre 2026 — CSS web externalisé et séparation contrôlée
+
+Les 17 blocs style de sept templates sont externalisés en huit feuilles statiques,
+avec partage des blocs identiques et conservation de la cascade. Aucun modèle,
+migration, texte traduit ou choix graphique nouveau. Les anciennes valeurs
+restent en place ; leur migration vers les tokens sera une évolution distincte.
+`make format-html-check` vérifie désormais la politique CSS avec djLint H021/C901
+et ses tests de régression. Exceptions limitées aux e-mails et aux attributs du
+catalogue de tokens ; les pages métier ne peuvent pas embarquer de CSS.
+Voir [la séparation HTML/CSS](docs/HTML_CSS.md) pour les ressources et contrôles.

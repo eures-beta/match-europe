@@ -18,9 +18,12 @@ contenant plusieurs éléments HTML ouvrants. Déplier ces blocs manuellement,
 puis relancer `make format-html`. Les scripts, styles, textes préformatés et
 messages gettext indivisibles sont exclus de ce contrôle de structure.
 
-Les blocs `<style>` sont formatés par djLint (`format_css` activé). Les feuilles
-CSS autonomes sont traitées par le même Prettier que le JavaScript, avec
-`make format-css` et `make format-css-check` ; voir [le guide](JAVASCRIPT_FORMATTING.md).
+Les pages web ne contiennent plus de blocs `<style>` ni d'attributs `style`.
+`make format-html-check` vérifie aussi cette séparation avec djLint, puis teste
+les règles et leurs exceptions. Voir [la politique HTML/CSS](HTML_CSS.md).
+Les feuilles CSS sont traitées par Prettier avec `make format-css` et
+`make format-css-check` ; voir [le guide](JAVASCRIPT_FORMATTING.md).
+djLint garde son formatage CSS pour les exceptions autorisées, notamment les e-mails.
 
 La version de djLint est épinglée dans `requirements/quality.txt`. Une mise à jour
 du formateur peut modifier son résultat : appliquer `make format-html`, revoir

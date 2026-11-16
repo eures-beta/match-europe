@@ -52,6 +52,12 @@ class AdviserHistoryTests(TestCase):
         self.adviser.user_permissions.clear()
         self.client.force_login(self.adviser)
         response = self.history(view='invitations')
+        self.assertContains(response, '/static/adviser/history.css')
+        self.assertNotContains(response, '<style')
+        self.assertLess(
+            response.content.index(b'/static/invitations/invitations.css'),
+            response.content.index(b'/static/adviser/history.css'),
+        )
         self.assertContains(response, 'sent@example.invalid')
         self.assertNotContains(response, 'unsent@example.invalid')
         self.assertEqual(self.history(view='matchings').status_code, 200)

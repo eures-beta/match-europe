@@ -1,0 +1,347 @@
+/* Alternative isolated from the reference page. Existing branding and workflow retained. */
+body {
+  background: #f3f6fa;
+}
+
+body .import-shell {
+  max-width: 960px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #17324d;
+}
+
+body .import-card {
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid #dce3ed;
+  box-shadow: 0 8px 32px #17324d08;
+}
+
+body .import-card h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 32px;
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin: 0 0 18px;
+}
+
+body .import-card h2 {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 20px;
+}
+
+body .import-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 24px 0 16px;
+}
+
+body .import-card p {
+  line-height: 1.65;
+}
+
+body .import-card label,
+body .mobility-field legend {
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+body .import-steps {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  gap: 12px;
+  margin-bottom: 24px;
+  counter-reset: steps;
+}
+
+body .import-steps li {
+  padding: 10px 16px;
+  border: 1px solid #dce3ed;
+  border-radius: 24px;
+  background: white;
+}
+
+body .import-steps li[aria-current] {
+  background: #e8effa;
+  border-color: #004494;
+}
+
+body #review-step {
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+  padding: 0;
+}
+
+body #review-step > h1 {
+  margin-bottom: 20px;
+}
+
+body #review-provenance {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+body #review-step > .mini-note {
+  margin: 0 0 28px;
+  font-size: 14px;
+  color: #52657c;
+}
+
+body .alt-panel {
+  background: white;
+  border: 1px solid #dce3ed;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 22px;
+}
+
+body .alt-panel > p {
+  font-size: 15px;
+  color: #52657c;
+  margin: 0 0 24px;
+}
+
+body .alt-panel .mini-note {
+  font-size: 14px;
+  color: #52657c;
+}
+
+body .review-fields {
+  column-gap: 24px;
+}
+
+body .review-field {
+  margin-bottom: 22px;
+}
+
+body .import-card input:not([type='radio']):not([type='checkbox']):not([type='file']),
+body .import-card select,
+body .import-card textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  font:
+    400 16px/1.6 Arial,
+    sans-serif;
+  border: 1px solid #aebdce;
+  border-radius: 8px;
+  background: #fff;
+}
+
+body .import-card textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+body #review-description {
+  min-height: 240px;
+}
+
+body .mobility-field {
+  margin-bottom: 22px;
+}
+
+body .mobility-options {
+  gap: 10px;
+}
+
+body .mobility-options label {
+  font-size: 14px;
+  border-radius: 9px;
+  padding: 11px 14px;
+  min-height: 44px;
+  background: white;
+}
+
+body .mobility-options label:has(input:checked) {
+  font-weight: 500;
+  background: #e8effa;
+  border-color: #004494;
+}
+
+body .review-field > .review-provenance {
+  padding: 12px 16px;
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #fff3c7;
+}
+
+body .review-field > .review-provenance p {
+  margin: 0 0 8px;
+}
+
+body .alt-privacy {
+  padding: 18px 22px !important;
+  margin: 28px 0 18px !important;
+  font-size: 14px !important;
+  border-radius: 10px;
+}
+
+body .alt-privacy h2 {
+  font-size: 17px !important;
+  margin: 0 0 10px !important;
+}
+
+body .review-confirm {
+  background: white;
+  border: 1px solid #dce3ed;
+  padding: 20px;
+  font-size: 15px;
+}
+
+body .landing-actions {
+  gap: 14px;
+  margin-top: 26px;
+}
+
+body .primary-action,
+body .ghost-action {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  border-radius: 9px;
+  min-height: 46px;
+  box-sizing: border-box;
+}
+
+body #url-form #url-help,
+body #email-help {
+  margin: 16px 0;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+body #url-form > label,
+body #email-form > label {
+  margin-top: 26px;
+  margin-bottom: 10px;
+}
+
+body #url-read-agreement-note {
+  font-size: 13px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #dce3ed;
+}
+
+body .import-consent {
+  margin: 28px 0;
+  background: #f7f9fc;
+  border: 1px solid #dce3ed;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+body .import-consent p {
+  font-size: 14px;
+}
+
+body .import-consent-label {
+  font-size: 15px;
+}
+
+body .import-choice {
+  border-radius: 12px;
+  padding: 22px;
+  gap: 18px;
+}
+
+body .import-choice strong {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+body .choice-description {
+  font-size: 15px;
+}
+
+body #prepare-step form {
+  display: grid;
+  gap: 12px;
+}
+
+body #prepare-step form label {
+  margin: 12px 0 0;
+}
+
+body #prepare-step form button {
+  justify-self: start;
+}
+
+@media (max-width: 600px) {
+  body .import-card {
+    padding: 24px;
+  }
+
+  body .import-card h1 {
+    font-size: 27px;
+  }
+
+  body .alt-panel {
+    padding: 20px;
+  }
+
+  body .import-steps {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  body .import-steps li {
+    padding: 8px 10px;
+  }
+
+  body .landing-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+body #review-description,
+body #review-desiredProfile {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: normal;
+  color: var(--text);
+}
+
+body #review-title,
+body #review-companyName,
+body #review-city {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: normal;
+  color: var(--text);
+}
+
+.completion-notifications {
+  margin: 26px 0 32px;
+  padding: 24px;
+  border: 1px solid #c8d8ec;
+  background: #eef4fc;
+  border-radius: 12px;
+}
+
+.completion-notifications h2 {
+  margin: 0 0 12px;
+}
+
+.completion-notifications p {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.completion-notifications button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
