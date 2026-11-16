@@ -1,7 +1,5 @@
-# Avant tout $(shell), empêcher l'export automatique des paramètres de diagnostic.
-unexport RUN REPO JOB PATTERN CONTEXT LINES REFRESH
-# Même protection pour le numéro de PR.
-unexport PR
+# Avant tout $(shell), Make récent exporte aussi les paramètres aux sous-shells.
+unexport RUN REPO JOB PATTERN CONTEXT LINES REFRESH PR FILE
 
 # Développement local uniquement ; charger un .env personnel, jamais committé.
 .DEFAULT_GOAL := help
@@ -322,8 +320,7 @@ ci-errors: ## Lire les erreurs/arrêts CI avec cache local (RUN, JOB/PATTERN opt
 	python3 -m config.ci_diagnostics errors
 
 # Passer le chemin comme donnée, jamais dans une recette shell interpolée.
-unexport FILE
-export SECURITY_ALERT_FILE = $(value FILE)
+export SECURITY_ALERT_FILE := $(value FILE)
 .PHONY: security-alerts security-plan security-apply
 security-alerts: ## Consulter les alertes CodeQL et préparer leurs métadonnées de revue (lecture seule)
 	python3 -m config.security_alerts list
