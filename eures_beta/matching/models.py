@@ -27,16 +27,16 @@ class CandidateOfferMatch(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
-        db_table = 'matching_matchpair'
         constraints = [
             models.UniqueConstraint(
-                fields=['candidate', 'offer'], name='matching_unique_pair'
+                fields=['candidate', 'offer'],
+                name='matching_candidateoffermatch_candidate_offer_unique',
             )
         ]
 
 
 class MatchEvaluation(models.Model):
-    pair = models.ForeignKey(
+    match = models.ForeignKey(
         CandidateOfferMatch, on_delete=models.CASCADE, related_name='evaluations'
     )
     fingerprint = models.CharField(max_length=64)
@@ -44,12 +44,9 @@ class MatchEvaluation(models.Model):
     result = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        db_table = 'matching_evaluation'
-
 
 class MatchDecision(models.Model):
-    pair = models.ForeignKey(
+    match = models.ForeignKey(
         CandidateOfferMatch, on_delete=models.CASCADE, related_name='decisions'
     )
     evaluation = models.ForeignKey(MatchEvaluation, on_delete=models.CASCADE)
@@ -60,14 +57,11 @@ class MatchDecision(models.Model):
     actor = models.CharField(max_length=32, default='local_operator', editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        db_table = 'matching_decision'
-
 
 class CandidateOfferReview(models.Model):
     """An adviser explicitly chooses an offer to discuss; never an invitation email."""
 
-    pair = models.OneToOneField(
+    match = models.OneToOneField(
         CandidateOfferMatch,
         on_delete=models.CASCADE,
         related_name='candidate_offer_review',
@@ -75,12 +69,9 @@ class CandidateOfferReview(models.Model):
     requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        db_table = 'matching_confirmationrequest'
-
 
 class CandidateOfferReviewAnswer(models.Model):
-    request = models.ForeignKey(
+    review = models.ForeignKey(
         CandidateOfferReview, on_delete=models.CASCADE, related_name='answers'
     )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -101,21 +92,15 @@ class CandidateOfferReviewAnswer(models.Model):
     dialogue = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        db_table = 'matching_confirmationanswer'
-
 
 class CandidateProfileSharing(models.Model):
-    request = models.ForeignKey(
-        CandidateOfferReview, on_delete=models.CASCADE, related_name='agreements'
+    review = models.ForeignKey(
+        CandidateOfferReview, on_delete=models.CASCADE, related_name='profile_sharings'
     )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     fingerprint = models.CharField(max_length=64)
     agreed = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = 'matching_transmissionagreement'
 
 
 class CandidateOfferConversation(models.Model):

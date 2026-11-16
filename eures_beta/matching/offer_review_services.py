@@ -53,28 +53,28 @@ def digest(value):
     ).hexdigest()
 
 
-def candidate_requests(user):
+def candidate_reviews(user):
     if not user.is_authenticated or not user.is_active or user.kind != 'candidate':
         return CandidateOfferReview.objects.none()
     return CandidateOfferReview.objects.filter(
-        pair__candidate__in=access.candidates().filter(user=user),
+        match__candidate__in=access.candidates().filter(user=user),
     ).filter(
-        Q(pair__offer__in=access.offers())
-        | Q(pair__decision='retained', pair__offer__in=access.matchable_offers())
+        Q(match__offer__in=access.offers())
+        | Q(match__decision='retained', match__offer__in=access.matchable_offers())
     )
 
 
 @transaction.atomic
-def request_confirmation(user, pair_id):
-    if not access.can_change_pair(user):
+def request_offer_review(user, match_id):
+    if not access.can_change_match(user):
         raise PermissionDenied
-    pair = CandidateOfferMatch.objects.select_for_update().get(
-        pk=pair_id, candidate__in=access.candidates(), offer__in=access.offers()
+    match = CandidateOfferMatch.objects.select_for_update().get(
+        pk=match_id, candidate__in=access.candidates(), offer__in=access.offers()
     )
-    request, _ = CandidateOfferReview.objects.get_or_create(
-        pair=pair, defaults={'requested_by': user}
+    review, _ = CandidateOfferReview.objects.get_or_create(
+        match=match, defaults={'requested_by': user}
     )
-    return request
+    return review
 
 
 def short_question(row):
@@ -96,11 +96,11 @@ def question_text(row):
     return str(template % {'condition': row['label'], 'requirement': row['expected']})
 
 
-def questions(request):
-    pair = request.pair
-    pair.offer.refresh_from_db()
-    pair.candidate.refresh_from_db()
-    data, _ = inputs(pair)
+def questions(review):
+    match = review.match
+    match.offer.refresh_from_db()
+    match.candidate.refresh_from_db()
+    data, _ = inputs(match)
     candidate, offer, requirements = (
         data['candidate'],
         data['offer'],
@@ -111,7 +111,7 @@ def questions(request):
     )
     context = {key: offer.get(key, '') for key in ('title', 'companyName', 'city')}
     # The identity of the recipient is bound too, without copying contact details.
-    context['company_id'] = str(pair.offer.company_id or '')
+    context['company_id'] = str(match.offer.company_id or '')
     rows = []
     fields = {
         'skill': ('acquired_skills', 'learning_activities', 'occupation_skills'),
@@ -279,10 +279,10 @@ def questions(request):
     return rows
 
 
-def review(request):
-    rows = questions(request)
+def review_state(review):
+    rows = questions(review)
     latest = {}
-    for answer in request.answers.order_by('-pk'):
+    for answer in review.answers.order_by('-pk'):
         latest.setdefault(answer.question_key, answer)
     for row in rows:
         answer = latest.get(row['key'])
@@ -295,13 +295,13 @@ def review(request):
     fingerprint = digest(
         {
             'version': VERSION,
-            'offer': request.pair.offer.data,
+            'offer': review.match.offer.data,
             'profile': {
-                field.name: getattr(request.pair.candidate, field.name)
-                for field in request.pair.candidate._meta.fields
+                field.name: getattr(review.match.candidate, field.name)
+                for field in review.match.candidate._meta.fields
                 if field.name not in ('user', 'id')
             },
-            'company': str(request.pair.offer.company_id or ''),
+            'company': str(review.match.offer.company_id or ''),
             'questions': [
                 (
                     row['key'],
@@ -312,14 +312,16 @@ def review(request):
             ],
         }
     )
-    agreement = request.agreements.order_by('-pk').first()
-    current_agreement = (
-        agreement if agreement and agreement.fingerprint == fingerprint else None
+    profile_sharing = review.profile_sharings.order_by('-pk').first()
+    current_profile_sharing = (
+        profile_sharing
+        if profile_sharing and profile_sharing.fingerprint == fingerprint
+        else None
     )
     return dict(
         rows=rows,
         fingerprint=fingerprint,
-        agreement=current_agreement,
+        agreement=current_profile_sharing,
         pending=next(
             (row for row in rows if row['askable'] and not row['answer']), None
         ),
@@ -330,34 +332,34 @@ def review(request):
     )
 
 
-def locked_request(user, pk):
-    # Serialize candidate answers and agreements on the pair as well as the request.
-    request = candidate_requests(user).get(pk=pk)
-    CandidateOfferMatch.objects.select_for_update().get(pk=request.pair_id)
-    request = (
-        candidate_requests(user)
+def locked_review(user, pk):
+    # Serialize candidate answers and agreements on the pair as well as the review.
+    review = candidate_reviews(user).get(pk=pk)
+    CandidateOfferMatch.objects.select_for_update().get(pk=review.match_id)
+    review = (
+        candidate_reviews(user)
         .select_for_update(of=('self',))
-        .select_related('pair__candidate', 'pair__offer')
+        .select_related('match__candidate', 'match__offer')
         .get(pk=pk)
     )
     # Lock the same business objects as profile/offer changes before checking fingerprints.
     from eures_beta.candidates.models import CandidateProfile
     from eures_beta.employers.models import JobOffer
 
-    CandidateProfile.objects.select_for_update().get(pk=request.pair.candidate_id)
-    JobOffer.objects.select_for_update().get(pk=request.pair.offer_id)
+    CandidateProfile.objects.select_for_update().get(pk=review.match.candidate_id)
+    JobOffer.objects.select_for_update().get(pk=review.match.offer_id)
     return (
-        candidate_requests(user)
-        .select_related('pair__candidate', 'pair__offer')
+        candidate_reviews(user)
+        .select_related('match__candidate', 'match__offer')
         .get(pk=pk)
     )
 
 
 @transaction.atomic
 def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue=None):
-    request = locked_request(user, pk)
+    review = locked_review(user, pk)
     row = next(
-        (row for row in questions(request) if row['key'] == key and row['askable']),
+        (row for row in questions(review) if row['key'] == key and row['askable']),
         None,
     )
     if not row or row['fingerprint'] != fingerprint:
@@ -369,7 +371,7 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
         or (value in ('conditional', 'changed', 'clarify') and not detail.strip())
     ):
         raise ValueError('Invalid confirmation')
-    latest = request.answers.filter(question_key=key).order_by('-pk').first()
+    latest = review.answers.filter(question_key=key).order_by('-pk').first()
     if (
         latest
         and latest.fingerprint == fingerprint
@@ -380,7 +382,7 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
     return CandidateOfferReviewAnswer.objects.create(
-        request=request,
+        review=review,
         actor=user,
         question_key=key,
         fingerprint=fingerprint,
@@ -393,17 +395,17 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
 
 @transaction.atomic
 def agree(user, pk, fingerprint, agreed, previous=0):
-    request = locked_request(user, pk)
-    state = review(request)
+    review = locked_review(user, pk)
+    state = review_state(review)
     if fingerprint != state['fingerprint']:
         raise StaleEvaluation
     if state['pending'] or type(agreed) is not bool:
         raise ValueError('Review the conditions first')
-    latest = request.agreements.order_by('-pk').first()
+    latest = review.profile_sharings.order_by('-pk').first()
     if latest and latest.fingerprint == fingerprint and latest.agreed == agreed:
         return latest
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
     return CandidateProfileSharing.objects.create(
-        request=request, actor=user, fingerprint=fingerprint, agreed=agreed
+        review=review, actor=user, fingerprint=fingerprint, agreed=agreed
     )

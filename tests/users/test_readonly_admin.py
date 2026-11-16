@@ -36,7 +36,7 @@ class ReadOnlyAdminTests(TestCase):
         )
         self.company = Company.objects.create(name='Fictional company')
         self.membership = CompanyMembership.objects.create(
-            company=self.company, person=self.employer
+            company=self.company, user=self.employer
         )
         self.offer = JobOffer.objects.create(
             company=self.company,
@@ -74,7 +74,7 @@ class ReadOnlyAdminTests(TestCase):
             change_message='never-show-log-payload',
         )
         call_command('sync_group_and_perms', stdout=StringIO())
-        self.response_practice = EmployerProfile.objects.create(
+        self.profile = EmployerProfile.objects.create(
             user=self.employer,
             response_coverage='all',
             response_time='under_week',
@@ -86,7 +86,7 @@ class ReadOnlyAdminTests(TestCase):
                 method='simulation',
                 status='ready',
             ),
-            self.response_practice,
+            self.profile,
             self.company,
             self.membership,
             self.offer,

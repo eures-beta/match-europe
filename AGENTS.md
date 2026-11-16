@@ -62,8 +62,9 @@
   Garder les validations partagées dans le domaine ; éviter les duplications.
 - Aucun dossier `scripts/` racine. Les outils vont dans leur domaine ou un paquet
   transverse explicite ; les tests Python/JS et leurs fixtures dans `tests/` par domaine.
-- Un renommage aligne modèles, modules, relations et objets SQL actifs ; migration
-  additive réversible, données/droits conservés. Examiner à part les identifiants cryptographiques.
+- Renommer ensemble modèle, fichiers, relations, colonnes et objets SQL ; conserver
+  données, droits et migrations historiques. Vérifier `make check` et l'aller-retour
+  PostgreSQL ; [convention](docs/MODEL_NAMING.md). Traiter la cryptographie à part.
 - Routes anglaises nommées et indépendantes des templates/langues ; utiliser
   `reverse` ou `{% url %}`. Les alias historiques ne sont plus émis et restent
   isolés dans `www/public/legacy_urls.py`, leurs helpers et tests de compatibilité.

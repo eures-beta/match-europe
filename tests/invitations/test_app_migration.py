@@ -1,6 +1,8 @@
 """Moving an app preserves existing invitations, links and permission identities."""
 
 from io import StringIO
+from unittest.mock import patch
+from tests.common.migration_state import prepare_historical
 from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import call_command
@@ -15,6 +17,7 @@ class InvitationAppMigrationTests(TransactionTestCase):
     after = ('users', '0009_move_invitation_to_own_app')
 
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate([target])
         return executor.loader.project_state([target]).apps
@@ -92,7 +95,8 @@ class InvitationAppMigrationTests(TransactionTestCase):
             self.assertEqual(Moved.objects.values().get(pk=expected['id']), expected)
         with self.assertRaises(LookupError):
             new.get_model('users', 'Invitation')
-        self.assertEqual(find_invitation(token).pk, pending.pk)
+        with patch('eures_beta.invitations.services.Invitation', Moved):
+            self.assertEqual(find_invitation(token).pk, pending.pk)
         self.assertEqual(
             new.get_model('users', 'User')
             .objects.get(pk=sender.pk)
@@ -116,9 +120,10 @@ class InvitationAppMigrationTests(TransactionTestCase):
             content_type.pk,
         )
         from eures_beta.invitations.models import Invitation as CurrentInvitation
-        from eures_beta.users.models import User as CurrentUser
 
-        current_recipient = CurrentUser.objects.get(pk=snapshots[0]['recipient_id'])
+        current_recipient = new.get_model('users', 'User').objects.get(
+            pk=snapshots[0]['recipient_id']
+        )
         self.assertEqual(current_recipient.invitation.pk, snapshots[0]['id'])
         self.assertEqual(CurrentInvitation._meta.app_label, 'invitations')
         with connection.cursor() as cursor:
@@ -142,7 +147,11 @@ class InvitationAppMigrationTests(TransactionTestCase):
             .app_label,
             'users',
         )
-        self.assertEqual(find_invitation(token).pk, pending.pk)
+        with patch(
+            'eures_beta.invitations.services.Invitation',
+            restored.get_model('users', 'Invitation'),
+        ):
+            self.assertEqual(find_invitation(token).pk, pending.pk)
 
     def test_conflicting_content_types_abort_instead_of_merging_permissions(self):
         old = self.migrate(self.before)
@@ -172,7 +181,9 @@ class InvitationAppMigrationTests(TransactionTestCase):
         )
         from eures_beta.invitations.models import Invitation
 
-        self.assertEqual(self.table_identity(), table)
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT %s::regclass::oid', [Invitation._meta.db_table])
+            self.assertEqual(cursor.fetchone()[0], table)
         self.assertEqual(Invitation.objects.get(pk=invitation.pk).sender_id, sender.pk)
         self.assertFalse(
             ContentType.objects.filter(app_label='users', model='invitation').exists()

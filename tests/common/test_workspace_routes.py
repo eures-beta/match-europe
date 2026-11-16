@@ -3,7 +3,7 @@ from django.urls import resolve, reverse
 
 from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.matching import views as matching_views
-from eures_beta.www.matching import confirmations, conversations, dialogue
+from eures_beta.www.matching import offer_reviews, conversations, dialogue
 
 
 class WorkspaceRouteTests(SimpleTestCase):
@@ -13,13 +13,13 @@ class WorkspaceRouteTests(SimpleTestCase):
                 'candidate_offer_inbox',
                 [],
                 '/candidate/offer-reviews/',
-                confirmations.inbox,
+                offer_reviews.inbox,
             ),
             (
                 'candidate_offer_confirmation',
                 [12],
                 '/candidate/offer-reviews/12/',
-                confirmations.dialogue,
+                offer_reviews.dialogue,
             ),
             (
                 'candidate_offer_dialogue',
@@ -62,9 +62,7 @@ class WorkspaceRouteTests(SimpleTestCase):
         self.assertEqual(
             reverse('invitation_confirm'), '/accounts/invitations/confirm/'
         )
-        self.assertEqual(
-            reverse('employer_response_practice'), '/api/employer/profile/'
-        )
+        self.assertEqual(reverse('employer_profile'), '/api/employer/profile/')
 
     def test_legacy_requests_keep_their_method_body_and_query(self):
         for old, new in (

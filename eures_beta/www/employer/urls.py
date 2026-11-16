@@ -4,7 +4,7 @@ from eures_beta.www.employer import (
     pages,
     workspace as employer_workspace,
     imports as employer_api,
-    response_practice as response_practice_views,
+    profile as profile_views,
 )
 
 urlpatterns = [
@@ -13,8 +13,8 @@ urlpatterns = [
     path('employer/privacy/', pages.privacy, name='employer_privacy'),
     path(
         'api/employer/profile/',
-        response_practice_views.response_practice,
-        name='employer_response_practice',
+        profile_views.profile,
+        name='employer_profile',
     ),
     path('api/occupations/', search_api, name='occupation_search'),
     path(

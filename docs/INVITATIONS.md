@@ -9,10 +9,10 @@ et l'authentification restent dans `users`.
 Le modèle existant change d'application sans recréation de table ni copie de
 données. `invitations.0001` et `users.0009` transfèrent son état Django et ses
 métadonnées de permissions ; les identifiants, attributions, relations et liens
-envoyés sont conservés. Le nom physique `users_invitation` reste explicite dans
-le modèle pour éviter toute opération destructive. Le transfert est réversible ;
+envoyés sont conservés. La migration de nommage suivante renomme en place la table
+`users_invitation` en `invitations_invitation`, sans recréer les lignes. Le transfert est réversible ;
 les migrations historiques restent inchangées. Voir
-[le détail technique](../eures_beta/invitations/README.md).
+[le détail technique](../eures_beta/invitations/).
 `invitations.0002` assure aussi la fin du transfert lors d'une migration ciblant
 cette application, avant la génération automatique des permissions.
 

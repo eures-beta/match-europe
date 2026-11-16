@@ -3,6 +3,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
+from tests.common.migration_state import prepare_historical
 from django.test import TransactionTestCase
 
 BEFORE = ('employers', '0004_employerresponsepractice')
@@ -11,6 +12,7 @@ AFTER = ('employers', '0005_employer_profile')
 
 class ProfileRenameMigrationTests(TransactionTestCase):
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate([target])
         ContentType.objects.clear_cache()

@@ -87,7 +87,7 @@ class PushSession(requests.Session):
 
 
 def notification_payload(confirmation):
-    with override(confirmation.pair.candidate.language):
+    with override(confirmation.match.candidate.language):
         return {
             'url': reverse('candidate_offer_dialogue', args=[confirmation.pk]),
             'body': gettext(
@@ -97,11 +97,11 @@ def notification_payload(confirmation):
 
 
 def notify(confirmation):
-    return send(confirmation.pair.candidate, notification_payload(confirmation))
+    return send(confirmation.match.candidate, notification_payload(confirmation))
 
 
 def notify_shared(thread, *, invitation=False):
-    candidate = thread.offer_review.pair.candidate
+    candidate = thread.offer_review.match.candidate
     with override(candidate.language):
         payload = {
             'url': reverse('shared_conversation', args=[thread.pk]),

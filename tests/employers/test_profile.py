@@ -24,9 +24,9 @@ class ResponsePracticeTests(TestCase):
         )
         company = Company.objects.create(name='Fictional shared establishment')
         for person in (self.employer, self.colleague):
-            CompanyMembership.objects.create(company=company, person=person)
+            CompanyMembership.objects.create(company=company, user=person)
         self.client.force_login(self.employer)
-        self.url = reverse('employer_response_practice')
+        self.url = reverse('employer_profile')
 
     def save(self, **changes):
         values = {
@@ -202,15 +202,15 @@ class ResponsePracticeTests(TestCase):
             page = self.client.get('/employer/import/', {'lang': language}, secure=True)
             self.assertContains(page, label)
             self.assertContains(page, button)
-            self.assertContains(page, 'id="response-practice-summary" hidden')
-            self.assertNotContains(page, 'id="response-practice-form" hidden')
+            self.assertContains(page, 'id="employer-profile-summary" hidden')
+            self.assertNotContains(page, 'id="employer-profile-form" hidden')
         self.save()
         page = self.client.get('/employer/import/?lang=fr', secure=True)
         self.assertContains(page, 'Oui, à toutes les candidatures')
         self.assertContains(page, 'Entre 1 et 2 semaines')
-        self.assertContains(page, 'id="response-practice-form" hidden')
+        self.assertContains(page, 'id="employer-profile-form" hidden')
         self.assertContains(page, 'value="one_two_weeks" selected')
         self.client.force_login(self.colleague)
         page = self.client.get('/employer/import/?lang=fr', secure=True)
-        self.assertContains(page, 'id="response-practice-summary" hidden')
+        self.assertContains(page, 'id="employer-profile-summary" hidden')
         self.assertNotContains(page, 'value="one_two_weeks" selected')

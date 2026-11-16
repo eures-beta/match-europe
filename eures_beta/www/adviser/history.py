@@ -107,7 +107,7 @@ def history_rows(section, search):
             .order_by('-email_sent_at', '-pk')
         )
 
-    latest = MatchEvaluation.objects.filter(pair_id=OuterRef('pk')).order_by('-pk')
+    latest = MatchEvaluation.objects.filter(match_id=OuterRef('pk')).order_by('-pk')
     return (
         CandidateOfferMatch.objects.select_related('candidate__user', 'offer')
         .filter(

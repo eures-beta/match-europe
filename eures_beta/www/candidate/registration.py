@@ -169,7 +169,7 @@ def owned_profile(request):
 @require_GET
 def profile(request):
     obj = owned_profile(request)
-    from eures_beta.matching.confirmation_services import candidate_requests
+    from eures_beta.matching.offer_review_services import candidate_reviews
     from eures_beta.candidates.models import CandidatePushSubscription
     from eures_beta.candidates.push import public_key, available
 
@@ -190,7 +190,7 @@ def profile(request):
                 ),
                 'page_language': language,
                 'groups': answer_groups(registration.profile_answers(obj), language),
-                'offer_confirmations_available': candidate_requests(
+                'offer_confirmations_available': candidate_reviews(
                     request.user
                 ).exists(),
             },

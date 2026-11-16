@@ -1,5 +1,6 @@
 from django.db import connection, IntegrityError, transaction
 from django.db.migrations.executor import MigrationExecutor
+from tests.common.migration_state import prepare_historical
 from django.db.migrations.recorder import MigrationRecorder
 from django.test import TransactionTestCase
 
@@ -165,6 +166,7 @@ class CandidateProfileMigrationTests(TransactionTestCase):
         self.migrate(('candidates', '0004_confirmation_sessions'))
 
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate([target])
         executor = MigrationExecutor(connection)

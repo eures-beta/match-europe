@@ -1,5 +1,6 @@
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
+from tests.common.migration_state import prepare_historical
 from django.test import TransactionTestCase
 
 
@@ -12,6 +13,8 @@ class SkillsMoveTests(TransactionTestCase):
             ('contenttypes', '0002_remove_content_type_name'),
         ]
         try:
+            prepare_historical(connection)
+            executor = MigrationExecutor(connection)
             executor.migrate(before)
             apps = executor.loader.project_state(before).apps
             Old = apps.get_model('occupations', 'OccupationSkillSuggestion')
@@ -41,6 +44,8 @@ class SkillsMoveTests(TransactionTestCase):
                 .app_label,
                 'skills',
             )
+            executor = MigrationExecutor(connection)
+            prepare_historical(connection)
             executor = MigrationExecutor(connection)
             executor.migrate(before)
             apps = executor.loader.project_state(before).apps

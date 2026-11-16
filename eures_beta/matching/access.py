@@ -47,7 +47,7 @@ def can_view_pairs(user):
     return user.is_authenticated and user.is_active and user.kind == 'adviser'
 
 
-def can_change_pair(user):
+def can_change_match(user):
     return can_view_pairs(user)
 
 

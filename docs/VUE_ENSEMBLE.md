@@ -39,6 +39,9 @@ ne constitue pas une restriction permanente du produit.
 - `templates/`, ressources statiques et catalogues gettext gardent leurs emplacements
   documentés ; les tests automatisés sont dans `tests/` à la racine.
 
+Les noms des modèles, relations et objets PostgreSQL suivent une
+[convention commune vérifiée](MODEL_NAMING.md), avec migrations préservant les données.
+
 Voir [l'architecture web](ARCHITECTURE_WEB.md), [les décisions](DECISIONS.md)
 et les README des paquets pour le détail des responsabilités.
 

@@ -16,7 +16,7 @@ from django.utils import timezone
 from django.utils.crypto import salted_hmac
 from eures_beta.users.models import LoginRateLimit
 
-from . import confirmation_services as confirmations, dialogue_albert
+from . import offer_review_services as offer_reviews, dialogue_albert
 from .services import StaleEvaluation
 
 SALT = 'matching.simulated-dialogue.v1'
@@ -93,7 +93,7 @@ def interpret(text, row, scope=''):
 
 def question(obj, key):
     row = next(
-        (r for r in confirmations.questions(obj) if r['key'] == key and r['askable']),
+        (r for r in offer_reviews.questions(obj) if r['key'] == key and r['askable']),
         None,
     )
     if row is None:
@@ -116,11 +116,11 @@ def make_proposal(
 ):
     if not enabled():
         raise PermissionDenied
-    obj = confirmations.candidate_requests(user).get(pk=pk)
+    obj = offer_reviews.candidate_reviews(user).get(pk=pk)
     row = question(obj, key)
     if (
         row['fingerprint'] != fingerprint
-        or confirmations.review(obj)['fingerprint'] != context
+        or offer_reviews.review_state(obj)['fingerprint'] != context
     ):
         raise StaleEvaluation
     latest = obj.answers.filter(question_key=key).order_by('-pk').first()
@@ -134,7 +134,7 @@ def make_proposal(
             )
             if (
                 prior['user'] != user.pk
-                or prior['request'] != pk
+                or prior['review'] != pk
                 or prior['key'] != key
                 or prior['context'] != context
             ):
@@ -162,7 +162,7 @@ def make_proposal(
             history.append({'role': 'assistant', 'text': model['reply']})
             token = signing.dumps(
                 dict(
-                    user=user.pk, request=pk, key=key, context=context, history=history
+                    user=user.pk, review=pk, key=key, context=context, history=history
                 ),
                 salt=SALT + '.history',
                 compress=True,
@@ -184,12 +184,12 @@ def make_proposal(
         result = interpret(text, row, scope)
     if result is None:
         return None
-    if not live() and result['patch'] and not obj.pair.candidate.schedule_saturday:
+    if not live() and result['patch'] and not obj.match.candidate.schedule_saturday:
         # The request is still meaningful, but there is no profile change to propose.
         result['patch'] = {}
     payload = {
         'user': user.pk,
-        'request': pk,
+        'review': pk,
         'key': key,
         'fingerprint': fingerprint,
         'context': context,
@@ -206,10 +206,10 @@ def accept(user, pk, token):
     if not enabled():
         raise PermissionDenied
     payload = signing.loads(token, salt=SALT, max_age=MAX_AGE)
-    if payload['user'] != user.pk or payload['request'] != pk:
+    if payload['user'] != user.pk or payload['review'] != pk:
         raise PermissionDenied
-    obj = confirmations.locked_request(user, pk)
-    if confirmations.review(obj)['fingerprint'] != payload['context']:
+    obj = offer_reviews.locked_review(user, pk)
+    if offer_reviews.review_state(obj)['fingerprint'] != payload['context']:
         raise StaleEvaluation
     row = question(obj, payload['key'])
     if payload.get('provider', 'simulation') != ('albert' if live() else 'simulation'):
@@ -236,7 +236,7 @@ def accept(user, pk, token):
         raise StaleEvaluation
     # Recompute the allowed change; a draft never supplies arbitrary profile fields.
     patch = result['patch'] if payload['patch'] else {}
-    event = confirmations.answer(
+    event = offer_reviews.answer(
         user,
         pk,
         row['key'],

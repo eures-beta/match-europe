@@ -41,10 +41,10 @@ class Invitation(models.Model):
     email_sent_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        # Preserve the existing table; moving an app must not recreate its data.
-        db_table = 'users_invitation'
         constraints = [
-            models.UniqueConstraint(Lower('email'), name='users_invitation_email_ci')
+            models.UniqueConstraint(
+                Lower('email'), name='invitations_invitation_email_ci_unique'
+            )
         ]
 
     @property

@@ -10,7 +10,7 @@ from eures_beta.users.models import User
 from eures_beta.employers.employer_ownership import identity
 from eures_beta.www.employer.access import employer_required
 from eures_beta.employers.models import EmployerProfile
-from eures_beta.www.employer.response_forms import ResponsePracticeForm
+from eures_beta.www.employer.profile_forms import EmployerProfileForm
 
 
 def serialize(practice):
@@ -27,7 +27,7 @@ def page_context(person):
     practice = EmployerProfile.objects.filter(user=person).first() if person else None
     values = serialize(practice)
     return {
-        'practice_form': ResponsePracticeForm(initial=values),
+        'practice_form': EmployerProfileForm(initial=values),
         'practice_values': values,
         'practice': practice,
     }
@@ -36,7 +36,7 @@ def page_context(person):
 @never_cache
 @employer_required
 @require_http_methods(['GET', 'POST'])
-def response_practice(request):
+def profile(request):
     person = identity(request)
     if request.method == 'GET':
         return JsonResponse(
@@ -50,7 +50,7 @@ def response_practice(request):
             raise ValueError
     except (ValueError, UnicodeDecodeError):
         return JsonResponse({'error': 'invalid_response_practice'}, status=400)
-    form = ResponsePracticeForm(payload)
+    form = EmployerProfileForm(payload)
     if not form.is_valid():
         return JsonResponse({'error': 'invalid_response_practice'}, status=400)
     with transaction.atomic():

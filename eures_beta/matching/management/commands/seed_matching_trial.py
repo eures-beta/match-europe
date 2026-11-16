@@ -175,7 +175,7 @@ class Command(BaseCommand):
                 )
                 values.update(changes)
                 profile = CandidateProfile.objects.create(user=user, **values)
-            pair, _ = CandidateOfferMatch.objects.get_or_create(
+            match, _ = CandidateOfferMatch.objects.get_or_create(
                 candidate=profile,
                 offer=offer,
                 defaults={
@@ -185,11 +185,13 @@ class Command(BaseCommand):
                 },
             )
             # Upgrade only the exact fictional facts created during this local recipe.
-            if key == 'permit' and pair.candidate_facts == {'licences_not_held': ['B']}:
-                pair.candidate_facts = {'licences_not_held_at_start': ['B']}
-                pair.save(update_fields=['candidate_facts'])
-            latest = pair.evaluations.order_by('-id').first()
-            input_data, fingerprint = inputs(pair)
+            if key == 'permit' and match.candidate_facts == {
+                'licences_not_held': ['B']
+            }:
+                match.candidate_facts = {'licences_not_held_at_start': ['B']}
+                match.save(update_fields=['candidate_facts'])
+            latest = match.evaluations.order_by('-id').first()
+            input_data, fingerprint = inputs(match)
             if latest is None or latest.fingerprint != fingerprint:
                 calculate(profile, offer)
         self.stdout.write(

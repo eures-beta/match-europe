@@ -56,7 +56,7 @@ def render_page(request, template):
             'albert_import': False,
         }
         if person and template == 'import.html':
-            from .response_practice import page_context
+            from .profile import page_context
 
             context.update(page_context(person))
         body = get_template('employer/' + template).render(context, request=request)

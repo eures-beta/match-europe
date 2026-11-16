@@ -1,11 +1,11 @@
 """Business model renames preserve stored reviews and Django metadata."""
 
-from io import StringIO
+from .fixtures.historical import seed_matching
+from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.contrib import admin
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.management import call_command
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TestCase, TransactionTestCase, override_settings
@@ -34,7 +34,7 @@ class CandidateOfferModelNamesTests(TestCase):
             with self.subTest(model=new):
                 self.assertFalse(hasattr(models, old))
                 model = getattr(models, new)
-                self.assertEqual(model._meta.db_table, table)
+                self.assertEqual(model._meta.db_table, f'matching_{new.lower()}')
                 self.assertTrue(admin.site.is_registered(model))
                 self.assertEqual(
                     reverse(f'admin:matching_{new.lower()}_changelist'),
@@ -50,10 +50,13 @@ class CandidateOfferModelNamesTests(TestCase):
 )
 class CandidateOfferModelRenameMigrationTests(TransactionTestCase):
     def migrate(self, name):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
-        executor.migrate([('matching', name)])
+        executor.migrate(historical_targets([('matching', name)]))
         ContentType.objects.clear_cache()
-        return executor.loader.project_state([('matching', name)]).apps
+        return executor.loader.project_state(
+            historical_targets([('matching', name)])
+        ).apps
 
     def tearDown(self):
         executor = MigrationExecutor(connection)
@@ -77,7 +80,7 @@ class CandidateOfferModelRenameMigrationTests(TransactionTestCase):
 
     def prepare(self):
         apps = self.migrate(BEFORE)
-        call_command('seed_matching_trial', stdout=StringIO())
+        seed_matching(apps)
         pair = apps.get_model('matching', 'MatchPair').objects.first()
         adviser = apps.get_model('users', 'User').objects.create(
             email='rename-adviser@example.invalid', kind='adviser'

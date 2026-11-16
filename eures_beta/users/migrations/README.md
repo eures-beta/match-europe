@@ -13,3 +13,5 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 - [README.md](README.md) — Présente ce dossier et son contenu.
 
 [Remonter au dossier parent](../).
+
+- [0010_harmonize_model_names.py](0010_harmonize_model_names.py) — Migration réversible des noms, sans suppression de données métier.

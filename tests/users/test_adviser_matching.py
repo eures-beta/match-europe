@@ -5,7 +5,7 @@ from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from eures_beta.matching import confirmation_services, services
+from eures_beta.matching import offer_review_services, services
 from eures_beta.matching.models import CandidateOfferReview, CandidateOfferMatch
 from tests.matching.test_dialogue import SETTINGS
 from eures_beta.users.test_accounts import prepared_user
@@ -20,17 +20,17 @@ class AdviserMatchingTests(TestCase):
         cls.adviser = prepared_user('adviser')
         cls.adviser.groups.clear()
         cls.adviser.user_permissions.clear()
-        cls.pair = CandidateOfferMatch.objects.get(
+        cls.match = CandidateOfferMatch.objects.get(
             candidate__user__email='compatible@matching-trial.invalid'
         )
         # Exercise the adviser decision before any candidate review is requested.
-        CandidateOfferReview.objects.filter(pair=cls.pair).delete()
+        CandidateOfferReview.objects.filter(match=cls.match).delete()
 
     def setUp(self):
         self.client.force_login(self.adviser)
         self.dashboard = reverse('dashboard')
-        self.detail = reverse('adviser_match', args=[self.pair.pk])
-        self.evaluation = services.calculate(self.pair.candidate, self.pair.offer)
+        self.detail = reverse('adviser_match', args=[self.match.pk])
+        self.evaluation = services.calculate(self.match.candidate, self.match.offer)
 
     def decide(self, value):
         return self.client.post(
@@ -47,46 +47,48 @@ class AdviserMatchingTests(TestCase):
         self.assertContains(self.client.get(self.detail), 'value="retained"')
         self.assertEqual(self.decide('retained').status_code, 302)
         self.assertNotContains(self.client.get(self.dashboard), self.detail)
-        conversation = CandidateOfferReview.objects.get(pair=self.pair)
+        conversation = CandidateOfferReview.objects.get(match=self.match)
         tracking = self.dashboard + '?view=conversations'
         follow = reverse('adviser_conversation', args=[conversation.pk])
         self.assertContains(self.client.get(tracking), follow)
         self.assertEqual(self.client.get(follow).status_code, 200)
         self.assertEqual(self.decide('retained').status_code, 404)
-        self.assertEqual(CandidateOfferReview.objects.filter(pair=self.pair).count(), 1)
+        self.assertEqual(
+            CandidateOfferReview.objects.filter(match=self.match).count(), 1
+        )
 
         candidate = Client()
-        candidate.force_login(self.pair.candidate.user)
+        candidate.force_login(self.match.candidate.user)
         dialogue = reverse('candidate_offer_dialogue', args=[conversation.pk])
         self.assertContains(candidate.get(reverse('candidate_offer_inbox')), dialogue)
         self.assertEqual(candidate.get(dialogue).status_code, 200)
-        self.assertEqual(self.pair.decisions.get().actor, f'adviser:{self.adviser.pk}')
+        self.assertEqual(self.match.decisions.get().actor, f'adviser:{self.adviser.pk}')
         self.assertEqual(candidate.get(follow).status_code, 403)
         self.assertEqual(
             candidate.post(self.detail, {'action': 'refused'}).status_code, 403
         )
 
-        for row in confirmation_services.review(conversation)['rows']:
+        for row in offer_review_services.review_state(conversation)['rows']:
             if row['askable']:
-                confirmation_services.answer(
-                    self.pair.candidate.user,
+                offer_review_services.answer(
+                    self.match.candidate.user,
                     conversation.pk,
                     row['key'],
                     row['fingerprint'],
                     'yes',
                 )
-        state = confirmation_services.review(conversation)
-        confirmation_services.agree(
-            self.pair.candidate.user, conversation.pk, state['fingerprint'], False
+        state = offer_review_services.review_state(conversation)
+        offer_review_services.agree(
+            self.match.candidate.user, conversation.pk, state['fingerprint'], False
         )
         self.assertNotContains(self.client.get(tracking), follow)
         self.assertEqual(self.client.get(follow).status_code, 404)
 
     def test_albert_opinion_uses_current_answers_and_never_decides(self):
         self.assertEqual(self.decide('retained').status_code, 302)
-        conversation = CandidateOfferReview.objects.get(pair=self.pair)
+        conversation = CandidateOfferReview.objects.get(match=self.match)
         follow = reverse('adviser_conversation', args=[conversation.pk]) + '?lang=fr'
-        state = confirmation_services.review(conversation)
+        state = offer_review_services.review_state(conversation)
         self.assertTrue(state['pending'])
         self.assertNotContains(self.client.get(follow), 'Analyser les réponses')
         self.assertEqual(
@@ -98,14 +100,14 @@ class AdviserMatchingTests(TestCase):
         rows = [row for row in state['rows'] if row['askable']]
         first = rows[0]
         for row in rows:
-            confirmation_services.answer(
-                self.pair.candidate.user,
+            offer_review_services.answer(
+                self.match.candidate.user,
                 conversation.pk,
                 row['key'],
                 row['fingerprint'],
                 'yes',
             )
-        current = confirmation_services.review(conversation)['fingerprint']
+        current = offer_review_services.review_state(conversation)['fingerprint']
         self.assertContains(self.client.get(follow), 'Analyser les réponses')
         with patch('eures_beta.matching.dialogue_albert.complete') as complete:
             page = self.client.post(
@@ -114,12 +116,12 @@ class AdviserMatchingTests(TestCase):
             complete.assert_not_called()
         self.assertContains(page, 'Analyse simulée')
         self.assertContains(self.client.get(follow), 'Analyse simulée')
-        self.assertFalse(conversation.agreements.exists())
-        self.assertEqual(self.pair.decisions.count(), 1)
+        self.assertFalse(conversation.profile_sharings.exists())
+        self.assertEqual(self.match.decisions.count(), 1)
 
         previous = conversation.answers.get(question_key=first['key'])
-        confirmation_services.answer(
-            self.pair.candidate.user,
+        offer_review_services.answer(
+            self.match.candidate.user,
             conversation.pk,
             first['key'],
             first['fingerprint'],
@@ -134,7 +136,7 @@ class AdviserMatchingTests(TestCase):
             ).status_code,
             409,
         )
-        current = confirmation_services.review(conversation)['fingerprint']
+        current = offer_review_services.review_state(conversation)['fingerprint']
         page = self.client.post(follow, {'action': 'analyse', 'fingerprint': current})
         self.assertContains(page, 'Demander une précision')
 
@@ -144,16 +146,16 @@ class AdviserMatchingTests(TestCase):
     )
     def test_albert_opinion_validates_model_output_before_showing_it(self):
         self.assertEqual(self.decide('retained').status_code, 302)
-        conversation = CandidateOfferReview.objects.get(pair=self.pair)
+        conversation = CandidateOfferReview.objects.get(match=self.match)
         follow = reverse('adviser_conversation', args=[conversation.pk]) + '?lang=fr'
         rows = [
             row
-            for row in confirmation_services.review(conversation)['rows']
+            for row in offer_review_services.review_state(conversation)['rows']
             if row['askable']
         ]
         for index, row in enumerate(rows):
-            confirmation_services.answer(
-                self.pair.candidate.user,
+            offer_review_services.answer(
+                self.match.candidate.user,
                 conversation.pk,
                 row['key'],
                 row['fingerprint'],
@@ -162,14 +164,16 @@ class AdviserMatchingTests(TestCase):
             )
         data = {
             'action': 'analyse',
-            'fingerprint': confirmation_services.review(conversation)['fingerprint'],
+            'fingerprint': offer_review_services.review_state(conversation)[
+                'fingerprint'
+            ],
         }
         point = {
             'condition': str(
                 next(
                     i
                     for i, row in enumerate(
-                        confirmation_services.review(conversation)['rows'], 1
+                        offer_review_services.review_state(conversation)['rows'], 1
                     )
                     if row['askable']
                 )
@@ -190,24 +194,24 @@ class AdviserMatchingTests(TestCase):
             self.assertEqual(
                 payload['conditions'][point['condition']]['answer'], 'conditional'
             )
-            self.assertNotIn(self.pair.candidate.user.email, str(payload))
-        self.assertFalse(conversation.agreements.exists())
+            self.assertNotIn(self.match.candidate.user.email, str(payload))
+        self.assertFalse(conversation.profile_sharings.exists())
 
     def test_refusal_closes_matching_without_opening_dialogue(self):
         self.assertEqual(self.decide('refused').status_code, 302)
-        self.pair.refresh_from_db()
-        self.assertEqual(self.pair.decision, 'refused')
-        self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
+        self.match.refresh_from_db()
+        self.assertEqual(self.match.decision, 'refused')
+        self.assertFalse(CandidateOfferReview.objects.filter(match=self.match).exists())
         self.assertNotContains(self.client.get(self.dashboard), self.detail)
 
     def test_stale_evaluation_requires_review_again(self):
-        services.calculate(self.pair.candidate, self.pair.offer)
+        services.calculate(self.match.candidate, self.match.offer)
         self.assertEqual(self.decide('retained').status_code, 409)
-        self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
+        self.assertFalse(CandidateOfferReview.objects.filter(match=self.match).exists())
 
     @override_settings(ALBERT_SIMULATED=False, ALBERT_API_KEY='')
     def test_unavailable_albert_keeps_matching_pending(self):
         self.assertEqual(self.decide('retained').status_code, 400)
-        self.pair.refresh_from_db()
-        self.assertEqual(self.pair.decision, 'pending')
-        self.assertFalse(CandidateOfferReview.objects.filter(pair=self.pair).exists())
+        self.match.refresh_from_db()
+        self.assertEqual(self.match.decision, 'pending')
+        self.assertFalse(CandidateOfferReview.objects.filter(match=self.match).exists())

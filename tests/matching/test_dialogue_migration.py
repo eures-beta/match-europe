@@ -1,8 +1,8 @@
 """Fresh and already deployed dialogue schemas survive the model renames."""
 
-from io import StringIO
+from .fixtures.historical import seed_matching
+from tests.common.migration_state import historical_targets, prepare_historical
 
-from django.core.management import call_command
 from django.db import connection, models
 from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.recorder import MigrationRecorder
@@ -21,9 +21,12 @@ TABLE = 'matching_confirmationanswer'
 )
 class DialogueMigrationTests(TransactionTestCase):
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
-        executor.migrate([('matching', target)])
-        return executor.loader.project_state([('matching', target)]).apps
+        executor.migrate(historical_targets([('matching', target)]))
+        return executor.loader.project_state(
+            historical_targets([('matching', target)])
+        ).apps
 
     def tearDown(self):
         # Remove the simulated historical recorder entry before normal restoration.
@@ -50,7 +53,7 @@ class DialogueMigrationTests(TransactionTestCase):
 
     def prepare(self):
         apps = self.migrate(BEFORE)
-        call_command('seed_matching_trial', stdout=StringIO())
+        seed_matching(apps)
         pair = apps.get_model('matching', 'CandidateOfferMatch').objects.first()
         user = apps.get_model('users', 'User').objects.create(
             email='dialogue-migration@example.invalid', kind='adviser'

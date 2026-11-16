@@ -20,7 +20,7 @@ Les vues importent les modèles et services. Les domaines ne doivent pas importe
 `www` : leurs règles sont également nécessaires aux commandes, aux modèles et
 aux intégrations sans requête HTTP. Le questionnaire candidat conserve donc ses
 formulaires de validation partagés dans `candidates/forms.py`. Les choix des
-habitudes de réponse restent dans `employers/response_practice.py`, et la validation
+habitudes de réponse restent dans `employers/profile.py`, et la validation
 des offres dans `employers/offer_validation.py`. La disponibilité des emails de
 connexion reste dans `users/email_login.py` pour l’inscription et la connexion.
 

@@ -7,7 +7,7 @@ from .models import Company, CompanyMembership, JobOffer
 
 def seed_test_offers(employer):
     company, _ = Company.objects.get_or_create(name='Fictional test workspace')
-    CompanyMembership.objects.get_or_create(company=company, person=employer)
+    CompanyMembership.objects.get_or_create(company=company, user=employer)
     for key, title, description in (
         (
             'cleaner',

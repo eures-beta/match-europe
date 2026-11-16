@@ -6,13 +6,13 @@ from django.shortcuts import render
 from eures_beta.www.matching.conversations import listed
 from eures_beta.www.accounts.views import selected_language
 
-from eures_beta.employers.employer_ownership import accessible_imports
+from eures_beta.employers.employer_ownership import accessible_offers
 
 
 def employer_dashboard(request):
     # Never include browser-only anonymous drafts in an authenticated account list.
     offers = (
-        accessible_imports(request)
+        accessible_offers(request)
         .exclude(company__isnull=True, created_by__isnull=True)
         .select_related('company')
         .order_by('-updated', '-pk')

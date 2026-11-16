@@ -32,7 +32,7 @@ class ConnectedEmployerTests(TestCase):
     def test_access_without_offer_and_languages(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         company = Company.objects.create(name='Allowed establishment')
-        CompanyMembership.objects.create(person=person, company=company)
+        CompanyMembership.objects.create(user=person, company=company)
         Company.objects.create(name='Hidden establishment')
         for lang, label in [
             ('fr', 'Ajouter une offre'),
@@ -51,7 +51,7 @@ class ConnectedEmployerTests(TestCase):
     def test_valid_session_and_distinct_contact(self, geo, api):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         company = Company.objects.create(name='Allowed establishment')
-        CompanyMembership.objects.create(person=person, company=company)
+        CompanyMembership.objects.create(user=person, company=company)
         key = self.client.session.session_key
         response = self.submit()
         self.assertEqual(response.status_code, 201)
@@ -74,7 +74,7 @@ class ConnectedEmployerTests(TestCase):
             for name in ['First', 'Second', 'Forbidden']
         ]
         for company in companies[:2]:
-            CompanyMembership.objects.create(person=person, company=company)
+            CompanyMembership.objects.create(user=person, company=company)
         self.submit()
         self.assertContains(
             self.client.get('/employer/offers/'), 'id="establishment-choice"'
@@ -100,7 +100,7 @@ class ConnectedEmployerTests(TestCase):
         person = self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get('/employer/offers/'), 'Vous n’êtes encore')
         company = Company.objects.create(name='Revoked')
-        CompanyMembership.objects.create(person=person, company=company, active=False)
+        CompanyMembership.objects.create(user=person, company=company, active=False)
         self.submit()
         self.assertEqual(
             self.client.post('/employer/attach/', {'company': company.pk}).status_code,

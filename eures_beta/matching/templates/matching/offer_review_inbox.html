@@ -2,7 +2,7 @@
 {% load i18n static %}
 {% block page_title %}{% translate "Offers to confirm" %} — Match Europe{% endblock %}
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'matching/confirmations.css' %}">
+  <link rel="stylesheet" href="{% static 'matching/offer_reviews.css' %}">
 {% endblock %}
 {% block public_content %}
   <div class="confirmation-flow">
@@ -12,7 +12,7 @@
       <p>{% translate "Confirm the conditions for each offer. This does not change your general profile or send it to an employer." %}</p>
       <ul>
         {% for entry in entries %}
-          <li><a href="{% if albert_available and entry.pair.decision == 'retained' %}{% url 'candidate_offer_dialogue' entry.pk %}{% else %}{% url 'candidate_offer_confirmation' entry.pk %}{% endif %}?lang={{ page_language }}">{{ entry.pair.offer.data.title }} — {{ entry.pair.offer.data.companyName }} — {{ entry.pair.offer.data.city }}</a></li>
+          <li><a href="{% if albert_available and entry.match.decision == 'retained' %}{% url 'candidate_offer_dialogue' entry.pk %}{% else %}{% url 'candidate_offer_confirmation' entry.pk %}{% endif %}?lang={{ page_language }}">{{ entry.match.offer.data.title }} — {{ entry.match.offer.data.companyName }} — {{ entry.match.offer.data.city }}</a></li>
         {% empty %}
           <li>{% translate "No offer is awaiting your confirmation." %}</li>
         {% endfor %}

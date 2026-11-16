@@ -23,7 +23,7 @@ from django.utils import timezone
 from django.views.decorators.cache import never_cache
 
 from eures_beta.employers.models import JobOffer
-from eures_beta.employers.employer_ownership import accessible_imports, identity
+from eures_beta.employers.employer_ownership import accessible_offers, identity
 from eures_beta.www.employer.forms import EmployerContactForm
 from eures_beta.www.employer.access import employer_required
 from eures_beta.employers.offer_ingestion import (
@@ -162,7 +162,7 @@ def imports(request, id=None):
     if request.method == 'GET':
         if not request.session.session_key:
             return failure('not_found', 404) if id else JsonResponse({'drafts': []})
-        qs = accessible_imports(request).exclude(
+        qs = accessible_offers(request).exclude(
             company__isnull=True, created_by__isnull=True
         )
         if id:
@@ -190,7 +190,7 @@ def imports(request, id=None):
             request.session.create()
         if id:
             obj = (
-                accessible_imports(request)
+                accessible_offers(request)
                 .exclude(company__isnull=True, created_by__isnull=True)
                 .filter(pk=id)
                 .first()
@@ -481,10 +481,7 @@ def update_locked(request, obj, payload):
         contact = clean_contact(payload.get('contact'))
         with transaction.atomic():
             obj = (
-                accessible_imports(request)
-                .select_for_update()
-                .filter(pk=obj.pk)
-                .first()
+                accessible_offers(request).select_for_update().filter(pk=obj.pk).first()
             )
             if obj is None:
                 return failure('not_found', 404)
@@ -498,7 +495,7 @@ def update_locked(request, obj, payload):
         return JsonResponse(serialize(obj))
     clean = clean_data(payload.get('data'))
     with transaction.atomic():
-        obj = accessible_imports(request).select_for_update().filter(pk=obj.pk).first()
+        obj = accessible_offers(request).select_for_update().filter(pk=obj.pk).first()
         if obj is None:
             return failure('not_found', 404)
         if obj.search_write_blocked:

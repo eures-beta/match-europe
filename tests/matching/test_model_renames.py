@@ -1,10 +1,10 @@
 """Renaming matching models must preserve rows, references and granted rights."""
 
-from io import StringIO
+from .fixtures.historical import seed_matching
+from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.management import call_command
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase, override_settings
@@ -18,10 +18,13 @@ from django.test.utils import CaptureQueriesContext
 )
 class MatchModelRenameTests(TransactionTestCase):
     def migrate(self, target):
+        prepare_historical(connection)
         executor = MigrationExecutor(connection)
-        executor.migrate([('matching', target)])
+        executor.migrate(historical_targets([('matching', target)]))
         ContentType.objects.clear_cache()
-        return executor.loader.project_state([('matching', target)]).apps
+        return executor.loader.project_state(
+            historical_targets([('matching', target)])
+        ).apps
 
     def tearDown(self):
         executor = MigrationExecutor(connection)
@@ -44,7 +47,7 @@ class MatchModelRenameTests(TransactionTestCase):
 
     def assert_rename_preserves_data(self, before, after, old, new):
         apps = self.migrate(before)
-        call_command('seed_matching_trial', stdout=StringIO())
+        seed_matching(apps)
         evaluation_name = 'MatchEvaluation' if old == 'Decision' else old
         evaluation = apps.get_model('matching', evaluation_name).objects.first()
         apps.get_model('matching', 'Decision').objects.create(

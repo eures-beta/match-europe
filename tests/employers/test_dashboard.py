@@ -22,7 +22,7 @@ class EmployerDashboardTests(TestCase):
         )
         self.company = Company.objects.create(name='Shared fictional workspace')
         self.member = CompanyMembership.objects.create(
-            person=self.employer, company=self.company
+            user=self.employer, company=self.company
         )
         self.client.force_login(self.employer)
 

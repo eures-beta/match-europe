@@ -103,7 +103,7 @@ class AlbertAdapterTests(TestCase):
             ],
         )
         self.assertContains(self.client.get(self.url), clarify['reply'])
-        self.assertFalse(self.obj.agreements.exists())
+        self.assertFalse(self.obj.profile_sharings.exists())
 
     def test_http_payload_is_minimal_and_bounded(self):
         body = {
@@ -125,7 +125,7 @@ class AlbertAdapterTests(TestCase):
         supplied = json.loads(payload['messages'][1]['content'])
         self.assertNotIn('email', request.data.decode())
         self.assertNotIn(self.user.email, request.data.decode())
-        self.assertNotIn(self.pair.candidate.display_name, request.data.decode())
+        self.assertNotIn(self.match.candidate.display_name, request.data.decode())
         self.assertEqual(supplied['declared'], self.row['presented']['declared'])
         self.assertEqual(
             request.full_url, 'https://albert.api.etalab.gouv.fr/v1/chat/completions'
@@ -181,8 +181,8 @@ class AlbertAdapterTests(TestCase):
             self.url, dict(action='accept', token=token, update_profile='on')
         )
         self.assertEqual(response.status_code, 302)
-        self.pair.candidate.refresh_from_db()
-        self.assertEqual(self.pair.candidate.schedule_saturday, ['morning'])
+        self.match.candidate.refresh_from_db()
+        self.assertEqual(self.match.candidate.schedule_saturday, ['morning'])
 
     def test_unavailable_and_quota_fall_back_without_write(self):
         with patch.object(adapter, 'ask', side_effect=adapter.Unavailable):

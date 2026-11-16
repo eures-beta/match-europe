@@ -66,7 +66,7 @@ class AutonomousMigrationTests(TransactionTestCase):
             'person@example.invalid', kind='employer'
         )
         company = Company.objects.create(name='Fictional workplace')
-        CompanyMembership.objects.create(company=company, person=person)
+        CompanyMembership.objects.create(company=company, user=person)
         draft = JobOffer.objects.create(
             company=company,
             created_by=person,

@@ -21,13 +21,13 @@ class CandidateOfferMatchAdmin(MetadataOnlyAdmin):
 @admin.register(MatchEvaluation)
 class MatchEvaluationAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'rules_version', 'created_at')
-    exclude = ('pair', 'fingerprint', 'result')
+    exclude = ('match', 'fingerprint', 'result')
 
 
 @admin.register(MatchDecision)
 class MatchDecisionAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'value', 'created_at')
-    exclude = ('pair', 'evaluation', 'actor')
+    exclude = ('match', 'evaluation', 'actor')
 
 
 @admin.register(

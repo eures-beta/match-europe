@@ -18,7 +18,7 @@ from eures_beta.employers.offer_validation import clean_data
 from eures_beta.employers.employer_ownership import (
     identity,
     memberships,
-    accessible_imports,
+    accessible_offers,
 )
 from eures_beta.www.employer.forms import EmployerContactForm
 from eures_beta.choices import MOBILITY
@@ -54,7 +54,7 @@ def render(request, stage, status=200, **context):
 def visible(request):
     # Account and establishment ownership apply in every environment.
     policy = Q(company__isnull=False) | Q(created_by=identity(request))
-    return accessible_imports(request).filter(policy).select_related('company')
+    return accessible_offers(request).filter(policy).select_related('company')
 
 
 class OfferEditForm(forms.Form):
@@ -539,7 +539,7 @@ def attach_draft(request):
             if not form.is_valid():
                 return connected_page(request, person.email, person, draft, form)
             company = Company.objects.create(name=form.cleaned_data['name'])
-            CompanyMembership.objects.create(person=person, company=company)
+            CompanyMembership.objects.create(user=person, company=company)
         draft.company = company
         draft.created_by = person
         # Session ownership must no longer provide an alternative access path.

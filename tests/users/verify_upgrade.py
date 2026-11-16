@@ -188,10 +188,9 @@ def main():
                 'employers', 'EmployerSearchEvent'
             )
             from eures_beta.users.models import User
-            from eures_beta.employers.models import (
-                JobOffer,
-                CompanyMembership,
-            )
+
+            JobOffer = historical.get_model("employers", "JobOffer")
+            CompanyMembership = historical.get_model("employers", "CompanyMembership")
 
             user = User.objects.using('user_upgrade').get(
                 email='contact@example.invalid'
@@ -229,6 +228,13 @@ def main():
             # A second execution must not bootstrap or overwrite migrated users.
             call_command(
                 'migrate', database='user_upgrade', interactive=False, verbosity=0
+            )
+            from eures_beta.employers.models import (
+                CompanyMembership as CurrentMembership,
+            )
+
+            assert (
+                CurrentMembership.objects.using('user_upgrade').get().user_id == user.pk
             )
             assert User.objects.using('user_upgrade').count() == 1
             print(

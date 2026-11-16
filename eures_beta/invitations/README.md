@@ -19,8 +19,9 @@ L’interface HTTP est dans [www/invitations/](../www/invitations/).
 
 `invitations.0001` reprend l'état du modèle existant ; `users.0009` retire cet
 état de `users`. Les deux utilisent `SeparateDatabaseAndState` : aucune création
-ou suppression de table, aucune copie de lignes. Le nom physique
-`users_invitation` et sa contrainte d'unicité sont conservés volontairement.
+ou suppression de table, aucune copie de lignes. Le transfert historique conserve d’abord `users_invitation`. La migration
+`invitations.0003` aligne ensuite la table et sa contrainte sur le modèle actuel,
+en conservant les lignes et relations.
 Une installation neuve crée la table par les migrations historiques avant ce
 transfert. Les anciennes migrations restent inchangées.
 

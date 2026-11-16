@@ -84,7 +84,7 @@ class OwnershipTests(TestCase):
         other = Client()
         colleague = self.login(other, 'second@fiction.invalid')
         self.assertEqual(other.get(url).status_code, 404)
-        membership = CompanyMembership.objects.create(person=colleague, company=company)
+        membership = CompanyMembership.objects.create(user=colleague, company=company)
         self.assertEqual(other.get(url).json()['id'], draft['id'])
         payload = {
             'action': 'contact',
@@ -143,7 +143,7 @@ class OwnershipTests(TestCase):
         row = JobOffer.objects.get(pk=draft['id'])
         self.assertIsNone(row.company)
         person = get_user_model().objects.get()
-        CompanyMembership.objects.create(company=company, person=person)
+        CompanyMembership.objects.create(company=company, user=person)
         self.client.post(
             '/employer/attach/', {'company': company.pk, 'import': 'ignored'}
         )
@@ -227,7 +227,7 @@ class OwnershipTests(TestCase):
     def test_multiple_memberships_require_explicit_choice(self):
         _, person, first = self.attach()
         second = Company.objects.create(name='Second establishment')
-        CompanyMembership.objects.create(person=person, company=second)
+        CompanyMembership.objects.create(user=person, company=second)
         draft = self.create()
         self.login(self.client, 'first@fiction.invalid')
         screen = self.client.get('/employer/offers/')
@@ -245,7 +245,7 @@ class OwnershipTests(TestCase):
         other.post('/employer/attach/', {'name': existing.name})
         self.assertEqual(Company.objects.count(), 2)
         self.assertFalse(
-            CompanyMembership.objects.filter(company=existing, person=outsider).exists()
+            CompanyMembership.objects.filter(company=existing, user=outsider).exists()
         )
         self.assertEqual(
             other.get('/api/job-offers/' + draft['id'] + '/').status_code, 404

@@ -17,13 +17,13 @@ from eures_beta.employers.offer_ingestion import empty_data
 
 class WorkspaceTests(TestCase):
     def setUp(self):
-        self.person = get_user_model().objects.create_user(
+        self.user = get_user_model().objects.create_user(
             kind='employer', email='rh1@fiction.invalid'
         )
         self.company = Company.objects.create(name='First establishment')
-        CompanyMembership.objects.create(company=self.company, person=self.person)
+        CompanyMembership.objects.create(company=self.company, user=self.user)
         self.other = Company.objects.create(name='Other establishment')
-        self.login(self.client, self.person)
+        self.login(self.client, self.user)
         self.offer = self.make_offer(self.company, title='Fictional technician')
         self.foreign = self.make_offer(self.other, title='Hidden foreign offer')
 
@@ -43,9 +43,9 @@ class WorkspaceTests(TestCase):
         )
         return JobOffer.objects.create(
             company=company,
-            created_by=self.person,
+            created_by=self.user,
             session_key='',
-            email=self.person.email,
+            email=self.user.email,
             contact={'name': 'Contact person', 'email': 'contact@fiction.invalid'},
             data=data,
             preparation_agreed_at=timezone.now(),
@@ -81,7 +81,7 @@ class WorkspaceTests(TestCase):
             ).status_code,
             404,
         )
-        CompanyMembership.objects.create(company=self.other, person=self.person)
+        CompanyMembership.objects.create(company=self.other, user=self.user)
         self.assertContains(
             self.client.get('/employer/offers/'), self.foreign.data['title']
         )
@@ -125,7 +125,7 @@ class WorkspaceTests(TestCase):
         self.assertEqual(self.offer.data['title'], 'Updated fictional role')
         self.assertEqual(self.offer.data['custom'], 'preserved')
         self.assertEqual(self.offer.company, self.company)
-        self.assertEqual(self.offer.created_by, self.person)
+        self.assertEqual(self.offer.created_by, self.user)
         self.assertEqual(self.offer.contact['email'], 'other-contact@fiction.invalid')
         self.assertIsNone(self.offer.search_started_at)
         self.assertEqual(self.offer.revision, 2)
@@ -153,7 +153,7 @@ class WorkspaceTests(TestCase):
 
     def test_revoked_access_and_expired_session(self):
         values = self.payload()
-        CompanyMembership.objects.filter(person=self.person).update(active=False)
+        CompanyMembership.objects.filter(user=self.user).update(active=False)
         self.assertEqual(
             self.client.post(self.url('employer_offer_edit'), values).status_code, 404
         )
@@ -242,7 +242,7 @@ class WorkspaceTests(TestCase):
         copy = JobOffer.objects.get(duplicated_from=self.offer)
         self.assertNotEqual(copy.pk, self.offer.pk)
         self.assertEqual(copy.company, self.company)
-        self.assertEqual(copy.created_by, self.person)
+        self.assertEqual(copy.created_by, self.user)
         self.assertEqual(copy.contact, self.offer.contact)
         self.assertEqual(
             copy.structured_requirements, self.offer.structured_requirements
@@ -266,7 +266,7 @@ class WorkspaceTests(TestCase):
         client = Client()
         self.login(client, colleague)
         self.assertEqual(client.get(self.url(offer=copy)).status_code, 404)
-        CompanyMembership.objects.create(person=colleague, company=self.company)
+        CompanyMembership.objects.create(user=colleague, company=self.company)
         self.assertEqual(client.get(self.url(offer=copy)).status_code, 200)
         geo.assert_not_called()
         external.assert_not_called()
@@ -283,7 +283,7 @@ class WorkspaceTests(TestCase):
         )
         self.assertFalse(JobOffer.objects.filter(duplicated_from=self.offer).exists())
         client = Client(enforce_csrf_checks=True)
-        self.login(client, self.person)
+        self.login(client, self.user)
         for action in ('employer_offer_duplicate', 'employer_offer_edit'):
             self.assertEqual(
                 client.post(self.url(action), self.payload()).status_code, 403
@@ -300,7 +300,7 @@ class WorkspaceTests(TestCase):
         )
         client = Client()
         self.login(client, colleague)
-        CompanyMembership.objects.create(person=colleague, company=self.company)
+        CompanyMembership.objects.create(user=colleague, company=self.company)
         self.assertNotContains(
             client.get('/employer/offers/'), 'Private fictional draft'
         )
@@ -335,7 +335,7 @@ class WorkspaceTests(TestCase):
         self.assertContains(response, '<table class="offer-table">', html=False)
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])
-        self.assertContains(response, self.person.email)
+        self.assertContains(response, self.user.email)
         self.assertContains(response, 'Mon compte')
         self.assertContains(response, '/accounts/logout/')
         self.assertNotContains(response, 'Votre adresse email est vérifiée')
