@@ -8,12 +8,15 @@ compétence aux personnes et ne calcule pas de matching.
 - [management/](management/) : commandes Django de mise à jour explicite.
 - [tools/](tools/) : lecture des exports, reconstruction, validation et mesures.
 - [tests/occupations/](../../tests/occupations/) : intégrité, recherche et importateurs sans réseau externe.
-- [catalog.py](catalog.py) : chargement local en cache et recherches multilingues.
+- [catalog.py](catalog.py) : chargement en cache, recherches multilingues et
+  reconnaissance commune des références sans regex à retours arrière ambigus.
 - [views.py](../www/occupations/views.py) : interface HTTP de recherche de métiers.
-- [test_picker.cjs](test_picker.cjs) : tests JavaScript du sélecteur.
+- [test_picker.cjs](../../tests/occupations/test_picker.cjs) : tests JavaScript du sélecteur.
 - [__init__.py](__init__.py) : déclaration du paquet Python.
 
 Voir la [procédure de maintenance](../../docs/OCCUPATION_CATALOG_MAINTENANCE.md).
+Les tests des références et des recherches sont décrits dans [tests/occupations/](../../tests/occupations/).
+La limite HTTP de 150 caractères est conservée ; voir le [triage CodeQL](../../docs/CODEQL_TRIAGE.md).
 
 
 ## Retrait du parcours autonome — 9 novembre 2026

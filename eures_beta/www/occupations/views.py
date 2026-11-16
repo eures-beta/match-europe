@@ -1,7 +1,6 @@
 """Public read-only reference search used by candidate and employer forms."""
 
 import json
-import re
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
@@ -13,6 +12,8 @@ from eures_beta.occupations.catalog import (
     suggestions,
     references,
     rome_suggestions,
+    looks_like_reference,
+    is_rome_reference,
 )
 
 
@@ -53,15 +54,9 @@ def search_api(request):
         )
     ):
         return JsonResponse({'error': 'invalid_data'}, status=400)
-    if mode == 'search' and re.fullmatch(
-        r'(?:ROME\s*[:—-]?\s*[A-Z]\d{4}|[A-Z]\d{4}|ESCO\s*[:—-]?\s*.+|\d+(?:\.\d+)+|[0-9a-f-]{36}|https?://data\.europa\.eu/esco/occupation/[0-9a-f-]{36})',
-        query.strip(),
-        re.I,
-    ):
+    if mode == 'search' and looks_like_reference(query):
         mode = 'reference'
-    independent_rome_code = independent and bool(
-        re.fullmatch(r'(?:ROME\s*[:—-]?\s*)?[A-Z]\d{4}', query.strip(), re.I)
-    )
+    independent_rome_code = independent and is_rome_reference(query)
     rows = (
         []
         if independent_rome_code
@@ -76,9 +71,7 @@ def search_api(request):
         )
     )
     rome_rows = rome_suggestions(query, context) if independent else []
-    if independent and re.fullmatch(
-        r'(?:ROME\s*[:—-]?\s*)?[A-Z]\d{4}', query.strip(), re.I
-    ):
+    if independent_rome_code:
         rows = []  # Never turn a ROME code into ESCO matches in the independent trial.
     return JsonResponse(
         {
