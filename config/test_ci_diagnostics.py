@@ -213,9 +213,23 @@ class CIDiagnosticsTests(unittest.TestCase):
             fake_python.chmod(0o700)
             marker = Path(directory) / 'unexpected'
             pattern = f"Killed|'quoted'|$(shell touch {marker})"
+            # GNU Make 4.4 also exports command-line variables to $(shell) while
+            # parsing. A future version lookup must run AFTER the unexport guard.
+            makefile = Path(directory) / 'Makefile'
+            makefile.write_text(
+                Path('Makefile')
+                .read_text()
+                .replace(
+                    '.DEFAULT_GOAL := help',
+                    '.DEFAULT_GOAL := help\nCI_PARSE_PROBE := $(shell true)',
+                    1,
+                )
+            )
             result = subprocess.run(
                 [
                     'make',
+                    '-f',
+                    str(makefile),
                     '--no-print-directory',
                     'ci-errors',
                     'RUN=123',
