@@ -1,5 +1,26 @@
 # Exécuter et sélectionner les tests
 
+## Contrôles GitHub et annulations
+
+La validation PostgreSQL et HTTP complète part du `push` sur chaque branche
+du dépôt, y compris `main`. Elle ne dépend pas du commit de fusion synthétique
+d'une PR : une branche en conflit reste donc testée.
+
+Pour une PR interne, le second événement `pull_request` ignore ces deux jobs
+(`skipped`, affichage gris) au lieu d'annuler les tests déjà en cours. Pour une
+PR venant d'un fork, cet événement exécute les tests, car son push n'est pas
+reçu dans ce dépôt. Aucun de ces événements n'annule automatiquement l'autre.
+Les vrais échecs restent visibles ; un job ignoré ne signifie pas que les tests
+ont passé. Vérifier le résultat du push correspondant au commit de la branche.
+
+Le relais de production reste inchangé : seul un `push` sur `main` ayant réussi
+les vérifications peut lui transmettre un signal. Les anciens jobs annulés
+restent dans l'historique GitHub ; ce changement évite les nouveaux doublons
+annulés, sans réécrire leurs résultats.
+
+Le contrat du workflow se vérifie avec
+`make test TESTS=tests.config.test_readiness_workflow`.
+
 ## Django et PostgreSQL
 
 Installer les dépendances avec `make install-test`. Chaque worktree possède son

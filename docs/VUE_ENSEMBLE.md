@@ -1,3 +1,10 @@
+## 16 novembre 2026 — validation GitHub sans annulations parasites
+
+TRANSVERSE : les pushes internes valident le code, les événements PR internes
+ignorent le doublon et les forks restent testés sur leur événement PR. Aucun
+résultat d'échec n'est transformé en succès ; la validation de main précédant
+le relais de production est conservée. Voir [les tests](TESTS.md).
+
 ## 13 novembre 2026 — Routes employeur explicites
 
 EMPLOYEURS : `/employer/`, `/employer/import/`, `/employer/privacy/` remplacent
