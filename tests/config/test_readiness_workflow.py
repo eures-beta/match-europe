@@ -17,9 +17,10 @@ class ReadinessWorkflowTests(unittest.TestCase):
         )
         self.assertNotIn('pull_request_target:', self.workflow)
 
-    def test_both_expensive_jobs_skip_internal_pr_events_but_accept_forks(self):
+    def test_both_jobs_skip_internal_prs_but_accept_forks_and_dispatches(self):
         condition = (
             "github.event_name == 'push' || "
+            "github.event_name == 'workflow_dispatch' || "
             'github.event.pull_request.head.repo.full_name != github.repository'
         )
         for job in ('e2e-memory', 'test'):
@@ -37,6 +38,7 @@ class ReadinessWorkflowTests(unittest.TestCase):
                 )
                 self.assertEqual(' '.join(match[1].split()), condition)
         self.assertIn('\n  pull_request:\n', self.workflow)
+        self.assertIn('\n  workflow_dispatch:\n', self.workflow)
 
     def test_a_second_event_cannot_cancel_an_existing_validation(self):
         self.assertNotIn('\nconcurrency:', self.workflow)

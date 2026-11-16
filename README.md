@@ -11,7 +11,8 @@ Le service est en cours de développement.
 
 ## Développement local
 
-Prérequis : Python 3.14 et PostgreSQL démarré, avec un rôle autorisé à créer des bases.
+Prérequis : le Python déclaré dans [`.python-version`](.python-version) et PostgreSQL
+démarré, avec un rôle autorisé à créer des bases.
 Copier `.env.example` en `.env`, puis renseigner `DJANGO_SECRET_KEY` et les
 paramètres PostgreSQL (`PGUSER`, `PGPASSWORD`, `PGDATABASE`, `PGHOST`, `PGPORT`).
 Les parcours utilisent les mêmes comptes et protections dans chaque environnement.
@@ -29,3 +30,4 @@ utiliser `make run PORT=9041` avec un port et une base propres à chaque worktre
 
 Pour aller plus loin : [guide de développement détaillé](docs/DEVELOPPEMENT.md).
 Pour les revues : [lire une description de PR avec Make](docs/PR_DESCRIPTION.md).
+La [maintenance Python](docs/PYTHON_RUNTIME.md) propose les mises à jour en PR.

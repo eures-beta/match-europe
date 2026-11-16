@@ -126,6 +126,10 @@ def run(legacy=False):
             command(
                 'docker',
                 'build',
+                '--build-arg',
+                f'PYTHON_VERSION={(ROOT / ".python-version").read_text().strip()}',
+                '--build-arg',
+                f'PYTHON_IMAGE_DIGEST={(ROOT / ".python-image-digest").read_text().strip()}',
                 '--tag',
                 image,
                 '--file',

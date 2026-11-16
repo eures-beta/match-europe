@@ -12,6 +12,24 @@ export MATCH_PR_NUMBER := $(value PR)
 pr-description: ## Lire la description GitHub : make pr-description PR=195
 	python3 -m config.pr_description
 
+# One runtime declaration, also read by Clever Cloud and setup-python.
+PYTHON_VERSION := $(shell cat .python-version)
+PYTHON_MINOR := $(word 1,$(subst ., ,$(PYTHON_VERSION))).$(word 2,$(subst ., ,$(PYTHON_VERSION)))
+PYTHON_BOOTSTRAP ?= python$(PYTHON_MINOR)
+
+.PHONY: python-update-check python-update python-runtime-test python-runtime-verify
+python-runtime-verify: ## Vérifier la version de l'interpréteur avant de créer un environnement
+	$(PYTHON_BOOTSTRAP) -m config.python_runtime --verify
+
+python-update-check: ## Chercher une version Python stable et son image Docker, sans écrire
+	python3 -m config.python_runtime
+
+python-update: ## Mettre à jour la déclaration Python et son empreinte Docker (sans commit)
+	python3 -m config.python_runtime --update
+
+python-runtime-test: ## Tester hors réseau la sélection des versions Python stables
+	python3 -m unittest tests.config.test_python_runtime
+
 # Docker limite réellement le serveur Linux ; aucun secret ni service distant.
 .PHONY: e2e-test e2e-regression
 
@@ -81,14 +99,14 @@ install-js: ## Installer la version verrouillée du formateur JavaScript
 	npm ci --ignore-scripts --no-audit --no-fund
 
 format-js: ## Formater les sources JavaScript (cible 100 colonnes, indentation 2 espaces)
-	./node_modules/.bin/prettier --write 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}'
+	./node_modules/.bin/prettier --write 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}' '.github/*.cjs'
 
 format-js-check: ## Vérifier le format JavaScript sans modifier les sources
-	./node_modules/.bin/prettier --check 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}'
+	./node_modules/.bin/prettier --check 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}' '.github/*.cjs'
 
 check-js: ## Vérifier la syntaxe de chaque source JavaScript
-	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}'
-	find eures_beta tests -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
+	./node_modules/.bin/prettier --debug-check 'eures_beta/**/*.{js,cjs,mjs}' 'tests/**/*.{js,cjs,mjs}' '.github/*.cjs'
+	find eures_beta tests .github -type f \( -name '*.js' -o -name '*.cjs' -o -name '*.mjs' \) -exec sh -c 'for file do node --check "$$file" || exit 1; done' sh {} +
 
 # Même Prettier pour les CSS autonomes ; les ressources tierces restent intactes.
 .PHONY: format-css format-css-check
@@ -103,8 +121,8 @@ format-css-check: ## Vérifier le format et la stabilité des CSS sans modifier 
 QUALITY_PYTHON ?= .venv-quality/bin/python
 
 .PHONY: install-quality format format-check
-install-quality: ## Installer Black dans un environnement dédié (Python 3.14)
-	python3.14 -m venv .venv-quality
+install-quality: python-runtime-verify ## Installer Black avec le Python déclaré dans .python-version
+	$(PYTHON_BOOTSTRAP) -m venv .venv-quality
 	.venv-quality/bin/python -m pip install -r requirements/quality.txt
 
 format: ## Formater les fichiers Python avec Black (modifie les fichiers)
@@ -170,8 +188,8 @@ help: ## Afficher les commandes et paramètres usuels
 	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z0-9_-]+:.*## / {printf "  %-16s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	@printf '\nParamètres : PYTHON, HOST, PORT, TESTS, TEST_ARGS, JS_TESTS.\n'
 
-install: ## Installer les dépendances dans .venv (Python 3.14 requis)
-	python3.14 -m venv .venv
+install: python-runtime-verify ## Installer les dépendances avec le Python déclaré dans .python-version
+	$(PYTHON_BOOTSTRAP) -m venv .venv
 	.venv/bin/python -m pip install -r requirements.txt
 
 run: ## Démarrer Django avec le .env du worktree (PORT=8000, HOST=127.0.0.1)
@@ -214,8 +232,8 @@ collectstatic: ## Collecter les statiques dans staticfiles/
 	@$(MANAGE) collectstatic --noinput
 
 .PHONY: install-test serve db-check db-create
-install-test: ## Installer les dépendances pour les tests
-	python3.14 -m venv .venv
+install-test: python-runtime-verify ## Installer les dépendances pour les tests
+	$(PYTHON_BOOTSTRAP) -m venv .venv
 	.venv/bin/python -m pip install -r requirements/test.txt
 
 serve: ## Tester le serveur WSGI sur loopback, avec un worker
