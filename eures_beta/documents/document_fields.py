@@ -3,6 +3,26 @@
 import re
 
 
+def printed_url_page(line):
+    """Recognize a printed URL ending in page digits without backtracking."""
+    if not line.startswith(('about:blank', 'http://', 'https://')):
+        return False
+    before, separator, page = line.rpartition('/')
+    return bool(separator and page.isdecimal() and before and before[-1].isdecimal())
+
+
+def commission_percentage(line):
+    # The first commission and last percent suffice; never retry a wildcard
+    # from every repeated commission in an unsuccessful line.
+    percent = line.rfind('%')
+    return percent >= 0 and bool(re.search(r'commissions?', line[:percent], re.I))
+
+
+def required_experience(line):
+    first = re.search('experience', line, re.I)
+    return bool(first and re.search(r'required|essential', line[first.end() :], re.I))
+
+
 def extract_fields(text, data, split_sections=True):
     text = text.replace('ɑ', 'a').replace('\u00a0', ' ')
     lines = []
@@ -10,8 +30,8 @@ def extract_fields(text, data, split_sections=True):
         line = re.sub(r'\s+', ' ', raw).strip(' •●▪◦\t')
         if not line or not any(c.isalnum() for c in line):
             continue
-        if re.match(r'^\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}', line) or re.match(
-            r'^(?:about:blank|https?://).*\d+/\d+$', line
+        if re.match(r'^\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}', line) or printed_url_page(
+            line
         ):
             continue
         if re.fullmatch(r'\d+/\d+|Postuler', line, re.I):
@@ -162,9 +182,7 @@ def extract_fields(text, data, split_sections=True):
             ),
             '',
         )[:1000]
-        commission = next(
-            (l for l in lines if re.search(r'commissions?.*%', l, re.I)), ''
-        )
+        commission = next((l for l in lines if commission_percentage(l)), '')
         if commission:
             clar['salary'] = (commission + ' ' + clar['salary'])[:1000]
     experience = re.findall(
@@ -206,7 +224,7 @@ def extract_fields(text, data, split_sections=True):
     profile = [
         line
         for line in lines
-        if re.search(r'\bCAP\b|diplômé|experience.*(?:required|essential)', line, re.I)
+        if re.search(r'\bCAP\b|diplômé', line, re.I) or required_experience(line)
     ]
     for i, line in enumerate(lines):
         if re.fullmatch(r'Qualifications|Profil recherché|Anforderungen', line, re.I):

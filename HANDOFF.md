@@ -53,6 +53,9 @@ N'ajouter ici que ce qui change concrètement la prochaine reprise.
 
 - Python : [maintenance hebdomadaire](docs/PYTHON_RUNTIME.md) en revue ; activation
   sur main et autorisation GitHub Actions de créer des PR à vérifier après fusion.
+- CodeQL : [triage des alertes initiales](docs/CODEQL_TRIAGE.md), corrections
+  d'extraction et protections démontrées. Vérifier le scan de la branche ; une PR
+  non fusionnée n'est pas une résolution sur `main`.
 - Migration : données existantes, relations, ContentTypes et permissions conservés,
   aller-retour testé quand applicable ; pas de réécriture d'une migration publiée.
 - Push : réception et reprise sur les téléphones ciblés à vérifier manuellement.
