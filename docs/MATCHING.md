@@ -122,7 +122,8 @@ suppressions de profil/offre entraînent celles des objets de matching associés
 
 ## Installer et essayer
 
-Un `.venv` et un `.env` propres au dossier, avec Python 3.14 et PostgreSQL.
+Un `.venv` et un `.env` propres au dossier, avec le Python déclaré dans
+[`.python-version`](../.python-version) et PostgreSQL.
 Dépendances : `make install-test`, `make install-quality`.
 Pour une instance locale séparée : `make matching-db-init`, puis
 `make matching-db-start` (loopback, port 55441). Cette instance utilise le rôle
