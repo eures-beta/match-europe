@@ -131,9 +131,44 @@ def present(row, language):
     }
 
 
+def strip_reference_prefix(value, prefixes=('ESCO', 'ROME')):
+    """Consume a known label and one optional delimiter in one forward pass."""
+    value = value.strip()
+    if value[:4].casefold() in (prefix.casefold() for prefix in prefixes):
+        value = value[4:].lstrip()
+        if value[:1] in (':', '—', '-'):
+            value = value[1:].lstrip()
+    return value
+
+
+def is_rome_reference(value):
+    return bool(
+        re.fullmatch(r'[A-Z]\d{4}', strip_reference_prefix(value, ('ROME',)), re.I)
+    )
+
+
+def looks_like_reference(value):
+    value = value.strip()
+    if is_rome_reference(value):
+        return True
+    if value[:4].casefold() == 'esco':
+        # Keep the existing ESCO label grammar, including a delimiter alone.
+        return bool(value[4:]) and '\n' not in strip_reference_prefix(value, ('ESCO',))
+    parts = value.split('.')
+    if len(parts) > 1 and all(part.isdecimal() for part in parts):
+        return True
+    return bool(
+        re.fullmatch(
+            r'(?:[0-9a-f-]{36}|https?://data\.europa\.eu/esco/occupation/[0-9a-f-]{36})',
+            value,
+            re.I,
+        )
+    )
+
+
 def references(value, language):
     """Exact local ESCO URI/UUID/code or five-character ROME fiche lookup."""
-    value = re.sub(r'^(ESCO|ROME)\s*[:—-]?\s*', '', value.strip(), flags=re.I)
+    value = strip_reference_prefix(value)
     rows = []
     for row in catalog()['occupations']:
         if value.casefold() in (
@@ -161,7 +196,7 @@ def search_title(value):
     # character cannot trigger exponential backtracking and monopolize the GIL.
     value = re.sub(r'\([mfw dhx/·, -]*\)', annotation, value, flags=re.I)
     value = re.split(
-        r'\s*[-–—|,]\s*(?=(?:CDI|CDD|full[ -]time|part[ -]time|\d+\s*h)\b)',
+        r'[-–—|,]\s*(?=(?:CDI|CDD|full[ -]time|part[ -]time|\d+\s*h)\b)',
         value,
         maxsplit=1,
         flags=re.I,
@@ -261,7 +296,7 @@ def nearby(query, language, excluded=(), context=''):
 
 def rome_suggestions(query, context=''):
     """Search French ROME names/codes directly, without the ESCO crosswalk."""
-    query = re.sub(r'^ROME\s*[:—-]?\s*', '', query.strip(), flags=re.I)
+    query = strip_reference_prefix(query, ('ROME',))
     data = rome_search_catalog()
     if re.fullmatch(r'[A-Z]\d{4}', query, re.I):
         fiche = data['fiches'].get(query.upper())

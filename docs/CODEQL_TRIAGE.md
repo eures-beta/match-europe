@@ -35,8 +35,12 @@ ne pas les retirer lors d'une réorganisation du parseur.
   [13](https://github.com/eures-beta/match-europe/security/code-scanning/13),
   [14](https://github.com/eures-beta/match-europe/security/code-scanning/14),
   [15](https://github.com/eures-beta/match-europe/security/code-scanning/15).
-  La requête API est bornée à 150 caractères. Leur simplification relève de la
-  PR distincte sur le catalogue ; ce document ne prétend pas les corriger.
+  La requête API reste bornée à 150 caractères. Le parseur partagé de préfixes,
+  codes et références remplace les regex ambiguës et les deux détections ROME
+  dupliquées. Le découpage des suffixes d'intitulés commence au séparateur,
+  sans réessayer des espaces depuis chaque position. Voir les
+  [tests](../tests/occupations/test_reference_queries.py) : grammaire, refus
+  HTTP avant chargement, séparation ESCO/ROME et grandes entrées répétitives.
 - [1](https://github.com/eures-beta/match-europe/security/code-scanning/1) : le puits
   est la propriété DOM `href` d'un lien vers une origine HTTPS OpenStreetMap fixe,
   pas un parseur HTML ; les paramètres de recherche sont encodés. L'injection de
