@@ -356,3 +356,12 @@ convertis. Voir [le parcours et la migration](CANDIDATE_EMAIL_REGISTRATION.md).
 ## 7 novembre 2026 — présentation du projet candidat ouvert
 
 Eric demande les secteurs d’activité en première lecture, à déplier pour voir les compétences, et des savoir-être plus compréhensibles. Les volets natifs par secteur remplacent le volet général des deux listes techniques. Les savoir-être ont un intitulé simple, un exemple concret et trois groupes de lecture ; les URI ESCO et les règles de saisie ne changent pas. Les formulations sont des aides éditoriales FR/EN/DE, pas de nouvelles compétences ou critères de matching.
+
+## 16 novembre 2026 — préparation PostgreSQL locale réutilisable
+
+TRANSVERSE : `make db-check` vérifie sans modification l’instance, le rôle,
+CREATEDB et l’accès/propriété de la base du worktree. `make db-create` crée cette
+base seulement si absente ; `make test` refuse de démarrer si le précontrôle échoue.
+Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
+Aucun modèle, migration, environnement distant ou parcours métier modifié.
+Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.

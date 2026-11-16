@@ -242,3 +242,12 @@ La proposition initiale avec CV est remplacée à la demande d’Eric : question
 ## 7 novembre 2026 — lisibilité du projet candidat ouvert
 
 Sur #158, préparation d’une évolution : secteurs repliables affichés d’emblée dans les listes techniques et savoir-être présentés en phrases concrètes, un par ligne. Même catalogue et mêmes choix enregistrés. Voir [le contrat du parcours](CANDIDATE_OPEN_SKILLS.md).
+
+## 16 novembre 2026 — préparation PostgreSQL locale réutilisable
+
+TRANSVERSE : `make db-check` vérifie sans modification l’instance, le rôle,
+CREATEDB et l’accès/propriété de la base du worktree. `make db-create` crée cette
+base seulement si absente ; `make test` refuse de démarrer si le précontrôle échoue.
+Configuration explicite, aucun rôle créé ni recherche d’un serveur de remplacement.
+Aucun modèle, migration, environnement distant ou parcours métier modifié.
+Voir le guide de développement. PR indépendante sur main, sans dépendance à la pile.
