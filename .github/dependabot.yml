@@ -1,5 +1,17 @@
 version: 2
 updates:
+  - package-ecosystem: docker
+    directories: ['/**/e2e']
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: Europe/Brussels
+    open-pull-requests-limit: 3
+    assignees: [dejafait]
+    ignore:
+      - dependency-name: python
+        update-types: ['version-update:semver-major', 'version-update:semver-minor']
   - package-ecosystem: pip
     directories: ['/', '/requirements']
     schedule:

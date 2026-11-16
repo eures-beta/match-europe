@@ -9,12 +9,24 @@ Les corrections de vulnérabilités dépendent des alertes et mises à jour de
 sécurité activées dans les paramètres GitHub ; elles ne sont pas limitées au
 rendez-vous hebdomadaire. Aucune fusion automatique n’est configurée.
 
+Le Dockerfile du banc E2E est également suivi, même si son dossier est déplacé.
+Dependabot peut actualiser l’image Python épinglée par digest, en conservant la
+branche mineure actuelle ; les changements majeurs/mineurs de cette image sont
+exclus pour ne pas changer uniquement le Python de test sans celui de l’application.
+
 Les PR ciblent `main` : Dependabot ne découvre pas le sommet d’une pile native.
 `target-branch` permet une cible fixe pour les mises à jour de versions, mais
 ne suit pas une pile changeante et les correctifs de sécurité ciblent la branche
 par défaut. Un suivi dynamique demanderait un contrôleur supplémentaire, non
 implémenté ici. Ne pas simplement changer la base d’une PR générée depuis main
 sans la rebaser et la retester.
+
+Black est épinglé uniquement dans `requirements/quality.txt`. `make install-quality`
+installe cette version et `make format-check` utilise cet environnement isolé.
+Ne pas dupliquer la version exacte dans `pyproject.toml` : Dependabot doit pouvoir
+mettre à jour le fichier de dépendances sans provoquer un refus de version avant
+l’analyse du formatage. Une mise à jour peut néanmoins révéler un changement de
+formatage à examiner dans sa PR.
 
 Dependabot maintient les paquets Python, pas le moteur Python lui-même. Une
 montée de Python doit actualiser ensemble `.python-version`, les workflows,
