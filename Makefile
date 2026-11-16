@@ -433,6 +433,8 @@ security-scan: ## Chercher les secrets dans l’historique Git local complet, va
 
 # Diagnostics GitHub en lecture seule ; pas de .env applicatif ni de shell imbriqué.
 # Exporter les paramètres comme données évite de les interpoler dans la recette.
+# Empêcher aussi Make de développer leur export automatique d'origine.
+unexport RUN REPO JOB PATTERN CONTEXT LINES REFRESH
 .PHONY: ci-status ci-errors
 ci-status ci-errors: export CI_RUN = $(value RUN)
 ci-status ci-errors: export CI_REPO = $(value REPO)

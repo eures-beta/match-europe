@@ -31,6 +31,8 @@ de contexte. Sortie limitée aux 200 dernières lignes correspondantes par job e
 2 000 caractères par ligne, pour garder visibles les causes de terminaison.
 `CONTEXT` accepte 0–20 et `LINES` 1–2 000. `PATTERN` est une expression régulière
 Python insensible à la casse, transmise comme donnée sans être exécutée par le shell.
+Les paramètres d'origine ne sont pas réexportés automatiquement par Make : seuls
+leurs équivalents `CI_*`, transmis littéralement, sont utilisés par le programme.
 Les séquences de contrôle du terminal sont retirées avant stockage et affichage.
 Aucune correspondance ne prouve l'absence d'erreur : essayer `PATTERN=.` ou ouvrir
 l'URL du job. Les logs peuvent être indisponibles, notamment pendant un run actif,

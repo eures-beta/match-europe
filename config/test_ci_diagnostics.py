@@ -212,9 +212,15 @@ class CIDiagnosticsTests(unittest.TestCase):
             fake_python.write_text('#!/bin/sh\nprintf "%s" "$CI_PATTERN"\n')
             fake_python.chmod(0o700)
             marker = Path(directory) / 'unexpected'
-            pattern = f"Killed|'quoted'|$(touch {marker})"
+            pattern = f"Killed|'quoted'|$(shell touch {marker})"
             result = subprocess.run(
-                ['make', '--no-print-directory', 'ci-errors', 'RUN=123'],
+                [
+                    'make',
+                    '--no-print-directory',
+                    'ci-errors',
+                    'RUN=123',
+                    f'PATTERN={pattern}',
+                ],
                 env={
                     **os.environ,
                     'PATH': f"{directory}:{os.defpath}",
