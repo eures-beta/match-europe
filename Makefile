@@ -430,3 +430,19 @@ GITLEAKS ?= gitleaks
 .PHONY: security-scan
 security-scan: ## Chercher les secrets dans l’historique Git local complet, valeurs masquées
 	$(GITLEAKS) git . --redact=100 --log-opts=--all --no-banner
+
+# Diagnostics GitHub en lecture seule ; pas de .env applicatif ni de shell imbriqué.
+# Exporter les paramètres comme données évite de les interpoler dans la recette.
+.PHONY: ci-status ci-errors
+ci-status ci-errors: export CI_RUN = $(value RUN)
+ci-status ci-errors: export CI_REPO = $(value REPO)
+ci-status ci-errors: export CI_JOB = $(value JOB)
+ci-status ci-errors: export CI_PATTERN = $(value PATTERN)
+ci-status ci-errors: export CI_CONTEXT = $(value CONTEXT)
+ci-status ci-errors: export CI_LINES = $(value LINES)
+ci-status ci-errors: export CI_REFRESH = $(value REFRESH)
+ci-status: ## Lire l'état des jobs GitHub Actions (RUN requis, REPO optionnel)
+	python3 -m config.ci_diagnostics status
+
+ci-errors: ## Lire les erreurs/arrêts CI avec cache local (RUN, JOB/PATTERN optionnels)
+	python3 -m config.ci_diagnostics errors

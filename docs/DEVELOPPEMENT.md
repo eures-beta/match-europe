@@ -94,6 +94,11 @@ les tests simulent les frontières externes et n'utilisent aucun secret réel.
 
 ## Vérifications
 
+Pour consulter GitHub Actions, utiliser `make ci-status RUN=…` puis
+`make ci-errors RUN=…`. Les erreurs de tests et causes d'arrêt sont recherchées
+dans un cache local privé, sans rechargement à chaque filtre et sans mutation
+GitHub. Voir [le diagnostic CI et ses paramètres](CI_DIAGNOSTICS.md).
+
 ```bash
 make check
 make test
