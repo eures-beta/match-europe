@@ -18,7 +18,7 @@ from django.utils.translation import override
 from django.views.decorators.http import require_POST
 
 from eures_beta.matching.confirmation_services import questions, short_question
-from .models import PreviewPushSubscription
+from .models import CandidatePushSubscription
 from .registration_views import owned_profile
 
 logger = logging.getLogger(__name__)
@@ -32,6 +32,8 @@ def available():
 def private_key():
     from cryptography.hazmat.primitives.asymmetric import ec
 
+    # Keep this historical derivation context: changing it would rotate the
+    # VAPID key and invalidate existing browser subscriptions.
     seed = hmac.digest(
         settings.SECRET_KEY.encode(), b'match-europe-preview-push-v1', hashlib.sha256
     )
@@ -110,10 +112,10 @@ def subscribe(request):
         return JsonResponse({'ok': False}, status=400)
     try:
         with transaction.atomic():
-            PreviewPushSubscription.objects.filter(endpoint=endpoint).exclude(
+            CandidatePushSubscription.objects.filter(endpoint=endpoint).exclude(
                 candidate=profile
             ).delete()
-            PreviewPushSubscription.objects.update_or_create(
+            CandidatePushSubscription.objects.update_or_create(
                 candidate=profile,
                 defaults={
                     'endpoint': endpoint,
@@ -146,7 +148,7 @@ def notification_payload(confirmation):
 
 
 def notify(confirmation):
-    subscription = PreviewPushSubscription.objects.filter(
+    subscription = CandidatePushSubscription.objects.filter(
         candidate=confirmation.pair.candidate
     ).first()
     if not subscription or not valid_endpoint(subscription.endpoint):
@@ -173,9 +175,9 @@ def notify(confirmation):
     except WebPushException as exc:
         status = exc.response.status_code if exc.response is not None else None
         if status in (404, 410):
-            PreviewPushSubscription.objects.filter(
+            CandidatePushSubscription.objects.filter(
                 pk=subscription.pk, endpoint=subscription.endpoint
             ).delete()
-        logger.warning('Preview candidate push failed (status=%s).', status)
+        logger.warning('Candidate push failed (status=%s).', status)
     except (requests.RequestException, ValueError):
-        logger.warning('Preview candidate push could not be sent.')
+        logger.warning('Candidate push could not be sent.')

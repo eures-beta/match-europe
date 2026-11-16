@@ -5,6 +5,47 @@ from django.test import TransactionTestCase
 
 
 class CandidateProfileMigrationTests(TransactionTestCase):
+    def test_push_subscription_rename_preserves_data_and_can_be_reversed(self):
+        before = ('candidates', '0007_previewpushsubscription')
+        after = ('candidates', '0008_rename_candidate_push_subscription')
+        apps = self.migrate(before)
+        user = apps.get_model('users', 'User').objects.create(
+            email='push-rename@example.invalid', kind='candidate', password='!'
+        )
+        profile = apps.get_model('candidates', 'CandidateProfile').objects.create(
+            user_id=user.pk, display_name='Fictional candidate'
+        )
+        subscription = apps.get_model(
+            'candidates', 'PreviewPushSubscription'
+        ).objects.create(
+            candidate_id=profile.pk,
+            endpoint='https://web.push.apple.com/fictional-subscription',
+            keys={'p256dh': 'fictional-public-key', 'auth': 'fictional-auth'},
+        )
+        original = {
+            'id': subscription.pk,
+            'candidate_id': profile.pk,
+            'endpoint': subscription.endpoint,
+            'keys': subscription.keys,
+        }
+        apps = self.migrate(after)
+        self.assertEqual(
+            apps.get_model('candidates', 'CandidatePushSubscription')
+            .objects.values()
+            .get(pk=subscription.pk),
+            original,
+        )
+        self.assertNotIn(
+            'candidates_previewpushsubscription', connection.introspection.table_names()
+        )
+        apps = self.migrate(before)
+        self.assertEqual(
+            apps.get_model('candidates', 'PreviewPushSubscription')
+            .objects.values()
+            .get(pk=subscription.pk),
+            original,
+        )
+
     def test_occupation_skill_upgrade_preserves_existing_answers(self):
         apps = self.migrate(
             ('candidates', '0005_candidateprofile_acquired_skills_and_more')
