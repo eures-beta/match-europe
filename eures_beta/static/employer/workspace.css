@@ -1,0 +1,278 @@
+.offer-workspace {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+.offer-workspace h1 {
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.offer-workspace .offer-list {
+  padding: 0;
+  list-style: none;
+}
+
+.offer-workspace .offer-list > li {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.offer-workspace .offer-list h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+
+.offer-workspace .offer-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+
+.offer-workspace .offer-actions form {
+  margin: 0;
+}
+
+.offer-workspace .offer-field {
+  margin: 20px 0;
+}
+
+.offer-workspace label,
+.offer-workspace legend {
+  font-weight: 700;
+}
+
+.offer-workspace input:not([type='checkbox']),
+.offer-workspace textarea,
+.offer-workspace select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 10px;
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.offer-workspace input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin: 8px;
+}
+
+.offer-workspace fieldset {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 24px 0;
+  min-width: 0;
+}
+
+.offer-workspace dt {
+  font-weight: 700;
+  margin-top: 18px;
+}
+
+.offer-workspace dd {
+  margin: 4px 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.offer-workspace .errorlist {
+  color: #8b1a1a;
+}
+
+.offer-workspace :focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.offer-workspace .offer-status {
+  padding: 12px;
+  background: #eaf2fc;
+  border-left: 4px solid var(--accent);
+}
+
+.offer-workspace .workspace-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.offer-workspace .workspace-heading h1 {
+  margin: 0 0 8px;
+}
+
+.workspace-heading > .primary-action {
+  flex-shrink: 0;
+}
+
+.workspace-establishment {
+  margin: 0;
+  color: var(--muted);
+}
+
+.workspace-account {
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 20px;
+  margin-bottom: 28px;
+}
+
+.workspace-account summary {
+  cursor: pointer;
+  color: var(--accent);
+  min-height: 32px;
+  display: list-item;
+  font-size: 15px;
+}
+
+.workspace-account > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+.workspace-account p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.workspace-account form {
+  margin: 0;
+}
+
+.offer-workspace #offers-heading {
+  font-size: 24px;
+  margin: 24px 0 8px;
+}
+
+.offer-table-scroll {
+  position: relative;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 20px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.offer-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 15px;
+  text-align: left;
+}
+
+.offer-table th,
+.offer-table td {
+  padding: 16px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.offer-table thead {
+  background: #eef4fc;
+}
+
+.offer-table thead th {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.offer-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.offer-table tbody tr:hover {
+  background: #f7faff;
+}
+
+.offer-table tbody th {
+  min-width: 200px;
+  max-width: 340px;
+}
+
+.offer-table a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.offer-location {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.offer-state {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: #eef4fc;
+  color: #17324d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.offer-state-started {
+  background: #fff0bd;
+}
+
+.offer-table time {
+  display: block;
+  min-width: 115px;
+  color: var(--muted);
+}
+
+.offer-view {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+.offer-empty,
+.offer-attachment {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f7faff;
+  margin: 20px 0;
+}
+
+.offer-workspace .offer-attachment h2 {
+  margin-top: 0;
+}
+
+.offer-workspace .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 600px) {
+  .offer-workspace .workspace-heading {
+    align-items: flex-start;
+  }
+
+  .offer-table th,
+  .offer-table td {
+    padding: 12px;
+  }
+
+  .offer-workspace .workspace-heading > .primary-action {
+    width: auto;
+  }
+}

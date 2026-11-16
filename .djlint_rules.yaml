@@ -1,0 +1,7 @@
+- rule:
+    name: C901
+    skip_in_attributes: true
+    message: Move this style block to a static CSS file and load it with the static tag.
+    flags: re.I
+    patterns:
+      - '<style\b'

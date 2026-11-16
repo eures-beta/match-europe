@@ -24,6 +24,11 @@ Les contrats des nouveaux outils sont dans
 
 Voir [le guide des commandes et sélections](../docs/TESTS.md).
 
+`common/test_template_styles.py` vérifie le vrai linter CSS des templates avec
+l'environnement qualité dans `make format-html-check` ; ce contrôle est obligatoire
+en CI templates, sans dépendance djLint dans l'application. `common/test_stylesheet_loading.py`
+vérifie la découverte des feuilles statiques et leur ordre dans les pages publiques.
+
 `common/test_workspace_routes.py` vérifie les adresses canoniques des espaces,
 les deux interfaces matching et les redirections de compatibilité sans perte de POST.
 

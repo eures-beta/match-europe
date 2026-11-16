@@ -24,5 +24,7 @@ ces feuilles à chaque push et pull request.
 
 Les ressources tierces sous `eures_beta/static/vendor/`, notamment Bootstrap
 minifié, sont exclues dans `.prettierignore` et restent distribuées telles quelles.
-Les blocs `<style>` des templates Django restent traités par djLint ; sa commande
-ne couvre pas les fichiers CSS autonomes. Aucun outil supplémentaire n'est ajouté.
+Les templates web ne doivent pas embarquer de CSS. djLint vérifie cette règle
+dans `make format-html-check` ; les exceptions limitées, dont les e-mails HTML,
+restent documentées dans [la politique HTML/CSS](HTML_CSS.md).
+Aucun formateur supplémentaire n'est ajouté.

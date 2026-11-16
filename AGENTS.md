@@ -43,7 +43,17 @@
 - Pour les CSS autonomes, utiliser le même Prettier avec `make format-css` et
   `make format-css-check`. Garder une déclaration par ligne ; ne pas compacter
   les règles à la main. Les ressources tierces sous `eures_beta/static/vendor/`
-  sont exclues. djLint reste chargé des blocs `<style>` dans les templates.
+  sont exclues. Les templates web ne doivent contenir ni bloc `<style>` ni
+  attribut `style` : charger les feuilles CSS avec `{% static %}`. Réutiliser
+  Bootstrap, les composants et les tokens du design system avant d'ajouter des
+  règles propres à un parcours. Partager les règles communes plutôt que créer
+  un fichier par template ou dupliquer des blocs.
+- `make format-html-check` bloque le CSS embarqué avec djLint (H021 et C901).
+  Les exceptions sont explicites et limitées : e-mails HTML pour compatibilité
+  des clients, et attributs dynamiques du catalogue `design_system.html` pour
+  présenter les tokens. Le catalogue ne peut pas ajouter de bloc `<style>`.
+  Ne pas ajouter une exemption de page métier ou un commentaire `djlint:off`
+  pour contourner cette règle. Voir [la séparation HTML/CSS](docs/HTML_CSS.md).
 - Utiliser les cibles existantes directement : `make test` pour la suite complète,
   `make test TEST_ARGS='-k employer -k occupation'` pour filtrer les tests
   employeurs et métiers, `make check`

@@ -1,0 +1,131 @@
+.employer-partner-logos {
+  display: grid;
+  grid-template-columns: 1.5fr 1.4fr 1fr 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  margin-bottom: 24px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.employer-partner-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 8px;
+}
+
+.employer-partner-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.employer-partner-forem img {
+  max-width: 110px;
+}
+
+@media (max-width: 700px) {
+  .employer-partner-logos {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+    padding: 16px;
+  }
+
+  .employer-partner-eures img {
+    max-width: 210px;
+  }
+
+  .employer-partner-ft img {
+    max-width: 190px;
+  }
+
+  .employer-partner-adem img {
+    max-width: 112px;
+  }
+
+  .employer-partner-forem img {
+    max-width: 110px;
+  }
+}
+
+.employer-page-footer {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  padding: 24px 0 32px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.employer-page-footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.employer-page-footer-inner > p {
+  max-width: 100%;
+  text-wrap: balance;
+}
+
+.employer-page-legal {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.employer-page-footer p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.employer-page-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.employer-page-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.employer-page-footer a:hover {
+  color: var(--text);
+}
+
+.employer-page-footer a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .employer-page-footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.primary-action:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.skip-content {
+  position: absolute;
+  left: -10000px;
+}
+
+.skip-content:focus {
+  left: 12px;
+  top: 12px;
+  background: white;
+  padding: 12px;
+  z-index: 100;
+}
