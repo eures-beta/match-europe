@@ -1,3 +1,13 @@
+## 16 novembre 2026 — maintenance de sécurité
+
+TRANSVERSE : configuration Dependabot hebdomadaire pour les paquets Python,
+npm et GitHub Actions, regroupement des mises à jour ordinaires et revue humaine.
+La cible reste main ; pas de contrôleur automatique de pile ni de fusion automatique.
+`make security-scan` expose Gitleaks sur l’historique local avec valeurs masquées.
+Voir [le périmètre, les limites et la gestion des secrets](docs/SECURITY_MAINTENANCE.md).
+CodeQL reste à expliquer et valider avant activation. Aucun modèle, migration,
+compte, parcours ou configuration d’exécution n’est modifié par cette PR.
+
 ## 13 novembre 2026 — application dédiée aux invitations
 
 TRANSVERSE / CONSEILLERS : le domaine invitations quitte users pour
