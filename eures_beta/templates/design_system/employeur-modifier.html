@@ -1,0 +1,204 @@
+{% extends "design_system/employeur_base.html" %}
+{% block content %}
+  <nav aria-label="Fil d’Ariane">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">Mes offres</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="#">Soudeur ou soudeuse TIG</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Modifier</li>
+    </ol>
+  </nav>
+  <h1 class="mb-1">Modifier l’offre</h1>
+  <p class="ds-meta">Métallerie du Nord</p>
+  <div class="alert alert-info" role="note">
+    L’enregistrement ne publie pas l’offre et ne lance aucune recherche de candidats.
+  </div>
+  <form class="ds-card" novalidate>
+    <h2 class="h4">Le poste</h2>
+    <div class="mb-3">
+      <label class="form-label" for="ex-title">Intitulé du poste</label>
+      <input class="form-control"
+             id="ex-title"
+             type="text"
+             value="Soudeur ou soudeuse TIG">
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <label class="form-label" for="ex-company">Entreprise</label>
+        <input class="form-control"
+               id="ex-company"
+               type="text"
+               aria-describedby="ex-company-help">
+        <div class="form-text"
+             id="ex-company-help">Modifier ce texte ne change ni l’établissement ni les droits d’accès.</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-place">Lieu de travail</label>
+        <input class="form-control" id="ex-place" type="text">
+      </div>
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <label class="form-label" for="ex-contract">Contrat</label>
+        <select class="form-select" id="ex-contract">
+          <option>Choisir une réponse</option>
+          <option>CDI</option>
+          <option>CDD</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-start">Date de prise de poste</label>
+        <input class="form-control" id="ex-start" type="text">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="ex-description">Description du poste</label>
+      <textarea class="form-control"
+                id="ex-description"
+                rows="5">Assemblage et soudure TIG de pièces inox pour l’industrie agroalimentaire.</textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="ex-skills">Compétences et expérience recherchées</label>
+      <textarea class="form-control" id="ex-skills" rows="3"></textarea>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="ex-salary">Salaire</label>
+        <input class="form-control" id="ex-salary" type="text">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-hours">Temps et horaires de travail</label>
+        <input class="form-control" id="ex-hours" type="text">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-languages">Langues et niveaux</label>
+        <input class="form-control" id="ex-languages" type="text">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-experience">Expérience</label>
+        <input class="form-control" id="ex-experience" type="text">
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="ex-access">Accès au lieu de travail</label>
+        <input class="form-control" id="ex-access" type="text">
+      </div>
+    </div>
+    <div class="ds-form-section">
+      <h2 class="h4">Conditions et autorisations</h2>
+      <fieldset class="mb-4">
+        <legend class="form-label fs-6">Conditions de travail</legend>
+        <div class="ds-check-grid">
+          {% for label in conditions %}
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="checkbox"
+                     id="ex-condition-{{ forloop.counter }}">
+              <label class="form-check-label" for="ex-condition-{{ forloop.counter }}">{{ label }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+      <div class="mb-3 col-md-6">
+        <label class="form-label" for="ex-licence-needed">Un permis ou une autorisation est-il nécessaire ?</label>
+        <select class="form-select" id="ex-licence-needed">
+          <option>Choisir une réponse</option>
+          <option>Oui</option>
+          <option>Non</option>
+        </select>
+      </div>
+      <fieldset class="mb-3">
+        <legend class="form-label fs-6">Permis et autorisations</legend>
+        <div class="ds-check-grid">
+          {% for label in licences %}
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="checkbox"
+                     id="ex-licence-{{ forloop.counter }}">
+              <label class="form-check-label" for="ex-licence-{{ forloop.counter }}">{{ label }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-licence-other">Autre autorisation</label>
+        <input class="form-control" id="ex-licence-other" type="text">
+      </div>
+    </div>
+    <div class="ds-form-section">
+      <h2 class="h4">Mobilité des candidats</h2>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label"
+                 for="ex-cross-border">Acceptez-vous les candidats qui continuent à résider dans un pays voisin ?</label>
+          <select class="form-select" id="ex-cross-border">
+            <option>Choisir une réponse</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label"
+                 for="ex-relocation">Acceptez-vous les candidats qui déménagent depuis un autre pays pour ce poste ?</label>
+          <select class="form-select" id="ex-relocation">
+            <option>Choisir une réponse</option>
+          </select>
+        </div>
+      </div>
+      <fieldset class="mb-3">
+        <legend class="form-label fs-6">Aides à l’arrivée</legend>
+        <div class="ds-check-grid">
+          {% for label in arrival_help %}
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="checkbox"
+                     id="ex-help-{{ forloop.counter }}">
+              <label class="form-check-label" for="ex-help-{{ forloop.counter }}">{{ label }}</label>
+            </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+      <div class="col-md-6">
+        <label class="form-label" for="ex-help-other">Autre aide à l’arrivée</label>
+        <input class="form-control" id="ex-help-other" type="text">
+      </div>
+    </div>
+    <div class="ds-form-section">
+      <h2 class="h4">Compétences par métier</h2>
+      <p class="ds-meta">
+        Sélectionnez un métier ESCO ci-dessus pour voir ses compétences. Choisissez au maximum cinq compétences et trois
+        savoir-être par métier ; rien n’est présélectionné. ROME et les intitulés personnels restent indépendants. Une
+        case non cochée signifie que cet élément n’a pas été retenu ou déclaré, pas qu’il est absent.
+      </p>
+    </div>
+    <div class="ds-form-section">
+      <h2 class="h4">Contact pour le conseiller</h2>
+      <p class="ds-meta">Ce contact peut être différent de la personne connectée.</p>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="ex-contact-name">Nom et prénom du contact</label>
+          <input class="form-control" id="ex-contact-name" type="text">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="ex-contact-email">E-mail du contact</label>
+          <input class="form-control"
+                 id="ex-contact-email"
+                 type="email"
+                 value="rh@metallerie-du-nord.example">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="ex-contact-phone">Téléphone (facultatif)</label>
+          <input class="form-control" id="ex-contact-phone" type="tel">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="ex-contact-role">Fonction dans l’entreprise (facultative)</label>
+          <input class="form-control" id="ex-contact-role" type="text">
+        </div>
+      </div>
+    </div>
+    <div class="ds-sticky-actions">
+      <button type="button" class="btn btn-primary">Enregistrer les modifications</button>
+      <a class="btn btn-outline-primary" href="#">Annuler</a>
+    </div>
+  </form>
+{% endblock %}

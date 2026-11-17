@@ -89,6 +89,13 @@ def design_system_example(request, screen='offre'):
         'connexion': 'Connexion',
         'candidat': 'Candidat · questionnaire',
         'conseiller': 'Conseiller · offres à valider',
+        # Real employer pages redressed: same content and structure, fictional data.
+        'employeur-accueil': 'Employeur · accueil',
+        'employeur-tableau-de-bord': 'Employeur · tableau de bord',
+        'employeur-offres': 'Employeur · espace et offres',
+        'employeur-ajout': 'Employeur · ajouter une offre',
+        'employeur-offre': 'Employeur · détail d’une offre',
+        'employeur-modifier': 'Employeur · modifier une offre',
     }
     if screen not in screens:
         raise Http404()
@@ -99,6 +106,31 @@ def design_system_example(request, screen='offre'):
             'screens': screens.items(),
             'screen': screen,
             'screen_label': screens[screen],
+            'connected': screen != 'employeur-accueil',
+            'conditions': [
+                'Tôt le matin',
+                'Travail de nuit',
+                'Week-end',
+                'Horaires variables',
+                'Travail posté',
+                'Travail physique',
+                'Station debout prolongée',
+                'Horaires avec coupure',
+                'Travail en extérieur',
+                'Déplacements fréquents',
+                'Aucune',
+                'À discuter',
+            ],
+            'licences': ['B', 'C', 'CE', 'D', 'DE', 'CACES', 'Autre'],
+            'arrival_help': [
+                'Logement',
+                'Démarches administratives',
+                'Transport',
+                'Accompagnement à la prise de poste',
+                'Autre',
+                'Aucune',
+                'À discuter',
+            ],
         },
     )
 
