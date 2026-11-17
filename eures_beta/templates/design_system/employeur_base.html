@@ -1,0 +1,71 @@
+{% extends "design_system/example_base.html" %}
+{% load static %}
+{% comment %}
+  Real employer pages redressed with the design system: same content and structure as production,
+  fictional data. Each screen sets `connected` to show the account links.
+{% endcomment %}
+{% block header %}
+  {% block site_notice %}
+    <div class="ds-site-notice" role="note">
+      <div class="container">
+        <p class="fw-bold mb-1">Version en cours de développement</p>
+        <p class="mb-0">
+          Vos offres sont enregistrées. Le rapprochement avec des candidats n’est pas encore disponible et le sera
+          prochainement. Un bug, une difficulté ou une idée d’amélioration ? <a href="#">Écrivez-nous</a>.
+        </p>
+      </div>
+    </div>
+  {% endblock %}
+  <header class="ds-site-header">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <a class="ds-brand" href="#">
+          <img src="{% static 'employer/assets/match-europe-logo.png' %}"
+               alt=""
+               width="48"
+               height="48">
+          <span>
+            <span class="ds-brand-name">Match Europe</span>
+            <span class="ds-brand-tagline">EURES beta · mobilité, matching et accompagnement transfrontalier</span>
+          </span>
+        </a>
+        <div class="d-flex flex-wrap align-items-center gap-3">
+          <nav class="ds-lang" aria-label="Langue">
+            <a href="#" aria-current="true" lang="fr">FR</a>
+            <a href="#" lang="en">EN</a>
+            <a href="#" lang="de">DE</a>
+          </nav>
+          {% if connected %}
+            <nav class="d-flex flex-wrap gap-2" aria-label="Compte">
+              <a class="btn btn-outline-primary btn-sm" href="#">Tableau de bord</a>
+              <a class="btn btn-outline-primary btn-sm" href="#">Mon compte</a>
+              <a class="btn btn-link btn-sm" href="#">Me déconnecter</a>
+            </nav>
+          {% else %}
+            <a class="btn btn-outline-primary btn-sm" href="#">Me connecter</a>
+          {% endif %}
+        </div>
+      </div>
+      <nav class="ds-site-nav" aria-label="Navigation principale">
+        <a href="#">Accueil</a>
+        <a href="#">Candidat</a>
+        <a href="#" aria-current="page">Employeur</a>
+        <a href="#">Statistiques</a>
+        <a href="#">Le projet</a>
+        <a href="#">Journal du projet</a>
+      </nav>
+    </div>
+  </header>
+{% endblock %}
+{% block footer %}
+  <footer class="ds-site-footer">
+    <div class="container">
+      <p>Match Europe · Une expérimentation France Travail / EURES / ADEM / Le Forem / ELA</p>
+      <nav class="d-flex flex-wrap gap-4" aria-label="Pied de page">
+        <a href="#">Le projet</a>
+        <a href="#">Journal du projet</a>
+        <a href="#">Protection des données</a>
+      </nav>
+    </div>
+  </footer>
+{% endblock %}

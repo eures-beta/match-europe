@@ -30,16 +30,19 @@
         </nav>
       </div>
     </div>
-    <header class="ds-app-header">
-      <div class="container d-flex flex-wrap align-items-center justify-content-between">
-        <span class="ds-app-name">Match Europe</span>
-        <nav aria-label="Compte">
-          {% block header_nav %}{% endblock %}
-        </nav>
-      </div>
-    </header>
+    {% block header %}
+      <header class="ds-app-header">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between">
+          <span class="ds-app-name">Match Europe</span>
+          <nav aria-label="Compte">
+            {% block header_nav %}{% endblock %}
+          </nav>
+        </div>
+      </header>
+    {% endblock %}
     <main class="container ds-page">
       {% block content %}{% endblock %}
     </main>
+    {% block footer %}{% endblock %}
   </body>
 </html>

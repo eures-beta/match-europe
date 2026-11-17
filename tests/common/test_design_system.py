@@ -100,6 +100,12 @@ class DesignSystemPageTests(TestCase):
         '/design-system/exemple/connexion/',
         '/design-system/exemple/candidat/',
         '/design-system/exemple/conseiller/',
+        '/design-system/exemple/employeur-accueil/',
+        '/design-system/exemple/employeur-tableau-de-bord/',
+        '/design-system/exemple/employeur-offres/',
+        '/design-system/exemple/employeur-ajout/',
+        '/design-system/exemple/employeur-offre/',
+        '/design-system/exemple/employeur-modifier/',
     )
 
     @classmethod
