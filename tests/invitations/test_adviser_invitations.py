@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from time import time
@@ -41,6 +41,32 @@ class AdviserInvitationsTests(TestCase):
         history = self.client.get(dashboard, {'tab': 'invite', 'view': 'history'})
         self.assertContains(history, 'id="history-title"')
         self.assertNotContains(history, 'id="compose-title"')
+
+    def test_history_distinguishes_initial_email_and_last_reminder(self):
+        initial = datetime(2026, 1, 10, 8, 17, tzinfo=UTC)
+        reminder = datetime(2026, 1, 12, 10, 23, tzinfo=UTC)
+        Invitation.objects.create(
+            email='reminded@example.invalid',
+            sender=self.adviser,
+            email_sent_at=initial,
+            reminder_sent_at=reminder,
+        )
+        Invitation.objects.create(
+            email='unreminded@example.invalid',
+            sender=self.adviser,
+            email_sent_at=initial,
+        )
+        dashboard = reverse('dashboard')
+        with timezone.override(UTC):
+            history = self.client.get(
+                dashboard, {'tab': 'invite', 'view': 'history', 'lang': 'fr'}
+            )
+        self.assertContains(history, '<th scope="col">Envoi initial</th>', html=True)
+        self.assertContains(history, '<th scope="col">Dernière relance</th>', html=True)
+        self.assertContains(
+            history, '<td>10/01/2026 08:17</td> <td>12/01/2026 10:23</td>', html=True
+        )
+        self.assertContains(history, '<td>10/01/2026 08:17</td> <td>—</td>', html=True)
 
     def preview(self, recipient_kind, email='person@example.invalid'):
         return self.client.post(
