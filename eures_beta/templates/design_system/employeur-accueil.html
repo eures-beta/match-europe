@@ -1,0 +1,56 @@
+{% extends "design_system/employeur_base.html" %}
+{% block content %}
+  {% include "design_system/partenaires.html" %}
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <p class="ds-eyebrow">Parcours employeur</p>
+      <h1>Recruter dans un autre pays</h1>
+      <p class="lead">
+        Décrivez votre besoin de recrutement. Match Europe identifie les profils qui correspondent à votre recherche.
+      </p>
+      <a class="btn btn-primary btn-lg" href="#">Décrire mon besoin de recrutement</a>
+      <p class="ds-meta mt-2">Importez votre offre en PDF, ajoutez le lien de votre annonce ou saisissez votre besoin.</p>
+      <section class="ds-card mt-5" aria-labelledby="ex-verify">
+        <h2 class="h4" id="ex-verify">Vérifiez les informations de votre offre</h2>
+        <p>
+          Relisez les informations extraites, corrigez-les et complétez les éléments manquants : métier, langues et
+          conditions de travail.
+        </p>
+        <p>Préparez vos questions aux candidats, puis enregistrez votre offre.</p>
+        <p>
+          Choisissez les questions qui permettront de préqualifier les candidatures selon les exigences du poste :
+          disponibilité, expérience, langues ou horaires, par exemple. Les candidats intéressés y répondront avant la
+          mise en relation. Leurs réponses vous aideront à identifier les candidatures à poursuivre et à écarter celles
+          qui ne répondent pas aux exigences du poste. Aucun candidat n’est écarté automatiquement sur la seule base de
+          ses réponses.
+        </p>
+        <div class="alert alert-warning mb-0" role="note">
+          <strong>Le service est en construction.</strong> Enregistrer votre offre ne lance pas de matching. Le matching
+          et les mises en relation ne sont pas encore disponibles.
+        </div>
+      </section>
+      <p class="h5 mt-4">Des correspondances pertinentes. Des mises en relation consenties.</p>
+    </div>
+    <div class="col-lg-4">
+      <aside class="ds-card mb-4" aria-labelledby="ex-next">
+        <h2 class="h5" id="ex-next">Ce qui se passe ensuite</h2>
+        <ol class="ds-steps mb-0">
+          <li>Ajoutez votre offre au format PDF, par lien ou par saisie manuelle.</li>
+          <li>Vérifiez les informations reprises et répondez aux éventuelles questions complémentaires.</li>
+          <li>Préparez vos questions pour les candidats et enregistrez votre offre.</li>
+          <li class="ds-step-later">
+            <span class="ds-status mb-1">Prochainement</span>
+            <br>
+            Le rapprochement avec des candidats. Aucun rapprochement n’est effectué à ce stade.
+          </li>
+        </ol>
+      </aside>
+      <aside class="ds-card ds-card-brand" aria-labelledby="ex-control">
+        <h2 class="h5" id="ex-control">Vous gardez la main</h2>
+        <p class="mb-0">
+          Une correspondance reste une suggestion. Une mise en relation nécessite votre accord et celui du candidat.
+        </p>
+      </aside>
+    </div>
+  </div>
+{% endblock %}

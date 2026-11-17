@@ -66,7 +66,10 @@ texte, couleurs et statuts ECL, composants) et y ajoute la personnalité de Matc
 en serif (Gelasio), arrondis moyens, ombres discrètes et fond de page bleu très pâle.
 
 Les cinq écrans fictifs de `/design-system/exemple/` montrent le rendu (offre, liste des offres,
-connexion, questionnaire candidat, tableau conseiller). Un nouvel écran s’en inspire.
+connexion, questionnaire candidat, tableau conseiller). Six écrans `employeur-…` reprennent les vraies
+pages du parcours employeur (accueil, tableau de bord, offres, ajout, détail et modification d’une
+offre) avec le même contenu et la même structure, habillés par le design system et remplis de
+données fictives. Un nouvel écran s’en inspire.
 
 ## Tokens
 
