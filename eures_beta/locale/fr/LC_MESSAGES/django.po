@@ -7666,3 +7666,9 @@ msgstr "Les notifications sont activées. Vous pouvez fermer l’application."
 
 msgid "Open the installed app and allow notifications, then try again."
 msgstr "Ouvrez l’application installée et autorisez les notifications, puis réessayez."
+
+msgid "Initial email"
+msgstr "Envoi initial"
+
+msgid "Last reminder"
+msgstr "Dernière relance"

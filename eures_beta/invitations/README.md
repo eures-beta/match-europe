@@ -7,7 +7,7 @@ L’interface HTTP est dans [www/invitations/](../www/invitations/).
 
 - `models.py`, `defaults.py` : invitation, destinataire, dates et expiration ;
 - `services.py` : création, signature des liens, validation et quota ;
-- [Interface web](../www/invitations/) : préparation manuelle/CSV, aperçu, envoi, suivi, relances et acceptation protégée ;
+- [Interface web](../www/invitations/) : préparation manuelle/CSV, aperçu, envoi, suivi avec dates d’envoi initial et de dernière relance, et acceptation protégée ;
 - `permissions.py`, `signals.py`, `eligibility.py` : rôle conseiller actif,
   droits historiques et reconnaissance des candidats invités ;
 - `templates/invitations/`, `static/invitations/` : pages, e-mails et styles ;

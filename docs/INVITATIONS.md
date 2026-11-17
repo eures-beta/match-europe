@@ -38,8 +38,9 @@ destinataires, tous du même type. Les erreurs de saisie sont affichées avant
 tout envoi, et les conflits détectés à l’envoi sont signalés par destinataire.
 
 Le suivi affiche les invitations en attente d’envoi, sans réponse, expirées
-ou acceptées. Une relance confirmée renouvelle le lien pour sept jours et
-révoque le précédent. Les nouveaux envois et les relances partagent le
+ou acceptées. Le tableau indique séparément la date et l’heure de l’envoi initial et
+de la dernière relance. Un tiret signale une date absente. Une relance confirmée
+renouvelle le lien pour sept jours et révoque le précédent. Les nouveaux envois et les relances partagent le
 quota existant de dix opérations par conseiller et par heure.
 La suppression révoque le lien d’une invitation non acceptée. L’invitation
 d’un conseiller est ouverte à tous les conseillers connectés et actifs
