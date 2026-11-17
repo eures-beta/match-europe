@@ -214,3 +214,251 @@
   background: var(--me-color-surface-subtle);
   border-radius: var(--me-radius-m);
 }
+
+/* Employer screens redressed (/design-system/exemple/employeur-…/): real chrome of the site */
+.ds-site-notice {
+  padding-block: var(--me-space-s);
+  font-size: var(--me-font-size-s);
+  text-align: center;
+  background: var(--me-color-warning-surface);
+  border-bottom: var(--me-border-width) solid var(--me-color-warning);
+}
+.ds-site-header {
+  padding-top: var(--me-space-m);
+  background: var(--me-color-surface);
+  border-bottom: var(--me-border-width) solid var(--me-color-border);
+}
+.ds-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+}
+.ds-brand img {
+  border-radius: var(--me-radius-l);
+}
+.ds-brand-name {
+  display: block;
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-l);
+  font-weight: var(--me-font-weight-bold);
+  line-height: var(--me-line-height-l);
+}
+.ds-brand-tagline {
+  display: block;
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+.ds-lang {
+  display: flex;
+  gap: var(--me-space-2xs);
+}
+.ds-lang a {
+  padding: var(--me-space-2xs) var(--me-space-xs);
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-link);
+  border-radius: var(--me-radius-s);
+}
+.ds-lang [aria-current='true'] {
+  color: var(--me-color-text-inverse);
+  font-weight: var(--me-font-weight-bold);
+  text-decoration: none;
+  background: var(--me-color-action);
+}
+/* Main navigation: underlined tabs instead of pills */
+.ds-site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--me-space-l);
+  margin-top: var(--me-space-m);
+}
+.ds-site-nav a {
+  padding-block: var(--me-space-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+  border-bottom: var(--me-border-width-strong) solid transparent;
+}
+.ds-site-nav a:hover {
+  color: var(--me-color-link);
+  border-bottom-color: var(--me-color-border-strong);
+}
+.ds-site-nav [aria-current='page'] {
+  color: var(--me-color-action);
+  font-weight: var(--me-font-weight-bold);
+  border-bottom-color: var(--me-color-action);
+}
+.ds-site-footer {
+  padding-block: var(--me-space-xl);
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text-muted);
+  background: var(--me-color-surface);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+.ds-site-footer a {
+  color: var(--me-color-text-muted);
+}
+/* Partner logos: proportions taken from the production page, each file has its own margins */
+.ds-partners {
+  display: grid;
+  grid-template-columns: 1.5fr 1.4fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: var(--me-space-l);
+  padding: var(--me-space-m);
+  margin-bottom: var(--me-space-xl);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+}
+.ds-partners img {
+  width: 100%;
+  height: auto;
+}
+.ds-partners .ds-partner-wordmark {
+  max-width: 7rem;
+}
+@media (max-width: 700px) {
+  .ds-partners {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.ds-eyebrow {
+  margin-bottom: var(--me-space-xs);
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+}
+/* Numbered steps with the number in a circle */
+.ds-steps {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  counter-reset: ds-step;
+}
+.ds-steps li {
+  position: relative;
+  padding-left: var(--me-space-2xl);
+  margin-bottom: var(--me-space-m);
+  counter-increment: ds-step;
+}
+.ds-steps li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--me-space-l);
+  height: var(--me-space-l);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-text-inverse);
+  content: counter(ds-step);
+  background: var(--me-color-action);
+  border-radius: var(--me-radius-round);
+}
+.ds-steps .ds-step-later::before {
+  color: var(--me-color-text);
+  background: var(--me-color-surface-subtle);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+}
+/* Progress through a journey: current step bold, done steps linked */
+.ds-progress-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs) var(--me-space-l);
+  padding: 0;
+  margin-bottom: var(--me-space-l);
+  list-style: none;
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text-muted);
+}
+.ds-progress-steps [aria-current='step'] {
+  color: var(--me-color-action);
+  font-weight: var(--me-font-weight-bold);
+}
+/* One big clickable choice */
+.ds-choice {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-m);
+  padding: var(--me-space-m);
+  margin-bottom: var(--me-space-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-card);
+}
+.ds-choice:hover {
+  background: var(--me-color-surface-brand);
+  border-color: var(--me-color-action);
+}
+.ds-choice-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--me-space-2xl);
+  height: var(--me-space-2xl);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-action);
+  background: var(--me-color-surface-brand);
+  border-radius: var(--me-radius-l);
+}
+.ds-choice-title {
+  display: block;
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-l);
+  font-weight: var(--me-font-weight-bold);
+}
+.ds-choice-arrow {
+  margin-left: auto;
+  font-size: var(--me-font-size-xl);
+  color: var(--me-color-action);
+}
+/* Read-only offer fields: label above value, empty value in muted text */
+.ds-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--me-space-m) var(--me-space-xl);
+  margin: 0;
+}
+.ds-fields dt {
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text-muted);
+}
+.ds-fields dd {
+  margin: 0;
+}
+.ds-fields .ds-field-wide {
+  grid-column: 1 / -1;
+}
+.ds-empty-value {
+  color: var(--me-color-text-muted);
+  font-style: italic;
+}
+/* Checkbox groups laid out in columns */
+.ds-check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: var(--me-space-xs) var(--me-space-m);
+}
+.ds-form-section {
+  padding-top: var(--me-space-l);
+  margin-top: var(--me-space-l);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+.ds-sticky-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-s);
+  padding-block: var(--me-space-m);
+  margin-top: var(--me-space-l);
+  background: var(--me-color-surface);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
