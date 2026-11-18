@@ -1,0 +1,114 @@
+.history-panel {
+  font-family: system-ui, sans-serif;
+}
+
+.history-panel h2 {
+  margin: 0;
+}
+
+.history-count {
+  margin: 0;
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+.history-search-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.history-search-controls input[type='search'] {
+  flex: 1 1 9rem;
+  min-width: 0;
+  width: auto;
+  margin: 0;
+}
+
+.history-search-controls button {
+  min-height: 2.65rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #164b80;
+  border-radius: 0.5rem;
+  background: #164b80;
+  color: white;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.history-search-controls button:hover {
+  background: #123b66;
+}
+
+.history-table-scroll {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  text-align: start;
+}
+
+.history-table th,
+.history-table td {
+  max-width: 19rem;
+  padding: 0.6rem 0.7rem;
+  overflow: hidden;
+  border-bottom: 1px solid #dbe3eb;
+  text-align: start;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.history-table thead {
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 0.8125rem;
+}
+
+.history-table a {
+  color: #164b80;
+  text-underline-offset: 0.15em;
+}
+
+.history-secondary {
+  color: #475569;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.history-table tbody tr:hover,
+.history-table tbody tr:focus-within {
+  background: #eff6ff;
+}
+
+.offer-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) minmax(0, 2fr);
+  gap: 0.5rem 1.5rem;
+}
+.offer-detail-grid dt,
+.offer-detail-grid dd {
+  margin: 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #dbe3eb;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 575px) {
+  .offer-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .offer-detail-grid dt {
+    border: 0;
+    padding-bottom: 0;
+  }
+}
