@@ -1,75 +1,75 @@
 .adviser-record {
-  color: #191d26;
-  font-family: Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1.5rem;
+  color: var(--me-color-text);
+  font-family: var(--me-font-family);
+  font-size: var(--me-font-size-m);
+  line-height: var(--me-line-height-m);
   min-width: 0;
 }
 
 .adviser-record .invitation-card {
-  padding: 1.5rem;
-  border: 1px solid #d4d5d7;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 0.125rem 0.5rem color-mix(in srgb, #191d26 8%, transparent);
+  padding: var(--me-space-l);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+  background: var(--me-color-surface);
+  box-shadow: var(--me-shadow-card);
 }
 
 .adviser-record h1,
 .adviser-record h2 {
-  font-family: 'Gelasio', Georgia, serif;
-  line-height: 1.75rem;
+  font-family: var(--me-font-family-heading);
+  line-height: var(--me-line-height-xl);
   margin: 0;
 }
 
 .adviser-record h1 {
-  font-size: 1.75rem;
+  font-size: var(--me-font-size-2xl);
   overflow-wrap: anywhere;
 }
 
 .adviser-record h2 {
-  font-size: 1.25rem;
+  font-size: var(--me-font-size-l);
 }
 
 .record-back {
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: var(--me-space-m);
 }
 
 .adviser-record .record-header {
-  border-top: 0.25rem solid #0e47cb;
-  margin-bottom: 1.5rem;
+  border-top: var(--me-space-2xs) solid var(--me-color-action);
+  margin-bottom: var(--me-space-l);
 }
 
 .record-eyebrow,
 .record-date,
 .record-empty {
-  color: #515560;
-  font-size: 0.875rem;
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
 }
 
 .record-eyebrow {
-  margin: 0 0 0.5rem;
-  font-weight: 700;
+  margin: 0 0 var(--me-space-xs);
+  font-weight: var(--me-font-weight-bold);
 }
 
 .record-date {
-  margin: 1rem 0 0;
+  margin: var(--me-space-m) 0 0;
 }
 
 .record-summary,
 .record-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(4rem * 3)), 1fr));
-  gap: 1.5rem;
-  margin: 1.5rem 0 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--me-space-4xl) * 3)), 1fr));
+  gap: var(--me-space-l);
+  margin: var(--me-space-l) 0 0;
 }
 
 .record-summary dt,
 .record-fields dt {
-  color: #515560;
-  font-size: 0.875rem;
-  font-weight: 400;
-  margin-bottom: 0.25rem;
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-regular);
+  margin-bottom: var(--me-space-2xs);
 }
 
 .record-summary dd,
@@ -79,13 +79,13 @@
 }
 
 .record-summary dd {
-  font-weight: 700;
+  font-weight: var(--me-font-weight-bold);
 }
 
 .record-layout,
 .record-main {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--me-space-l);
   min-width: 0;
   align-items: start;
 }
@@ -93,9 +93,9 @@
 .record-jump {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  padding: 0 0.25rem;
-  font-size: 0.875rem;
+  gap: var(--me-space-xs) var(--me-space-m);
+  padding: 0 var(--me-space-2xs);
+  font-size: var(--me-font-size-s);
 }
 
 .record-field-wide {
@@ -103,97 +103,97 @@
 }
 
 .record-section {
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: var(--me-space-l);
 }
 
 .record-followup h2 {
-  margin-bottom: 1rem;
+  margin-bottom: var(--me-space-m);
 }
 
 .record-state {
   display: inline-block;
   margin: 0;
-  padding: 0.25rem 0.5rem;
-  border-radius: 8px;
-  background: #f3f6fc;
-  color: #0e47cb;
-  font-size: 0.875rem;
-  font-weight: 700;
+  padding: var(--me-space-2xs) var(--me-space-xs);
+  border-radius: var(--me-radius-badge);
+  background: var(--me-color-surface-brand);
+  color: var(--me-color-link);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
 }
 
 .record-reason {
-  margin: 1rem 0 1.5rem;
-  color: #515560;
+  margin: var(--me-space-m) 0 var(--me-space-l);
+  color: var(--me-color-text-muted);
 }
 
 .record-check {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: var(--me-space-xs);
+  margin-bottom: var(--me-space-l);
 }
 
 .adviser-record .record-check input[type='checkbox'] {
-  flex: 0 0 1rem;
-  min-height: 1rem;
+  flex: 0 0 var(--me-space-m);
+  min-height: var(--me-space-m);
   padding: 0;
-  width: 1rem;
-  height: 1rem;
+  width: var(--me-space-m);
+  height: var(--me-space-m);
   margin: 0;
-  accent-color: #0e47cb;
+  accent-color: var(--me-color-action);
 }
 
 .record-label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
+  margin-bottom: var(--me-space-xs);
+  font-weight: var(--me-font-weight-bold);
 }
 
 .record-followup input[type='date'] {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  min-height: 3rem;
-  padding: 0.5rem;
-  border: 1px solid #515560;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #191d26;
+  min-height: var(--me-control-min-height);
+  padding: var(--me-space-xs);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-control);
+  background: var(--me-color-surface);
+  color: var(--me-color-text);
   font: inherit;
 }
 
 .record-followup .btn-primary {
   width: 100%;
-  margin-top: 1.5rem;
-  min-height: 3rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #0e47cb;
-  border-radius: 8px;
-  background: #0e47cb;
-  color: #ffffff;
+  margin-top: var(--me-space-l);
+  min-height: var(--me-control-min-height);
+  padding: var(--me-space-xs) var(--me-space-m);
+  border: var(--me-border-width) solid var(--me-color-action);
+  border-radius: var(--me-radius-control);
+  background: var(--me-color-action);
+  color: var(--me-color-action-text);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--me-font-weight-bold);
   cursor: pointer;
 }
 
 .record-followup .btn-primary:hover {
-  background: #0b39a2;
+  background: var(--me-color-action-hover);
 }
 
 .adviser-record :focus-visible {
-  outline: 2px solid #0e47cb;
-  outline-offset: 2px;
+  outline: var(--me-focus-outline-width) solid var(--me-color-focus);
+  outline-offset: var(--me-focus-outline-offset);
 }
 
 .record-saved {
-  padding: 0.75rem;
-  background: #f2fcf9;
-  border-inline-start: 0.25rem solid #00a174;
+  padding: var(--me-space-s);
+  background: var(--me-color-success-surface);
+  border-inline-start: var(--me-space-2xs) solid var(--me-color-success);
 }
 
 .record-followup .errorlist {
-  padding-inline-start: 1rem;
-  color: #d7003d;
+  padding-inline-start: var(--me-space-m);
+  color: var(--me-color-error);
 }
 
 @media (min-width: 64rem) {
@@ -203,11 +203,11 @@
 
   .record-followup {
     position: sticky;
-    top: 1.5rem;
+    top: var(--me-space-l);
   }
 }
 
 .adviser-record .record-check label {
   margin: 0;
-  font-weight: 400;
+  font-weight: var(--me-font-weight-regular);
 }
