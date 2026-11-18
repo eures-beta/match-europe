@@ -15,6 +15,7 @@ from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferReview,
 )
+from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
 from tests.matching.test_dialogue import SETTINGS
 
@@ -181,7 +182,9 @@ class AdviserActionQueueTests(TestCase):
         self.assertEqual(obj.updated_by, self.adviser)
         self.assertEqual(obj.follow_up_on, due)
         self.assertTrue(search_queue.search_rows()['candidates'][0]['due'])
-        other = prepared_user('staff')
+        other = User.objects.create_user(
+            'other-adviser@example.invalid', kind='adviser'
+        )
         self.client.force_login(other)
         response = self.client.get(self.candidate_url)
         self.assertContains(response, 'value="' + due.isoformat() + '"')
