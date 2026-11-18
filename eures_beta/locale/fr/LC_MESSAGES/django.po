@@ -7,6 +7,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: eures_beta/templates/users/adviser_history.html:36
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s résultat"
+msgstr[1] "%(counter)s résultats"
+
 #: eures_beta/candidates/templates/candidates/journey.html:3
 #: eures_beta/candidates/templates/candidates/landing.html:9
 #: eures_beta/candidates/templates/candidates/landing.html:289
