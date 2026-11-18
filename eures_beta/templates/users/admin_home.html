@@ -1,0 +1,48 @@
+{% extends "public_base.html" %}
+{% load i18n static %}
+{% block page_title %}{% translate "Admin" context "account navigation" %} — Match Europe{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'users/account.css' %}">
+{% endblock %}
+{% block public_content %}
+  <section class="account-panel" aria-labelledby="admin-title">
+    <h1 id="admin-title">{% translate "Admin" context "account navigation" %}</h1>
+    <p>{% translate "Internal tools and your account status. Each tool keeps its own access permissions." %}</p>
+    <dl class="account-details">
+      <dt>{% translate "Email address" %}</dt>
+      <dd>
+        {{ user.email }}
+      </dd>
+      <dt>{% translate "Staff member" %}</dt>
+      <dd>
+        {% if user.is_staff %}
+          {% translate "Yes" %}
+        {% else %}
+          {% translate "No" %}
+        {% endif %}
+      </dd>
+      <dt>{% translate "Superuser" %}</dt>
+      <dd>
+        {% if user.is_superuser %}
+          {% translate "Yes" %}
+        {% else %}
+          {% translate "No" %}
+        {% endif %}
+      </dd>
+    </dl>
+    <h2>{% translate "Design system cookbook" %}</h2>
+    <p>{% translate "Browse the visual rules, components and fictional example screens." %}</p>
+    <ul>
+      <li><a href="{% url 'design_system' %}">{% translate "Cookbook: visual reference and components" %}</a></li>
+      <li><a href="{% url 'design_system_example' %}">{% translate "All example screens" %}</a></li>
+      <li><a href="{% url 'design_system_example_screen' 'offre' %}">{% translate "Example: review a job offer" %}</a></li>
+      <li><a href="{% url 'design_system_example_screen' 'mes-offres' %}">{% translate "Example: employer job offers" %}</a></li>
+      <li><a href="{% url 'design_system_example_screen' 'connexion' %}">{% translate "Example: sign in" %}</a></li>
+      <li><a href="{% url 'design_system_example_screen' 'candidat' %}">{% translate "Example: candidate questionnaire" %}</a></li>
+      <li><a href="{% url 'design_system_example_screen' 'conseiller' %}">{% translate "Example: adviser dashboard" %}</a></li>
+    </ul>
+    <h2>{% translate "Django administration" %}</h2>
+    <p>{% translate "Inspect the data allowed by your administration permissions." %}</p>
+    <a href="{% url 'admin:index' %}">{% translate "Open Django administration" %}</a>
+  </section>
+{% endblock %}

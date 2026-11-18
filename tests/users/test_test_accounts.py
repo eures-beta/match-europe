@@ -284,7 +284,11 @@ class TestAccountAccessTests(TestCase):
             self.assertEqual(client.session.get_expiry_age(), 30 * 86400)
             self.assertEqual(
                 response.request['PATH_INFO'],
-                '/admin/' if key == 'admin' else '/accounts/dashboard/',
+                (
+                    reverse('admin_home')
+                    if key in ('staff', 'admin')
+                    else reverse('dashboard')
+                ),
             )
             self.assertEqual(
                 client.get('/admin/').status_code,

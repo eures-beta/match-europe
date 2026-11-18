@@ -24,6 +24,7 @@ urlpatterns = [
     ),
     path('accounts/dashboard/', views.dashboard, name='dashboard'),
     path('accounts/me/', views.account, name='account'),
+    path('accounts/admin/', views.admin_home, name='admin_home'),
     path('accounts/login/', views.login, name='magic_login'),
     path('accounts/confirm/', views.confirm, name='magic_confirm'),
     path('accounts/logout/', views.logout, name='magic_logout'),

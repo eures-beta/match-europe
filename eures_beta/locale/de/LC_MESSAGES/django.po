@@ -7484,3 +7484,63 @@ msgstr "dem ausgeschriebenen Ort"
 #: eures_beta/users/test_accounts.py
 msgid "Test staff"
 msgstr "Test-Staff"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Internal tools and your account status. Each tool keeps its own access permissions."
+msgstr "Interne Werkzeuge und Ihr Kontostatus. Jedes Werkzeug behält seine eigenen Zugriffsrechte."
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Staff member"
+msgstr "Teammitglied"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Superuser"
+msgstr "Superuser"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Design system cookbook"
+msgstr "Designsystem-Kochbuch"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Browse the visual rules, components and fictional example screens."
+msgstr "Sehen Sie sich die Gestaltungsregeln, Komponenten und fiktiven Beispielseiten an."
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Cookbook: visual reference and components"
+msgstr "Kochbuch: Gestaltung und Komponenten"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "All example screens"
+msgstr "Alle Beispielseiten"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: review a job offer"
+msgstr "Beispiel: Stellenangebot prüfen"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: employer job offers"
+msgstr "Beispiel: Stellenangebote des Arbeitgebers"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: sign in"
+msgstr "Beispiel: Anmeldung"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: candidate questionnaire"
+msgstr "Beispiel: Bewerberfragebogen"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: adviser dashboard"
+msgstr "Beispiel: Beraterübersicht"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Django administration"
+msgstr "Django-Verwaltung"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Inspect the data allowed by your administration permissions."
+msgstr "Sehen Sie die Daten ein, für die Sie Verwaltungsrechte besitzen."
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Open Django administration"
+msgstr "Django-Verwaltung öffnen"
