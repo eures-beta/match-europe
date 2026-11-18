@@ -96,35 +96,9 @@ def render_workspace(request, template, status=200, **context):
 
 
 def queue(request):
-    tracking = request.GET.get('view') == 'conversations'
-    allowed = access.can_view_pairs(request.user)
-    entries = []
-    if allowed:
-        entries = (
-            open_conversations().order_by('-created_at', '-pk')
-            if tracking
-            else pending_pairs().order_by('-score', 'pk')
-        )
-    page = Paginator(entries, 20).get_page(request.GET.get('page'))
-    matchings = []
-    if allowed and not tracking:
-        evaluations = MatchEvaluation.objects.in_bulk(
-            match.evaluation_id for match in page
-        )
-        matchings = [
-            matching_context(request, match, evaluations[match.evaluation_id])
-            for match in page
-            if match.evaluation_id in evaluations
-        ]
-    return render_workspace(
-        request,
-        'adviser_matching_queue.html',
-        matchings=matchings,
-        shared_conversations=listed(request.user) if tracking and allowed else (),
-        page=page,
-        tracking=tracking,
-        allowed=allowed,
-    )
+    from .action_queue import queue_page
+
+    return queue_page(request)
 
 
 @transaction.atomic

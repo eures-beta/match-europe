@@ -1,0 +1,91 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n static %}
+{% block extra_head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'adviser/record-detail.css' %}">
+{% endblock %}
+{% block adviser_content %}
+  <article class="adviser-record" aria-labelledby="search-title">
+    <a class="record-back"
+       href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view={{ row.kind }}">← {% translate "Back to actions" %}</a>
+    <header class="record-header invitation-card">
+      <p class="record-eyebrow">{{ record_type }}</p>
+      <h1 id="search-title">{{ row.title }}</h1>
+      <dl class="record-summary">
+        {% for field in record_summary %}
+          <div>
+            <dt>{{ field.label }}</dt>
+            <dd>
+              {{ field.value|linebreaksbr }}
+            </dd>
+          </div>
+        {% endfor %}
+      </dl>
+      <p class="record-date">{% translate "Registered on" %} {{ row.entered_at|date:"SHORT_DATE_FORMAT" }}</p>
+    </header>
+    <div class="record-layout">
+      <div class="record-main">
+        <nav class="record-jump" aria-label="{% translate 'Record sections' %}">
+          {% for section in record_sections %}<a href="#{{ section.key }}">{{ section.title }}</a>{% endfor %}
+          <a href="#record-followup">{% translate "Search follow-up" %}</a>
+        </nav>
+        {% for section in record_sections %}
+          <section id="{{ section.key }}"
+                   class="record-section invitation-card"
+                   aria-labelledby="{{ section.key }}-title">
+            <h2 id="{{ section.key }}-title">{{ section.title }}</h2>
+            {% if section.rows %}
+              <dl class="record-fields">
+                {% for field in section.rows %}
+                  <div class="record-field{% if field.wide %} record-field-wide{% endif %}">
+                    <dt>{{ field.label }}</dt>
+                    <dd>
+                      {{ field.value|linebreaksbr }}
+                    </dd>
+                  </div>
+                {% endfor %}
+              </dl>
+            {% else %}
+              <p class="record-empty">{% translate "No information provided for this section." %}</p>
+            {% endif %}
+          </section>
+        {% endfor %}
+      </div>
+      <aside id="record-followup"
+             class="record-followup invitation-card"
+             aria-labelledby="followup-title">
+        <h2 id="followup-title">{% translate "Search follow-up" %}</h2>
+        <p class="record-state">
+          {% if row.due %}
+            {% translate "Follow-up due" %}
+          {% elif row.followup.searching %}
+            {% translate "Search in progress" %}
+          {% else %}
+            {% translate "To start" %}
+          {% endif %}
+        </p>
+        <p class="record-reason">{{ row.explanation }}</p>
+        {% if saved %}
+          <p class="record-saved" role="status">{% translate "Search follow-up saved." %}</p>
+        {% endif %}
+        {% if not row.actionable %}
+          <p><a href="{% url 'matching' %}">{% translate "Check matching calculations" %}</a></p>
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          {{ search_form.non_field_errors }}
+          <div class="record-check">
+            {{ search_form.searching }}<label for="{{ search_form.searching.id_for_label }}">{{ search_form.searching.label }}</label>
+          </div>
+          {{ search_form.searching.errors }}
+          <label class="record-label"
+                 for="{{ search_form.follow_up_on.id_for_label }}">{{ search_form.follow_up_on.label }}</label>
+          {{ search_form.follow_up_on }}
+          {{ search_form.follow_up_on.errors }}
+          <button type="submit" class="btn btn-primary">{% translate "Save follow-up" %}</button>
+        </form>
+        {% if row.followup %}<p class="record-date">{% translate "Last updated" %} : {{ row.followup.updated_at|date:"SHORT_DATETIME_FORMAT" }}</p>{% endif %}
+      </aside>
+    </div>
+  </article>
+{% endblock %}

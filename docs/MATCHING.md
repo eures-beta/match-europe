@@ -13,6 +13,32 @@ Tous les conseillers ont les mêmes droits métier.
 Le calcul ne modifie ni l'offre ni le profil. Il n'envoie pas de message, de
 notification, d'appel Albert ou d'autorisation de transmission.
 
+## Actions du conseiller
+
+« À traiter » distingue les rapprochements à valider, les candidats à rechercher
+pour une offre et les employeurs à prospecter pour un candidat. Les compteurs
+incluent les dossiers dont tous les rapprochements ont été écartés. Un dossier
+retenu ou ayant encore un rapprochement à examiner n'est pas une recherche externe.
+Un candidat doit avoir un compte actif et une adresse vérifiée ; une offre complète
+rattachée à un établissement est éligible, même sans envoi externe.
+
+Un calcul absent/périmé et des informations insuffisantes sont signalés explicitement,
+sans conclure à une absence de correspondance. La fraîcheur réutilise l'empreinte
+exacte du calcul (profil, offre, faits, date et règles). Le compteur de recherche
+inclut ces dossiers à vérifier. Une pastille rouge indique les actions à traiter,
+masquée à zéro ; une recherche en cours avec relance future reste visible dans
+la liste mais ne compte pas avant son échéance. Une recherche sans date compte. Les listes ne déclenchent aucun calcul ni contact.
+Le lien vers la console de matching permet de vérifier/recalculer les évaluations.
+
+Le suivi « Recherche en cours » et la date de relance sont partagés entre conseillers,
+avec auteur et date de mise à jour, sans changer les décisions de matching. Les
+relances arrivées à échéance remontent en tête ; les recherches déjà commencées
+restent visibles. La table additive `matching_advisersearchfollowup` référence
+exactement une offre ou un candidat (migrations 0012–0013). Aucun e-mail ni rappel automatique n'est envoyé.
+Les conversations existantes restent accessibles dans leur rubrique.
+
+Validation : `make test TESTS=tests.users.test_adviser_action_queue` et `make check`.
+
 ## Décisions métier validées dans cette conversation
 
 - Une information absente ou non sélectionnée reste inconnue, pas incompatible.

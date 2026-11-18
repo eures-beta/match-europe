@@ -7672,3 +7672,159 @@ msgstr "Erstversand"
 
 msgid "Last reminder"
 msgstr "Letzte Erinnerung"
+
+#: eures_beta/matching/search_queue.py:13
+msgid "No eligible candidate is available. Search your internal tools and network."
+msgstr "Kein geeigneter Kandidat ist verfügbar. Suchen Sie in Ihren internen Werkzeugen und Ihrem Netzwerk."
+
+#: eures_beta/matching/search_queue.py:16
+msgid "No eligible offer is available. Look for employers and new offers."
+msgstr "Kein geeignetes Stellenangebot ist verfügbar. Suchen Sie nach Arbeitgebern und neuen Angeboten."
+
+#: eures_beta/matching/search_queue.py:18
+msgid "No suitable matching found. Start an external search."
+msgstr "Keine passende Zuordnung gefunden. Starten Sie eine externe Suche."
+
+#: eures_beta/matching/search_queue.py:19
+msgid "All proposed matchings were rejected. Continue the external search."
+msgstr "Alle vorgeschlagenen Zuordnungen wurden abgelehnt. Setzen Sie die externe Suche fort."
+
+#: eures_beta/matching/search_queue.py:21
+msgid "Matching calculation is missing or out of date. No conclusion is available yet."
+msgstr "Die Zuordnungsberechnung fehlt oder ist veraltet. Es liegt noch kein Ergebnis vor."
+
+#: eures_beta/matching/search_queue.py:24
+msgid "Information is insufficient. Check the record before starting an external search."
+msgstr "Die Angaben reichen nicht aus. Prüfen Sie den Datensatz vor einer externen Suche."
+
+#: eures_beta/templates/users/adviser_matching_queue.html:20
+msgid "Find candidates in your internal tools and network for these offers."
+msgstr "Suchen Sie in Ihren internen Werkzeugen und Ihrem Netzwerk nach Kandidaten für diese Angebote."
+
+#: eures_beta/templates/users/adviser_matching_queue.html:22
+msgid "Look for employers and new offers for these candidates."
+msgstr "Suchen Sie nach Arbeitgebern und neuen Angeboten für diese Kandidaten."
+
+#: eures_beta/templates/users/adviser_matching_queue.html:28
+#: eures_beta/templates/users/adviser_search_detail.html:24
+msgid "Registered on"
+msgstr "Eingegangen am"
+
+#: eures_beta/templates/users/adviser_matching_queue.html:30
+#: eures_beta/templates/users/adviser_search_detail.html:60
+#: eures_beta/www/adviser/action_queue.py:22
+msgid "Search in progress"
+msgstr "Suche läuft"
+
+#: eures_beta/templates/users/adviser_matching_queue.html:30
+#: eures_beta/templates/users/adviser_search_detail.html:62
+msgid "To start"
+msgstr "Zu starten"
+
+#: eures_beta/templates/users/adviser_matching_queue.html:30
+#: eures_beta/www/adviser/action_queue.py:27
+msgid "Follow-up date"
+msgstr "Wiedervorlage am"
+
+#: eures_beta/templates/users/adviser_matching_queue.html:30
+#: eures_beta/templates/users/adviser_search_detail.html:58
+msgid "Follow-up due"
+msgstr "Wiedervorlage fällig"
+
+#: eures_beta/templates/users/adviser_matching_queue.html:36
+msgid "View profile"
+msgstr "Profil ansehen"
+
+#: eures_beta/templates/users/adviser_matching_queue.html:43
+msgid "No external search to start in this section."
+msgstr "In diesem Bereich ist keine externe Suche zu starten."
+
+#: eures_beta/templates/users/adviser_search_detail.html:10
+msgid "Back to actions"
+msgstr "Zurück zu den Aufgaben"
+
+#: eures_beta/templates/users/adviser_search_detail.html:28
+msgid "Record sections"
+msgstr "Abschnitte des Datensatzes"
+
+#: eures_beta/templates/users/adviser_search_detail.html:48
+msgid "No information provided for this section."
+msgstr "Für diesen Abschnitt liegen keine Angaben vor."
+
+#: eures_beta/templates/users/adviser_search_detail.html:55
+msgid "Search follow-up"
+msgstr "Suchverlauf"
+
+#: eures_beta/templates/users/adviser_search_detail.html:67
+msgid "Search follow-up saved."
+msgstr "Suchverlauf gespeichert."
+
+#: eures_beta/templates/users/adviser_search_detail.html:70
+msgid "Check matching calculations"
+msgstr "Zuordnungsberechnungen prüfen"
+
+#: eures_beta/templates/users/adviser_search_detail.html:83
+msgid "Save follow-up"
+msgstr "Suchverlauf speichern"
+
+#: eures_beta/templates/users/adviser_workspace.html:31
+#, python-format
+msgid "%(counter)s action to handle"
+msgid_plural "%(counter)s actions to handle"
+msgstr[0] "%(counter)s zu bearbeitende Aufgabe"
+msgstr[1] "%(counter)s zu bearbeitende Aufgaben"
+
+#: eures_beta/templates/users/adviser_workspace.html:34
+#: eures_beta/www/adviser/action_queue.py:47
+msgid "Matchings to validate"
+msgstr "Zuordnungen prüfen"
+
+#: eures_beta/templates/users/adviser_workspace.html:35
+#: eures_beta/www/adviser/action_queue.py:52
+msgid "Offers without candidates"
+msgstr "Stellenangebote ohne Kandidaten"
+
+#: eures_beta/templates/users/adviser_workspace.html:36
+#: eures_beta/www/adviser/action_queue.py:57
+msgid "Candidates without an offer"
+msgstr "Kandidaten ohne Stellenangebot"
+
+#: eures_beta/www/adviser/action_queue.py:37
+msgid "Start the search before setting a follow-up date."
+msgstr "Starten Sie die Suche, bevor Sie ein Wiedervorlagedatum festlegen."
+
+#: eures_beta/www/adviser/record_details.py:43
+msgid "The position"
+msgstr "Die Stelle"
+
+#: eures_beta/www/adviser/record_details.py:48
+msgid "Employment conditions"
+msgstr "Beschäftigungsbedingungen"
+
+#: eures_beta/www/adviser/record_details.py:60
+msgid "Mobility and arrival"
+msgstr "Mobilität und Ankunft"
+
+#: eures_beta/www/adviser/record_details.py:82
+msgid "Employer contact"
+msgstr "Arbeitgeberkontakt"
+
+#: eures_beta/www/adviser/record_details.py:114
+msgid "Occupations sought"
+msgstr "Gesuchte Berufe"
+
+#: eures_beta/www/adviser/record_details.py:117
+msgid "Professional project"
+msgstr "Berufliches Vorhaben"
+
+#: eures_beta/www/adviser/record_details.py:117
+msgid "Open to different occupations"
+msgstr "Offen für verschiedene Berufe"
+
+#: eures_beta/www/adviser/record_details.py:122
+msgid "Preferred countries"
+msgstr "Gewünschte Länder"
+
+#: eures_beta/www/adviser/record_details.py:131
+msgid "Availability"
+msgstr "Verfügbarkeit"

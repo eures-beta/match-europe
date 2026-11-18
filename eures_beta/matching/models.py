@@ -141,3 +141,29 @@ class CandidateOfferConversationMessage(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     body = models.TextField(max_length=2000)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class AdviserSearchFollowUp(models.Model):
+    """Shared external-search progress; never changes a matching decision."""
+
+    offer = models.OneToOneField(
+        'employers.JobOffer', null=True, blank=True, on_delete=models.CASCADE
+    )
+    candidate = models.OneToOneField(
+        'candidates.CandidateProfile', null=True, blank=True, on_delete=models.CASCADE
+    )
+    searching = models.BooleanField(default=False)
+    follow_up_on = models.DateField(null=True, blank=True)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=(
+                    models.Q(offer__isnull=False, candidate__isnull=True)
+                    | models.Q(offer__isnull=True, candidate__isnull=False)
+                ),
+                name='matching_advisersearchfollowup_single_target',
+            ),
+        ]

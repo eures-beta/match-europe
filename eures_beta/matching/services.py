@@ -23,6 +23,11 @@ def inputs(match, *, lock=False, offer_revision=None):
         offer_query = offer_query.select_for_update(of=('self',))
     candidate = candidate_query.get(pk=match.candidate_id)
     offer = offer_query.get(pk=match.offer_id)
+    return snapshot(match, candidate, offer)
+
+
+def snapshot(match, candidate, offer):
+    """Fingerprint already loaded inputs using the same rules as calculation."""
     excluded = {
         'id',
         'user',
