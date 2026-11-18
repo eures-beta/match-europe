@@ -151,6 +151,21 @@ Toujours dans cet ordre :
 Une seule action principale par écran ou par bloc. Ne pas utiliser `btn-secondary`, `btn-warning`
 ni les autres variantes de couleur de Bootstrap pour des boutons : elles n’ont pas d’équivalent ECL.
 
+### En-tête et liens de navigation
+
+Tous les écrans d’exemple partagent le même en-tête (`design_system/example_base.html`) : logo et
+nom Match Europe, menu de langue, liens du compte, puis la bande des logos partenaires
+(`design_system/partenaires.html`). Sur téléphone, l’accroche est masquée, les quatre logos tiennent
+sur une ligne et la navigation principale défile de côté.
+
+- **Soulignement** : un lien dans un texte reste souligné (règle ECL, accessibilité). Un élément de
+  menu, de navigation ou d’en-tête n’est pas souligné, sauf au survol.
+- **Langue** : un bouton « FR » ouvre la liste Français, English, Deutsch (`details`, sans
+  JavaScript). La langue active est marquée par un fond bleu pâle, du gras et une coche.
+- **Déconnexion** : action secondaire, en gris (`ds-logout`).
+- **Logos partenaires** : fichiers de production, non modifiés. Chaque fichier a ses propres
+  marges : chaque logo a donc sa largeur en `rem`, faute de token de taille de logo.
+
 Composants Match Europe (includes Django) : aucun pour l’instant. Ils arriveront dans
 `eures_beta/templates/components/`, et chacun sera ajouté à la page `/design-system/`.
 
