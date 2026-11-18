@@ -7672,3 +7672,7 @@ msgstr "Erstversand"
 
 msgid "Last reminder"
 msgstr "Letzte Erinnerung"
+
+#: eures_beta/users/test_accounts.py
+msgid "Test staff"
+msgstr "Test-Staff"

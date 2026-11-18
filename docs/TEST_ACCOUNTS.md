@@ -1,7 +1,7 @@
 # Comptes de démonstration en local et en recette
 
 Un bandeau rouge permanent permet de choisir ou de changer de compte sans e-mail
-ni mot de passe : conseiller, employeur et superadministrateur. Les trois comptes
+ni mot de passe : conseiller, employeur, staff puis superadministrateur. Ces quatre comptes
 partagés utilisent exclusivement des adresses `@demo.example.invalid`.
 Toute personne visitant cet environnement peut les utiliser : aucune donnée réelle
 ne doit y être saisie. Le superadministrateur conserve l’administration en lecture
@@ -20,7 +20,8 @@ make serve
 
 Ouvrir `/accounts/test-accounts/`, ou suivre le bandeau. Un seul interrupteur,
 `DEMO_ACCOUNTS_ENABLED`, prépare le même jeu complet en local et en recette :
-neuf comptes (un conseiller, deux employeurs, un superadministrateur et cinq
+dix comptes (deux conseillers dont un staff non superutilisateur, deux employeurs,
+un superadministrateur et cinq
 candidats), un établissement fictif, une adhésion employeur, deux offres manuelles
 et une offre avec cinq scénarios de rapprochement. Deux candidats sont proposés
 dans le sélecteur avec une demande de confirmation prête à consulter.
@@ -37,7 +38,7 @@ Aucun modèle ni migration supplémentaire n’est nécessaire.
   l’adresse ne se termine pas par `.invalid`. Ce garde-fou ne détecte pas les
   données personnelles saisies dans le texte des offres : utiliser uniquement
   une base jetable et fictive.
-- La connexion accepte uniquement les cinq identités du sélecteur préparées, actives, avec
+- La connexion accepte uniquement les identités du sélecteur préparées, actives, avec
   rôle exact et mot de passe inutilisable. Aucune création au chargement d’une
   page, aucun identifiant arbitraire ni lien magique exposé.
 - Changer de compte exige un POST protégé par CSRF et renouvelle la session.
@@ -58,3 +59,9 @@ sont autorisés.
 Vérifications PostgreSQL : `make test TESTS=tests.users.test_test_accounts` ; suite complète : `make test`.
 Les langues FR, EN et DE sont couvertes, ainsi que les refus de connexion,
 la CSRF, la rotation des sessions et la préservation des essais.
+
+Le compte « Test Staff » est distinct du superadministrateur : `is_staff=True`,
+`is_superuser=False`. Il sert à vérifier les outils internes avec des privilèges
+limités. Les permissions existantes ne sont pas élargies : le synchroniseur actuel
+autorise les conseillers staff actifs à consulter les comptes conseillers dans
+Django Admin ; les autres modèles restent soumis à leur politique propre.

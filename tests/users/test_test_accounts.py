@@ -29,6 +29,32 @@ class TestAccountAccessTests(TestCase):
     def seed(self):
         call_command('seed_test_accounts', stdout=StringIO())
 
+    def test_staff_fixture_is_distinct_and_ordered_before_superadministrator(self):
+        self.seed()
+        staff = prepared_user('staff')
+        self.assertIsNotNone(staff)
+        self.assertTrue(staff.is_staff)
+        self.assertFalse(staff.is_superuser)
+        self.assertEqual(staff.kind, User.Kind.ADVISER)
+        self.assertFalse(staff.has_usable_password())
+        page = self.client.get(reverse('test_accounts'))
+        keys = [item['key'] for item in page.context['accounts']]
+        self.assertEqual(keys[:4], ['adviser', 'employer', 'staff', 'admin'])
+        identities = list(User.objects.order_by('pk').values_list('pk', flat=True))
+        self.seed()
+        self.assertEqual(
+            list(User.objects.order_by('pk').values_list('pk', flat=True)), identities
+        )
+
+        for language, label in (
+            ('fr', 'Test Staff'),
+            ('en', 'Test staff'),
+            ('de', 'Test-Staff'),
+        ):
+            self.assertContains(
+                self.client.get(reverse('test_accounts'), {'lang': language}), label
+            )
+
     def test_pages_do_not_seed_data_implicitly(self):
         page = self.client.get(reverse('test_accounts'))
         self.assertEqual(page.status_code, 200)
@@ -171,7 +197,7 @@ class TestAccountAccessTests(TestCase):
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
-        self.assertEqual(User.objects.count(), 9)
+        self.assertEqual(User.objects.count(), 10)
         self.assertEqual(Company.objects.count(), 1)
         self.assertEqual(CompanyMembership.objects.count(), 1)
         self.assertEqual(JobOffer.objects.count(), 3)
@@ -209,7 +235,7 @@ class TestAccountAccessTests(TestCase):
                 if identities is not None:
                     self.assertEqual(current, identities)
                 identities = current
-                self.assertEqual(len(current), 9)
+                self.assertEqual(len(current), 10)
                 self.assertEqual(CandidateProfile.objects.count(), 5)
                 self.assertEqual(CandidateOfferMatch.objects.count(), 5)
                 self.assertEqual(CandidateOfferReview.objects.count(), 1)
@@ -259,7 +285,8 @@ class TestAccountAccessTests(TestCase):
                 '/admin/' if key == 'admin' else '/accounts/dashboard/',
             )
             self.assertEqual(
-                client.get('/admin/').status_code, 200 if key == 'admin' else 302
+                client.get('/admin/').status_code,
+                200 if key in ('staff', 'admin') else 302,
             )
         self.assertEqual(len(mail.outbox), 0)
 

@@ -7672,3 +7672,7 @@ msgstr "Envoi initial"
 
 msgid "Last reminder"
 msgstr "Dernière relance"
+
+#: eures_beta/users/test_accounts.py
+msgid "Test staff"
+msgstr "Test Staff"
