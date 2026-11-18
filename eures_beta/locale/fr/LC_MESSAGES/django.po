@@ -7480,3 +7480,176 @@ msgstr "l’offre"
 
 msgid "the location in the offer"
 msgstr "la ville indiquée dans l’offre"
+
+#: eures_beta/templates/users/adviser_history.html:30
+msgid "Search"
+msgstr "Rechercher"
+
+#: eures_beta/templates/users/adviser_history.html:32
+msgid "Clear"
+msgstr "Effacer"
+
+#: eures_beta/templates/users/adviser_history.html:53
+#: eures_beta/www/adviser/offer_details.py:41
+msgid "Source"
+msgstr "Origine"
+
+#: eures_beta/templates/users/adviser_history.html:54
+#: eures_beta/www/adviser/offer_details.py:46
+msgid "Created"
+msgstr "Créée le"
+
+#: eures_beta/templates/users/adviser_history.html:55
+#: eures_beta/www/adviser/offer_details.py:47
+msgid "Updated"
+msgstr "Mise à jour le"
+
+#: eures_beta/templates/users/adviser_history.html:83
+#: eures_beta/www/adviser/offer_details.py:41
+msgid "Manual entry"
+msgstr "Saisie manuelle"
+
+#: eures_beta/templates/users/adviser_history.html:83
+#: eures_beta/www/adviser/offer_details.py:41
+msgid "PDF import"
+msgstr "Import PDF"
+
+#: eures_beta/templates/users/adviser_history.html:83
+#: eures_beta/www/adviser/offer_details.py:41
+msgid "URL import"
+msgstr "Import depuis une URL"
+
+#: eures_beta/templates/users/adviser_history.html:111
+#, python-format
+msgid "No results for “%(search)s”."
+msgstr "Aucun résultat pour « %(search)s »."
+
+#: eures_beta/templates/users/adviser_history.html:111
+msgid "No records in this section."
+msgstr "Aucune donnée dans cette rubrique."
+
+#: eures_beta/templates/users/adviser_history.html:132
+msgid "Close details"
+msgstr "Fermer le détail"
+
+#: eures_beta/templates/users/offer_status.html:3
+#: eures_beta/www/adviser/offer_details.py:50
+msgid "Search started"
+msgstr "Recherche lancée"
+
+#: eures_beta/templates/users/offer_status.html:5
+#: eures_beta/www/adviser/offer_details.py:49
+msgid "Validated"
+msgstr "Validée"
+
+#: eures_beta/templates/users/offer_status.html:7
+msgid "In preparation"
+msgstr "En préparation"
+
+#: eures_beta/www/adviser/history.py:27
+msgid "Employer job offers"
+msgstr "Offres employeur"
+
+#: eures_beta/www/adviser/offer_details.py:24
+#: eures_beta/www/adviser/offer_details.py:29
+#: eures_beta/www/adviser/offer_details.py:30
+#: eures_beta/www/adviser/offer_details.py:31
+#: eures_beta/www/adviser/offer_details.py:32
+#: eures_beta/www/adviser/offer_details.py:34
+#: eures_beta/www/adviser/offer_details.py:35
+#: eures_beta/www/adviser/offer_details.py:38
+#: eures_beta/www/adviser/offer_details.py:39
+#: eures_beta/www/adviser/offer_details.py:40
+#: eures_beta/www/adviser/offer_details.py:41
+#: eures_beta/www/adviser/offer_details.py:42
+#: eures_beta/www/adviser/offer_details.py:54
+msgid "Not provided"
+msgstr "Non renseigné"
+
+#: eures_beta/www/adviser/offer_details.py:29
+msgid "Occupation references"
+msgstr "Références métier"
+
+#: eures_beta/www/adviser/offer_details.py:30
+msgid "ROME codes"
+msgstr "Codes ROME"
+
+#: eures_beta/www/adviser/offer_details.py:31
+msgid "Personal job description"
+msgstr "Description personnelle du métier"
+
+#: eures_beta/www/adviser/offer_details.py:34
+msgid "Account email"
+msgstr "E-mail du compte"
+
+#: eures_beta/www/adviser/offer_details.py:37
+msgid "Offer reference"
+msgstr "Référence de l’offre"
+
+#: eures_beta/www/adviser/offer_details.py:38
+msgid "Company workspace"
+msgstr "Établissement rattaché"
+
+#: eures_beta/www/adviser/offer_details.py:39
+msgid "Created by"
+msgstr "Déposée par"
+
+#: eures_beta/www/adviser/offer_details.py:43
+msgid "Revision"
+msgstr "Révision"
+
+#: eures_beta/www/adviser/offer_details.py:48
+msgid "Preparation agreed"
+msgstr "Accord de préparation"
+
+#: eures_beta/www/adviser/offer_details.py:51
+msgid "Initial transmission"
+msgstr "Premier envoi"
+
+#: eures_beta/www/adviser/offer_details.py:52
+msgid "Last synchronisation"
+msgstr "Dernière synchronisation"
+
+#: eures_beta/www/adviser/offer_details.py:55
+msgid "Job and working conditions"
+msgstr "Poste et conditions de travail"
+
+#: eures_beta/www/adviser/offer_details.py:57
+msgid "Required"
+msgstr "Obligatoire"
+
+#: eures_beta/www/adviser/offer_details.py:57
+msgid "Optional"
+msgstr "Facultative"
+
+#: eures_beta/www/adviser/offer_details.py:61
+msgid "Questions for candidates"
+msgstr "Questions aux candidats"
+
+#: eures_beta/www/adviser/offer_details.py:64
+msgid "Explicit matching requirements"
+msgstr "Critères explicites de matching"
+
+#: eures_beta/www/adviser/offer_details.py:65
+msgid "Tracking"
+msgstr "Suivi de l’offre"
+
+#: eures_beta/www/adviser/offer_details.py:74
+msgid "Country"
+msgstr "Pays"
+
+#: eures_beta/www/adviser/offer_details.py:75
+msgid "Required licences"
+msgstr "Permis exigés"
+
+#: eures_beta/www/adviser/offer_details.py:81
+msgid "Start date required"
+msgstr "Date de début impérative"
+
+#: eures_beta/www/adviser/offer_details.py:82
+msgid "Schedule required"
+msgstr "Horaires impératifs"
+
+#: eures_beta/www/adviser/offer_details.py:91
+msgid "Maximum salary"
+msgstr "Salaire maximum"
