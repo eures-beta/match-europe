@@ -146,13 +146,13 @@ class CandidateOfferConversationMessage(models.Model):
 class AdviserSearchFollowUp(models.Model):
     """Shared external-search progress; never changes a matching decision."""
 
-    offer = models.OneToOneField(
+    job_offer = models.OneToOneField(
         'employers.JobOffer', null=True, blank=True, on_delete=models.CASCADE
     )
-    candidate = models.OneToOneField(
+    candidate_profile = models.OneToOneField(
         'candidates.CandidateProfile', null=True, blank=True, on_delete=models.CASCADE
     )
-    searching = models.BooleanField(default=False)
+    is_searching = models.BooleanField(default=False)
     follow_up_on = models.DateField(null=True, blank=True)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     updated_at = models.DateTimeField(auto_now=True)
@@ -161,8 +161,8 @@ class AdviserSearchFollowUp(models.Model):
         constraints = [
             models.CheckConstraint(
                 condition=(
-                    models.Q(offer__isnull=False, candidate__isnull=True)
-                    | models.Q(offer__isnull=True, candidate__isnull=False)
+                    models.Q(job_offer__isnull=False, candidate_profile__isnull=True)
+                    | models.Q(job_offer__isnull=True, candidate_profile__isnull=False)
                 ),
                 name='matching_advisersearchfollowup_single_target',
             ),

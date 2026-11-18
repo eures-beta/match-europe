@@ -34,7 +34,10 @@ Le suivi « Recherche en cours » et la date de relance sont partagés entre con
 avec auteur et date de mise à jour, sans changer les décisions de matching. Les
 relances arrivées à échéance remontent en tête ; les recherches déjà commencées
 restent visibles. La table additive `matching_advisersearchfollowup` référence
-exactement une offre ou un candidat (migrations 0012–0013). Aucun e-mail ni rappel automatique n'est envoyé.
+exactement une offre (`job_offer`) ou un profil candidat (`candidate_profile`).
+`is_searching` indique la recherche en cours. La migration 0014 renomme ces trois
+champs sans recréer les suivis ; les migrations 0012–0013 restent inchangées.
+Aucun e-mail ni rappel automatique n'est envoyé.
 Les conversations existantes restent accessibles dans leur rubrique.
 
 Validation : `make test TESTS=tests.users.test_adviser_action_queue` et `make check`.

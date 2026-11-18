@@ -85,9 +85,9 @@ def search_rows():
         by_candidate[pair.candidate_id].append(item)
         by_offer[pair.offer_id].append(item)
     followups = list(AdviserSearchFollowUp.objects.select_related('updated_by'))
-    offer_followups = {row.offer_id: row for row in followups if row.offer_id}
+    offer_followups = {row.job_offer_id: row for row in followups if row.job_offer_id}
     candidate_followups = {
-        row.candidate_id: row for row in followups if row.candidate_id
+        row.candidate_profile_id: row for row in followups if row.candidate_profile_id
     }
 
     def rows(objects, kind):
@@ -134,7 +134,7 @@ def search_rows():
             entries,
             key=lambda row: (
                 not row['due'],
-                bool(row['followup'] and row['followup'].searching),
+                bool(row['followup'] and row['followup'].is_searching),
                 row['entered_at'],
                 str(row['object'].pk),
             ),

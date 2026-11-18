@@ -67,7 +67,7 @@ def action_counts(rows, matching_count):
         counts[kind] = sum(
             not (
                 row['followup']
-                and row['followup'].searching
+                and row['followup'].is_searching
                 and row['followup'].follow_up_on
                 and row['followup'].follow_up_on > today
             )
@@ -152,7 +152,7 @@ def search_detail(request, kind, pk):
         form = SearchForm(
             request.POST if request.method == 'POST' else None,
             initial={
-                'searching': followup.searching if followup else False,
+                'searching': followup.is_searching if followup else False,
                 'follow_up_on': followup.follow_up_on if followup else None,
             },
         )
@@ -162,9 +162,15 @@ def search_detail(request, kind, pk):
                 get_object_or_404(query.select_for_update(of=('self',)), pk=pk)
                 AdviserSearchFollowUp.objects.update_or_create(
                     **(
-                        {'offer': target} if kind == 'offers' else {'candidate': target}
+                        {'job_offer': target}
+                        if kind == 'offers'
+                        else {'candidate_profile': target}
                     ),
-                    defaults={**form.cleaned_data, 'updated_by': request.user},
+                    defaults={
+                        'is_searching': form.cleaned_data['searching'],
+                        'follow_up_on': form.cleaned_data['follow_up_on'],
+                        'updated_by': request.user,
+                    },
                 )
             return redirect(
                 reverse('adviser_search', args=[kind, pk])

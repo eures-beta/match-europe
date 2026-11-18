@@ -50,4 +50,4 @@ class CandidateOfferConversationMessageMetadataAdmin(MetadataOnlyAdmin):
 
 @admin.register(AdviserSearchFollowUp)
 class AdviserSearchFollowUpAdmin(MetadataOnlyAdmin):
-    list_display = ('id', 'searching', 'follow_up_on', 'updated_at')
+    list_display = ('id', 'is_searching', 'follow_up_on', 'updated_at')

@@ -27,7 +27,7 @@
               <h3 class="h5"><a href="{% url 'adviser_search' row.kind row.object.pk %}?lang={{ dashboard_language }}">{{ row.title }}</a></h3>
               <p>{{ row.subtitle }} · {% translate "Registered on" %} {{ row.entered_at|date:"SHORT_DATE_FORMAT" }}</p>
               <p>{{ row.explanation }}</p>
-              <p>{% if row.followup.searching %}<strong>{% translate "Search in progress" %}</strong>{% else %}{% translate "To start" %}{% endif %}{% if row.followup.follow_up_on %} · {% translate "Follow-up date" %} : {{ row.followup.follow_up_on|date:"SHORT_DATE_FORMAT" }}{% endif %}{% if row.due %} · <strong>{% translate "Follow-up due" %}</strong>{% endif %}</p>
+              <p>{% if row.followup.is_searching %}<strong>{% translate "Search in progress" %}</strong>{% else %}{% translate "To start" %}{% endif %}{% if row.followup.follow_up_on %} · {% translate "Follow-up date" %} : {{ row.followup.follow_up_on|date:"SHORT_DATE_FORMAT" }}{% endif %}{% if row.due %} · <strong>{% translate "Follow-up due" %}</strong>{% endif %}</p>
               <a class="btn btn-outline-primary"
                  href="{% url 'adviser_search' row.kind row.object.pk %}?lang={{ dashboard_language }}">
                 {% if row.kind == "offers" %}
