@@ -1,4 +1,4 @@
-# Design system Match Europe
+# Design system EURES — Match Europe
 
 Ce document dit comment construire une interface Match Europe. Il s’adresse aux personnes de
 l’équipe et à leurs agents IA. Un agent qui crée ou modifie un écran le lit avant d’écrire du HTML
@@ -39,12 +39,14 @@ continue d'utiliser les tokens et composants décrits ici.
 | `/design-system/` (`templates/design_system.html`)    | Page de référence : tokens, contrastes et composants rendus            |
 
 La page `/design-system/` lit `tokens.css` à chaque affichage : elle montre toujours les valeurs
-réelles, avec le contraste mesuré de chaque couleur. C’est un outil interne de l’équipe, en
-français seulement, et non une fonctionnalité métier. Elle est réservée aux comptes staff actifs,
-avec la même règle dans tous les environnements (`require_staff`) : un visiteur anonyme est envoyé
-vers la connexion, un autre compte reçoit une 404. En local, utiliser le compte fictif
-superadministrateur (`DEMO_ACCOUNTS_ENABLED=1`, puis `make test-accounts-seed`, voir
-`docs/TEST_ACCOUNTS.md`).
+réelles, avec le contraste mesuré de chaque couleur. Le catalogue et tous ses exemples sont
+publics, sans connexion ni droit staff, dans tous les environnements. Ils ne sont pas liés
+depuis l’accueil ou la navigation métier : ouvrir directement `/design-system/`.
+Cette URL n’est pas un secret ni une protection d’accès.
+Le catalogue est un outil de référence en français ; les écrans fictifs sont du travail
+en cours, sans lecture de données métier ni sauvegarde. Leur présence dans cette PR
+ne constitue pas une décision de les livrer en production. Le catalogue reste la référence
+envisagée à terme ; les exemples sont à revoir avant toute future fusion.
 
 Pour une page qui utilise Bootstrap, charger les trois feuilles dans cet ordre :
 
