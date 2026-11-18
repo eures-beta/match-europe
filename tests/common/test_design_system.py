@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 
 from eures_beta.users.models import User
@@ -118,28 +117,39 @@ class DesignSystemPageTests(TestCase):
         )
         cls.employer = User.objects.create_user('rh@example.invalid', kind='employer')
 
-    def test_anonymous_visitors_are_sent_to_login(self):
+    def test_anonymous_visitors_can_read_all_pages_without_writes(self):
         for url in self.urls:
             with self.subTest(url=url):
                 response = self.client.get(url)
-                self.assertRedirects(
-                    response,
-                    f'{settings.LOGIN_URL}?next={url}',
-                    fetch_redirect_response=False,
-                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(self.client.post(url).status_code, 405)
 
-    def test_pages_are_hidden_from_non_staff_accounts(self):
-        for user in (self.adviser, self.employer):
+    def test_pages_are_public_for_each_business_role(self):
+        candidate = User.objects.create_user(
+            'candidate@example.invalid', kind='candidate'
+        )
+        for user in (self.adviser, self.employer, candidate):
             self.client.force_login(user)
             for url in self.urls:
                 with self.subTest(user=user.email, url=url):
-                    self.assertEqual(self.client.get(url).status_code, 404)
+                    self.assertEqual(self.client.get(url).status_code, 200)
 
-    def test_inactive_staff_is_refused(self):
+    def test_staff_flag_does_not_control_public_access(self):
         self.staff.is_active = False
         self.staff.save(update_fields=['is_active'])
         self.client.force_login(self.staff)
-        self.assertNotEqual(self.client.get(self.url).status_code, 200)
+        self.assertEqual(self.client.get(self.url).status_code, 200)
+
+    def test_product_navigation_does_not_link_to_design_system(self):
+        for user in (None, self.adviser, self.employer, self.staff):
+            self.client.logout()
+            if user:
+                self.client.force_login(user)
+            for url in ('/', '/project/', '/privacy/'):
+                with self.subTest(user=user, url=url):
+                    response = self.client.get(url)
+                    self.assertEqual(response.status_code, 200)
+                    self.assertNotContains(response, '/design-system/')
 
     def test_unknown_example_screen_is_not_found(self):
         self.client.force_login(self.staff)
