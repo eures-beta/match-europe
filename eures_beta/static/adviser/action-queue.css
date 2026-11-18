@@ -1,7 +1,7 @@
 .adviser-sidebar nav a.adviser-action-link {
   display: inline-flex;
   align-items: center;
-  gap: var(--me-space-xs);
+  gap: 0.5rem;
 }
 
 .adviser-action-count {
@@ -9,13 +9,13 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-width: var(--me-space-l);
-  min-height: var(--me-space-l);
-  padding: 0 var(--me-space-2xs);
-  border-radius: var(--me-radius-badge);
-  background: var(--me-color-error);
-  color: var(--me-color-text-inverse);
-  font-size: var(--me-font-size-s);
-  font-weight: var(--me-font-weight-bold);
-  line-height: var(--me-line-height-s);
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  padding: 0 0.25rem;
+  border-radius: 8px;
+  background: #d7003d;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25rem;
 }

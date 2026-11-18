@@ -1,75 +1,75 @@
 .adviser-record {
-  color: var(--me-color-text);
-  font-family: var(--me-font-family);
-  font-size: var(--me-font-size-m);
-  line-height: var(--me-line-height-m);
+  color: #191d26;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
   min-width: 0;
 }
 
 .adviser-record .invitation-card {
-  padding: var(--me-space-l);
-  border: var(--me-border-width) solid var(--me-color-border);
-  border-radius: var(--me-radius-card);
-  background: var(--me-color-surface);
-  box-shadow: var(--me-shadow-card);
+  padding: 1.5rem;
+  border: 1px solid #d4d5d7;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 0.125rem 0.5rem color-mix(in srgb, #191d26 8%, transparent);
 }
 
 .adviser-record h1,
 .adviser-record h2 {
-  font-family: var(--me-font-family-heading);
-  line-height: var(--me-line-height-xl);
+  font-family: 'Gelasio', Georgia, serif;
+  line-height: 1.75rem;
   margin: 0;
 }
 
 .adviser-record h1 {
-  font-size: var(--me-font-size-2xl);
+  font-size: 1.75rem;
   overflow-wrap: anywhere;
 }
 
 .adviser-record h2 {
-  font-size: var(--me-font-size-l);
+  font-size: 1.25rem;
 }
 
 .record-back {
   display: inline-block;
-  margin-bottom: var(--me-space-m);
+  margin-bottom: 1rem;
 }
 
 .adviser-record .record-header {
-  border-top: var(--me-space-2xs) solid var(--me-color-action);
-  margin-bottom: var(--me-space-l);
+  border-top: 0.25rem solid #0e47cb;
+  margin-bottom: 1.5rem;
 }
 
 .record-eyebrow,
 .record-date,
 .record-empty {
-  color: var(--me-color-text-muted);
-  font-size: var(--me-font-size-s);
+  color: #515560;
+  font-size: 0.875rem;
 }
 
 .record-eyebrow {
-  margin: 0 0 var(--me-space-xs);
-  font-weight: var(--me-font-weight-bold);
+  margin: 0 0 0.5rem;
+  font-weight: 700;
 }
 
 .record-date {
-  margin: var(--me-space-m) 0 0;
+  margin: 1rem 0 0;
 }
 
 .record-summary,
 .record-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--me-space-4xl) * 3)), 1fr));
-  gap: var(--me-space-l);
-  margin: var(--me-space-l) 0 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(4rem * 3)), 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0 0;
 }
 
 .record-summary dt,
 .record-fields dt {
-  color: var(--me-color-text-muted);
-  font-size: var(--me-font-size-s);
-  font-weight: var(--me-font-weight-regular);
-  margin-bottom: var(--me-space-2xs);
+  color: #515560;
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
 }
 
 .record-summary dd,
@@ -79,13 +79,13 @@
 }
 
 .record-summary dd {
-  font-weight: var(--me-font-weight-bold);
+  font-weight: 700;
 }
 
 .record-layout,
 .record-main {
   display: grid;
-  gap: var(--me-space-l);
+  gap: 1.5rem;
   min-width: 0;
   align-items: start;
 }
@@ -93,9 +93,9 @@
 .record-jump {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--me-space-xs) var(--me-space-m);
-  padding: 0 var(--me-space-2xs);
-  font-size: var(--me-font-size-s);
+  gap: 0.5rem 1rem;
+  padding: 0 0.25rem;
+  font-size: 0.875rem;
 }
 
 .record-field-wide {
@@ -103,97 +103,97 @@
 }
 
 .record-section {
-  scroll-margin-top: var(--me-space-l);
+  scroll-margin-top: 1.5rem;
 }
 
 .record-followup h2 {
-  margin-bottom: var(--me-space-m);
+  margin-bottom: 1rem;
 }
 
 .record-state {
   display: inline-block;
   margin: 0;
-  padding: var(--me-space-2xs) var(--me-space-xs);
-  border-radius: var(--me-radius-badge);
-  background: var(--me-color-surface-brand);
-  color: var(--me-color-link);
-  font-size: var(--me-font-size-s);
-  font-weight: var(--me-font-weight-bold);
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  background: #f3f6fc;
+  color: #0e47cb;
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .record-reason {
-  margin: var(--me-space-m) 0 var(--me-space-l);
-  color: var(--me-color-text-muted);
+  margin: 1rem 0 1.5rem;
+  color: #515560;
 }
 
 .record-check {
   display: flex;
   align-items: center;
-  gap: var(--me-space-xs);
-  margin-bottom: var(--me-space-l);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .adviser-record .record-check input[type='checkbox'] {
-  flex: 0 0 var(--me-space-m);
-  min-height: var(--me-space-m);
+  flex: 0 0 1rem;
+  min-height: 1rem;
   padding: 0;
-  width: var(--me-space-m);
-  height: var(--me-space-m);
+  width: 1rem;
+  height: 1rem;
   margin: 0;
-  accent-color: var(--me-color-action);
+  accent-color: #0e47cb;
 }
 
 .record-label {
   display: block;
-  margin-bottom: var(--me-space-xs);
-  font-weight: var(--me-font-weight-bold);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .record-followup input[type='date'] {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  min-height: var(--me-control-min-height);
-  padding: var(--me-space-xs);
-  border: var(--me-border-width) solid var(--me-color-border-strong);
-  border-radius: var(--me-radius-control);
-  background: var(--me-color-surface);
-  color: var(--me-color-text);
+  min-height: 3rem;
+  padding: 0.5rem;
+  border: 1px solid #515560;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #191d26;
   font: inherit;
 }
 
 .record-followup .btn-primary {
   width: 100%;
-  margin-top: var(--me-space-l);
-  min-height: var(--me-control-min-height);
-  padding: var(--me-space-xs) var(--me-space-m);
-  border: var(--me-border-width) solid var(--me-color-action);
-  border-radius: var(--me-radius-control);
-  background: var(--me-color-action);
-  color: var(--me-color-action-text);
+  margin-top: 1.5rem;
+  min-height: 3rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #0e47cb;
+  border-radius: 8px;
+  background: #0e47cb;
+  color: #ffffff;
   font: inherit;
-  font-weight: var(--me-font-weight-bold);
+  font-weight: 700;
   cursor: pointer;
 }
 
 .record-followup .btn-primary:hover {
-  background: var(--me-color-action-hover);
+  background: #0b39a2;
 }
 
 .adviser-record :focus-visible {
-  outline: var(--me-focus-outline-width) solid var(--me-color-focus);
-  outline-offset: var(--me-focus-outline-offset);
+  outline: 2px solid #0e47cb;
+  outline-offset: 2px;
 }
 
 .record-saved {
-  padding: var(--me-space-s);
-  background: var(--me-color-success-surface);
-  border-inline-start: var(--me-space-2xs) solid var(--me-color-success);
+  padding: 0.75rem;
+  background: #f2fcf9;
+  border-inline-start: 0.25rem solid #00a174;
 }
 
 .record-followup .errorlist {
-  padding-inline-start: var(--me-space-m);
-  color: var(--me-color-error);
+  padding-inline-start: 1rem;
+  color: #d7003d;
 }
 
 @media (min-width: 64rem) {
@@ -203,11 +203,11 @@
 
   .record-followup {
     position: sticky;
-    top: var(--me-space-l);
+    top: 1.5rem;
   }
 }
 
 .adviser-record .record-check label {
   margin: 0;
-  font-weight: var(--me-font-weight-regular);
+  font-weight: 400;
 }
