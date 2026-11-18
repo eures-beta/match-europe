@@ -6,7 +6,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from . import access, services
-from .models import AdviserSearchFollowUp, CandidateOfferMatch, MatchEvaluation
+from .models import (
+    CandidateSupport,
+    JobOfferSupport,
+    CandidateOfferMatch,
+    MatchEvaluation,
+)
 
 REASONS = {
     'no_candidates': _(
@@ -84,10 +89,13 @@ def search_rows():
         item = (pair, evaluation, current(evaluation, pair))
         by_candidate[pair.candidate_id].append(item)
         by_offer[pair.offer_id].append(item)
-    followups = list(AdviserSearchFollowUp.objects.select_related('updated_by'))
-    offer_followups = {row.job_offer_id: row for row in followups if row.job_offer_id}
+    offer_followups = {
+        row.job_offer_id: row
+        for row in JobOfferSupport.objects.select_related('updated_by')
+    }
     candidate_followups = {
-        row.candidate_profile_id: row for row in followups if row.candidate_profile_id
+        row.candidate_profile_id: row
+        for row in CandidateSupport.objects.select_related('updated_by')
     }
 
     def rows(objects, kind):

@@ -12,7 +12,11 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 
 from eures_beta.matching import access, search_queue
-from eures_beta.matching.models import AdviserSearchFollowUp, MatchEvaluation
+from eures_beta.matching.models import (
+    CandidateSupport,
+    JobOfferSupport,
+    MatchEvaluation,
+)
 from eures_beta.www.accounts.views import selected_language
 
 
@@ -160,7 +164,10 @@ def search_detail(request, kind, pk):
             with transaction.atomic():
                 # Serialise creation on the target, including two advisers' first updates.
                 get_object_or_404(query.select_for_update(of=('self',)), pk=pk)
-                AdviserSearchFollowUp.objects.update_or_create(
+                support_model = (
+                    JobOfferSupport if kind == 'offers' else CandidateSupport
+                )
+                support_model.objects.update_or_create(
                     **(
                         {'job_offer': target}
                         if kind == 'offers'

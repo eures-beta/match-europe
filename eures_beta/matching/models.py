@@ -143,27 +143,23 @@ class CandidateOfferConversationMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class AdviserSearchFollowUp(models.Model):
-    """Shared external-search progress; never changes a matching decision."""
+class JobOfferSupport(models.Model):
+    """Shared adviser support for recruiting against one job offer."""
 
-    job_offer = models.OneToOneField(
-        'employers.JobOffer', null=True, blank=True, on_delete=models.CASCADE
-    )
-    candidate_profile = models.OneToOneField(
-        'candidates.CandidateProfile', null=True, blank=True, on_delete=models.CASCADE
-    )
+    job_offer = models.OneToOneField('employers.JobOffer', on_delete=models.CASCADE)
     is_searching = models.BooleanField(default=False)
     follow_up_on = models.DateField(null=True, blank=True)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                condition=(
-                    models.Q(job_offer__isnull=False, candidate_profile__isnull=True)
-                    | models.Q(job_offer__isnull=True, candidate_profile__isnull=False)
-                ),
-                name='matching_advisersearchfollowup_single_target',
-            ),
-        ]
+
+class CandidateSupport(models.Model):
+    """Shared adviser support for one candidate's job search."""
+
+    candidate_profile = models.OneToOneField(
+        'candidates.CandidateProfile', on_delete=models.CASCADE
+    )
+    is_searching = models.BooleanField(default=False)
+    follow_up_on = models.DateField(null=True, blank=True)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    updated_at = models.DateTimeField(auto_now=True)
