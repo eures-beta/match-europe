@@ -1,6 +1,7 @@
 from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from .models import (
+    AdviserSearchFollowUp,
     CandidateOfferMatch,
     MatchEvaluation,
     MatchDecision,
@@ -45,3 +46,8 @@ class CandidateOfferConversationMetadataAdmin(MetadataOnlyAdmin):
 @admin.register(CandidateOfferConversationMessage)
 class CandidateOfferConversationMessageMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'created_at')
+
+
+@admin.register(AdviserSearchFollowUp)
+class AdviserSearchFollowUpAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'searching', 'follow_up_on', 'updated_at')

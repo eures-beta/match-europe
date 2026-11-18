@@ -4,13 +4,7 @@
   {% include "matching/shared_list.html" with shared_language=dashboard_language %}
   <section class="invitation-card invitation-history"
            aria-labelledby="queue-title">
-    <h2 id="queue-title">
-      {% if tracking %}
-        {% translate "Open conversations" %}
-      {% else %}
-        {% translate "Pending matchings" %}
-      {% endif %}
-    </h2>
+    <h2 id="queue-title">{{ queue_title }}</h2>
     {% if not allowed %}
       <p>{% translate "Matching review is unavailable for your account." %}</p>
     {% elif tracking and page %}
@@ -20,6 +14,34 @@
           {% include "users/adviser_matching_card.html" with match=item.match %}
         {% endfor %}
       </ul>
+    {% elif queue_section == "offers" or queue_section == "candidates" %}
+      {% if page %}
+        {% if queue_section == "offers" %}
+          <p>{% translate "Find candidates in your internal tools and network for these offers." %}</p>
+        {% else %}
+          <p>{% translate "Look for employers and new offers for these candidates." %}</p>
+        {% endif %}
+        <ul class="list-unstyled">
+          {% for row in page %}
+            <li class="border-bottom py-3">
+              <h3 class="h5"><a href="{% url 'adviser_search' row.kind row.object.pk %}?lang={{ dashboard_language }}">{{ row.title }}</a></h3>
+              <p>{{ row.subtitle }} · {% translate "Registered on" %} {{ row.entered_at|date:"SHORT_DATE_FORMAT" }}</p>
+              <p>{{ row.explanation }}</p>
+              <p>{% if row.followup.searching %}<strong>{% translate "Search in progress" %}</strong>{% else %}{% translate "To start" %}{% endif %}{% if row.followup.follow_up_on %} · {% translate "Follow-up date" %} : {{ row.followup.follow_up_on|date:"SHORT_DATE_FORMAT" }}{% endif %}{% if row.due %} · <strong>{% translate "Follow-up due" %}</strong>{% endif %}</p>
+              <a class="btn btn-outline-primary"
+                 href="{% url 'adviser_search' row.kind row.object.pk %}?lang={{ dashboard_language }}">
+                {% if row.kind == "offers" %}
+                  {% translate "View offer" %}
+                {% else %}
+                  {% translate "View profile" %}
+                {% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{% translate "No external search to start in this section." %}</p>
+      {% endif %}
     {% elif matchings %}
       {% for matching in matchings %}
         {% include "users/adviser_matching_panel.html" %}
@@ -31,10 +53,10 @@
     {% endif %}
     <nav class="invitation-pages" aria-label="{% translate 'Pages' %}">
       {% if page.has_previous %}
-        <a href="?lang={{ dashboard_language }}{% if tracking %}&amp;view=conversations{% endif %}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+        <a href="?lang={{ dashboard_language }}&amp;view={{ queue_section }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
       {% endif %}
       {% if page.has_next %}
-        <a href="?lang={{ dashboard_language }}{% if tracking %}&amp;view=conversations{% endif %}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+        <a href="?lang={{ dashboard_language }}&amp;view={{ queue_section }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
       {% endif %}
     </nav>
   </section>

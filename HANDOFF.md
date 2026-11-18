@@ -17,6 +17,16 @@ historique de tests n'est à entretenir ici.
 - [Guide des agents](docs/AGENT_WORKFLOW.md) : procédures ciblées et fin de tâche.
 - [Documentation](docs/DOCUMENTATION.md) : budgets, entretien et historique Git.
 
+## À traiter — publication demandée
+
+Branche `codex/adviser-action-queue`, fondée sur `codex/design-system-employeur`
+(#238) à la demande d’Eric ; #242 reste indépendante pour sa livraison rapide.
+Trois rubriques : rapprochements à valider, offres sans candidats, candidats sans offre.
+Suivi partagé de recherche et date de relance, migrations additives matching 0012–0013.
+Recette fictive locale : `make run PORT=9058`, puis compte conseiller de test.
+Revue locale effectuée ; Eric a demandé la publication de la PR le 18 novembre 2026.
+Titre : « ajout d'action dans A TRAITER ». Ni fusion ni déploiement autorisés.
+
 ## Travail en revue
 
 La pile contient des changements encore non fusionnés : ne pas les présenter

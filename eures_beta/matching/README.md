@@ -23,5 +23,6 @@ Calcul explicable, décisions, confirmations et conversations. Les interfaces so
 - [engine.py](engine.py) — Calcule les critères et explications du rapprochement.
 - [models.py](models.py) — Définit les données persistantes, leurs relations et contraintes.
 - [presentation.py](presentation.py) — Prépare les libellés et données de présentation des résultats.
+- [search_queue.py](search_queue.py) — Distingue recherches externes, calculs absents/périmés et informations insuffisantes.
 - [services.py](services.py) — Orchestre calculs et décisions avec contrôles de version et concurrence.
 - [validation.py](validation.py) — Valide les données métier du rapprochement.

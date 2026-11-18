@@ -1,8 +1,14 @@
 from django.urls import path
+from eures_beta.www.adviser import action_queue
 from eures_beta.www.accounts import views
 from eures_beta.www.accounts import test_accounts as test_account_views
 
 urlpatterns = [
+    path(
+        'accounts/dashboard/search/<str:kind>/<uuid:pk>/',
+        action_queue.search_detail,
+        name='adviser_search',
+    ),
     path(
         'accounts/test-accounts/', test_account_views.account_list, name='test_accounts'
     ),
