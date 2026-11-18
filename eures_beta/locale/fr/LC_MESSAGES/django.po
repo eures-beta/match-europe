@@ -7480,3 +7480,7 @@ msgstr "l’offre"
 
 msgid "the location in the offer"
 msgstr "la ville indiquée dans l’offre"
+
+#: eures_beta/users/test_accounts.py
+msgid "Test staff"
+msgstr "Test Staff"

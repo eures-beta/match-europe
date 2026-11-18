@@ -7480,3 +7480,7 @@ msgstr "Stelle"
 
 msgid "the location in the offer"
 msgstr "dem ausgeschriebenen Ort"
+
+#: eures_beta/users/test_accounts.py
+msgid "Test staff"
+msgstr "Test-Staff"

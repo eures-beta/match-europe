@@ -19,6 +19,13 @@ ACCOUNTS = {
         'is_superuser': False,
         'label': _('Test employer'),
     },
+    'staff': {
+        'email': 'staff@demo.example.invalid',
+        'kind': User.Kind.ADVISER,
+        'is_staff': True,
+        'is_superuser': False,
+        'label': _('Test staff'),
+    },
     'admin': {
         'email': 'admin@demo.example.invalid',
         'kind': User.Kind.ADVISER,
