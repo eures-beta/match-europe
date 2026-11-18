@@ -1,7 +1,4 @@
-from functools import wraps
-
 from django.conf import settings
-from django.contrib.auth.views import redirect_to_login
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.templatetags.static import static
@@ -10,22 +7,6 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_safe
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
-
-
-def require_staff(view):
-    """Team-only page: same rule in every environment, by role, never by environment."""
-
-    @wraps(view)
-    @never_cache
-    def wrapped(request, *args, **kwargs):
-        user = request.user
-        if not user.is_authenticated:
-            return redirect_to_login(request.get_full_path())
-        if not (user.is_active and user.is_staff):
-            raise Http404()
-        return view(request, *args, **kwargs)
-
-    return wrapped
 
 
 @never_cache
@@ -60,10 +41,10 @@ def journal(request):
     return _public_page(request, 'journal.html', {'entries': ENTRIES})
 
 
-@require_staff
+@never_cache
 @require_safe
 def design_system(request):
-    """Team reference page: tokens and Bootstrap components with the ECL values."""
+    """Public reference reached by its URL, outside the product navigation."""
     from eures_beta import design_system as tokens
 
     return render(
@@ -79,7 +60,7 @@ def design_system(request):
     )
 
 
-@require_staff
+@never_cache
 @require_safe
 def design_system_example(request, screen='offre'):
     """Fictional screens built only with the design system."""
