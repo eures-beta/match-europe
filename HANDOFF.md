@@ -27,6 +27,13 @@ Recette fictive locale : `make run PORT=9058`, puis compte conseiller de test.
 Revue locale effectuée ; Eric a demandé la publication de la PR le 18 novembre 2026.
 Titre : « ajout d'action dans A TRAITER ». Ni fusion ni déploiement autorisés.
 
+## Matching au dépôt du profil candidat
+
+`codex/candidate-profile-matching` est empilée sur #243 : création du profil vérifié
+et modification confirmée déclenchent le calcul après commit sur les offres existantes.
+Décisions du conseiller et consentements conservés ; aucun rattrapage global des
+anciens profils. Calcul synchrone, sans relance automatique en cas d’erreur.
+
 ## Travail en revue
 
 La pile contient des changements encore non fusionnés : ne pas les présenter

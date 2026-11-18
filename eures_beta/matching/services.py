@@ -141,3 +141,23 @@ def schedule_offer_matching(offer):
         lambda: calculate_for_saved_offer(offer_id, revision),
         robust=True,
     )
+
+
+def calculate_for_saved_candidate(candidate_id):
+    candidate = candidates().filter(pk=candidate_id).first()
+    if candidate is None:
+        return
+    for offer in matchable_offers().order_by('pk').iterator():
+        try:
+            calculate(candidate, offer, offer_revision=offer.revision)
+        except ObjectDoesNotExist:
+            # Eligibility or the offer revision may change after scheduling.
+            continue
+
+
+def schedule_candidate_matching(candidate):
+    candidate_id = candidate.pk
+    transaction.on_commit(
+        lambda: calculate_for_saved_candidate(candidate_id),
+        robust=True,
+    )

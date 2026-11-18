@@ -70,6 +70,9 @@ blocages validés ; ne pas déduire automatiquement des pénalités des données
 ni changer les poids. La décision conseiller, la réponse candidat et l'accord de
 transmission sont distincts. L'avis Albert reste une aide soumise à relecture.
 La revue par offre n'est pas la conversation réelle à trois.
+La finalisation du profil vérifié et ses modifications confirmées déclenchent
+le matching après commit contre les offres éligibles déjà enregistrées ; cela
+complète le déclenchement côté offre sans modifier les décisions humaines.
 Références : [questionnaire](CANDIDATE_JOURNEY.md), [stockage](CANDIDATE_PROFILE_STORAGE.md),
 [matching](MATCHING.md), [confirmations](CANDIDATE_OFFER_CONFIRMATIONS.md),
 [dialogue](ALBERT_DIALOGUE_ADAPTER.md), [conversation](CONVERSATIONAL_MATCHING.md).

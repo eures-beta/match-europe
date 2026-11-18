@@ -205,3 +205,17 @@ puis les sous-scores et explications au dépliage. La fiche distingue points
 forts, incompatibilités explicites et points à confirmer. Une évaluation périmée
 reste signalée. La consultation n'enregistre ni calcul ni décision.
 Les poids restent expérimentaux, sans seuil automatique de rejet.
+
+## Déclenchement après enregistrement candidat
+
+La création d’un profil vérifié, par invitation ou confirmation d’inscription,
+et sa modification confirmée via `candidates.registration` programment le
+matching après commit. Les brouillons et la simple consultation ne le lancent pas.
+Le service compare le candidat aux offres actuellement éligibles ; une offre
+supprimée, devenue inéligible ou révisée pendant le traitement est ignorée.
+Les évaluations identiques sont réutilisées et les décisions humaines conservées.
+Comme pour une offre enregistrée, le traitement est synchrone après commit, sans
+file de tâches ni relance automatique : une erreur est journalisée sans annuler
+l’enregistrement du profil. Le temps de traitement augmente avec le nombre d’offres.
+Ce déclenchement ne rattrape pas à lui seul les profils déjà enregistrés avant
+son installation ; une nouvelle modification confirmée les fera recalculer.
