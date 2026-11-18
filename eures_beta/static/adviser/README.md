@@ -8,5 +8,5 @@ domaines Django et leurs adaptateurs web.
 
 - [history.css](history.css) — Présentation des tableaux, recherches et compteurs de l'historique conseiller.
 
-- [action-queue.css](action-queue.css) — Pastilles rouges et disposition des actions conseiller.
+- [action-queue.css](action-queue.css) — Pastilles rouges des actions conseiller, à partir des tokens EURES.
 - [record-detail.css](record-detail.css) — Fiches offre et candidat, résumé, sections et suivi conseiller responsive.

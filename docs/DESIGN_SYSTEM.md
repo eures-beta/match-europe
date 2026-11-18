@@ -153,6 +153,20 @@ Toujours dans cet ordre :
 Une seule action principale par écran ou par bloc. Ne pas utiliser `btn-secondary`, `btn-warning`
 ni les autres variantes de couleur de Bootstrap pour des boutons : elles n’ont pas d’équivalent ECL.
 
+### Compteurs d’actions conseiller
+
+Les menus « À traiter » utilisent `.adviser-action-count` dans
+`static/adviser/action-queue.css` : petit badge rouge (`--me-color-error`), texte
+inversé, arrondi de badge et libellé accessible donnant le nombre d’actions.
+Il est masqué à zéro et ne compte pas les recherches reportées à une date future.
+
+### Fiches conseiller
+
+Les fiches offre/candidat de « À traiter » utilisent `adviser/record-detail.css` :
+résumé en tête, sections thématiques, libellés discrets et contenu lisible, suivi
+séparé dans un panneau latéral sur ordinateur. Sur petit écran, les blocs s’empilent ;
+les liens de rubrique donnent aussi accès au suivi. Couleurs et mesures viennent des tokens.
+
 ### En-tête et liens de navigation
 
 Tous les écrans d’exemple partagent le même en-tête (`design_system/example_base.html`) : logo et
