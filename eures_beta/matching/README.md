@@ -24,5 +24,5 @@ Calcul explicable, décisions, confirmations et conversations. Les interfaces so
 - [models.py](models.py) — Définit les données persistantes, dont JobOfferSupport et CandidateSupport, accompagnements partagés à cible unique.
 - [presentation.py](presentation.py) — Prépare les libellés et données de présentation des résultats.
 - [search_queue.py](search_queue.py) — Distingue recherches externes, calculs absents/périmés et informations insuffisantes.
-- [services.py](services.py) — Orchestre calculs et décisions avec contrôles de version et concurrence.
+- [services.py](services.py) — Orchestre calculs et décisions, dont les déclenchements après enregistrement d’une offre ou d’un profil candidat.
 - [validation.py](validation.py) — Valide les données métier du rapprochement.

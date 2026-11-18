@@ -112,7 +112,7 @@ def create_verified_profile(user, data, language, notice_read_at):
     for name in ('salary_amount', 'available_from'):
         if answers.get(name) == '':
             answers[name] = None
-    _, created = CandidateProfile.objects.get_or_create(
+    profile, created = CandidateProfile.objects.get_or_create(
         user=user,
         defaults={
             **answers,
@@ -122,6 +122,10 @@ def create_verified_profile(user, data, language, notice_read_at):
             'notice_version': '2026-11-05',
         },
     )
+    if created:
+        from eures_beta.matching.services import schedule_candidate_matching
+
+        schedule_candidate_matching(profile)
     return created
 
 
@@ -188,4 +192,7 @@ def update_profile(user, data, language, *, expected_updated_at=None):
         setattr(profile, name, value)
     profile.language = language
     profile.save()
+    from eures_beta.matching.services import schedule_candidate_matching
+
+    schedule_candidate_matching(profile)
     return profile

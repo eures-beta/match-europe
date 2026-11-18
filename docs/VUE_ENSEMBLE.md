@@ -13,7 +13,8 @@ ne constitue pas une restriction permanente du produit.
 
 - **Candidat** : décrire progressivement son projet et ses compétences, vérifier
   son adresse, retrouver son profil, examiner une offre et choisir ce qui peut être
-  transmis. Une revue par offre précède, selon le parcours, une conversation à trois.
+  transmis. Profil vérifié créé ou modifié : calcul après commit sur les offres
+  éligibles existantes. Une revue par offre précède, selon le parcours, une conversation à trois.
 - **Employeur** : compte invité, lecture d'une offre par URL/PDF/texte,
   relecture guidée, sauvegarde et suivi de ses offres. Les droits restent liés
   au compte propriétaire, pas à une session de démonstration.
