@@ -21,7 +21,7 @@ Calcul explicable, décisions, confirmations et conversations. Les interfaces so
 - [dialogue_albert.py](dialogue_albert.py) — Adapte les échanges de clarification au client Albert commun.
 - [dialogue_services.py](dialogue_services.py) — Valide les propositions du dialogue et leurs modifications de profil.
 - [engine.py](engine.py) — Calcule les critères et explications du rapprochement.
-- [models.py](models.py) — Définit les données persistantes, leurs relations et contraintes.
+- [models.py](models.py) — Définit les données persistantes, dont JobOfferSupport et CandidateSupport, accompagnements partagés à cible unique.
 - [presentation.py](presentation.py) — Prépare les libellés et données de présentation des résultats.
 - [search_queue.py](search_queue.py) — Distingue recherches externes, calculs absents/périmés et informations insuffisantes.
 - [services.py](services.py) — Orchestre calculs et décisions avec contrôles de version et concurrence.

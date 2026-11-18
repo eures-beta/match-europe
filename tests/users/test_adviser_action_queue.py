@@ -13,7 +13,8 @@ from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
 from eures_beta.matching import search_queue, services
 from eures_beta.matching.models import (
-    AdviserSearchFollowUp,
+    CandidateSupport,
+    JobOfferSupport,
     CandidateOfferMatch,
     CandidateOfferReview,
 )
@@ -194,7 +195,7 @@ class AdviserActionQueueTests(TestCase):
             ).status_code,
             302,
         )
-        obj = AdviserSearchFollowUp.objects.get(candidate_profile=self.candidate)
+        obj = CandidateSupport.objects.get(candidate_profile=self.candidate)
         self.assertEqual(obj.updated_by, self.adviser)
         self.assertEqual(obj.follow_up_on, due)
         self.assertTrue(search_queue.search_rows()['candidates'][0]['due'])
@@ -213,7 +214,7 @@ class AdviserActionQueueTests(TestCase):
 
     def test_future_followup_is_visible_but_has_no_red_count(self):
         self.offer.delete()
-        AdviserSearchFollowUp.objects.create(
+        CandidateSupport.objects.create(
             candidate_profile=self.candidate,
             is_searching=True,
             follow_up_on=timezone.localdate() + timedelta(days=1),
@@ -228,7 +229,7 @@ class AdviserActionQueueTests(TestCase):
 
     def test_due_followup_and_search_without_date_are_counted(self):
         self.offer.delete()
-        followup = AdviserSearchFollowUp.objects.create(
+        followup = CandidateSupport.objects.create(
             candidate_profile=self.candidate,
             is_searching=True,
             follow_up_on=timezone.localdate(),
@@ -255,11 +256,11 @@ class AdviserActionQueueTests(TestCase):
         self.offer.delete()
         response = self.client.post(self.candidate_url, {'follow_up_on': '2026-12-01'})
         self.assertContains(response, 'Commencez la recherche')
-        self.assertFalse(AdviserSearchFollowUp.objects.exists())
+        self.assertFalse(CandidateSupport.objects.exists())
         self.client.post(
             self.candidate_url, {'searching': 'on', 'follow_up_on': 'bad-date'}
         )
-        self.assertFalse(AdviserSearchFollowUp.objects.exists())
+        self.assertFalse(CandidateSupport.objects.exists())
 
     def test_permissions_and_csrf(self):
         self.offer.delete()
@@ -277,17 +278,34 @@ class AdviserActionQueueTests(TestCase):
         self.assertEqual(
             csrf.post(self.candidate_url, {'searching': 'on'}).status_code, 403
         )
-        self.assertFalse(AdviserSearchFollowUp.objects.exists())
+        self.assertFalse(CandidateSupport.objects.exists())
 
-    def test_target_constraint(self):
-        with self.assertRaises(IntegrityError), transaction.atomic():
-            AdviserSearchFollowUp.objects.create(updated_by=self.adviser)
-        with self.assertRaises(IntegrityError), transaction.atomic():
-            AdviserSearchFollowUp.objects.create(
-                job_offer=self.offer,
-                candidate_profile=self.candidate,
-                updated_by=self.adviser,
-            )
+    def test_each_support_requires_a_unique_target(self):
+        for model, field, target in (
+            (JobOfferSupport, 'job_offer', self.offer),
+            (CandidateSupport, 'candidate_profile', self.candidate),
+        ):
+            with self.subTest(model=model.__name__):
+                with self.assertRaises(IntegrityError), transaction.atomic():
+                    model.objects.create(updated_by=self.adviser)
+                model.objects.create(**{field: target}, updated_by=self.adviser)
+                with self.assertRaises(IntegrityError), transaction.atomic():
+                    model.objects.create(**{field: target}, updated_by=self.adviser)
+
+    def test_offer_support_is_shared_between_advisers(self):
+        self.candidate.delete()
+        due = timezone.localdate()
+        self.client.post(self.offer_url, {'searching': 'on', 'follow_up_on': due})
+        support = JobOfferSupport.objects.get(job_offer=self.offer)
+        other = User.objects.create_user('second@support.invalid', kind='adviser')
+        self.client.force_login(other)
+        self.assertContains(self.client.get(self.offer_url), 'checked')
+        self.client.post(self.offer_url, {})
+        support.refresh_from_db()
+        self.assertFalse(support.is_searching)
+        self.assertEqual(support.updated_by, other)
+        self.assertEqual(JobOfferSupport.objects.count(), 1)
+        self.assertFalse(CandidateSupport.objects.exists())
 
     def test_translations(self):
         self.offer.delete()

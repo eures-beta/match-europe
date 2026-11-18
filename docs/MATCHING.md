@@ -33,10 +33,18 @@ Le lien vers la console de matching permet de vérifier/recalculer les évaluati
 Le suivi « Recherche en cours » et la date de relance sont partagés entre conseillers,
 avec auteur et date de mise à jour, sans changer les décisions de matching. Les
 relances arrivées à échéance remontent en tête ; les recherches déjà commencées
-restent visibles. La table additive `matching_advisersearchfollowup` référence
-exactement une offre (`job_offer`) ou un profil candidat (`candidate_profile`).
-`is_searching` indique la recherche en cours. La migration 0014 renomme ces trois
-champs sans recréer les suivis ; les migrations 0012–0013 restent inchangées.
+restent visibles. `JobOfferSupport` accompagne une offre (`job_offer`) ;
+`CandidateSupport` accompagne un profil candidat (`candidate_profile`). Chaque
+relation est obligatoire et unique en base : au maximum un accompagnement partagé
+par offre ou profil, sans propriétaire conseiller. `updated_by` est le dernier auteur.
+`is_searching` indique la recherche en cours. La migration 0015 répartit les anciens
+suivis entre les deux tables, en conservant identifiants, état, relance, auteur et date.
+La copie et la suppression sont atomiques et verrouillent les tables sources contre
+les écritures concurrentes ; arrêter les anciens workers pendant ce changement de schéma.
+Les migrations publiées 0012–0014 restent inchangées. Le retour arrière conserve
+également les données ; si de nouveaux accompagnements ont acquis des identifiants
+identiques dans les deux tables, il refuse atomiquement la fusion des tables plutôt
+que de perdre ou renuméroter des lignes. Réconcilier ces identifiants avant ce retour.
 Aucun e-mail ni rappel automatique n'est envoyé.
 Les conversations existantes restent accessibles dans leur rubrique.
 
