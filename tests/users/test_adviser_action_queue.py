@@ -1,6 +1,8 @@
 from datetime import timedelta
 from io import StringIO
+import re
 
+from django.contrib.staticfiles import finders
 from django.core.management import call_command
 from django.db import IntegrityError, transaction
 from django.test import Client, TestCase, override_settings
@@ -55,6 +57,20 @@ class AdviserActionQueueTests(TestCase):
         self.assertContains(response, reverse('adviser_match', args=[self.match.pk]))
         self.assertContains(response, 'value="retained"')
         self.assertEqual(search_queue.search_rows(), {'offers': [], 'candidates': []})
+
+    def test_adviser_pages_load_existing_stylesheets(self):
+        self.candidate.delete()
+        for url in (self.url, self.offer_url):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                stylesheets = re.findall(
+                    r'<link[^>]+href="/static/([^"?]+\.css)"',
+                    response.content.decode(),
+                )
+                self.assertTrue(stylesheets)
+                for name in stylesheets:
+                    self.assertIsNotNone(finders.find(name), name)
 
     def test_offer_with_no_candidate_is_an_external_search(self):
         self.candidate.delete()
