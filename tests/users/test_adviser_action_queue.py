@@ -194,7 +194,7 @@ class AdviserActionQueueTests(TestCase):
             ).status_code,
             302,
         )
-        obj = AdviserSearchFollowUp.objects.get(candidate=self.candidate)
+        obj = AdviserSearchFollowUp.objects.get(candidate_profile=self.candidate)
         self.assertEqual(obj.updated_by, self.adviser)
         self.assertEqual(obj.follow_up_on, due)
         self.assertTrue(search_queue.search_rows()['candidates'][0]['due'])
@@ -207,15 +207,15 @@ class AdviserActionQueueTests(TestCase):
         self.assertContains(response, 'checked')
         self.assertEqual(self.client.post(self.candidate_url, {}).status_code, 302)
         obj.refresh_from_db()
-        self.assertFalse(obj.searching)
+        self.assertFalse(obj.is_searching)
         self.assertIsNone(obj.follow_up_on)
         self.assertEqual(obj.updated_by, other)
 
     def test_future_followup_is_visible_but_has_no_red_count(self):
         self.offer.delete()
         AdviserSearchFollowUp.objects.create(
-            candidate=self.candidate,
-            searching=True,
+            candidate_profile=self.candidate,
+            is_searching=True,
             follow_up_on=timezone.localdate() + timedelta(days=1),
             updated_by=self.adviser,
         )
@@ -229,8 +229,8 @@ class AdviserActionQueueTests(TestCase):
     def test_due_followup_and_search_without_date_are_counted(self):
         self.offer.delete()
         followup = AdviserSearchFollowUp.objects.create(
-            candidate=self.candidate,
-            searching=True,
+            candidate_profile=self.candidate,
+            is_searching=True,
             follow_up_on=timezone.localdate(),
             updated_by=self.adviser,
         )
@@ -284,7 +284,9 @@ class AdviserActionQueueTests(TestCase):
             AdviserSearchFollowUp.objects.create(updated_by=self.adviser)
         with self.assertRaises(IntegrityError), transaction.atomic():
             AdviserSearchFollowUp.objects.create(
-                offer=self.offer, candidate=self.candidate, updated_by=self.adviser
+                job_offer=self.offer,
+                candidate_profile=self.candidate,
+                updated_by=self.adviser,
             )
 
     def test_translations(self):

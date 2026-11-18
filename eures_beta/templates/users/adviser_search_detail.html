@@ -58,7 +58,7 @@
         <p class="record-state">
           {% if row.due %}
             {% translate "Follow-up due" %}
-          {% elif row.followup.searching %}
+          {% elif row.followup.is_searching %}
             {% translate "Search in progress" %}
           {% else %}
             {% translate "To start" %}
