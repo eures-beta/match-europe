@@ -31,12 +31,42 @@
       </div>
     </div>
     {% block header %}
-      <header class="ds-app-header">
-        <div class="container d-flex flex-wrap align-items-center justify-content-between">
-          <span class="ds-app-name">Match Europe</span>
-          <nav aria-label="Compte">
-            {% block header_nav %}{% endblock %}
-          </nav>
+      <header class="ds-site-header">
+        <div class="container">
+          <div class="ds-header-bar">
+            <a class="ds-brand" href="#">
+              <img src="{% static 'employer/assets/match-europe-logo.png' %}"
+                   alt=""
+                   width="48"
+                   height="48">
+              <span>
+                <span class="ds-brand-name">Match Europe</span>
+                <span class="ds-brand-tagline">EURES beta · mobilité, matching et accompagnement transfrontalier</span>
+              </span>
+            </a>
+            {# Language menu: native details/summary, works without JavaScript #}
+            <details class="ds-lang">
+              <summary>
+                <span class="visually-hidden">Langue :</span> FR
+              </summary>
+              <ul aria-label="Choisir la langue">
+                <li>
+                  <a href="#" aria-current="true" lang="fr" hreflang="fr">Français</a>
+                </li>
+                <li>
+                  <a href="#" lang="en" hreflang="en">English</a>
+                </li>
+                <li>
+                  <a href="#" lang="de" hreflang="de">Deutsch</a>
+                </li>
+              </ul>
+            </details>
+            <nav class="ds-account" aria-label="Compte">
+              {% block header_nav %}{% endblock %}
+            </nav>
+          </div>
+          {% include "design_system/partenaires.html" %}
+          {% block site_nav %}{% endblock %}
         </div>
       </header>
     {% endblock %}
