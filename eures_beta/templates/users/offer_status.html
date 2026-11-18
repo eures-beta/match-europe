@@ -1,0 +1,8 @@
+{% load i18n %}
+{% if offer.search_started_at %}
+  {% translate "Search started" %}
+{% elif offer.validated_at %}
+  {% translate "Validated" %}
+{% else %}
+  {% translate "In preparation" %}
+{% endif %}

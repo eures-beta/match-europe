@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import OuterRef, Q, Subquery
 from django.http import Http404
 from django.shortcuts import render
+from django.utils.translation import gettext as _
 
 from eures_beta.candidates.registration import profile_answers
 from eures_beta.www.candidate.registration import answer_groups
@@ -12,6 +13,8 @@ from eures_beta.matching import access
 from eures_beta.matching.models import CandidateOfferMatch, MatchEvaluation
 
 from eures_beta.invitations.models import Invitation
+from eures_beta.employers.models import JobOffer
+from eures_beta.www.adviser.offer_details import offer_details
 from eures_beta.invitations.permissions import can_invite
 from eures_beta.www.accounts.views import selected_language
 
@@ -21,7 +24,7 @@ def history(request):
     if access.can_view_pairs(request.user):
         sections.update(
             candidates='Réponses candidats',
-            employers='Réponses employeurs',
+            employers=_('Employer job offers'),
         )
         if access.enabled():
             sections['matchings'] = 'Tous les matchings'
@@ -62,6 +65,11 @@ def history(request):
             'page': page,
             'selected_entry': selected_entry,
             'candidate_answers': candidate_answers,
+            'offer_details': (
+                offer_details(selected_entry, language)
+                if selected_entry and section == 'employers'
+                else []
+            ),
         },
     )
 
@@ -76,14 +84,18 @@ def history_rows(section, search):
             .order_by('-updated_at', '-pk')
         )
     if section == 'employers':
+        # Adviser history mirrors recorded offers, independently of matching eligibility.
         return (
-            access.offers()
+            JobOffer.objects.select_related('company', 'created_by', 'adviser')
             .filter(
                 Q(data__title__icontains=search)
                 | Q(data__companyName__icontains=search)
                 | Q(email__icontains=search)
+                | Q(company__name__icontains=search)
+                | Q(created_by__email__icontains=search)
+                | Q(data__city__icontains=search)
             )
-            .order_by('-validated_at', '-pk')
+            .order_by('-created', '-pk')
         )
     if section == 'invitations':
         return (

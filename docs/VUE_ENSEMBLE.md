@@ -311,3 +311,13 @@ les validations partagées dans le domaine. Templates, statiques, traductions et
 tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
 créé ou déplacé, aucune nouvelle migration. Voir
 [le guide](ARCHITECTURE_WEB.md).
+
+## 18 novembre 2026 — offres employeur dans l’historique conseiller
+
+CONSEILLERS : « Offres employeur » remplace « Réponses employeurs ». La liste
+consulte les JobOffer enregistrées, y compris celles en préparation, sans date
+de validation, sans établissement ou sans créateur. Le détail présente le contact,
+le poste, les conditions, compétences, questions, critères explicites et dates.
+Lecture seule pour les conseillers actifs ; les critères d’accès au matching
+restent inchangés. Aucun nouveau modèle ni migration. Voir le contrat
+[de consultation](ADVISER_EMPLOYER_OFFERS.md).

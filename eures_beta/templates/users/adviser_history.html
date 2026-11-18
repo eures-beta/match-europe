@@ -1,100 +1,9 @@
 {% extends "users/adviser_workspace.html" %}
+{% load static i18n %}
 {% block page_title %}Données et historique — Match Europe{% endblock %}
 {% block extra_head %}
   {{ block.super }}
-  <style>
-      .history-panel {
-          font-family: system-ui, sans-serif;
-      }
-
-      .history-panel h2 {
-          margin: 0;
-      }
-
-      .history-count {
-          margin: 0;
-          color: #475569;
-          font-size: 0.875rem;
-      }
-
-      .history-search-controls {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-top: 0.35rem;
-      }
-
-      .history-search-controls input[type="search"] {
-          flex: 1 1 9rem;
-          min-width: 0;
-          width: auto;
-          margin: 0;
-      }
-
-      .history-search-controls button {
-          min-height: 2.65rem;
-          padding: 0.45rem 0.85rem;
-          border: 1px solid #164b80;
-          border-radius: 0.5rem;
-          background: #164b80;
-          color: white;
-          font: inherit;
-          font-weight: 600;
-          cursor: pointer;
-      }
-
-      .history-search-controls button:hover {
-          background: #123b66;
-      }
-
-      .history-table-scroll {
-          overflow-x: auto;
-          margin-top: 1rem;
-      }
-
-      .history-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 0.9375rem;
-          line-height: 1.4;
-          text-align: start;
-      }
-
-      .history-table th,
-      .history-table td {
-          max-width: 19rem;
-          padding: 0.6rem 0.7rem;
-          overflow: hidden;
-          border-bottom: 1px solid #dbe3eb;
-          text-align: start;
-          text-overflow: ellipsis;
-          vertical-align: middle;
-          white-space: nowrap;
-      }
-
-      .history-table thead {
-          background: #f1f5f9;
-          color: #334155;
-          font-size: 0.8125rem;
-      }
-
-      .history-table a {
-          color: #164b80;
-          text-underline-offset: 0.15em;
-      }
-
-      .history-secondary {
-          color: #475569;
-          font-size: 0.8125rem;
-          font-weight: 400;
-      }
-
-      .history-table tbody tr:hover,
-      .history-table tbody tr:focus-within {
-          background: #eff6ff;
-      }
-  </style>
+  <link rel="stylesheet" href="{% static 'users/adviser_history.css' %}">
 {% endblock %}
 {% block adviser_subnav %}
   <nav aria-label="Données et historique">
@@ -111,20 +20,20 @@
       <input type="hidden" name="lang" value="{{ dashboard_language }}">
       <input type="hidden" name="tab" value="history">
       <input type="hidden" name="view" value="{{ section }}">
-      <label for="history-search">Rechercher dans cette rubrique</label>
+      <label for="history-search">{% translate "Search this section" %}</label>
       <div class="history-search-controls">
         <input id="history-search"
                type="search"
                name="q"
                value="{{ search }}"
                maxlength="254">
-        <button type="submit">Rechercher</button>
+        <button type="submit">{% translate "Search" %}</button>
         {% if search %}
-          <a href="?lang={{ dashboard_language }}&amp;tab=history&amp;view={{ section }}">Effacer</a>
+          <a href="?lang={{ dashboard_language }}&amp;tab=history&amp;view={{ section }}">{% translate "Clear" %}</a>
         {% endif %}
       </div>
     </form>
-    <p class="history-count">{{ page.paginator.count }} résultat{{ page.paginator.count|pluralize }}</p>
+    <p class="history-count">{% blocktranslate count counter=page.paginator.count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %}</p>
     {% if page.object_list %}
       <div class="history-table-scroll"
            tabindex="0"
@@ -138,9 +47,12 @@
                 <th scope="col">Projet</th>
                 <th scope="col">Mis à jour</th>
               {% elif section == "employers" %}
-                <th scope="col">Offre</th>
-                <th scope="col">Employeur</th>
-                <th scope="col">Validée le</th>
+                <th scope="col">{% translate "Job offer" %}</th>
+                <th scope="col">{% translate "Employer" %}</th>
+                <th scope="col">{% translate "Status" %}</th>
+                <th scope="col">{% translate "Source" %}</th>
+                <th scope="col">{% translate "Created" %}</th>
+                <th scope="col">{% translate "Updated" %}</th>
               {% elif section == "matchings" %}
                 <th scope="col">Candidat</th>
                 <th scope="col">Offre</th>
@@ -162,13 +74,20 @@
                   <td>{{ entry.desired_occupations|truncatechars:55|default:"—" }}{% if entry.desired_locations %}<br>{{ entry.desired_locations|truncatechars:55 }}{% endif %}</td>
                   <td>{{ entry.updated_at|date:"j M Y" }}</td>
                 {% elif section == "employers" %}
-                  <th scope="row"><a href="{% querystring entry=entry.pk %}#history-detail">{{ entry.data.title|default:"Offre" }}</a>{% if entry.data.city %}<br><span class="history-secondary">{{ entry.data.city }}</span>{% endif %}</th>
-                  <td>
-                    {{ entry.data.companyName }}
+                  <th scope="row">
+                    <a href="{% querystring entry=entry.pk %}#history-detail">{{ entry.data.title|default:_("Untitled offer") }}</a>
                     <br>
-                    <span class="history-secondary">{{ entry.email }}</span>
+                    <span class="history-secondary">{{ entry.data.city|default:"—" }}</span>
+                  </th>
+                  <td>
+                    {% firstof entry.data.companyName entry.company.name "—" %}
+                    <br>
+                    <span class="history-secondary">{% firstof entry.email entry.created_by.email "—" %}</span>
                   </td>
-                  <td>{{ entry.validated_at|date:"j M Y" }}</td>
+                  <td>{% include "users/offer_status.html" with offer=entry %}</td>
+                  <td>{% if entry.source_kind == "manual" %}{% translate "Manual entry" %}{% elif entry.source_kind == "pdf" %}{% translate "PDF import" %}{% elif entry.source_kind == "url" %}{% translate "URL import" %}{% else %}—{% endif %}</td>
+                  <td>{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+                  <td>{{ entry.updated|date:"SHORT_DATETIME_FORMAT" }}</td>
                 {% elif section == "matchings" %}
                   <th scope="row">{{ entry.candidate.display_name }}</th>
                   <td>
@@ -194,7 +113,7 @@
         </table>
       </div>
     {% else %}
-      <p>{% if search %}Aucun résultat pour « {{ search }} ».{% else %}Aucune donnée dans cette rubrique.{% endif %}</p>
+      <p>{% if search %}{% blocktranslate %}No results for “{{ search }}”.{% endblocktranslate %}{% else %}{% translate "No records in this section." %}{% endif %}</p>
     {% endif %}
     {% if page.has_other_pages %}
       <nav aria-label="Pagination">
@@ -209,13 +128,13 @@
     {% endif %}
   </section>
   {% if selected_entry %}
-    <section class="invitation-card"
+    <section class="invitation-card history-panel"
              id="history-detail"
              aria-labelledby="history-detail-title">
       <h3 id="history-detail-title">
-        {% if section == "candidates" %}{{ selected_entry.display_name }}{% else %}{{ selected_entry.data.title|default:"Offre" }}{% endif %}
+        {% if section == "candidates" %}{{ selected_entry.display_name }}{% else %}{{ selected_entry.data.title|default:_("Untitled offer") }}{% endif %}
       </h3>
-      <a href="{% querystring entry=None %}#history-title">Fermer le détail</a>
+      <a href="{% querystring entry=None %}#history-title">{% translate "Close details" %}</a>
       {% if section == "candidates" %}
         {% for title, rows in candidate_answers %}
           {% if rows %}
@@ -231,7 +150,18 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        {{ selected_entry.data.description|default:"Aucune description renseignée."|linebreaks }}
+        <p>{% include "users/offer_status.html" with offer=selected_entry %}</p>
+        {% for title, rows in offer_details %}
+          <h4>{{ title }}</h4>
+          <dl class="offer-detail-grid">
+            {% for label, value in rows %}
+              <dt>{{ label }}</dt>
+              <dd>
+                {{ value|linebreaksbr }}
+              </dd>
+            {% endfor %}
+          </dl>
+        {% endfor %}
       {% endif %}
     </section>
   {% endif %}
