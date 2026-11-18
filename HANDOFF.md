@@ -1735,21 +1735,15 @@ tests gardent leur rangement commun ; les URL restent inchangées. Aucun modèle
 créé ou déplacé, aucune nouvelle migration. Voir
 [le guide](docs/ARCHITECTURE_WEB.md).
 
-## 18 novembre 2026 — Offres employeur dans l’historique conseiller
+## 18 novembre 2026 — Correction affichage des offres employeurs
 
-Branche `codex/adviser-employer-offers` créée sur le sommet de livraison #204
-vérifié sur GitHub. La rubrique lit toutes les JobOffer enregistrées, sans
-filtre de validation/établissement/créateur ; aucune modification de l’éligibilité
-au matching. Détail métier FR/EN/DE, coordonnées, conditions, compétences,
-questions, critères explicites et suivi. Permissions conseiller actif et GET
-seulement ; secrets de session/réponses techniques exclus, URL source masquée.
-Aucun modèle ni migration.
+À la demande d’Eric, branche autonome `codex/correction-affichage-offres-employeurs`
+créée sur `main` (`d821d1d`). Reprise de la correction de consultation : toutes les
+JobOffer enregistrées, sans condition de validation/établissement/créateur, sans
+modifier l’éligibilité au matching. Fiche complète FR/EN/DE et rendu amélioré :
+en-tête entreprise/poste/lieu/statut, champs aérés et suivi repliable. Le thème
+présent dans main est réutilisé ; aucune dépendance aux PR de design system ou
+de renommage des routes. Aucun modèle ni migration, aucune fusion ni production.
 
-Validation locale : 714 tests PostgreSQL réussis, dont six tests d’historique ;
-Django/migrations, Black, djLint/séparation des styles, Prettier CSS et traductions
-réussis. Recette navigateur fictive sur ordinateur et 390 px, liste et détail.
-La première suite complète rencontrait des erreurs de scripts de test à cause
-espaces dans le chemin Python ; la même venv via un alias local sans espaces
-(`PYTHON` de `make test`) permet la réussite des 714 tests. Aucun correctif
-hors sujet à l’outillage, aucun service externe réel, aucune fusion ni déploiement.
-Voir [le contrat](docs/ADVISER_EMPLOYER_OFFERS.md).
+Validation de cette branche autonome : 684 tests PostgreSQL réussis ; contrôles
+Django/migrations, Python, HTML, CSS et traductions réussis. Voir [le contrat](docs/ADVISER_EMPLOYER_OFFERS.md).

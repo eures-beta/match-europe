@@ -14,7 +14,9 @@ par titre, entreprise, établissement, lieu, e-mail du dépôt ou du créateur.
 Cliquer sur le titre ouvre les coordonnées du contact, les réponses de l’offre,
 les références métier et compétences, les questions candidat, les exigences de
 matching explicitement enregistrées et le suivi des dates/origine/révision.
-Une valeur absente reste signalée. Les codes de choix sont traduits ; le texte
+L’en-tête met en avant entreprise, poste, lieu et statut. Les informations sont
+présentées en deux colonnes, les textes longs en pleine largeur et le suivi
+technique reste repliable. Une valeur absente reste signalée discrètement. Les codes de choix sont traduits ; le texte
 saisi par l’employeur n’est pas traduit automatiquement.
 
 Les secrets de session et les réponses techniques externes ne sont pas exposés.

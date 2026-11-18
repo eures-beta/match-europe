@@ -128,13 +128,27 @@
     {% endif %}
   </section>
   {% if selected_entry %}
-    <section class="invitation-card history-panel"
+    <section class="invitation-card history-panel{% if section == 'employers' %} offer-sheet{% endif %}"
              id="history-detail"
              aria-labelledby="history-detail-title">
-      <h3 id="history-detail-title">
-        {% if section == "candidates" %}{{ selected_entry.display_name }}{% else %}{{ selected_entry.data.title|default:_("Untitled offer") }}{% endif %}
-      </h3>
-      <a href="{% querystring entry=None %}#history-title">{% translate "Close details" %}</a>
+      <header{% if section == "employers" %} class="offer-sheet-header"{% endif %}>
+        <div>
+          {% if section == "employers" %}
+            <p class="offer-sheet-company">{% firstof selected_entry.data.companyName selected_entry.company.name "—" %}</p>
+          {% endif %}
+          <h3 id="history-detail-title">
+            {% if section == "candidates" %}{{ selected_entry.display_name }}{% else %}{{ selected_entry.data.title|default:_("Untitled offer") }}{% endif %}
+          </h3>
+          {% if section == "employers" %}
+            <div class="offer-sheet-meta">
+              {% if selected_entry.data.city %}<span>{{ selected_entry.data.city }}</span>{% endif %}
+              <span class="offer-sheet-status">{% include "users/offer_status.html" with offer=selected_entry %}</span>
+            </div>
+          {% endif %}
+        </div>
+        <a {% if section == "employers" %}class="offer-sheet-close"{% endif %}
+           href="{% querystring entry=None %}#history-title">{% translate "Close details" %}</a>
+      </header>
       {% if section == "candidates" %}
         {% for title, rows in candidate_answers %}
           {% if rows %}
@@ -150,18 +164,34 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        <p>{% include "users/offer_status.html" with offer=selected_entry %}</p>
-        {% for title, rows in offer_details %}
-          <h4>{{ title }}</h4>
-          <dl class="offer-detail-grid">
-            {% for label, value in rows %}
-              <dt>{{ label }}</dt>
-              <dd>
-                {{ value|linebreaksbr }}
-              </dd>
-            {% endfor %}
-          </dl>
-        {% endfor %}
+        {% translate "Not provided" as missing_value %}
+        <div class="offer-sheet-sections">
+          {% for title, rows in offer_details %}
+            {% if forloop.last %}
+              <details class="offer-sheet-section offer-sheet-tracking">
+                <summary>{{ title }}</summary>
+            {% else %}
+              <section class="offer-sheet-section"
+                       aria-labelledby="offer-section-{{ forloop.counter }}">
+                <h4 id="offer-section-{{ forloop.counter }}">{{ title }}</h4>
+            {% endif %}
+              <dl class="offer-detail-grid">
+                {% for label, value in rows %}
+                  <div class="offer-detail-field{% if value|length > 160 %} offer-detail-field-wide{% endif %}{% if value == missing_value %} offer-detail-field-empty{% endif %}">
+                    <dt>{{ label }}</dt>
+                    <dd>
+                      {{ value|linebreaksbr }}
+                    </dd>
+                  </div>
+                {% endfor %}
+              </dl>
+              {% if forloop.last %}
+                </details>
+              {% else %}
+                </section>
+              {% endif %}
+          {% endfor %}
+        </div>
       {% endif %}
     </section>
   {% endif %}
