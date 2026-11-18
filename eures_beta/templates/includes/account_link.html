@@ -9,9 +9,10 @@
     <a class="nav-pill employer-account-link"
        {% if request.resolver_match.url_name == 'account' %}aria-current="page"{% endif %}
        href="{% url 'account' %}?lang={{ page_language }}">{% translate "My account" context "account navigation" %}</a>
-    {% if user.is_staff %}
+    {% if user.is_active and user.is_staff or user.is_active and user.is_superuser %}
       <a class="nav-pill employer-account-link"
-         href="{% url 'admin:index' %}">{% translate "Admin" context "account navigation" %}</a>
+         {% if request.resolver_match.url_name == 'admin_home' %}aria-current="page"{% endif %}
+         href="{% url 'admin_home' %}?lang={{ page_language }}">{% translate "Admin" context "account navigation" %}</a>
     {% endif %}
     <form action="{% url 'magic_logout' %}" method="post">
       {% csrf_token %}

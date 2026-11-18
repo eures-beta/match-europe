@@ -127,8 +127,10 @@ class AccountPageTests(TestCase):
                     self.assertContains(response, 'action="/accounts/logout/"')
                     self.assertNotContains(response, 'href="/accounts/login/')
                     if staff:
-                        self.assertContains(response, 'href="/admin/"')
+                        self.assertContains(response, 'href="/accounts/admin/?lang=fr"')
+                        self.assertNotContains(response, 'href="/admin/"')
                     else:
+                        self.assertNotContains(response, 'href="/accounts/admin/')
                         self.assertNotContains(response, 'href="/admin/"')
             if not staff:
                 self.assertEqual(self.client.get('/admin/').status_code, 302)

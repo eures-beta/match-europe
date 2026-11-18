@@ -19,6 +19,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [test_closed_registration.py](test_closed_registration.py) — Vérifie le refus de création de comptes depuis les formulaires et liens publics.
 - [test_users.py](test_users.py) — Vérifie les règles des comptes et l’authentification Django.
 - [test_account.py](test_account.py) — Vérifie la confidentialité du compte, les langues et la navigation selon le statut staff.
+- [test_admin_home.py](test_admin_home.py) — Vérifie les flags et liens de la page Admin, les accès par rôle/statut, les langues, la lecture seule et la parité des environnements.
 - [test_dashboard.py](test_dashboard.py) — Vérifie l’accès privé et la redirection après connexion pour chaque rôle.
 - [test_magic_login.py](test_magic_login.py) — Vérifie les liens à usage unique, les limites, la CSRF, les langues et les sessions.
 - [README.md](README.md) — Présente ce dossier et son contenu.

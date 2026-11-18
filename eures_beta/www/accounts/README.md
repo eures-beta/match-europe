@@ -1,6 +1,7 @@
 # Interface accounts
 
-Connexion, déconnexion, compte et orientation vers le tableau de bord du rôle connecté.
+Connexion, déconnexion, compte, orientation vers le tableau de bord et page Admin
+des outils internes pour les comptes actifs staff ou superutilisateurs.
 
 [Retour à la couche web](../) · [Architecture](../../../docs/ARCHITECTURE_WEB.md)
 

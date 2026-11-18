@@ -43,6 +43,17 @@ logger = logging.getLogger(__name__)
 
 @never_cache
 @login_required
+@require_GET
+def admin_home(request):
+    user = request.user
+    if not (user.is_active and (user.is_staff or user.is_superuser)):
+        raise Http404
+    with translation.override(selected_language(request)):
+        return render(request, 'users/admin_home.html')
+
+
+@never_cache
+@login_required
 @require_http_methods(['GET', 'POST'])
 def account(request):
     language = selected_language(request)

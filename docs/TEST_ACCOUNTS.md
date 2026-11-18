@@ -65,3 +65,17 @@ Le compte « Test Staff » est distinct du superadministrateur : `is_staff=True`
 limités. Les permissions existantes ne sont pas élargies : le synchroniseur actuel
 autorise les conseillers staff actifs à consulter les comptes conseillers dans
 Django Admin ; les autres modèles restent soumis à leur politique propre.
+
+## Page Admin commune
+
+Le bouton « Admin » de l’en-tête conduit à `/accounts/admin/` pour les comptes
+actifs staff ou superutilisateurs. La page indique les deux flags du compte
+connecté et propose les liens vers le cookbook, chacun des cinq exemples et
+l’administration Django. Elle utilise le layout et les traductions communs.
+Les utilisateurs ordinaires n’ont ni le bouton ni l’accès direct à cette page.
+
+La sélection de « Test Staff » ou « Test superadministrateur » mène à cette
+page, au lieu d’ouvrir directement Django Admin. Les autres comptes conservent
+leur destination habituelle. `/admin/` reste l’URL technique de Django et chaque
+outil conserve ses propres permissions. Cette page ne modifie aucun flag et ne
+donne aucun droit métier supplémentaire aux conseillers staff.

@@ -66,4 +66,6 @@ def sign_in(request):
         request.session['employer_auth_language'] = language
     request.session['login_language'] = language
     request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-    return redirect('admin:index' if user.is_superuser else destination)
+    if user.is_staff or user.is_superuser:
+        return redirect('admin_home')
+    return redirect(destination)

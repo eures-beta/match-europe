@@ -7676,3 +7676,63 @@ msgstr "Dernière relance"
 #: eures_beta/users/test_accounts.py
 msgid "Test staff"
 msgstr "Test Staff"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Internal tools and your account status. Each tool keeps its own access permissions."
+msgstr "Outils internes et statut de votre compte. Chaque outil conserve ses propres droits d’accès."
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Staff member"
+msgstr "Membre du staff"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Superuser"
+msgstr "Superutilisateur"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Design system cookbook"
+msgstr "Cookbook du design system"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Browse the visual rules, components and fictional example screens."
+msgstr "Consultez les règles graphiques, les composants et les écrans d’exemple fictifs."
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Cookbook: visual reference and components"
+msgstr "Cookbook : référence graphique et composants"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "All example screens"
+msgstr "Tous les écrans d’exemple"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: review a job offer"
+msgstr "Exemple : vérifier une offre"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: employer job offers"
+msgstr "Exemple : offres de l’employeur"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: sign in"
+msgstr "Exemple : connexion"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: candidate questionnaire"
+msgstr "Exemple : questionnaire candidat"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Example: adviser dashboard"
+msgstr "Exemple : tableau de bord conseiller"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Django administration"
+msgstr "Administration Django"
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Inspect the data allowed by your administration permissions."
+msgstr "Consultez les données autorisées par vos droits d’administration."
+
+#: eures_beta/templates/users/admin_home.html
+msgid "Open Django administration"
+msgstr "Ouvrir l’administration Django"
