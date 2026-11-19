@@ -127,9 +127,11 @@ test('successful API response renders selectable descriptions', async () => {
     ok: true,
     json: async () => ({
       version: '1.2.1',
-      results: [
+      unified_results: [
         {
-          uri: 'urn:example:job',
+          value: 'esco:urn:example:job',
+          groupKey: 'urn:example:job',
+          references: ['esco:urn:example:job'],
           label: 'Technician',
           description: 'Maintenance',
           esco_code: '123',

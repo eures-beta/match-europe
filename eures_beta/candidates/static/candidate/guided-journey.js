@@ -175,28 +175,26 @@
   };
   function render(checked) {
     results.replaceChildren();
-    for (const [prefix, heading] of [
-      ['esco:', t.escoHeading],
-      ['rome:', t.romeHeading],
-    ]) {
-      node('h2', heading, results);
-      const group = rows.filter((row) => row.value.startsWith(prefix));
-      if (!group.length) node('p', prefix === 'esco:' ? t.noEsco : t.noRomeResult, results);
-      for (const row of group) {
-        const card = node('article', '', results);
-        card.className = 'occupation-result';
-        if (prefix === 'rome:') card.lang = 'fr';
-        const label = node('label', '', card);
-        const checkbox = node('input', '', label);
-        checkbox.type = 'checkbox';
-        checkbox.name = 'occupation_references';
-        checkbox.value = row.value;
-        checkbox.checked = checked.has(row.value);
-        node('strong', row.label, label);
-        if (row.description) node('p', row.description, card);
+    for (const row of rows) {
+      const card = node('article', '', results);
+      card.className = 'occupation-result';
+      const label = node('label', '', card);
+      const checkbox = node('input', '', label);
+      checkbox.type = 'checkbox';
+      checkbox.name = 'occupation_references';
+      checkbox.dataset.skillReference = row.groupKey;
+      checkbox.value =
+        (row.references || [row.value]).find((value) => checked.has(value)) || row.value;
+      checkbox.checked = checked.has(checkbox.value);
+      const title = node('strong', row.label, label);
+      title.lang = row.labelLanguage || document.documentElement.lang;
+      if (row.description) {
+        const description = node('p', row.description, card);
+        description.lang = row.descriptionLanguage || document.documentElement.lang;
       }
     }
   }
+
   async function find() {
     clearTimeout(timer);
     controller?.abort();
@@ -216,32 +214,28 @@
           'Content-Type': 'application/json',
           'X-CSRFToken': form.querySelector('[name="csrfmiddlewaretoken"]').value,
         },
-        body: JSON.stringify({ q: value, lang: document.documentElement.lang, independent: true }),
+        body: JSON.stringify({ q: value, lang: document.documentElement.lang, candidate: true }),
       });
       if (!response.ok) throw new Error('search_failed');
       const data = await response.json();
       if (current !== serial) return;
       const checked = selected();
-      const fresh = [
-        ...data.results.map((row) => ({
-          value: 'esco:' + row.uri,
-          label: 'ESCO — ' + row.label,
-          description: row.description,
-        })),
-        ...data.rome_results.map((row) => ({
-          value: 'rome:' + row.code,
-          label: 'ROME ' + row.code + ' — ' + row.label,
-          description: '',
-        })),
+      const fresh = data.candidate_results;
+      const combined = [
+        ...rows.filter((row) =>
+          (row.references || [row.value]).some((value) => checked.has(value)),
+        ),
+        ...fresh,
       ];
-      rows = Array.from(
-        new Map(
-          [...rows.filter((row) => checked.has(row.value)), ...fresh].map((row) => [
-            row.value,
-            row,
-          ]),
-        ).values(),
-      );
+      rows = [
+        ...combined
+          .reduce((map, row) => {
+            const key = row.groupKey || row.value;
+            if (!map.has(key)) map.set(key, row);
+            return map;
+          }, new Map())
+          .values(),
+      ];
       render(checked);
       status.textContent = t.resultsFound.replace('{count}', String(fresh.length));
     } catch (error) {

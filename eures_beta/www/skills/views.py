@@ -4,7 +4,8 @@ import time
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.cache import never_cache
-from eures_beta.skills import continuous, albert_skills
+from eures_beta.skills import continuous, albert_skills, common_suggestions
+from eures_beta.occupations import unified
 from eures_beta.skills.skills_pilot import choices
 
 
@@ -48,16 +49,32 @@ def suggestions(request):
     else:
         return JsonResponse({'error': 'invalid_data'}, status=400)
     try:
-        card = continuous.reference_card(uri, generate=True)
-    except (albert_skills.SuggestionUnavailable, ValueError, KeyError):
+        card = common_suggestions.card(uri, selection=payload.get('selection'))
+    except (albert_skills.SuggestionUnavailable, ValueError, KeyError, OSError):
         return JsonResponse({'error': 'unavailable'}, status=503)
     return JsonResponse(
         {
-            'occupation': uri,
+            'occupation': card['occupation']['uri'],
             'label': card['occupation']['labels'][language],
+            'labelLanguage': unified.resolve_reference(uri, language)['labelLanguage'],
             'skills': choices(card, 'keySkills', language),
             'behaviours': choices(card, 'behaviours', language),
             'simulated': bool(card.get('simulated')),
             'generated': bool(card.get('generated')),
+            'mixed': True,
+            'unavailable': bool(card.get('unavailable')),
+            'shortlistMethod': card.get('shortlistMethod'),
+            'choiceLanguages': {
+                key: (language if language in row['labels'] else 'fr')
+                for key, row in card['_skills'].items()
+            },
+            'provenance': (
+                {
+                    key: value['sources']
+                    for key, value in card.get('_skills', {}).items()
+                }
+                if card.get('mixed')
+                else {}
+            ),
         }
     )

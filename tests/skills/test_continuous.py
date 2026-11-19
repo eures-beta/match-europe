@@ -88,7 +88,10 @@ class ContinuousTests(TestCase):
             for card in self.cards.values():
                 response = self.api(uri=card['occupation']['uri'], token=token)
                 self.assertEqual(response.status_code, 200)
-                self.assertEqual(len(response.json()['skills']), 8)
+                returned = {key for key, label in response.json()['skills']}
+                original = {item['skillUri'] for item in card['keySkills']}
+                self.assertTrue(original <= returned)
+                self.assertLessEqual(len(returned), 13)
                 self.assertFalse(response.json()['generated'])
             ask.assert_not_called()
         self.assertFalse(OccupationSkillSuggestion.objects.exists())

@@ -8,7 +8,7 @@ from datetime import date
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from .schedule_rules import DERIVED, suggested_conditions, inconsistent_conditions
 from .language_choices import LanguageSkillsField, upgrade_language_answers
-from .occupation_choices import resolve_reference, search_occupations
+from .occupation_choices import resolve_reference, search_occupations, group_rows
 from . import skill_choices
 
 KEY = 'candidate_journey'
@@ -91,7 +91,7 @@ class ProjectForm(GuidedForm):
         max_length=150,
         required=False,
         help_text=_(
-            'Job title or ROME/ESCO code. Search, then select one or more results.'
+            'Enter a job title, then select the descriptions that match your project.'
         ),
     )
     occupation_references = multiple(_('Jobs I would like to do'), [])
@@ -154,7 +154,7 @@ class ProjectForm(GuidedForm):
         self.fields['occupation_references'].choices = [
             (row['value'], row['label']) for row in combined.values()
         ]
-        self.reference_rows = list(combined.values())
+        self.reference_rows = group_rows(combined.values())
 
     def clean(self):
         data = super().clean()
@@ -169,7 +169,7 @@ class ProjectForm(GuidedForm):
         ):
             self.add_error(
                 'occupation_references',
-                _('Select an ESCO or ROME occupation, or enter your own job title.'),
+                _('Select an occupation, or enter your own job title.'),
             )
         skill_choices.clean_selection(self, data, partial=self.partial)
         from eures_beta.skills.continuous import validated_selection
@@ -180,7 +180,11 @@ class ProjectForm(GuidedForm):
             try:
                 data['occupation_skills'] = validated_selection(
                     data.get('occupation_skills') or {},
-                    [value[5:] for value in selected if value.startswith('esco:')],
+                    [
+                        value[5:] if value.startswith('esco:') else value
+                        for value in selected
+                    ],
+                    mixed=True,
                 )
             except ValueError:
                 self.add_error(

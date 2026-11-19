@@ -44,7 +44,12 @@ def clean_data(raw):
 
         try:
             out['occupationSkills'] = validated_selection(
-                raw['occupationSkills'], out.get('occupation', {}).get('uris', [])
+                raw['occupationSkills'],
+                out.get('occupation', {}).get('uris', [])
+                + [
+                    'rome:' + code
+                    for code in out.get('occupation', {}).get('rome_codes', [])
+                ],
             )
         except ValueError:
             raise ImportFailure('invalid_data') from None

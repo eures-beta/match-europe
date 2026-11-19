@@ -94,3 +94,5 @@ N'ajouter ici que ce qui change concrètement la prochaine reprise.
 Les anciens comptes rendus, variantes abandonnées et preuves de validation restent
 dans [l'historique Git de ce fichier](https://github.com/eures-beta/match-europe/commits/main/HANDOFF.md)
 et dans les PR citées. Aucun fichier d'archives n'est nécessaire.
+
+Catalogue métiers/compétences candidat et employeur : [contrat et validations](docs/COMMON_OCCUPATION_SKILLS.md). PR en préparation, sans fusion ni déploiement.

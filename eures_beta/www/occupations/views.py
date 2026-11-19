@@ -37,9 +37,13 @@ def search_api(request):
     query = data.get('q', '')
     mode = data.get('mode', 'search')
     independent = data.get('independent', False)
+    candidate = data.get('candidate', False)
+    unified = data.get('unified', False)
     context = data.get('context', '')
     if (
-        not isinstance(independent, bool)
+        not isinstance(unified, bool)
+        or not isinstance(candidate, bool)
+        or not isinstance(independent, bool)
         or language not in ('fr', 'en', 'de')
         or not isinstance(query, str)
         or not 1 <= len(query) <= 150
@@ -54,6 +58,20 @@ def search_api(request):
         )
     ):
         return JsonResponse({'error': 'invalid_data'}, status=400)
+    if candidate or unified:
+        from eures_beta.occupations.unified import search_occupations
+
+        rows = search_occupations(
+            query, language, mode=mode, excluded=excluded, context=context
+        )
+        return JsonResponse(
+            {
+                'candidate_results': rows,
+                'unified_results': rows,
+                'version': catalog()['manifest']['version'],
+                'total': len(rows),
+            }
+        )
     if mode == 'search' and looks_like_reference(query):
         mode = 'reference'
     independent_rome_code = independent and is_rome_reference(query)

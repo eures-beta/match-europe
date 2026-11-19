@@ -71,3 +71,7 @@ Une fusion, un résultat de tests ou une ancienne note ne prouve pas un déploie
 L'histoire des anciens parcours, écrans prototypes et validations reste dans
 [l'historique Git](https://github.com/eures-beta/match-europe/commits/main/docs/VUE_ENSEMBLE.md)
 et les PR, plutôt que dans une seconde chronologie à maintenir ici.
+
+## 19 novembre 2026 — catalogue commun métiers et compétences
+
+CANDIDATS / EMPLOYEURS / TRANSVERSE : extension locale du pilote boulanger à une recherche partagée et aux compétences officielles des deux référentiels. Regroupement exact non ambigu, sélection explicite 5+3, propositions et cache Albert partagés, sources conservées en arrière-plan. Le matching conserve les identifiants déclarés sans inférer d’équivalence entre compétences. Le projet ouvert sans métier n’est pas étendu par ce lot. Voir [contrat et vérification](COMMON_OCCUPATION_SKILLS.md).
