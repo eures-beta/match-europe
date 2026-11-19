@@ -45,7 +45,7 @@
   help.id = 'occupation-query-help';
   const status = node('p', '', box);
   status.setAttribute('role', 'status');
-  node('p', t.independentHelp, box);
+  node('p', t.commonHelp, box);
   const list = node('div', '', box);
   list.id = 'occupation-results';
   const near = node('button', t.near, box);
@@ -70,13 +70,26 @@
     timer = null,
     controller = null,
     fromDocument = false;
-  let romeCards = [],
-    romeChoices = new Set();
+  let romeChoices = new Set();
+  const isChosen = (job) =>
+    (job.references || [job.value]).some((ref) =>
+      ref.startsWith('rome:')
+        ? romeChoices.has(ref.slice(5))
+        : choices.has(ref.startsWith('esco:') ? ref.slice(5) : ref),
+    );
+  function choose(job, selected) {
+    if (!selected) {
+      for (const ref of job.references || [job.value]) {
+        if (ref.startsWith('rome:')) romeChoices.delete(ref.slice(5));
+        else choices.delete(ref.startsWith('esco:') ? ref.slice(5) : ref);
+      }
+    } else if (job.value.startsWith('rome:')) romeChoices.add(job.value.slice(5));
+    else choices.add(job.value.startsWith('esco:') ? job.value.slice(5) : job.value);
+  }
   function render() {
     list.replaceChildren();
-    node('h3', t.escoHeading, list);
     for (const selected of [true, false]) {
-      const groupCards = cards.filter((job) => choices.has(job.uri) === selected);
+      const groupCards = cards.filter((job) => isChosen(job) === selected);
       if (!groupCards.length) continue;
       const group = node('section', '', list);
       node('h4', selected ? t.saved : t.proposals, group);
@@ -87,49 +100,22 @@
         label.className = 'review-check';
         const check = node('input', '', label);
         check.type = 'checkbox';
-        check.value = job.uri;
-        check.checked = choices.has(job.uri);
+        check.value = job.value;
+        check.checked = isChosen(job);
         const text = node('span', '', label);
-        node('strong', job.label, text);
-        node('span', job.description, text).style.display = 'block';
+        const heading = node('strong', job.label, text);
+        heading.lang = job.labelLanguage || lang;
+        const description = node('span', job.description, text);
+        description.lang = job.descriptionLanguage || lang;
+        description.style.display = 'block';
         check.addEventListener('change', () => {
-          if (check.checked) choices.add(job.uri);
-          else choices.delete(job.uri);
+          choose(job, check.checked);
           error.textContent = '';
           window.meOccupationSkills?.update();
         });
-        const details = node('details', '', article);
-        node('summary', t.escoReference, details);
-        const link = node('a', 'ESCO — ' + job.label, details);
-        link.href =
-          'https://esco.ec.europa.eu/en/classification/occupation?uri=' +
-          encodeURIComponent(job.uri);
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        node('p', job.esco_code, details);
       }
     }
-    if (!cards.length) node('p', t.noEsco, list);
-    node('h3', t.romeHeading, list);
-    node('p', t.romeHelp, list);
-    if (!romeCards.length) node('p', t.noRomeResult, list);
-    for (const job of romeCards) {
-      const article = node('article', '', list);
-      article.className = 'review-question';
-      article.lang = 'fr';
-      const label = node('label', '', article);
-      label.className = 'review-check';
-      const check = node('input', '', label);
-      check.type = 'checkbox';
-      check.checked = romeChoices.has(job.code);
-      node('strong', `ROME ${job.code} — ${job.label}`, label);
-      check.addEventListener('change', () => {
-        if (check.checked) romeChoices.add(job.code);
-        else romeChoices.delete(job.code);
-        error.textContent = '';
-      });
-      if (job.matched_labels?.length) node('p', job.matched_labels.join(' · '), article);
-    }
+    if (!cards.length) node('p', t.empty, list);
   }
   function cancel() {
     clearTimeout(timer);
@@ -140,7 +126,6 @@
   function clear() {
     cancel();
     retry.hidden = true;
-    romeCards = [];
     romeChoices = new Set();
     searchedTitle = '';
     cards = [];
@@ -173,7 +158,12 @@
     const boundTitle = title.value.trim();
     controller = new AbortController();
     if (mode === 'near') {
-      offered = [...new Set([...offered, ...cards.map((row) => row.uri)])];
+      offered = [
+        ...new Set([
+          ...offered,
+          ...cards.filter((row) => !row.groupKey.startsWith('rome:')).map((row) => row.groupKey),
+        ]),
+      ];
     } else {
       offered = [];
     }
@@ -204,7 +194,7 @@
         credentials: 'same-origin',
         signal: controller.signal,
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
-        body: JSON.stringify({ q, lang, mode, excluded: offered, context, independent: true }),
+        body: JSON.stringify({ q, lang, mode, excluded: offered, context, unified: true }),
       });
       const result = await Promise.race([
         pending.then(async (response) => {
@@ -221,34 +211,35 @@
       if (request !== serial || title.value.trim() !== boundTitle) return;
       version = result.version;
       searchedTitle = boundTitle;
-      const retainedRome = romeCards.filter((row) => romeChoices.has(row.code));
-      romeCards = [
-        ...retainedRome,
-        ...(result.rome_results || []).filter(
-          (row) => !retainedRome.some((old) => old.code === row.code),
-        ),
-      ];
-      const retained = cards.filter((row) => choices.has(row.uri));
+      const fresh = result.unified_results;
+      const aliasMap = new Map(
+        fresh.flatMap((row) => (row.references || [row.value]).map((ref) => [ref, row.groupKey])),
+      );
+      const retained = cards
+        .filter(isChosen)
+        .map((row) => ({ ...row, groupKey: aliasMap.get(row.value) || row.groupKey }));
+      const combined = [...fresh, ...retained];
       cards = [
-        ...retained,
-        ...result.results.filter((row) => !retained.some((old) => old.uri === row.uri)),
+        ...combined
+          .reduce((map, row) => {
+            if (!map.has(row.groupKey)) map.set(row.groupKey, row);
+            return map;
+          }, new Map())
+          .values(),
       ];
       render();
-      if (fromTitle && !result.results.length && !result.rome_results?.length)
-        manual(fromDocument ? t.automaticFailure : t.manualIntro);
+      if (fromTitle && !fresh.length) manual(fromDocument ? t.automaticFailure : t.manualIntro);
       if (!fromTitle) fallbackIntro.hidden = true;
-      const count = result.results.length + (result.rome_results || []).length;
+      const count = fresh.length;
       status.textContent = count
         ? t.resultsFound.replace('{count}', String(count))
         : fromTitle
           ? ''
           : t.empty;
       status.className = count ? 'visually-hidden' : '';
-      if (result.total > result.results.length) status.textContent += ' ' + t.limited;
-      custom.hidden =
-        (fromTitle || result.results.length > 0 || result.rome_results?.length > 0) &&
-        !personal.value;
-      near.hidden = mode === 'near' || (!result.results.length && !result.rome_results?.length);
+      if (result.total > fresh.length) status.textContent += ' ' + t.limited;
+      custom.hidden = (fromTitle || fresh.length > 0) && !personal.value;
+      near.hidden = mode === 'near' || !fresh.length;
     } catch (exc) {
       if (request === serial && exc.name !== 'AbortError') {
         manual(t.manualHelp);
@@ -265,7 +256,7 @@
     cancel();
     fallbackIntro.hidden = true;
     status.className = 'visually-hidden';
-    cards = cards.filter((row) => choices.has(row.uri));
+    cards = cards.filter(isChosen);
     render();
     near.hidden = true;
     const q = query.value.trim();
@@ -287,7 +278,7 @@
   near.addEventListener('click', () => {
     manual(t.manualHelp, true);
     status.textContent = '';
-    cards = cards.filter((row) => choices.has(row.uri));
+    cards = cards.filter(isChosen);
     render();
     near.hidden = true;
   });
@@ -318,8 +309,20 @@
         version = value.version;
         searchedTitle = value.title;
         choices = new Set(value.uris || []);
-        cards = value.jobs || [];
-        romeCards = value.rome_jobs || [];
+        cards = value.common_jobs || [
+          ...(value.jobs || []).map((row) => ({
+            ...row,
+            value: 'esco:' + row.uri,
+            groupKey: row.uri,
+            references: ['esco:' + row.uri],
+          })),
+          ...(value.rome_jobs || []).map((row) => ({
+            ...row,
+            value: 'rome:' + row.code,
+            groupKey: 'rome:' + row.code,
+            references: ['rome:' + row.code],
+          })),
+        ];
         romeChoices = new Set(value.rome_codes || []);
         personal.value = value.personal || '';
         custom.hidden = !personal.value;
@@ -336,6 +339,10 @@
         language: lang,
         rome_codes: searchedTitle === title.value.trim() ? [...romeChoices] : [],
         uris: searchedTitle === title.value.trim() ? [...choices] : [],
+        skill_references:
+          searchedTitle === title.value.trim()
+            ? [...new Set(cards.filter(isChosen).map((row) => row.groupKey))]
+            : [],
         personal: searchedTitle === title.value.trim() ? personal.value.trim() : '',
       };
     },
@@ -354,16 +361,8 @@
       return true;
     },
     summary(value) {
-      return [
-        ...(value?.jobs || cards.filter((job) => (value?.uris || []).includes(job.uri))).map(
-          (job) => 'ESCO — ' + job.label + ' — ' + job.description,
-        ),
-        ...(
-          value?.rome_jobs ||
-          romeCards.filter((job) => (value?.rome_codes || []).includes(job.code))
-        ).map((job) => 'ROME ' + job.code + ' — ' + job.label),
-        value?.personal,
-      ]
+      const rows = value?.common_jobs || cards.filter(isChosen);
+      return [...rows.map((job) => job.label + ' — ' + job.description), value?.personal]
         .filter(Boolean)
         .join('\n\n');
     },

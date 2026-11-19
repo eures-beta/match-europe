@@ -44,7 +44,7 @@ class CandidateJourneyTests(TestCase):
     def test_four_steps_without_upload_or_career_history(self):
         self.advance()
         self.post(3)
-        self.assertContains(self.get(4), 'ROME D1102')
+        self.assertContains(self.get(4), 'boulanger/boulangère')
         for step in range(1, 5):
             response = self.get(step)
             for forbidden in (

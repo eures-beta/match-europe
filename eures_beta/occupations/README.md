@@ -33,3 +33,5 @@ anciens brouillons de session ne sont plus lus ; aucune purge SQL ajoutée.
 Les métiers et recherches restent dans occupations ; catalogues de compétences,
 suggestions et composant intégré vivent dans [skills](../skills/). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
 la table PostgreSQL, les identifiants, les suggestions et les permissions.
+
+- [Catalogue commun](../../docs/COMMON_OCCUPATION_SKILLS.md) : regroupements exacts et choix de compétences ESCO/ROME, sources et limites.

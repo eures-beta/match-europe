@@ -8021,3 +8021,85 @@ msgstr "Geben Sie die E-Mail-Adresse des Arbeitgebers ein. Sein Konto wird beim 
 #: eures_beta/www/adviser/offer_forms.py:9
 msgid "Employer email"
 msgstr "E-Mail-Adresse des Arbeitgebers"
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Sources"
+msgstr "Quellen"
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Baker: choose from ESCO and ROME skills."
+msgstr "Bäcker/Bäckerin: Wählen Sie aus ESCO- und ROME-Kompetenzen."
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Shared references indicate an editorial overlap, not an official skill equivalence. ROME translations and simplified wording are reading aids."
+msgstr "Gemeinsame Quellenangaben bezeichnen eine von Match Europe vorgeschlagene Überschneidung, keine offizielle Gleichwertigkeit der Kompetenzen. ROME-Übersetzungen und vereinfachte Formulierungen dienen als Lesehilfe."
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Select an ESCO occupation, or ROME D1102 for the baker trial. Choose up to five skills and three professional behaviours per occupation; nothing is preselected."
+msgstr "Wählen Sie einen ESCO-Beruf oder ROME D1102 für den Bäckertest. Wählen Sie je Beruf höchstens fünf Kompetenzen und drei berufliche Verhaltensweisen; nichts ist vorausgewählt."
+
+#: eures_beta/candidates/templates/candidates/journey.html
+msgid "Enter a job title, then select the descriptions that match your project."
+msgstr "Geben Sie einen Beruf ein und wählen Sie die Beschreibungen aus, die zu Ihrem Vorhaben passen."
+
+#: eures_beta/candidates/templates/candidates/journey.html
+msgid "Select an occupation, or enter your own job title."
+msgstr "Wählen Sie einen Beruf oder geben Sie eine eigene Berufsbezeichnung ein."
+
+#: eures_beta/candidates/templates/candidates/journey.html
+msgid "Choose the occupations that match your project. Read the descriptions to help you decide."
+msgstr "Wählen Sie die Berufe, die zu Ihrem Vorhaben passen. Die Beschreibungen helfen Ihnen bei der Auswahl."
+
+#: eures_beta/candidates/templates/candidates/journey.html
+msgid "Select an occupation above to see its skills. Choose up to five skills and three professional behaviours per occupation; nothing is preselected."
+msgstr "Wählen Sie oben einen Beruf, um die Kompetenzen zu sehen. Wählen Sie je Beruf höchstens fünf Kompetenzen und drei berufliche Verhaltensweisen; nichts ist vorausgewählt."
+
+#: eures_beta/templates/employer/occupation_strings.html
+msgctxt "employer occupations"
+msgid "Enter the occupation you are looking for."
+msgstr "Geben Sie den gesuchten Beruf ein."
+
+#: eures_beta/templates/employer/occupation_strings.html
+msgctxt "employer occupations"
+msgid "If no suggestion fits, describe the job in your own words."
+msgstr "Wenn kein Vorschlag passt, beschreiben Sie die Stelle mit eigenen Worten."
+
+#: eures_beta/templates/employer/occupation_strings.html
+msgctxt "employer occupations"
+msgid "We found no matching occupation. Enter another job title or describe the job in your own words."
+msgstr "Es wurde kein passender Beruf gefunden. Geben Sie eine andere Bezeichnung ein oder beschreiben Sie die Stelle mit eigenen Worten."
+
+#: eures_beta/templates/employer/occupation_strings.html
+msgctxt "employer occupations"
+msgid "Enter another job title to find a suitable description."
+msgstr "Geben Sie eine andere Berufsbezeichnung ein, um eine passende Beschreibung zu finden."
+
+#: eures_beta/templates/employer/occupation_strings.html
+msgctxt "employer occupations"
+msgid "We could not find a description from the detected job title. Enter another job title below."
+msgstr "Zur erkannten Berufsbezeichnung wurde keine Beschreibung gefunden. Geben Sie unten eine andere Bezeichnung ein."
+
+#: eures_beta/templates/employer/occupation_strings.html
+msgctxt "employer occupations"
+msgid "For example: baker or electrician"
+msgstr "Zum Beispiel: Bäcker oder Elektriker"
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Automatic preparation is temporarily unavailable. You can choose from these reference skills."
+msgstr "Die automatische Vorbereitung ist vorübergehend nicht verfügbar. Sie können aus diesen Referenzkompetenzen wählen."
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Choose the 5 most important skills for this position and up to 3 expected ways of working."
+msgstr "Wählen Sie die 5 wichtigsten Kompetenzen für diese Stelle und bis zu 3 erwartete Arbeitsweisen."
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "This choice highlights your priorities when comparing profiles with the needs of the position. You can adjust these choices before confirming your offer. An unchecked skill is not considered a requirement for the position."
+msgstr "Diese Auswahl zeigt Ihre Prioritäten beim Vergleich von Profilen mit den Anforderungen der Stelle. Sie können Ihre Auswahl vor der Bestätigung des Angebots ändern. Eine nicht ausgewählte Kompetenz gilt nicht als Anforderung der Stelle."
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "Choose the 5 most important skills for your project and up to 3 ways of working that describe you."
+msgstr "Wählen Sie die 5 wichtigsten Kompetenzen für Ihr Vorhaben und bis zu 3 Arbeitsweisen, die Sie beschreiben."
+
+#: eures_beta/occupations/templates/occupations/continuous.html
+msgid "This choice helps identify your priorities when looking for suitable offers. You can change it at any time. An unchecked skill does not mean you lack it."
+msgstr "Diese Auswahl hilft, Ihre Prioritäten bei der Suche nach passenden Angeboten zu erkennen. Sie können sie jederzeit ändern. Eine nicht ausgewählte Kompetenz bedeutet nicht, dass Sie diese nicht beherrschen."

@@ -1,0 +1,803 @@
+{
+  "version": "baker-mixed-v1",
+  "occupation": {
+    "uri": "http://data.europa.eu/esco/occupation/1aadb308-432a-4d01-b54b-b4f7f76dd419",
+    "labels": {
+      "fr": "boulanger/boulangère",
+      "en": "baker",
+      "de": "Bäcker/Bäckerin"
+    },
+    "descriptions": {
+      "fr": "Les boulangers/boulangères préparent du pain, des pâtisseries et d’autres produits de boulangerie. Ils/Elles supervisent tous les processus de production, notamment la réception, le stockage et la préparation des matières premières, le mélange des ingrédients, la préparation et la levée de la pâte. Ils/Elles utilisent des fours et veillent aux temps et aux températures de cuisson.",
+      "en": "Bakers make a wide range of breads, pastries, and other baked goods. They follow all the processes from receipt and storage of raw materials, preparation of raw materials for bread-making, measurement and mixing of ingredients into dough and proof. They tend ovens to bake products to an adequate temperature and time.",
+      "de": "Bäcker stellen ein breites Spektrum von Brot und Backwaren her. Sie führen alle damit verbundenen Prozesse aus, von der Anlieferung und Lagerung der Zutaten bis hin zu deren Weiterverarbeitung zu Brot sowie zum Abwiegen und Rühren zu Teig und Vorteig. Sie bedienen Öfen, um ihre Erzeugnisse mit der richtigen Temperatur und Dauer zu backen."
+    }
+  },
+  "romeCode": "D1102",
+  "metadata": {
+    "scope": "candidate_baker_trial",
+    "romeSource": "https://api.francetravail.fr/api-nomenclatureemploi/v1/open-data/json",
+    "romeArchiveSha256": "eaf2923df8b51b6d7819f21e5eedd2c8e1689ccb42d6f356770169bb3178432f",
+    "romePublication": "2026-10-19",
+    "escoSource": "ESCO 1.2.1 pinned archives",
+    "mappingStatus": "editorial_overlap_for_review_not_official_skill_equivalence",
+    "note": "ROME-only translations and shortened labels are editorial reading aids. Sources retain original labels. ESCO behaviours remain editorial suggestions.",
+    "candidateDescriptionOrigin": "editorial_summary_of_ESCO_7512.1_and_ROME_D1102_not_new_requirements"
+  },
+  "skills": [
+    {
+      "id": "http://data.europa.eu/esco/skill/5626b3b1-5415-47f6-acf1-b573d457d180",
+      "labels": {
+        "fr": "confectionner des produits de boulangerie",
+        "en": "bake goods",
+        "de": "Waren backen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/5626b3b1-5415-47f6-acf1-b573d457d180",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        },
+        {
+          "scheme": "ROME",
+          "id": "489491",
+          "labelFr": "Maîtriser les différents types de pains (traditionnel, levain, brioche, etc.) et leurs méthodes de fabrication",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/b5e1a909-9d21-4c29-9438-9df9fd7da3a1",
+      "labels": {
+        "fr": "sélectionner des ingrédients adéquats",
+        "en": "select adequate ingredients",
+        "de": "passende Zutaten auswählen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/b5e1a909-9d21-4c29-9438-9df9fd7da3a1",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/a0d96ce8-aeeb-4ffb-bd78-21c0598179ff",
+      "labels": {
+        "fr": "travailler selon une recette",
+        "en": "work according to recipe",
+        "de": "anhand von Rezepten arbeiten"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/a0d96ce8-aeeb-4ffb-bd78-21c0598179ff",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/8f96b592-24c4-40c3-bb88-189ae3a1e405",
+      "labels": {
+        "fr": "mouler des pâtes",
+        "en": "mould doughs",
+        "de": "Teig formen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/8f96b592-24c4-40c3-bb88-189ae3a1e405",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        },
+        {
+          "scheme": "ROME",
+          "id": "126290",
+          "labelFr": "Bouler et effectuer la tourne ou le façonnage des pâtons",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/77250067-81bd-4e18-865e-2be6ca26c8a8",
+      "labels": {
+        "fr": "utiliser un four de boulangerie",
+        "en": "tend bakery ovens",
+        "de": "Bäckereiofen beaufsichtigen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/77250067-81bd-4e18-865e-2be6ca26c8a8",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        },
+        {
+          "scheme": "ROME",
+          "id": "124958",
+          "labelFr": "Cuire des pâtons",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        },
+        {
+          "scheme": "ROME",
+          "id": "124959",
+          "labelFr": "Cuire des pièces de viennoiserie",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/c44c5e78-6647-406c-84f0-b6e626877fc2",
+      "labels": {
+        "fr": "surveiller la température dans des procédés de transformation de produits à base de farine",
+        "en": "monitor temperature in farinaceous processes",
+        "de": "Temperatur bei der Mehlverarbeitung überwachen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/c44c5e78-6647-406c-84f0-b6e626877fc2",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        },
+        {
+          "scheme": "ROME",
+          "id": "486447",
+          "labelFr": "Régler les paramètres des machines de cuisson",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/5ba1d5b9-3f8d-46ca-bf9f-2e9ca65d1350",
+      "labels": {
+        "fr": "appliquer la méthode HACCP",
+        "en": "apply HACCP",
+        "de": "HACCP anwenden"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/5ba1d5b9-3f8d-46ca-bf9f-2e9ca65d1350",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/a34f4fd4-1aff-4941-82d5-542ac94f81c3",
+      "labels": {
+        "fr": "suivre des procédures en matière d’hygiène lors de la transformation de denrées alimentaires",
+        "en": "follow hygienic procedures during food processing",
+        "de": "bei der Lebensmittelverarbeitung Hygieneverfahren befolgen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/a34f4fd4-1aff-4941-82d5-542ac94f81c3",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill"
+        },
+        {
+          "scheme": "ROME",
+          "id": "489877",
+          "labelFr": "Respecter les règles d'hygiène et de sécurité alimentaire",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/d87653a0-87b0-4c03-a44a-bf0a217431a2",
+      "labels": {
+        "fr": "Pétrir les pâtes",
+        "en": "knead food products",
+        "de": "Lebensmittel kneten"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/d87653a0-87b0-4c03-a44a-bf0a217431a2",
+          "version": "1.2.1",
+          "relationship": "official_occupation_skill",
+          "labelFr": "mélanger des produits alimentaires",
+          "descriptionFr": "Effectuer toute sorte d’opérations de pétrissage de matières premières, de produits semi-finis et de denrées alimentaires."
+        },
+        {
+          "scheme": "ROME",
+          "id": "486446",
+          "labelFr": "Pétrir manuellement ou mécaniquement des pâtes",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ],
+      "labelOrigin": "editorial_reading_aid_based_on_official_description"
+    },
+    {
+      "id": "rome:competence:126357",
+      "labels": {
+        "fr": "Confectionner des viennoiseries",
+        "en": "Make viennoiserie",
+        "de": "Feingebäck herstellen"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "126357",
+          "labelFr": "Confectionner des viennoiseries",
+          "version": "26M10",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    },
+    {
+      "id": "rome:competence:106439",
+      "labels": {
+        "fr": "Peser et doser les ingrédients",
+        "en": "Weigh and measure ingredients",
+        "de": "Zutaten wiegen und dosieren"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "106439",
+          "labelFr": "Prélever, peser et doser les matières ou produits (ingrédients, colorants, grains, etc.) sur les balances, trémies peseuses, etc",
+          "version": "26M10",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    },
+    {
+      "id": "rome:competence:490153",
+      "labels": {
+        "fr": "Accueillir et renseigner les clients",
+        "en": "Welcome and inform customers",
+        "de": "Kundschaft begrüßen und informieren"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "490153",
+          "labelFr": "Accueillir, informer et orienter les clients",
+          "version": "26M10",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    },
+    {
+      "id": "rome:competence:300021",
+      "labels": {
+        "fr": "Transmettre une technique, un savoir-faire",
+        "en": "Pass on a technique or practical skill",
+        "de": "Techniken und praktisches Wissen vermitteln"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "300021",
+          "labelFr": "Transmettre une technique, un savoir-faire",
+          "version": "26M10",
+          "relationship": "official_occupation_skill"
+        }
+      ]
+    }
+  ],
+  "behaviours": [
+    {
+      "id": "rome:competence:300490",
+      "labels": {
+        "fr": "Faire preuve de rigueur et de précision",
+        "en": "Work carefully and accurately",
+        "de": "Sorgfältig und präzise arbeiten"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "300490",
+          "labelFr": "Faire preuve de rigueur et de précision",
+          "version": "26M10",
+          "relationship": "official_occupation_behaviour"
+        }
+      ]
+    },
+    {
+      "id": "rome:competence:300483",
+      "labels": {
+        "fr": "Organiser son travail selon les priorités",
+        "en": "Organise work by priority",
+        "de": "Arbeit nach Prioritäten organisieren"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "300483",
+          "labelFr": "Organiser son travail selon les priorités et les objectifs",
+          "version": "26M10",
+          "relationship": "official_occupation_behaviour"
+        }
+      ]
+    },
+    {
+      "id": "rome:competence:300467",
+      "labels": {
+        "fr": "Être force de proposition",
+        "en": "Suggest ideas and improvements",
+        "de": "Ideen und Verbesserungen vorschlagen"
+      },
+      "labelOrigin": "editorial_translation_and_reading_aid",
+      "sources": [
+        {
+          "scheme": "ROME",
+          "id": "300467",
+          "labelFr": "Etre force de proposition",
+          "version": "26M10",
+          "relationship": "official_occupation_behaviour"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+      "labels": {
+        "fr": "travailler en équipe",
+        "en": "work in teams",
+        "de": "in Teams arbeiten"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/60c78287-22eb-4103-9c8c-28deaa460da0",
+          "version": "1.2.1",
+          "relationship": "editorial_behaviour_suggestion"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+      "labels": {
+        "fr": "veiller aux détails",
+        "en": "attend to detail",
+        "de": "auf Details achten"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/83e6510b-ffeb-4aec-959c-4265fd0ff7b7",
+          "version": "1.2.1",
+          "relationship": "editorial_behaviour_suggestion"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/c29aa9d2-4da8-4bdd-831c-8d4a2fb51730",
+      "labels": {
+        "fr": "travailler de manière autonome",
+        "en": "work independently",
+        "de": "selbstständig arbeiten"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/c29aa9d2-4da8-4bdd-831c-8d4a2fb51730",
+          "version": "1.2.1",
+          "relationship": "editorial_behaviour_suggestion"
+        },
+        {
+          "scheme": "ROME",
+          "id": "300460",
+          "labelFr": "Faire preuve d'autonomie",
+          "version": "26M10",
+          "relationship": "editorial_overlap_not_official_equivalence"
+        }
+      ]
+    },
+    {
+      "id": "http://data.europa.eu/esco/skill/bcf002ce-90f8-42e5-ac1b-5dba208639b0",
+      "labels": {
+        "fr": "être fiable",
+        "en": "demonstrate trustworthiness",
+        "de": "Vertrauenswürdigkeit zeigen"
+      },
+      "sources": [
+        {
+          "scheme": "ESCO",
+          "id": "http://data.europa.eu/esco/skill/bcf002ce-90f8-42e5-ac1b-5dba208639b0",
+          "version": "1.2.1",
+          "relationship": "editorial_behaviour_suggestion"
+        }
+      ]
+    }
+  ],
+  "romeEvidence": {
+    "savoir_faire": {
+      "enjeux": [
+        {
+          "libelle": "Conseil, Transmission",
+          "items": [
+            {
+              "libelle": "Transmettre une technique, un savoir-faire",
+              "code_ogr": 300021,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Recherche, Innovation",
+          "items": [
+            {
+              "libelle": "Innover dans la création de nouvelles recettes",
+              "code_ogr": 504909,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Production, Fabrication",
+          "items": [
+            {
+              "libelle": "Bouler et effectuer la tourne ou le façonnage des pâtons",
+              "code_ogr": 126290,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Confectionner des viennoiseries",
+              "code_ogr": 126357,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Cuire des pièces de viennoiserie",
+              "code_ogr": 124959,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Cuire des pâtons",
+              "code_ogr": 124958,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Défourner des pains et viennoiseries",
+              "code_ogr": 124960,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Maîtriser les différents types de pains (traditionnel, levain, brioche, etc.) et leurs méthodes de fabrication",
+              "code_ogr": 489491,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Prélever, peser et doser les matières ou produits (ingrédients, colorants, grains, etc.) sur les balances, trémies peseuses, etc",
+              "code_ogr": 106439,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Pétrir manuellement ou mécaniquement des pâtes",
+              "code_ogr": 486446,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Régler les paramètres des machines de cuisson",
+              "code_ogr": 486447,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Maintenance, Réparation",
+          "items": [
+            {
+              "libelle": "Agir rapidement en cas de panne pour minimiser les interruptions",
+              "code_ogr": 400451,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Entretenir un équipement, une machine, une installation",
+              "code_ogr": 300181,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Entretenir, nettoyer un espace, un lieu, un local",
+              "code_ogr": 300282,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Gestion des stocks",
+          "items": [
+            {
+              "libelle": "Définir des besoins en approvisionnement",
+              "code_ogr": 125971,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Réceptionner des produits, des matières premières, vérifier la conformité d'une livraison",
+              "code_ogr": 300263,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Vérifier les stocks de matières premières",
+              "code_ogr": 123778,
+              "coeur_metier": "Principale"
+            }
+          ]
+        },
+        {
+          "libelle": "Relation client",
+          "items": [
+            {
+              "libelle": "Accueillir, informer et orienter les clients",
+              "code_ogr": 490153,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Prendre une commande client",
+              "code_ogr": 104324,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Répondre aux attentes d'un client",
+              "code_ogr": 300364,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Développement commercial",
+          "items": [
+            {
+              "libelle": "Collaborer avec des fournisseurs pour la sélection des matières premières",
+              "code_ogr": 486448,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Développer et fidéliser la relation client",
+              "code_ogr": 300379,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Développer l'image et la notoriété de la structure",
+              "code_ogr": 489793,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Organiser, aménager un espace de vente",
+              "code_ogr": 300375,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Présenter et valoriser un produit ou un service",
+              "code_ogr": 300374,
+              "coeur_metier": "Principale"
+            }
+          ]
+        },
+        {
+          "libelle": "Organisation",
+          "items": [
+            {
+              "libelle": "Maintenir un environnement de travail propre et organisé",
+              "code_ogr": 483320,
+              "coeur_metier": "Principale"
+            },
+            {
+              "libelle": "Respecter les règles d'hygiène et de sécurité alimentaire",
+              "code_ogr": 489877,
+              "coeur_metier": "Principale"
+            }
+          ]
+        }
+      ]
+    },
+    "savoir_etre_professionnel": {
+      "enjeux": [
+        {
+          "libelle": "Savoir-être professionnels",
+          "items": [
+            {
+              "libelle": "Etre force de proposition",
+              "code_ogr": 300467,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Faire preuve d'autonomie",
+              "code_ogr": 300460,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Faire preuve de rigueur et de précision",
+              "code_ogr": 300490,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Organiser son travail selon les priorités et les objectifs",
+              "code_ogr": 300483,
+              "coeur_metier": null
+            }
+          ]
+        }
+      ]
+    },
+    "savoirs": {
+      "categories": [
+        {
+          "libelle": "Produits, outils et matières",
+          "items": [
+            {
+              "libelle": "Caractéristiques des farines levure, additifs",
+              "code_ogr": 101738,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Utilisation de pétrin mécanique",
+              "code_ogr": 101747,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Utilisation de trancheuse",
+              "code_ogr": 101758,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Utilisation de machines de conditionnement",
+              "code_ogr": 124455,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Utilisation de matériel de nettoyage",
+              "code_ogr": 100259,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Certifications et habilitations",
+          "items": [
+            {
+              "libelle": "MC pâtisserie boulangère",
+              "code_ogr": 490771,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Boulanger (BM)",
+              "code_ogr": 490766,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "BP boulanger",
+              "code_ogr": 490767,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "CQP boulanger",
+              "code_ogr": 490769,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Boulanger",
+              "code_ogr": 490765,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Bac pro boulanger pâtissier",
+              "code_ogr": 405321,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Certificat de spécialisation techniques du tour en boulangerie et en pâtisserie",
+              "code_ogr": 515193,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Certificat de spécialisation boulangerie spécialisée",
+              "code_ogr": 490768,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "CAP boulanger",
+              "code_ogr": 405319,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Domaines d'expertise",
+          "items": [
+            {
+              "libelle": "Sensibilisation aux allergies alimentaires",
+              "code_ogr": 126413,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Capacité à innover et créer de nouveaux produits",
+              "code_ogr": 481328,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Maîtrise des calculs de coûts et de rentabilité",
+              "code_ogr": 481332,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Calcul de quantité",
+              "code_ogr": 101743,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Principes de diététique et de l'équilibre nutritionnel",
+              "code_ogr": 514787,
+              "coeur_metier": null
+            }
+          ]
+        },
+        {
+          "libelle": "Normes et procédés",
+          "items": [
+            {
+              "libelle": "Conditions de fermentation de la pâte (à pain, à viennoiserie)",
+              "code_ogr": 104241,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Chaîne du froid",
+              "code_ogr": 101716,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Réglage de machines industrielles",
+              "code_ogr": 105604,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Modes de cuisson des aliments",
+              "code_ogr": 101782,
+              "coeur_metier": "Principale"
+            }
+          ]
+        },
+        {
+          "libelle": "Techniques professionnelles",
+          "items": [
+            {
+              "libelle": "Gestion des stocks de matières premières",
+              "code_ogr": 476801,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Techniques de boulage des pâtons",
+              "code_ogr": 124929,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Techniques de pétrissage manuel",
+              "code_ogr": 101746,
+              "coeur_metier": null
+            },
+            {
+              "libelle": "Techniques de panification/fermentation",
+              "code_ogr": 104250,
+              "coeur_metier": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "candidateDescription": {
+    "fr": "Prépare et fabrique des pains et des viennoiseries : choix et dosage des ingrédients, pétrissage, façonnage, fermentation et cuisson. Veille à l’hygiène et à la qualité des produits, organise les matières premières et les stocks. Selon le poste, peut créer des recettes, accueillir les clients et vendre les produits.",
+    "en": "Prepares and makes bread and viennoiserie: selecting and measuring ingredients, kneading, shaping, fermentation and baking. Maintains hygiene and product quality and organises ingredients and stock. Depending on the job, may develop recipes, welcome customers and sell products.",
+    "de": "Bereitet Brot und Feingebäck zu: Zutaten auswählen und dosieren, Teig kneten und formen, Gärung und Backen steuern. Achtet auf Hygiene und Produktqualität und organisiert Zutaten und Vorräte. Je nach Stelle gehören auch neue Rezepte, Kundenkontakt und Verkauf dazu."
+  }
+}

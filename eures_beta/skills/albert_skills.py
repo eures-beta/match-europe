@@ -48,7 +48,7 @@ def validate(value, linked):
 
 
 @sensitive_variables()
-def ask(uri, skills, linked):
+def ask(uri, skills, linked, *, occupation_label=None):
     if settings.ALBERT_SIMULATED:
         return sorted(linked)[:8]
     if not settings.ALBERT_API_KEY:
@@ -66,7 +66,8 @@ def ask(uri, skills, linked):
             'role': 'user',
             'content': json.dumps(
                 {
-                    'occupation': occupation_index()[uri]['labels']['fr'],
+                    'occupation': occupation_label
+                    or occupation_index()[uri]['labels']['fr'],
                     'candidates': candidates,
                 },
                 ensure_ascii=False,

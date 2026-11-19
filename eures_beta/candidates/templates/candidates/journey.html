@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block page_title %}{% if error_summary %}{% translate "Error" %} — {% endif %}{% blocktranslate with title=title %}Step {{ step }} of 4: {{ title }}{% endblocktranslate %} — {% translate "Candidate journey" context "candidate landing" %} — Match Europe{% endblock %}
 {% block candidate_content %}
-  <link rel="stylesheet" href="/static/occupations/skills-pilot.css">
+  <link rel="stylesheet" href="/static/skills/continuous.css">
   <main id="main-content" class="section candidate-journey">
     <div class="shell">
       <nav aria-label="{% translate 'Your progress' %}">
@@ -122,7 +122,7 @@
                           data-occupation-only
                           {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
                   <legend>{{ field.label }}</legend>
-                  <p>{% translate "Two independent catalogues. Choose jobs you want; selecting ROME does not select ESCO." %}</p>
+                  <p>{% translate "Choose the occupations that match your project. Read the descriptions to help you decide." %}</p>
                   <div id="candidate-search-status" role="status" aria-live="polite">
                     {% if search_performed and not reference_rows %}
                       {% translate "No result. Try another job title or use the personal title field below." %}
@@ -134,8 +134,9 @@
                         <label><input type="checkbox"
                                       name="occupation_references"
                                       value="{{ row.value }}"
-                                      {% if row.value in field.value %}checked{% endif %}> <strong>{{ row.label }}</strong></label>
-                        {% if row.description %}<p>{{ row.description }}</p>{% endif %}
+                                      data-skill-reference="{{ row.groupKey }}"
+                                      {% if row.value in field.value %}checked{% endif %}> <strong lang="{{ row.labelLanguage|default:page_language }}">{{ row.label }}</strong></label>
+                        {% if row.description %}<p lang="{{ row.descriptionLanguage|default:page_language }}">{{ row.description }}</p>{% endif %}
                       </article>
                     {% endfor %}
                   </div>
@@ -195,7 +196,7 @@
                     <button class="nav-pill"
                             name="action"
                             value="search"
-                            id="candidate-search-button">{% translate "Search ESCO and ROME" %}</button>
+                            id="candidate-search-button">{% translate "Search for an occupation" %}</button>
                   {% endif %}
                   {{ field.errors }}
                 </div>

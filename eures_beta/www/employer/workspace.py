@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from functools import wraps
+from eures_beta.employers.occupation_selection import skill_references
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
@@ -411,7 +412,7 @@ def edit(request, id):
         form=form,
         contact=contact,
         workspace=True,
-        skills_occupations=' '.join(offer.data.get('occupation', {}).get('uris', [])),
+        skills_occupations=' '.join(skill_references(offer.data.get('occupation', {}))),
     )
 
 

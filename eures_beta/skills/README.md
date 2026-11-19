@@ -7,3 +7,5 @@ Cette application porte les catalogues ESCO de compétences, les suggestions par
 - [migrations/](migrations/) : transfert du modèle sans déplacement de sa table.
 - [tests/skills/](../../tests/skills/) : services, formulaires intégrés et conservation des données.
 - [../occupations/](../occupations/) : référentiels et recherche des métiers.
+
+- [Catalogue commun](../../docs/COMMON_OCCUPATION_SKILLS.md) : regroupements exacts et choix de compétences ESCO/ROME, sources et limites.

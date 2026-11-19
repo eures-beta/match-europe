@@ -113,7 +113,11 @@ def present(result, language):
     for row in result['rows']:
         reference = row['reference']
         if row['key'] == 'skill':
-            reference = skills.get(reference, {}).get('labels', {}).get(language, '')
+            from eures_beta.skills.common_source import skill_label
+
+            reference = skill_label(reference, language) or skills.get(
+                reference, {}
+            ).get('labels', {}).get(language, '')
         if row['key'] == 'language':
             reference = get_language_info(reference)['name_translated']
         elif row['key'] == 'work_condition':

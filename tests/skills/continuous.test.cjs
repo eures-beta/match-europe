@@ -48,7 +48,16 @@ function harness(fetch, initial = '{}', role = 'candidate') {
   };
   root.closest = () => form;
   root.querySelector = () => jobs;
-  form.querySelectorAll = () => selected.map((uri) => ({ value: 'esco:' + uri }));
+  form.querySelectorAll = () =>
+    selected.map((uri) => ({
+      value: uri.startsWith('rome:') ? uri : 'esco:' + uri,
+      dataset: {
+        skillReference:
+          uri === 'rome:D1102'
+            ? 'http://data.europa.eu/esco/occupation/1aadb308-432a-4d01-b54b-b4f7f76dd419'
+            : uri,
+      },
+    }));
   form.querySelector = () => ({ value: 'private-draft-token' });
   const context = {
     document: {
@@ -58,7 +67,7 @@ function harness(fetch, initial = '{}', role = 'candidate') {
       documentElement: { lang: 'en' },
       cookie: 'csrftoken=fixture',
     },
-    window: { meOccupation: { collect: () => ({ uris: selected }) } },
+    window: { meOccupation: { collect: () => ({ uris: selected, skill_references: selected }) } },
     fetch,
     Map,
     AbortController,
@@ -174,4 +183,25 @@ test('late response after removing a selected occupation cannot restore its choi
   await settle();
   assert.equal(h.jobs.children.length, 0);
   assert.equal(h.field.value, '{}');
+});
+
+test('ROME baker and ESCO baker share one list and preserve choices when one reference is removed', async () => {
+  const uri = 'http://data.europa.eu/esco/occupation/1aadb308-432a-4d01-b54b-b4f7f76dd419';
+  const calls = [];
+  const h = harness(async (_url, options) => {
+    calls.push(JSON.parse(options.body).occupation);
+    return {
+      ok: true,
+      json: async () => ({ label: 'Baker', skills: [['s1', 'Knead']], behaviours: [] }),
+    };
+  });
+  h.selected.push('rome:D1102', uri);
+  h.change();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.deepEqual(calls, [uri]);
+  assert.equal(h.jobs.children.length, 1);
+  h.selected.shift();
+  h.change();
+  assert.equal(h.jobs.children.length, 1);
+  assert.deepEqual(calls, [uri]);
 });
