@@ -8245,3 +8245,199 @@ msgstr "Mit Albert fortfahren"
 
 msgid "The job would need to start by %(date)s at the latest. Would you be available by then?"
 msgstr "Du müsstest spätestens am %(date)s anfangen. Wärst du bis dahin verfügbar?"
+
+#: eures_beta/matching/models.py:89
+msgid "Awaiting candidate replies"
+msgstr "Antworten der kandidierenden Person ausstehend"
+
+#: eures_beta/matching/models.py:90
+msgid "Ready for adviser review"
+msgstr "Zur Prüfung durch die Beratung bereit"
+
+#: eures_beta/matching/models.py:91
+msgid "Being reviewed"
+msgstr "In Prüfung"
+
+#: eures_beta/matching/models.py:92 eures_beta/matching/models.py:127
+msgid "Additional information requested"
+msgstr "Zusätzliche Angaben angefordert"
+
+#: eures_beta/matching/models.py:93 eures_beta/matching/models.py:126
+msgid "Validated by an adviser"
+msgstr "Durch die Beratung bestätigt"
+
+#: eures_beta/matching/models.py:94 eures_beta/matching/models.py:128
+msgid "Closed by an adviser"
+msgstr "Durch die Beratung abgeschlossen"
+
+#: eures_beta/matching/models.py:121
+msgid "Replies submitted"
+msgstr "Antworten an die Beratung übermittelt"
+
+#: eures_beta/matching/models.py:122
+msgid "Review reopened"
+msgstr "Prüfung erneut geöffnet"
+
+#: eures_beta/matching/models.py:123
+msgid "Responsibility accepted"
+msgstr "Bearbeitung übernommen"
+
+#: eures_beta/matching/models.py:124
+msgid "Responsibility released"
+msgstr "Bearbeitung freigegeben"
+
+#: eures_beta/matching/models.py:125
+msgid "Review taken over"
+msgstr "Bearbeitung von einer anderen Beratungsperson übernommen"
+
+#: eures_beta/matching/models.py:129
+msgid "Additional information received"
+msgstr "Zusätzliche Angaben eingegangen"
+
+#: eures_beta/matching/review_notifications.py:41
+msgid "Candidate replies are ready for review"
+msgstr "Antworten einer kandidierenden Person liegen zur Prüfung vor"
+
+#: eures_beta/matching/review_notifications.py:43
+msgid "An adviser has reviewed your replies"
+msgstr "Eine Beratungsperson hat Ihre Antworten geprüft"
+
+#: eures_beta/matching/review_notifications.py:46
+msgid "Open the private review to see the next step."
+msgstr "Öffnen Sie die private Prüfung, um den nächsten Schritt zu sehen."
+
+#: eures_beta/matching/templates/matching/dialogue.html:137
+#: eures_beta/matching/templates/matching/offer_review_dialogue.html:106
+msgid "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent to the employer."
+msgstr "Wir beenden die Prüfung dieses Angebots hier. Dein Profil bleibt unverändert und an den Arbeitgeber wird nichts gesendet."
+
+#: eures_beta/matching/templates/matching/offer_review_dialogue.html:115
+msgid "Permission recorded. Nothing has been sent to the employer."
+msgstr "Zustimmung gespeichert. An den Arbeitgeber wurde nichts gesendet."
+
+#: eures_beta/matching/templates/matching/offer_review_dialogue.html:117
+msgid "Transmission permission refused. Nothing has been sent to the employer."
+msgstr "Weitergabe abgelehnt. An den Arbeitgeber wurde nichts gesendet."
+
+#: eures_beta/matching/templates/matching/review_followup.html:4
+#: eures_beta/templates/users/review_handling.html:3
+msgid "Adviser review"
+msgstr "Prüfung durch die Beratung"
+
+#: eures_beta/matching/templates/matching/review_followup.html:5
+msgid "Your replies have been saved and sent to an adviser for review. Nothing has been sent to the employer."
+msgstr "Deine Antworten wurden gespeichert und zur Prüfung an die Beratung übermittelt. An den Arbeitgeber wurde nichts gesendet."
+
+#: eures_beta/matching/templates/matching/review_followup.html:7
+msgid "An adviser will review your answers and reservations, then tell you the next step or ask for more information."
+msgstr "Eine Beratungsperson prüft deine Antworten und Vorbehalte und teilt dir den nächsten Schritt mit oder bittet dich um weitere Angaben."
+
+#: eures_beta/matching/templates/matching/review_followup.html:9
+msgid "This decision concerns this offer only. Your profile remains available for other opportunities."
+msgstr "Diese Entscheidung betrifft nur dieses Angebot. Dein Profil bleibt für andere Möglichkeiten verfügbar."
+
+#: eures_beta/matching/templates/matching/review_followup.html:17
+msgid "Additional information for the adviser"
+msgstr "Weitere Angaben für die Beratung"
+
+#: eures_beta/matching/templates/matching/review_followup.html:26
+msgid "Send my additional information"
+msgstr "Meine zusätzlichen Angaben senden"
+
+#: eures_beta/matching/templates/matching/review_followup.html:32
+msgid "Review your current replies before sending them to an adviser."
+msgstr "Prüfe deine aktuellen Antworten, bevor du sie an die Beratung übermittelst."
+
+#: eures_beta/matching/templates/matching/review_followup.html:39
+msgid "Send my replies to an adviser"
+msgstr "Meine Antworten an die Beratung übermitteln"
+
+#: eures_beta/matching/templates/matching/review_followup.html:46
+msgid "Follow-up messages"
+msgstr "Nachrichten zur weiteren Bearbeitung"
+
+#: eures_beta/matching/templates/matching/review_followup.html:48
+msgid "Earlier messages are kept below. Changed answers or conditions need a new review."
+msgstr "Frühere Nachrichten bleiben unten erhalten. Geänderte Antworten oder Bedingungen müssen erneut geprüft werden."
+
+#: eures_beta/matching/templates/matching/review_followup.html:59
+msgid "You declined the same condition in three different offers. Would you like to review your general profile?"
+msgstr "Du hast dieselbe Bedingung bei drei verschiedenen Angeboten abgelehnt. Möchtest du dein allgemeines Profil überprüfen?"
+
+#: eures_beta/matching/templates/matching/review_followup.html:61
+msgid "You can keep your profile as it is. Any change must be reviewed and confirmed by you."
+msgstr "Du kannst dein Profil unverändert lassen. Jede Änderung muss von dir geprüft und bestätigt werden."
+
+#: eures_beta/matching/templates/matching/review_followup.html:69
+msgid "Keep my profile unchanged"
+msgstr "Mein Profil unverändert lassen"
+
+#: eures_beta/templates/users/adviser_matching_card.html:9
+#: eures_beta/templates/users/adviser_workspace.html:44
+msgid "Replies to review from your candidate"
+msgstr "Antworten aus Ihrem angestoßenen Vorgang prüfen"
+
+#: eures_beta/templates/users/adviser_matching_card.html:9
+#: eures_beta/templates/users/review_handling.html:6
+msgid "Handled by"
+msgstr "Bearbeitung durch"
+
+#: eures_beta/templates/users/review_handling.html:15
+#: eures_beta/templates/users/review_handling.html:48
+msgid "Explain the takeover. The previous handler remains in the history."
+msgstr "Begründen Sie die Übernahme. Die bisherige Bearbeitung bleibt im Verlauf erhalten."
+
+#: eures_beta/templates/users/review_handling.html:19
+#: eures_beta/templates/users/review_handling.html:52
+msgid "Take over this review"
+msgstr "Diese Bearbeitung übernehmen"
+
+#: eures_beta/templates/users/review_handling.html:28
+msgid "Write the explanation the candidate will receive. Internal notes are kept separate."
+msgstr "Schreiben Sie die Erklärung für die kandidierende Person. Interne Notizen bleiben getrennt."
+
+#: eures_beta/templates/users/review_handling.html:33
+msgid "Validate the review"
+msgstr "Prüfung bestätigen"
+
+#: eures_beta/templates/users/review_handling.html:37
+msgid "Request additional information"
+msgstr "Zusätzliche Angaben anfordern"
+
+#: eures_beta/templates/users/review_handling.html:41
+msgid "Decline with an explanation"
+msgstr "Mit einer Erklärung ablehnen"
+
+#: eures_beta/templates/users/review_handling.html:45
+msgid "Release this review"
+msgstr "Bearbeitung freigeben"
+
+#: eures_beta/templates/users/review_handling.html:57
+msgid "Take responsibility for this review"
+msgstr "Diesen Vorgang zur Bearbeitung übernehmen"
+
+#: eures_beta/templates/users/review_handling.html:62
+msgid "The candidate has not submitted current replies yet. Earlier summaries remain in the history."
+msgstr "Aktuelle Antworten wurden noch nicht übermittelt. Frühere Zusammenfassungen bleiben im Verlauf erhalten."
+
+#: eures_beta/templates/users/review_handling.html:65
+msgid "Handling history and saved summaries"
+msgstr "Bearbeitungsverlauf und gespeicherte Zusammenfassungen"
+
+#: eures_beta/templates/users/review_handling.html:70
+#: eures_beta/www/adviser/matching.py:59
+msgid "Message to the candidate"
+msgstr "Nachricht an die kandidierende Person"
+
+#: eures_beta/templates/users/review_handling.html:71
+#: eures_beta/www/adviser/matching.py:65
+msgid "Internal note — advisers only"
+msgstr "Interne Notiz — nur für die Beratung"
+
+#: eures_beta/www/adviser/matching.py:332
+msgid "This review changed. Reload it before acting."
+msgstr "Dieser Vorgang wurde geändert. Laden Sie ihn vor einer Aktion neu."
+
+#: eures_beta/www/adviser/matching.py:336
+msgid "Enter a message for the candidate; a takeover also needs an internal reason."
+msgstr "Geben Sie eine Erklärung für die kandidierende Person ein. Eine Übernahme erfordert auch eine interne Begründung. Die Bestätigung setzt die Zustimmung zur Weitergabe voraus."

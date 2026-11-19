@@ -39,7 +39,10 @@
         {% endif %}
       {% endfor %}
     </section>
-    {% if current %}
+    {% if state.scope_pending %}
+      {% include "matching/condition_scope.html" %}
+    {% endif %}
+    {% if current and not state.scope_pending %}
       <section class="surface-card home-section" aria-labelledby="question-title">
         <h2 id="question-title">{{ current.label }}</h2>
         {% if simulated_dialogue %}
@@ -89,7 +92,7 @@
           {% if row.answer %}
             <p>{{ row.answer.created_at }} · {{ row.answer_label }}</p>
             {% if row.answer.detail %}<p>{{ row.answer.detail|linebreaksbr }}</p>{% endif %}
-            {% if row.answer.value == "changed" %}
+            {% if row.answer.value == "changed" or row.answer.dialogue.scope == "profile" %}
               <p>{% translate "Your general profile has not changed. Review and validate the correction separately." %}</p>
               <form method="post"
                     action="{% url 'candidate_profile_edit' %}?lang={{ page_language }}">
@@ -103,7 +106,7 @@
       {% endfor %}
     </section>
     {% if state.declined %}
-      <p role="status">{% translate "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent." %}</p>
+      <p role="status">{% translate "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent to the employer." %}</p>
     {% endif %}
     {% if not state.pending and not current and not state.declined %}
       <section class="surface-card home-section">
@@ -112,9 +115,9 @@
         {% if state.agreement %}
           <p role="status">
             {% if state.agreement.agreed %}
-              {% translate "Permission recorded. Nothing has been sent." %}
+              {% translate "Permission recorded. Nothing has been sent to the employer." %}
             {% else %}
-              {% translate "Transmission permission refused. Nothing has been sent." %}
+              {% translate "Transmission permission refused. Nothing has been sent to the employer." %}
             {% endif %}
           </p>
         {% endif %}
@@ -128,5 +131,6 @@
         </form>
       </section>
     {% endif %}
+    {% include "matching/review_followup.html" %}
   </div>
 {% endblock %}

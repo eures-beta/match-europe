@@ -81,8 +81,8 @@ class AdviserMatchingTests(TestCase):
         offer_review_services.agree(
             self.match.candidate.user, conversation.pk, state['fingerprint'], False
         )
-        self.assertNotContains(self.client.get(tracking), follow)
-        self.assertEqual(self.client.get(follow).status_code, 404)
+        self.assertContains(self.client.get(tracking), follow)
+        self.assertEqual(self.client.get(follow).status_code, 200)
 
     def test_albert_opinion_uses_current_answers_and_never_decides(self):
         self.assertEqual(self.decide('retained').status_code, 302)

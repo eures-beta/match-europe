@@ -41,3 +41,5 @@ la compatibilité des anciennes notifications et le refus des destinations exter
 - [config/test_security_alerts.py](config/test_security_alerts.py) vérifie les plans
   de classement CodeQL, les refus, la reprise et les paramètres littéraux Make,
   avec l’API GitHub simulée et sans modifier d’alerte réelle.
+
+Le traitement post-Albert est couvert par `matching/test_review_workflow.py`, `matching/test_review_concurrency.py` et `matching/test_review_workflow_migration.py` : droits, notes privées, décisions, concurrence PostgreSQL, refus sur trois offres et migration non vide.

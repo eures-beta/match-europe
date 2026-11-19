@@ -62,7 +62,8 @@ renvoie vers l’édition du profil, que le candidat valide séparément.
 
 L’autorisation de transmission est recueillie séparément et peut être retirée.
 Elle devient périmée si les réponses ou les informations pertinentes changent.
-La sollicitation et l’accord ne déclenchent aucun envoi ni accès employeur.
+La sollicitation et l’accord ne déclenchent aucun envoi à l’employeur ni accès employeur.
+La clôture et le suivi partagé suivent [le contrat actuel](REVIEW_HANDOFF.md).
 Les pages sont privées et les formulaires protègent contre les réponses périmées.
 
 La migration `matching.0005_offer_confirmations` crée les demandes, réponses et

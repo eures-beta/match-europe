@@ -36,8 +36,9 @@ Propriété, rôle candidat actif et profil vérifié, CSRF, quotas, signatures 
 empreintes du contexte sont vérifiés côté serveur. Les réponses et consentements
 restent liés à l'offre et deviennent périmés si le contexte pertinent change.
 Les anciens consentements ne dispensent pas de répondre à la nouvelle question
-employeur. Aucun changement de schéma n'est nécessaire : les réponses utilisent
+employeur. Les réponses utilisent
 `CandidateOfferReviewAnswer`, la permission `CandidateProfileSharing`.
+Le suivi durable est décrit dans [le contrat de clôture](REVIEW_HANDOFF.md).
 
 Albert ne choisit pas la prochaine étape et ne dispose d'aucun outil d'écriture,
 de score, d'envoi ou de transmission. Une réponse libre est une proposition à

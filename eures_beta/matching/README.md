@@ -30,3 +30,8 @@ palette EURES, bulles sobres et cadre téléphone sur ordinateur seulement.
 - [search_queue.py](search_queue.py) — Distingue recherches externes, calculs absents/périmés et informations insuffisantes.
 - [services.py](services.py) — Orchestre calculs et décisions, dont les déclenchements après enregistrement d’une offre ou d’un profil candidat.
 - [validation.py](validation.py) — Valide les données métier du rapprochement.
+
+- [review_workflow.py](review_workflow.py) — Clôture, synthèses durables, prises en charge, décisions et refus répétés.
+- [review_notifications.py](review_notifications.py) — Notifications minimales après commit, hors notes internes.
+
+Contrat : [clôture et traitement conseiller](../../docs/REVIEW_HANDOFF.md).

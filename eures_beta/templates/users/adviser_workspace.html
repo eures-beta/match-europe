@@ -37,11 +37,12 @@
             <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=candidates">{% translate "Candidates without an offer" %}</a>
           {% endif %}
           <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations"
-             {% if tracking %} aria-current="page"{% endif %}>{% translate "Open conversations" %}</a>
+             {% if tracking %} aria-current="page"{% endif %}>{% translate "Open conversations" %}{% if ready_review_count %} · {{ ready_review_count }}{% endif %}</a>
         </nav>
       {% endblock %}
     </aside>
     <div class="adviser-workspace-content">
+      {% if initiated_review_count %}<p role="status"><a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations">{% translate "Replies to review from your candidate" %} · {{ initiated_review_count }}</a></p>{% endif %}
       {% block adviser_heading %}{% endblock %}
       {% block adviser_content %}{% endblock %}
     </div>

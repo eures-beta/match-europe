@@ -1,0 +1,83 @@
+{% load i18n %}
+<section class="invitation-card" aria-labelledby="handling-title">
+  <h2 id="handling-title">{% translate "Adviser review" %}</h2>
+  <p role="status">{{ conversation.get_workflow_state_display }}</p>
+  {% if conversation.assigned_to %}
+    <p>{% translate "Handled by" %} : {{ conversation.assigned_to.get_full_name|default:conversation.assigned_to.email }}</p>
+  {% endif %}
+  {% if analysis_error %}<p role="alert">{{ analysis_error }}</p>{% endif %}
+  {% if handling_current %}
+    {% if conversation.workflow_state == "validated" and not handling_owned %}
+      <form method="post" class="confirmation-form">
+        {% csrf_token %}
+        {{ handling_form.version }}{{ handling_form.fingerprint }}
+        {{ handling_form.internal_note.as_field_group }}
+        <p>{% translate "Explain the takeover. The previous handler remains in the history." %}</p>
+        <button class="primary-action"
+                name="action"
+                value="takeover"
+                type="submit">{% translate "Take over this review" %}</button>
+      </form>
+    {% endif %}
+    {% if conversation.workflow_state != "validated" and conversation.workflow_state != "refused" %}
+      <form method="post" class="confirmation-form">
+        {% csrf_token %}
+        {{ handling_form.version }}{{ handling_form.fingerprint }}
+        {% if handling_owned %}
+          {{ handling_form.public_message.as_field_group }}
+          <p>{% translate "Write the explanation the candidate will receive. Internal notes are kept separate." %}</p>
+          {{ handling_form.internal_note.as_field_group }}
+          <button class="primary-action"
+                  name="action"
+                  value="validated"
+                  type="submit">{% translate "Validate the review" %}</button>
+          <button class="primary-action"
+                  name="action"
+                  value="clarify"
+                  type="submit">{% translate "Request additional information" %}</button>
+          <button class="primary-action"
+                  name="action"
+                  value="refused"
+                  type="submit">{% translate "Decline with an explanation" %}</button>
+          <button class="primary-action"
+                  name="action"
+                  value="release"
+                  type="submit">{% translate "Release this review" %}</button>
+        {% elif conversation.assigned_to %}
+          {{ handling_form.internal_note.as_field_group }}
+          <p>{% translate "Explain the takeover. The previous handler remains in the history." %}</p>
+          <button class="primary-action"
+                  name="action"
+                  value="takeover"
+                  type="submit">{% translate "Take over this review" %}</button>
+        {% else %}
+          <button class="primary-action"
+                  name="action"
+                  value="claim"
+                  type="submit">{% translate "Take responsibility for this review" %}</button>
+        {% endif %}
+      </form>
+    {% endif %}
+  {% else %}
+    <p>{% translate "The candidate has not submitted current replies yet. Earlier summaries remain in the history." %}</p>
+  {% endif %}
+  <details>
+    <summary>{% translate "Handling history and saved summaries" %}</summary>
+    {% for event in handling_events %}
+      <article>
+        <h3>{{ event.get_action_display }} · {{ event.actor.get_full_name|default:event.actor.email }}</h3>
+        <time datetime="{{ event.created_at|date:'c' }}">{{ event.created_at }}</time>
+        {% if event.public_message %}<p>{% translate "Message to the candidate" %} : {{ event.public_message|linebreaksbr }}</p>{% endif %}
+        {% if event.internal_note %}<p>{% translate "Internal note — advisers only" %} : {{ event.internal_note|linebreaksbr }}</p>{% endif %}
+        {% if event.snapshot %}
+          <ul>
+            {% for row in event.saved_rows %}
+              <li>{{ row.label }} — {{ row.expected }} — {% if row.askable %}{{ row.answer_label }}{% else %}{% translate "Employer clarification needed" %}{% endif %}{% if row.detail %} : {{ row.detail }}{% endif %}</li>
+            {% endfor %}
+          </ul>
+          {% for message in event.snapshot.supplements %}<p>{{ message|linebreaksbr }}</p>{% endfor %}
+        {% endif %}
+      </article>
+    {% endfor %}
+  </details>
+</section>

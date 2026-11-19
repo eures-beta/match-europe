@@ -1,0 +1,29 @@
+{% load i18n %}
+<section class="conversation-thread" aria-labelledby="scope-title">
+  <h2 id="scope-title">{% translate "Does your reply concern this offer or your general profile?" %}</h2>
+  <p>{{ state.scope_pending.label }} — {{ state.scope_pending.expected }}</p>
+  <h3>{% translate "You previously declared" %}</h3>
+  <dl>{% for label, value in state.scope_pending.declared %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+  {% if scope_repeated %}
+    <p>{% translate "You declined the same condition in three different offers. Would you like to review your general profile?" %}</p>
+  {% endif %}
+  <p>{% translate "Your general profile has not changed. Review and validate the correction separately." %}</p>
+  <form method="post"
+        action="{% url 'candidate_review_reply' obj.pk %}?lang={{ page_language }}"
+        class="confirmation-form">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="scope">
+    <input type="hidden" name="key" value="{{ state.scope_pending.key }}">
+    <input type="hidden"
+           name="fingerprint"
+           value="{{ state.scope_pending.fingerprint }}">
+    <input type="hidden"
+           name="previous"
+           value="{{ state.scope_pending.answer.pk }}">
+    <button class="primary-action" name="scope" value="offer" type="submit">{% translate "This offer only" %}</button>
+    <button class="primary-action"
+            name="scope"
+            value="profile"
+            type="submit">{% translate "Review my general profile" %}</button>
+  </form>
+</section>

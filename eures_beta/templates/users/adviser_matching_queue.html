@@ -11,7 +11,7 @@
       <ul class="adviser-matching-list">
         {% for item in page %}
           {% url 'adviser_conversation' item.pk as entry_url %}
-          {% include "users/adviser_matching_card.html" with match=item.match %}
+          {% include "users/adviser_matching_card.html" with match=item.match review=item %}
         {% endfor %}
       </ul>
     {% elif queue_section == "offers" or queue_section == "candidates" %}
