@@ -20,6 +20,7 @@ from eures_beta.www.matching.offer_reviews import (
     AnswerForm,
     entry_candidate,
     display_rows,
+    workflow_context,
 )
 from eures_beta.matching.services import StaleEvaluation
 from eures_beta.www.accounts.views import selected_language
@@ -131,7 +132,10 @@ def conversation(request, pk):
                 ):
                     raise ValueError
                 offer_reviews.answer(
-                    request.user, pk, **quick.cleaned_data, dialogue={'prompt': prompt}
+                    request.user,
+                    pk,
+                    **quick.cleaned_data,
+                    dialogue={'prompt': prompt, 'scope': ''},
                 )
                 return redirect(
                     reverse('candidate_offer_dialogue', args=[pk])
@@ -299,6 +303,7 @@ def conversation(request, pk):
             ],
             page_language=language,
             language_question=current['key'] if current else '',
+            **workflow_context(obj),
         ),
         status=status,
     )

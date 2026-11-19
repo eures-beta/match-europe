@@ -247,6 +247,7 @@ def accept(user, pk, token):
         dialogue={
             'prompt': payload.get('prompt', ''),
             'turns': payload.get('turns', []),
+            'scope': payload['scope'],
         },
     )
     return event, patch

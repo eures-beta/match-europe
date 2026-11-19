@@ -14,6 +14,7 @@ from django.utils import translation
 from django.utils.translation import get_language_info, gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
+from types import SimpleNamespace
 
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.matching import (
@@ -24,6 +25,7 @@ from eures_beta.matching import (
     dialogue_services,
     services,
     review_email,
+    review_workflow,
 )
 from eures_beta.www.matching.offer_reviews import display_rows
 from eures_beta.matching.models import (
@@ -50,6 +52,37 @@ class ReviewForm(forms.Form):
     )
 
 
+class HandlingForm(forms.Form):
+    version = forms.IntegerField(min_value=0, widget=forms.HiddenInput)
+    fingerprint = forms.CharField(max_length=64, widget=forms.HiddenInput)
+    public_message = forms.CharField(
+        label=_('Message to the candidate'),
+        max_length=2000,
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 3}),
+    )
+    internal_note = forms.CharField(
+        label=_('Internal note — advisers only'),
+        max_length=2000,
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 3}),
+    )
+    action = forms.ChoiceField(
+        choices=[
+            (key, key)
+            for key in (
+                'claim',
+                'release',
+                'takeover',
+                'validated',
+                'clarify',
+                'refused',
+            )
+        ],
+        widget=forms.HiddenInput,
+    )
+
+
 def eligible_pairs():
     return CandidateOfferMatch.objects.filter(
         candidate__in=access.candidates(), offer__in=access.matchable_offers()
@@ -71,22 +104,21 @@ def pending_pairs():
 
 
 def open_conversations():
-    return (
-        CandidateOfferReview.objects.filter(
-            match__in=eligible_pairs().filter(decision='retained')
-        )
-        .filter(
-            ~Exists(
-                CandidateOfferReview.objects.filter(
-                    pk=OuterRef('pk'), profile_sharings__isnull=False
-                )
-            )
-        )
-        .select_related('match__candidate__user', 'match__offer')
-    )
+    return CandidateOfferReview.objects.filter(
+        match__in=eligible_pairs().filter(decision='retained')
+    ).select_related('match__candidate__user', 'match__offer', 'assigned_to')
 
 
 def render_workspace(request, template, status=200, **context):
+    if access.can_view_pairs(request.user):
+        context['ready_review_count'] = (
+            open_conversations().filter(workflow_state='ready').count()
+        )
+        context['initiated_review_count'] = (
+            open_conversations()
+            .filter(workflow_state='ready', requested_by=request.user)
+            .count()
+        )
     return render(
         request,
         'users/' + template,
@@ -234,7 +266,10 @@ def follow(request, pk):
     access.guard(request)
     with translation.override(selected_language(request)):
         conversation = get_object_or_404(open_conversations(), pk=pk)
-        can_resend = access.can_change_match(request.user)
+        can_resend = (
+            access.can_change_match(request.user)
+            and conversation.workflow_state != 'refused'
+        )
         language = selected_language(request)
         state = offer_review_services.review_state(conversation)
         rows = display_rows(state['rows'], language)
@@ -269,7 +304,43 @@ def follow(request, pk):
         opinion = cache.get(key) if can_analyse else None
         result, error, status = '', '', 200
         action = request.POST.get('action')
-        if request.method == 'POST' and action == 'analyse':
+        handling = HandlingForm(
+            (
+                request.POST
+                if action
+                in {'claim', 'release', 'takeover', 'validated', 'clarify', 'refused'}
+                else None
+            ),
+            initial={
+                'version': conversation.workflow_version,
+                'fingerprint': state['fingerprint'],
+            },
+        )
+        if request.method == 'POST' and action in {
+            'claim',
+            'release',
+            'takeover',
+            'validated',
+            'clarify',
+            'refused',
+        }:
+            try:
+                if not handling.is_valid():
+                    raise ValidationError('Invalid handling form')
+                review_workflow.handle(request.user, pk, **handling.cleaned_data)
+                return redirect(
+                    reverse('adviser_conversation', args=[pk]) + '?lang=' + language
+                )
+            except (services.StaleEvaluation, ObjectDoesNotExist):
+                error, status = _('This review changed. Reload it before acting.'), 409
+            except ValidationError:
+                error, status = (
+                    _(
+                        'Enter a message for the candidate; a takeover also needs an internal reason.'
+                    ),
+                    400,
+                )
+        elif request.method == 'POST' and action == 'analyse':
             if (
                 not can_analyse
                 or request.POST.get('fingerprint') != state['fingerprint']
@@ -310,6 +381,23 @@ def follow(request, pk):
                     status = 503
             except review_email.RetryLater:
                 result, status = _('Wait a moment before resending.'), 429
+        events = list(conversation.actions.select_related('actor').order_by('-version'))
+        for event in events:
+            event.saved_rows = display_rows(
+                [
+                    {
+                        **row,
+                        'askable': row['presented']['askable'],
+                        'answer': (
+                            SimpleNamespace(value=row['value'], detail=row['detail'])
+                            if row['value']
+                            else None
+                        ),
+                    }
+                    for row in event.snapshot.get('answers', [])
+                ],
+                language,
+            )
         return render_workspace(
             request,
             'adviser_conversation.html',
@@ -326,7 +414,9 @@ def follow(request, pk):
             analysis_ready=ready,
             can_start_shared=(
                 ready
-                and conversation.requested_by_id == request.user.pk
+                and conversation.workflow_state == 'validated'
+                and review_workflow.current(conversation, state)
+                and conversation.assigned_to_id == request.user.pk
                 and access.can_change_match(request.user)
                 and bool(conversation.match.offer.created_by_id)
             ),
@@ -334,6 +424,10 @@ def follow(request, pk):
             analysis_fingerprint=state['fingerprint'],
             analysis_error=error,
             opinion=opinion,
+            handling_form=handling,
+            handling_current=review_workflow.current(conversation, state),
+            handling_owned=conversation.assigned_to_id == request.user.pk,
+            handling_events=events,
             recommendation=(
                 adviser_opinion.LABELS[opinion['recommendation']] if opinion else ''
             ),

@@ -40,6 +40,7 @@ def send(review_id, *, adviser=None):
                 match__candidate__in=access.candidates(),
                 match__offer__in=access.matchable_offers(),
             )
+            .exclude(workflow_state='refused')
             .first()
         )
         if review is None:

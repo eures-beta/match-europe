@@ -82,6 +82,89 @@ class CandidateOfferReview(models.Model):
     )
     email_attempted_at = models.DateTimeField(null=True, blank=True)
     email_sent_at = models.DateTimeField(null=True, blank=True)
+    workflow_state = models.CharField(
+        max_length=12,
+        default='waiting',
+        choices=[
+            ('waiting', _('Awaiting candidate replies')),
+            ('ready', _('Ready for adviser review')),
+            ('claimed', _('Being reviewed')),
+            ('clarify', _('Additional information requested')),
+            ('validated', _('Validated by an adviser')),
+            ('refused', _('Closed by an adviser')),
+        ],
+    )
+    assigned_to = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+    )
+    workflow_version = models.PositiveIntegerField(default=0)
+    submitted_fingerprint = models.CharField(max_length=64, blank=True)
+    submitted_at = models.DateTimeField(null=True, blank=True)
+    summary = models.JSONField(default=dict, blank=True)
+
+
+class CandidateOfferReviewAction(models.Model):
+    """Append-only adviser handling and immutable submitted summaries."""
+
+    review = models.ForeignKey(
+        CandidateOfferReview, on_delete=models.CASCADE, related_name='actions'
+    )
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    version = models.PositiveIntegerField()
+    action = models.CharField(
+        max_length=16,
+        choices=[
+            ('submitted', _('Replies submitted')),
+            ('reopened', _('Review reopened')),
+            ('claim', _('Responsibility accepted')),
+            ('release', _('Responsibility released')),
+            ('takeover', _('Review taken over')),
+            ('validated', _('Validated by an adviser')),
+            ('clarify', _('Additional information requested')),
+            ('refused', _('Closed by an adviser')),
+            ('candidate_reply', _('Additional information received')),
+        ],
+    )
+    internal_note = models.TextField(max_length=2000, blank=True)
+    public_message = models.TextField(max_length=2000, blank=True)
+    snapshot = models.JSONField(default=dict, blank=True)
+    delivery_status = models.CharField(max_length=12, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['review', 'version'],
+                name='matching_candidateofferreviewaction_version_unique',
+            )
+        ]
+
+
+class CandidateProfileReviewPrompt(models.Model):
+    """Three distinct current refusals invite review, never infer a new preference."""
+
+    candidate = models.ForeignKey(
+        'candidates.CandidateProfile', on_delete=models.CASCADE
+    )
+    condition_hash = models.CharField(max_length=64)
+    profile_updated_at = models.DateTimeField()
+    condition = models.JSONField()
+    evidence = models.JSONField()
+    resolution = models.CharField(max_length=12, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['candidate', 'condition_hash', 'profile_updated_at'],
+                name='matching_candidateprofilereviewprompt_condition_unique',
+            )
+        ]
 
 
 class CandidateOfferReviewAnswer(models.Model):

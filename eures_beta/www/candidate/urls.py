@@ -8,6 +8,11 @@ from eures_beta.www.candidate import (
 )
 
 urlpatterns = [
+    path(
+        'candidate/offer-reviews/<int:pk>/follow-up/',
+        offer_reviews.workflow_reply,
+        name='candidate_review_reply',
+    ),
     path('candidate/offer-reviews/', offer_reviews.inbox, name='candidate_offer_inbox'),
     path(
         'candidate/offer-reviews/<int:pk>/',

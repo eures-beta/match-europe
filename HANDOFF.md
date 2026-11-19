@@ -88,5 +88,5 @@ et dans les PR citées. Aucun fichier d'archives n'est nécessaire.
 
 Catalogue métiers/compétences candidat et employeur : [contrat et validations](docs/COMMON_OCCUPATION_SKILLS.md). PR en préparation, sans fusion ni déploiement.
 
-Suite locale de #251 : `codex/albert-candidate-questions`, dialogue naturel, intérêt
-poste puis employeur, refus et consentement distinct ; [contrat](docs/ALBERT_DIALOGUE_ADAPTER.md).
+Suite locale de #253 : clôture Albert et traitement partagé des dossiers.
+Voir [contrat et recette](docs/REVIEW_HANDOFF.md). Publication et recette 7 jours demandées.

@@ -12,6 +12,7 @@
 {% endblock %}
 {% block adviser_content %}
   <div class="adviser-record conversation-followup">
+    {% include "users/review_handling.html" %}
     <a class="record-back"
        href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations">← {% translate "Open conversations" %}</a>
     <section class="invitation-card record-header"
@@ -51,6 +52,9 @@
                         <span class="followup-muted">{% translate "Employer clarification needed" %}</span>
                       {% elif row.answer %}
                         <span class="followup-answer">{{ row.followup_answer }}</span>
+                        {% if row.answer.dialogue.scope == "profile" %}
+                          <p>{% translate "My general profile" %}</p>
+                        {% endif %}
                         {% if row.answer.detail %}<p class="followup-detail">{{ row.answer.detail|linebreaksbr }}</p>{% endif %}
                       {% else %}
                         <span class="followup-muted">{% translate "Waiting for candidate reply" %}</span>

@@ -92,6 +92,8 @@
         </form>
         <p><a href="?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Correct or cancel this proposal" %}</a></p>
       </section>
+    {% elif state.scope_pending %}
+      {% include "matching/condition_scope.html" %}
     {% elif current %}
       <section class="conversation-thread" aria-labelledby="question-title">
         <h2 id="question-title" class="dialogue-bubble">{{ prompt }}</h2>
@@ -134,7 +136,7 @@
       </section>
     {% elif state.declined %}
       <section class="conversation-thread" aria-labelledby="declined-title">
-        <h2 id="declined-title">{% translate "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent." %}</h2>
+        <h2 id="declined-title">{% translate "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent to the employer." %}</h2>
         <a href="?lang={{ page_language }}&amp;question={{ state.declined.key|urlencode }}">{% translate "Change this answer" %}</a>
       </section>
     {% elif shared_conversation %}
@@ -159,5 +161,6 @@
            href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}">{% translate "Review the summary and choose what may be shared" %}</a>
       </section>
     {% endif %}
+    {% include "matching/review_followup.html" %}
   </div>
 {% endblock %}

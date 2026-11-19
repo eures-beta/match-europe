@@ -16,7 +16,12 @@ from django.views.decorators.http import require_http_methods
 
 from eures_beta.candidates import push
 from eures_beta.www.accounts.views import selected_language
-from eures_beta.matching import access, adviser_opinion, offer_review_services
+from eures_beta.matching import (
+    access,
+    adviser_opinion,
+    offer_review_services,
+    review_workflow,
+)
 from eures_beta.matching.models import (
     CandidateOfferReview,
     CandidateOfferMatch,
@@ -142,7 +147,8 @@ def start(request, pk):
                 'match__offer__created_by', 'match__candidate'
             ),
             pk=pk,
-            requested_by=request.user,
+            assigned_to=request.user,
+            workflow_state='validated',
             match__decision='retained',
             match__candidate__in=access.candidates(),
             match__offer__in=access.matchable_offers(),
@@ -155,6 +161,8 @@ def start(request, pk):
         employer = match.offer.created_by
         if (
             match.decision != 'retained'
+            or review.assigned_to_id != request.user.pk
+            or review.workflow_state != 'validated'
             or not employer
             or employer.kind != 'employer'
             or not employer.is_active
@@ -165,7 +173,9 @@ def start(request, pk):
             return redirect(destination('shared_conversation', existing.pk, language))
         if CandidateOfferConversation.objects.filter(offer_review=review).exists():
             raise Http404
-        if not adviser_opinion.ready(offer_review_services.review_state(review)):
+        if not review_workflow.current(review) or not adviser_opinion.ready(
+            offer_review_services.review_state(review)
+        ):
             raise Http404
         form = IntroductionForm(
             request.POST if request.method == 'POST' else None,
@@ -283,8 +293,17 @@ def detail(request, pk):
                 ),
             }
             messages = [
-                (message, *participants[message.author_id])
-                for message in thread.messages.order_by('pk')
+                (
+                    message,
+                    *participants.get(
+                        message.author_id,
+                        (
+                            ROLES['adviser'],
+                            message.author.get_full_name() or str(ROLES['adviser']),
+                        ),
+                    ),
+                )
+                for message in thread.messages.select_related('author').order_by('pk')
             ]
             if messages:
                 field = role + '_read'

@@ -403,12 +403,29 @@ def review_state(review):
         ),
         None,
     )
+    scope_pending = (
+        None
+        if declined
+        else next(
+            (
+                row
+                for row in rows
+                if row.get('priority') == 2
+                and row['kind'] not in {'occupation', 'employer'}
+                and row['answer']
+                and row['answer'].value == 'no'
+                and row['answer'].dialogue.get('scope') == ''
+            ),
+            None,
+        )
+    )
     return dict(
+        scope_pending=scope_pending,
         declined=declined,
         rows=rows,
         fingerprint=fingerprint,
         agreement=current_profile_sharing,
-        pending=next((row for row in rows if needs_answer(row)), None),
+        pending=scope_pending or next((row for row in rows if needs_answer(row)), None),
         unresolved=any(
             not row['askable'] or not row['answer'] or row['answer'].value != 'yes'
             for row in rows
@@ -483,7 +500,7 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
         return latest
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
-    return CandidateOfferReviewAnswer.objects.create(
+    event = CandidateOfferReviewAnswer.objects.create(
         review=review,
         actor=user,
         question_key=key,
@@ -491,8 +508,57 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
         presented=row['presented'],
         value=value,
         detail=detail.strip(),
-        dialogue=dialogue or {},
+        dialogue=(
+            dialogue
+            if dialogue is not None
+            else {'scope': 'profile' if value == 'changed' else 'offer'}
+        ),
     )
+    from . import review_workflow
+
+    review_workflow.check_repeated_refusal(event)
+    review_workflow.sync(review, user)
+    return event
+
+
+@transaction.atomic
+def confirm_scope(user, pk, key, fingerprint, previous, scope):
+    review = locked_review(user, pk)
+    state = review_state(review)
+    row = state['scope_pending']
+    if (
+        not row
+        or row['key'] != key
+        or row['fingerprint'] != fingerprint
+        or row['answer'].pk != previous
+        or scope not in {'offer', 'profile'}
+    ):
+        raise StaleEvaluation
+    source = row['answer']
+    event = CandidateOfferReviewAnswer.objects.create(
+        review=review,
+        actor=user,
+        question_key=key,
+        fingerprint=fingerprint,
+        presented=row['presented'],
+        value=source.value,
+        detail=source.detail,
+        dialogue={**source.dialogue, 'scope': scope},
+    )
+    from . import review_workflow
+    from .models import CandidateProfileReviewPrompt
+
+    identity = review_workflow.condition_identity(row['presented'])
+    CandidateProfileReviewPrompt.objects.filter(
+        candidate=review.match.candidate,
+        condition_hash=digest(identity),
+        profile_updated_at=review.match.candidate.updated_at,
+        resolution='',
+    ).update(
+        resolution='keep' if scope == 'offer' else 'review', resolved_at=timezone.now()
+    )
+    review_workflow.sync(review, user)
+    return event
 
 
 @transaction.atomic
@@ -520,6 +586,10 @@ def agree(user, pk, fingerprint, agreed, previous=0):
         return latest
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
-    return CandidateProfileSharing.objects.create(
+    event = CandidateProfileSharing.objects.create(
         review=review, actor=user, fingerprint=fingerprint, agreed=agreed
     )
+    from . import review_workflow
+
+    review_workflow.sync(review, user)
+    return event

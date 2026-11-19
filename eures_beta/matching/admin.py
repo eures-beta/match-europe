@@ -11,6 +11,8 @@ from .models import (
     CandidateProfileSharing,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
+    CandidateOfferReviewAction,
+    CandidateProfileReviewPrompt,
 )
 
 
@@ -33,7 +35,11 @@ class MatchDecisionAdmin(MetadataOnlyAdmin):
 
 
 @admin.register(
-    CandidateOfferReview, CandidateOfferReviewAnswer, CandidateProfileSharing
+    CandidateOfferReview,
+    CandidateOfferReviewAnswer,
+    CandidateProfileSharing,
+    CandidateOfferReviewAction,
+    CandidateProfileReviewPrompt,
 )
 class ConfirmationMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'created_at')

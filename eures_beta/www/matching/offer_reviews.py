@@ -2,7 +2,7 @@
 
 from functools import wraps
 from django import forms
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -20,6 +20,7 @@ from eures_beta.matching import (
     access,
     offer_review_services as service,
     dialogue_services,
+    review_workflow,
 )
 from eures_beta.matching.services import StaleEvaluation
 from eures_beta.matching.presentation import readable_date
@@ -99,6 +100,62 @@ def destination(pk, language):
     return reverse('candidate_offer_confirmation', args=[pk]) + '?lang=' + language
 
 
+def workflow_context(obj):
+    obj.refresh_from_db()
+    state = service.review_state(obj)
+    profile_prompts = list(review_workflow.prompts(obj))
+    for prompt in profile_prompts:
+        row = display_rows(
+            [
+                {
+                    'kind': prompt.condition['kind'],
+                    'presented': prompt.condition['presented'],
+                    'answer': None,
+                }
+            ],
+            selected_prompt_language(obj),
+        )
+        prompt.label = row[0]['label']
+        prompt.expected = row[0]['expected']
+    public_actions = list(
+        obj.actions.exclude(public_message='')
+        .order_by('version')
+        .values('action', 'public_message', 'created_at')
+    )
+    latest_adviser_message = next(
+        (
+            event['public_message']
+            for event in reversed(public_actions)
+            if event['action'] in review_workflow.DECISIONS
+        ),
+        '',
+    )
+    return dict(
+        workflow_current=review_workflow.current(obj, state),
+        workflow_complete=review_workflow.completion(state),
+        workflow_fingerprint=state['fingerprint'],
+        public_actions=public_actions,
+        latest_adviser_message=latest_adviser_message,
+        profile_prompts=profile_prompts,
+        scope_repeated=bool(
+            state['scope_pending']
+            and any(
+                {key: prompt.condition[key] for key in ('kind', 'expected')}
+                == review_workflow.condition_identity(
+                    state['scope_pending']['presented']
+                )
+                for prompt in profile_prompts
+            )
+        ),
+    )
+
+
+def selected_prompt_language(obj):
+    from django.utils.translation import get_language
+
+    return get_language() or obj.match.candidate.language
+
+
 def entry_candidate(view):
     @wraps(view)
     @never_cache
@@ -109,6 +166,67 @@ def entry_candidate(view):
             return view(request, *args, **kwargs)
 
     return wrapped
+
+
+@entry_candidate
+@sensitive_post_parameters()
+@require_http_methods(['POST'])
+def workflow_reply(request, pk):
+    obj = get_object_or_404(service.candidate_reviews(request.user), pk=pk)
+    try:
+        action = request.POST.get('action')
+        if action == 'scope':
+            scope = request.POST.get('scope')
+            service.confirm_scope(
+                request.user,
+                pk,
+                request.POST.get('key'),
+                request.POST.get('fingerprint'),
+                int(request.POST.get('previous', '-1')),
+                scope,
+            )
+            if scope == 'profile':
+                from eures_beta.www.candidate.registration import edit
+
+                return edit(request)
+            return redirect(
+                reverse('candidate_offer_dialogue', args=[pk])
+                + '?lang='
+                + selected_language(request)
+            )
+        elif action == 'submit':
+            review_workflow.submit(
+                request.user,
+                pk,
+                request.POST.get('fingerprint'),
+                int(request.POST.get('version', '-1')),
+            )
+        elif action == 'supplement':
+            review_workflow.supplement(
+                request.user,
+                pk,
+                int(request.POST.get('version', '-1')),
+                request.POST.get('message', ''),
+            )
+        elif action in {'keep', 'review'}:
+            prompt = get_object_or_404(
+                review_workflow.prompts(obj), pk=request.POST.get('prompt')
+            )
+            review_workflow.resolve_prompt(request.user, prompt.pk, action)
+            if action == 'review':
+                from eures_beta.www.candidate.registration import edit
+
+                return edit(request)
+        else:
+            raise ValueError
+    except (StaleEvaluation, ValueError, ValidationError, ObjectDoesNotExist):
+        return render(
+            request,
+            'matching/dialogue_profile_conflict.html',
+            {'page_language': selected_language(request)},
+            status=409,
+        )
+    return redirect(destination(pk, selected_language(request)))
 
 
 @never_cache
@@ -335,7 +453,11 @@ def candidate_entries(user):
             dict(
                 review=review,
                 progress=progress,
-                status=labels[progress],
+                status=(
+                    review.get_workflow_state_display()
+                    if review_workflow.current(review, state)
+                    else labels[progress]
+                ),
                 is_new=progress == 'not_started',
                 target=target,
                 action=action,
@@ -435,6 +557,7 @@ def dialogue(request, pk):
             live_dialogue=dialogue_services.live(),
             page_language=language,
             error=error,
+            **workflow_context(obj),
         ),
         status=status,
     )

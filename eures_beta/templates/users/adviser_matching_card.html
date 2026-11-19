@@ -5,6 +5,9 @@
       <h3>{{ match.offer.data.title }}</h3>
       <p class="invitation-hint">{{ match.offer.data.companyName }} · {{ match.offer.data.city }}</p>
       <p>{{ candidate }}</p>
+      {% if review %}
+        <p>{{ review.get_workflow_state_display }}{% if review.requested_by_id == request.user.pk and review.workflow_state == "ready" %} · <strong>{% translate "Replies to review from your candidate" %}</strong>{% endif %}{% if review.assigned_to %} · {% translate "Handled by" %} {{ review.assigned_to.get_full_name|default:review.assigned_to.email }}{% endif %}</p>
+      {% endif %}
     </div>
     <div class="adviser-match-actions">
       {% translate "Follow conversation" as action_label %}
