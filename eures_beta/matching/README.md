@@ -9,6 +9,9 @@ Calcul explicable, décisions, confirmations et conversations. Les interfaces so
 - [management/](management/) — Commandes du domaine, indépendantes des pages web.
 - [migrations/](migrations/) — Historique Django du schéma, conservé lors du déplacement des interfaces.
 - [static/](static/) — Ressources du navigateur conservées à leur emplacement actuel.
+
+Le dialogue candidat utilise `static/matching/candidate-conversation.css` :
+palette EURES, bulles sobres et cadre téléphone sur ordinateur seulement.
 - [templates/](templates/) — Templates du domaine conservés à leur emplacement actuel.
 
 ## Fichiers
@@ -17,7 +20,8 @@ Calcul explicable, décisions, confirmations et conversations. Les interfaces so
 - [access.py](access.py) — Contrôle les rôles et objets accessibles pour le matching.
 - [admin.py](admin.py) — Enregistre les modèles dans l’administration en consultation.
 - [adviser_opinion.py](adviser_opinion.py) — Prépare un avis Albert soumis à validation du conseiller.
-- [offer_review_services.py](offer_review_services.py) — Recueille les réponses par offre, les intérêts poste/employeur, les refus et l’accord de partage.
+- [offer_review_services.py](offer_review_services.py) — Recueille les réponses par offre, les intérêts poste/employeur, les refus et l’accord de partage ; calcule l’avancement candidat sans dépendre de l’email.
+- [review_email.py](review_email.py) — Envoie la proposition d’offre avec connexion personnelle, conserve le résultat du transport et contrôle les relances.
 - [dialogue_albert.py](dialogue_albert.py) — Porte les consignes de conversation naturelle et adapte les clarifications au client Albert commun.
 - [dialogue_services.py](dialogue_services.py) — Valide les propositions du dialogue et leurs modifications de profil.
 - [engine.py](engine.py) — Calcule les critères et explications du rapprochement.

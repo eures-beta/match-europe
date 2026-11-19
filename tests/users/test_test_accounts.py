@@ -66,12 +66,8 @@ class TestAccountAccessTests(TestCase):
         EMAIL_DELIVERY_ENABLED=False,
         ALBERT_SIMULATED=True,
     )
-    def test_push_starts_only_after_adviser_validation(self):
-        import base64
+    def test_web_dialogue_starts_after_validation_without_push(self):
         from unittest.mock import patch
-
-        from cryptography.hazmat.primitives.asymmetric import ec
-        from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
         from eures_beta.matching.models import CandidateOfferReview
         from eures_beta.www.adviser.matching import pending_pairs
 
@@ -81,60 +77,20 @@ class TestAccountAccessTests(TestCase):
         adviser = Client()
         adviser.force_login(prepared_user('adviser'))
         detail = reverse('adviser_match', args=[match.pk])
-        decision = {'action': 'retained', 'evaluation': match.evaluation_id}
-
+        with patch('eures_beta.candidates.push.notify') as push:
+            with self.captureOnCommitCallbacks(execute=True):
+                response = adviser.post(
+                    detail, {'action': 'retained', 'evaluation': match.evaluation_id}
+                )
+            self.assertEqual(response.status_code, 302)
+            push.assert_not_called()
+        review = CandidateOfferReview.objects.get(match=match)
+        self.assertEqual(review.email_status, 'disabled')
         candidate = Client()
         candidate.force_login(user)
-        point = (
-            ec.generate_private_key(ec.SECP256R1())
-            .public_key()
-            .public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)
-        )
-        payload = {
-            'endpoint': 'https://fcm.googleapis.com/fcm/send/fictional',
-            'keys': {
-                'p256dh': base64.urlsafe_b64encode(point).decode(),
-                'auth': base64.urlsafe_b64encode(bytes(16)).decode(),
-            },
-        }
-        subscription = reverse('candidate_push_subscriptions')
-        self.assertEqual(
-            candidate.post(
-                subscription,
-                {**payload, 'endpoint': 'https://localhost/'},
-                content_type='application/json',
-            ).status_code,
-            400,
-        )
-        self.assertEqual(
-            candidate.post(
-                subscription, payload, content_type='application/json'
-            ).status_code,
-            200,
-        )
-        with patch('pywebpush.webpush') as send:
-            send.return_value.status_code = 201
-            with self.captureOnCommitCallbacks(execute=True):
-                self.assertEqual(adviser.post(detail, decision).status_code, 302)
-                send.assert_not_called()
-            send.assert_called_once()
-        confirmation = CandidateOfferReview.objects.get(match=match)
-        dialogue = reverse('candidate_offer_dialogue', args=[confirmation.pk])
-        payload = json.loads(send.call_args.kwargs['data'])
-        self.assertTrue(payload['body'])
-        self.assertEqual(payload['url'], dialogue)
-        page = candidate.get(payload['url'])
+        page = candidate.get(reverse('candidate_offer_dialogue', args=[review.pk]))
         self.assertEqual(page.status_code, 200)
         self.assertEqual(page.context['current']['kind'], 'occupation')
-        follow = reverse('adviser_conversation', args=[confirmation.pk])
-        with patch('eures_beta.candidates.push.notify', return_value=True) as resend:
-            self.assertEqual(
-                adviser.post(follow, {'action': 'resend'}).status_code, 200
-            )
-            self.assertEqual(
-                adviser.post(follow, {'action': 'resend'}).status_code, 429
-            )
-            resend.assert_called_once_with(confirmation)
 
     @override_settings(ALBERT_SIMULATED=True)
     def test_push_is_universal_and_subscription_is_optional(self):
@@ -164,9 +120,8 @@ class TestAccountAccessTests(TestCase):
             with self.captureOnCommitCallbacks(execute=True):
                 record_review(adviser, match, match.evaluation_id, "retained")
                 notify.assert_not_called()
-            notify.assert_called_once_with(
-                CandidateOfferReview.objects.get(match=match)
-            )
+            notify.assert_not_called()
+            self.assertTrue(CandidateOfferReview.objects.filter(match=match).exists())
 
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):

@@ -1,10 +1,22 @@
-from django.utils.translation import gettext_lazy as _, get_language_info
+from datetime import date
+from django.utils import formats, timezone
+from django.utils.translation import gettext_lazy as _, get_language_info, get_language
 from eures_beta.candidates.forms import (
     ConditionsForm,
     SCHEDULE_DAYS,
     SCHEDULE_PERIODS,
 )
 from eures_beta.skills.skills_pilot import catalogue
+
+
+def readable_date(value):
+    parsed = date.fromisoformat(value)
+    pattern = 'l j F' if parsed.year == timezone.localdate().year else 'l j F Y'
+    label = formats.date_format(parsed, pattern)
+    if (get_language() or '').split('-')[0] == 'fr':
+        label = label[:1].lower() + label[1:]
+    return label
+
 
 DIMENSIONS = {
     'occupation': _('Occupation interest'),

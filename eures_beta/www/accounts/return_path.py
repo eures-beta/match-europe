@@ -1,9 +1,9 @@
-"""A fixed import destination, not an arbitrary next URL."""
+"""Explicit import and candidate-dialogue destinations, never arbitrary next URLs."""
 
 from urllib.parse import parse_qs, urlencode, urlsplit
 
 from django.http import Http404
-from django.urls import reverse
+from django.urls import Resolver404, resolve, reverse
 
 
 def canonical_destination(destination):
@@ -19,6 +19,13 @@ def canonical_destination(destination):
             return ''
         path = reverse('employer_import')
         if url.path != path:
+            try:
+                match = resolve(url.path)
+            except Resolver404:
+                match = None
+            if match and match.url_name == 'candidate_offer_dialogue':
+                path = reverse('candidate_offer_dialogue', kwargs=match.kwargs)
+                return path + ('?' + urlencode({'lang': language}) if language else '')
             from eures_beta.www.public.redirects import old_import_destination
 
             old_path, old_language = old_import_destination(url.path)
@@ -31,7 +38,11 @@ def canonical_destination(destination):
 
 
 def is_import_destination(destination):
-    return bool(destination) and canonical_destination(destination) == destination
+    return (
+        bool(destination)
+        and canonical_destination(destination) == destination
+        and urlsplit(destination).path == reverse('employer_import')
+    )
 
 
 def remember(request):

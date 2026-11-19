@@ -1,5 +1,12 @@
 {% extends "conversation_base.html" %}
 {% load i18n static %}
+{% block conversation_class %}conversation-preview{% endblock %}
+{% block conversation_intro %}
+  <header class="conversation-desktop-brand">
+    <a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">Match Europe</a>
+    <span>Albert</span>
+  </header>
+{% endblock %}
 {% block page_title %}{% if live_dialogue %}{% translate "Dialogue with Albert" %}{% else %}{% translate "Simulated Albert dialogue" %}{% endif %} — Match Europe{% endblock %}
 {% block public_content %}
   <div class="confirmation-flow">
@@ -7,6 +14,7 @@
       <a class="conversation-back"
          href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}"
          aria-label="{% translate 'Offers to confirm' %}">‹</a>
+      <span class="conversation-avatar" aria-hidden="true">A</span>
       <div>
         <h1>Albert</h1>
         <p>{{ obj.match.offer.data.title }}</p>
@@ -139,7 +147,7 @@
         <h2>{% translate "Review of this offer" %}</h2>
         {% for row in rows %}
           <details>
-            <summary>{{ row.label }} — {{ row.answer_label }}</summary>
+            <summary>{{ row.label }} — {% if row.askable %}{{ row.answer_label }}{% else %}{% translate "Employer clarification needed" %}{% endif %}</summary>
             <p>{{ row.expected }}</p>
             {% if row.answer.detail %}<p>{{ row.answer.detail|linebreaksbr }}</p>{% endif %}
             {% if not row.askable %}
