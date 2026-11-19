@@ -1,5 +1,7 @@
-{% load static %}
-<div class="ds-partners" role="group" aria-label="Partenaires">
+{% load i18n static %}
+<div class="ds-partners"
+     role="group"
+     aria-label='{% translate "Partners" context "employer landing" %}'>
   <img src="{% static 'employer/assets/eures-ela.jpg' %}"
        class="ds-partner-eures"
        alt="EURES / European Labour Authority"

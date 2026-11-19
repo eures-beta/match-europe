@@ -1,0 +1,13 @@
+{% load i18n %}
+<aside class="ds-site-notice"
+       id="development-notice"
+       aria-label='{% translate "Service status" context "employer landing" %}'>
+  <div class="container">
+    <p class="fw-bold mb-1">{% translate "Version under development" context "employer landing" %}</p>
+    <p class="mb-0">
+      {% translate "Your offers are saved. Matching with candidates is not available yet and is coming soon." context "employer landing" %}
+      {% translate "A bug, a difficulty or an idea for improvement? Write to" context "employer landing" %}
+      <a href="mailto:eric.barthelemy@francetravail.fr">eric.barthelemy@francetravail.fr</a>.
+    </p>
+  </div>
+</aside>

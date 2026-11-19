@@ -42,11 +42,12 @@ def assert_active_link(testcase, response, href):
         def handle_starttag(self, tag, attributes):
             attrs = dict(attributes)
             classes = attrs.get('class', '').split()
+            # Current language: `is-active` in the old menus, `aria-current` in the design system.
             if (
                 tag == 'a'
                 and attrs.get('href') == href
-                and 'lang-link' in classes
-                and 'is-active' in classes
+                and ('lang-link' in classes or 'hreflang' in attrs)
+                and ('is-active' in classes or attrs.get('aria-current') == 'true')
             ):
                 self.found = True
 

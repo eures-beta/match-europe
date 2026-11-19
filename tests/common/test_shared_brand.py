@@ -15,7 +15,6 @@ class SharedBrandTests(TestCase):
                 '/statistics/',
                 '/project/',
                 '/journal/',
-                f'/employer/?lang={language}',
                 f'/employer/import/?lang={language}',
                 f'/employer/privacy/?lang={language}',
             ):
@@ -26,6 +25,24 @@ class SharedBrandTests(TestCase):
                     self.assertInHTML(brand, response.content.decode())
                     self.assertContains(response, 'match-europe-logo.png', count=1)
                     self.assertContains(response, '/static/public-brand.css')
+
+    def test_design_system_pages_share_the_layout_brand_in_each_language(self):
+        for language, tagline in (
+            ('fr', 'EURES beta'),
+            ('en', 'EURES beta - cross-border mobility, matching and follow-up'),
+            ('de', 'EURES beta'),
+        ):
+            for path in (f'/employer/?lang={language}',):
+                with self.subTest(language=language, path=path):
+                    response = self.client.get(path, secure=True)
+                    self.assertEqual(response.status_code, 200)
+                    self.assertTemplateUsed(response, 'eures_base.html')
+                    self.assertContains(response, 'match-europe-logo.png', count=1)
+                    self.assertContains(
+                        response, f'class="ds-brand" href="/?lang={language}"'
+                    )
+                    self.assertContains(response, tagline)
+                    self.assertNotContains(response, '/static/public-brand.css')
 
     def test_employer_shell_uses_the_shared_brand(self):
         for template in ('employer_auth_shell.html',):

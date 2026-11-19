@@ -8,7 +8,6 @@ class StylesheetLoadingTests(SimpleTestCase):
         for route, layout in (
             ('home', 'public/layout.css'),
             ('candidate_landing', 'public/layout.css'),
-            ('employer_landing', 'employer/landing-layout.css'),
         ):
             with self.subTest(route=route):
                 page = self.client.get(reverse(route))
@@ -19,6 +18,26 @@ class StylesheetLoadingTests(SimpleTestCase):
                     layout,
                     'public/header-actions.css',
                     'public-brand.css',
+                ]
+                positions = [
+                    page.content.index(('/static/' + name).encode()) for name in css
+                ]
+                self.assertEqual(positions, sorted(positions))
+                for name in css:
+                    self.assertIsNotNone(finders.find(name), name)
+
+    def test_design_system_pages_load_its_css_in_cascade_order(self):
+        for route in ('employer_landing',):
+            with self.subTest(route=route):
+                page = self.client.get(reverse(route))
+                self.assertEqual(page.status_code, 200)
+                self.assertNotContains(page, '<style')
+                self.assertNotContains(page, '/static/employer/site.css')
+                css = [
+                    'vendor/bootstrap/bootstrap.min.css',
+                    'design-system/tokens.css',
+                    'design-system/bootstrap-theme.css',
+                    'design-system/components.css',
                 ]
                 positions = [
                     page.content.index(('/static/' + name).encode()) for name in css
