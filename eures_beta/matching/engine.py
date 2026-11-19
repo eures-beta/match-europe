@@ -3,7 +3,7 @@
 from datetime import date
 from decimal import Decimal, InvalidOperation
 
-VERSION = 'local-evidence-v1'
+VERSION = 'common-reference-v2'
 # Experimental point budget only: neither calibrated nor used for rejection/ranking.
 WEIGHTS = {
     'skills': 40,
@@ -74,6 +74,14 @@ def evaluate(candidate, offer, requirements=None, facts=None, *, today):
         )
 
     selections = offer.get('occupationSkills') or {}
+    from eures_beta.occupations.unified import canonical
+
+    occupations = set()
+    for key in selections:
+        try:
+            occupations.add(canonical(key))
+        except ValueError:
+            occupations.add(key)
     expected = skill_set(selections)
     acquired = set(candidate.get('acquired_skills') or []) | skill_set(
         candidate.get('occupation_skills')
@@ -84,7 +92,7 @@ def evaluate(candidate, offer, requirements=None, facts=None, *, today):
     else:
         for uri in sorted(expected):
             # Several occupations can represent alternatives: do not merge requirements.
-            if len(selections) > 1:
+            if len(occupations) > 1:
                 add('skill', 'skills', reason='alternative_occupations', reference=uri)
             elif uri in acquired:
                 add('skill', 'skills', 'match', 'declared', reference=uri)

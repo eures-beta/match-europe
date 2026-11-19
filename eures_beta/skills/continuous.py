@@ -15,63 +15,68 @@ def reference_card(uri, *, generate=False):
     return existing or albert_skills.resolve(uri, generate=generate)
 
 
-def validated_selection(value, occupations):
-    if not isinstance(value, dict) or len(value) > 35 or set(value) - set(occupations):
+def validated_selection(value, occupations, *, mixed=False):
+    from . import common_source
+    from eures_beta.occupations import unified
+
+    if not isinstance(value, dict) or len(value) > 35:
         raise ValueError('Invalid occupation skills')
+    allowed_jobs = {unified.canonical(ref) for ref in occupations}
     result = {}
-    cards, _ = catalogue()
-    indexed = {card['occupation']['uri']: card for card in cards.values()}
-    for uri, selection in value.items():
-        if uri not in occupation_index() or not isinstance(selection, dict):
+    for reference, selection in value.items():
+        key = unified.canonical(reference)
+        if key not in allowed_jobs or not isinstance(selection, dict):
             raise ValueError('Invalid occupation skills')
-        if uri in indexed:
-            allowed = {
-                name: {item['skillUri'] for item in indexed[uri][group]}
-                for name, group in [
-                    ('skills', 'keySkills'),
-                    ('behaviours', 'behaviours'),
-                ]
-            }
-        else:
-            try:
-                _, linked = source_for(uri)
-            except (OSError, ValueError, KeyError, BadZipFile):
-                raise ValueError('Verified skill source unavailable') from None
-            allowed = {'skills': set(linked), 'behaviours': set()}
+        source = common_source.source_for(key)
         cleaned = {}
-        for name, maximum in [('skills', 5), ('behaviours', 3)]:
+        for name, kind, maximum in [
+            ('skills', 'skill', 5),
+            ('behaviours', 'behaviour', 3),
+        ]:
             values = selection.get(name, [])
             if (
                 not isinstance(values, list)
                 or len(values) > maximum
                 or any(
-                    not isinstance(key, str) or key not in allowed[name]
-                    for key in values
+                    not isinstance(item, str)
+                    or item not in source['skills']
+                    or source['skills'][item]['kind'] != kind
+                    for item in values
                 )
                 or len(set(values)) != len(values)
             ):
                 raise ValueError('Invalid occupation skills')
-            cleaned[name] = values
+            previous = result.get(key, {}).get(name, [])
+            cleaned[name] = list(dict.fromkeys(previous + values))
+            if len(cleaned[name]) > maximum:
+                raise ValueError('Invalid occupation skills')
         if cleaned['skills'] or cleaned['behaviours']:
-            result[uri] = {**cleaned, 'version': 'ESCO 1.2.1'}
+            result[key] = {**cleaned, **common_source.metadata(source, cleaned)}
     return result
 
 
 def summary(value, language):
+    from . import common_source
+    from eures_beta.occupations import unified
+
     lines = []
     _, known = catalogue()
-    for uri, selection in (value or {}).items():
-        job = occupation_index().get(uri)
+    for ref, selection in (value or {}).items():
+        job = unified.resolve_reference(ref, language)
         if not job:
             continue
-        skills = known
-        selected = selection.get('skills', []) + selection.get('behaviours', [])
-        if any(key not in skills for key in selected):
-            try:
-                skills, _ = source_for(uri)
-            except (OSError, ValueError, KeyError, BadZipFile):
-                continue
-        labels = [skills[key]['labels'][language] for key in selected if key in skills]
+        try:
+            source = common_source.source_for(ref)
+        except (ValueError, OSError, KeyError, BadZipFile):
+            source = {'skills': known}
+        keys = selection.get('skills', []) + selection.get('behaviours', [])
+        labels = [
+            source['skills'][key]['labels'].get(
+                language, source['skills'][key]['labels']['fr']
+            )
+            for key in keys
+            if key in source['skills']
+        ]
         if labels:
-            lines.append(job['labels'][language] + ' : ' + ', '.join(labels))
+            lines.append(job['label'] + ' : ' + ', '.join(labels))
     return '\n'.join(lines)

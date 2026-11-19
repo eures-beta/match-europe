@@ -15,15 +15,21 @@
     state = {};
   }
   function selected() {
-    if (role === 'employer')
+    if (role === 'employer') {
+      const selection = window.meOccupation?.collect();
       return (
-        window.meOccupation?.collect().uris ||
-        (root.dataset.occupations || '').split(' ').filter(Boolean)
+        selection?.skill_references || (root.dataset.occupations || '').split(' ').filter(Boolean)
       );
-    return [...form.querySelectorAll('input[name="occupation_references"]:checked')]
-      .map((input) => input.value)
-      .filter((value) => value.startsWith('esco:'))
-      .map((value) => value.slice(5));
+    }
+    return [
+      ...new Set(
+        [...form.querySelectorAll('input[name="occupation_references"]:checked')].map(
+          (input) =>
+            input.dataset?.skillReference ||
+            (input.value.startsWith('esco:') ? input.value.slice(5) : input.value),
+        ),
+      ),
+    ];
   }
   function store() {
     field.value = JSON.stringify(state);
@@ -37,7 +43,9 @@
   function render(uri, record) {
     const data = record.data;
     record.box.replaceChildren();
-    element('h3', data.label, record.box);
+    const heading = element('h3', data.label, record.box);
+    heading.lang = data.labelLanguage || document.documentElement.lang;
+    if (data.unavailable) element('p', root.dataset.unavailable, record.box);
     if (data.simulated) element('p', root.dataset.simulation, record.box);
     state[uri] ||= { skills: [], behaviours: [] };
     for (const [name, maximum] of [
@@ -58,7 +66,8 @@
         input.type = 'checkbox';
         input.value = key;
         input.checked = (state[uri][name] || []).includes(key);
-        element('span', label, row);
+        const text = element('span', label, row);
+        text.lang = data.choiceLanguages?.[key] || document.documentElement.lang;
         inputs.push(input);
       }
       function update() {
@@ -95,6 +104,7 @@
         body: JSON.stringify({
           role,
           occupation: uri,
+          selection: { skills: state[uri]?.skills || [], behaviours: state[uri]?.behaviours || [] },
           language: document.documentElement.lang,
           token: form.querySelector('input[name="token"]')?.value || '',
         }),

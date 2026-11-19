@@ -135,3 +135,7 @@ Un choix durable conserve ici son pourquoi et son lien de référence.
 Les retours sont factuels, actionnables et ne prétendent pas identifier l'IA auteur.
 Référence : [politique documentaire](DOCUMENTATION.md), décision de dejafait du
 16 novembre 2026 dans la préparation de cette PR.
+
+## 19 novembre 2026 — catalogue métier commun candidat et employeur
+
+Eric valide l’extension du test boulanger : fiches métier sans noms de référentiel ni sources visibles, regroupement fondé sur la table officielle et listes mixtes de compétences. Réalisation locale : regroupements limités aux correspondances exactes non ambiguës de l’intitulé principal ; identifiants de compétences distincts conservés, Albert borné aux relations officielles, liste de référence disponible sans appel IA, validation et cache partagés entre les rôles. Les sélections restent explicites (5 compétences, 3 savoir-être). Les correspondances entre métiers ne valent pas équivalence entre compétences. Voir `COMMON_OCCUPATION_SKILLS.md`. Publication en PR autorisée ensuite ; aucune fusion ni déploiement.

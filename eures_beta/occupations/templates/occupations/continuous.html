@@ -1,6 +1,7 @@
 {% load i18n %}
 <section data-occupation-skills
          data-role="{{ skills_role }}"
+         data-unavailable="{% translate 'Automatic preparation is temporarily unavailable. You can choose from these reference skills.' %}"
          data-occupations="{{ skills_occupations }}"
          data-occupation-only
          data-wait="{% translate 'One moment, we are looking for the skills associated with this occupation so we can suggest them to you.' %}"
@@ -11,8 +12,13 @@
          data-retry="{% translate 'Try again' %}"
          data-simulation="{% translate 'Simulation: no Albert call was made. This shortlist only tests the journey, not the quality of AI suggestions.' %}">
   <h2>{% translate "Skills by occupation" %}</h2>
-  <p>{% translate "Select an ESCO occupation above to see its skills. Choose up to five skills and three professional behaviours per occupation; nothing is preselected. ROME and personal titles remain independent." %}</p>
-  <p>{% translate "An unchecked item means it was not prioritised or declared, not that it is absent." %}</p>
+  {% if skills_role == "employer" %}
+    <p>{% translate "Choose the 5 most important skills for this position and up to 3 expected ways of working." %}</p>
+    <p>{% translate "This choice highlights your priorities when comparing profiles with the needs of the position. You can adjust these choices before confirming your offer. An unchecked skill is not considered a requirement for the position." %}</p>
+  {% else %}
+    <p>{% translate "Choose the 5 most important skills for your project and up to 3 ways of working that describe you." %}</p>
+    <p>{% translate "This choice helps identify your priorities when looking for suitable offers. You can change it at any time. An unchecked skill does not mean you lack it." %}</p>
+  {% endif %}
   {% if skills_role == "employer" and not form.occupationSkills %}
     <input type="hidden" id="id_occupation_skills" value="{}">
   {% endif %}

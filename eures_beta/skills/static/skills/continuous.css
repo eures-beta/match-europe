@@ -1,0 +1,23 @@
+[data-occupation-skills] fieldset {
+  margin-block: 1rem;
+}
+
+[data-occupation-skills] .pilot-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding-block: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+[data-occupation-skills] .pilot-choice input {
+  flex: 0 0 auto;
+  margin-top: 0.3rem;
+}
+
+[data-occupation-skills] details {
+  margin-inline-start: 1.65rem;
+  margin-block-end: 0.5rem;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}

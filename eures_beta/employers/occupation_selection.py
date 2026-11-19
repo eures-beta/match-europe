@@ -36,12 +36,23 @@ def clean_selection(value, title):
         or len(personal) > 2000
     ):
         raise ValueError('Invalid occupation selection')
+    from eures_beta.occupations import unified
+
     uris = list(dict.fromkeys(uris))
+    common_jobs = unified.group_rows(
+        [unified.resolve_reference(uri, language) for uri in uris]
+        + [
+            unified.resolve_reference('rome:' + code, language)
+            for code in dict.fromkeys(rome_codes)
+        ]
+    )
     return {
         'version': catalog()['manifest']['version'],
         'title': title,
         'language': language,
         'uris': uris,
+        'common_jobs': common_jobs,
+        'skill_references': [row['groupKey'] for row in common_jobs],
         'personal': personal.strip(),
         'rome_codes': list(dict.fromkeys(rome_codes)),
         'rome_jobs': [
@@ -50,3 +61,20 @@ def clean_selection(value, title):
         'rome_version': '26M10',
         'jobs': [present(occupation_index()[uri], language) for uri in uris],
     }
+
+
+def skill_references(selection):
+    from eures_beta.occupations.unified import canonical
+
+    references = selection.get('uris', []) + [
+        'rome:' + code for code in selection.get('rome_codes', [])
+    ]
+    result = []
+    for reference in references:
+        try:
+            key = canonical(reference)
+        except ValueError:
+            continue
+        if key not in result:
+            result.append(key)
+    return result

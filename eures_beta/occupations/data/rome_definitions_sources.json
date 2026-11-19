@@ -1,0 +1,13 @@
+{
+  "version": "26M10",
+  "publication": "2026-10-19",
+  "language": "fr",
+  "source": "https://api.francetravail.fr/api-nomenclatureemploi/v1/open-data/json",
+  "sourceSha256": "eaf2923df8b51b6d7819f21e5eedd2c8e1689ccb42d6f356770169bb3178432f",
+  "count": 1923,
+  "artifacts": {
+    "rome_definitions.json": {
+      "sha256": "cad372a28ea818a3a9cc4782be5ed92ab9309b02b3fa65440d1f7a969bae7a2f"
+    }
+  }
+}
