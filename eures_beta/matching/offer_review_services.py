@@ -22,6 +22,7 @@ VERSION = 'offer-confirmation-v1'
 VALUES = {'yes', 'conditional', 'no', 'changed', 'clarify'}
 
 QUESTION_TEMPLATES = {
+    'occupation': _('Would you be interested in this occupation: %(requirement)s?'),
     'schedule': _('Can you work these hours: %(requirement)s?'),
     'availability': _(
         'Can you start within the timeframe stated in the offer: %(requirement)s?'
@@ -114,6 +115,7 @@ def questions(review):
     context['company_id'] = str(match.offer.company_id or '')
     rows = []
     fields = {
+        'occupation': ('project_mode', 'occupation_references', 'desired_occupations'),
         'skill': ('acquired_skills', 'learning_activities', 'occupation_skills'),
         'skills': ('acquired_skills', 'learning_activities', 'occupation_skills'),
         'language': ('language_skills',),
