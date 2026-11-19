@@ -16,6 +16,9 @@ Lancer `make test` pour Python et `make test-js` pour JavaScript. Les tests
 Docker ont leurs entrées distinctes : `make e2e-test` et `make e2e-regression`.
 Les comptes fictifs utilisables dans l'application restent sous `eures_beta/`.
 
+`matching/test_review_email.py` vérifie la proposition d’offre par email après
+validation conseiller, sans Push, et le retour sécurisé au dialogue candidat.
+
 Les régressions PDF ajoutées dans `main` sont conservées dans
 [documents/test_pdf_compatibility.py](documents/test_pdf_compatibility.py).
 Les contrats des nouveaux outils sont dans

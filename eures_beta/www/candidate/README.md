@@ -17,3 +17,7 @@ Les confirmations par offre utilisent `/candidate/offer-reviews/`,
 `/candidate/offer-reviews/<id>/` et `/candidate/offer-reviews/<id>/dialogue/`.
 Le routeur réutilise les vues du parcours matching, sans déplacer les modèles
 ni les règles métier.
+
+Le profil signale les offres à commencer et mène aux cartes de suivi candidat.
+Leurs états proviennent du domaine matching, indépendamment de l’envoi d’email ;
+voir [le parcours email et espace candidat](../../../docs/CANDIDATE_OFFER_EMAIL.md).

@@ -1,10 +1,13 @@
 from io import StringIO
+from datetime import date
 from unittest.mock import patch
 
 from django.core import signing
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from django.utils import translation
+from django.utils.translation import gettext
 
 from eures_beta.candidates.forms import KEY, ConditionsForm
 from eures_beta.matching import (
@@ -320,6 +323,30 @@ class DialogueTests(TestCase):
         )
         self.assertFalse(self.obj.answers.exists())
 
+    def test_start_date_is_readable_and_question_is_natural_in_each_language(self):
+        self.match.offer.structured_requirements['latest_start'] = '2026-12-03'
+        self.match.offer.save()
+        row = next(
+            r for r in offer_reviews.questions(self.obj) if r['kind'] == 'availability'
+        )
+        with patch(
+            'eures_beta.matching.presentation.timezone.localdate',
+            return_value=date(2026, 11, 19),
+        ):
+            for language, expected in [
+                ('fr', 'jeudi 3 décembre'),
+                ('en', 'Thursday 3 December'),
+                ('de', 'Donnerstag 3 Dezember'),
+            ]:
+                page = self.client.get(
+                    self.url, {'lang': language, 'question': row['key']}
+                )
+                self.assertIn(expected, page.context['prompt'])
+                self.assertNotIn('2026-12-03', page.context['prompt'])
+            from eures_beta.matching.presentation import readable_date
+
+            self.assertIn('2027', readable_date('2027-12-03'))
+
     def test_interest_first_and_employer_last(self):
         rows = offer_reviews.review_state(self.obj)['rows']
         askable = [r for r in rows if r['askable']]
@@ -401,6 +428,24 @@ class DialogueTests(TestCase):
             )
             self.assertTrue(self.obj.profile_sharings.get().agreed)
             model.assert_not_called()
+
+    def test_missing_offer_condition_summary_requests_employer_clarification(self):
+        for row in offer_reviews.questions(self.obj):
+            if row['askable']:
+                offer_reviews.answer(
+                    self.user, self.obj.pk, row['key'], row['fingerprint'], 'yes'
+                )
+        for language in ('fr', 'en', 'de'):
+            page = self.client.get(self.url, {'lang': language})
+            with self.subTest(language=language), translation.override(language):
+                self.assertIsNone(page.context['current'])
+                row = next(r for r in page.context['rows'] if not r['askable'])
+                self.assertContains(
+                    page,
+                    f"<summary>{row['label']} — {gettext('Employer clarification needed')}</summary>",
+                    html=True,
+                )
+                self.assertNotContains(page, gettext('Awaiting confirmation'))
 
     def test_employer_question_is_not_treated_as_interest(self):
         self.row = next(

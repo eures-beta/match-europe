@@ -169,13 +169,14 @@ def owned_profile(request):
 @require_GET
 def profile(request):
     obj = owned_profile(request)
-    from eures_beta.matching.offer_review_services import candidate_reviews
+    from eures_beta.www.matching.offer_reviews import candidate_entries
     from eures_beta.candidates.models import CandidatePushSubscription
     from eures_beta.candidates.push import public_key, available
 
     language = selected_language(request)
     push_key = public_key() if available() else ''
     with translation.override(language):
+        offers = candidate_entries(request.user)
         return render(
             request,
             ('candidates/pwa_profile.html' if push_key else 'candidates/profile.html'),
@@ -190,9 +191,9 @@ def profile(request):
                 ),
                 'page_language': language,
                 'groups': answer_groups(registration.profile_answers(obj), language),
-                'offer_confirmations_available': candidate_reviews(
-                    request.user
-                ).exists(),
+                'offer_confirmations_available': bool(offers),
+                'new_offer_count': sum(entry['is_new'] for entry in offers),
+                'candidate_offers': offers,
             },
         )
 

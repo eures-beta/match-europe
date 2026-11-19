@@ -1,0 +1,17 @@
+{% load i18n %}{% autoescape off %}{% translate "Hello," %}
+
+{% blocktranslate with title=offer.title city=offer.city %}We have identified an offer of employment as {{ title }}, in {{ city }}, that might suit your profile.{% endblocktranslate %}
+
+{% translate "We invite you to review it with Albert, our digital assistant, to check whether the job and its conditions suit you." %}
+
+{% translate "You can explain your reservations, ask questions or say that you are not interested. If information is missing, an adviser can help clarify it." %}
+
+{% translate "Review this offer with Albert" %}
+{{ link }}
+
+{% translate "This conversation does not commit you to anything. Your profile will not be shared with the employer without your permission." %}
+
+{% translate "This personal sign-in link expires after one hour and can be used once. Do not forward it. If it has expired, request a new sign-in link to continue." %}
+
+{% translate "The Match Europe team" %}
+{% endautoescape %}

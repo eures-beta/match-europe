@@ -10,3 +10,4 @@ domaines Django et leurs adaptateurs web.
 
 - [action-queue.css](action-queue.css) — Pastilles rouges et disposition des actions conseiller.
 - [record-detail.css](record-detail.css) — Fiches offre et candidat, résumé, sections et suivi conseiller responsive.
+- [conversation-followup.css](conversation-followup.css) — Suivi des réponses candidat : progression, tableau des conditions, réserves et panneau email.

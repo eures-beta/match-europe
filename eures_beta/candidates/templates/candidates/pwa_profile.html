@@ -1,6 +1,9 @@
 {% extends "conversation_base.html" %}
 {% load i18n static %}
 {% block page_title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'matching/candidate-inbox.css' %}">
+{% endblock %}
 {% block public_content %}
   <header class="conversation-header">
     <a class="conversation-back"
@@ -25,10 +28,7 @@
         <script src="{% static 'pwa/candidate-push.js' %}" defer></script>
       </section>
     {% endif %}
-    {% if offer_confirmations_available %}
-      <p><a class="primary-action"
-            href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "Offers to confirm" %}</a></p>
-    {% endif %}
+    {% include "matching/candidate_offer_notice.html" %}
     {% include "candidates/install_pwa_next_step.html" %}
   </div>
   {% include "candidates/profile_details.html" %}

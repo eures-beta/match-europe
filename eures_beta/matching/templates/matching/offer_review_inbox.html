@@ -3,16 +3,29 @@
 {% block page_title %}{% translate "Offers to confirm" %} — Match Europe{% endblock %}
 {% block extra_head %}
   <link rel="stylesheet" href="{% static 'matching/offer_reviews.css' %}">
+  <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'matching/candidate-inbox.css' %}">
 {% endblock %}
 {% block public_content %}
-  <div class="confirmation-flow">
+  <div class="confirmation-flow candidate-offers">
     {% include "matching/shared_list.html" with shared_language=page_language %}
     <section class="surface-card home-section">
       <h1>{% translate "Offers to confirm" %}</h1>
       <p>{% translate "Confirm the conditions for each offer. This does not change your general profile or send it to an employer." %}</p>
-      <ul>
+      <ul class="offer-cards">
         {% for entry in entries %}
-          <li><a href="{% if albert_available and entry.match.decision == 'retained' %}{% url 'candidate_offer_dialogue' entry.pk %}{% else %}{% url 'candidate_offer_confirmation' entry.pk %}{% endif %}?lang={{ page_language }}">{{ entry.match.offer.data.title }} — {{ entry.match.offer.data.companyName }} — {{ entry.match.offer.data.city }}</a></li>
+          <li class="offer-card">
+            <div class="offer-card-heading">
+              <h2>{{ entry.review.match.offer.data.title }}</h2>
+              <span class="offer-status">{{ entry.status }}</span>
+            </div>
+            {% if entry.is_new %}
+              <p class="offer-new">{% translate "A new offer to review" %}</p>
+            {% endif %}
+            <p class="offer-location">{{ entry.review.match.offer.data.companyName }} · {{ entry.review.match.offer.data.city }}</p>
+            <a class="offer-action"
+               href="{% url entry.target entry.review.pk %}?lang={{ page_language }}">{{ entry.action }}</a>
+          </li>
         {% empty %}
           <li>{% translate "No offer is awaiting your confirmation." %}</li>
         {% endfor %}

@@ -70,6 +70,14 @@ Brevo restent des lots distincts.
 
 ## Vérification
 
+Les emails de proposition d’offre utilisent aussi cette connexion personnelle :
+confirmation POST, puis retour au dialogue précis de l’offre. Seuls l’import
+employeur et les routes canoniques de dialogue candidat sont autorisés comme
+destination ; les rôles et la propriété restent contrôlés par la page cible.
+Un lien expiré permet de demander une nouvelle connexion en conservant cette
+destination, y compris si le nouvel email est ouvert dans un autre navigateur.
+Voir [le parcours email candidat](CANDIDATE_OFFER_EMAIL.md).
+
 `make test TESTS=tests.users` teste l’authentification, l’expiration, l’usage unique, la CSRF,
 les limites, les rôles et la session. `make test` couvre aussi les autres parcours.
 Utiliser `make check`, `make format-check`, `make format-html-check`,

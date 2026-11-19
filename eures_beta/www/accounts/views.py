@@ -145,7 +145,7 @@ def login(request):
                 destination = canonical_destination(
                     request.session.get('login_return_path', '')
                 )
-                if is_import_destination(destination):
+                if destination:
                     from urllib.parse import urlencode
 
                     link += '&' + urlencode({'next': destination})

@@ -15,7 +15,6 @@ from django.utils.translation import get_language_info, gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.candidates import push
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.matching import (
     access,
@@ -24,6 +23,7 @@ from eures_beta.matching import (
     offer_review_services,
     dialogue_services,
     services,
+    review_email,
 )
 from eures_beta.www.matching.offer_reviews import display_rows
 from eures_beta.matching.models import (
@@ -113,11 +113,10 @@ def record_review(user, match, evaluation_id, action):
         raise ValidationError(_('Albert is currently unavailable. Try again later.'))
     services.decide(match.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
     if action == 'retained':
-        confirmation, created = CandidateOfferReview.objects.get_or_create(
+        confirmation, _created = CandidateOfferReview.objects.get_or_create(
             match=match, defaults={'requested_by': user}
         )
-        if created:
-            transaction.on_commit(lambda: push.notify(confirmation))
+        transaction.on_commit(lambda: review_email.send(confirmation.pk))
 
 
 @never_cache
@@ -239,6 +238,31 @@ def follow(request, pk):
         language = selected_language(request)
         state = offer_review_services.review_state(conversation)
         rows = display_rows(state['rows'], language)
+        answer_labels = {
+            'yes': _('Yes'),
+            'conditional': _('Under conditions'),
+            'no': _('No'),
+            'changed': _('My situation changed'),
+            'clarify': _('More details needed'),
+        }
+        for row in rows:
+            row['followup_answer'] = (
+                answer_labels[row['answer'].value] if row['answer'] else ''
+            )
+        total = sum(row['askable'] for row in rows)
+        answered = sum(
+            row['askable'] and not offer_review_services.needs_answer(row)
+            for row in rows
+        )
+        progress = (
+            _('Offer declined')
+            if state['declined']
+            else (
+                _('Replies complete')
+                if total and answered == total
+                else (_('In progress') if answered else _('Not started'))
+            )
+        )
         ready = adviser_opinion.ready(state)
         can_analyse = ready and dialogue_services.enabled()
         key = adviser_opinion.cache_key(pk, state['fingerprint'], language)
@@ -278,17 +302,14 @@ def follow(request, pk):
         elif request.method == 'POST':
             if not can_resend or action != 'resend':
                 raise Http404
-            if not cache.add(f'candidate-push-resend:{pk}', True, 30):
+            try:
+                sent = review_email.send(pk, adviser=request.user)
+                conversation.refresh_from_db()
+                result = conversation.get_email_status_display()
+                if not sent:
+                    status = 503
+            except review_email.RetryLater:
                 result, status = _('Wait a moment before resending.'), 429
-            elif push.notify(conversation):
-                result = _('The push service accepted the notification.')
-            else:
-                result, status = (
-                    _(
-                        'The notification could not be sent. Enable notifications again on the candidate’s phone.'
-                    ),
-                    503,
-                )
         return render_workspace(
             request,
             'adviser_conversation.html',
@@ -299,6 +320,9 @@ def follow(request, pk):
             tracking=True,
             match=conversation.match,
             rows=rows,
+            reply_total=total,
+            reply_count=answered,
+            reply_progress=progress,
             analysis_ready=ready,
             can_start_shared=(
                 ready

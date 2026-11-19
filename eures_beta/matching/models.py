@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from . import validation
 
 
@@ -59,7 +60,7 @@ class MatchDecision(models.Model):
 
 
 class CandidateOfferReview(models.Model):
-    """An adviser explicitly chooses an offer to discuss; never an invitation email."""
+    """An adviser explicitly chooses an offer for a private candidate review."""
 
     match = models.OneToOneField(
         CandidateOfferMatch,
@@ -68,6 +69,19 @@ class CandidateOfferReview(models.Model):
     )
     requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
+    email_status = models.CharField(
+        max_length=12,
+        default='pending',
+        choices=[
+            ('pending', _('Email not sent')),
+            ('sending', _('Email sending in progress')),
+            ('sent', _('Email accepted by the mail service')),
+            ('failed', _('Email could not be sent')),
+            ('disabled', _('Email delivery is not configured or enabled')),
+        ],
+    )
+    email_attempted_at = models.DateTimeField(null=True, blank=True)
+    email_sent_at = models.DateTimeField(null=True, blank=True)
 
 
 class CandidateOfferReviewAnswer(models.Model):

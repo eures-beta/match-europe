@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include "includes/pwa_head.html" %}
     <title>{% block page_title %}Match Europe{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
     <link rel="stylesheet" href="{% static 'matching/offer_reviews.css' %}">
-    <link rel="stylesheet" href="{% static 'matching/conversation.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'matching/candidate-conversation.css' %}">
+    {% block extra_head %}{% endblock %}
   </head>
-  <body class="conversation-app">
+  <body class="conversation-app {% block conversation_class %}{% endblock %}">
+    {% block conversation_intro %}{% endblock %}
     <main class="conversation-screen">
       {% block public_content %}{% endblock %}
     </main>

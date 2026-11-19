@@ -8143,3 +8143,105 @@ msgstr "J’ai relu le résumé, y compris mes réserves"
 
 msgid "Review the summary and choose what may be shared"
 msgstr "Relire le résumé et choisir ce qui peut être transmis"
+
+msgid "Email not sent"
+msgstr "Email non envoyé"
+
+msgid "The Match Europe team"
+msgstr "L’équipe Match Europe"
+
+msgid "Email sending in progress"
+msgstr "Envoi de l’email en cours"
+
+msgid "Email accepted by the mail service"
+msgstr "Email accepté par le service de messagerie"
+
+msgid "Email could not be sent"
+msgstr "L’email n’a pas pu être envoyé"
+
+msgid "Email delivery is not configured or enabled"
+msgstr "L’envoi d’emails n’est pas configuré ou activé"
+
+msgid "Send the offer email again"
+msgstr "Renvoyer l’email de proposition d’offre"
+
+msgid "An offer of employment might suit you"
+msgstr "Une offre d’emploi pourrait vous correspondre"
+
+msgid "We have identified an offer of employment as %(title)s, in %(city)s, that might suit your profile."
+msgstr "Nous avons identifié une offre de %(title)s, à %(city)s, qui pourrait correspondre à votre profil."
+
+msgid "We invite you to review it with Albert, our digital assistant, to check whether the job and its conditions suit you."
+msgstr "Nous vous proposons de l’examiner avec Albert, notre assistant numérique, pour vérifier si le poste et ses conditions vous conviennent."
+
+msgid "You can explain your reservations, ask questions or say that you are not interested. If information is missing, an adviser can help clarify it."
+msgstr "Vous pourrez préciser vos réserves, poser vos questions ou indiquer que cette offre ne vous intéresse pas. Si une information manque, un conseiller pourra vous aider à la préciser."
+
+msgid "Review this offer with Albert"
+msgstr "Examiner cette offre avec Albert"
+
+msgid "This conversation does not commit you to anything. Your profile will not be shared with the employer without your permission."
+msgstr "Cet échange ne vous engage à rien. Votre profil ne sera pas transmis à l’employeur sans votre accord."
+
+msgid "This personal sign-in link expires after one hour and can be used once. Do not forward it. If it has expired, request a new sign-in link to continue."
+msgstr "Ce lien personnel de connexion expire après une heure et ne peut être utilisé qu’une fois. Ne le transférez pas. S’il a expiré, demandez un nouveau lien de connexion pour continuer."
+
+msgid "Candidate replies"
+msgstr "Réponses du candidat"
+
+msgid "%(answered)s of %(total)s conditions answered"
+msgstr "%(answered)s conditions sur %(total)s confirmées"
+
+msgid "Offer declined"
+msgstr "Offre refusée"
+
+msgid "Replies complete"
+msgstr "Réponses recueillies"
+
+msgid "In progress"
+msgstr "En cours"
+
+msgid "Not started"
+msgstr "Pas encore commencé"
+
+msgid "Condition"
+msgstr "Point à vérifier"
+
+msgid "Offer condition"
+msgstr "Conditions de l’offre"
+
+msgid "Candidate reply"
+msgstr "Réponse du candidat"
+
+msgid "Email delivery"
+msgstr "Email de proposition"
+
+msgid "Completed"
+msgstr "Terminé"
+
+msgid "A new offer to review"
+msgstr "Nouvelle offre à examiner"
+
+msgid "New offers to review"
+msgstr "Nouvelles offres à examiner"
+
+msgid "My offers"
+msgstr "Mes offres"
+
+msgid "Find your offers and continue your conversation with Albert here, even without the email."
+msgstr "Retrouvez vos offres et reprenez votre échange avec Albert ici, même sans l’email."
+
+msgid "View my answers"
+msgstr "Voir mes réponses"
+
+msgid "View my offers"
+msgstr "Voir mes offres"
+
+msgid "Review and choose what may be shared"
+msgstr "Relire et choisir ce qui peut être transmis"
+
+msgid "Continue with Albert"
+msgstr "Continuer avec Albert"
+
+msgid "The job would need to start by %(date)s at the latest. Would you be available by then?"
+msgstr "Pour ce poste, il faudrait commencer au plus tard le %(date)s. Serais-tu disponible d’ici là ?"

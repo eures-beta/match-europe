@@ -22,6 +22,7 @@ from eures_beta.matching import (
     dialogue_services,
 )
 from eures_beta.matching.services import StaleEvaluation
+from eures_beta.matching.presentation import readable_date
 
 LABELS = {
     'occupation': _('Occupation interest'),
@@ -151,6 +152,8 @@ def display_rows(rows, language):
         )
 
     def declared(name, value):
+        if name == 'available_from' and value:
+            return readable_date(str(value))
         if name == 'occupation_references':
             return ', '.join(
                 job['label']
@@ -218,7 +221,11 @@ def display_rows(rows, language):
                 str(part)
                 for part in (
                     (
-                        (str(_('Latest start date')) + ': ' + expected['latest_start'])
+                        (
+                            str(_('Latest start date'))
+                            + ': '
+                            + readable_date(expected['latest_start'])
+                        )
                         if expected['latest_start']
                         else ''
                     ),
@@ -284,14 +291,57 @@ def inbox(request):
         request,
         'matching/offer_review_inbox.html',
         dict(
-            entries=service.candidate_reviews(request.user).select_related(
-                'match__offer', 'match'
-            ),
+            entries=candidate_entries(request.user),
             albert_available=dialogue_services.enabled(),
             shared_conversations=listed(request.user),
             page_language=selected_language(request),
         ),
     )
+
+
+def candidate_entries(user):
+    labels = {
+        'not_started': _('To start'),
+        'in_progress': _('In progress'),
+        'completed': _('Completed'),
+        'declined': _('Offer declined'),
+    }
+    entries = []
+    for review in (
+        service.candidate_reviews(user)
+        .select_related('match__offer', 'match__candidate__user')
+        .order_by('-created_at', '-pk')
+    ):
+        progress, state = service.candidate_progress(review)
+        review_summary = not state['pending'] or progress == 'completed'
+        target = (
+            'candidate_offer_dialogue'
+            if dialogue_services.enabled()
+            and review.match.decision == 'retained'
+            and not review_summary
+            else 'candidate_offer_confirmation'
+        )
+        if progress in ('completed', 'declined'):
+            action = _('View my answers')
+        elif review_summary:
+            action = _('Review and choose what may be shared')
+        elif target == 'candidate_offer_confirmation':
+            action = _('Use the guided form')
+        elif progress == 'not_started':
+            action = _('Review this offer with Albert')
+        else:
+            action = _('Continue with Albert')
+        entries.append(
+            dict(
+                review=review,
+                progress=progress,
+                status=labels[progress],
+                is_new=progress == 'not_started',
+                target=target,
+                action=action,
+            )
+        )
+    return entries
 
 
 @entry_candidate

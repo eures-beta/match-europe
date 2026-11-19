@@ -17,6 +17,7 @@ from .models import (
 )
 from .services import inputs, StaleEvaluation
 from .engine import evaluate, DAYS
+from .presentation import readable_date
 
 VERSION = 'offer-confirmation-v1'
 VALUES = {'yes', 'conditional', 'no', 'changed', 'clarify'}
@@ -93,6 +94,15 @@ def short_question(row):
 
 
 def question_text(row):
+    if row['kind'] == 'availability':
+        latest = row['presented']['expected'].get('latest_start')
+        if latest:
+            return str(
+                _(
+                    'The job would need to start by %(date)s at the latest. Would you be available by then?'
+                )
+                % {'date': readable_date(latest)}
+            )
     short = short_question(row)
     if short:
         return str(short)
@@ -404,6 +414,18 @@ def review_state(review):
             for row in rows
         ),
     )
+
+
+def candidate_progress(review):
+    """Current candidate action, independent from email delivery or page visits."""
+    state = review_state(review)
+    if state['declined']:
+        return 'declined', state
+    if state['agreement']:
+        return 'completed', state
+    if review.answers.exists() or review.profile_sharings.exists():
+        return 'in_progress', state
+    return 'not_started', state
 
 
 def locked_review(user, pk):
