@@ -77,6 +77,10 @@ avec priorité aux compétences, selon la grille expérimentale documentée dans
 [MATCHING.md](MATCHING.md). La décision conseiller, la réponse candidat et l'accord de
 transmission sont distincts. L'avis Albert reste une aide soumise à relecture.
 La revue par offre n'est pas la conversation réelle à trois.
+Le dialogue demande d'abord l'intérêt pour le poste puis, après ses conditions,
+l'intérêt pour l'employeur. Un refus arrête la proposition sans motif obligatoire
+ni changement de profil. Les réserves restent dans le résumé à relire avant
+l'accord distinct de transmission ; Albert accompagne sans décider.
 La finalisation du profil vérifié et ses modifications confirmées déclenchent
 le matching après commit contre les offres éligibles déjà enregistrées ; cela
 complète le déclenchement côté offre sans modifier les décisions humaines.
