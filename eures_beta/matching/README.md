@@ -17,8 +17,8 @@ Calcul explicable, décisions, confirmations et conversations. Les interfaces so
 - [access.py](access.py) — Contrôle les rôles et objets accessibles pour le matching.
 - [admin.py](admin.py) — Enregistre les modèles dans l’administration en consultation.
 - [adviser_opinion.py](adviser_opinion.py) — Prépare un avis Albert soumis à validation du conseiller.
-- [offer_review_services.py](offer_review_services.py) — Recueille les réponses par offre et l’accord de partage du profil.
-- [dialogue_albert.py](dialogue_albert.py) — Adapte les échanges de clarification au client Albert commun.
+- [offer_review_services.py](offer_review_services.py) — Recueille les réponses par offre, les intérêts poste/employeur, les refus et l’accord de partage.
+- [dialogue_albert.py](dialogue_albert.py) — Porte les consignes de conversation naturelle et adapte les clarifications au client Albert commun.
 - [dialogue_services.py](dialogue_services.py) — Valide les propositions du dialogue et leurs modifications de profil.
 - [engine.py](engine.py) — Calcule les critères et explications du rapprochement.
 - [models.py](models.py) — Définit les données persistantes, dont JobOfferSupport et CandidateSupport, accompagnements partagés à cible unique.

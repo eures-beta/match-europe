@@ -319,3 +319,149 @@ class DialogueTests(TestCase):
             404,
         )
         self.assertFalse(self.obj.answers.exists())
+
+    def test_interest_first_and_employer_last(self):
+        rows = offer_reviews.review_state(self.obj)['rows']
+        askable = [r for r in rows if r['askable']]
+        self.assertEqual(askable[-1]['kind'], 'employer')
+        if any(r['kind'] == 'occupation' for r in askable):
+            self.assertEqual(askable[0]['kind'], 'occupation')
+        self.assertEqual(
+            self.client.get(self.url).context['current']['key'], askable[0]['key']
+        )
+
+    def test_employer_refusal_stops_without_reason_or_profile_change(self):
+        self.row = next(
+            r for r in offer_reviews.questions(self.obj) if r['kind'] == 'employer'
+        )
+        before = self.match.candidate.updated_at
+        response = self.client.post(
+            self.url, {**self.data(), 'action': 'quick', 'value': 'no'}, follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.context['current'])
+        self.assertEqual(self.obj.answers.get().detail, '')
+        self.assertFalse(self.obj.profile_sharings.exists())
+        self.match.candidate.refresh_from_db()
+        self.assertEqual(self.match.candidate.updated_at, before)
+        state = offer_reviews.review_state(self.obj)
+        with self.assertRaises(ValueError):
+            offer_reviews.agree(self.user, self.obj.pk, state['fingerprint'], True)
+        self.assertEqual(
+            self.client.get(
+                self.url, {'question': 'schedule:saturday:morning'}
+            ).context['current'],
+            None,
+        )
+        correction = self.client.get(self.url, {'question': self.row['key']})
+        self.assertEqual(correction.context['current']['kind'], 'employer')
+
+    def test_unknown_employer_does_not_allow_transmission(self):
+        self.match.offer.data['companyName'] = ''
+        self.match.offer.save()
+        for row in offer_reviews.questions(self.obj):
+            if row['askable']:
+                offer_reviews.answer(
+                    self.user, self.obj.pk, row['key'], row['fingerprint'], 'yes'
+                )
+        state = offer_reviews.review_state(self.obj)
+        with self.assertRaises(ValueError):
+            offer_reviews.agree(self.user, self.obj.pk, state['fingerprint'], True)
+
+    def test_full_dialogue_then_explicit_summary_review_and_permission(self):
+        with patch('eures_beta.matching.dialogue_albert.complete') as model:
+            seen = []
+            for _ in range(30):
+                page = self.client.get(self.url, {'lang': 'en'})
+                row = page.context['current']
+                if not row:
+                    break
+                seen.append(row['kind'])
+                self.row = row
+                response = self.client.post(
+                    self.url, {**self.data(), 'action': 'quick', 'value': 'yes'}
+                )
+                self.assertEqual(response.status_code, 302)
+            else:
+                self.fail('Dialogue did not finish')
+            self.assertEqual(seen[0], 'occupation')
+            self.assertEqual(seen[-1], 'employer')
+            self.assertFalse(self.obj.profile_sharings.exists())
+            guided = reverse('candidate_offer_confirmation', args=[self.obj.pk])
+            state = offer_reviews.review_state(self.obj)
+            data = dict(
+                action='agree',
+                fingerprint=state['fingerprint'],
+                previous=0,
+                agreed='yes',
+            )
+            self.assertEqual(self.client.post(guided, data).status_code, 400)
+            self.assertEqual(
+                self.client.post(guided, {**data, 'reviewed': 'on'}).status_code, 302
+            )
+            self.assertTrue(self.obj.profile_sharings.get().agreed)
+            model.assert_not_called()
+
+    def test_employer_question_is_not_treated_as_interest(self):
+        self.row = next(
+            r for r in offer_reviews.questions(self.obj) if r['kind'] == 'employer'
+        )
+        offer_reviews.answer(
+            self.user,
+            self.obj.pk,
+            self.row['key'],
+            self.row['fingerprint'],
+            'clarify',
+            'What does this company do?',
+        )
+        state = offer_reviews.review_state(self.obj)
+        self.assertTrue(
+            offer_reviews.needs_answer(
+                next(r for r in state['rows'] if r['kind'] == 'employer')
+            )
+        )
+        with self.assertRaises(ValueError):
+            offer_reviews.agree(self.user, self.obj.pk, state['fingerprint'], True)
+
+    def test_common_skills_explanation_is_sourced_and_localised(self):
+        from eures_beta.skills import common_source
+
+        ref = next(
+            key
+            for key, row in common_source.source_for('rome:D1108')['skills'].items()
+            if row['kind'] == 'skill' and row['scheme'] == 'ROME'
+        )
+        self.match.offer.data['occupation'] = {'rome_codes': ['D1108']}
+        self.match.offer.data['occupationSkills'] = {'rome:D1108': {'skills': [ref]}}
+        self.match.offer.save()
+        from eures_beta.skills.continuous import validated_selection
+
+        self.match.candidate.project_mode = 'occupation'
+        self.match.candidate.occupation_references = ['rome:D1108']
+        self.match.candidate.occupation_skills = validated_selection(
+            {'rome:D1108': {'skills': [ref]}}, ['rome:D1108']
+        )
+        self.match.candidate.save()
+        for language in ('fr', 'en', 'de'):
+            page = self.client.get(self.url, {'lang': language})
+            self.assertEqual(page.context['current']['kind'], 'occupation')
+            self.assertIn(
+                common_source.skill_label(ref, language), page.context['prompt']
+            )
+            self.assertNotIn(ref, page.context['prompt'])
+        self.match.candidate.occupation_skills = {}
+        self.match.candidate.save()
+        page = self.client.get(self.url, {'lang': 'en'})
+        self.assertEqual(page.context['current']['common_skills'], [])
+
+    def test_occupation_refusal_stops_the_offer(self):
+        self.row = next(
+            r for r in offer_reviews.questions(self.obj) if r['kind'] == 'occupation'
+        )
+        response = self.client.post(
+            self.url, {**self.data(), 'action': 'quick', 'value': 'no'}, follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.context['current'])
+        self.assertEqual(response.context['state']['declined']['kind'], 'occupation')
+        self.assertFalse(self.obj.profile_sharings.exists())

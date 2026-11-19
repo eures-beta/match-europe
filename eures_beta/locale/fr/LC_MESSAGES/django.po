@@ -8122,3 +8122,24 @@ msgstr "Ce métier fait partie des choix explicites du candidat. Cela ne prouve 
 #: eures_beta/matching/presentation.py:54
 msgid "Interest in this occupation needs confirmation. Another occupation or an open project is not a refusal."
 msgstr "L’intérêt pour ce métier reste à confirmer. Un autre métier ou un projet ouvert ne constitue pas un refus."
+
+msgid "Could you see yourself doing this job: %(requirement)s?"
+msgstr "Tu te verrais faire ce travail : %(requirement)s ?"
+
+msgid "%(requirement)s is recruiting. Could you see yourself working for them?"
+msgstr "C’est %(requirement)s qui recrute. Tu te verrais travailler chez eux ?"
+
+msgid "You mentioned these skills: %(skills)s. This job could use them. Would you like to consider it: %(job)s?"
+msgstr "Tu as indiqué ces compétences : %(skills)s. Elles pourraient te servir pour ce poste : %(job)s. Ça t’intéresserait ?"
+
+msgid "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent."
+msgstr "On s’arrête là pour cette offre. Ton profil reste inchangé et rien n’est transmis."
+
+msgid "Employer interest"
+msgstr "Intérêt pour l’employeur"
+
+msgid "I have reviewed the summary, including my reservations"
+msgstr "J’ai relu le résumé, y compris mes réserves"
+
+msgid "Review the summary and choose what may be shared"
+msgstr "Relire le résumé et choisir ce qui peut être transmis"
