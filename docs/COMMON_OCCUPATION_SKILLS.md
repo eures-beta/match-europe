@@ -52,3 +52,13 @@ Les comptes de test restent explicitement fictifs. La recette navigateur a véri
 - Recette navigateur : fiche agricole exacte commune, choix issus des deux sources, limites 5+3 et conservation après navigation ; fiche Chef boulanger indépendante, même liste côté employeur et brouillon fictif enregistré. Rendu allemand vérifié, avec libellés ROME non traduits conservés en français et marqués dans le bon langage HTML.
 - Le libellé français ambigu du pétrissage est corrigé par une aide de lecture identifiée dans le code, sans modifier les identifiants ni les octets des sources officielles ; le cache distingue cette méthode de lecture.
 - Aucun appel réel à Albert n’a été testé : appels simulés par les tests et propositions de référence disponibles dans l’essai local. Aucune fusion ni opération de production.
+
+## Validation sur le sommet de pile
+
+Après adaptation à l’organisation actuelle (`www`, tests centralisés et client Albert commun),
+la suite PostgreSQL exécute 847 tests sans échec, dont huit contrôles HTML réservés
+à l’environnement qualité et exécutés séparément avec succès. Les 41 tests JavaScript
+passent. Contrôles Django/migrations, budgets documentaires, Black, HTML, CSS, JS et
+gettext réussis ; audit des 4 962 fiches source inchangé. Aucun appel Albert réel,
+fusion ni déploiement. La recette visuelle initiale n’est pas présentée comme
+un nouveau contrôle sur téléphone après adaptation.
