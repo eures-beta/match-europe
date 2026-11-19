@@ -67,7 +67,9 @@ vérification ; reprise/comparaison explicite avant remplacement d'un profil.
 Les offres sont des `JobOffer` avec propriétaire employeur et droits serveur.
 Le matching produit des résultats explicables, avec critères établis/inconnus et
 blocages validés ; ne pas déduire automatiquement des pénalités des données absentes
-ni changer les poids. La décision conseiller, la réponse candidat et l'accord de
+hors règle explicitement revue. La suite de #250 réévalue le métier et les poids
+avec priorité aux compétences, selon la grille expérimentale documentée dans
+[MATCHING.md](MATCHING.md). La décision conseiller, la réponse candidat et l'accord de
 transmission sont distincts. L'avis Albert reste une aide soumise à relecture.
 La revue par offre n'est pas la conversation réelle à trois.
 La finalisation du profil vérifié et ses modifications confirmées déclenchent

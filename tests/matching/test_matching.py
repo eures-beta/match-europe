@@ -85,7 +85,7 @@ class EngineTests(SimpleTestCase):
         self.assertEqual(result['established'], 0)
         self.assertTrue(all(row['state'] == 'unknown' for row in result['rows']))
 
-    def test_occupation_and_behaviours_never_add_points(self):
+    def test_free_occupation_title_and_behaviours_never_add_points(self):
         base = self.run_pair()
         changed = self.run_pair(
             {'desired_occupations': 'Same title', 'professional_behaviours': ['a']},

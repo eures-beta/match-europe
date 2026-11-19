@@ -76,6 +76,42 @@ class ConfirmationTests(TestCase):
         self.assertEqual(event.presented, row['presented'])
         self.assertFalse(CandidateProfileSharing.objects.exists())
 
+    def test_occupation_interest_is_confirmed_separately_and_change_invalidates_answer(
+        self,
+    ):
+        self.match.offer.data['occupation'] = {'rome_codes': ['D1102']}
+        self.match.offer.save()
+        row = self.row('occupation')
+        self.assertTrue(row['askable'])
+        for language in ('fr', 'en', 'de'):
+            page = self.client.get(self.url, {'question': row['key'], 'lang': language})
+            self.assertEqual(page.status_code, 200)
+            self.assertNotContains(page, 'rome:D1102')
+        self.answer(row)
+        self.answer(self.row('schedule'))
+        self.match.candidate.project_mode = 'occupation'
+        self.match.candidate.occupation_references = ['rome:D1108']
+        self.match.candidate.save()
+        rows = {r['kind']: r for r in service.review_state(self.review)['rows']}
+        self.assertIsNone(rows['occupation']['answer'])
+        self.assertIsNotNone(rows['schedule']['answer'])
+
+    def test_extended_skill_labels_are_readable_in_candidate_confirmation(self):
+        from eures_beta.skills import common_source
+
+        source = common_source.source_for('rome:D1108')
+        ref = next(
+            key
+            for key, row in source['skills'].items()
+            if row['kind'] == 'skill' and row['scheme'] == 'ROME'
+        )
+        self.match.offer.data['occupationSkills'] = {'rome:D1108': {'skills': [ref]}}
+        self.match.offer.save()
+        row = self.row('skill')
+        page = self.client.get(self.url, {'question': row['key'], 'lang': 'fr'})
+        self.assertContains(page, common_source.skill_label(ref, 'fr'))
+        self.assertNotContains(page, 'Skill reference needs clarification')
+
     def test_offer_missing_information_is_not_a_candidate_question(self):
         type(self.match.offer).objects.filter(pk=self.match.offer_id).update(
             structured_requirements={}

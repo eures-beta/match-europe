@@ -24,6 +24,7 @@ from eures_beta.matching import (
 from eures_beta.matching.services import StaleEvaluation
 
 LABELS = {
+    'occupation': _('Occupation interest'),
     'skill': _('Declared skill'),
     'skills': _('Declared skills'),
     'language': _('Language level'),
@@ -137,11 +138,21 @@ def display_rows(rows, language):
         return str(value)
 
     def skill_label(uri):
-        return skills.get(uri, {}).get('labels', {}).get(language) or str(
-            _('Skill reference needs clarification')
+        from eures_beta.skills.common_source import skill_label as common_skill_label
+
+        return (
+            common_skill_label(uri, language)
+            or skills.get(uri, {}).get('labels', {}).get(language)
+            or str(_('Skill reference needs clarification'))
         )
 
     def declared(name, value):
+        if name == 'occupation_references':
+            return ', '.join(
+                job['label']
+                for reference in value or []
+                if (job := resolve_reference(reference, language))
+            ) or str(_('Not specified'))
         if name in ('acquired_skills', 'learning_activities'):
             return ', '.join(skill_label(uri) for uri in value or []) or str(
                 _('Not specified')
@@ -171,7 +182,10 @@ def display_rows(rows, language):
         ]
         expected = row['presented']['expected']
         kind = row['kind']
-        if kind == 'skill':
+        if kind == 'occupation' and expected:
+            job = resolve_reference(expected, language)
+            expected = job['label'] if job else str(_('Not specified'))
+        elif kind == 'skill':
             expected = skill_label(expected)
         elif kind == 'contract':
             from eures_beta.www.employer.workspace import OfferEditForm

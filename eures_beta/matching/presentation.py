@@ -7,6 +7,7 @@ from eures_beta.candidates.forms import (
 from eures_beta.skills.skills_pilot import catalogue
 
 DIMENSIONS = {
+    'occupation': _('Occupation interest'),
     'skills': _('Declared skills'),
     'languages': _('Languages'),
     'mobility': _('Mobility'),
@@ -30,6 +31,7 @@ DECISIONS = {
     'refused': _('Refused by the local operator'),
 }
 KEYS = {
+    'occupation': _('Occupation interest'),
     'skills': _('Declared skills'),
     'skill': _('Declared skill'),
     'languages': _('Languages'),
@@ -45,6 +47,12 @@ KEYS = {
     'salary': _('Salary'),
 }
 REASONS = {
+    'occupation_interest': _(
+        'The occupation is among the candidate’s explicit choices. This does not establish skills.'
+    ),
+    'occupation_unconfirmed': _(
+        'Interest in this occupation needs confirmation. Another occupation or an open project is not a refusal.'
+    ),
     'missing': _('Comparable information is missing.'),
     'declared': _('Based on explicit declarations, not certification.'),
     'alternative_occupations': _(
@@ -112,6 +120,11 @@ def present(result, language):
     rows = []
     for row in result['rows']:
         reference = row['reference']
+        if row['key'] == 'occupation' and reference:
+            from eures_beta.occupations.unified import resolve_reference
+
+            job = resolve_reference(reference, language)
+            reference = job['label'] if job else ''
         if row['key'] == 'skill':
             from eures_beta.skills.common_source import skill_label
 

@@ -4,10 +4,8 @@ La consultation des offres employeur livrée par #242 inclut toutes les offres
 enregistrées et leur détail en lecture seule, indépendamment de leur éligibilité
 au matching. Voir [le contrat](docs/ADVISER_EMPLOYER_OFFERS.md).
 
-État documentaire du sommet de la pile au 16 novembre 2026, pas une preuve de
-déploiement ni un mandat de fusion. Vérifier GitHub et l'environnement concerné
-avant toute opération. Les résultats de CI sont sur chaque PR ; aucun compteur
-historique de tests n'est à entretenir ici.
+État documentaire au 16 novembre 2026, sans preuve de déploiement ni mandat
+de fusion. Vérifier GitHub, la CI et l’environnement avant toute opération.
 
 ## À lire pour reprendre
 
@@ -96,3 +94,6 @@ dans [l'historique Git de ce fichier](https://github.com/eures-beta/match-europe
 et dans les PR citées. Aucun fichier d'archives n'est nécessaire.
 
 Catalogue métiers/compétences candidat et employeur : [contrat et validations](docs/COMMON_OCCUPATION_SKILLS.md). PR en préparation, sans fusion ni déploiement.
+
+Suite locale non publiée de #250 : `codex/matching-pr250`, compétences prioritaires
+et intérêt métier distinct ; [grille et limites](docs/MATCHING.md).
