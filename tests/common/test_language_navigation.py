@@ -11,7 +11,9 @@ class LanguageLinks(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        if tag == 'a' and 'lang-link' in attrs.get('class', '').split():
+        # `lang-link` in the old menus, hreflang in the design system menu.
+        classes = attrs.get('class', '').split()
+        if tag == 'a' and ('lang-link' in classes or 'hreflang' in attrs):
             self.hrefs.append(attrs['href'])
 
 

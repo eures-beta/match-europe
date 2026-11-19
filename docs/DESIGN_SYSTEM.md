@@ -30,13 +30,16 @@ Les styles des pages web restent dans des feuilles CSS séparées : voir la
 leurs valeurs pendant cette migration de rangement ; tout nouveau composant
 continue d'utiliser les tokens et composants décrits ici.
 
-| Fichier                                               | Rôle                                                                   |
-| ----------------------------------------------------- | ---------------------------------------------------------------------- |
-| `eures_beta/static/design-system/tokens.css`          | Toutes les valeurs (tokens). Seul fichier où un code couleur est écrit |
-| `eures_beta/static/design-system/bootstrap-theme.css` | Bootstrap habillé avec les tokens                                      |
-| `eures_beta/static/design-system/fonts/`              | Police Gelasio et sa licence, chargées par `tokens.css`                |
-| `tests/common/test_design_system.py`                  | Vérifie automatiquement les règles des tokens                          |
-| `/design-system/` (`templates/design_system.html`)    | Page de référence : tokens, contrastes et composants rendus            |
+| Fichier                                               | Rôle                                                                    |
+| ----------------------------------------------------- | ----------------------------------------------------------------------- |
+| `eures_beta/static/design-system/tokens.css`          | Toutes les valeurs (tokens). Seul fichier où un code couleur est écrit  |
+| `eures_beta/static/design-system/bootstrap-theme.css` | Bootstrap habillé avec les tokens                                       |
+| `eures_beta/static/design-system/components.css`      | En-tête, pied de page et composants `ds-*` partagés (pages et exemples) |
+| `eures_beta/static/design-system/demo.css`            | Mise en page du catalogue et bandeau des exemples, rien d’autre         |
+| `eures_beta/templates/eures_base.html`                | Gabarit des pages de production passées au design system                |
+| `eures_beta/static/design-system/fonts/`              | Police Gelasio et sa licence, chargées par `tokens.css`                 |
+| `tests/common/test_design_system.py`                  | Vérifie automatiquement les règles des tokens                           |
+| `/design-system/` (`templates/design_system.html`)    | Page de référence : tokens, contrastes et composants rendus             |
 
 La page `/design-system/` lit `tokens.css` à chaque affichage : elle montre toujours les valeurs
 réelles, avec le contraste mesuré de chaque couleur. Le catalogue et tous ses exemples sont
@@ -48,16 +51,19 @@ en cours, sans lecture de données métier ni sauvegarde. Leur présence dans ce
 ne constitue pas une décision de les livrer en production. Le catalogue reste la référence
 envisagée à terme ; les exemples sont à revoir avant toute future fusion.
 
-Pour une page qui utilise Bootstrap, charger les trois feuilles dans cet ordre :
+Une page de production passée au design system étend `eures_base.html` : il charge les quatre
+feuilles, l’en-tête réel (langues, compte, logos, navigation) et le pied de page. Pour une page qui
+utilise Bootstrap sans ce gabarit, charger les feuilles dans cet ordre :
 
 ```django
 <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
 <link rel="stylesheet" href="{% static 'design-system/bootstrap-theme.css' %}">
+<link rel="stylesheet" href="{% static 'design-system/components.css' %}">
 ```
 
-Les écrans existants (`employer/site.css`, `candidate/candidate.css`…) ne sont pas encore migrés.
-Ils seront repris écran par écran, en petites PR. **Ne pas copier leurs valeurs** : elles datent
+Les écrans existants (`employer/site.css`, `candidate/candidate.css`…) passent au design system
+dans une seule PR, pour ne jamais livrer deux designs en même temps. Déjà passé : accueil employeur. **Ne pas copier leurs valeurs** : elles datent
 d’avant le design system (ancien bleu `#004494`, police Georgia, une vingtaine d’arrondis).
 
 ## Direction visuelle : hybride
@@ -171,7 +177,7 @@ les liens de rubrique donnent aussi accès au suivi. Couleurs et mesures viennen
 
 Tous les écrans d’exemple partagent le même en-tête (`design_system/example_base.html`) : logo et
 nom Match Europe, menu de langue, liens du compte, puis la bande des logos partenaires
-(`design_system/partenaires.html`). Sur téléphone, l’accroche est masquée, les quatre logos tiennent
+(`eures/partners.html`, partagé avec `eures_base.html`). Sur téléphone, l’accroche est masquée, les quatre logos tiennent
 sur une ligne et la navigation principale défile de côté.
 
 - **Soulignement** : un lien dans un texte reste souligné (règle ECL, accessibilité). Un élément de
