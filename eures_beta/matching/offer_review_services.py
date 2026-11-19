@@ -22,7 +22,10 @@ VERSION = 'offer-confirmation-v1'
 VALUES = {'yes', 'conditional', 'no', 'changed', 'clarify'}
 
 QUESTION_TEMPLATES = {
-    'occupation': _('Would you be interested in this occupation: %(requirement)s?'),
+    'occupation': _('Could you see yourself doing this job: %(requirement)s?'),
+    'employer': _(
+        '%(requirement)s is recruiting. Could you see yourself working for them?'
+    ),
     'schedule': _('Can you work these hours: %(requirement)s?'),
     'availability': _(
         'Can you start within the timeframe stated in the offer: %(requirement)s?'
@@ -93,6 +96,13 @@ def question_text(row):
     short = short_question(row)
     if short:
         return str(short)
+    if row['kind'] == 'occupation' and row.get('common_skills'):
+        return str(
+            _(
+                'You mentioned these skills: %(skills)s. This job could use them. Would you like to consider it: %(job)s?'
+            )
+            % {'skills': ', '.join(row['common_skills']), 'job': row['expected']}
+        )
     template = QUESTION_TEMPLATES.get(row['kind'], DEFAULT_QUESTION_TEMPLATE)
     return str(template % {'condition': row['label'], 'requirement': row['expected']})
 
@@ -162,7 +172,9 @@ def questions(review):
             continue
         key, ref = row['key'], row['reference']
         expected = row['expected'] or ref
-        if key == 'skill':
+        if key == 'occupation':
+            expected = ref or offer.get('title', '')
+        elif key == 'skill':
             expected = ref
         elif key == 'language':
             expected = {'code': ref, 'level': row['expected']}
@@ -213,6 +225,12 @@ def questions(review):
             'declared': {name: candidate.get(name) for name in fields[key]},
             'askable': askable,
         }
+        if key == 'occupation':
+            presented['common_skills'] = [
+                item['reference']
+                for item in result['rows']
+                if item['key'] == 'skill' and item['state'] == 'match'
+            ]
         if key == 'schedule' and ref:
             day = ref.split(':')[0]
             presented['declared'] = {
@@ -277,8 +295,53 @@ def questions(review):
             askable=presented['askable'],
         )
     )
-    rows.sort(key=lambda row: row.get('priority', 1))
+    presented = {
+        'version': VERSION,
+        'context': context,
+        'key': 'employer',
+        'reference': '',
+        'expected': offer.get('companyName', '').strip(),
+        'declared': {},
+        'askable': bool(offer.get('companyName', '').strip()),
+    }
+    rows.append(
+        dict(
+            key='employer:',
+            kind='employer',
+            reference='',
+            presented=presented,
+            fingerprint=digest(presented),
+            askable=presented['askable'],
+        )
+    )
+    rows.sort(key=question_order)
     return rows
+
+
+def question_order(row):
+    if row['kind'] == 'occupation':
+        return (0, 0)
+    if row['kind'] == 'employer':
+        return (3, 0)
+    return (
+        (
+            1
+            if row['kind']
+            in {'schedule', 'availability', 'working_time', 'work_condition'}
+            else 2
+        ),
+        row.get('priority', 1),
+    )
+
+
+def needs_answer(row):
+    return row['askable'] and (
+        not row['answer']
+        or (
+            row['kind'] in {'occupation', 'employer'}
+            and row['answer'].value == 'clarify'
+        )
+    )
 
 
 def review_state(review):
@@ -320,13 +383,22 @@ def review_state(review):
         if profile_sharing and profile_sharing.fingerprint == fingerprint
         else None
     )
+    declined = next(
+        (
+            row
+            for row in rows
+            if row['kind'] in {'occupation', 'employer'}
+            and row['answer']
+            and row['answer'].value == 'no'
+        ),
+        None,
+    )
     return dict(
+        declined=declined,
         rows=rows,
         fingerprint=fingerprint,
         agreement=current_profile_sharing,
-        pending=next(
-            (row for row in rows if row['askable'] and not row['answer']), None
-        ),
+        pending=next((row for row in rows if needs_answer(row)), None),
         unresolved=any(
             not row['askable'] or not row['answer'] or row['answer'].value != 'yes'
             for row in rows
@@ -364,6 +436,12 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
         (row for row in questions(review) if row['key'] == key and row['askable']),
         None,
     )
+    if (
+        review_state(review)['declined']
+        and row
+        and row['kind'] not in {'occupation', 'employer'}
+    ):
+        raise ValueError('This offer was declined')
     if not row or row['fingerprint'] != fingerprint:
         raise StaleEvaluation
     if (
@@ -401,7 +479,19 @@ def agree(user, pk, fingerprint, agreed, previous=0):
     state = review_state(review)
     if fingerprint != state['fingerprint']:
         raise StaleEvaluation
-    if state['pending'] or type(agreed) is not bool:
+    employer = next(row for row in state['rows'] if row['kind'] == 'employer')
+    if (
+        state['pending']
+        or type(agreed) is not bool
+        or (
+            agreed
+            and (
+                state['declined']
+                or not employer['answer']
+                or employer['answer'].value not in {'yes', 'conditional'}
+            )
+        )
+    ):
         raise ValueError('Review the conditions first')
     latest = review.profile_sharings.order_by('-pk').first()
     if latest and latest.fingerprint == fingerprint and latest.agreed == agreed:

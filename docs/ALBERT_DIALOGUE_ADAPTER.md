@@ -1,90 +1,83 @@
-## Mise à jour — 9 novembre 2026
+# Dialogue privé candidat avec Albert
 
-Le dialogue Albert fonctionne dans tous les environnements, avec une clé privée configurée ; il est actif par défaut. La simulation est explicitement choisie pour les essais, jamais imposée par l’environnement. Les appels envoient uniquement la condition de l’offre, les déclarations correspondantes, les paroles et l’historique utile du dialogue ; aucune transmission automatique à l’employeur ni modification de profil sans relecture explicite. La CSRF, la vérification de la propriété de la demande, les quotas et les contrôles de version sont conservés. Sans clé ou en cas d’échec, le formulaire guidé reste disponible. Les anciennes restrictions locales ci-dessous sont remplacées.
+## Parcours et consignes
 
-# Raccordement du dialogue à Albert — recette fictive uniquement
+Après une demande du conseiller, le candidat examine une offre dans son espace
+privé. Le serveur choisit les étapes ; Albert accompagne les réponses libres.
 
-## Périmètre et état
+1. Intérêt pour le poste en premier. Expliquer le rapprochement avec au plus deux
+   compétences communes explicitement déclarées et reconnues par le calcul.
+   Aucun rapprochement de libellés ni métier ne permet d'inventer une compétence.
+   Sans compétence commune établie, poser simplement la question d'intérêt.
+2. Conditions déterminantes de cette offre : horaires, disponibilité, mobilité,
+   contrat, salaire, autorisations, compétences et langues. Les déclarations du
+   profil restent un point de départ, pas une confirmation pour cette offre.
+3. Intérêt pour l'employeur en dernier : « C’est {employeur} qui recrute.
+   Tu te verrais travailler chez eux ? ». Le connaître ne signifie pas accepter
+   d'y travailler. Ne pas demander de justification obligatoire pour un refus.
+4. Relecture du résumé et des réserves, puis permission de transmission distincte
+   dans le formulaire existant. Aucun envoi automatique ni accord employeur déduit.
 
-Eric autorise le raccordement du dialogue du site avant la PWA et les
-notifications. Ce lot prolonge le prototype local `d03c2a9` issu de #162
-(`20df0b7`). La simulation reste disponible. La production et la transmission
-employeur restent fermées. Aucun appel réel n’est exécuté par les tests automatisés.
+Le prompt `matching/dialogue_albert.py` demande des phrases courtes, naturelles,
+une seule question utile à la fois et des relances liées aux mots du candidat.
+Pas de flatterie, de pression, de répétition mécanique ou de réponse inventée.
+Une hésitation n'est pas un oui ; une réserve reste une réserve. Une information
+absente de l'offre est à préciser par le conseiller, jamais à inventer.
 
-Le connecteur suit l’API Chat Completions documentée par Albert :
-https://albert.api.etalab.gouv.fr/reference. Il utilise le mode JSON, sans outils,
-streaming ni exécution de code. La disponibilité du modèle configuré et la qualité
-de ses réponses devront être vérifiées par l’évaluation réelle avant activation.
+Un refus du poste ou de l'employeur arrête la proposition, sans modification du
+profil ni effacement de la décision conseiller. Le candidat peut corriger sa réponse.
+Une demande de précision sur le poste ou l'employeur reste à confirmer. L'employeur
+non identifié empêche une autorisation de transmission ; une réserve employeur
+explicite peut rester dans le résumé soumis à la décision humaine.
 
-## Dialogue et validation
+## Garanties de l'application
 
-- Une condition à la fois, à partir des conditions structurées de l’offre et des
-  déclarations du candidat directement liées à cette condition.
-- Réponse libre, éventuelles questions de précision, reformulation, puis POST
-  explicite du candidat pour enregistrer. Les messages du modèle sont échappés ;
-  les liens et balises dans une réponse modèle sont refusés.
-- Réserve propre à l’offre et changement général séparés. Le choix explicite de
-  portée du candidat ne peut pas être contredit par le modèle.
-- Les propositions de profil sont limitées aux champs de la condition courante,
-  validées par les champs Django et accompagnées d’extraits exacts des paroles
-  du candidat. La preuve textuelle ne garantit pas l’interprétation sémantique :
-  la relecture humaine avant/après et la validation restent indispensables.
-- Horaires, disponibilité, contrat, salaire, mobilité, permis et conditions de
-  travail disposent d’un sous-ensemble de champs autorisés. Aucune compétence,
-  certification, référence ESCO/ROME ou identité ne peut être attribuée par le
-  modèle. Les autres modifications passent par le formulaire habituel.
-- Une modification de profil est d’abord un brouillon ; les formulaires complets
-  et leur contrôle de cohérence restent obligatoires avant l’écriture durable.
-  La version de profil initiale est revérifiée sous verrou au dernier POST.
-- L’accord de transmission reste séparé, dans le parcours existant. Aucun appel
-  Albert n’est effectué pendant la transaction de validation, aucun score n’est
-  changé et aucun profil n’est transmis à un employeur.
+Propriété, rôle candidat actif et profil vérifié, CSRF, quotas, signatures et
+empreintes du contexte sont vérifiés côté serveur. Les réponses et consentements
+restent liés à l'offre et deviennent périmés si le contexte pertinent change.
+Les anciens consentements ne dispensent pas de répondre à la nouvelle question
+employeur. Aucun changement de schéma n'est nécessaire : les réponses utilisent
+`CandidateOfferReviewAnswer`, la permission `CandidateProfileSharing`.
 
-## Données et limites
+Albert ne choisit pas la prochaine étape et ne dispose d'aucun outil d'écriture,
+de score, d'envoi ou de transmission. Une réponse libre est une proposition à
+relire et confirmer. Les modifications générales autorisées passent par le
+brouillon de profil puis par ses formulaires et sa validation explicite.
+Le poste et l'employeur ne peuvent pas produire de modification générale.
+Les champs proposés exigent une preuve exacte dans les paroles du candidat ;
+cette preuve ne remplace pas la relecture sémantique humaine.
 
-L’envoi contient la langue, la condition, les déclarations associées, les champs
-de modification autorisés et les seuls échanges de cette condition. Le connecteur
-ne reçoit pas le profil complet, le nom, l’email, l’identifiant du candidat ou les
-coordonnées employeur. Un candidat peut toutefois saisir des données sensibles
-dans son texte libre : ne tester qu’avec des données fictives ; le filtrage et les
-conditions d’usage pour des données réelles restent à définir.
+## Données et transport
 
-Historique de clarification signé et limité à quinze minutes, lié au candidat,
-à la demande, à la condition et au contexte. Au maximum six messages historiques,
-2000 caractères cumulés de paroles candidat ; au-delà, retour au formulaire.
-Pas de conversation entière durable côté serveur ; après validation, les paroles
-ayant fondé la réponse sont dans l’événement existant de confirmation. Les règles
-de conservation et de purge avant usage réel restent ouvertes.
+Client commun `integrations.albert`, JSON borné, sans outils ni streaming.
+Le contexte contient la langue, la question, les conditions correspondantes,
+les déclarations utiles et les échanges de cette condition ; pas le profil entier
+ni les coordonnées candidat. Les compétences communes sont des références
+traçables ; la question affichée contient leurs libellés traduits.
+Pour la question employeur, son nom enregistré est nécessaire au dialogue.
 
-Six tentatives réseau maximum par candidat sur quinze minutes, compteur atomique
-dans la table de limites existante avec clé hachée dédiée. Délai réseau de
-25 secondes, réponse limitée à 20 ko et 1800 tokens, aucune relance automatique,
-aucune redirection HTTP. Une réponse tronquée, invalide ou hors schéma ferme le
-traitement et propose le formulaire guidé sans écriture métier.
+Historique signé de quinze minutes, au plus six messages historiques et 2000
+caractères de paroles candidat ; six tentatives réseau par quinze minutes.
+Délai de 25 secondes, réponse limitée à 20 ko et 1800 tokens ; pas de relance
+automatique. Une réponse hors schéma ou indisponible renvoie vers le formulaire
+guidé sans écriture. Les messages sont échappés, HTML et liens modèle refusés.
 
-## Configuration et vérifications
+Même parcours en local, recette et production avec le service configuré.
+`ALBERT_SIMULATED=1` choisit explicitement le simulateur et interdit l'appel réel ;
+sinon une clé privée est requise. Les tests automatisés simulent le transport.
+Les textes libres peuvent contenir des données sensibles ; conservation, purge
+et cadre de traitement doivent être évalués pour l'usage réel.
 
-Le connecteur est disponible avec un accès Albert configuré ;
-`ALBERT_SIMULATED=1` reste prioritaire et empêche l’appel réel.
-La simulation est désactivée par défaut. Les gardes locales, fictives et par
-propriétaire de #162 restent obligatoires, même avec une clé configurée.
-`ALBERT_DIALOGUE_MODEL` permet de choisir le modèle ; son défaut est `ALBERT_MODEL`.
-Le secret est fourni uniquement par la configuration protégée de l’environnement.
+## Vérifications
 
-- `make test TESTS=tests.matching.test_dialogue_albert` : tests du connecteur avec réponses API mockées.
-- `make test TESTS=tests.matching.test_dialogue` : tests du simulateur.
-- `make run PORT=9045` : application locale sur loopback 9045 ; nécessite
-  un accès configuré et
-  `ALBERT_SIMULATED=0` dans le `.env` pour dialoguer réellement,
-  sinon repli explicite. Le démarrage ne modifie pas ces réglages.
-- `make dialogue-live-evaluate` : opt-in réel, six échanges fictifs au maximum,
-  FR/EN/DE, sans base de données. Sortie limitée aux résultats, sans réponses
-  brutes ni secret. Cette commande consomme le quota du service.
-- `make test`, `make check`, `make format-check`, `make format-html-check`,
-  `make translations-check` : vérifications habituelles. Vérifier également
-  l’extraction des traductions dans une copie isolée.
+- `make test TESTS=tests.matching` : parcours complets, refus, réserves, consentement,
+  contexte modifié, droits, CSRF et transport simulé en FR/EN/DE.
+- `make check`, `make format-check`, `make format-html-check`,
+  `make translations-check translations-compile` : contrôles communs.
+- `make run PORT=9045` : essai local avec la configuration du worktree.
+- `make dialogue-live-evaluate` : évaluation réelle explicitement choisie, six
+  échanges fictifs au plus, sans base. Consomme le quota du service.
 
-Le modèle réel n’a pas encore été évalué dans ce lot. Le contrôle automatique ne
-peut pas prouver une absence d’hallucination ; une campagne métier multilingue,
-des essais de charge, la validation RGPD et un audit d’accessibilité complet
-restent nécessaires avant toute ouverture à de vraies données.
+Les tests simulés ne prouvent ni le ton du modèle réel, ni sa disponibilité,
+ni l'absence d'hallucination. Un essai métier réel et une vérification sur téléphone
+restent distincts de la validation automatisée.

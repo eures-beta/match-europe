@@ -435,6 +435,7 @@ class ConfirmationTests(TestCase):
                         'action': 'agree',
                         'fingerprint': fingerprint,
                         'agreed': 'yes',
+                        'reviewed': 'on',
                         'previous': 0,
                     },
                 ).status_code,

@@ -25,6 +25,7 @@ from eures_beta.matching.services import StaleEvaluation
 
 LABELS = {
     'occupation': _('Occupation interest'),
+    'employer': _('Employer interest'),
     'skill': _('Declared skill'),
     'skills': _('Declared skills'),
     'language': _('Language level'),
@@ -76,6 +77,9 @@ class AnswerForm(forms.Form):
 
 
 class AgreementForm(forms.Form):
+    reviewed = forms.BooleanField(
+        label=_('I have reviewed the summary, including my reservations')
+    )
     previous = forms.IntegerField(min_value=0, widget=forms.HiddenInput)
     fingerprint = forms.CharField(max_length=64, widget=forms.HiddenInput)
     agreed = forms.ChoiceField(
@@ -184,7 +188,11 @@ def display_rows(rows, language):
         kind = row['kind']
         if kind == 'occupation' and expected:
             job = resolve_reference(expected, language)
-            expected = job['label'] if job else str(_('Not specified'))
+            expected = (
+                job['label']
+                if job
+                else row['presented']['context'].get('title') or str(_('Not specified'))
+            )
         elif kind == 'skill':
             expected = skill_label(expected)
         elif kind == 'contract':
@@ -255,6 +263,9 @@ def display_rows(rows, language):
             expected = ' · '.join(parts).strip(' ·')
         elif kind == 'language':
             expected = expected['code'].upper() + ' ' + expected['level']
+        row['common_skills'] = [
+            skill_label(uri) for uri in row['presented'].get('common_skills', [])[:2]
+        ]
         row['expected'] = text(expected)
         row['answer_label'] = (
             dict(ANSWERS).get(row['answer'].value)
@@ -342,8 +353,12 @@ def dialogue(request, pk):
     current = (
         next((row for row in rows if row['key'] == key and row['askable']), None)
         if key
-        else state['pending']
+        else (None if state['declined'] else state['pending'])
     )
+    if state['declined'] and (
+        not current or current['key'] != state['declined']['key']
+    ):
+        current = None
     if current and action != 'answer':
         latest = obj.answers.filter(question_key=current['key']).order_by('-pk').first()
         form = AnswerForm(

@@ -58,19 +58,6 @@ class AcceptForm(forms.Form):
     )
 
 
-def question_order(row):
-    kind = row['kind']
-    if kind in {'schedule', 'availability', 'working_time', 'work_condition'}:
-        group = 0
-    elif kind in {'skill', 'skills', 'language', 'languages'}:
-        group = 2
-    else:
-        group = 1
-    expected = row['presented']['expected']
-    mandatory = isinstance(expected, dict) and expected.get('mandatory')
-    return group, not mandatory, row.get('priority', 1), kind != 'schedule'
-
-
 @entry_candidate
 @sensitive_post_parameters()
 @require_http_methods(['GET', 'POST'])
@@ -91,11 +78,19 @@ def conversation(request, pk):
         next((r for r in rows if r['key'] == key and r['askable']), None)
         if key
         else min(
-            (row for row in rows if row['askable'] and not row['answer']),
-            key=question_order,
+            (
+                row
+                for row in rows
+                if offer_reviews.needs_answer(row) and not state['declined']
+            ),
+            key=offer_reviews.question_order,
             default=None,
         )
     )
+    if state['declined'] and (
+        not current or current['key'] != state['declined']['key']
+    ):
+        current = None
     prompt = offer_reviews.question_text(current) if current else ''
     rows_by_key = {row['key']: row for row in rows}
     answered = []
@@ -286,6 +281,8 @@ def conversation(request, pk):
             shared_conversation=conversations(request.user)
             .filter(offer_review=obj)
             .first(),
+            state=state,
+            rows=rows,
             current=current,
             prompt=prompt,
             answered=answered,

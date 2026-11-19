@@ -113,14 +113,21 @@
             {% csrf_token %}
             {% for field in form.hidden_fields %}{{ field }}{% endfor %}
             {{ form.text.as_field_group }}
-            <details{% if form.scope.errors %} open{% endif %}>
-              <summary>{% translate "Does your reply concern this offer or your general profile?" %}</summary>
-              {{ form.scope.errors }}
-              {{ form.scope }}
-            </details>
+            {% if current.kind != "occupation" and current.kind != "employer" %}
+              <details{% if form.scope.errors %} open{% endif %}>
+                <summary>{% translate "Does your reply concern this offer or your general profile?" %}</summary>
+                {{ form.scope.errors }}
+                {{ form.scope }}
+              </details>
+            {% endif %}
             <button class="primary-action" name="action" value="reply" type="submit">{% translate "Send" %}</button>
           </form>
         </details>
+      </section>
+    {% elif state.declined %}
+      <section class="conversation-thread" aria-labelledby="declined-title">
+        <h2 id="declined-title">{% translate "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent." %}</h2>
+        <a href="?lang={{ page_language }}&amp;question={{ state.declined.key|urlencode }}">{% translate "Change this answer" %}</a>
       </section>
     {% elif shared_conversation %}
       <section class="surface-card home-section">
@@ -129,7 +136,19 @@
       </section>
     {% else %}
       <section class="surface-card home-section">
-        <p>{% translate "Review your answers and give transmission permission separately in the guided form." %}</p>
+        <h2>{% translate "Review of this offer" %}</h2>
+        {% for row in rows %}
+          <details>
+            <summary>{{ row.label }} — {{ row.answer_label }}</summary>
+            <p>{{ row.expected }}</p>
+            {% if row.answer.detail %}<p>{{ row.answer.detail|linebreaksbr }}</p>{% endif %}
+            {% if not row.askable %}
+              <p>{% translate "Employer clarification needed" %}</p>
+            {% endif %}
+          </details>
+        {% endfor %}
+        <a class="primary-action"
+           href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}">{% translate "Review the summary and choose what may be shared" %}</a>
       </section>
     {% endif %}
   </div>
