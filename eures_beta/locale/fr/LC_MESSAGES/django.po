@@ -8103,3 +8103,22 @@ msgstr "Choisissez les 5 compétences les plus importantes pour votre projet et 
 #: eures_beta/occupations/templates/occupations/continuous.html
 msgid "This choice helps identify your priorities when looking for suitable offers. You can change it at any time. An unchecked skill does not mean you lack it."
 msgstr "Ce choix aide à repérer vos priorités pour rechercher des offres adaptées. Vous pourrez le modifier à tout moment. Une compétence non cochée ne signifie pas que vous ne la maîtrisez pas."
+
+#: eures_beta/matching/offer_review_services.py:25
+#, python-format
+msgid "Would you be interested in this occupation: %(requirement)s?"
+msgstr "Ce métier t’intéresserait-il : %(requirement)s ?"
+
+#: eures_beta/matching/presentation.py:10
+#: eures_beta/matching/presentation.py:34
+#: eures_beta/www/matching/offer_reviews.py:27
+msgid "Occupation interest"
+msgstr "Intérêt pour le métier"
+
+#: eures_beta/matching/presentation.py:51
+msgid "The occupation is among the candidate’s explicit choices. This does not establish skills."
+msgstr "Ce métier fait partie des choix explicites du candidat. Cela ne prouve pas ses compétences."
+
+#: eures_beta/matching/presentation.py:54
+msgid "Interest in this occupation needs confirmation. Another occupation or an open project is not a refusal."
+msgstr "L’intérêt pour ce métier reste à confirmer. Un autre métier ou un projet ouvert ne constitue pas un refus."

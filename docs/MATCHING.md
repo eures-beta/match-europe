@@ -57,7 +57,7 @@ Validation : `make test TESTS=tests.users.test_adviser_action_queue` et `make ch
   non négociable. Premier périmètre : horaires stricts, date limite impérative,
   autorisation indispensable explicitement non détenue à la date requise.
 - Les autres écarts restent soumis à examen humain. Aucune exclusion au score.
-- Le métier souhaité est visible, hors score initial. Les compétences déclarées
+- Le métier souhaité apporte un signal d’intérêt de 10 points, distinct des compétences. Les compétences déclarées
   ne sont jamais inférées d’un métier. Aucune équivalence ESCO/ROME automatique.
 - Apprentissage séparé des acquis ; savoir-être sans points ni exclusion.
 - Recalcul et décision humaine sont distincts. Un recalcul conserve le refus.
@@ -75,9 +75,10 @@ porte un motif stable, une dimension et un éventuel blocage. Les codes de
 questions des inconnus sont disponibles pour le futur dialogue, sans envoi.
 Les explications FR/EN/DE sont produites séparément dans `presentation.py`.
 
-**Hypothèse de laboratoire, pas pondération validée** : compétences 40,
-langues 20, pays souhaité 15, disponibilité/conditions 15, salaire 10.
-Métier et savoir-être : zéro. Dans une dimension, le budget est partagé à
+**Grille expérimentale après la PR #250**, privilégiant les compétences à la
+demande d’Eric : compétences 40, métier souhaité 10, langues 15, pays souhaité 15,
+disponibilité/conditions 15, salaire 5. Aucun calibrage statistique revendiqué.
+Les savoir-être restent hors score. Dans une dimension, le budget est partagé à
 parts égales entre les éléments évalués. Ce choix reste à calibrer et versionner.
 L’écran affiche les points établis et le budget inconnu, jamais un pourcentage
 de réussite, un classement ou un seuil de rejet. Les absences n’apportent pas
@@ -96,7 +97,9 @@ Adaptation aux données existantes :
 - `CandidateProfile.acquired_skills` et `occupation_skills` : seules les URI
   explicitement déclarées sont utilisées. Compétences employeur dans
   `JobOffer.data.occupationSkills`. Plusieurs métiers employeur restent à
-  clarifier : leurs exigences ne sont pas fusionnées en obligations conjointes.
+  clarifier : seules leurs compétences prioritaires communes peuvent établir
+  un rapprochement ; les autres restent inconnues, sans fusion en obligations conjointes.
+  Un métier sans sélection de compétences reste pris en compte dans cette ambiguïté.
 - Les niveaux linguistiques sont comparés par codes ISO et niveaux CECRL
   lorsque les exigences employeur structurées existent.
 - Un pays souhaité commun établit uniquement cet alignement, pas un trajet
@@ -190,7 +193,7 @@ Ne pas modifier ou arrêter les autres instances PostgreSQL de la machine.
 ## Vérification
 
 - `make test TESTS=tests.matching` : logique, inconnus, trois blocages, langues/salaire,
-  choix métier hors score, conservation des décisions, conflits, accès et langues.
+  intérêt métier et alias officiels, conservation des décisions, conflits, accès et langues.
 - `make test` : suite complète PostgreSQL des domaines actuels.
 - `make check`, `make translations-check`, `make format-check`,
   `make format-html-check` : cohérence et formatage.
@@ -219,3 +222,27 @@ file de tâches ni relance automatique : une erreur est journalisée sans annule
 l’enregistrement du profil. Le temps de traitement augmente avec le nombre d’offres.
 Ce déclenchement ne rattrape pas à lui seul les profils déjà enregistrés avant
 son installation ; une nouvelle modification confirmée les fera recalculer.
+
+## Suite de la PR #250 : priorités et intérêt métier
+
+Version du calcul : `priority-skills-v3`. Le choix d’un métier exprime un intérêt,
+pas la possession de toutes ses compétences. Seules les références métier
+explicitement sélectionnées sont comparées ; intitulés libres et clés historiques
+des sélections de compétences ne prouvent pas cet intérêt. Les alias exacts
+conservateurs de `occupations.unified` comptent une fois. Un projet ouvert,
+un autre métier ou une référence inconnue restent à confirmer, sans incompatibilité.
+
+Les compétences sont les priorités choisies explicitement, non un inventaire
+exhaustif des exigences ou acquis. Les identifiants communs donnent des points ;
+une case non cochée reste inconnue. Aucun lien métier ROME–ESCO ne crée de lien
+entre compétences et aucun rapprochement par libellé n’est ajouté. Cela laisse
+à confirmer des compétences similaires exprimées avec deux identifiants distincts.
+Les compétences déclarées restent transférables entre métiers.
+
+L’intérêt métier est reconfirmé dans la revue candidat, avec un libellé lisible ;
+les compétences du catalogue étendu y sont également nommées. Le changement
+du projet invalide sa confirmation métier sans effacer les autres réponses.
+Les versions et poids entrent déjà dans l’empreinte : les anciens calculs
+sont périmés, sans suppression de l’historique ou des décisions. Pas de recalcul
+global ni d’envoi déclenché par cette évolution ; droits et trois blocages explicites
+restent identiques. Aucun changement de schéma ni migration.

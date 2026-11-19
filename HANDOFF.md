@@ -97,3 +97,6 @@ dans [l'historique Git de ce fichier](https://github.com/eures-beta/match-europe
 et dans les PR citées. Aucun fichier d'archives n'est nécessaire.
 
 Catalogue métiers/compétences candidat et employeur : [contrat et validations](docs/COMMON_OCCUPATION_SKILLS.md). PR en préparation, sans fusion ni déploiement.
+
+Suite locale non publiée de #250 : `codex/matching-pr250`, compétences prioritaires
+et intérêt métier distinct ; [grille et limites](docs/MATCHING.md).

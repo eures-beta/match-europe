@@ -3,14 +3,15 @@
 from datetime import date
 from decimal import Decimal, InvalidOperation
 
-VERSION = 'common-reference-v2'
+VERSION = 'priority-skills-v3'
 # Experimental point budget only: neither calibrated nor used for rejection/ranking.
 WEIGHTS = {
+    'occupation': 10,
     'skills': 40,
-    'languages': 20,
+    'languages': 15,
     'mobility': 15,
     'conditions': 15,
-    'salary': 10,
+    'salary': 5,
 }
 LEVELS = ('A1', 'A2', 'B1', 'B2', 'C1', 'C2')
 DAYS = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
@@ -23,6 +24,19 @@ def skill_set(value):
         for selection in (value or {}).values()
         for uri in selection.get('skills', [])
     }
+
+
+def occupation_set(references):
+    """Only recognised references and the conservative official aliases count."""
+    from eures_beta.occupations.unified import canonical
+
+    result = set()
+    for reference in references:
+        try:
+            result.add(canonical(reference))
+        except ValueError:
+            continue
+    return result
 
 
 def iso_date(value):
@@ -76,12 +90,43 @@ def evaluate(candidate, offer, requirements=None, facts=None, *, today):
     selections = offer.get('occupationSkills') or {}
     from eures_beta.occupations.unified import canonical
 
-    occupations = set()
-    for key in selections:
+    occupation = offer.get('occupation') or {}
+    offered_jobs = occupation_set(
+        list(occupation.get('uris') or [])
+        + ['rome:' + code for code in occupation.get('rome_codes') or []]
+    )
+    desired_jobs = (
+        occupation_set(candidate.get('occupation_references') or [])
+        if candidate.get('project_mode', 'occupation') != 'open'
+        else set()
+    )
+    common_jobs = offered_jobs & desired_jobs
+    add(
+        'occupation',
+        'occupation',
+        'match' if common_jobs else 'unknown',
+        'occupation_interest' if common_jobs else 'occupation_unconfirmed',
+        reference=next(
+            iter(
+                sorted(common_jobs or (offered_jobs if len(offered_jobs) == 1 else []))
+            ),
+            '',
+        ),
+    )
+
+    occupations = {}
+    for key, selection in selections.items():
         try:
-            occupations.add(canonical(key))
+            key = canonical(key)
         except ValueError:
-            occupations.add(key)
+            pass
+        occupations.setdefault(key, set()).update(selection.get('skills') or [])
+    for key in offered_jobs:
+        occupations.setdefault(key, set())
+    # Only priorities shared by every selected job are unambiguous here.
+    shared_priorities = (
+        set.intersection(*occupations.values()) if occupations else set()
+    )
     expected = skill_set(selections)
     acquired = set(candidate.get('acquired_skills') or []) | skill_set(
         candidate.get('occupation_skills')
@@ -92,7 +137,7 @@ def evaluate(candidate, offer, requirements=None, facts=None, *, today):
     else:
         for uri in sorted(expected):
             # Several occupations can represent alternatives: do not merge requirements.
-            if len(occupations) > 1:
+            if len(occupations) > 1 and uri not in shared_priorities:
                 add('skill', 'skills', reason='alternative_occupations', reference=uri)
             elif uri in acquired:
                 add('skill', 'skills', 'match', 'declared', reference=uri)
