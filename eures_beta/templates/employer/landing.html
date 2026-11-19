@@ -1,137 +1,69 @@
-{% load i18n static %}
-{% get_current_language as page_language %}
-<!DOCTYPE html>
-<html lang="{{ page_language }}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% translate "Match Europe — Employer journey" context "employer landing" %}</title>
-    <link rel="stylesheet" href="/static/employer/site.css">
-    <link rel="stylesheet" href="{% static 'employer/landing-layout.css' %}">
-    <link rel="stylesheet" href="{% static 'public/header-actions.css' %}">
-    <link rel="stylesheet" href="/static/public-brand.css">
-  </head>
-  <body>
-    <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
-    {% include "employer/development_notice.html" %}
-    <header class="site-header">
-      <div class="shell">
-        {% include "includes/public_brand.html" %}
-        <nav class="nav"
-             aria-label='{% translate "Main navigation" context "employer landing" %}'>
-          <div class="nav-links">
-            <a class="nav-pill"
-               href="{% url 'home' %}?lang={{ page_language }}">{% translate "Home" context "employer landing" %}</a>
-            <a class="nav-pill"
-               href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer landing" %}</a>
-            <a class="nav-pill is-active"
-               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer landing" %}</a>
-            <a class="nav-pill"
-               href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer landing" %}</a>
-          </div>
-          <div class="nav-links nav-links-secondary">
-            <a class="nav-pill"
-               href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
-            <a class="nav-pill"
-               href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
-          </div>
-          <div class="employer-header-actions">
-            <div class="lang-switch"
-                 aria-label='{% translate "Language" context "employer landing" %}'>
-              <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="{% url 'employer_landing' %}?lang=fr"
-                 lang="fr"
-                 hreflang="fr">FR</a>
-              <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="{% url 'employer_landing' %}?lang=en"
-                 lang="en"
-                 hreflang="en">EN</a>
-              <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="{% url 'employer_landing' %}?lang=de"
-                 lang="de"
-                 hreflang="de">DE</a>
-            </div>
-            {% include "includes/account_link.html" %}
-          </div>
-        </nav>
-      </div>
-    </header>
-    <main id="main-content" class="section candidate-landing-page">
-      <div class="shell candidate-landing-layout">
-        <article class="candidate-letter">
-          <div class="employer-partner-logos"
-               role="group"
-               aria-label='{% translate "Partners" context "employer landing" %}'>
-            <div class="employer-partner-logo employer-partner-eures">
-              <img src="/static/employer/assets/eures-ela.jpg"
-                   alt="EURES / European Labour Authority"
-                   width="5956"
-                   height="2372">
-            </div>
-            <div class="employer-partner-logo employer-partner-ft">
-              <img src="/static/employer/assets/france-travail.svg"
-                   alt="République française — France Travail"
-                   width="893"
-                   height="296">
-            </div>
-            <div class="employer-partner-logo employer-partner-adem">
-              <img src="/static/employer/assets/adem.png"
-                   alt="ADEM — Agence pour le développement de l’emploi"
-                   width="591"
-                   height="591">
-            </div>
-            <div class="employer-partner-logo employer-partner-forem">
-              <img src="/static/employer/assets/forem.png"
-                   alt="Le Forem"
-                   width="795"
-                   height="229">
-            </div>
-          </div>
-          <div class="candidate-letter-head">
-            <div class="kicker">{% translate "Employer journey" context "employer landing" %}</div>
-            <h1>{% translate "Recruit in another country" context "public positioning" %}</h1>
-            <p class="lede">{% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}</p>
-            <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
-            <p>{% translate "Upload your job offer as a PDF, add a link to your advert or enter your recruitment needs." context "public positioning" %}</p>
-            {% if not user.is_authenticated or user.kind != "employer" %}
-              {% include "invitations/includes/employer_invitation_help.html" %}
-            {% endif %}
-          </div>
-          <section class="candidate-message">
-            <h2>{% translate "Check your job offer information" context "public positioning" %}</h2>
-            <p>{% translate "Review the extracted information, correct it and complete any missing details: occupation, languages and working conditions." context "public positioning" %}</p>
-            <p>{% translate "Prepare your questions for candidates, then save your offer." context "public positioning" %}</p>
-            <p>{% translate "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers." context "employer landing" %}</p>
-            <div class="candidate-highlight">{% translate "The service is under development. Saving your offer does not start matching. Matching and introductions are not yet available." context "public positioning" %}</div>
-          </section>
-          <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>
-        </article>
-        <aside class="candidate-sidebar">
-          <article class="surface-card candidate-info-card">
-            <h2>{% translate "What happens next" context "employer landing" %}</h2>
-            <ul>
-              <li>{% translate "1. Add your offer as a PDF, a link or manual text." context "employer landing" %}</li>
-              <li>{% translate "2. Check the information and answer any additional questions." context "employer landing" %}</li>
-              <li>{% translate "3. Prepare your questions for candidates and save your offer." context "employer landing" %}</li>
-              <li>{% translate "4. Coming soon: matching with candidates. No matching is carried out at this stage." context "employer landing" %}</li>
-            </ul>
-          </article>
-          <article class="surface-card candidate-info-card">
-            <h2>{% translate "You stay in control" context "employer landing" %}</h2>
-            <p>{% translate "A match remains a suggestion. An introduction requires your agreement and the candidate’s." context "public positioning" %}</p>
-          </article>
-        </aside>
-      </div>
-    </main>
-    <footer class="employer-page-footer">
-      <div class="shell employer-page-footer-inner">
-        <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer landing" %}</p>
-        <nav aria-label='{% translate "Useful links" context "employer landing" %}'>
-          <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
-          <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
-          <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer landing" %}</a>
-        </nav>
-      </div>
-    </footer>
-  </body>
-</html>
+{% extends "eures_base.html" %}
+{% load i18n %}
+{% block title %}
+  {% translate "Match Europe — Employer journey" context "employer landing" %}
+{% endblock %}
+{% block site_notice %}
+  {% include "eures/employer_notice.html" %}
+{% endblock %}
+{% block content %}
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <p class="ds-eyebrow">{% translate "Employer journey" context "employer landing" %}</p>
+      <h1>{% translate "Recruit in another country" context "public positioning" %}</h1>
+      <p class="lead">
+        {% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}
+      </p>
+      <a class="btn btn-primary btn-lg"
+         href="{% url 'employer_import' %}?lang={{ page_language }}">{% translate "Describe my recruitment needs" context "public positioning" %}</a>
+      <p class="ds-meta mt-2">
+        {% translate "Upload your job offer as a PDF, add a link to your advert or enter your recruitment needs." context "public positioning" %}
+      </p>
+      {% if not user.is_authenticated or user.kind != "employer" %}
+        <div class="mt-4">
+          <p>
+            {% translate "Employer accounts are created by our Match Europe advisers. To request an invitation, contact Eric Barthélémy." context "employer invitation help" %}
+          </p>
+          {% if employer_adviser_contact_url %}
+            <a class="btn btn-outline-primary btn-sm"
+               href="{{ employer_adviser_contact_url }}"
+               rel="noopener">{% translate "Contact Eric Barthélémy" context "employer invitation help" %}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+      <section class="ds-card mt-5" aria-labelledby="employer-check-offer">
+        <h2 class="h4" id="employer-check-offer">
+          {% translate "Check your job offer information" context "public positioning" %}
+        </h2>
+        <p>
+          {% translate "Review the extracted information, correct it and complete any missing details: occupation, languages and working conditions." context "public positioning" %}
+        </p>
+        <p>{% translate "Prepare your questions for candidates, then save your offer." context "public positioning" %}</p>
+        <p>
+          {% translate "Choose questions to prequalify applications against job requirements, such as availability, experience, languages or working hours. Interested candidates answer before an introduction. Their answers help you identify applications to pursue and reject those that do not meet job requirements. No candidate is rejected automatically solely on the basis of their answers." context "employer landing" %}
+        </p>
+        <div class="alert alert-warning mb-0" role="note">
+          {% translate "The service is under development. Saving your offer does not start matching. Matching and introductions are not yet available." context "public positioning" %}
+        </div>
+      </section>
+      <p class="h5 mt-4">{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</p>
+    </div>
+    <div class="col-lg-4">
+      <aside class="ds-card mb-4" aria-labelledby="employer-next">
+        <h2 class="h5" id="employer-next">{% translate "What happens next" context "employer landing" %}</h2>
+        <ul class="mb-0">
+          <li>{% translate "1. Add your offer as a PDF, a link or manual text." context "employer landing" %}</li>
+          <li>{% translate "2. Check the information and answer any additional questions." context "employer landing" %}</li>
+          <li>{% translate "3. Prepare your questions for candidates and save your offer." context "employer landing" %}</li>
+          <li>{% translate "4. Coming soon: matching with candidates. No matching is carried out at this stage." context "employer landing" %}</li>
+        </ul>
+      </aside>
+      <aside class="ds-card ds-card-brand" aria-labelledby="employer-control">
+        <h2 class="h5" id="employer-control">{% translate "You stay in control" context "employer landing" %}</h2>
+        <p class="mb-0">
+          {% translate "A match remains a suggestion. An introduction requires your agreement and the candidate’s." context "public positioning" %}
+        </p>
+      </aside>
+    </div>
+  </div>
+{% endblock %}
