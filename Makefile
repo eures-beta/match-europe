@@ -331,6 +331,7 @@ security-plan: ## Vérifier et afficher les décisions JSON, sans modifier GitHu
 security-apply: ## Appliquer uniquement les décisions explicites vérifiées du fichier JSON (FILE=…)
 	python3 -m config.security_alerts apply
 
+.PHONY: rome-descriptions-build common-source-build common-source-audit
 rome-descriptions-build: ## Extraire les descriptions officielles ROME 26M10 depuis une archive vérifiée
 	$(PYTHON) -m eures_beta.occupations.tools.build_descriptions --archive "$(ROME_DEFINITIONS_ARCHIVE)" --output eures_beta/occupations/data
 
