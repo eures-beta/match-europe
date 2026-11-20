@@ -6,7 +6,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from eures_beta.employers.models import Company, CompanyMembership, JobOffer
+from eures_beta.employers.models import JobOffer
 from eures_beta.invitations.models import Invitation
 from eures_beta.invitations.services import create_invitation, invitation_token
 from eures_beta.matching import access
@@ -22,8 +22,6 @@ class AdviserDepositTests(TestCase):
             'employer@sample.example', kind='employer'
         )
         self.other = User.objects.create_user('other@sample.example', kind='adviser')
-        self.company = Company.objects.create(name='Existing establishment')
-        CompanyMembership.objects.create(company=self.company, user=self.employer)
         self.client.force_login(self.adviser)
         self.data = dict(
             title='Cook',
@@ -189,7 +187,7 @@ class AdviserDepositTests(TestCase):
             ).exists()
         )
 
-    def test_old_tab_cannot_use_a_new_deposits_establishment(self):
+    def test_old_tab_cannot_use_a_new_deposit(self):
         self.setup_deposit()
         old = self.client.session['adviser_offer_setup']['offer_id']
         self.setup_deposit(email='second@sample.example')
@@ -254,7 +252,7 @@ class AdviserDepositTests(TestCase):
         employer = User.objects.get(email=self.contact['email'])
         self.assertEqual(offer.created_by, employer)
         self.assertEqual(offer.adviser, self.adviser)
-        self.assertIsNone(offer.company_id)
+        self.assertNotIn('company', [f.name for f in JobOffer._meta.fields])
         self.assertEqual(employer.kind, 'employer')
         self.assertTrue(employer.is_active)
         self.assertFalse(employer.is_staff or employer.is_superuser)
@@ -265,8 +263,11 @@ class AdviserDepositTests(TestCase):
         self.assertNotIn('employer_contact', [f.name for f in JobOffer._meta.fields])
         self.assertIn(offer, access.matchable_offers())
         self.assertEqual(calculate.call_count, 1)
-        self.assertEqual(Company.objects.count(), 1)
-        self.assertEqual(CompanyMembership.objects.count(), 1)
+        from django.apps import apps
+
+        for name in ('Company', 'CompanyMembership'):
+            with self.assertRaises(LookupError):
+                apps.get_model('employers', name)
         self.client.force_login(employer)
         self.assertContains(self.client.get(reverse('dashboard')), 'Cook')
         self.assertEqual(

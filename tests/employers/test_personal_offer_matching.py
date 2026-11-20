@@ -14,7 +14,6 @@ class PersonalOfferMatchingTests(TestCase):
         )
         self.offer = JobOffer.objects.create(
             created_by=self.owner,
-            email=self.owner.email,
             session_key='',
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
