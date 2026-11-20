@@ -11,6 +11,19 @@ from eures_beta.occupations import catalog as service
 
 
 class OccupationCatalogTests(SimpleTestCase):
+    def test_streamed_crosswalk_preserves_every_record_and_checks_before_yield(self):
+        manifest = service.catalog()['manifest']
+        path = service.DATA_DIR / 'esco_rome.json'
+        self.assertEqual(
+            list(service.iter_artifact(path, manifest, 'mappings.item')),
+            service.rome_catalog()['mappings'],
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            corrupt = Path(directory) / path.name
+            corrupt.write_bytes(path.read_bytes() + b' ')
+            with self.assertRaisesRegex(ValueError, 'checksum'):
+                next(service.iter_artifact(corrupt, manifest, 'mappings.item'))
+
     def test_complete_multilingual_catalog_and_rome_coverage_without_network(self):
         service.catalog.cache_clear()
         service.rome_catalog.cache_clear()
