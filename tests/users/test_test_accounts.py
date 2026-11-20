@@ -125,7 +125,7 @@ class TestAccountAccessTests(TestCase):
         self.assertEqual(payload['url'], dialogue)
         page = candidate.get(payload['url'])
         self.assertEqual(page.status_code, 200)
-        self.assertEqual(page.context['current']['kind'], 'schedule')
+        self.assertEqual(page.context['current']['kind'], 'occupation')
         follow = reverse('adviser_conversation', args=[confirmation.pk])
         with patch('eures_beta.candidates.push.notify', return_value=True) as resend:
             self.assertEqual(
