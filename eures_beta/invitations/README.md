@@ -7,7 +7,6 @@ L’interface HTTP est dans [www/invitations/](../www/invitations/).
 
 - `models.py`, `defaults.py` : invitation, destinataire, dates et expiration ;
 - `services.py` : création, signature des liens, validation et quota ;
-- `Invitation.company` : rattachement explicite facultatif à un établissement, annoncé avant acceptation ; le compte employeur accède alors aux offres existantes sans les dupliquer.
 - [Interface web](../www/invitations/) : préparation manuelle/CSV, aperçu, envoi, suivi avec dates d’envoi initial et de dernière relance, et acceptation protégée ;
 - `permissions.py`, `signals.py`, `eligibility.py` : rôle conseiller actif,
   droits historiques et reconnaissance des candidats invités ;

@@ -2,18 +2,9 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from eures_beta.www.accounts.forms import LoginForm
 from eures_beta.users.models import User
-from eures_beta.employers.models import Company
 
 
 class InvitationForm(LoginForm):
-    company = forms.ModelChoiceField(
-        label=_('Establishment access (optional)'),
-        queryset=Company.objects.order_by('name', 'pk'),
-        required=False,
-        help_text=_(
-            'The invited employer will have access to all offers of this establishment after accepting the invitation.'
-        ),
-    )
     language = forms.ChoiceField(
         label=_('Invitation language'),
         choices=(('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')),

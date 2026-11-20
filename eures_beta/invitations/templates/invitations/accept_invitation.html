@@ -9,7 +9,6 @@
     {% if stage == "confirm" %}
       {% if invitation.recipient_kind == "employer" %}
         <p>{% translate "Confirm this invitation to create your employer account and sign in on this device. Do not share your personal link." %}</p>
-        {% if invitation.company %}<p>{% blocktranslate with company=invitation.company.name %}You will have access to all offers of {{ company }}, including offers deposited by your adviser.{% endblocktranslate %}</p>{% endif %}
       {% else %}
         <p>Confirmez pour créer votre compte {{ invitation.get_recipient_kind_display|lower }} et vous connecter à Match Europe.</p>
       {% endif %}
