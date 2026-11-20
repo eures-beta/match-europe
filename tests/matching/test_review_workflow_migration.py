@@ -41,7 +41,6 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
 
         agreement = CandidateProfileSharing.objects.create(
             review=review,
-            actor=review.match.candidate.user,
             fingerprint='0' * 64,
             agreed=False,
         )
@@ -97,7 +96,7 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
         event = Event.objects.create(
             id=101,
             review_id=review.pk,
-            actor_id=review.requested_by_id,
+            actor_id=review.requested_by_adviser_id,
             version=7,
             action='submitted',
             internal_note='Fictional internal note',
@@ -169,7 +168,7 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
             )
         next_event = Event.objects.create(
             review_id=review.pk,
-            actor_id=review.requested_by_id,
+            actor_id=review.requested_by_adviser_id,
             version=8,
             action='claim',
         )

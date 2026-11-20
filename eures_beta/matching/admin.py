@@ -30,7 +30,7 @@ class MatchEvaluationAdmin(MetadataOnlyAdmin):
 @admin.register(MatchDecision)
 class MatchDecisionAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'value', 'created_at')
-    exclude = ('match', 'evaluation', 'actor')
+    exclude = ('match', 'evaluation', 'by_adviser')
 
 
 @admin.register(

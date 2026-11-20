@@ -136,6 +136,15 @@ class CandidateProfile(models.Model):
             raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
+        if not self._state.adding:
+            previous_user = (
+                type(self)
+                .objects.using(kwargs.get('using') or self._state.db)
+                .values_list('user_id', flat=True)
+                .get(pk=self.pk)
+            )
+            if previous_user != self.user_id:
+                raise ValidationError({'user': 'The candidate account is immutable.'})
         self.full_clean()
         # Validation normalises conditional fields as well, so persist the full
         # coherent record rather than a caller's partial selection of columns.

@@ -346,8 +346,8 @@ class LocalMatchingTests(TestCase):
     def test_human_refusal_survives_recalculation_and_duplicate_post(self):
         match = self.match()
         evaluation = match.evaluations.latest('id')
-        services.decide(match.pk, evaluation.pk, 'refused')
-        services.decide(match.pk, evaluation.pk, 'refused')
+        services.decide(match.pk, evaluation.pk, 'refused', by_adviser=self.operator)
+        services.decide(match.pk, evaluation.pk, 'refused', by_adviser=self.operator)
         self.assertEqual(MatchDecision.objects.count(), 1)
         services.calculate(match.candidate, match.offer)
         match.refresh_from_db()
@@ -357,7 +357,12 @@ class LocalMatchingTests(TestCase):
     def test_blocked_pair_cannot_be_retained(self):
         match = self.match('date')
         with self.assertRaises(ValueError):
-            services.decide(match.pk, match.evaluations.latest('id').pk, 'retained')
+            services.decide(
+                match.pk,
+                match.evaluations.latest('id').pk,
+                'retained',
+                by_adviser=self.operator,
+            )
         self.assertEqual(MatchDecision.objects.count(), 0)
 
     def test_latest_evaluation_and_current_answers_required(self):
@@ -365,11 +370,11 @@ class LocalMatchingTests(TestCase):
         old = match.evaluations.latest('id')
         new = services.calculate(match.candidate, match.offer)
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(match.pk, old.pk, 'retained')
+            services.decide(match.pk, old.pk, 'retained', by_adviser=self.operator)
         match.offer.revision += 1
         match.offer.save(update_fields=['revision'])
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(match.pk, new.pk, 'retained')
+            services.decide(match.pk, new.pk, 'retained', by_adviser=self.operator)
         response = self.client.post(
             reverse('matching_detail', args=[match.pk]),
             {'action': 'retained', 'evaluation': new.pk},
@@ -382,12 +387,12 @@ class LocalMatchingTests(TestCase):
         match.candidate.salary_amount = 50
         match.candidate.save()
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(match.pk, old.pk, 'retained')
+            services.decide(match.pk, old.pk, 'retained', by_adviser=self.operator)
         new = services.calculate(match.candidate, match.offer)
         match.offer.structured_requirements['country'] = 'DE'
         match.offer.save(update_fields=['structured_requirements'])
         with self.assertRaises(services.StaleEvaluation):
-            services.decide(match.pk, new.pk, 'retained')
+            services.decide(match.pk, new.pk, 'retained', by_adviser=self.operator)
 
     def test_csrf_get_and_unknown_actions_never_change_a_decision(self):
         match = self.match()
@@ -522,9 +527,9 @@ class LocalMatchingTests(TestCase):
     def test_reconfirmation_is_a_new_event_for_a_new_evaluation(self):
         match = self.match()
         first = match.evaluations.latest('id')
-        services.decide(match.pk, first.pk, 'retained')
+        services.decide(match.pk, first.pk, 'retained', by_adviser=self.operator)
         second = services.calculate(match.candidate, match.offer)
-        services.decide(match.pk, second.pk, 'retained')
+        services.decide(match.pk, second.pk, 'retained', by_adviser=self.operator)
         self.assertEqual(match.decisions.count(), 2)
         self.assertEqual(match.decisions.latest('id').evaluation_id, second.pk)
 

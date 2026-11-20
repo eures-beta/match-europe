@@ -116,7 +116,7 @@ def render_workspace(request, template, status=200, **context):
         )
         context['initiated_review_count'] = (
             open_conversations()
-            .filter(workflow_state='ready', requested_by=request.user)
+            .filter(workflow_state='ready', requested_by_adviser=request.user)
             .count()
         )
     return render(
@@ -143,10 +143,10 @@ def record_review(user, match, evaluation_id, action):
         return
     if action == 'retained' and not dialogue_services.enabled():
         raise ValidationError(_('Albert is currently unavailable. Try again later.'))
-    services.decide(match.pk, evaluation_id, action, actor=f'adviser:{user.pk}')
+    services.decide(match.pk, evaluation_id, action, by_adviser=user)
     if action == 'retained':
         confirmation, _created = CandidateOfferReview.objects.get_or_create(
-            match=match, defaults={'requested_by': user}
+            match=match, defaults={'requested_by_adviser': user}
         )
         transaction.on_commit(lambda: review_email.send(confirmation.pk))
 

@@ -64,10 +64,10 @@ class Command(BaseCommand):
                 match.pk,
                 evaluation.pk,
                 'retained',
-                actor=f"adviser:{users['adviser'].pk}",
+                by_adviser=users['adviser'],
             )
             confirmation = CandidateOfferReview.objects.create(
-                match=match, requested_by=users['adviser']
+                match=match, requested_by_adviser=users['adviser']
             )
             for row in offer_review_services.review_state(confirmation)['rows']:
                 if row['askable']:

@@ -62,7 +62,7 @@ class AdviserMatchingTests(TestCase):
         dialogue = reverse('candidate_offer_dialogue', args=[conversation.pk])
         self.assertContains(candidate.get(reverse('candidate_offer_inbox')), dialogue)
         self.assertEqual(candidate.get(dialogue).status_code, 200)
-        self.assertEqual(self.match.decisions.get().actor, f'adviser:{self.adviser.pk}')
+        self.assertEqual(self.match.decisions.get().by_adviser, self.adviser)
         self.assertEqual(candidate.get(follow).status_code, 403)
         self.assertEqual(
             candidate.post(self.detail, {'action': 'refused'}).status_code, 403
