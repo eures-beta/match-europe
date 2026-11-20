@@ -30,6 +30,7 @@ class SearchMemoryTests(SimpleTestCase):
             service.catalog,
             service.occupation_index,
             service.search_index,
+            service.rome_fiches,
             service.rome_search_catalog,
         ):
             function.cache_clear()

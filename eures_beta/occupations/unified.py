@@ -5,7 +5,7 @@ from .catalog import (
     catalog,
     DATA_DIR,
     iter_artifact,
-    rome_search_catalog,
+    rome_fiches,
     normalize,
     present,
     references,
@@ -20,7 +20,7 @@ from .descriptions import description as rome_description
 
 @serialized_cache(maxsize=1)
 def pairs():
-    fiches = rome_search_catalog()['fiches']
+    fiches = rome_fiches()
     jobs = occupation_index()
     candidates = {}
     # Grouping needs only exact links, not a second complete ROME/OGR catalogue
@@ -59,10 +59,7 @@ def canonical(reference):
         reference = reference[5:]
     if reference in occupation_index():
         return reference
-    if (
-        reference.startswith('rome:')
-        and reference[5:] in rome_search_catalog()['fiches']
-    ):
+    if reference.startswith('rome:') and reference[5:] in rome_fiches():
         return pairs().get(reference[5:], {}).get('uri', reference)
     raise ValueError('Unknown occupation reference')
 
@@ -81,7 +78,7 @@ def resolve_reference(reference, language):
         return None
     if key.startswith('rome:'):
         code = key[5:]
-        row = rome_search_catalog()['fiches'][code]
+        row = rome_fiches()[code]
         text, text_language = rome_description(code, language)
         return {
             'value': reference,

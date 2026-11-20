@@ -101,13 +101,17 @@ def rome_catalog():
 
 
 @serialized_cache(maxsize=1)
+def rome_fiches():
+    """Occupation details and exact grouping do not need all OGR titles."""
+    manifest = catalog()['manifest']
+    return read_artifact(DATA_DIR / 'rome.json', manifest)['fiches']
+
+
+@serialized_cache(maxsize=1)
 def rome_search_catalog():
     """Independent ROME lookup needs names/codes, never the ESCO crosswalk."""
     manifest = catalog()['manifest']
-    result = {}
-    for name in ('rome.json', 'ogr.json'):
-        result.update(read_artifact(DATA_DIR / name, manifest))
-    return result
+    return {'fiches': rome_fiches(), **read_artifact(DATA_DIR / 'ogr.json', manifest)}
 
 
 @serialized_cache(maxsize=1)

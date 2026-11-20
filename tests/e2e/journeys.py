@@ -252,9 +252,16 @@ def run(search_only=False):
             assert saved['data']['title'] in dashboard
             report['completed'].append(report['phase'])
 
-            report['phase'] = 'adviser-invites-employer'
+            report['phase'] = 'adviser-populated-dashboard'
             adviser = Browser()
             adviser.login('adviser')
+            for language in ('fr', 'en', 'de'):
+                page = adviser.request('/accounts/dashboard/?lang=' + language)
+                # In the current build, the queue contains the seeded conditions
+                # and skill labels; an empty dashboard misses their memory cost.
+                assert 'Offre fictive' in page
+            report['completed'].append(report['phase'])
+            report['phase'] = 'adviser-invites-employer'
             adviser.request('/adviser/invitations/new/?lang=en')
             adviser.request(
                 '/adviser/invitations/new/?lang=en',
