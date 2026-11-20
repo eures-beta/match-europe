@@ -11,7 +11,7 @@ from .models import (
     CandidateProfileSharing,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
-    CandidateOfferReviewAction,
+    CandidateOfferReviewEvent,
     CandidateProfileReviewPrompt,
 )
 
@@ -38,7 +38,7 @@ class MatchDecisionAdmin(MetadataOnlyAdmin):
     CandidateOfferReview,
     CandidateOfferReviewAnswer,
     CandidateProfileSharing,
-    CandidateOfferReviewAction,
+    CandidateOfferReviewEvent,
     CandidateProfileReviewPrompt,
 )
 class ConfirmationMetadataAdmin(MetadataOnlyAdmin):

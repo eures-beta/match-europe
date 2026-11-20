@@ -82,7 +82,7 @@ class ReviewConcurrencyTests(TransactionTestCase):
             [(self.adviser.pk, 'claim', ''), (self.other.pk, 'claim', '')]
         )
         self.assertCountEqual(result, ['saved', 'stale'])
-        self.assertEqual(self.review.actions.filter(action='claim').count(), 1)
+        self.assertEqual(self.review.events.filter(action='claim').count(), 1)
 
     def test_two_tabs_cannot_record_conflicting_decisions(self):
         workflow.handle(
@@ -101,5 +101,5 @@ class ReviewConcurrencyTests(TransactionTestCase):
         )
         self.assertCountEqual(result, ['saved', 'stale'])
         self.assertEqual(
-            self.review.actions.filter(action__in=['validated', 'refused']).count(), 1
+            self.review.events.filter(action__in=['validated', 'refused']).count(), 1
         )

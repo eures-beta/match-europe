@@ -7,7 +7,7 @@ from django.utils import timezone
 from . import access, offer_review_services as confirmations
 from .models import (
     CandidateOfferReview,
-    CandidateOfferReviewAction,
+    CandidateOfferReviewEvent,
     CandidateProfileReviewPrompt,
 )
 from .services import StaleEvaluation
@@ -45,7 +45,7 @@ def record(review, actor, action, **kwargs):
             'submitted_at',
         ]
     )
-    return CandidateOfferReviewAction.objects.create(
+    return CandidateOfferReviewEvent.objects.create(
         review=review,
         actor=actor,
         version=review.workflow_version,

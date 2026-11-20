@@ -381,7 +381,7 @@ def follow(request, pk):
                     status = 503
             except review_email.RetryLater:
                 result, status = _('Wait a moment before resending.'), 429
-        events = list(conversation.actions.select_related('actor').order_by('-version'))
+        events = list(conversation.events.select_related('actor').order_by('-version'))
         for event in events:
             event.saved_rows = display_rows(
                 [

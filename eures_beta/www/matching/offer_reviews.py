@@ -118,7 +118,7 @@ def workflow_context(obj):
         prompt.label = row[0]['label']
         prompt.expected = row[0]['expected']
     public_actions = list(
-        obj.actions.exclude(public_message='')
+        obj.events.exclude(public_message='')
         .order_by('version')
         .values('action', 'public_message', 'created_at')
     )

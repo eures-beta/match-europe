@@ -76,7 +76,7 @@ class ReviewWorkflowTests(TestCase):
         self.finish()
         self.assertEqual(self.review.workflow_state, 'ready')
         self.assertTrue(self.review.summary['sharing'])
-        event = self.review.actions.get(action='submitted')
+        event = self.review.events.get(action='submitted')
         self.assertEqual(event.snapshot, self.review.summary)
         self.assertEqual(self.client.get(self.url).status_code, 200)
         self.client.force_login(self.other)
@@ -93,7 +93,7 @@ class ReviewWorkflowTests(TestCase):
             answers.review_state(self.review)['fingerprint'],
             self.review.workflow_version,
         )
-        self.assertEqual(self.review.actions.filter(action='submitted').count(), 1)
+        self.assertEqual(self.review.events.filter(action='submitted').count(), 1)
 
     def test_refused_permission_is_still_visible_and_cannot_validate(self):
         self.finish(False)
@@ -139,7 +139,7 @@ class ReviewWorkflowTests(TestCase):
         self.review.refresh_from_db()
         self.assertEqual(self.review.assigned_to, self.other)
         self.assertEqual(
-            list(self.review.actions.values_list('action', flat=True)),
+            list(self.review.events.values_list('action', flat=True)),
             ['submitted', 'claim', 'takeover', 'validated'],
         )
         self.client.force_login(self.other)
@@ -202,7 +202,7 @@ class ReviewWorkflowTests(TestCase):
         self.finish()
         self.handle('claim')
         event = self.handle('validated', public_message='Proceed')
-        snapshot = self.review.actions.get(action='submitted').snapshot
+        snapshot = self.review.events.get(action='submitted').snapshot
         row = next(
             r
             for r in answers.review_state(self.review)['rows']
@@ -220,7 +220,7 @@ class ReviewWorkflowTests(TestCase):
         self.review.refresh_from_db()
         self.assertEqual(self.review.workflow_state, 'waiting')
         self.assertFalse(workflow.current(self.review))
-        self.assertEqual(self.review.actions.get(action='submitted').snapshot, snapshot)
+        self.assertEqual(self.review.events.get(action='submitted').snapshot, snapshot)
         with self.assertRaises(services.StaleEvaluation):
             self.handle('claim')
         state = answers.review_state(self.review)
@@ -233,8 +233,8 @@ class ReviewWorkflowTests(TestCase):
         )
         self.review.refresh_from_db()
         self.assertEqual(self.review.workflow_state, 'ready')
-        self.assertEqual(self.review.actions.filter(action='submitted').count(), 2)
-        self.assertTrue(self.review.actions.filter(pk=event.pk).exists())
+        self.assertEqual(self.review.events.filter(action='submitted').count(), 2)
+        self.assertTrue(self.review.events.filter(pk=event.pk).exists())
 
     def test_context_change_blocks_stale_adviser_action(self):
         self.finish()
@@ -487,7 +487,7 @@ class ReviewWorkflowTests(TestCase):
         self.review.refresh_from_db()
         self.assertEqual(self.review.workflow_state, 'refused')
         self.assertEqual(
-            self.review.actions.get(action='refused').delivery_status, 'failed'
+            self.review.events.get(action='refused').delivery_status, 'failed'
         )
 
     def test_quick_refusal_of_a_profile_match_requires_explicit_scope(self):
