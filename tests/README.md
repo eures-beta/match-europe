@@ -27,6 +27,9 @@ Les contrats des nouveaux outils sont dans
 
 Voir [le guide des commandes et sélections](../docs/TESTS.md).
 
+`matching/test_author_roles.py` vérifie les rôles des auteurs, l'immuabilité du
+compte candidat, les écritures directes et les migrations avec données non vides.
+
 `common/test_template_styles.py` vérifie le vrai linter CSS des templates avec
 l'environnement qualité dans `make format-html-check` ; ce contrôle est obligatoire
 en CI templates, sans dépendance djLint dans l'application. `common/test_stylesheet_loading.py`

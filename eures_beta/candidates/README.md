@@ -20,6 +20,7 @@ Profils, suggestions de vérification des préférences, validation des réponse
 - [forms.py](forms.py) — Valide le questionnaire partagé par le modèle, les services et les pages.
 - [language_choices.py](language_choices.py) — Définit les langues et la validation de leurs niveaux.
 - [models.py](models.py) — Définit le profil, les abonnements Push et CandidateProfileReviewSuggestion ; la détection des refus répétés reste dans matching.
+  Le compte candidat du profil est immuable, avec contrôle modèle et PostgreSQL ; voir [les invariants d'auteur](../../docs/MATCHING_AUTHORS.md).
 - [occupation_choices.py](occupation_choices.py) — Résout les métiers et références du questionnaire.
 - [pending.py](pending.py) — Gère les brouillons et demandes de confirmation temporaires.
 - [push.py](push.py) — Gère les clés et envois Push candidats ; l’abonnement HTTP est dans www. Voir [la rotation et le renouvellement des abonnements](../../docs/CANDIDATE_PUSH.md).
