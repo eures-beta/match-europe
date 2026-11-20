@@ -1,9 +1,21 @@
+import re
+from pathlib import Path
+
+from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.test import SimpleTestCase
 from django.urls import reverse
 
 
 class StylesheetLoadingTests(SimpleTestCase):
+    def test_template_stylesheets_are_available(self):
+        for template in (Path(settings.BASE_DIR) / 'eures_beta').rglob('*.html'):
+            for name in re.findall(
+                r"\{% static ['\"]([^'\"]+\.css)['\"] %\}", template.read_text()
+            ):
+                with self.subTest(template=str(template), stylesheet=name):
+                    self.assertIsNotNone(finders.find(name), name)
+
     def test_public_layouts_load_existing_css_in_cascade_order(self):
         for route, layout in (
             ('home', 'public/layout.css'),
