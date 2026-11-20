@@ -157,12 +157,15 @@ class AdviserHistoryTests(TestCase):
             'Entreprise fictive',
             'recruiter@',
             'Espace historique',
-            'legacy@',
         ):
             self.assertGreater(
                 self.history(view='employers', q=query).context['page'].paginator.count,
                 0,
             )
+        self.assertEqual(
+            self.history(view='employers', q='legacy@').context['page'].paginator.count,
+            0,
+        )
         response = self.history(view='employers', entry=legacy.pk)
         self.assertContains(response, str(legacy.pk))
         self.assertEqual(offer.revision, 1)
