@@ -63,7 +63,9 @@ utilise Bootstrap sans ce gabarit, charger les feuilles dans cet ordre :
 ```
 
 Les écrans existants (`employer/site.css`, `candidate/candidate.css`…) passent au design system
-dans une seule PR, pour ne jamais livrer deux designs en même temps. Déjà passé : accueil employeur. **Ne pas copier leurs valeurs** : elles datent
+dans une seule PR, pour ne jamais livrer deux designs en même temps. Déjà passé : accueil employeur, espace employeur (offres, fiche, modification), confidentialité employeur.
+Les formulaires Django y reçoivent leurs classes Bootstrap par `www/design_system.py` et
+`templates/eures/form_field.html`. **Ne pas copier leurs valeurs** : elles datent
 d’avant le design system (ancien bleu `#004494`, police Georgia, une vingtaine d’arrondis).
 
 ## Direction visuelle : hybride

@@ -87,7 +87,7 @@
             <a href="{% url 'candidate_landing' %}?lang={{ page_language }}"
                {% if current == 'candidate_landing' %}aria-current="page"{% endif %}>{% translate "Candidate" context "employer landing" %}</a>
             <a href="{% url 'employer_landing' %}?lang={{ page_language }}"
-               {% if current == 'employer_landing' %}aria-current="page"{% endif %}>{% translate "Employer" context "employer landing" %}</a>
+               {% if current|slice:':8' == 'employer' %}aria-current="page"{% endif %}>{% translate "Employer" context "employer landing" %}</a>
             <a href="{% url 'statistics' %}?lang={{ page_language }}"
                {% if current == 'statistics' %}aria-current="page"{% endif %}>{% translate "Stats" context "employer landing" %}</a>
             <a href="{% url 'project' %}?lang={{ page_language }}"

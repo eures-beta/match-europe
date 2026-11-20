@@ -19,6 +19,7 @@ from eures_beta.employers.employer_ownership import (
 from eures_beta.www.employer.forms import EmployerContactForm
 from eures_beta.choices import MOBILITY
 from eures_beta.employers.models import JobOffer
+from eures_beta.www.design_system import bootstrap_form
 from django.shortcuts import render as render_template
 from eures_beta.employers.offer_ingestion import ImportFailure
 
@@ -390,6 +391,9 @@ def page(request, stage, **context):
     )
     lang = lang if lang in ('fr', 'en', 'de') else 'fr'
     request.session['employer_auth_language'] = lang
+    for value in context.values():
+        if isinstance(value, forms.BaseForm):
+            bootstrap_form(value)
     with translation.override(lang):
         return render_template(
             request,
