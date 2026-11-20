@@ -166,7 +166,9 @@ Il est masqué à zéro et ne compte pas les recherches reportées à une date f
 ### Fiches conseiller
 
 Le dialogue privé candidat utilise la palette commune dans
-`matching/static/matching/candidate-conversation.css`. Sur ordinateur, un cadre de téléphone
+`matching/static/matching/candidate-conversation.css`. Avant cet étage de la pile,
+ces styles restent autonomes ; le raccordement aux tokens et leur chargement
+commun sont livrés ensemble ici. Sur ordinateur, un cadre de téléphone
 contient le défilement ; sur mobile, le dialogue occupe la largeur disponible.
 Le suivi conseiller conserve son tableau sémantique et son panneau email distincts
 dans `adviser/conversation-followup.css`.
