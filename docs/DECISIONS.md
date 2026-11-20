@@ -25,7 +25,8 @@ Email unique sans casse ; un rôle `kind` obligatoire, exclusif et immuable :
 conseiller, employeur ou candidat. Le compte est le modèle Django fondé sur
 `AbstractUser`, sans profil générique supplémentaire ; les profils métier
 candidat/employeur restent distincts.
-La connexion ne crée jamais de compte. Conseillers/employeurs sont invités ;
+La connexion ne crée jamais de compte. Les conseillers invitent ; le dépôt d’une
+offre précrée explicitement un compte employeur actif si nécessaire ;
 le candidat confirme son adresse puis la création du compte/profil par POST.
 Cela évite les conversions de rôle et les créations implicites.
 Les comptes de démonstration sont un outil séparé, jamais une condition d'accès
@@ -64,10 +65,11 @@ Le questionnaire candidat collecte progressivement projet, compétences, langues
 mobilité, conditions et disponibilité ; il ne réintroduit pas l'import CV abandonné.
 Le brouillon temporaire est distinct du `CandidateProfile` durable créé après
 vérification ; reprise/comparaison explicite avant remplacement d'un profil.
-Les offres sont des `JobOffer` rattachées à un établissement, avec droits serveur.
-Un conseiller peut déposer pour un employeur avec ou sans compte ; une confirmation
-téléphonique suffit avant matching (décision Eric du 20 novembre 2026). Créateur,
-contact employeur et établissement restent distincts. Voir [le dépôt conseiller](ADVISER_OFFER_DEPOSIT.md).
+Les offres sont des `JobOffer` appartenant au compte employeur `created_by`.
+Le conseiller déposant est conservé dans `adviser` ; l’email existe uniquement
+dans le compte, créé actif au dépôt si nécessaire. Aucun établissement ni adhésion
+n’est utilisé par le dépôt conseiller (décision validée le 20 novembre 2026).
+Une confirmation téléphonique suffit avant matching. Voir [le dépôt conseiller](ADVISER_OFFER_DEPOSIT.md).
 Le matching produit des résultats explicables, avec critères établis/inconnus et
 blocages validés ; ne pas déduire automatiquement des pénalités des données absentes
 ni changer les poids. La décision conseiller, la réponse candidat et l'accord de
