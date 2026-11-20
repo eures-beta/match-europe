@@ -93,15 +93,6 @@
   text-decoration: none;
 }
 
-/* Example screen (/design-system/exemple/) */
-
-.ds-demo-banner {
-  padding-block: var(--me-space-xs);
-  font-size: var(--me-font-size-s);
-  background: var(--me-color-surface-highlight);
-  border-bottom: var(--me-border-width) solid var(--me-color-accent);
-}
-
 .ds-code summary {
   color: var(--me-color-link);
   cursor: pointer;

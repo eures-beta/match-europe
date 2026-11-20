@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.templatetags.static import static
 from django.urls import reverse
@@ -44,7 +44,7 @@ def journal(request):
 @never_cache
 @require_safe
 def design_system(request):
-    """Public reference reached by its URL, outside the product navigation."""
+    """Public component reference, linked from the shared site footer."""
     from eures_beta import design_system as tokens
 
     return render(
@@ -56,62 +56,6 @@ def design_system(request):
             'font_sizes': tokens.scale_tokens('--me-font-size-'),
             'spaces': tokens.scale_tokens('--me-space-'),
             'radii': tokens.scale_tokens('--me-radius-'),
-        },
-    )
-
-
-@never_cache
-@require_safe
-def design_system_example(request, screen='offre'):
-    """Fictional screens built only with the design system."""
-    screens = {
-        'offre': 'Employeur · vérifier une offre',
-        'mes-offres': 'Employeur · mes offres',
-        'connexion': 'Connexion',
-        'candidat': 'Candidat · questionnaire',
-        'conseiller': 'Conseiller · offres à valider',
-        # Real employer pages redressed: same content and structure, fictional data.
-        'employeur-accueil': 'Employeur · accueil',
-        'employeur-tableau-de-bord': 'Employeur · tableau de bord',
-        'employeur-offres': 'Employeur · espace et offres',
-        'employeur-ajout': 'Employeur · ajouter une offre',
-        'employeur-offre': 'Employeur · détail d’une offre',
-        'employeur-modifier': 'Employeur · modifier une offre',
-    }
-    if screen not in screens:
-        raise Http404()
-    return render(
-        request,
-        f'design_system/{screen}.html',
-        {
-            'screens': screens.items(),
-            'screen': screen,
-            'screen_label': screens[screen],
-            'connected': screen != 'employeur-accueil',
-            'conditions': [
-                'Tôt le matin',
-                'Travail de nuit',
-                'Week-end',
-                'Horaires variables',
-                'Travail posté',
-                'Travail physique',
-                'Station debout prolongée',
-                'Horaires avec coupure',
-                'Travail en extérieur',
-                'Déplacements fréquents',
-                'Aucune',
-                'À discuter',
-            ],
-            'licences': ['B', 'C', 'CE', 'D', 'DE', 'CACES', 'Autre'],
-            'arrival_help': [
-                'Logement',
-                'Démarches administratives',
-                'Transport',
-                'Accompagnement à la prise de poste',
-                'Autre',
-                'Aucune',
-                'À discuter',
-            ],
         },
     )
 
