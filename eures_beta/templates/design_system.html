@@ -1,21 +1,12 @@
+{% extends "eures_base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex">
-    <title>Design system EURES — Match Europe</title>
-    <link rel="stylesheet"
-          href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
-    <link rel="stylesheet"
-          href="{% static 'design-system/bootstrap-theme.css' %}">
-    <link rel="stylesheet" href="{% static 'design-system/components.css' %}">
-    <link rel="stylesheet" href="{% static 'design-system/demo.css' %}">
-  </head>
-  <body>
-    <main class="container ds-page">
+{% block title %}Design system EURES — Match Europe{% endblock %}
+{% block head %}
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="{% static 'design-system/demo.css' %}">
+{% endblock %}
+{% block content %}
+
       <header>
         <h1>Design system EURES — Match Europe</h1>
         <p class="lead">
@@ -48,9 +39,6 @@
             </li>
             <li>
               <a href="#alertes">Alertes</a>
-            </li>
-            <li>
-              <a href="{% url 'design_system_example' %}">Exemple d’écran</a>
             </li>
           </ul>
         </nav>
@@ -282,6 +270,4 @@
 &lt;/div&gt;{% endverbatim %}</code></pre>
         </details>
       </section>
-    </main>
-  </body>
-</html>
+{% endblock %}

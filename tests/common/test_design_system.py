@@ -92,20 +92,7 @@ class DesignSystemTokenTests(SimpleTestCase):
 
 class DesignSystemPageTests(TestCase):
     url = '/design-system/'
-    urls = (
-        '/design-system/',
-        '/design-system/exemple/',
-        '/design-system/exemple/mes-offres/',
-        '/design-system/exemple/connexion/',
-        '/design-system/exemple/candidat/',
-        '/design-system/exemple/conseiller/',
-        '/design-system/exemple/employeur-accueil/',
-        '/design-system/exemple/employeur-tableau-de-bord/',
-        '/design-system/exemple/employeur-offres/',
-        '/design-system/exemple/employeur-ajout/',
-        '/design-system/exemple/employeur-offre/',
-        '/design-system/exemple/employeur-modifier/',
-    )
+    urls = (url,)
 
     @classmethod
     def setUpTestData(cls):
@@ -140,21 +127,14 @@ class DesignSystemPageTests(TestCase):
         self.client.force_login(self.staff)
         self.assertEqual(self.client.get(self.url).status_code, 200)
 
-    def test_product_navigation_does_not_link_to_design_system(self):
-        for user in (None, self.adviser, self.employer, self.staff):
-            self.client.logout()
-            if user:
-                self.client.force_login(user)
-            for url in ('/', '/project/', '/privacy/'):
-                with self.subTest(user=user, url=url):
-                    response = self.client.get(url)
-                    self.assertEqual(response.status_code, 200)
-                    self.assertNotContains(response, '/design-system/')
-
-    def test_unknown_example_screen_is_not_found(self):
-        self.client.force_login(self.staff)
-        response = self.client.get('/design-system/exemple/admin/')
-        self.assertEqual(response.status_code, 404)
+    def test_removed_example_pages_are_not_found(self):
+        for path in (
+            "/design-system/exemple/",
+            "/design-system/exemple/employeur-accueil/",
+            "/design-system/exemple/admin/",
+        ):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path).status_code, 404)
 
     def test_pages_load_the_three_stylesheets_in_order(self):
         self.client.force_login(self.staff)

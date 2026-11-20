@@ -19,16 +19,6 @@ urlpatterns = [
     path("project/", views.project, name="project"),
     path("journal/", views.journal, name="journal"),
     path("design-system/", views.design_system, name="design_system"),
-    path(
-        "design-system/exemple/",
-        views.design_system_example,
-        name="design_system_example",
-    ),
-    path(
-        "design-system/exemple/<slug:screen>/",
-        views.design_system_example,
-        name="design_system_example_screen",
-    ),
     path('', include('eures_beta.www.public.legacy_urls')),
     path('manifest.webmanifest', views.manifest, name='pwa_manifest'),
     path('sw.js', views.service_worker, name='pwa_worker'),

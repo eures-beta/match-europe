@@ -34,22 +34,18 @@ continue d'utiliser les tokens et composants décrits ici.
 | ----------------------------------------------------- | ----------------------------------------------------------------------- |
 | `eures_beta/static/design-system/tokens.css`          | Toutes les valeurs (tokens). Seul fichier où un code couleur est écrit  |
 | `eures_beta/static/design-system/bootstrap-theme.css` | Bootstrap habillé avec les tokens                                       |
-| `eures_beta/static/design-system/components.css`      | En-tête, pied de page et composants `ds-*` partagés (pages et exemples) |
-| `eures_beta/static/design-system/demo.css`            | Mise en page du catalogue et bandeau des exemples, rien d’autre         |
+| `eures_beta/static/design-system/components.css`      | En-tête, pied de page et composants `ds-*` des pages réelles |
+| `eures_beta/static/design-system/demo.css`            | Mise en page de la seule page de référence graphique |
 | `eures_beta/templates/eures_base.html`                | Gabarit des pages de production passées au design system                |
 | `eures_beta/static/design-system/fonts/`              | Police Gelasio et sa licence, chargées par `tokens.css`                 |
 | `tests/common/test_design_system.py`                  | Vérifie automatiquement les règles des tokens                           |
 | `/design-system/` (`templates/design_system.html`)    | Page de référence : tokens, contrastes et composants rendus             |
 
 La page `/design-system/` lit `tokens.css` à chaque affichage : elle montre toujours les valeurs
-réelles, avec le contraste mesuré de chaque couleur. Le catalogue et tous ses exemples sont
-publics, sans connexion ni droit staff, dans tous les environnements. Ils ne sont pas liés
-depuis l’accueil ou la navigation métier : ouvrir directement `/design-system/`.
-Cette URL n’est pas un secret ni une protection d’accès.
-Le catalogue est un outil de référence en français ; les écrans fictifs sont du travail
-en cours, sans lecture de données métier ni sauvegarde. Leur présence dans cette PR
-ne constitue pas une décision de les livrer en production. Le catalogue reste la référence
-envisagée à terme ; les exemples sont à revoir avant toute future fusion.
+réelles, avec le contraste mesuré de chaque couleur. Ce catalogue public est une unique
+page de référence graphique (« cookbook »), sans connexion ni droit staff dans aucun environnement.
+Ses boutons et champs illustrent des composants ; ils ne simulent pas un parcours métier et
+ne sauvegardent aucune donnée. Les anciennes pages factices et leurs routes ont été supprimées.
 
 Une page de production passée au design system étend `eures_base.html` : il charge les quatre
 feuilles, l’en-tête réel (langues, compte, logos, navigation) et le pied de page. Pour une page qui
@@ -75,11 +71,8 @@ Décidée le 13 novembre 2026 (Eric, PO) parmi trois propositions : **EURES stri
 texte, couleurs et statuts ECL, composants) et y ajoute la personnalité de Match Europe : titres
 en serif (Gelasio), arrondis moyens, ombres discrètes et fond de page bleu très pâle.
 
-Les cinq écrans fictifs de `/design-system/exemple/` montrent le rendu (offre, liste des offres,
-connexion, questionnaire candidat, tableau conseiller). Six écrans `employeur-…` reprennent les vraies
-pages du parcours employeur (accueil, tableau de bord, offres, ajout, détail et modification d’une
-offre) avec le même contenu et la même structure, habillés par le design system et remplis de
-données fictives. Un nouvel écran s’en inspire.
+La page `/design-system/` montre les composants isolément : elle ne prétend être ni une offre,
+ni un tableau de bord, ni une page de connexion. Les vrais parcours restent dans leurs templates métier.
 
 ## Tokens
 
@@ -177,9 +170,9 @@ les liens de rubrique donnent aussi accès au suivi. Couleurs et mesures viennen
 
 ### En-tête et liens de navigation
 
-Tous les écrans d’exemple partagent le même en-tête (`design_system/example_base.html`) : logo et
+Les pages utilisant `eures_base.html` partagent le même en-tête : logo et
 nom Match Europe, menu de langue, liens du compte, puis la bande des logos partenaires
-(`eures/partners.html`, partagé avec `eures_base.html`). Sur téléphone, l’accroche est masquée, les quatre logos tiennent
+(`eures/partners.html`). Sur téléphone, l’accroche est masquée, les quatre logos tiennent
 sur une ligne et la navigation principale défile de côté.
 
 - **Soulignement** : un lien dans un texte reste souligné (règle ECL, accessibilité). Un élément de
