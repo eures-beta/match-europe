@@ -6,14 +6,24 @@ from django.apps import apps
 from django.core.checks import Error, Tags, register
 
 OLD_RELATIONS = {
+    'employers.JobOffer': {'created_by'},
+    'invitations.Invitation': {'sender'},
+    'matching.JobOfferSupport': {'updated_by'},
+    'matching.CandidateSupport': {'updated_by'},
     'matching.MatchEvaluation': {'pair'},
     'matching.MatchDecision': {'pair'},
-    'matching.CandidateOfferReview': {'pair'},
+    'matching.CandidateOfferReview': {'pair', 'assigned_to'},
     'matching.CandidateOfferReviewAnswer': {'request'},
     'matching.CandidateProfileSharing': {'request'},
     'matching.CandidateOfferConversation': {'confirmation', 'review'},
 }
-OLD_REVERSE_RELATIONS = {'imports', 'created_imports', 'advised_imports', 'agreements'}
+OLD_REVERSE_RELATIONS = {
+    'imports',
+    'created_imports',
+    'advised_imports',
+    'agreements',
+    'created_job_offers',
+}
 
 
 def schema_prefix(table, limit=63):

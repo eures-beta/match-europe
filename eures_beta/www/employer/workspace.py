@@ -307,7 +307,7 @@ def edit(request, id):
             request.POST if request.method == 'POST' else None,
             initial={
                 **offer.contact,
-                'email': offer.created_by.email if offer.created_by_id else '',
+                'email': offer.employer.email if offer.employer_id else '',
             },
             prefix='contact',
         )
@@ -368,7 +368,7 @@ def duplicate(request, id):
         # Explicit action, new UUID, no publication/search state or external identifier copied.
         data = clean_data(deepcopy(original.data))
         copy = JobOffer.objects.create(
-            created_by=identity(request),
+            employer=identity(request),
             duplicated_from=original,
             session_key='',
             contact=deepcopy(original.contact),

@@ -33,7 +33,7 @@ class ReadOnlyAdminTests(TestCase):
             'employer@example.invalid', kind='employer'
         )
         self.offer = JobOffer.objects.create(
-            created_by=self.employer,
+            employer=self.employer,
             session_key='never-show-session-key',
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
@@ -47,7 +47,7 @@ class ReadOnlyAdminTests(TestCase):
             sandbox_response={'authorization': 'external-secret', 'status': 'ok'},
         )
         self.invitation = Invitation.objects.create(
-            email='invited@example.invalid', sender=self.superuser
+            email='invited@example.invalid', sender_adviser=self.superuser
         )
         self.limit = LoginRateLimit.objects.create(
             key='fictional-rate-bucket', expires=timezone.now() + timedelta(hours=1)

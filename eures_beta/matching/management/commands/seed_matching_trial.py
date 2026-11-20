@@ -50,7 +50,7 @@ class Command(BaseCommand):
             )
         title = 'Offre fictive — entretien'
         offer = JobOffer.objects.filter(
-            created_by=employer, source_kind='matching'
+            employer=employer, source_kind='matching'
         ).first()
         if offer is None:
             data = empty_data()
@@ -72,7 +72,7 @@ class Command(BaseCommand):
             )
             offer = JobOffer.objects.create(
                 session_key='matching-trial',
-                created_by=employer,
+                employer=employer,
                 preparation_agreed_at=timezone.now(),
                 validated_at=timezone.now(),
                 source_kind='matching',

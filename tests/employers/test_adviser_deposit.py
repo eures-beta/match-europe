@@ -250,7 +250,7 @@ class AdviserDepositTests(TestCase):
         self.assertEqual(response.status_code, 201, response.content)
         offer = JobOffer.objects.get()
         employer = User.objects.get(email=self.contact['email'])
-        self.assertEqual(offer.created_by, employer)
+        self.assertEqual(offer.employer, employer)
         self.assertEqual(offer.adviser, self.adviser)
         self.assertNotIn('company', [f.name for f in JobOffer._meta.fields])
         self.assertEqual(employer.kind, 'employer')
@@ -285,7 +285,7 @@ class AdviserDepositTests(TestCase):
         self.setup_deposit(email=' EMPLOYER@sample.example ')
         response = self.deposit()
         self.assertEqual(response.status_code, 201, response.content)
-        self.assertEqual(JobOffer.objects.get().created_by, self.employer)
+        self.assertEqual(JobOffer.objects.get().employer, self.employer)
         self.assertEqual(User.objects.count(), 3)
 
     def test_non_employer_or_disabled_account_blocks_setup_and_save(self):

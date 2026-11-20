@@ -91,7 +91,7 @@ def introduction(match, adviser):
         'title': offer.get('title') or _('job'),
         'city': offer.get('city') or _('the location in the offer'),
         'candidate': match.candidate.display_name or _('Candidate'),
-        'employer': match.offer.created_by.get_full_name() or company,
+        'employer': match.offer.employer.get_full_name() or company,
         'company': company,
     }
 
@@ -106,7 +106,7 @@ def conversations(user):
     ):
         return rows.none()
     rows = rows.filter(**{user.kind: user}).filter(
-        offer_review__match__offer__created_by_id=F('employer_id'),
+        offer_review__match__offer__employer_id=F('employer_id'),
         offer_review__match__candidate__user_id=F('candidate_id'),
     )
     if user.kind == 'employer':
@@ -144,10 +144,10 @@ def start(request, pk):
     with translation.override(language), transaction.atomic():
         review = get_object_or_404(
             CandidateOfferReview.objects.select_related(
-                'match__offer__created_by', 'match__candidate'
+                'match__offer__employer', 'match__candidate'
             ),
             pk=pk,
-            assigned_to=request.user,
+            assigned_to_adviser=request.user,
             workflow_state='validated',
             match__decision='retained',
             match__candidate__in=access.candidates(),
@@ -155,13 +155,13 @@ def start(request, pk):
         )
         CandidateOfferMatch.objects.select_for_update().get(pk=review.match_id)
         review = CandidateOfferReview.objects.select_related(
-            'match__offer__created_by', 'match__candidate'
+            'match__offer__employer', 'match__candidate'
         ).get(pk=pk)
         match = review.match
-        employer = match.offer.created_by
+        employer = match.offer.employer
         if (
             match.decision != 'retained'
-            or review.assigned_to_id != request.user.pk
+            or review.assigned_to_adviser_id != request.user.pk
             or review.workflow_state != 'validated'
             or not employer
             or employer.kind != 'employer'

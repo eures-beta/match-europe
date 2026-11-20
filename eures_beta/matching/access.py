@@ -23,9 +23,7 @@ def candidates():
 
 
 def employer_offers():
-    return JobOffer.objects.filter(
-        created_by__is_active=True, created_by__kind='employer'
-    )
+    return JobOffer.objects.filter(employer__is_active=True, employer__kind='employer')
 
 
 def offers():

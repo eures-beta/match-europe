@@ -21,7 +21,7 @@ def seed_test_offers(employer):
         JobOffer.objects.get_or_create(
             id=uuid.uuid5(uuid.NAMESPACE_URL, 'match-europe.test-offer.' + key),
             defaults={
-                'created_by': employer,
+                'employer': employer,
                 'session_key': '',
                 'preparation_agreed_at': timezone.now(),
                 'source_kind': 'manual',

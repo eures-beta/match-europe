@@ -34,7 +34,7 @@ class CandidateOfferConversationTests(TestCase):
             candidate__user__email='compatible@matching-trial.invalid'
         )
         cls.candidate = cls.match.candidate.user
-        cls.employer = cls.match.offer.created_by
+        cls.employer = cls.match.offer.employer
 
     def setUp(self):
         (
@@ -196,7 +196,7 @@ class CandidateOfferConversationTests(TestCase):
 
         def changed_while_waiting(**kwargs):
             CandidateOfferReview.objects.filter(pk=self.review.pk).update(
-                assigned_to=self.other
+                assigned_to_adviser=self.other
             )
             return match
 

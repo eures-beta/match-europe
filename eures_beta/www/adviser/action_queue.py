@@ -176,7 +176,7 @@ def search_detail(request, kind, pk):
                     defaults={
                         'is_searching': form.cleaned_data['searching'],
                         'follow_up_on': form.cleaned_data['follow_up_on'],
-                        'updated_by': request.user,
+                        'updated_by_adviser': request.user,
                     },
                 )
             return redirect(

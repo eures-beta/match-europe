@@ -437,9 +437,9 @@ def change_invitation(request, identifier, *, resend, nonce=None):
         raise ValidationError('Cette invitation a changé. Préparez un nouvel aperçu.')
     if User.objects.filter(email__iexact=invitation.email).exists():
         raise ValidationError('Un compte existe déjà pour cette adresse.')
-    if not invitation.sender.is_active or (
+    if not invitation.sender_adviser.is_active or (
         invitation.recipient_kind == RecipientKind.ADVISER
-        and not can_invite(invitation.sender)
+        and not can_invite(invitation.sender_adviser)
     ):
         raise ValidationError(
             'Le compte à l’origine de cette invitation ne peut plus l’envoyer.'

@@ -31,12 +31,12 @@ class AuthorRoleTests(TestCase):
 
     def setUp(self):
         self.review = CandidateOfferReview.objects.select_related(
-            'match__candidate__user', 'match__offer__created_by'
+            'match__candidate__user', 'match__offer__employer'
         ).first()
         self.match = self.review.match
         self.adviser = self.review.requested_by_adviser
         self.candidate = self.match.candidate.user
-        self.employer = self.match.offer.created_by
+        self.employer = self.match.offer.employer
 
     def test_decision_service_requires_an_active_adviser(self):
         before = self.match.decisions.count()

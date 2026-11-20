@@ -196,7 +196,7 @@ class AdviserActionQueueTests(TestCase):
             302,
         )
         obj = CandidateSupport.objects.get(candidate_profile=self.candidate)
-        self.assertEqual(obj.updated_by, self.adviser)
+        self.assertEqual(obj.updated_by_adviser, self.adviser)
         self.assertEqual(obj.follow_up_on, due)
         self.assertTrue(search_queue.search_rows()['candidates'][0]['due'])
         other = User.objects.create_user(
@@ -210,7 +210,7 @@ class AdviserActionQueueTests(TestCase):
         obj.refresh_from_db()
         self.assertFalse(obj.is_searching)
         self.assertIsNone(obj.follow_up_on)
-        self.assertEqual(obj.updated_by, other)
+        self.assertEqual(obj.updated_by_adviser, other)
 
     def test_future_followup_is_visible_but_has_no_red_count(self):
         self.offer.delete()
@@ -218,7 +218,7 @@ class AdviserActionQueueTests(TestCase):
             candidate_profile=self.candidate,
             is_searching=True,
             follow_up_on=timezone.localdate() + timedelta(days=1),
-            updated_by=self.adviser,
+            updated_by_adviser=self.adviser,
         )
         response = self.client.get(self.url, {'view': 'candidates'})
         self.assertEqual(response.context['queue_navigation'][2]['count'], 0)
@@ -233,7 +233,7 @@ class AdviserActionQueueTests(TestCase):
             candidate_profile=self.candidate,
             is_searching=True,
             follow_up_on=timezone.localdate(),
-            updated_by=self.adviser,
+            updated_by_adviser=self.adviser,
         )
         for day in (
             timezone.localdate(),
@@ -287,10 +287,12 @@ class AdviserActionQueueTests(TestCase):
         ):
             with self.subTest(model=model.__name__):
                 with self.assertRaises(IntegrityError), transaction.atomic():
-                    model.objects.create(updated_by=self.adviser)
-                model.objects.create(**{field: target}, updated_by=self.adviser)
+                    model.objects.create(updated_by_adviser=self.adviser)
+                model.objects.create(**{field: target}, updated_by_adviser=self.adviser)
                 with self.assertRaises(IntegrityError), transaction.atomic():
-                    model.objects.create(**{field: target}, updated_by=self.adviser)
+                    model.objects.create(
+                        **{field: target}, updated_by_adviser=self.adviser
+                    )
 
     def test_offer_support_is_shared_between_advisers(self):
         self.candidate.delete()
@@ -303,7 +305,7 @@ class AdviserActionQueueTests(TestCase):
         self.client.post(self.offer_url, {})
         support.refresh_from_db()
         self.assertFalse(support.is_searching)
-        self.assertEqual(support.updated_by, other)
+        self.assertEqual(support.updated_by_adviser, other)
         self.assertEqual(JobOfferSupport.objects.count(), 1)
         self.assertFalse(CandidateSupport.objects.exists())
 

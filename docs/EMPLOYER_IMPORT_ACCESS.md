@@ -20,7 +20,7 @@ contexte, les liens de connexion continuent d’ouvrir le tableau de bord.
 ## Enregistrement
 
 La lecture initiale conserve la source dans la session, associée au compte, sans
-créer d’offre. À l’enregistrement de l’étape contact, `EmployerImport.created_by`
+créer d’offre. À l’enregistrement de l’étape contact, `EmployerImport.employer`
 et son adresse d’accès proviennent exclusivement du compte connecté, jamais des
 champs soumis. Les coordonnées du contact métier peuvent être différentes.
 L’offre reste privée au compte (`company=NULL`, pas d’adhésion créée implicitement),

@@ -106,7 +106,7 @@ def pending_pairs():
 def open_conversations():
     return CandidateOfferReview.objects.filter(
         match__in=eligible_pairs().filter(decision='retained')
-    ).select_related('match__candidate__user', 'match__offer', 'assigned_to')
+    ).select_related('match__candidate__user', 'match__offer', 'assigned_to_adviser')
 
 
 def render_workspace(request, template, status=200, **context):
@@ -416,9 +416,9 @@ def follow(request, pk):
                 ready
                 and conversation.workflow_state == 'validated'
                 and review_workflow.current(conversation, state)
-                and conversation.assigned_to_id == request.user.pk
+                and conversation.assigned_to_adviser_id == request.user.pk
                 and access.can_change_match(request.user)
-                and bool(conversation.match.offer.created_by_id)
+                and bool(conversation.match.offer.employer_id)
             ),
             can_analyse=can_analyse and access.can_change_match(request.user),
             analysis_fingerprint=state['fingerprint'],
@@ -426,7 +426,7 @@ def follow(request, pk):
             opinion=opinion,
             handling_form=handling,
             handling_current=review_workflow.current(conversation, state),
-            handling_owned=conversation.assigned_to_id == request.user.pk,
+            handling_owned=conversation.assigned_to_adviser_id == request.user.pk,
             handling_events=events,
             recommendation=(
                 adviser_opinion.LABELS[opinion['recommendation']] if opinion else ''

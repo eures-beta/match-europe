@@ -23,10 +23,11 @@ class Invitation(models.Model):
     nonce = models.UUIDField(default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     language = models.CharField(max_length=2, choices=settings.LANGUAGES, default='fr')
-    sender = models.ForeignKey(
+    sender_adviser = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         related_name='sent_invitations',
+        limit_choices_to={'kind': 'adviser'},
     )
     created_at = models.DateTimeField(default=timezone.now)
     expires_at = models.DateTimeField(default=invitation_expiry)
@@ -46,6 +47,12 @@ class Invitation(models.Model):
                 Lower('email'), name='invitations_invitation_email_ci_unique'
             )
         ]
+
+    def save(self, *args, **kwargs):
+        from eures_beta.users.role_validation import validate_user_roles
+
+        validate_user_roles(self, sender_adviser='adviser')
+        return super().save(*args, **kwargs)
 
     @property
     def expired(self):

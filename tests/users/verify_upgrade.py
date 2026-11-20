@@ -231,7 +231,7 @@ def main():
             )
             from eures_beta.employers.models import JobOffer
 
-            assert JobOffer.objects.using('user_upgrade').get().created_by_id == user.pk
+            assert JobOffer.objects.using('user_upgrade').get().employer_id == user.pk
             assert User.objects.using('user_upgrade').count() == 1
             print(
                 'Upgrade from legacy schema: four relations and offer data preserved; repeat execution succeeds.'

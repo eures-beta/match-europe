@@ -1,6 +1,6 @@
 """Existing invitations, accepted accounts and permission grants survive renaming."""
 
-from unittest.mock import patch
+from tests.invitations.historical import assert_token_preserved
 from tests.common.migration_state import prepare_historical
 from django.core import signing
 from django.db import connection
@@ -82,7 +82,6 @@ class InvitationNamesMigrationTests(TransactionTestCase):
         apps = self.migrate(self.after)
         Invitation = apps.get_model("users", "Invitation")
         CurrentUser = apps.get_model("users", "User")
-        from eures_beta.invitations.services import find_invitation
         from django.contrib.auth.models import Permission as CurrentPermission
 
         for pk, nonce, created, expires, kind, recipient_pk in snapshots:
@@ -112,8 +111,7 @@ class InvitationNamesMigrationTests(TransactionTestCase):
         self.assertEqual(
             CurrentUser.objects.get(pk=sender.pk).sent_invitations.count(), 4
         )
-        with patch('eures_beta.invitations.services.Invitation', Invitation):
-            self.assertEqual(find_invitation(token).pk, pending.pk)
+        assert_token_preserved(self, token, Invitation.objects.get(pk=pending.pk))
         renamed = CurrentPermission.objects.get(pk=permission.pk)
         self.assertEqual(renamed.codename, 'view_invitation')
         self.assertTrue(renamed.group_set.filter(pk=group.pk).exists())

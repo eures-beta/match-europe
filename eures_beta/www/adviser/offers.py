@@ -68,7 +68,7 @@ def portfolio(request):
             'deposit_tab': True,
             'offers': Paginator(
                 JobOffer.objects.filter(adviser=request.user)
-                .select_related('created_by')
+                .select_related('employer')
                 .order_by('-updated', 'pk'),
                 25,
             ).get_page(request.GET.get('page')),
@@ -133,14 +133,14 @@ def detail(request, id):
             JobOffer.objects.select_for_update(),
             pk=id,
             adviser=request.user,
-            created_by__kind='employer',
+            employer__kind='employer',
         )
         form = OfferEditForm(
             request.POST if request.method == 'POST' else None, offer=offer
         )
         contact = EmployerContactForm(
             request.POST if request.method == 'POST' else None,
-            initial={'email': offer.created_by.email, **offer.contact},
+            initial={'email': offer.employer.email, **offer.contact},
             prefix='contact',
         )
         contact.fields['email'].disabled = True

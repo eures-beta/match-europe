@@ -117,8 +117,8 @@ class CandidateMatchingTests(TestCase):
     def test_ineligible_offer_is_ignored(self):
         self.create_profile()
         match = CandidateOfferMatch.objects.first()
-        match.offer.created_by.is_active = False
-        match.offer.created_by.save()
+        match.offer.employer.is_active = False
+        match.offer.employer.save()
         services.calculate_for_saved_candidate(self.user.candidate_profile.pk)
         self.assertFalse(
             CandidateOfferMatch.objects.filter(candidate__user=self.user).exists()

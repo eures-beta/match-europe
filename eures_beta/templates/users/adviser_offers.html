@@ -27,7 +27,7 @@
           {% for offer in offers %}
             <tr>
               <td><a href="{% url 'adviser_offer' offer.pk %}">{{ offer.data.title|default:_("Untitled offer") }}</a></td>
-              <td>{{ offer.created_by.email }}</td>
+              <td>{{ offer.employer.email }}</td>
               <td>
                 {% if offer.phone_confirmed_revision == offer.revision %}
                   {{ offer.phone_confirmed_on|date:"SHORT_DATE_FORMAT" }}

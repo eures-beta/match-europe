@@ -22,7 +22,7 @@ class EmployerDashboardTests(TestCase):
 
     def offer(self, title, **fields):
         return JobOffer.objects.create(
-            created_by=fields.pop('created_by', self.employer),
+            employer=fields.pop('employer', self.employer),
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
             data={'title': title, 'city': 'Test city'},
@@ -31,10 +31,10 @@ class EmployerDashboardTests(TestCase):
 
     def test_only_own_offers_are_visible(self):
         own = self.offer('My saved offer')
-        self.offer('Other user secret', created_by=self.other)
+        self.offer('Other user secret', employer=self.other)
         self.offer(
             'Anonymous browser secret',
-            created_by=None,
+            employer=None,
             session_key=self.client.session.session_key,
         )
         response = self.client.get(reverse('dashboard'))
@@ -43,7 +43,7 @@ class EmployerDashboardTests(TestCase):
         self.assertNotContains(response, 'Anonymous browser secret')
 
     def test_contact_email_and_query_parameters_do_not_grant_access(self):
-        self.offer('Secret with matching contact', created_by=self.other)
+        self.offer('Secret with matching contact', employer=self.other)
         response = self.client.get(
             reverse('dashboard'), {'lang': 'en', 'company': '1', 'user': self.other.pk}
         )
@@ -51,7 +51,7 @@ class EmployerDashboardTests(TestCase):
         self.assertContains(response, 'No offers to display yet.')
 
     def test_html_is_escaped_and_missing_title_and_establishment_are_explained(self):
-        offer = self.offer('<script>alert(1)</script>', created_by=self.employer)
+        offer = self.offer('<script>alert(1)</script>', employer=self.employer)
         page = self.client.get(reverse('dashboard'), {'lang': 'en'})
         self.assertNotContains(page, '<script>alert(1)</script>')
         self.assertContains(page, '&lt;script&gt;alert(1)&lt;/script&gt;')
@@ -116,7 +116,7 @@ class EmployerDashboardTests(TestCase):
     ):
         for populated in (False, True):
             if populated:
-                self.offer('Existing offer', created_by=self.employer)
+                self.offer('Existing offer', employer=self.employer)
             for language, label in (
                 ('fr', 'Décrire mon besoin de recrutement'),
                 ('en', 'Describe my recruitment needs'),

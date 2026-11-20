@@ -13,7 +13,5 @@ def identity(request):
 def accessible_offers(request):
     person = identity(request)
     return (
-        JobOffer.objects.filter(created_by=person)
-        if person
-        else JobOffer.objects.none()
+        JobOffer.objects.filter(employer=person) if person else JobOffer.objects.none()
     )

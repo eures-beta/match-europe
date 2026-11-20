@@ -40,7 +40,7 @@ class WorkspaceTests(TestCase):
             description='Fictional description',
         )
         return JobOffer.objects.create(
-            created_by=owner or self.user,
+            employer=owner or self.user,
             session_key='',
             contact={'name': 'Contact person', 'email': 'contact@fiction.invalid'},
             data=data,
@@ -109,9 +109,9 @@ class WorkspaceTests(TestCase):
         self.offer.refresh_from_db()
         self.assertEqual(self.offer.data['title'], 'Updated fictional role')
         self.assertEqual(self.offer.data['custom'], 'preserved')
-        self.assertEqual(self.offer.created_by, self.user)
+        self.assertEqual(self.offer.employer, self.user)
         self.assertNotIn('email', self.offer.contact)
-        self.assertEqual(self.offer.created_by, self.user)
+        self.assertEqual(self.offer.employer, self.user)
         self.assertIsNone(self.offer.search_started_at)
         self.assertEqual(self.offer.revision, 2)
         self.assertContains(self.client.get(response.url), 'Modifications enregistrées')
@@ -229,7 +229,7 @@ class WorkspaceTests(TestCase):
         self.assertEqual(response.status_code, 302)
         copy = JobOffer.objects.get(duplicated_from=self.offer)
         self.assertNotEqual(copy.pk, self.offer.pk)
-        self.assertEqual(copy.created_by, self.user)
+        self.assertEqual(copy.employer, self.user)
         self.assertEqual(copy.contact, self.offer.contact)
         self.assertEqual(
             copy.structured_requirements, self.offer.structured_requirements

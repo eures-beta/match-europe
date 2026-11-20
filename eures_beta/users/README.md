@@ -1,6 +1,6 @@
 # Comptes utilisateurs
 
-Ce paquet regroupe le compte Django unique des conseillers et employeurs. Le champ `kind` porte le rôle ; les établissements et leurs adhésions restent dans employers.
+Ce paquet regroupe le compte Django unique des candidats, employeurs et conseillers. Le champ `kind` porte le rôle immuable.
 
 Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
@@ -30,6 +30,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [forms.py](../www/accounts/forms.py) — Valide l’adresse e-mail sans proposer d’inscription.
 - [management/](management/) — Ce dossier permet à Django de découvrir les commandes du domaine utilisateurs.
 - [migrations/](migrations/) — Ces migrations créent le compte commun et protègent son rôle en base. La transition depuis auth.User est préparée par la commande migrate avant de résoudre le nouveau graphe.
+- [role_validation.py](role_validation.py) — Vérifie les rôles des relations utilisateur avant sauvegarde ; les migrations ajoutent les protections PostgreSQL.
 - [models.py](models.py) — Définit User et son gestionnaire.
 - [rate_limits.py](rate_limits.py) — Limite les demandes de liens avec des compteurs partagés en base.
 - [static/](static/) — Styles des écrans du compte connecté.

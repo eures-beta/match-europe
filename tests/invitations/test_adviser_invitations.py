@@ -47,13 +47,13 @@ class AdviserInvitationsTests(TestCase):
         reminder = datetime(2026, 1, 12, 10, 23, tzinfo=UTC)
         Invitation.objects.create(
             email='reminded@example.invalid',
-            sender=self.adviser,
+            sender_adviser=self.adviser,
             email_sent_at=initial,
             reminder_sent_at=reminder,
         )
         Invitation.objects.create(
             email='unreminded@example.invalid',
-            sender=self.adviser,
+            sender_adviser=self.adviser,
             email_sent_at=initial,
         )
         dashboard = reverse('dashboard')
@@ -198,7 +198,7 @@ class AdviserInvitationsTests(TestCase):
     def test_relaunch_and_removal_revoke_links(self):
         invitation = Invitation.objects.create(
             email='employer@example.invalid',
-            sender=self.adviser,
+            sender_adviser=self.adviser,
             email_sent_at=timezone.now() - timedelta(hours=2),
         )
         initial_token = invitation_token(invitation)

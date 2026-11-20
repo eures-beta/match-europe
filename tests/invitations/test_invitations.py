@@ -100,7 +100,7 @@ class InvitationTests(TestCase):
                 invitation = create_invitation(
                     adviser, f'invited-by-{index}@example.invalid', 'en'
                 )
-                self.assertEqual(invitation.sender, adviser)
+                self.assertEqual(invitation.sender_adviser, adviser)
 
     @override_settings(EMAIL_DELIVERY_ENABLED=False)
     def test_disabled_delivery_saves_invitation_without_user_email_or_public_link(self):
@@ -117,7 +117,7 @@ class InvitationTests(TestCase):
         self.assertContains(page, 'Invitation saved.')
         invitation = Invitation.objects.get()
         self.assertEqual(invitation.email, 'new@example.invalid')
-        self.assertEqual(invitation.sender, self.adviser)
+        self.assertEqual(invitation.sender_adviser, self.adviser)
         self.assertEqual(invitation.language, 'de')
         self.assertAlmostEqual(
             (invitation.expires_at - invitation.created_at).total_seconds(),
