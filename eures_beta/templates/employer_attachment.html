@@ -1,36 +1,42 @@
 {% load i18n %}
-<section class="offer-attachment" aria-labelledby="attachment-title">
+<section class="ds-card ds-card-brand mb-4" aria-labelledby="attachment-title">
   {% if pending_import %}
-    <h2 id="attachment-title">{% trans "Attach your offer to an establishment" %}</h2>
-    <p><strong>{{ pending_title }}</strong></p>
+    <h2 class="h4" id="attachment-title">{% trans "Attach your offer to an establishment" %}</h2>
+    <p class="fw-bold">{{ pending_title }}</p>
     <p>{% trans "The offer is shared with authorised colleagues of this establishment." %}</p>
     {% if companies %}
       <form method="post" action="{% url 'employer_attach' %}">
         {% csrf_token %}
         {% if companies|length == 1 %}
           {% for company in companies %}
-            <p><strong>{{ company.name }}</strong></p>
+            <p class="fw-bold">{{ company.name }}</p>
             <input type="hidden" name="company" value="{{ company.pk }}">
           {% endfor %}
         {% else %}
-          <label for="establishment-choice">{% trans "Choose the establishment for this offer" %}</label>
-          <select id="establishment-choice" name="company" required>
-            <option value="">—</option>
-            {% for company in companies %}
-              <option value="{{ company.pk }}">{{ company.name }}</option>{% endfor %}
-          </select>
+          <div class="mb-3">
+            <label class="form-label"
+                   for="establishment-choice">{% trans "Choose the establishment for this offer" %}</label>
+            <select class="form-select" id="establishment-choice" name="company" required>
+              <option value="">—</option>
+              {% for company in companies %}
+                <option value="{{ company.pk }}">{{ company.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
         {% endif %}
-        <button class="primary-action" type="submit">{% trans "Save the offer for this establishment" %}</button>
+        <button class="btn btn-primary" type="submit">{% trans "Save the offer for this establishment" %}</button>
       </form>
     {% else %}
       <p>{% trans "Enter your establishment name once to save your offer." %}</p>
       <form method="post" action="{% url 'employer_attach' %}">
         {% csrf_token %}
         {% if establishment_form.errors %}
-          <div role="alert">{% trans "Enter your establishment name." %}</div>
+          <div class="alert alert-danger" role="alert">{% trans "Enter your establishment name." %}</div>
         {% endif %}
-        {{ establishment_form.as_p }}
-        <button class="primary-action" type="submit">{% trans "Save my offer" %}</button>
+        {% for field in establishment_form %}
+          {% include "eures/form_field.html" %}
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">{% trans "Save my offer" %}</button>
       </form>
     {% endif %}
   {% endif %}

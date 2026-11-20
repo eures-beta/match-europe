@@ -332,7 +332,9 @@ class WorkspaceTests(TestCase):
 
     def test_connected_home_contains_offer_table_and_account(self):
         response = self.client.get('/employer/offers/')
-        self.assertContains(response, '<table class="offer-table">', html=False)
+        self.assertContains(
+            response, '<table class="table align-middle mb-0">', html=False
+        )
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])
         self.assertContains(response, self.user.email)

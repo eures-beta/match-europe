@@ -1,78 +1,12 @@
-{% load i18n static %}
-{% get_current_language as page_language %}
+{% extends "eures_base.html" %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="{{ page_language }}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-      {% if workspace %}
-        {% trans "My employer space" %}
-      {% else %}
-        {% translate "Match Europe — Add your job offer" context "employer auth-shell" %}
-      {% endif %}
-    </title>
-    <link rel="stylesheet" href="/static/employer/site.css">
-    <link rel="stylesheet" href="{% static 'employer/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'employer/import-layout.css' %}">
-    <link rel="stylesheet" href="{% static 'employer/auth-layout.css' %}">
-    <link rel="stylesheet" href="{% static 'public/header-actions.css' %}">
-    <link rel="stylesheet" href="/static/public-brand.css">
-  </head>
-  <body>
-    <a class="skip-content" href="#main-content">{% trans "Skip to content" %}</a>
-    {% include "employer/development_notice.html" %}
-    <header class="site-header">
-      <div class="shell">
-        {% include "includes/public_brand.html" %}
-        <nav class="nav"
-             aria-label="{% translate "Main navigation" context "employer auth-shell" %}">
-          <div class="nav-links">
-            <a class="nav-pill"
-               href="{% url 'home' %}?lang={{ page_language }}">{% translate "Home" context "employer auth-shell" %}</a>
-            <a class="nav-pill"
-               href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "Candidate" context "employer auth-shell" %}</a>
-            <a class="nav-pill is-active"
-               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "employer auth-shell" %}</a>
-            <a class="nav-pill"
-               href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "employer auth-shell" %}</a>
-          </div>
-          <div class="nav-links nav-links-secondary">
-            <a class="nav-pill"
-               href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
-            <a class="nav-pill"
-               href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
-          </div>
-          <div class="employer-header-actions">
-            <div class="lang-switch"
-                 aria-label="{% translate "Language" context "employer auth-shell" %}">
-              <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=fr">FR</a>
-              <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=en">EN</a>
-              <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                 href="{{ request.path }}?lang=de">DE</a>
-            </div>
-            {% include "includes/account_link.html" %}
-          </div>
-        </nav>
-      </div>
-    </header>
-    <main id="main-content" class="section">
-      <div class="shell import-shell">
-        {% block content %}{% endblock %}
-      </div>
-    </main>
-    <footer class="employer-page-footer">
-      <div class="shell employer-page-footer-inner">
-        <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer auth-shell" %}</p>
-        <nav aria-label="{% translate "Useful links" context "employer auth-shell" %}">
-          <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer auth-shell" %}</a>
-          <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer auth-shell" %}</a>
-          <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer auth-shell" %}</a>
-        </nav>
-      </div>
-    </footer>
-  </body>
-</html>
+{% block title %}
+  {% if workspace %}
+    {% trans "My employer space" %}
+  {% else %}
+    {% translate "Match Europe — Add your job offer" context "employer auth-shell" %}
+  {% endif %}
+{% endblock %}
+{% block site_notice %}
+  {% include "eures/employer_notice.html" %}
+{% endblock %}
