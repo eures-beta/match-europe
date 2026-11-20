@@ -23,7 +23,6 @@ class OwnershipTests(TestCase):
                     email='first@fiction.invalid', defaults={'kind': 'employer'}
                 )[0],
                 session_key='',
-                email='contact@fiction.invalid',
                 preparation_agreed_at=timezone.now(),
                 source_kind='manual',
                 data={'description': 'Fictional role.'},

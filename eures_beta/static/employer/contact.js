@@ -58,13 +58,17 @@
     if (!customEmail) document.getElementById('initial-contact-email').value = event.target.value;
   });
   // A signed-in employer does not retype the account email; it stays editable.
-  const accountEmail = document.body.dataset.employerEmail;
-  if (accountEmail) document.getElementById('initial-contact-email').value = accountEmail;
+  const accountEmail = document.body.dataset.depositEmail || document.body.dataset.employerEmail;
+  if (accountEmail) {
+    document.getElementById('initial-contact-email').value = accountEmail;
+    document.getElementById('initial-contact-email').readOnly = true;
+  }
   const editor = document.createElement('form');
   editor.id = 'contact-editor';
   editor.className = 'alt-panel';
   editor.hidden = true;
   editor.append(fields('edit-contact'));
+  document.getElementById('edit-contact-email').readOnly = true;
   const save = document.createElement('button');
   save.type = 'submit';
   save.className = 'primary-action';

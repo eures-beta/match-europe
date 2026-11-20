@@ -105,7 +105,7 @@ class ImportAccessTests(TestCase):
         self.assertEqual(response.status_code, 201)
         offer = JobOffer.objects.get()
         self.assertEqual(offer.created_by, self.employer)
-        self.assertEqual(offer.email, self.employer.email)
+        self.assertEqual(offer.created_by.email, self.employer.email)
         self.assertEqual(offer.session_key, '')
         self.assertEqual(response.json()['login_url'], reverse('dashboard'))
         self.assertContains(

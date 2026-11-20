@@ -38,7 +38,7 @@ class JobOfferAdmin(ReadOnlyAdmin):
         'updated',
     )
     list_filter = ('source_kind',)
-    search_fields = ('email', 'company__name', 'created_by__email')
+    search_fields = ('company__name', 'created_by__email')
     list_select_related = ('company', 'created_by', 'adviser', 'duplicated_from')
     ordering = ('-created',)
     replacements = {

@@ -276,7 +276,6 @@ class ContinuousTests(TestCase):
             company=company,
             created_by=person,
             session_key='',
-            email=person.email,
             contact={'name': 'Fictional contact', 'email': person.email},
             data=data,
             source_kind='manual',
@@ -368,7 +367,6 @@ class ContinuousTests(TestCase):
         offer = JobOffer.objects.create(
             created_by=person,
             session_key='',
-            email=person.email,
             contact={'name': 'Fictional contact', 'email': person.email},
             data=empty_data(),
             source_kind='manual',

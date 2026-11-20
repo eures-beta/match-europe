@@ -215,10 +215,20 @@ def import_response(request, id=None, *, adviser_setup=None):
             raise ImportFailure('invalid_email') from None
         if len(email) > 254 or request.POST.get('agreement') != 'true':
             raise ImportFailure('agreement_required')
-        if JobOffer.objects.filter(created_by=person).count() >= 30:
+        if (
+            JobOffer.objects.filter(
+                **({'adviser': person} if adviser_setup else {'created_by': person})
+            ).count()
+            >= 30
+        ):
             raise ImportFailure('limit')
         try:
-            contact = clean_contact(json.loads(request.POST.get('contact', '{}')))
+            submitted_contact = json.loads(request.POST.get('contact', '{}'))
+            if isinstance(submitted_contact, dict):
+                submitted_contact['email'] = (
+                    adviser_setup['email'] if adviser_setup else person.email
+                )
+            contact = clean_contact(submitted_contact)
         except (ValueError, TypeError):
             raise ImportFailure('invalid_contact') from None
         kind = request.POST.get('kind')
@@ -291,7 +301,6 @@ def import_response(request, id=None, *, adviser_setup=None):
             obj = JobOffer(
                 created_by=person,
                 session_key='',
-                email=email,
                 contact=contact,
                 preparation_agreed_at=timezone.now(),
                 source_kind=kind,
@@ -303,14 +312,27 @@ def import_response(request, id=None, *, adviser_setup=None):
                 from eures_beta.www.adviser.offer_forms import PhoneConfirmationForm
 
                 form = PhoneConfirmationForm(request.POST)
-                obj.data['companyName'] = adviser_setup['company_name']
                 if not form.is_valid():
                     return failure('phone_confirmation_required')
                 try:
                     confirm(obj, person, form.cleaned_data['confirmed_on'])
                 except ValidationError:
                     return failure('required')
-                obj = create(obj, person, adviser_setup)
+                try:
+                    obj = create(
+                        obj,
+                        person,
+                        adviser_setup,
+                        language=request.POST.get('language', 'fr'),
+                    )
+                except ValidationError as exc:
+                    return JsonResponse(
+                        {
+                            'error': 'employer_account_unavailable',
+                            'message': exc.messages[0],
+                        },
+                        status=400,
+                    )
                 from eures_beta.matching.services import schedule_offer_matching
 
                 schedule_offer_matching(obj)
@@ -343,7 +365,10 @@ def import_response(request, id=None, *, adviser_setup=None):
 def serialize(obj):
     return {
         'id': str(obj.id),
-        'contact': {'email': obj.email, **obj.contact},
+        'contact': {
+            **obj.contact,
+            'email': obj.created_by.email if obj.created_by_id else '',
+        },
         'data': obj.data,
         'revision': obj.revision,
         'source': obj.source_url,
@@ -516,7 +541,10 @@ def update_locked(request, obj, payload):
     if action not in ('save', 'validate', 'locate', 'prepare', 'contact'):
         raise ImportFailure('invalid_data')
     if action == 'contact':
-        contact = clean_contact(payload.get('contact'))
+        submitted_contact = payload.get('contact')
+        if isinstance(submitted_contact, dict):
+            submitted_contact = {**submitted_contact, 'email': obj.created_by.email}
+        contact = clean_contact(submitted_contact)
         with transaction.atomic():
             obj = (
                 accessible_offers(request).select_for_update().filter(pk=obj.pk).first()
@@ -527,7 +555,9 @@ def update_locked(request, obj, payload):
                 return failure('search_started', 409)
             if payload.get('revision') != obj.revision:
                 return failure('conflict', 409)
-            obj.contact = contact
+            obj.contact = {
+                key: value for key, value in contact.items() if key != 'email'
+            }
             obj.revision += 1
             obj.save(update_fields=['contact', 'revision', 'updated'])
         return JsonResponse(serialize(obj))
@@ -557,7 +587,7 @@ def update_locked(request, obj, payload):
                 or occupation['personal']
             ):
                 raise ImportFailure('occupation_required')
-            clean_contact(obj.contact)
+            clean_contact({**obj.contact, 'email': obj.created_by.email})
             if not obj.initial_sent_at:
                 raise ImportFailure('initial_required')
             if payload.get('confirmed') is not True or not all(

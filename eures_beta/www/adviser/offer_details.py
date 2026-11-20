@@ -51,20 +51,22 @@ def offer_details(offer, language):
             ),
         ]
     )
-    contact = [(_('Account email'), offer.email or _('Not provided'))]
+    contact = [
+        (
+            _('Account email'),
+            offer.created_by.email if offer.created_by_id else _('Not provided'),
+        )
+    ]
     contact.extend(
         (field.label, field.value() or _('Not provided'))
         for field in EmployerContactForm(initial=offer.contact)
+        if field.name != 'email'
     )
     metadata = [
         (_('Telephone confirmation'), offer.phone_confirmed_on or _('Not provided')),
         (
             _('Confirmation recorded by'),
-            (
-                offer.phone_recorded_by.email
-                if offer.phone_recorded_by
-                else _('Not provided')
-            ),
+            (offer.adviser.email if offer.adviser else _('Not provided')),
         ),
         (_('Confirmed revision'), offer.phone_confirmed_revision or _('Not provided')),
         (_('Offer reference'), str(offer.pk)),

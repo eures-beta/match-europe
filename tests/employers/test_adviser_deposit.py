@@ -41,7 +41,7 @@ class AdviserDepositTests(TestCase):
 
     def setup_deposit(self, **values):
         return self.client.post(
-            reverse('adviser_offers'), {'company_name': 'New establishment', **values}
+            reverse('adviser_offers'), {'email': self.contact['email'], **values}
         )
 
     def deposit(self, **values):
@@ -63,79 +63,6 @@ class AdviserDepositTests(TestCase):
             ),
         )
 
-    def test_no_account_is_created_and_offer_is_confirmed_and_matchable(self):
-        self.setup_deposit()
-        with (
-            patch(
-                'eures_beta.matching.services.calculate_for_saved_offer'
-            ) as calculation,
-            self.captureOnCommitCallbacks(execute=True),
-        ):
-            response = self.deposit()
-        self.assertEqual(response.status_code, 201, response.content)
-        offer = JobOffer.objects.get()
-        self.assertEqual(offer.created_by, self.adviser)
-        self.assertEqual(offer.adviser, self.adviser)
-        self.assertEqual(offer.email, self.contact['email'])
-        self.assertEqual(offer.data['companyName'], 'New establishment')
-        self.assertEqual(offer.phone_recorded_by, self.adviser)
-        self.assertEqual(offer.phone_confirmed_revision, offer.revision)
-        self.assertIsNotNone(offer.phone_recorded_at)
-        self.assertIsNone(offer.employer_contact)
-        self.assertEqual(User.objects.count(), 3)
-        self.assertFalse(
-            CompanyMembership.objects.filter(company=offer.company).exists()
-        )
-        self.assertIn(offer, access.matchable_offers())
-        self.assertEqual(calculation.call_count, 1)
-        self.assertEqual(str(calculation.call_args.args[0]), str(offer.pk))
-        self.assertEqual(calculation.call_args.args[1], offer.revision)
-        self.assertContains(self.client.get(response.json()['login_url']), 'Cook')
-        self.assertContains(self.client.get(reverse('adviser_offers')), 'Cook')
-
-    def test_existing_account_and_workspace_share_the_same_offer(self):
-        self.setup_deposit(company=self.company.pk, employer=self.employer.pk)
-        response = self.deposit()
-        self.assertEqual(response.status_code, 201)
-        offer = JobOffer.objects.get()
-        self.assertEqual(offer.company, self.company)
-        self.assertEqual(offer.employer_contact, self.employer)
-        self.client.force_login(self.employer)
-        dashboard = self.client.get(reverse('dashboard'), {'lang': 'en'})
-        self.assertContains(dashboard, 'Deposited by your adviser')
-        self.assertContains(dashboard, reverse('employer_offer', args=[offer.pk]))
-        self.assertEqual(
-            self.client.get(reverse('employer_offer', args=[offer.pk])).status_code, 200
-        )
-
-    def test_explicit_new_workspace_grant_to_an_existing_account(self):
-        self.setup_deposit(employer=self.employer.pk)
-        self.assertEqual(self.deposit().status_code, 201)
-        offer = JobOffer.objects.get()
-        self.assertTrue(
-            CompanyMembership.objects.filter(
-                company=offer.company, user=self.employer, active=True
-            ).exists()
-        )
-
-    def test_wrong_member_inactive_member_and_missing_selection_are_rejected(self):
-        stranger = User.objects.create_user('stranger@sample.example', kind='employer')
-        for employer in (stranger.pk, ''):
-            response = self.setup_deposit(company=self.company.pk, employer=employer)
-            self.assertEqual(response.status_code, 200)
-            self.assertTrue(response.context['form'].errors)
-        CompanyMembership.objects.filter(company=self.company).update(active=False)
-        response = self.setup_deposit(
-            company=self.company.pk, employer=self.employer.pk
-        )
-        self.assertTrue(response.context['form'].errors)
-
-    def test_membership_is_rechecked_at_save(self):
-        self.setup_deposit(company=self.company.pk, employer=self.employer.pk)
-        CompanyMembership.objects.filter(company=self.company).update(active=False)
-        self.assertEqual(self.deposit().status_code, 403)
-        self.assertFalse(JobOffer.objects.exists())
-
     def test_confirmation_required_past_or_today_only_and_no_partial_writes(self):
         self.setup_deposit()
         for values in (
@@ -145,20 +72,9 @@ class AdviserDepositTests(TestCase):
         ):
             self.assertEqual(self.deposit(**values).status_code, 400)
             self.assertFalse(JobOffer.objects.exists())
-            self.assertEqual(Company.objects.count(), 1)
+            self.assertEqual(User.objects.count(), 3)
         self.assertEqual(
             self.deposit(data=json.dumps({'title': 'Incomplete'})).status_code, 400
-        )
-
-    def test_no_access_by_contact_email_and_no_account_inference(self):
-        self.setup_deposit()
-        contact = {**self.contact, 'email': self.employer.email}
-        self.assertEqual(self.deposit(contact=json.dumps(contact)).status_code, 201)
-        offer = JobOffer.objects.get()
-        self.client.force_login(self.employer)
-        self.assertNotContains(self.client.get(reverse('dashboard')), 'Cook')
-        self.assertEqual(
-            self.client.get(reverse('employer_offer', args=[offer.pk])).status_code, 404
         )
 
     def test_only_active_advisers_can_use_the_flow(self):
@@ -220,31 +136,6 @@ class AdviserDepositTests(TestCase):
             403,
         )
 
-    def test_later_invitation_retrieves_existing_offer_without_duplication(self):
-        self.setup_deposit()
-        self.deposit()
-        offer = JobOffer.objects.get()
-        invitation = create_invitation(
-            self.adviser, 'new-employer@sample.example', 'fr', company=offer.company
-        )
-        visitor = Client()
-        visitor.get(
-            reverse('invitation_confirm'), {'invitation': invitation_token(invitation)}
-        )
-        visitor.post(reverse('invitation_confirm'))
-        invitation.refresh_from_db()
-        self.assertIsNotNone(invitation.accepted_at)
-        self.assertTrue(
-            CompanyMembership.objects.filter(
-                company=offer.company, user=invitation.recipient
-            ).exists()
-        )
-        offer.refresh_from_db()
-        self.assertEqual(offer.employer_contact, invitation.recipient)
-        self.assertEqual(offer.created_by, self.adviser)
-        self.assertEqual(JobOffer.objects.count(), 1)
-        self.assertContains(visitor.get(reverse('dashboard')), 'Cook')
-
     def test_changed_revision_needs_new_confirmation_and_other_adviser_cannot_edit(
         self,
     ):
@@ -257,18 +148,6 @@ class AdviserDepositTests(TestCase):
         self.assertEqual(
             self.client.get(reverse('adviser_offer', args=[offer.pk])).status_code, 404
         )
-
-    def test_cannot_grant_workspace_to_a_candidate_invitation(self):
-        from django.core.exceptions import ValidationError
-
-        with self.assertRaises(ValidationError):
-            create_invitation(
-                self.adviser,
-                'new@sample.example',
-                'fr',
-                company=self.company,
-                recipient_kind=Invitation.RecipientKind.CANDIDATE,
-            )
 
     def test_real_matching_is_calculated_without_an_employer_account(self):
         from eures_beta.candidates.models import CandidateProfile
@@ -313,7 +192,7 @@ class AdviserDepositTests(TestCase):
     def test_old_tab_cannot_use_a_new_deposits_establishment(self):
         self.setup_deposit()
         old = self.client.session['adviser_offer_setup']['offer_id']
-        self.setup_deposit(company_name='Second establishment')
+        self.setup_deposit(email='second@sample.example')
         self.assertEqual(
             self.client.post(
                 reverse('adviser_offer_deposits'), {}, HTTP_X_DEPOSIT_TOKEN=old
@@ -358,12 +237,117 @@ class AdviserDepositTests(TestCase):
                 DEMO_ACCOUNTS_ENABLED=False,
                 EMAIL_DELIVERY_ENABLED=True,
             ):
-                self.setup_deposit(company_name=environment)
+                self.setup_deposit(email=environment + '@sample.example')
                 self.assertEqual(self.deposit().status_code, 201)
 
-    def test_deactivated_contact_is_rejected_at_save(self):
-        self.setup_deposit(company=self.company.pk, employer=self.employer.pk)
+    def test_deposit_precreates_active_employer_and_owns_offer_without_company(self):
+        self.setup_deposit()
+        with (
+            patch(
+                'eures_beta.matching.services.calculate_for_saved_offer'
+            ) as calculate,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            response = self.deposit()
+        self.assertEqual(response.status_code, 201, response.content)
+        offer = JobOffer.objects.get()
+        employer = User.objects.get(email=self.contact['email'])
+        self.assertEqual(offer.created_by, employer)
+        self.assertEqual(offer.adviser, self.adviser)
+        self.assertIsNone(offer.company_id)
+        self.assertEqual(employer.kind, 'employer')
+        self.assertTrue(employer.is_active)
+        self.assertFalse(employer.is_staff or employer.is_superuser)
+        self.assertFalse(employer.has_usable_password())
+        self.assertIsNone(employer.last_login)
+        self.assertNotIn('email', offer.contact)
+        self.assertNotIn('email', [f.name for f in JobOffer._meta.fields])
+        self.assertNotIn('employer_contact', [f.name for f in JobOffer._meta.fields])
+        self.assertIn(offer, access.matchable_offers())
+        self.assertEqual(calculate.call_count, 1)
+        self.assertEqual(Company.objects.count(), 1)
+        self.assertEqual(CompanyMembership.objects.count(), 1)
+        self.client.force_login(employer)
+        self.assertContains(self.client.get(reverse('dashboard')), 'Cook')
+        self.assertEqual(
+            self.client.get(reverse('employer_offer', args=[offer.pk])).status_code, 200
+        )
+        self.client.force_login(self.employer)
+        self.assertNotContains(self.client.get(reverse('dashboard')), 'Cook')
+        self.assertEqual(
+            self.client.get(reverse('employer_offer', args=[offer.pk])).status_code, 404
+        )
+
+    def test_existing_employer_is_reused_case_insensitively_and_payload_cannot_change_owner(
+        self,
+    ):
+        self.setup_deposit(email=' EMPLOYER@sample.example ')
+        response = self.deposit()
+        self.assertEqual(response.status_code, 201, response.content)
+        self.assertEqual(JobOffer.objects.get().created_by, self.employer)
+        self.assertEqual(User.objects.count(), 3)
+
+    def test_non_employer_or_disabled_account_blocks_setup_and_save(self):
+        candidate = User.objects.create_user(
+            'candidate@sample.example', kind='candidate'
+        )
+        for user in (self.adviser, candidate):
+            response = self.setup_deposit(email=user.email)
+            self.assertTrue(response.context['form'].errors)
+        self.setup_deposit()
+        User.objects.create_user(self.contact['email'], kind='candidate')
+        self.assertEqual(self.deposit().status_code, 400)
+        self.assertFalse(JobOffer.objects.exists())
+        self.setup_deposit(email=self.employer.email)
         self.employer.is_active = False
         self.employer.save(update_fields=['is_active'])
-        self.assertEqual(self.deposit().status_code, 403)
+        self.assertEqual(self.deposit().status_code, 400)
         self.assertFalse(JobOffer.objects.exists())
+        self.employer.refresh_from_db()
+        self.assertFalse(self.employer.is_active)
+
+    @override_settings(
+        LOGIN_EMAIL_ORIGIN='https://testserver',
+        ALLOWED_HOSTS=['testserver'],
+        EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+    )
+    def test_invitation_uses_standard_magic_link_and_later_login_finds_same_offer(self):
+        from django.core import mail
+        from urllib.parse import urlsplit, parse_qs
+
+        self.setup_deposit()
+        with (
+            patch('eures_beta.users.email_login.email_ready', return_value=True),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.assertEqual(self.deposit().status_code, 201)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, [self.contact['email']])
+        import re
+
+        link = re.search(r'https://[^\s]+', mail.outbox[0].body).group()
+        visitor = Client()
+        visitor.get(urlsplit(link).path, parse_qs(urlsplit(link).query))
+        self.assertNotIn('_auth_user_id', visitor.session)
+        visitor.post(reverse('magic_confirm'))
+        self.assertContains(visitor.get(reverse('dashboard')), 'Cook')
+        self.assertEqual(JobOffer.objects.count(), 1)
+        # Normal login also accepts this already-created account without registration.
+        visitor.logout()
+        with patch('eures_beta.www.accounts.views.email_ready', return_value=True):
+            visitor.post(reverse('magic_login'), {'email': self.contact['email']})
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_failed_save_rolls_back_new_account_and_does_not_send_email(self):
+        from django.core.exceptions import ValidationError
+
+        self.setup_deposit()
+        with (
+            patch.object(JobOffer, 'save', side_effect=ValidationError('invalid')),
+            patch('eures_beta.users.email_login.send_sign_in_link') as send,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.assertEqual(self.deposit().status_code, 400)
+        self.assertFalse(User.objects.filter(email=self.contact['email']).exists())
+        self.assertFalse(JobOffer.objects.exists())
+        send.assert_not_called()

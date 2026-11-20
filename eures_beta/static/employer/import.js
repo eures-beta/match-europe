@@ -26,11 +26,6 @@ for (const id of ['offer-url', 'offer-text', 'offer-file']) {
 }
 
 function showStep(id) {
-  if (adviserDeposit) {
-    const company = document.getElementById('review-companyName');
-    company.value = document.body.dataset.depositCompany;
-    company.readOnly = true;
-  }
   document.querySelector('.import-steps').hidden = id === 'completion-step';
   for (const el of document.querySelectorAll('[data-step]')) el.hidden = el.id !== id;
   const step =
@@ -114,7 +109,11 @@ fileForm.addEventListener('submit', async (event) => {
       showStep('review-step');
     }
   } catch (exc) {
-    error.textContent = strings.errorPrefix + (strings.errors[exc.code] || strings.errors.network);
+    error.textContent =
+      strings.errorPrefix +
+      (exc.code === 'employer_account_unavailable'
+        ? exc.data.message
+        : strings.errors[exc.code] || strings.errors.network);
   } finally {
     button.disabled = false;
     button.textContent = liveAPI ? strings.readPdf : strings.continue;
@@ -274,7 +273,10 @@ emailForm.addEventListener('submit', async (event) => {
         showStep(window.meReview.stage || 'review-step');
       } else
         message.textContent =
-          strings.errorPrefix + (strings.errors[exc.code] || strings.errors.network);
+          strings.errorPrefix +
+          (exc.code === 'employer_account_unavailable'
+            ? exc.data.message
+            : strings.errors[exc.code] || strings.errors.network);
     } finally {
       button.disabled = false;
     }

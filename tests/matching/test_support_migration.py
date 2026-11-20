@@ -9,7 +9,11 @@ from django.utils import timezone
 class SupportMigrationTests(TransactionTestCase):
     def migrate(self, name):
         executor = MigrationExecutor(connection)
-        targets = [('matching', name)]
+        targets = [
+            ('matching', name),
+            ('employers', '0010_remove_joboffer_email_and_more'),
+            ('invitations', '0005_remove_invitation_company'),
+        ]
         executor.migrate(targets)
         return executor.loader.project_state(targets).apps
 
@@ -29,7 +33,6 @@ class SupportMigrationTests(TransactionTestCase):
             created_by=employer,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
-            email=employer.email,
             data={'title': 'Fictional migration offer'},
         )
         row = apps.get_model('matching', 'AdviserSearchFollowUp').objects.create(
@@ -61,7 +64,6 @@ class SupportMigrationTests(TransactionTestCase):
             created_by=employer,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
-            email=employer.email,
             data={'title': 'Fictional offer'},
         )
         old = apps.get_model('matching', 'AdviserSearchFollowUp').objects.create(
@@ -126,7 +128,6 @@ class SupportMigrationTests(TransactionTestCase):
             created_by=employer,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
-            email=employer.email,
             data={'title': 'Fictional'},
         )
         profile = apps.get_model('candidates', 'CandidateProfile').objects.create(
@@ -183,7 +184,6 @@ class SupportMigrationTests(TransactionTestCase):
             created_by_id=employer.pk,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
-            email=employer.email,
             data={'title': 'Second'},
         )
         OfferSupport = apps.get_model('matching', 'JobOfferSupport')

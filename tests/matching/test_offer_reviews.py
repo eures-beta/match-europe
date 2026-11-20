@@ -415,7 +415,7 @@ class ConfirmationTests(TestCase):
             self.assertContains(page, '&lt;script&gt;')
             self.assertNotContains(page, '<script>alert(1)</script>')
             self.assertIn('no-store', page['Cache-Control'])
-            self.assertNotContains(page, self.match.offer.email)
+            self.assertNotContains(page, self.match.offer.created_by.email)
 
     def test_saturday_morning_and_afternoon_have_independent_answers(self):
         req = type(self.match.offer).objects.get(pk=self.match.offer_id)

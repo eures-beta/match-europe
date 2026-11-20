@@ -82,7 +82,7 @@
                   <td>
                     {% firstof entry.data.companyName entry.company.name "—" %}
                     <br>
-                    <span class="history-secondary">{% firstof entry.email entry.created_by.email "—" %}</span>
+                    <span class="history-secondary">{% firstof entry.created_by.email "—" %}</span>
                   </td>
                   <td>{% include "users/offer_status.html" with offer=entry %}</td>
                   <td>{% if entry.source_kind == "manual" %}{% translate "Manual entry" %}{% elif entry.source_kind == "pdf" %}{% translate "PDF import" %}{% elif entry.source_kind == "url" %}{% translate "URL import" %}{% else %}—{% endif %}</td>

@@ -45,7 +45,6 @@ class WorkspaceTests(TestCase):
             company=company,
             created_by=self.user,
             session_key='',
-            email=self.user.email,
             contact={'name': 'Contact person', 'email': 'contact@fiction.invalid'},
             data=data,
             preparation_agreed_at=timezone.now(),
@@ -126,14 +125,15 @@ class WorkspaceTests(TestCase):
         self.assertEqual(self.offer.data['custom'], 'preserved')
         self.assertEqual(self.offer.company, self.company)
         self.assertEqual(self.offer.created_by, self.user)
-        self.assertEqual(self.offer.contact['email'], 'other-contact@fiction.invalid')
+        self.assertNotIn('email', self.offer.contact)
+        self.assertEqual(self.offer.created_by, self.user)
         self.assertIsNone(self.offer.search_started_at)
         self.assertEqual(self.offer.revision, 2)
         self.assertContains(self.client.get(response.url), 'Modifications enregistrées')
 
     def test_invalid_contact_and_conflict_do_not_erase(self):
         values = self.payload()
-        values['contact-email'] = 'invalid'
+        values['contact-name'] = ''
         self.assertContains(
             self.client.post(self.url('employer_offer_edit'), values),
             'pas été enregistrées',

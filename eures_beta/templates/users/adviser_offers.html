@@ -4,7 +4,7 @@
 {% block adviser_content %}
   <section class="invitation-card">
     <h1>{% translate "Deposit an offer for an employer" %}</h1>
-    <p>{% translate "Select the establishment or create a separate one. The employer does not need an account." %}</p>
+    <p>{% translate "Enter the employer email. Their account will be created when you save the offer." %}</p>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
@@ -19,7 +19,7 @@
         <thead>
           <tr>
             <th scope="col">{% translate "Job title" %}</th>
-            <th scope="col">{% translate "Establishment" %}</th>
+            <th scope="col">{% translate "Employer email" %}</th>
             <th scope="col">{% translate "Telephone confirmation" %}</th>
           </tr>
         </thead>
@@ -27,7 +27,7 @@
           {% for offer in offers %}
             <tr>
               <td><a href="{% url 'adviser_offer' offer.pk %}">{{ offer.data.title|default:_("Untitled offer") }}</a></td>
-              <td>{{ offer.company.name }}</td>
+              <td>{{ offer.created_by.email }}</td>
               <td>
                 {% if offer.phone_confirmed_revision == offer.revision %}
                   {{ offer.phone_confirmed_on|date:"SHORT_DATE_FORMAT" }}

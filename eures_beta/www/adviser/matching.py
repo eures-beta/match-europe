@@ -304,7 +304,7 @@ def follow(request, pk):
                 ready
                 and conversation.requested_by_id == request.user.pk
                 and access.can_change_match(request.user)
-                and bool(conversation.match.offer.conversation_employer)
+                and bool(conversation.match.offer.created_by_id)
             ),
             can_analyse=can_analyse and access.can_change_match(request.user),
             analysis_fingerprint=state['fingerprint'],

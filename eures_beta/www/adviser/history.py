@@ -89,7 +89,6 @@ def history_rows(section, search):
             .filter(
                 Q(data__title__icontains=search)
                 | Q(data__companyName__icontains=search)
-                | Q(email__icontains=search)
                 | Q(company__name__icontains=search)
                 | Q(created_by__email__icontains=search)
                 | Q(data__city__icontains=search)

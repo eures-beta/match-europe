@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.db import transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Exists, F, OuterRef
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -86,7 +86,7 @@ def introduction(match, adviser):
         'title': offer.get('title') or _('job'),
         'city': offer.get('city') or _('the location in the offer'),
         'candidate': match.candidate.display_name or _('Candidate'),
-        'employer': match.offer.conversation_employer.get_full_name() or company,
+        'employer': match.offer.created_by.get_full_name() or company,
         'company': company,
     }
 
@@ -101,16 +101,7 @@ def conversations(user):
     ):
         return rows.none()
     rows = rows.filter(**{user.kind: user}).filter(
-        Q(
-            offer_review__match__offer__created_by__kind='employer',
-            offer_review__match__offer__created_by_id=F('employer_id'),
-        )
-        | Q(
-            offer_review__match__offer__created_by__kind='adviser',
-            offer_review__match__offer__employer_contact_id=F('employer_id'),
-            offer_review__match__offer__company__memberships__user_id=F('employer_id'),
-            offer_review__match__offer__company__memberships__active=True,
-        ),
+        offer_review__match__offer__created_by_id=F('employer_id'),
         offer_review__match__candidate__user_id=F('candidate_id'),
     )
     if user.kind == 'employer':
@@ -161,18 +152,12 @@ def start(request, pk):
             'match__offer__created_by', 'match__candidate'
         ).get(pk=pk)
         match = review.match
-        employer = match.offer.conversation_employer
+        employer = match.offer.created_by
         if (
             match.decision != 'retained'
             or not employer
             or employer.kind != 'employer'
             or not employer.is_active
-            or (
-                match.offer.created_by.kind == 'adviser'
-                and not match.offer.company.memberships.filter(
-                    user=employer, active=True
-                ).exists()
-            )
         ):
             raise Http404
         existing = conversations(request.user).filter(offer_review=review).first()

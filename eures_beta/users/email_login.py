@@ -19,3 +19,39 @@ def email_ready():
         and settings.EMAIL_HOST
         and settings.DEFAULT_FROM_EMAIL
     )
+
+
+def send_sign_in_link(user_id, language='fr'):
+    """Invite a precreated employer through the existing passwordless sign-in."""
+    import logging
+    from django.core.mail import send_mail
+    from django.template.loader import render_to_string
+    from django.urls import reverse
+    from django.utils import translation
+    from django.utils.translation import gettext as _
+    from sesame.utils import get_query_string
+    from .models import User
+
+    if not email_ready():
+        return
+    user = User.objects.filter(pk=user_id, kind='employer', is_active=True).first()
+    if not user:
+        return
+    link = (
+        settings.LOGIN_EMAIL_ORIGIN.rstrip('/')
+        + reverse('magic_confirm')
+        + get_query_string(user)
+    )
+    with translation.override(language if language in ('fr', 'en', 'de') else 'fr'):
+        body = render_to_string('users/login_email.txt', {'link': link})
+        try:
+            send_mail(
+                _('Your Match Europe sign-in link'),
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+            )
+        except Exception:
+            logging.getLogger(__name__).error(
+                'Employer sign-in email delivery failed; inspect the mail service privately.'
+            )

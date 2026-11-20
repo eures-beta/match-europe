@@ -72,7 +72,6 @@ class AutonomousMigrationTests(TransactionTestCase):
             created_by=person,
             adviser=user,
             session_key='fictional',
-            email=person.email,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
             data={'description': 'Preserved extracted text'},
