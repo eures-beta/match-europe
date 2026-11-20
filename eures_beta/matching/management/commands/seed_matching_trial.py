@@ -49,7 +49,9 @@ class Command(BaseCommand):
                 'Reserved fictional account is unavailable; no account changed.'
             )
         title = 'Offre fictive — entretien'
-        offer = JobOffer.objects.filter(source_kind='matching').first()
+        offer = JobOffer.objects.filter(
+            created_by=employer, source_kind='matching'
+        ).first()
         if offer is None:
             data = empty_data()
             data.update(
