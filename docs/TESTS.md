@@ -98,6 +98,9 @@ la syntaxe et la stabilité Prettier ; il ne lance pas les tests.
 ## Dispositifs distincts
 
 - `make e2e-test` lance les parcours HTTP et le contrôle mémoire dans Docker.
+  Avant le serveur, le peuplement réel des comptes de démonstration est exécuté
+  deux fois dans des processus neufs sous le même plafond mémoire. Les options
+  démo et l'interdiction d'envoi restent limitées à ces processus de peuplement.
   Le tableau conseiller contient des rapprochements fictifs avec compétences,
   consultés en FR/EN/DE : une file vide ne teste pas le coût des référentiels.
 - `make e2e-regression` vérifie le témoin négatif historique du banc mémoire.

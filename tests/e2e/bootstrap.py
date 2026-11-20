@@ -8,6 +8,21 @@ from pathlib import Path
 def main():
     for arguments in (('migrate', 'users', '0001_initial'), ('migrate',)):
         subprocess.run(['python', 'manage.py', *arguments, '--noinput'], check=True)
+    if Path('eures_beta/skills/common_source.py').exists():
+        # Run the real preview hook twice, in fresh processes, under the same
+        # container memory limit. Keep demo/email flags scoped to this seed.
+        seed_environment = {
+            **os.environ,
+            'DJANGO_ENVIRONMENT': 'preview',
+            'DEMO_ACCOUNTS_ENABLED': '1',
+            'EMAIL_DELIVERY_ENABLED': '0',
+        }
+        for _ in range(2):
+            subprocess.run(
+                ['python', 'manage.py', 'seed_test_accounts'],
+                env=seed_environment,
+                check=True,
+            )
     import django
 
     django.setup()
@@ -18,17 +33,6 @@ def main():
     for role in ('adviser', 'employer'):
         User.objects.create_user(email=f'{role}@example.invalid', kind=role)
     call_command('sync_group_and_perms')
-    if Path('eures_beta/skills/common_source.py').exists():
-        # The historical negative control predates the common skill catalogue.
-        # Current HTTP checks must also render real pending matching rows.
-        from django.test import override_settings
-
-        with override_settings(
-            DJANGO_ENVIRONMENT='local',
-            DEMO_ACCOUNTS_ENABLED=True,
-            EMAIL_DELIVERY_ENABLED=False,
-        ):
-            call_command('seed_matching_trial')
     os.execvp(
         'gunicorn',
         [
