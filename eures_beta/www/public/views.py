@@ -47,7 +47,7 @@ def design_system(request):
     """Public component reference, linked from the shared site footer."""
     from eures_beta import design_system as tokens
 
-    return render(
+    return _public_page(
         request,
         'design_system.html',
         {

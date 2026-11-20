@@ -91,7 +91,7 @@ body:has(> .ds-site-header) {
   border-top: var(--me-border-width) solid var(--me-color-border);
 }
 
-/* Employer screens redressed (/design-system/exemple/employeur-…/): real chrome of the site */
+/* Shared employer navigation for the real application pages. */
 .ds-site-notice {
   padding-block: var(--me-space-s);
   font-size: var(--me-font-size-s);
@@ -259,6 +259,12 @@ body:has(> .ds-site-header) {
   font-weight: var(--me-font-weight-bold);
   border-bottom-color: var(--me-color-action);
 }
+.site-useful-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-m) var(--me-space-l);
+}
+
 .ds-site-footer {
   padding-block: var(--me-space-xl);
   font-size: var(--me-font-size-s);

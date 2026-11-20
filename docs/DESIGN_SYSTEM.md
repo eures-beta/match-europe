@@ -44,6 +44,8 @@ continue d'utiliser les tokens et composants décrits ici.
 La page `/design-system/` lit `tokens.css` à chaque affichage : elle montre toujours les valeurs
 réelles, avec le contraste mesuré de chaque couleur. Ce catalogue public est une unique
 page de référence graphique (« cookbook »), sans connexion ni droit staff dans aucun environnement.
+Le pied de page commun la relie au projet, au journal, à la protection des données et
+à l’organisation GitHub publique EURES Beta ; ces liens sont traduits en FR/EN/DE.
 Ses boutons et champs illustrent des composants ; ils ne simulent pas un parcours métier et
 ne sauvegardent aucune donnée. Les anciennes pages factices et leurs routes ont été supprimées.
 
@@ -163,6 +165,12 @@ Il est masqué à zéro et ne compte pas les recherches reportées à une date f
 
 ### Fiches conseiller
 
+Le dialogue privé candidat utilise la palette commune dans
+`matching/static/matching/candidate-conversation.css`. Sur ordinateur, un cadre de téléphone
+contient le défilement ; sur mobile, le dialogue occupe la largeur disponible.
+Le suivi conseiller conserve son tableau sémantique et son panneau email distincts
+dans `adviser/conversation-followup.css`.
+
 Les fiches offre/candidat de « À traiter » utilisent `adviser/record-detail.css` :
 résumé en tête, sections thématiques, libellés discrets et contenu lisible, suivi
 séparé dans un panneau latéral sur ordinateur. Sur petit écran, les blocs s’empilent ;
@@ -183,8 +191,9 @@ sur une ligne et la navigation principale défile de côté.
 - **Logos partenaires** : fichiers de production, non modifiés. Chaque fichier a ses propres
   marges : chaque logo a donc sa largeur en `rem`, faute de token de taille de logo.
 
-Composants Match Europe (includes Django) : aucun pour l’instant. Ils arriveront dans
-`eures_beta/templates/components/`, et chacun sera ajouté à la page `/design-system/`.
+Les fragments Django partagés sont dans `templates/eures/` (logos, formulaires, statut d’offre)
+et `templates/includes/useful_links.html` (pied de page public). Réutiliser ces fragments
+plutôt que recréer un en-tête ou des liens propres à chaque parcours.
 
 ## Créer un composant
 
