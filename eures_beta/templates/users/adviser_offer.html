@@ -1,0 +1,34 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block page_title %}{{ offer.data.title }} — Match Europe{% endblock %}
+{% block adviser_content %}
+  <section class="invitation-card">
+    <a href="{% url 'adviser_offers' %}">{% translate "Back to my deposited offers" %}</a>
+    <h1>{{ offer.data.title }}</h1>
+    <p>{{ offer.company.name }}</p>
+    <p>{% translate "Telephone confirmation" %} : {{ offer.phone_confirmed_on|date:"SHORT_DATE_FORMAT" }} — {{ offer.phone_recorded_by.get_full_name|default:offer.phone_recorded_by.email }}</p>
+    <p>{{ offer.data.city }} — {{ contract_label }}</p>
+    <p>{{ offer.data.description|linebreaksbr }}</p>
+    {% if offer.phone_confirmed_revision != offer.revision %}
+      <p role="status">{% translate "The offer changed. Confirm the current version with the employer before matching again." %}</p>
+    {% endif %}
+    {% if not offer.company.memberships.exists %}
+      <p>{% translate "The employer has no access to this establishment yet. An explicit invitation can give them access to these existing offers." %}</p>
+      <a href="{% url 'employer_invite' %}?company={{ offer.company_id }}&amp;lang={{ dashboard_language }}">{% translate "Invite the employer to this establishment" %}</a>
+    {% endif %}
+    {% if offer.search_write_blocked %}
+      <p>{% translate "The search has already started. This offer is locked." %}</p>
+    {% else %}
+      <details {% if form.errors or contact.errors or phone_form.errors %}open{% endif %}>
+        <summary>{% translate "Edit this offer" %}</summary>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <fieldset><legend>{% translate "Employer contact" %}</legend>{{ contact.as_p }}</fieldset>
+          <fieldset><legend>{% translate "Telephone confirmation" %}</legend>{{ phone_form.as_p }}</fieldset>
+          <button type="submit" class="primary-action">{% translate "Save and start matching" %}</button>
+        </form>
+      </details>
+    {% endif %}
+  </section>
+{% endblock %}

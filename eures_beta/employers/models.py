@@ -12,6 +12,9 @@ class Company(models.Model):
     name = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = _('Company')
         verbose_name_plural = _('Companies')
@@ -57,6 +60,34 @@ class JobOffer(models.Model):
         related_name='created_job_offers',
     )
     search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
+    phone_confirmed_on = models.DateField(null=True, blank=True, editable=False)
+    phone_recorded_at = models.DateTimeField(null=True, blank=True, editable=False)
+    phone_confirmed_revision = models.PositiveIntegerField(
+        null=True, blank=True, editable=False
+    )
+    phone_recorded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='phone_confirmed_job_offers',
+        editable=False,
+    )
+    employer_contact = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='contact_job_offers',
+        limit_choices_to={'kind': 'employer'},
+    )
+
+    @property
+    def conversation_employer(self):
+        if self.created_by and self.created_by.kind == 'employer':
+            return self.created_by
+        return self.employer_contact
+
     duplicated_from = models.ForeignKey(
         'self',
         null=True,

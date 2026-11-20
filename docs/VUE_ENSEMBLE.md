@@ -19,6 +19,7 @@ ne constitue pas une restriction permanente du produit.
   relecture guidée, sauvegarde et suivi de ses offres. Les droits restent liés
   au compte propriétaire, pas à une session de démonstration.
 - **Conseiller** : inviter, examiner les rapprochements et leurs explications,
+  [déposer une offre pour un employeur](ADVISER_OFFER_DEPOSIT.md), même sans compte,
   décider et accompagner les échanges. Tous les conseillers actifs ont les mêmes
   droits métier ; les consentements candidat restent distincts.
 - **Administration** : consultation autorisée des modèles, avec secrets masqués

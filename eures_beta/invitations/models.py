@@ -7,6 +7,14 @@ from .defaults import invitation_expiry
 
 
 class Invitation(models.Model):
+    company = models.ForeignKey(
+        'employers.Company',
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='invitations',
+    )
+
     class RecipientKind(models.TextChoices):
         EMPLOYER = 'employer', 'Employeur'
         CANDIDATE = 'candidate', 'Candidat'

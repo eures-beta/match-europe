@@ -38,7 +38,10 @@ def invite(request):
     with translation.override(selected_language(request)):
         form = InvitationForm(
             request.POST if request.method == 'POST' else None,
-            initial={'language': selected_language(request)},
+            initial={
+                'language': selected_language(request),
+                'company': request.GET.get('company'),
+            },
         )
         invitation = None
         sent = False
@@ -157,6 +160,22 @@ def confirm(request):
             invitation.accepted_at = timezone.now()
             invitation.recipient = recipient
             invitation.save(update_fields=['accepted_at', 'recipient'])
+            if (
+                invitation.company_id
+                and invitation.recipient_kind == Invitation.RecipientKind.EMPLOYER
+            ):
+                from eures_beta.employers.models import CompanyMembership
+
+                CompanyMembership.objects.create(
+                    company=invitation.company, user=recipient
+                )
+                from eures_beta.employers.models import JobOffer
+
+                JobOffer.objects.filter(
+                    company=invitation.company,
+                    created_by__kind='adviser',
+                    employer_contact__isnull=True,
+                ).update(employer_contact=recipient)
             auth_login(request, recipient, backend='sesame.backends.ModelBackend')
             request.session['login_language'] = language
             if invitation.recipient_kind == Invitation.RecipientKind.EMPLOYER:

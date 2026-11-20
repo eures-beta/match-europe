@@ -75,11 +75,16 @@ def create_invitation(
     recipient_kind=Invitation.RecipientKind.EMPLOYER,
     first_name='',
     last_name='',
+    company=None,
 ):
     # Serialize simultaneous invitations by one adviser, including the rate limit.
     adviser = User.objects.select_for_update().get(pk=adviser.pk)
     if not can_invite(adviser):
         raise ValidationError(_('You are not allowed to invite employers.'))
+    if company and recipient_kind != Invitation.RecipientKind.EMPLOYER:
+        raise ValidationError(
+            _('Only an employer invitation can grant establishment access.')
+        )
     email = email.strip().lower()
     if User.objects.filter(email__iexact=email).exists():
         raise ValidationError(_('An account already exists for this email address.'))
@@ -101,6 +106,7 @@ def create_invitation(
         invitation.first_name = first_name
         invitation.last_name = last_name
         invitation.reminder_sent_at = None
+        invitation.company = company
         invitation.save()
     else:
         invitation = Invitation.objects.create(
@@ -110,6 +116,7 @@ def create_invitation(
             recipient_kind=recipient_kind,
             first_name=first_name,
             last_name=last_name,
+            company=company,
         )
     return invitation
 

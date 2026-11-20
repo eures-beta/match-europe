@@ -57,6 +57,16 @@ def offer_details(offer, language):
         for field in EmployerContactForm(initial=offer.contact)
     )
     metadata = [
+        (_('Telephone confirmation'), offer.phone_confirmed_on or _('Not provided')),
+        (
+            _('Confirmation recorded by'),
+            (
+                offer.phone_recorded_by.email
+                if offer.phone_recorded_by
+                else _('Not provided')
+            ),
+        ),
+        (_('Confirmed revision'), offer.phone_confirmed_revision or _('Not provided')),
         (_('Offer reference'), str(offer.pk)),
         (
             _('Company workspace'),

@@ -64,7 +64,10 @@ Le questionnaire candidat collecte progressivement projet, compétences, langues
 mobilité, conditions et disponibilité ; il ne réintroduit pas l'import CV abandonné.
 Le brouillon temporaire est distinct du `CandidateProfile` durable créé après
 vérification ; reprise/comparaison explicite avant remplacement d'un profil.
-Les offres sont des `JobOffer` avec propriétaire employeur et droits serveur.
+Les offres sont des `JobOffer` rattachées à un établissement, avec droits serveur.
+Un conseiller peut déposer pour un employeur avec ou sans compte ; une confirmation
+téléphonique suffit avant matching (décision Eric du 20 novembre 2026). Créateur,
+contact employeur et établissement restent distincts. Voir [le dépôt conseiller](ADVISER_OFFER_DEPOSIT.md).
 Le matching produit des résultats explicables, avec critères établis/inconnus et
 blocages validés ; ne pas déduire automatiquement des pénalités des données absentes
 ni changer les poids. La décision conseiller, la réponse candidat et l'accord de

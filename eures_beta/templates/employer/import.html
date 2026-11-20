@@ -5,7 +5,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% translate "Match Europe — Add your job offer" context "employer import" %}</title>
+    <title>
+      {% if adviser_setup %}
+        {% translate "Deposit an offer for an employer" %}
+      {% else %}
+        {% translate "Match Europe — Add your job offer" context "employer import" %}
+      {% endif %}
+    </title>
     <link rel="stylesheet" href="/static/employer/site.css">
     <link rel="stylesheet"
           href="/static/employer/occupation-picker.css?v=feedback-1">
@@ -15,7 +21,9 @@
   </head>
   <body>
     <a class="skip-content" href="#main-content">{% translate "Skip to content" context "employer import" %}</a>
-    {% include "employer/development_notice.html" %}
+    {% if not adviser_setup %}
+      {% include "employer/development_notice.html" %}
+    {% endif %}
     <header class="site-header">
       <div class="shell">
         {% include "includes/public_brand.html" %}
@@ -40,11 +48,11 @@
           <div class="lang-switch"
                aria-label="{% translate "Language" context "employer import" %}">
             <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-               href="{% url 'employer_import' %}?lang=fr">FR</a>
+               href="{% if adviser_setup %}{% url 'adviser_offer_import' %}{% else %}{% url 'employer_import' %}{% endif %}?lang=fr">FR</a>
             <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-               href="{% url 'employer_import' %}?lang=en">EN</a>
+               href="{% if adviser_setup %}{% url 'adviser_offer_import' %}{% else %}{% url 'employer_import' %}{% endif %}?lang=en">EN</a>
             <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-               href="{% url 'employer_import' %}?lang=de">DE</a>
+               href="{% if adviser_setup %}{% url 'adviser_offer_import' %}{% else %}{% url 'employer_import' %}{% endif %}?lang=de">DE</a>
           </div>
           {% include "includes/account_link.html" %}
         </nav>
@@ -163,11 +171,23 @@
             </div>
           </form>
         </section>
+        {% if adviser_setup %}
+          <section class="surface-card">
+            <p>{% translate "Deposit an offer for an employer" %} — <strong>{{ adviser_setup.company_name }}</strong></p>
+            <a href="{% url 'adviser_offers' %}">{% translate "Back to my deposited offers" %}</a>
+          </section>
+        {% endif %}
         <section id="email-step" data-step class="surface-card import-card" hidden>
-          <h1 tabindex="-1">{% translate "Save your offer" context "employer import" %}</h1>
-          <p class="lede">{% translate "Your offer is ready. Enter your email and company contact to save it and return to it later." context "employer import" %}</p>
-          {% include "employer/profile.html" %}
+          {% if adviser_setup %}
+            <h1 tabindex="-1">{% translate "Confirm the offer with the employer" %}</h1>
+            <p class="lede">{% translate "Enter the employer contact and record the telephone confirmation. No employer account or email validation is required to start matching." %}</p>
+          {% else %}
+            <h1 tabindex="-1">{% translate "Save your offer" context "employer import" %}</h1>
+            <p class="lede">{% translate "Your offer is ready. Enter your email and company contact to save it and return to it later." context "employer import" %}</p>
+            {% include "employer/profile.html" %}
+          {% endif %}
           <form id="email-form">
+            {% if adviser_setup %}{{ phone_form.as_p }}{% endif %}
             <label for="work-email">{% translate "Your work email" context "employer import" %}</label>
             <input id="work-email"
                    type="email"
@@ -677,7 +697,7 @@
   "liveValidate": "{% translate "Confirm my offer" context "employer import" as translated_value_57 %}{{ translated_value_57|escapejs }}",
   "liveSynced": "{% translate "Your offer has been saved." context "employer import" as translated_value_58 %}{{ translated_value_58|escapejs }}",
   "liveOrigin": "{% translate "AI-assisted offer summary. Review all information and clarify missing details." context "employer import" as translated_value_59 %}{{ translated_value_59|escapejs }}",
-  "liveNote": "{% translate "An initial inactive offer has been sent to the preparation service. Validate your corrections to update it. Your email is not sent to the preparation service." context "employer import" as translated_value_60 %}{{ translated_value_60|escapejs }}",
+  "liveNote": "{% if adviser_setup %}{% translate "Check the information before recording the telephone confirmation." as deposit_note %}{{ deposit_note|escapejs }}{% else %}{% translate "An initial inactive offer has been sent to the preparation service. Validate your corrections to update it. Your email is not sent to the preparation service." context "employer import" as translated_value_60 %}{{ translated_value_60|escapejs }}{% endif %}",
   "liveConfirmation": "{% translate "I confirm the corrected offer information and request that it be saved. No candidate search or contact will start." context "employer import" as translated_value_61 %}{{ translated_value_61|escapejs }}",
   "locate": "{% translate "Check on OpenStreetMap" context "employer import" as translated_value_62 %}{{ translated_value_62|escapejs }}",
   "locationConfirm": "{% translate "I checked the proposed point and confirm it matches the workplace." context "employer import" as translated_value_63 %}{{ translated_value_63|escapejs }}",
@@ -763,7 +783,7 @@
     "questionArrival": "{% translate "When could you start and, if needed, relocate near the workplace?" context "employer import" as translated_value_128 %}{{ translated_value_128|escapejs }}",
     "privacyTitle": "{% translate "Use of your information" context "employer import" as translated_value_129 %}{{ translated_value_129|escapejs }}",
     "privacyText": "{% translate "This information helps understand your hiring needs and prepare candidate prequalification. Authorised Match Europe teams and relevant EURES partners may access necessary information when arranging an introduction. Candidate answers are reviewed by a human." context "employer import" as translated_value_130 %}{{ translated_value_130|escapejs }}",
-    "privacyLocal": "{% translate "Confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import" as translated_value_131 %}{{ translated_value_131|escapejs }}",
+    "privacyLocal": "{% if adviser_setup %}{% translate "Check the information before recording the telephone confirmation." as deposit_note %}{{ deposit_note|escapejs }}{% else %}{% translate "Confirmation saves an inactive offer in the preparation service. It does not start candidate searches or send information to EURES partners." context "employer import" as translated_value_131 %}{{ translated_value_131|escapejs }}{% endif %}",
     "privacyLink": "{% translate "Read the data protection notice" context "employer import" as translated_value_132 %}{{ translated_value_132|escapejs }}",
     "permits": {
       "B": "{% translate "Licence B" context "employer import" as translated_value_133 %}{{ translated_value_133|escapejs }}",
@@ -936,6 +956,9 @@
   "draftsTitle": "{% translate "Resume a draft in this browser" context "employer import" as translated_value_54 %}{{ translated_value_54|escapejs }}",
   "errorPrefix": "{% translate "Unable to continue: " context "employer import" as translated_value_55 %}{{ translated_value_55|escapejs }}",
   "errors": {
+    "phone_confirmation_required": "{% translate 'Record the telephone confirmation and its date.' as phone_error %}{{ phone_error|escapejs }}",
+    "deposit_expired": "{% translate 'This deposit session expired. Return to your deposited offers and select the establishment again.' as deposit_error %}{{ deposit_error|escapejs }}",
+    "required": "{% translate 'Complete job title, company, location, description and contract type before confirming.' as required_error %}{{ required_error|escapejs }}",
     "unsafe_url": "{% translate "Use a public HTTPS page without credentials or internal addresses." context "employer import" as translated_value_56 %}{{ translated_value_56|escapejs }}",
     "unreadable_url": "{% translate "The site is unavailable or does not allow this page to be read automatically." context "employer import" as translated_value_57 %}{{ translated_value_57|escapejs }}",
     "unreadable": "{% translate "The document could not be read. Try another file or paste the text." context "employer import" as translated_value_58 %}{{ translated_value_58|escapejs }}",
@@ -969,7 +992,7 @@
     </script>
     <script id="contact-strings" type="application/json">
 {
-  "title": "{% translate "Your contact for the adviser" context "employer import" as translated_value_1 %}{{ translated_value_1|escapejs }}",
+  "title": "{% if adviser_setup %}{% translate "Employer contact" as deposit_contact %}{{ deposit_contact|escapejs }}{% else %}{% translate "Your contact for the adviser" context "employer import" as translated_value_1 %}{{ translated_value_1|escapejs }}{% endif %}",
   "name": "{% translate "Full name" context "employer import" as translated_value_2 %}{{ translated_value_2|escapejs }}",
   "email": "{% translate "Contact email" context "employer import" as translated_value_3 %}{{ translated_value_3|escapejs }}",
   "phone": "{% translate "Phone (optional)" context "employer import" as translated_value_4 %}{{ translated_value_4|escapejs }}",
