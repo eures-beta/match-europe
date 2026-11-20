@@ -105,7 +105,8 @@ class CommonCatalogueTests(TestCase):
         modified['mappings'].append(mapping)
         try:
             with patch(
-                'eures_beta.occupations.unified.rome_catalog', return_value=modified
+                'eures_beta.occupations.unified.iter_artifact',
+                return_value=iter(modified['mappings']),
             ):
                 unified.pairs.cache_clear()
                 unified.reverse_pairs.cache_clear()

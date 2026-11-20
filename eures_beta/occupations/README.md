@@ -10,6 +10,8 @@ compétence aux personnes et ne calcule pas de matching.
 - [tests/occupations/](../../tests/occupations/) : intégrité, recherche et importateurs sans réseau externe.
 - [catalog.py](catalog.py) : chargement en cache, recherches multilingues et
   reconnaissance commune des références sans regex à retours arrière ambigus.
+- [unified.py](unified.py) : regroupements exacts non ambigus ; lecture vérifiée
+  du tableau de correspondances en flux, sans seconde copie complète de ROME/OGR.
 - [views.py](../www/occupations/views.py) : interface HTTP de recherche de métiers.
 - [test_picker.cjs](../../tests/occupations/test_picker.cjs) : tests JavaScript du sélecteur.
 - [__init__.py](__init__.py) : déclaration du paquet Python.

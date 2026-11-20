@@ -264,7 +264,10 @@ class BakerMixedTests(TestCase):
         try:
             with (
                 patch('eures_beta.occupations.catalog.rome_catalog', return_value=rows),
-                patch('eures_beta.occupations.unified.rome_catalog', return_value=rows),
+                patch(
+                    'eures_beta.occupations.unified.iter_artifact',
+                    side_effect=lambda *args: iter(rows['mappings']),
+                ),
             ):
                 unified.pairs.cache_clear()
                 unified.reverse_pairs.cache_clear()

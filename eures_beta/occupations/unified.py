@@ -2,7 +2,9 @@
 
 from .catalog import (
     occupation_index,
-    rome_catalog,
+    catalog,
+    DATA_DIR,
+    iter_artifact,
     rome_search_catalog,
     normalize,
     present,
@@ -21,7 +23,11 @@ def pairs():
     fiches = rome_search_catalog()['fiches']
     jobs = occupation_index()
     candidates = {}
-    for row in rome_catalog()['mappings']:
+    # Grouping needs only exact links, not a second complete ROME/OGR catalogue
+    # and the retained crosswalk. Keep the checksum check on the same file.
+    for row in iter_artifact(
+        DATA_DIR / 'esco_rome.json', catalog()['manifest'], 'mappings.item'
+    ):
         if row['relation'] != 'skos:exactMatch' or row['escoUri'] not in jobs:
             continue
         for code in row['ficheCodes']:

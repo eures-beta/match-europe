@@ -56,6 +56,18 @@ def read_artifact(path, manifest):
         return value
 
 
+def iter_artifact(path, manifest, prefix):
+    """Verify the complete artifact before streaming selected records."""
+    with path.open('rb') as source:
+        if (
+            hashlib.file_digest(source, 'sha256').hexdigest()
+            != manifest['artifacts'][path.name]['sha256']
+        ):
+            raise ValueError('Occupation catalog checksum mismatch')
+        source.seek(0)
+        yield from ijson.items(source, prefix, use_float=True)
+
+
 def normalize(value):
     value = unicodedata.normalize('NFKD', value.casefold())
     return re.sub(
