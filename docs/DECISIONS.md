@@ -1,9 +1,8 @@
 # Décisions actuelles
 
-Ce registre décrit les choix durables, leur justification et leurs références,
-pas un journal d'activité. Les demandes humaines ultérieures explicitement validées
-peuvent les remplacer ; préciser alors ce qui change et pourquoi. Les versions
-précédentes restent dans [Git](https://github.com/eures-beta/match-europe/commits/main/docs/DECISIONS.md).
+Choix durables, raisons et références, sans journal d'activité. Toute nouvelle
+décision humaine validée précise ce qu'elle remplace et pourquoi.
+Les versions précédentes restent dans [Git](https://github.com/eures-beta/match-europe/commits/main/docs/DECISIONS.md).
 
 ## D01 — Parité des environnements
 
