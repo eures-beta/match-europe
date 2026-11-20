@@ -7,6 +7,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: eures_beta/templates/includes/useful_links.html
+msgid "Design system"
+msgstr "Designsystem"
+
+#: eures_beta/templates/includes/useful_links.html
+msgid "Source code on GitHub"
+msgstr "Quellcode auf GitHub"
+
 #: eures_beta/templates/users/adviser_history.html:36
 #, python-format
 msgid "%(counter)s result"

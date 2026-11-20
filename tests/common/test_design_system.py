@@ -136,6 +136,33 @@ class DesignSystemPageTests(TestCase):
             with self.subTest(path=path):
                 self.assertEqual(self.client.get(path).status_code, 404)
 
+    def test_shared_footer_links_are_public_and_translated(self):
+        labels = {
+            'fr': ('Système de design', 'Code source sur GitHub'),
+            'en': ('Design system', 'Source code on GitHub'),
+            'de': ('Designsystem', 'Quellcode auf GitHub'),
+        }
+        for language, expected in labels.items():
+            for path in ('/', '/employer/', '/candidate/', '/privacy/', self.url):
+                with self.subTest(language=language, path=path):
+                    response = self.client.get(path, {'lang': language})
+                    self.assertEqual(response.status_code, 200)
+                    footer = (
+                        response.content.decode()
+                        .split('<footer', 1)[1]
+                        .split('</footer>', 1)[0]
+                    )
+                    self.assertIn(
+                        'href="/design-system/?lang=' + language + '"', footer
+                    )
+                    self.assertIn('href="https://github.com/eures-beta"', footer)
+                    for label in expected:
+                        self.assertIn(label, footer)
+                    for target in ('project', 'journal', 'privacy'):
+                        self.assertIn(
+                            'href="/' + target + '/?lang=' + language + '"', footer
+                        )
+
     def test_pages_load_the_three_stylesheets_in_order(self):
         self.client.force_login(self.staff)
         for url in self.urls:
