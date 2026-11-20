@@ -9,8 +9,9 @@ Le dossier reste consultable après un accord comme après un refus de partage.
 
 `CandidateOfferReview` conserve l’état de traitement, le conseiller responsable,
 la version, la date de remise, l’empreinte et la synthèse courante.
-`CandidateOfferReviewAction` garde chaque remise et sa synthèse figée, les prises
+`CandidateOfferReviewEvent` garde chaque remise et sa synthèse figée, les prises
 en charge, libérations, reprises motivées et décisions, avec auteur/date/version.
+La relation inverse est `review.events` ; `action` indique le type d'événement.
 Les réserves et les conditions inconnues sont conservées. Il ne s’agit pas d’une
 nouvelle interprétation générative des réponses ; l’avis Albert reste distinct.
 
@@ -64,6 +65,10 @@ terminé peut remettre ses réponses actuelles par une action explicite. Aucun
 email de rattrapage, consentement ou décision n’est fabriqué par migration.
 `0019` renomme seulement les contraintes et index du suivi pour respecter les noms
 des modèles, après création des clés étrangères différées ; aucune table recréée.
+`0020` renomme le journal `CandidateOfferReviewAction` en `CandidateOfferReviewEvent`,
+sa table, ses objets PostgreSQL et les permissions associées en place. Les lignes,
+identifiants, dates, relations et séquence sont conservés, y compris au retour arrière.
+Les migrations publiées `0018–0019` restent inchangées.
 Le retour arrière conserve les données préexistantes, mais retire les nouveaux
 champs et tables : sauvegarder le nouvel historique avant un retour en exploitation.
 

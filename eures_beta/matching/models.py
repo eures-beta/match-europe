@@ -107,11 +107,11 @@ class CandidateOfferReview(models.Model):
     summary = models.JSONField(default=dict, blank=True)
 
 
-class CandidateOfferReviewAction(models.Model):
+class CandidateOfferReviewEvent(models.Model):
     """Append-only adviser handling and immutable submitted summaries."""
 
     review = models.ForeignKey(
-        CandidateOfferReview, on_delete=models.CASCADE, related_name='actions'
+        CandidateOfferReview, on_delete=models.CASCADE, related_name='events'
     )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     version = models.PositiveIntegerField()
@@ -139,7 +139,7 @@ class CandidateOfferReviewAction(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['review', 'version'],
-                name='matching_candidateofferreviewaction_version_unique',
+                name='matching_candidateofferreviewevent_version_unique',
             )
         ]
 

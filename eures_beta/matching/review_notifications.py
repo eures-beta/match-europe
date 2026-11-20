@@ -7,13 +7,13 @@ from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext as _
 from eures_beta.users.email_login import email_ready
-from .models import CandidateOfferReviewAction
+from .models import CandidateOfferReviewEvent
 
 logger = logging.getLogger(__name__)
 
 
 def send(pk):
-    event = CandidateOfferReviewAction.objects.select_related(
+    event = CandidateOfferReviewEvent.objects.select_related(
         'review__requested_by', 'review__match__candidate__user'
     ).get(pk=pk)
     review = event.review
