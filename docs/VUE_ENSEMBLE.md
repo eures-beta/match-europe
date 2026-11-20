@@ -31,7 +31,7 @@ ne constitue pas une restriction permanente du produit.
 
 - `users` porte les comptes, rôles et connexion ; `invitations` les invitations.
 - `candidates` porte questionnaire, profil, consentements du parcours et abonnement Push.
-- `employers` porte offres, établissements et profil employeur.
+- `employers` porte offres et profil employeur.
 - `occupations` porte la recherche métiers ESCO/ROME ; `skills` les compétences
   et suggestions appuyées sur les sources officielles.
 - `matching` porte rapprochements, évaluations, décisions, revues d'offres et conversations.

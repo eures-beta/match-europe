@@ -61,9 +61,10 @@ mobilité, conditions et disponibilité ; il ne réintroduit pas l'import CV aba
 Le brouillon temporaire est distinct du `CandidateProfile` durable créé après
 vérification ; reprise/comparaison explicite avant remplacement d'un profil.
 Les offres sont des `JobOffer` appartenant au compte employeur `created_by`.
+Le [compte propriétaire](EMPLOYER_OFFER_OWNERSHIP.md) remplace établissements et
+adhésions ; un partage multi-comptes sera conçu séparément.
 Le conseiller déposant est conservé dans `adviser` ; l’email existe uniquement
-dans le compte, créé actif au dépôt si nécessaire. Aucun établissement ni adhésion
-n’est utilisé par le dépôt conseiller (décision validée le 20 novembre 2026).
+dans le compte, créé actif au dépôt si nécessaire.
 Une confirmation téléphonique suffit avant matching. Voir [le dépôt conseiller](ADVISER_OFFER_DEPOSIT.md).
 Le matching produit des résultats explicables, avec critères établis/inconnus et
 blocages validés ; ne pas déduire automatiquement des pénalités des données absentes

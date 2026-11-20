@@ -8,8 +8,6 @@ suivent le concept actuel (`offer_review_services.py`, `profile.py`).
 
 | Modèle | Ancienne table | Table actuelle après migration |
 | --- | --- | --- |
-| Company | journeys_employercompany | employers_company |
-| CompanyMembership | journeys_employermembership | employers_companymembership |
 | JobOffer | journeys_employerimport | employers_joboffer |
 | CandidateOfferMatch | matching_matchpair | matching_candidateoffermatch |
 | MatchEvaluation | matching_evaluation | matching_matchevaluation |
@@ -22,8 +20,8 @@ suivent le concept actuel (`offer_review_services.py`, `profile.py`).
 
 ## Relations et objets associés
 
-`CompanyMembership.user` remplace `person`. Les évaluations, décisions et revues
-référencent `match`. Les réponses et partages référencent `review` ; les
+Les évaluations, décisions et revues référencent `match`.
+Les réponses et partages référencent `review` ; les
 `CandidateOfferConversation` gardent leur relation `offer_review` introduite
 dans la PR précédente, avec les `CandidateOfferConversationMessage` associés.
 Les accès inverses deviennent `job_offers`, `created_job_offers`,

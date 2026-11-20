@@ -31,7 +31,7 @@ Les API métiers conservent les contrôles de rôle employeur et de CSRF ; elles
 Le JSON `JobOffer.data.occupation` contient `title`, `language`, `version`,
 `uris`, `personal`, `jobs`. Le serveur reconstruit descriptions, codes et relations
 depuis le catalogue ; les libellés/codes du navigateur ne font pas autorité.
-L’objet suit les droits existants session/établissement et le contrôle de révision.
+L’objet suit les droits du compte propriétaire et le contrôle de révision.
 La réouverture du même import restaure les cases et le texte personnel. Aucun
 changement de modèle ni migration. Le bloc n’est pas envoyé au prestataire.
 L’éditeur connecté historique conserve les choix tant que le titre ne change pas,
