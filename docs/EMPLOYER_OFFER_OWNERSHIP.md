@@ -6,8 +6,9 @@ Le nom d’entreprise (`data.companyName`), le contact et les paramètres d’UR
 donnent aucun droit. Les offres sans propriétaire ne peuvent pas être réclamées
 par une session de navigateur ou une adresse e-mail correspondante.
 
-Le parcours actuel est : invitation du compte, connexion, import/relecture,
-enregistrement avec propriétaire, puis tableau de bord. Aucun établissement,
+L’employeur invité se connecte, importe et relit son offre, puis l’enregistre dans
+son tableau de bord. Le conseiller peut aussi déposer une offre pour un compte
+employeur réutilisé ou précréé actif, après confirmation téléphonique. Aucun établissement,
 adhésion ou rattachement supplémentaire n’est nécessaire. L’ancien accès
 `/employer/offers/` redirige vers ce tableau de bord ; ses détails et actions gardent
 les contrôles de rôle, propriété, CSRF, révision et verrou de recherche.
@@ -23,8 +24,18 @@ aucune attribution implicite ne doit remplacer une décision humaine.
 Les adhésions et établissements sont supprimés ; un retour de schéma ne restaure
 pas leurs anciennes données. Les migrations historiques restent immuables.
 
+`0011_prepare_company_cleanup` relie les deux historiques publiés : elle impose
+`0010_remove_joboffer_email_and_more` et `invitations.0005` avant le retrait
+des établissements, via `run_before`, sans réécrire les anciens fichiers.
+L’email est ainsi centralisé dans User et le lien d’invitation retiré avant
+la suppression de sa table cible. Les tests couvrent aussi cet ordre en retour arrière.
+Une base ayant déjà appliqué l’ancienne #261 isolée doit revenir avant
+`0009_remove_company_workspaces` avec l’ancien code avant de charger ce graphe ;
+ne pas contourner le contrôle d’historique avec `--fake`.
+
 Le matching des offres complètes utilise le compte employeur actif, les champs
 requis, la révision des copies et l’état de validation, sans relation établissement.
+Une offre déposée par conseiller garde la confirmation téléphonique de sa révision.
 Aucun calcul global n’est déclenché par la migration. Les empreintes existantes
 conservent leurs clés vides historiques pour les offres sans établissement :
 les confirmations déjà enregistrées ne sont pas invalidées par un renommage technique.

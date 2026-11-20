@@ -7,7 +7,7 @@ Offres, propriété par compte et lecture des sources. Les pages et endpoints so
 ## Dossiers
 
 - [management/](management/) — Commandes du domaine, indépendantes des pages web.
-- [migrations/](migrations/) — Historique Django du schéma, conservé lors du déplacement des interfaces.
+- [migrations/](migrations/) — Historique Django et jonction ordonnée du dépôt conseiller avec le retrait des établissements.
 
 ## Fichiers
 

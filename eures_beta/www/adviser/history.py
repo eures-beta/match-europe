@@ -84,16 +84,15 @@ def history_rows(section, search):
         )
     if section == 'employers':
         # Adviser history mirrors recorded offers, independently of matching eligibility.
-        return (
-            JobOffer.objects.select_related('created_by', 'adviser')
-            .filter(
+        rows = JobOffer.objects.select_related('created_by', 'adviser')
+        if search:
+            rows = rows.filter(
                 Q(data__title__icontains=search)
                 | Q(data__companyName__icontains=search)
                 | Q(created_by__email__icontains=search)
                 | Q(data__city__icontains=search)
             )
-            .order_by('-created', '-pk')
-        )
+        return rows.order_by('-created', '-pk')
     if section == 'invitations':
         return (
             Invitation.objects.filter(email_sent_at__isnull=False)

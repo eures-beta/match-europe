@@ -6,11 +6,19 @@ from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
 from django.utils import timezone
 
-BEFORE = ('employers', '0008_harmonize_model_names')
+BEFORE = ('employers', '0011_prepare_company_cleanup')
 AFTER = ('employers', '0009_remove_company_workspaces')
 
 
 class RemoveCompanyWorkspacesTests(TransactionTestCase):
+    def test_combined_plan_retires_invitation_links_before_company_tables(self):
+        plan = MigrationExecutor(connection).loader.graph.forwards_plan(AFTER)
+        removal = plan.index(('employers', '0009_remove_company_workspaces'))
+        self.assertLess(plan.index(BEFORE), removal)
+        self.assertLess(
+            plan.index(('invitations', '0005_remove_invitation_company')), removal
+        )
+
     def migrate(self, target):
         executor = MigrationExecutor(connection)
         executor.migrate([target])
@@ -42,7 +50,6 @@ class RemoveCompanyWorkspacesTests(TransactionTestCase):
         offer = apps.get_model('employers', 'JobOffer').objects.create(
             company=company,
             created_by=user if owned else None,
-            email='contact@example.invalid',
             session_key='',
             preparation_agreed_at=timezone.now(),
             source_kind='pdf',
@@ -60,7 +67,6 @@ class RemoveCompanyWorkspacesTests(TransactionTestCase):
         apps, user, offer = self.fixture()
         unlinked = apps.get_model('employers', 'JobOffer').objects.create(
             created_by=user,
-            email=user.email,
             session_key='',
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
