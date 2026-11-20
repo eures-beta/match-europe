@@ -16,7 +16,7 @@ from eures_beta.candidates.models import CandidateProfile
 from eures_beta.users.models import User
 from eures_beta.www.employer.imports import clean_data
 from eures_beta.employers.offer_ingestion import ImportFailure, empty_data
-from eures_beta.employers.models import JobOffer, Company, CompanyMembership
+from eures_beta.employers.models import JobOffer
 
 
 @override_settings(
@@ -261,8 +261,6 @@ class ContinuousTests(TestCase):
 
     def test_employer_save_reload_edit_duplicate_and_foreign_access(self):
         person = self.employer()
-        company = Company.objects.create(name='Fictional employer')
-        CompanyMembership.objects.create(company=company, user=person)
         data = empty_data()
         data.update(
             title='Serveur',
@@ -276,7 +274,6 @@ class ContinuousTests(TestCase):
         )
         data = clean_data(data)
         offer = JobOffer.objects.create(
-            company=company,
             created_by=person,
             session_key='',
             contact={'name': 'Fictional contact', 'email': person.email},

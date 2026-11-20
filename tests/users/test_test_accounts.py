@@ -11,9 +11,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from eures_beta.employers.models import (
-    Company,
     JobOffer,
-    CompanyMembership,
 )
 from eures_beta.users.test_accounts import ACCOUNTS, prepared_user
 
@@ -127,8 +125,6 @@ class TestAccountAccessTests(TestCase):
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
         self.assertEqual(User.objects.count(), 9)
-        self.assertEqual(Company.objects.count(), 1)
-        self.assertEqual(CompanyMembership.objects.count(), 1)
         self.assertEqual(JobOffer.objects.count(), 3)
         identities = list(User.objects.order_by('pk').values_list('pk', flat=True))
         offer = JobOffer.objects.first()

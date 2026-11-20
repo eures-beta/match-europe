@@ -71,10 +71,6 @@ def offer_details(offer, language):
         (_('Confirmed revision'), offer.phone_confirmed_revision or _('Not provided')),
         (_('Offer reference'), str(offer.pk)),
         (
-            _('Company workspace'),
-            offer.company.name if offer.company else _('Not provided'),
-        ),
-        (
             _('Created by'),
             offer.created_by.email if offer.created_by else _('Not provided'),
         ),

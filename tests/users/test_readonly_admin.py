@@ -17,8 +17,6 @@ from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (
     EmployerProfile,
-    Company,
-    CompanyMembership,
     JobOffer,
 )
 
@@ -34,12 +32,7 @@ class ReadOnlyAdminTests(TestCase):
         self.employer = User.objects.create_user(
             'employer@example.invalid', kind='employer'
         )
-        self.company = Company.objects.create(name='Fictional company')
-        self.membership = CompanyMembership.objects.create(
-            company=self.company, user=self.employer
-        )
         self.offer = JobOffer.objects.create(
-            company=self.company,
             created_by=self.employer,
             session_key='never-show-session-key',
             preparation_agreed_at=timezone.now(),
@@ -86,8 +79,6 @@ class ReadOnlyAdminTests(TestCase):
                 status='ready',
             ),
             self.profile,
-            self.company,
-            self.membership,
             self.offer,
             self.invitation,
             self.limit,
@@ -248,8 +239,8 @@ class ReadOnlyAdminTests(TestCase):
         self.assertNotContains(popup, self.session_record.session_key)
 
     def test_search_and_filters_keep_the_read_only_behavior(self):
-        page = self.client.get(self.url(self.company, 'changelist'), {'q': 'Fictional'})
-        self.assertContains(page, self.company.name)
+        page = self.client.get(self.url(self.offer, 'changelist'), {'q': 'employer'})
+        self.assertContains(page, str(self.offer.pk))
         page = self.client.get(
             self.url(self.offer, 'changelist'), {'source_kind': 'manual'}
         )

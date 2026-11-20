@@ -5,12 +5,15 @@ from django.views.generic.base import RedirectView
 
 from .redirects import (
     legacy_employer_connected,
+    retired_employer_attachment,
     legacy_employer_page,
     legacy_import_api,
     legacy_workspace_route,
 )
 
 urlpatterns = [
+    path('employer/attach/', retired_employer_attachment),
+    path('employer/drafts/<uuid:id>/attach/', retired_employer_attachment),
     *[
         path(old_path, legacy_workspace_route, {'target': target})
         for old_path, target in (

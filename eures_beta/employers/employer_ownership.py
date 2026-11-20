@@ -1,10 +1,6 @@
-"""Shared employer workspace permissions. Never infer membership from contact data."""
+"""Only an active employer account can access its own offers."""
 
-from django.db.models import Q
-from eures_beta.employers.models import (
-    JobOffer,
-    CompanyMembership,
-)
+from eures_beta.employers.models import JobOffer
 
 
 def identity(request):
@@ -14,26 +10,10 @@ def identity(request):
     return None
 
 
-def memberships(request):
+def accessible_offers(request):
     person = identity(request)
     return (
-        CompanyMembership.objects.filter(user=person, active=True)
+        JobOffer.objects.filter(created_by=person)
         if person
-        else CompanyMembership.objects.none()
+        else JobOffer.objects.none()
     )
-
-
-def accessible_offers(request):
-    companies = memberships(request).values('company_id')
-    allowed = Q(company_id__in=companies)
-    person = identity(request)
-    if person:
-        allowed |= Q(company__isnull=True, created_by=person)
-    # Legacy/unclaimed drafts remain private to their original browser only.
-    if request.session.session_key:
-        allowed |= Q(
-            company__isnull=True,
-            created_by__isnull=True,
-            session_key=request.session.session_key,
-        )
-    return JobOffer.objects.filter(allowed)

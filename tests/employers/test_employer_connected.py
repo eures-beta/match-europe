@@ -5,9 +5,7 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 from datetime import timedelta
 from eures_beta.employers.models import (
-    Company,
     JobOffer,
-    CompanyMembership,
 )
 from tests.employers.test_employer_ownership import OwnershipTests
 
@@ -31,18 +29,13 @@ class ConnectedEmployerTests(TestCase):
 
     def test_access_without_offer_and_languages(self):
         person = self.login(self.client, 'rh1@entreprise.invalid')
-        company = Company.objects.create(name='Allowed establishment')
-        CompanyMembership.objects.create(user=person, company=company)
-        Company.objects.create(name='Hidden establishment')
         for lang, label in [
-            ('fr', 'Ajouter une offre'),
-            ('en', 'Add an offer'),
-            ('de', 'Angebot hinzufügen'),
+            ('fr', 'Décrire mon besoin de recrutement'),
+            ('en', 'Describe my recruitment needs'),
+            ('de', 'Meinen Personalbedarf beschreiben'),
         ]:
             page = self.client.get('/employer/offers/?lang=' + lang)
             self.assertContains(page, label)
-            self.assertContains(page, company.name)
-            self.assertNotContains(page, 'Hidden establishment')
         self.assertEqual(JobOffer.objects.count(), 0)
         self.assertEqual(self.client.get('/employer/access/').status_code, 404)
 
@@ -50,8 +43,6 @@ class ConnectedEmployerTests(TestCase):
     @patch('eures_beta.www.employer.imports.geocode')
     def test_valid_session_and_distinct_contact(self, geo, api):
         person = self.login(self.client, 'rh1@entreprise.invalid')
-        company = Company.objects.create(name='Allowed establishment')
-        CompanyMembership.objects.create(user=person, company=company)
         key = self.client.session.session_key
         response = self.submit()
         self.assertEqual(response.status_code, 201)
@@ -61,32 +52,9 @@ class ConnectedEmployerTests(TestCase):
         self.assertEqual(draft.created_by, person)
         self.assertNotIn('email', draft.contact)
         self.assertEqual(draft.created_by.email, person.email)
-        self.client.post('/employer/attach/', {'company': company.pk})
-        draft.refresh_from_db()
-        self.assertEqual(draft.company, company)
         self.assertEqual(draft.session_key, '')
         geo.assert_not_called()
         api.assert_not_called()
-
-    def test_multiple_establishments_and_forbidden_choice(self):
-        person = self.login(self.client, 'rh1@entreprise.invalid')
-        companies = [
-            Company.objects.create(name=name)
-            for name in ['First', 'Second', 'Forbidden']
-        ]
-        for company in companies[:2]:
-            CompanyMembership.objects.create(user=person, company=company)
-        self.submit()
-        self.assertContains(
-            self.client.get('/employer/offers/'), 'id="establishment-choice"'
-        )
-        for payload in [{}, {'company': companies[2].pk}]:
-            self.assertEqual(
-                self.client.post('/employer/attach/', payload).status_code, 404
-            )
-            self.assertIsNone(JobOffer.objects.get().company)
-        self.client.post('/employer/attach/', {'company': companies[1].pk})
-        self.assertEqual(JobOffer.objects.get().company, companies[1])
 
     def test_expired_session_cannot_create_a_draft(self):
         self.login(self.client, 'rh1@entreprise.invalid')
@@ -96,17 +64,6 @@ class ConnectedEmployerTests(TestCase):
         response = self.submit()
         self.assertEqual(response.status_code, 403)
         self.assertFalse(JobOffer.objects.exists())
-
-    def test_no_membership_and_revocation(self):
-        person = self.login(self.client, 'rh1@entreprise.invalid')
-        self.assertContains(self.client.get('/employer/offers/'), 'Vous n’êtes encore')
-        company = Company.objects.create(name='Revoked')
-        CompanyMembership.objects.create(user=person, company=company, active=False)
-        self.submit()
-        self.assertEqual(
-            self.client.post('/employer/attach/', {'company': company.pk}).status_code,
-            404,
-        )
 
     def test_import_connection_button_and_server_session_state(self):
         for lang, label in [
@@ -119,9 +76,7 @@ class ConnectedEmployerTests(TestCase):
         self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get(path), 'data-employer-connected="true"')
         self.assertContains(self.client.get(path), 'Mein Konto')
-        self.assertContains(
-            self.client.get('/employer/offers/?lang=fr'), 'Mon espace employeur'
-        )
+        self.assertContains(self.client.get('/employer/offers/?lang=fr'), 'Vos offres')
         self.client.post('/accounts/logout/')
         self.assertTemplateUsed(self.client.get(path), 'employer/import_access.html')
 

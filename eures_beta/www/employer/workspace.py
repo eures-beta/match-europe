@@ -1,14 +1,10 @@
-"""Employer offer workspace; explicit memberships, no external submission."""
+"""Employer-owned offers, with no external submission."""
 
 from copy import deepcopy
 from functools import wraps
 from eures_beta.employers.occupation_selection import skill_references
 from django import forms
-from django.contrib.auth import get_user_model
-from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Q
-from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone, translation
@@ -18,13 +14,11 @@ from django.views.decorators.cache import never_cache
 from eures_beta.employers.offer_validation import clean_data
 from eures_beta.employers.employer_ownership import (
     identity,
-    memberships,
     accessible_offers,
 )
 from eures_beta.www.employer.forms import EmployerContactForm
 from eures_beta.choices import MOBILITY
-from eures_beta.employers.models import JobOffer, Company, CompanyMembership
-from eures_beta.www.employer.establishments import EstablishmentForm
+from eures_beta.employers.models import JobOffer
 from django.shortcuts import render as render_template
 from eures_beta.employers.offer_ingestion import ImportFailure
 
@@ -53,9 +47,7 @@ def render(request, stage, status=200, **context):
 
 
 def visible(request):
-    # Account and establishment ownership apply in every environment.
-    policy = Q(company__isnull=False) | Q(created_by=identity(request))
-    return accessible_offers(request).filter(policy).select_related('company')
+    return accessible_offers(request)
 
 
 class OfferEditForm(forms.Form):
@@ -70,9 +62,6 @@ class OfferEditForm(forms.Form):
         label=_('Company'),
         max_length=100,
         required=False,
-        help_text=_(
-            'Changing this text does not change the establishment or access rights.'
-        ),
     )
     city = forms.CharField(label=_('Workplace'), max_length=150, required=False)
     contractType = forms.ChoiceField(
@@ -263,52 +252,10 @@ class OfferEditForm(forms.Form):
 @connected
 @require_GET
 def offers(request):
-    person = identity(request)
-    pending = JobOffer.objects.filter(company__isnull=True, created_by=person).order_by(
-        '-created'
-    )
-    requested = request.session.get('employer_claim_import')
-    draft = (
-        pending.filter(pk=requested).first() if requested else None
-    ) or pending.first()
-    if draft:
-        request.session['employer_claim_import'] = str(draft.pk)
-    else:
-        request.session.pop('employer_claim_import', None)
-    return connected_page(request, person.email, person, draft)
+    # Keep the published list URL, but use the single account dashboard.
+    from eures_beta.www.employer.dashboard import employer_dashboard
 
-
-def offer_home(request, **attachment):
-    companies = [
-        member.company
-        for member in memberships(request)
-        .select_related('company')
-        .order_by('company__name', 'company_id')
-    ]
-    selected = request.GET.get('company', '')
-    rows = visible(request)
-    if selected:
-        if not selected.isdecimal() or int(selected) not in [c.pk for c in companies]:
-            raise Http404
-        rows = rows.filter(company_id=selected)
-    private = JobOffer.objects.filter(
-        company__isnull=True, created_by=identity(request)
-    ).order_by('-updated')
-    attachment.pop('companies', None)
-    if attachment.get('pending_import'):
-        private = private.exclude(pk=attachment['pending_import'])
-    return render(
-        request,
-        'offers',
-        companies=companies,
-        selected=selected,
-        **attachment,
-        offers=Paginator(rows.order_by('-updated', 'pk'), 20).get_page(
-            request.GET.get('page')
-        ),
-        private_drafts=private,
-        workspace=True,
-    )
+    return employer_dashboard(request)
 
 
 @connected
@@ -380,7 +327,7 @@ def edit(request, id):
                 form.add_error(
                     None,
                     _(
-                        'A colleague changed this offer. Your changes have not been saved. Open the current version before trying again.'
+                        'This offer has changed. Your changes have not been saved. Open the current version before trying again.'
                     ),
                 )
             elif valid:
@@ -430,7 +377,6 @@ def duplicate(request, id):
         # Explicit action, new UUID, no publication/search state or external identifier copied.
         data = clean_data(deepcopy(original.data))
         copy = JobOffer.objects.create(
-            company=original.company,
             created_by=identity(request),
             duplicated_from=original,
             session_key='',
@@ -442,22 +388,6 @@ def duplicate(request, id):
             structured_requirements=deepcopy(original.structured_requirements),
         )
     return redirect('employer_offer_edit', id=copy.pk)
-
-
-@connected
-@require_POST
-def resume_attachment(request, id):
-    offer = get_object_or_404(
-        JobOffer, pk=id, company__isnull=True, created_by=identity(request)
-    )
-    request.session['employer_claim_import'] = str(offer.pk)
-    return redirect('employer_offers')
-
-
-@connected
-@require_POST
-def attach(request):
-    return attach_draft(request)
 
 
 def page(request, stage, **context):
@@ -480,78 +410,3 @@ def page(request, stage, **context):
                 **context,
             },
         )
-
-
-def connected_page(request, email, person, draft, establishment_form=None):
-    return offer_home(
-        request,
-        email=email,
-        companies=Company.objects.filter(memberships__in=memberships(request)),
-        pending_import=request.session.get('employer_claim_import'),
-        pending_title=(
-            (draft.data.get('title') or draft.data.get('description', '')[:125])
-            if draft
-            else ''
-        ),
-        import_url=reverse('employer_import')
-        + '?lang='
-        + request.session.get('employer_auth_language', 'fr'),
-        attached=request.session.pop('employer_attached', False),
-        establishment_form=(
-            establishment_form
-            if establishment_form is not None
-            else EstablishmentForm(
-                initial={'name': draft.data.get('companyName', '')} if draft else None
-            )
-        ),
-    )
-
-
-def attach_draft(request):
-    """Attach only a draft owned by the authenticated employer, with explicit workspace choice."""
-    person = identity(request)
-    pending_id = request.session.get('employer_claim_import')
-    if not person or not pending_id:
-        raise Http404
-    with transaction.atomic():
-        draft = (
-            JobOffer.objects.select_for_update()
-            .filter(pk=pending_id, company__isnull=True, created_by=person)
-            .first()
-        )
-        if draft is None:
-            raise Http404
-        company_id = request.POST.get('company', '')
-        if company_id:
-            if not company_id.isdecimal():
-                raise Http404
-            member = (
-                memberships(request)
-                .select_for_update()
-                .filter(company_id=company_id)
-                .first()
-            )
-            if not member:
-                raise Http404
-            company = member.company
-        else:
-            # Serialise first registration for this person, including across browsers.
-            get_user_model().objects.select_for_update().get(pk=person.pk)
-            if memberships(request).exists():
-                raise Http404
-            form = EstablishmentForm(request.POST)
-            if not form.is_valid():
-                return connected_page(request, person.email, person, draft, form)
-            company = Company.objects.create(name=form.cleaned_data['name'])
-            CompanyMembership.objects.create(user=person, company=company)
-        draft.company = company
-        draft.created_by = person
-        # Session ownership must no longer provide an alternative access path.
-        draft.session_key = ''
-        draft.save(update_fields=['company', 'created_by', 'session_key', 'updated'])
-        from eures_beta.matching.services import schedule_offer_matching
-
-        schedule_offer_matching(draft)
-    request.session.pop('employer_claim_import', None)
-    request.session['employer_attached'] = company.name
-    return redirect('employer_offers')

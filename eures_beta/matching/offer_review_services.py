@@ -131,8 +131,8 @@ def questions(review):
         candidate, offer, requirements, data['facts'], today=timezone.localdate()
     )
     context = {key: offer.get(key, '') for key in ('title', 'companyName', 'city')}
-    # The identity of the recipient is bound too, without copying contact details.
-    context['company_id'] = str(match.offer.company_id or '')
+    # Keep the former empty workspace key so existing company-less consents stay valid.
+    context['company_id'] = ''
     rows = []
     fields = {
         'occupation': ('project_mode', 'occupation_references', 'desired_occupations'),
@@ -376,7 +376,8 @@ def review_state(review):
                 for field in review.match.candidate._meta.fields
                 if field.name not in ('user', 'id')
             },
-            'company': str(review.match.offer.company_id or ''),
+            # Same compatibility key as before retirement; no model lookup remains.
+            'company': '',
             'questions': [
                 (
                     row['key'],

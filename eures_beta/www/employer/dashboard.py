@@ -10,11 +10,9 @@ from eures_beta.employers.employer_ownership import accessible_offers
 
 
 def employer_dashboard(request):
-    # Never include browser-only anonymous drafts in an authenticated account list.
     offers = (
         accessible_offers(request)
-        .exclude(company__isnull=True, created_by__isnull=True)
-        .select_related('company', 'created_by')
+        .select_related('created_by')
         .order_by('-updated', '-pk')
     )
     return render(

@@ -2,12 +2,10 @@
 
 import uuid
 from django.utils import timezone
-from .models import Company, CompanyMembership, JobOffer
+from .models import JobOffer
 
 
 def seed_test_offers(employer):
-    company, _ = Company.objects.get_or_create(name='Fictional test workspace')
-    CompanyMembership.objects.get_or_create(company=company, user=employer)
     for key, title, description in (
         (
             'cleaner',
@@ -23,7 +21,6 @@ def seed_test_offers(employer):
         JobOffer.objects.get_or_create(
             id=uuid.uuid5(uuid.NAMESPACE_URL, 'match-europe.test-offer.' + key),
             defaults={
-                'company': company,
                 'created_by': employer,
                 'session_key': '',
                 'preparation_agreed_at': timezone.now(),

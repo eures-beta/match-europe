@@ -34,11 +34,11 @@ def offers():
 
 def matchable_offers():
     required = ('title', 'companyName', 'city', 'description', 'contractType')
-    workspace_ready = Q(company__isnull=False, data__has_keys=required) & (
+    offer_ready = Q(data__has_keys=required) & (
         Q(duplicated_from__isnull=True) | Q(revision__gt=1)
     )
     for field in required:
-        workspace_ready &= ~Q(**{f'data__{field}': ''}) & ~Q(**{f'data__{field}': None})
+        offer_ready &= ~Q(**{f'data__{field}': ''}) & ~Q(**{f'data__{field}': None})
     confirmation = Q(phone_recorded_at__isnull=True) | Q(
         adviser__isnull=False,
         phone_confirmed_on__isnull=False,
@@ -47,7 +47,7 @@ def matchable_offers():
     return (
         employer_offers()
         .filter(confirmation)
-        .filter(workspace_ready | Q(validated_at__isnull=False))
+        .filter(offer_ready | Q(validated_at__isnull=False))
     )
 
 

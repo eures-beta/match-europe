@@ -12,17 +12,13 @@ from django.test import TransactionTestCase
 from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 from eures_beta.employers.models import (
-    Company,
-    CompanyMembership,
     JobOffer,
 )
 
 BASELINE = ('employers', '0001_autonomous_schema')
 
 CURRENT_MODELS = (
-    Company,
     get_user_model(),
-    CompanyMembership,
     JobOffer,
 )
 
@@ -65,10 +61,7 @@ class AutonomousMigrationTests(TransactionTestCase):
         person = get_user_model().objects.create_user(
             'person@example.invalid', kind='employer'
         )
-        company = Company.objects.create(name='Fictional workplace')
-        CompanyMembership.objects.create(company=company, user=person)
         draft = JobOffer.objects.create(
-            company=company,
             created_by=person,
             adviser=user,
             session_key='fictional',

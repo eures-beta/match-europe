@@ -6,8 +6,6 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from eures_beta.employers.models import (
-    Company,
-    CompanyMembership,
     EmployerProfile,
 )
 
@@ -22,9 +20,6 @@ class ResponsePracticeTests(TestCase):
         self.colleague = User.objects.create_user(
             email='two@example.invalid', kind='employer'
         )
-        company = Company.objects.create(name='Fictional shared establishment')
-        for person in (self.employer, self.colleague):
-            CompanyMembership.objects.create(company=company, user=person)
         self.client.force_login(self.employer)
         self.url = reverse('employer_profile')
 

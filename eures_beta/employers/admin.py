@@ -5,32 +5,14 @@ from django.utils.translation import gettext_lazy as _
 from eures_beta.users.admin_base import ReadOnlyAdmin, json_display, redact
 from .models import (
     EmployerProfile,
-    Company,
-    CompanyMembership,
     JobOffer,
 )
-
-
-@admin.register(Company)
-class CompanyAdmin(ReadOnlyAdmin):
-    list_display = ('id', 'name', 'created')
-    search_fields = ('name',)
-    ordering = ('-created',)
-
-
-@admin.register(CompanyMembership)
-class CompanyMembershipAdmin(ReadOnlyAdmin):
-    list_display = ('id', 'company', 'user', 'active', 'created')
-    list_filter = ('active',)
-    search_fields = ('company__name', 'user__email')
-    list_select_related = ('company', 'user')
 
 
 @admin.register(JobOffer)
 class JobOfferAdmin(ReadOnlyAdmin):
     list_display = (
         'id',
-        'company',
         'created_by',
         'source_kind',
         'revision',
@@ -38,8 +20,8 @@ class JobOfferAdmin(ReadOnlyAdmin):
         'updated',
     )
     list_filter = ('source_kind',)
-    search_fields = ('company__name', 'created_by__email')
-    list_select_related = ('company', 'created_by', 'adviser', 'duplicated_from')
+    search_fields = ('data__companyName', 'created_by__email')
+    list_select_related = ('created_by', 'adviser', 'duplicated_from')
     ordering = ('-created',)
     replacements = {
         'data': 'safe_data',

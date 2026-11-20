@@ -4,7 +4,7 @@ from django.utils import timezone
 
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.invitations.models import Invitation
-from eures_beta.employers.models import JobOffer, Company
+from eures_beta.employers.models import JobOffer
 from eures_beta.users.models import User
 from eures_beta.users.permissions import synchronize_permissions
 
@@ -136,7 +136,6 @@ class AdviserHistoryTests(TestCase):
         validated = self.make_offer(validated_at=timezone.now(), source_kind='pdf')
         legacy = self.make_offer(
             created_by=None,
-            company=Company.objects.create(name='Espace historique'),
             data={},
         )
         self.client.force_login(self.adviser)
@@ -156,7 +155,6 @@ class AdviserHistoryTests(TestCase):
             'Metz',
             'Entreprise fictive',
             'recruiter@',
-            'Espace historique',
         ):
             self.assertGreater(
                 self.history(view='employers', q=query).context['page'].paginator.count,

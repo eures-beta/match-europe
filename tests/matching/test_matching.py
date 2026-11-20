@@ -15,7 +15,7 @@ from eures_beta.matching.models import (
     MatchDecision,
 )
 from eures_beta.candidates.models import CandidateProfile
-from eures_beta.employers.models import Company, JobOffer
+from eures_beta.employers.models import JobOffer
 
 
 class MatchingRouteTests(SimpleTestCase):
@@ -297,7 +297,6 @@ class LocalMatchingTests(TestCase):
         services.calculate_for_saved_offer(offer.pk, offer.revision)
         self.assertFalse(pairs.exists())
 
-        offer.company = Company.objects.create(name='Fictional establishment')
         offer.save()
         services.calculate_for_saved_offer(offer.pk, offer.revision)
         self.assertFalse(pairs.exists())

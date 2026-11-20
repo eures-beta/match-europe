@@ -9,7 +9,6 @@ Import, relecture, offres et tableau de bord de l’employeur.
 - [__init__.py](__init__.py) — Déclare le paquet Python, sans modèle ni effet au chargement.
 - [access.py](access.py) — Applique les protections HTTP du parcours d’import employeur.
 - [dashboard.py](dashboard.py) — Prépare le tableau de bord employeur à partir de ses offres accessibles.
-- [establishments.py](establishments.py) — Définit le formulaire de rattachement à un établissement.
 - [forms.py](forms.py) — Définit et valide les formulaires propres aux écrans de ce parcours.
 - [imports.py](imports.py) — Expose l’API des offres `/api/job-offers/`, avec extraction, relecture et enregistrement protégés.
 

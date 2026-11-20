@@ -17,11 +17,6 @@ urlpatterns = [
         name='employer_profile',
     ),
     path('api/occupations/', search_api, name='occupation_search'),
-    path(
-        'employer/drafts/<uuid:id>/attach/',
-        employer_workspace.resume_attachment,
-        name='employer_resume_attachment',
-    ),
     path('employer/offers/', employer_workspace.offers, name='employer_offers'),
     path(
         'employer/offers/<uuid:id>/', employer_workspace.detail, name='employer_offer'
@@ -36,7 +31,6 @@ urlpatterns = [
         employer_workspace.duplicate,
         name='employer_offer_duplicate',
     ),
-    path('employer/attach/', employer_workspace.attach, name='employer_attach'),
     path('api/job-offers/', employer_api.imports, name='job_offer_list'),
     path('api/job-offers/source/', employer_api.read_source, name='job_offer_source'),
     path('api/job-offers/<uuid:id>/', employer_api.imports, name='job_offer_data'),

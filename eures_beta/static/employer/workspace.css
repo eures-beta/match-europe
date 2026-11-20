@@ -242,18 +242,6 @@
 }
 
 .offer-empty,
-.offer-attachment {
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #f7faff;
-  margin: 20px 0;
-}
-
-.offer-workspace .offer-attachment h2 {
-  margin-top: 0;
-}
-
 .offer-workspace .visually-hidden {
   position: absolute;
   width: 1px;
