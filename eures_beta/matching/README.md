@@ -35,3 +35,7 @@ palette EURES, bulles sobres et cadre téléphone sur ordinateur seulement.
 - [review_notifications.py](review_notifications.py) — Notifications minimales après commit, hors notes internes.
 
 Contrat : [clôture et traitement conseiller](../../docs/REVIEW_HANDOFF.md).
+
+Les [auteurs et leurs rôles](../../docs/MATCHING_AUTHORS.md) sont contrôlés en base :
+conseillers explicites pour décisions/demandes, candidat déduit du profil pour
+réponses et partage, auteur multirôle pour les messages.
