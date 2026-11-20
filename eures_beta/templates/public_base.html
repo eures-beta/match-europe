@@ -102,7 +102,7 @@
     <footer class="employer-page-footer">
       <div class="shell employer-page-footer-inner">
         <p>{% translate "The Match Europe experiment supports professional mobility and recruitment in the Greater Region." context "public home" %}</p>
-        <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer landing" %}</a>
+        {% include "includes/useful_links.html" %}
       </div>
     </footer>
   </body>

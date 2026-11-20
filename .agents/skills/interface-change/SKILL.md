@@ -5,7 +5,7 @@ description: Créer ou modifier une interface, un template, un message JavaScrip
 
 # Interface et messages
 
-Lire les composants Bootstrap existants, les
+Lire le [design system](../../../docs/DESIGN_SYSTEM.md), les
 [règles HTML/CSS](../../../docs/HTML_CSS.md), les [retours](../../../docs/AGENT_FEEDBACK.md)
 et le guide du parcours. Réutiliser Bootstrap, tokens ECL et composants existants ;
 préserver les EURES Graphic Guidelines 2022 et les assets officiels.

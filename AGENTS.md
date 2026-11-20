@@ -52,8 +52,8 @@
   tests pertinents et identité EURES/ELA. Les cinq exigences sont obligatoires.
 - Utiliser un template commun et gettext, pas une copie HTML par langue.
   Tous les messages visibles, y compris JavaScript, erreurs et e-mails, sont traduits.
-- Avant une interface, réutiliser Bootstrap et les composants communs.
-  Les EURES Graphic Guidelines 2022 font autorité ;
+- Avant une interface, lire [le design system](docs/DESIGN_SYSTEM.md) : Bootstrap,
+  tokens ECL/EURES, composants communs. Les EURES Graphic Guidelines 2022 font autorité ;
   ne pas réinventer les logos, couleurs ou règles officielles.
 - Clavier, labels, sémantique HTML, contrastes, alternatives et responsive sont
   nécessaires ; une information ne repose jamais uniquement sur la couleur.

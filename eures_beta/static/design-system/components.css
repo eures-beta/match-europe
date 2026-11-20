@@ -1,0 +1,481 @@
+/* Pieces shared by production pages and example screens: page chrome and components.
+   Tokens only, no raw value. Loaded after bootstrap-theme.css. */
+
+/* Page background on every screen with the site header (not the reference page). The selector
+   leaves <body> bare: employer pages add their data attributes to it. */
+body:has(> .ds-site-header) {
+  background: var(--me-page-background);
+  background-attachment: fixed;
+}
+
+.ds-page {
+  padding-block: var(--me-space-2xl) var(--me-space-4xl);
+}
+
+.ds-meta {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+.ds-card {
+  padding: var(--me-space-l);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+  box-shadow: var(--me-shadow-card);
+}
+
+.ds-card-brand {
+  background: var(--me-color-surface-brand);
+}
+
+.ds-prefilled {
+  margin-left: var(--me-space-xs);
+  color: var(--me-color-text);
+  font-weight: var(--me-font-weight-regular);
+  background: var(--me-color-warning-surface);
+  border: var(--me-border-width) solid var(--me-color-warning);
+}
+
+/* Status label: dark text, the colour is only the border (ECL status colours fail AA as text) */
+.ds-status {
+  display: inline-block;
+  padding: var(--me-space-2xs) var(--me-space-xs);
+  font-size: var(--me-font-size-s);
+  line-height: var(--me-line-height-s);
+  color: var(--me-color-text);
+  background: var(--me-color-surface-subtle);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-badge);
+}
+
+.ds-status-warning {
+  background: var(--me-color-warning-surface);
+  border-color: var(--me-color-warning);
+}
+
+.ds-status-info {
+  background: var(--me-color-info-surface);
+  border-color: var(--me-color-info);
+}
+
+.ds-status-success {
+  background: var(--me-color-success-surface);
+  border-color: var(--me-color-success);
+}
+
+.ds-stat {
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-3xl);
+  font-weight: var(--me-font-weight-bold);
+  line-height: var(--me-line-height-3xl);
+  color: var(--me-color-action);
+}
+
+.ds-progress-half {
+  width: 50%;
+}
+
+.ds-empty {
+  padding: var(--me-space-l);
+  text-align: center;
+  border: var(--me-border-width-strong) dashed var(--me-color-border);
+  border-radius: var(--me-radius-card);
+}
+
+.ds-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-s);
+  padding-top: var(--me-space-l);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+
+/* Shared employer navigation for the real application pages. */
+.ds-site-notice {
+  padding-block: var(--me-space-s);
+  font-size: var(--me-font-size-s);
+  text-align: center;
+  background: var(--me-color-warning-surface);
+  border-bottom: var(--me-border-width) solid var(--me-color-warning);
+}
+.ds-site-header {
+  padding-top: var(--me-space-m);
+  background: var(--me-color-surface);
+  border-bottom: var(--me-border-width) solid var(--me-color-border);
+}
+/* Header bar: brand, languages, account. On a phone the account links drop to their own line
+   while the brand and the languages share the first one. */
+.ds-header-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--me-space-s) var(--me-space-m);
+}
+.ds-header-bar .ds-brand {
+  margin-right: auto;
+}
+.ds-account {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs);
+}
+.ds-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+}
+.ds-brand img {
+  border-radius: var(--me-radius-l);
+}
+.ds-brand-name {
+  display: block;
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-l);
+  font-weight: var(--me-font-weight-bold);
+  line-height: var(--me-line-height-l);
+}
+.ds-brand-tagline {
+  display: block;
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+/* Language menu: a "FR" button opening the list of languages.
+   Menu entries are choices, not links in a text: no underline, the current one is marked by a
+   tinted background and a check. */
+.ds-lang {
+  position: relative;
+}
+.ds-lang summary {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-xs);
+  min-height: var(--me-control-min-height);
+  padding: var(--me-space-2xs) var(--me-space-s);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-text);
+  list-style: none;
+  cursor: pointer;
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-control);
+}
+.ds-lang summary:hover,
+.ds-lang[open] summary {
+  background: var(--me-color-surface-subtle);
+}
+.ds-lang summary::-webkit-details-marker {
+  display: none;
+}
+/* Chevron drawn with borders: no icon font */
+.ds-lang summary::after {
+  width: 0.4em;
+  height: 0.4em;
+  content: '';
+  border-right: var(--me-border-width-strong) solid currentColor;
+  border-bottom: var(--me-border-width-strong) solid currentColor;
+  transform: translateY(-25%) rotate(45deg);
+}
+.ds-lang[open] summary::after {
+  transform: translateY(25%) rotate(-135deg);
+}
+.ds-lang summary:focus-visible,
+.ds-lang ul a:focus-visible {
+  outline: var(--me-border-width-strong) solid var(--me-color-action);
+  outline-offset: var(--me-border-width-strong);
+}
+.ds-lang ul {
+  position: absolute;
+  top: calc(100% + var(--me-space-2xs));
+  right: 0;
+  z-index: 10;
+  min-width: 10rem;
+  padding: var(--me-space-2xs);
+  margin: 0;
+  list-style: none;
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-control);
+  box-shadow: var(--me-shadow-card);
+}
+.ds-lang ul a {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--me-space-m);
+  padding: var(--me-space-xs) var(--me-space-s);
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: var(--me-radius-m);
+}
+.ds-lang ul a:hover {
+  background: var(--me-color-surface-subtle);
+}
+.ds-lang ul [aria-current='true'] {
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-link);
+  background: var(--me-color-surface-brand);
+}
+.ds-lang ul [aria-current='true']::after {
+  content: '✓';
+}
+/* Account links are navigation, not links in a text: underline on hover only.
+   Signing out is a secondary action, in the muted text colour. */
+.ds-account .btn-link {
+  color: var(--me-color-link);
+  text-decoration: none;
+}
+.ds-account .btn-link:hover {
+  color: var(--me-color-link-hover);
+  text-decoration: underline;
+}
+.ds-account .ds-logout {
+  color: var(--me-color-text-muted);
+}
+.ds-account .ds-logout:hover {
+  color: var(--me-color-text);
+}
+/* Main navigation: underlined tabs instead of pills */
+.ds-site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--me-space-l);
+  margin-top: var(--me-space-m);
+}
+.ds-site-nav a {
+  padding-block: var(--me-space-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+  border-bottom: var(--me-border-width-strong) solid transparent;
+}
+.ds-site-nav a:hover {
+  color: var(--me-color-link);
+  border-bottom-color: var(--me-color-border-strong);
+}
+.ds-site-nav [aria-current='page'] {
+  color: var(--me-color-action);
+  font-weight: var(--me-font-weight-bold);
+  border-bottom-color: var(--me-color-action);
+}
+.site-useful-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-m) var(--me-space-l);
+}
+
+.ds-site-footer {
+  padding-block: var(--me-space-xl);
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text-muted);
+  background: var(--me-color-surface);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+.ds-site-footer a {
+  color: var(--me-color-text-muted);
+}
+/* Partner logos: strip inside the header, on every screen. The files carry their own margins,
+   so each logo gets its own width (production ratios) rather than one shared height. */
+.ds-partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--me-space-m);
+  padding-block: var(--me-space-xs);
+  margin-top: var(--me-space-m);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+.ds-partners img {
+  display: block;
+  height: auto;
+}
+.ds-partners .ds-partner-eures {
+  width: 8rem;
+}
+.ds-partners .ds-partner-ft {
+  width: 7.5rem;
+}
+.ds-partners .ds-partner-adem {
+  width: 4rem;
+}
+.ds-partners .ds-partner-forem {
+  width: 4rem;
+}
+@media (max-width: 700px) {
+  .ds-site-header {
+    padding-top: var(--me-space-s);
+  }
+  .ds-brand img {
+    width: var(--me-space-2xl);
+    height: var(--me-space-2xl);
+  }
+  .ds-brand-tagline {
+    display: none;
+  }
+  .ds-account {
+    width: 100%;
+  }
+  /* The four logos stay on one line, in production proportions */
+  .ds-partners {
+    display: grid;
+    grid-template-columns: 1.5fr 1.4fr 0.8fr 0.8fr;
+    gap: var(--me-space-s);
+    margin-top: var(--me-space-s);
+  }
+  .ds-partners img {
+    width: 100%;
+  }
+  .ds-partners .ds-partner-eures,
+  .ds-partners .ds-partner-ft,
+  .ds-partners .ds-partner-adem,
+  .ds-partners .ds-partner-forem {
+    width: 100%;
+  }
+  /* Main navigation scrolls sideways instead of stacking */
+  .ds-site-nav {
+    flex-wrap: nowrap;
+    margin-top: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+.ds-eyebrow {
+  margin-bottom: var(--me-space-xs);
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+}
+/* Numbered steps with the number in a circle */
+.ds-steps {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  counter-reset: ds-step;
+}
+.ds-steps li {
+  position: relative;
+  padding-left: var(--me-space-2xl);
+  margin-bottom: var(--me-space-m);
+  counter-increment: ds-step;
+}
+.ds-steps li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--me-space-l);
+  height: var(--me-space-l);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-text-inverse);
+  content: counter(ds-step);
+  background: var(--me-color-action);
+  border-radius: var(--me-radius-round);
+}
+.ds-steps .ds-step-later::before {
+  color: var(--me-color-text);
+  background: var(--me-color-surface-subtle);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+}
+/* Progress through a journey: current step bold, done steps linked */
+.ds-progress-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-xs) var(--me-space-l);
+  padding: 0;
+  margin-bottom: var(--me-space-l);
+  list-style: none;
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text-muted);
+}
+.ds-progress-steps [aria-current='step'] {
+  color: var(--me-color-action);
+  font-weight: var(--me-font-weight-bold);
+}
+/* One big clickable choice */
+.ds-choice {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-m);
+  padding: var(--me-space-m);
+  margin-bottom: var(--me-space-s);
+  color: var(--me-color-text);
+  text-decoration: none;
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-card);
+}
+.ds-choice:hover {
+  background: var(--me-color-surface-brand);
+  border-color: var(--me-color-action);
+}
+.ds-choice-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--me-space-2xl);
+  height: var(--me-space-2xl);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+  color: var(--me-color-action);
+  background: var(--me-color-surface-brand);
+  border-radius: var(--me-radius-l);
+}
+.ds-choice-title {
+  display: block;
+  font-family: var(--me-font-family-heading);
+  font-size: var(--me-font-size-l);
+  font-weight: var(--me-font-weight-bold);
+}
+.ds-choice-arrow {
+  margin-left: auto;
+  font-size: var(--me-font-size-xl);
+  color: var(--me-color-action);
+}
+/* Read-only offer fields: label above value, empty value in muted text */
+.ds-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--me-space-m) var(--me-space-xl);
+  margin: 0;
+}
+.ds-fields dt {
+  font-size: var(--me-font-size-s);
+  color: var(--me-color-text-muted);
+}
+.ds-fields dd {
+  margin: 0;
+}
+.ds-fields .ds-field-wide {
+  grid-column: 1 / -1;
+}
+.ds-empty-value {
+  color: var(--me-color-text-muted);
+  font-style: italic;
+}
+/* Checkbox groups laid out in columns */
+.ds-check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: var(--me-space-xs) var(--me-space-m);
+}
+.ds-form-section {
+  padding-top: var(--me-space-l);
+  margin-top: var(--me-space-l);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+.ds-sticky-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--me-space-s);
+  padding-block: var(--me-space-m);
+  margin-top: var(--me-space-l);
+  background: var(--me-color-surface);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
