@@ -9,6 +9,7 @@ const dialogueUrl =
 const sharedUrl = /^\/matching\/conversations\/\d+\/$/;
 // Compatibility only for notifications already delivered before the route rename.
 // New notifications use Django's canonical named routes; HTTP redirects retain old links.
+// Already retired at the 2026-11-20 inventory: remove by 2026-12-20 with legacy_urls.py.
 const legacyNotificationUrl =
   /^\/matching\/(?:candidate\/\d+\/dialogue\/(?:\?question=[\w%:-]+#question-title)?|shared\/\d+\/)$/;
 const allowedUrl = (url) =>

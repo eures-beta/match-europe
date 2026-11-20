@@ -67,6 +67,11 @@ Signaler les vérifications visuelles/manuelles réellement réalisées et resta
 
 ## PR, revue et livraison
 
+À chaque entretien de pile et avant livraison, examiner
+[les routes vestiges et leurs échéances](LEGACY_ROUTES.md). Leur compatibilité
+dure 30 jours après retrait déployé ; élaguer les groupes échus dans un commit
+dédié, sans remettre le compteur à zéro lors d’un rebase ou d’une retouche.
+
 Pour enregistrer une description, utiliser `make pr-description PR=…`, puis lire
 le fichier annoncé. Vérifier le succès avant toute étape dépendante ; un échec
 invalide l'ancienne copie. Voir [le contrat](PR_DESCRIPTION.md).

@@ -34,7 +34,7 @@ class ConnectedEmployerTests(TestCase):
             ('en', 'Describe my recruitment needs'),
             ('de', 'Meinen Personalbedarf beschreiben'),
         ]:
-            page = self.client.get('/employer/offers/?lang=' + lang)
+            page = self.client.get('/accounts/dashboard/?lang=' + lang)
             self.assertContains(page, label)
         self.assertEqual(JobOffer.objects.count(), 0)
         self.assertEqual(self.client.get('/employer/access/').status_code, 404)
@@ -76,7 +76,9 @@ class ConnectedEmployerTests(TestCase):
         self.login(self.client, 'rh1@entreprise.invalid')
         self.assertContains(self.client.get(path), 'data-employer-connected="true"')
         self.assertContains(self.client.get(path), 'Mein Konto')
-        self.assertContains(self.client.get('/employer/offers/?lang=fr'), 'Vos offres')
+        self.assertContains(
+            self.client.get('/accounts/dashboard/?lang=fr'), 'Vos offres'
+        )
         self.client.post('/accounts/logout/')
         self.assertTemplateUsed(self.client.get(path), 'employer/import_access.html')
 

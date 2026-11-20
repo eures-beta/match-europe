@@ -17,7 +17,6 @@ urlpatterns = [
         name='employer_profile',
     ),
     path('api/occupations/', search_api, name='occupation_search'),
-    path('employer/offers/', employer_workspace.offers, name='employer_offers'),
     path(
         'employer/offers/<uuid:id>/', employer_workspace.detail, name='employer_offer'
     ),

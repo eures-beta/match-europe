@@ -48,10 +48,10 @@ def legacy_employer_page(request, path):
 
 
 @require_safe
-def legacy_employer_connected(request):
+def legacy_employer_dashboard(request):
     query = request.META.get('QUERY_STRING', '')
     return HttpResponsePermanentRedirect(
-        reverse('employer_offers') + ('?' + query if query else '')
+        reverse('dashboard') + ('?' + query if query else '')
     )
 
 

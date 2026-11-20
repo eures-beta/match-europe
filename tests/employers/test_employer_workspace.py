@@ -68,10 +68,10 @@ class WorkspaceTests(TestCase):
         return payload
 
     def test_list_is_private_to_the_account(self):
-        response = self.client.get('/employer/offers/')
+        response = self.client.get('/accounts/dashboard/')
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])
-        response = self.client.get('/employer/offers/?company=' + str(self.other.pk))
+        response = self.client.get('/accounts/dashboard/?company=' + str(self.other.pk))
         self.assertNotContains(response, self.foreign.data['title'])
 
     def test_other_account_has_no_name_or_email_access(self):
@@ -80,7 +80,7 @@ class WorkspaceTests(TestCase):
         )
         client = Client()
         self.login(client, outsider)
-        self.assertContains(client.get('/employer/offers/'), 'Aucune offre')
+        self.assertContains(client.get('/accounts/dashboard/'), 'Aucune offre')
         for name in ('employer_offer', 'employer_offer_edit'):
             self.assertEqual(client.get(self.url(name)).status_code, 404)
         self.assertEqual(
@@ -146,7 +146,10 @@ class WorkspaceTests(TestCase):
         Session.objects.filter(session_key=self.client.session.session_key).update(
             expire_date=timezone.now() - timedelta(seconds=1)
         )
-        self.assertRedirects(self.client.get('/employer/offers/'), '/accounts/login/')
+        self.assertRedirects(
+            self.client.get('/accounts/dashboard/'),
+            '/accounts/login/?next=/accounts/dashboard/',
+        )
         self.assertRedirects(
             self.client.post(self.url('employer_offer_edit'), values),
             '/accounts/login/',
@@ -276,7 +279,7 @@ class WorkspaceTests(TestCase):
         client = Client()
         self.login(client, self.other)
         self.assertNotContains(
-            client.get('/employer/offers/'), 'Private fictional draft'
+            client.get('/accounts/dashboard/'), 'Private fictional draft'
         )
         self.assertEqual(client.get(self.url(offer=private)).status_code, 404)
 
@@ -286,18 +289,23 @@ class WorkspaceTests(TestCase):
             ('en', 'Your offers'),
             ('de', 'Ihre Stellenangebote'),
         ]:
-            self.assertContains(self.client.get('/employer/offers/?lang=' + lang), text)
+            self.assertContains(
+                self.client.get('/accounts/dashboard/?lang=' + lang), text
+            )
         for index in range(26):
             self.make_offer(self.user, 'Fictional ' + str(index))
         self.assertEqual(
-            len(self.client.get('/employer/offers/').context['offers']), 25
+            len(self.client.get('/accounts/dashboard/').context['offers']), 25
         )
         self.assertEqual(
-            len(self.client.get('/employer/offers/?offers_page=2').context['offers']), 2
+            len(
+                self.client.get('/accounts/dashboard/?offers_page=2').context['offers']
+            ),
+            2,
         )
 
     def test_connected_home_contains_offer_table_and_account(self):
-        response = self.client.get('/employer/offers/')
+        response = self.client.get('/accounts/dashboard/')
         self.assertContains(response, '<table>', html=False)
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])
@@ -305,6 +313,34 @@ class WorkspaceTests(TestCase):
         self.assertContains(response, '/accounts/logout/')
         self.assertNotContains(response, 'Votre adresse email est vérifiée')
         self.assertContains(response, 'scope="col"')
+
+    def test_back_to_offers_uses_canonical_dashboard_in_every_stage_and_language(self):
+        from django.utils import translation
+
+        for language in ('fr', 'en', 'de'):
+            with translation.override(language):
+                label = translation.gettext('Back to offers')
+            expected = f'<a href="{reverse("dashboard")}?lang={language}">{label}</a>'
+            query = '?lang=' + language
+            pages = [
+                self.client.get(self.url() + query),
+                self.client.get(self.url('employer_offer_edit') + query),
+                self.client.post(
+                    self.url('employer_offer_duplicate') + query, {'revision': 0}
+                ),
+            ]
+            self.offer.search_started_at = timezone.now()
+            self.offer.save(update_fields=['search_started_at'])
+            pages.append(self.client.get(self.url('employer_offer_edit') + query))
+            self.offer.search_started_at = None
+            self.offer.save(update_fields=['search_started_at'])
+            for page in pages:
+                self.assertContains(
+                    page, expected, status_code=page.status_code, html=True
+                )
+                self.assertNotContains(
+                    page, 'href="/employer/offers/"', status_code=page.status_code
+                )
 
     def test_started_search_still_locks_offer_and_duplication_creates_editable_copy(
         self,

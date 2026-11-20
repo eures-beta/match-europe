@@ -1,7 +1,8 @@
 {% load i18n static %}
 <link rel="stylesheet" href="{% static 'employer/workspace.css' %}">
 <div class="offer-workspace">
-  <p><a href="{% url 'employer_offers' %}">{% trans "Back to offers" %}</a></p>
+  {% get_current_language as offer_language %}
+  <p><a href="{% url 'dashboard' %}?lang={{ offer_language }}">{% trans "Back to offers" %}</a></p>
   <h1>{{ offer.data.title|default:_("Untitled offer") }}</h1>
   <p><strong>{{ offer.data.companyName }}</strong></p>
   {% if stage == "offer_detail" %}

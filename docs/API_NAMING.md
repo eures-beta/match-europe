@@ -7,13 +7,13 @@ Les routes canoniques sont indépendantes des noms de templates et des langues :
 | `/employer/` | Accueil public employeur |
 | `/employer/import/` | Import et relecture, réservés à un employeur connecté |
 | `/employer/privacy/` | Notice employeur existante ; contenu distinct de `/privacy/` |
-| `/employer/offers/` | Offres et rattachement des brouillons du compte |
+| `/accounts/dashboard/` | Tableau de bord et offres du compte connecté |
 | `/employer/offers/<uuid>/` | Fiche d'une offre accessible au compte |
 | `/api/job-offers/` | GET liste les offres ; POST enregistre une offre |
 | `/api/job-offers/source/` | POST extrait une source, avec accord explicite |
 | `/api/job-offers/<uuid>/` | GET lit une offre ; POST met à jour l'offre |
 
-Les actions existantes de modification, duplication et rattachement restent sous
+Les actions existantes de modification et duplication restent sous
 `/employer/`. Le client JavaScript `window.offerImportAPI` reste consacré à
 l'import d'offres, pas aux autres API de l'application. Les ressources statiques
 restent dans `/static/employer/`.
@@ -33,33 +33,23 @@ renommage n'en constitue pas une nouvelle validation éditoriale ou juridique.
 Les deux interfaces de matching, les invitations et le Push candidat ne sont
 ni renommés ni modifiés par ce nettoyage.
 
-## Vestiges temporaires à supprimer à terme
+## Vestiges temporaires : 30 jours
 
-Tous sont isolés dans [les routes de compatibilité](../eures_beta/www/public/legacy_urls.py).
-Aucun lien ou appel applicatif nouveau ne doit les utiliser.
+Les anciennes adresses sont isolées dans
+[legacy_urls.py](../eures_beta/www/public/legacy_urls.py), avec leur jalon de retrait
+et leur échéance. Aucun écran ne doit les émettre. La règle, les dates et la liste
+complète sont dans [l’inventaire des routes vestiges](LEGACY_ROUTES.md).
 
-| Ancienne adresse | Compatibilité temporaire |
-| --- | --- |
-| `/employer/connected/` | 301 vers `/employer/offers/`, paramètres conservés |
-| `/employer/pages/{fr,en,de}.html` | 301 vers `/employer/?lang=…` |
-| `/employer/pages/import-{fr,en,de}.html` | 301 vers `/employer/import/?lang=…` |
-| Anciennes variantes `import-v2-` | Même destination, sans deuxième parcours |
-| Anciennes pages `privacy-` | 301 vers `/employer/privacy/?lang=…` |
-| `/previews/employer-landing/…` | Mêmes redirections, pour les seuls noms reconnus |
-| `/api/imports/…` | 308 vers `/api/job-offers/…`, méthode et corps conservés |
+Les liens « Retour aux offres » utilisent directement le tableau de bord.
+`/employer/offers/` et `/employer/connected/` ne servent plus d’écran : ils
+redirigent directement vers `/accounts/dashboard/`, en conservant les paramètres.
+Les anciennes actions de rattachement répondent 410 sans exécuter de traitement.
 
-Les anciens retours de connexion déjà enregistrés sont normalisés vers l'import
-canonique, sans élargir la liste des destinations autorisées.
-Les adresses `/forms/eures-beta/…` antérieures restent aussi des redirections
-historiques, sans nouvelle page servie.
-
-La compatibilité des pages est limitée aux anciennes pages connues : aucun
-fragment, chemin arbitraire ou fichier source n'est servi. Les anciennes API
-utilisent 308, et non 301/302 qui pourraient transformer un POST en GET. Elles
-restent soumises à CSRF, puis aux mêmes protections sur la destination.
-Ces alias sont des candidats au retrait, pas des routes recommandées. Leur
-suppression fera l'objet d'un changement explicite après vérification des
-clients encore utilisés ; aucune date de retrait n'est fixée ici.
+Les anciennes API utilisent 308 pour préserver méthode et corps, avec CSRF et
+les mêmes droits sur leur destination. Les anciennes pages connues utilisent
+301 pour GET/HEAD et refusent les écritures ; aucun fragment arbitraire n’est servi.
+Les anciens retours de connexion sont normalisés vers l’import canonique sans
+élargir les destinations autorisées. Ces helpers suivent les mêmes échéances.
 
 ## Vérifier
 

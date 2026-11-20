@@ -2,7 +2,9 @@
 
 Le tableau de bord liste les offres du compte employeur connecté, avec intitulé,
 nom d’entreprise déclaré, lieu et dernière modification. La pagination porte sur
-25 offres. `/employer/offers/` conserve l’accès publié à ce même tableau de bord.
+25 offres. Les liens de retour émettent directement `/accounts/dashboard/`.
+`/employer/offers/` redirige temporairement vers cette adresse selon
+[la politique de retrait à 30 jours](LEGACY_ROUTES.md).
 Le détail, la modification et la duplication ne sont accessibles qu’au créateur.
 Voir [le contrat de propriété](EMPLOYER_OFFER_OWNERSHIP.md).
 

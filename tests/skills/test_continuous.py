@@ -77,7 +77,7 @@ class ContinuousTests(TestCase):
             ):
                 self.assertEqual(
                     self.client.get(
-                        '/employer/offers/', REMOTE_ADDR='192.0.2.1'
+                        '/accounts/dashboard/', REMOTE_ADDR='192.0.2.1'
                     ).status_code,
                     200,
                 )

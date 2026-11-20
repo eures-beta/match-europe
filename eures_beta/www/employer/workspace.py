@@ -251,15 +251,6 @@ class OfferEditForm(forms.Form):
 
 @connected
 @require_GET
-def offers(request):
-    # Keep the published list URL, but use the single account dashboard.
-    from eures_beta.www.employer.dashboard import employer_dashboard
-
-    return employer_dashboard(request)
-
-
-@connected
-@require_GET
 def detail(request, id):
     offer = get_object_or_404(visible(request), pk=id)
     form = OfferEditForm(offer=offer)
