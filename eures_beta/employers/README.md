@@ -13,7 +13,7 @@ Offres, établissements, propriété et lecture des sources. Les pages et endpoi
 
 - [__init__.py](__init__.py) — Déclare le paquet métier.
 - [admin.py](admin.py) — Enregistre les modèles dans l’administration en consultation.
-- [adviser_deposit.py](adviser_deposit.py) — Dépôt pour un employeur et confirmation téléphonique, sans création implicite de compte.
+- [adviser_deposit.py](adviser_deposit.py) — Dépôt pour un employeur et confirmation téléphonique, avec création explicite du compte employeur si nécessaire.
 - [apps.py](apps.py) — Configure l’application Django et son identité stable.
 - [contact.py](contact.py) — Fournit les coordonnées et liens de contact du conseiller.
 - [employer_ownership.py](employer_ownership.py) — Applique les règles de propriété et d’appartenance aux établissements.
@@ -26,3 +26,6 @@ Offres, établissements, propriété et lecture des sources. Les pages et endpoi
 - [offer_validation.py](offer_validation.py) — Valide les données communes aux imports, aux écrans et aux commandes.
 - [profile.py](profile.py) — Définit les choix métier des habitudes de réponse employeur.
 - [test_data.py](test_data.py) — Prépare les offres fictives des environnements explicitement autorisés.
+
+Le dépôt conseiller rattache directement l’offre au compte employeur ; `adviser`
+conserve le déposant. L’email reste uniquement dans User. Voir le guide de dépôt.

@@ -11,6 +11,6 @@
 - [history.py](history.py) — Présente l’historique accessible au conseiller.
 - [matching.py](matching.py) — Présente la file de rapprochements et les décisions du conseiller.
 - [offers.py](offers.py) — Portefeuille, import partagé et modification des offres déposées pour un employeur.
-- [offer_forms.py](offer_forms.py) — Choix explicite de l’établissement, du compte contact et confirmation téléphonique.
+- [offer_forms.py](offer_forms.py) — Email du compte employeur et confirmation téléphonique.
 
 - [record_details.py](record_details.py) — Organise les fiches offre et candidat en résumé et sections lisibles.

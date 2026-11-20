@@ -37,8 +37,8 @@
 - L'admin Django est en consultation, même pour les superutilisateurs : pas
   d'ajout, modification, suppression ou action groupée ; utiliser `users/admin_base.py`.
 - Connexion : seulement un compte existant actif, jamais de création implicite.
-  Conseillers/employeurs : invitation explicite ; candidat : vérification du lien
-  puis confirmation POST avant création du compte/profil. Ne pas convertir un autre rôle.
+  Dépôt conseiller : compte employeur précréé actif ; sinon invitation. Candidat : lien
+  puis confirmation POST avant création du compte/profil. Aucun autre rôle converti.
 - Les rôles candidat/employeur/conseiller sont distincts ; email unique sans casse,
   rôle obligatoire et immuable. Voir [le modèle utilisateur](docs/USER_MODEL.md).
 - Aucun secret, donnée personnelle réelle, dump, session, document privé ou accès

@@ -120,3 +120,7 @@ restent vérifiés dans cette base locale jetable.
 
 La connexion ne crée plus de compte implicitement : seuls les employeurs
 existants et actifs sont acceptés. Voir [la fermeture des inscriptions](ACCOUNT_REGISTRATION.md).
+
+Le dépôt par un conseiller précrée explicitement un employeur actif si nécessaire,
+sans mot de passe ni droit admin ; voir [le dépôt](ADVISER_OFFER_DEPOSIT.md). La
+connexion publique reste réservée aux comptes existants et ne crée aucun compte.

@@ -1,6 +1,6 @@
 # Reprise du projet
 
-Dépôt par un conseiller pour un employeur avec ou sans compte :
+Dépôt conseiller avec compte employeur propriétaire, précréé actif si nécessaire :
 [parcours et vérifications](docs/ADVISER_OFFER_DEPOSIT.md), confirmation téléphonique suffisante.
 
 La consultation des offres employeur livrée par #242 inclut toutes les offres
