@@ -22,6 +22,15 @@ def prepare_historical(connection):
     from django.db.migrations.executor import MigrationExecutor
 
     executor = MigrationExecutor(connection)
+    if (
+        'employers',
+        '0010_remove_joboffer_email_and_more',
+    ) in executor.loader.applied_migrations:
+        # Restore removed offer columns before older cross-app RunPython code
+        # introspects their sequences. The later candidates/matching move changes
+        # Django's combined rollback order; stage this independent branch first.
+        executor.migrate([('employers', '0008_harmonize_model_names')])
+        executor = MigrationExecutor(connection)
     if ('matching', '0010_harmonize_model_names') in executor.loader.applied_migrations:
         executor.migrate(
             historical_targets([('matching', '0008_sharedconversation_sharedmessage')])
