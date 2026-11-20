@@ -7,10 +7,8 @@ La consultation des offres employeur livrée par #242 inclut toutes les offres
 enregistrées et leur détail en lecture seule, indépendamment de leur éligibilité
 au matching. Voir [le contrat](docs/ADVISER_EMPLOYER_OFFERS.md).
 
-État documentaire du sommet de la pile au 16 novembre 2026, pas une preuve de
-déploiement ni un mandat de fusion. Vérifier GitHub et l'environnement concerné
-avant toute opération. Les résultats de CI sont sur chaque PR ; aucun compteur
-historique de tests n'est à entretenir ici.
+Vérifier GitHub, les CI et l'environnement avant toute opération : ce document
+ne prouve aucun déploiement et n'autorise aucune fusion.
 
 ## À lire pour reprendre
 
