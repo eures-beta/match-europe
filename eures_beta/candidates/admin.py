@@ -2,7 +2,11 @@
 
 from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
-from .models import CandidateProfile, CandidatePushSubscription
+from .models import (
+    CandidateProfile,
+    CandidatePushSubscription,
+    CandidateProfileReviewSuggestion,
+)
 
 
 @admin.register(CandidateProfile)
@@ -13,3 +17,8 @@ class CandidateProfileAdmin(MetadataOnlyAdmin):
 @admin.register(CandidatePushSubscription)
 class CandidatePushSubscriptionAdmin(MetadataOnlyAdmin):
     list_display = ('id',)
+
+
+@admin.register(CandidateProfileReviewSuggestion)
+class CandidateProfileReviewSuggestionAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'created_at')

@@ -546,10 +546,10 @@ def confirm_scope(user, pk, key, fingerprint, previous, scope):
         dialogue={**source.dialogue, 'scope': scope},
     )
     from . import review_workflow
-    from .models import CandidateProfileReviewPrompt
+    from eures_beta.candidates.models import CandidateProfileReviewSuggestion
 
     identity = review_workflow.condition_identity(row['presented'])
-    CandidateProfileReviewPrompt.objects.filter(
+    CandidateProfileReviewSuggestion.objects.filter(
         candidate=review.match.candidate,
         condition_hash=digest(identity),
         profile_updated_at=review.match.candidate.updated_at,

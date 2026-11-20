@@ -148,3 +148,26 @@ class CandidatePushSubscription(models.Model):
     candidate = models.OneToOneField(CandidateProfile, on_delete=models.CASCADE)
     endpoint = models.URLField(max_length=2048, unique=True)
     keys = models.JSONField()
+
+
+class CandidateProfileReviewSuggestion(models.Model):
+    """Three distinct current refusals invite review, never infer a new preference."""
+
+    candidate = models.ForeignKey(
+        'candidates.CandidateProfile', on_delete=models.CASCADE
+    )
+    condition_hash = models.CharField(max_length=64)
+    profile_updated_at = models.DateTimeField()
+    condition = models.JSONField()
+    evidence = models.JSONField()
+    resolution = models.CharField(max_length=12, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['candidate', 'condition_hash', 'profile_updated_at'],
+                name='candidates_candidateprofilereviewsuggestion_condition_unique',
+            )
+        ]

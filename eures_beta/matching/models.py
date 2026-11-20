@@ -144,29 +144,6 @@ class CandidateOfferReviewEvent(models.Model):
         ]
 
 
-class CandidateProfileReviewPrompt(models.Model):
-    """Three distinct current refusals invite review, never infer a new preference."""
-
-    candidate = models.ForeignKey(
-        'candidates.CandidateProfile', on_delete=models.CASCADE
-    )
-    condition_hash = models.CharField(max_length=64)
-    profile_updated_at = models.DateTimeField()
-    condition = models.JSONField()
-    evidence = models.JSONField()
-    resolution = models.CharField(max_length=12, blank=True)
-    resolved_at = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['candidate', 'condition_hash', 'profile_updated_at'],
-                name='matching_candidateprofilereviewprompt_condition_unique',
-            )
-        ]
-
-
 class CandidateOfferReviewAnswer(models.Model):
     review = models.ForeignKey(
         CandidateOfferReview, on_delete=models.CASCADE, related_name='answers'

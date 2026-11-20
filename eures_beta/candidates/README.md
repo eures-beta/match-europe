@@ -1,6 +1,6 @@
 # Domaine candidat
 
-Profils, validation des réponses, inscription vérifiée et brouillons. L’interface HTTP utilise ces règles depuis [www/candidate/](../www/candidate/).
+Profils, suggestions de vérification des préférences, validation des réponses, inscription vérifiée et brouillons. L’interface HTTP utilise ces règles depuis [www/candidate/](../www/candidate/).
 
 [Paquet applicatif](../) · [Architecture web](../../docs/ARCHITECTURE_WEB.md)
 
@@ -19,7 +19,7 @@ Profils, validation des réponses, inscription vérifiée et brouillons. L’int
 - [behaviour_help.py](behaviour_help.py) — Décrit les savoir-être et leurs aides traduisibles.
 - [forms.py](forms.py) — Valide le questionnaire partagé par le modèle, les services et les pages.
 - [language_choices.py](language_choices.py) — Définit les langues et la validation de leurs niveaux.
-- [models.py](models.py) — Définit les données persistantes, leurs relations et contraintes.
+- [models.py](models.py) — Définit le profil, les abonnements Push et CandidateProfileReviewSuggestion ; la détection des refus répétés reste dans matching.
 - [occupation_choices.py](occupation_choices.py) — Résout les métiers et références du questionnaire.
 - [pending.py](pending.py) — Gère les brouillons et demandes de confirmation temporaires.
 - [push.py](push.py) — Gère les clés et envois Push candidats ; l’abonnement HTTP est dans www. Voir [la rotation et le renouvellement des abonnements](../../docs/CANDIDATE_PUSH.md).

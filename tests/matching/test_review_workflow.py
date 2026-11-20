@@ -13,10 +13,10 @@ from eures_beta.matching import (
     review_workflow as workflow,
     services,
 )
+from eures_beta.candidates.models import CandidateProfileReviewSuggestion
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferReview,
-    CandidateProfileReviewPrompt,
 )
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
@@ -329,11 +329,11 @@ class ReviewWorkflowTests(TestCase):
         before = self.match.candidate.updated_at
         self.refuse_schedule()
         self.refuse_schedule()
-        self.assertFalse(CandidateProfileReviewPrompt.objects.exists())
+        self.assertFalse(CandidateProfileReviewSuggestion.objects.exists())
         self.refuse_schedule(self.another_match())
-        self.assertFalse(CandidateProfileReviewPrompt.objects.exists())
+        self.assertFalse(CandidateProfileReviewSuggestion.objects.exists())
         self.refuse_schedule(self.another_match())
-        prompt = CandidateProfileReviewPrompt.objects.get()
+        prompt = CandidateProfileReviewSuggestion.objects.get()
         self.assertEqual(len({e['offer'] for e in prompt.evidence}), 3)
         self.match.candidate.refresh_from_db()
         self.assertEqual(self.match.candidate.updated_at, before)
@@ -362,7 +362,7 @@ class ReviewWorkflowTests(TestCase):
         )
         self.refuse_schedule(self.another_match())
         self.refuse_schedule(self.another_match())
-        self.assertFalse(CandidateProfileReviewPrompt.objects.exists())
+        self.assertFalse(CandidateProfileReviewSuggestion.objects.exists())
 
     def test_closure_and_all_decisions_render_in_three_languages(self):
         self.finish()
@@ -384,7 +384,7 @@ class ReviewWorkflowTests(TestCase):
     def test_profile_review_choice_opens_a_draft_without_writing_the_profile(self):
         for match in (self.match, self.another_match(), self.another_match()):
             self.refuse_schedule(match)
-        prompt = CandidateProfileReviewPrompt.objects.get()
+        prompt = CandidateProfileReviewSuggestion.objects.get()
         before = self.match.candidate.updated_at
         self.client.force_login(self.candidate)
         response = self.client.post(
@@ -401,7 +401,7 @@ class ReviewWorkflowTests(TestCase):
     def test_prompt_becomes_unavailable_after_a_refusal_is_corrected(self):
         for match in (self.match, self.another_match(), self.another_match()):
             self.refuse_schedule(match)
-        prompt = CandidateProfileReviewPrompt.objects.get()
+        prompt = CandidateProfileReviewSuggestion.objects.get()
         row = next(
             r
             for r in answers.review_state(self.review)['rows']
@@ -426,7 +426,7 @@ class ReviewWorkflowTests(TestCase):
         profile.display_name = 'Different fictional display name'
         profile.save()
         self.refuse_schedule(self.another_match())
-        self.assertEqual(CandidateProfileReviewPrompt.objects.count(), 1)
+        self.assertEqual(CandidateProfileReviewSuggestion.objects.count(), 1)
 
     def test_different_requirement_never_counts_as_the_same_condition(self):
         self.refuse_schedule()
@@ -435,7 +435,7 @@ class ReviewWorkflowTests(TestCase):
         match.offer.structured_requirements['schedule'] = ['sunday:morning']
         match.offer.save()
         self.refuse_schedule(match)
-        self.assertFalse(CandidateProfileReviewPrompt.objects.exists())
+        self.assertFalse(CandidateProfileReviewSuggestion.objects.exists())
 
     def test_released_clarification_can_be_claimed_without_losing_the_question(self):
         self.finish()
