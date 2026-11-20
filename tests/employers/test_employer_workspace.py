@@ -9,8 +9,6 @@ from django.utils import timezone
 from django.urls import reverse
 from eures_beta.employers.models import (
     JobOffer,
-    CompanyMembership,
-    Company,
 )
 from eures_beta.employers.offer_ingestion import empty_data
 
@@ -20,11 +18,11 @@ class WorkspaceTests(TestCase):
         self.user = get_user_model().objects.create_user(
             kind='employer', email='rh1@fiction.invalid'
         )
-        self.company = Company.objects.create(name='First establishment')
-        CompanyMembership.objects.create(company=self.company, user=self.user)
-        self.other = Company.objects.create(name='Other establishment')
+        self.other = get_user_model().objects.create_user(
+            kind='employer', email='other@fiction.invalid'
+        )
         self.login(self.client, self.user)
-        self.offer = self.make_offer(self.company, title='Fictional technician')
+        self.offer = self.make_offer(self.user, title='Fictional technician')
         self.foreign = self.make_offer(self.other, title='Hidden foreign offer')
 
     def login(self, client, person):
@@ -33,7 +31,7 @@ class WorkspaceTests(TestCase):
         session['employer_verified_email'] = person.email
         session.save()
 
-    def make_offer(self, company, title):
+    def make_offer(self, owner, title):
         data = empty_data()
         data.update(
             title=title,
@@ -42,8 +40,7 @@ class WorkspaceTests(TestCase):
             description='Fictional description',
         )
         return JobOffer.objects.create(
-            company=company,
-            created_by=self.user,
+            created_by=owner or self.user,
             session_key='',
             contact={'name': 'Contact person', 'email': 'contact@fiction.invalid'},
             data=data,
@@ -70,25 +67,14 @@ class WorkspaceTests(TestCase):
         )
         return payload
 
-    def test_list_filter_and_privacy(self):
+    def test_list_is_private_to_the_account(self):
         response = self.client.get('/employer/offers/')
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])
-        self.assertEqual(
-            self.client.get(
-                '/employer/offers/?company=' + str(self.other.pk)
-            ).status_code,
-            404,
-        )
-        CompanyMembership.objects.create(company=self.other, user=self.user)
-        self.assertContains(
-            self.client.get('/employer/offers/'), self.foreign.data['title']
-        )
-        page = self.client.get('/employer/offers/?company=' + str(self.other.pk))
-        self.assertContains(page, self.foreign.data['title'])
-        self.assertNotContains(page, self.offer.data['title'])
+        response = self.client.get('/employer/offers/?company=' + str(self.other.pk))
+        self.assertNotContains(response, self.foreign.data['title'])
 
-    def test_no_membership_empty_and_no_name_email_access(self):
+    def test_other_account_has_no_name_or_email_access(self):
         outsider = get_user_model().objects.create_user(
             kind='employer', email='contact@fiction.invalid'
         )
@@ -104,7 +90,7 @@ class WorkspaceTests(TestCase):
             404,
         )
 
-    def test_detail_edit_preserve_metadata_and_establishment(self):
+    def test_detail_edit_preserves_metadata_and_owner(self):
         self.offer.data.update(
             extraction='pdf_text',
             questions=[{'question': 'Fictional question?', 'mandatory': False}],
@@ -123,7 +109,6 @@ class WorkspaceTests(TestCase):
         self.offer.refresh_from_db()
         self.assertEqual(self.offer.data['title'], 'Updated fictional role')
         self.assertEqual(self.offer.data['custom'], 'preserved')
-        self.assertEqual(self.offer.company, self.company)
         self.assertEqual(self.offer.created_by, self.user)
         self.assertNotIn('email', self.offer.contact)
         self.assertEqual(self.offer.created_by, self.user)
@@ -145,7 +130,7 @@ class WorkspaceTests(TestCase):
         self.offer.save()
         self.assertContains(
             self.client.post(self.url('employer_offer_edit'), values),
-            'Un collègue a modifié',
+            'Cette offre a été modifiée',
         )
         self.offer.refresh_from_db()
         self.assertEqual(self.offer.revision, 2)
@@ -153,7 +138,7 @@ class WorkspaceTests(TestCase):
 
     def test_revoked_access_and_expired_session(self):
         values = self.payload()
-        CompanyMembership.objects.filter(user=self.user).update(active=False)
+        self.client.force_login(self.other)
         self.assertEqual(
             self.client.post(self.url('employer_offer_edit'), values).status_code, 404
         )
@@ -241,7 +226,6 @@ class WorkspaceTests(TestCase):
         self.assertEqual(response.status_code, 302)
         copy = JobOffer.objects.get(duplicated_from=self.offer)
         self.assertNotEqual(copy.pk, self.offer.pk)
-        self.assertEqual(copy.company, self.company)
         self.assertEqual(copy.created_by, self.user)
         self.assertEqual(copy.contact, self.offer.contact)
         self.assertEqual(
@@ -266,8 +250,6 @@ class WorkspaceTests(TestCase):
         client = Client()
         self.login(client, colleague)
         self.assertEqual(client.get(self.url(offer=copy)).status_code, 404)
-        CompanyMembership.objects.create(user=colleague, company=self.company)
-        self.assertEqual(client.get(self.url(offer=copy)).status_code, 200)
         geo.assert_not_called()
         external.assert_not_called()
 
@@ -289,58 +271,40 @@ class WorkspaceTests(TestCase):
                 client.post(self.url(action), self.payload()).status_code, 403
             )
 
-    def test_private_drafts_never_shared_and_resume_owned_only(self):
-        private = self.make_offer(None, 'Private fictional draft')
-        self.assertContains(
-            self.client.get('/employer/offers/'), 'Private fictional draft'
-        )
-        self.assertEqual(self.client.get(self.url(offer=private)).status_code, 200)
-        colleague = get_user_model().objects.create_user(
-            kind='employer', email='rh2@fiction.invalid'
-        )
+    def test_offers_are_never_shared_with_other_accounts(self):
+        private = self.make_offer(self.user, 'Private fictional draft')
         client = Client()
-        self.login(client, colleague)
-        CompanyMembership.objects.create(user=colleague, company=self.company)
+        self.login(client, self.other)
         self.assertNotContains(
             client.get('/employer/offers/'), 'Private fictional draft'
         )
-        self.assertEqual(
-            client.post(self.url('employer_resume_attachment', private)).status_code,
-            404,
-        )
-        self.assertRedirects(
-            self.client.post(self.url('employer_resume_attachment', private)),
-            '/employer/offers/',
-        )
-        self.assertEqual(self.client.session['employer_claim_import'], str(private.pk))
+        self.assertEqual(client.get(self.url(offer=private)).status_code, 404)
 
     def test_languages_and_pagination(self):
         for lang, text in [
-            ('fr', 'Offres de vos établissements'),
-            ('en', 'Offers from your establishments'),
-            ('de', 'Angebote Ihrer Betriebsstätten'),
+            ('fr', 'Vos offres'),
+            ('en', 'Your offers'),
+            ('de', 'Ihre Stellenangebote'),
         ]:
             self.assertContains(self.client.get('/employer/offers/?lang=' + lang), text)
-        for index in range(22):
-            self.make_offer(self.company, 'Fictional ' + str(index))
+        for index in range(26):
+            self.make_offer(self.user, 'Fictional ' + str(index))
         self.assertEqual(
-            len(self.client.get('/employer/offers/').context['offers']), 20
+            len(self.client.get('/employer/offers/').context['offers']), 25
         )
         self.assertEqual(
-            len(self.client.get('/employer/offers/?page=2').context['offers']), 3
+            len(self.client.get('/employer/offers/?offers_page=2').context['offers']), 2
         )
 
     def test_connected_home_contains_offer_table_and_account(self):
         response = self.client.get('/employer/offers/')
-        self.assertContains(response, '<table class="offer-table">', html=False)
+        self.assertContains(response, '<table>', html=False)
         self.assertContains(response, self.offer.data['title'])
         self.assertNotContains(response, self.foreign.data['title'])
-        self.assertContains(response, self.user.email)
         self.assertContains(response, 'Mon compte')
         self.assertContains(response, '/accounts/logout/')
         self.assertNotContains(response, 'Votre adresse email est vérifiée')
         self.assertContains(response, 'scope="col"')
-        self.assertContains(response, 'tabindex="0"')
 
     def test_started_search_still_locks_offer_and_duplication_creates_editable_copy(
         self,

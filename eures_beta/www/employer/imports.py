@@ -170,9 +170,7 @@ def import_response(request, id=None, *, adviser_setup=None):
     if request.method == 'GET':
         if not request.session.session_key:
             return failure('not_found', 404) if id else JsonResponse({'drafts': []})
-        qs = accessible_offers(request).exclude(
-            company__isnull=True, created_by__isnull=True
-        )
+        qs = accessible_offers(request)
         if id:
             obj = qs.filter(pk=id).first()
             if not obj:
@@ -197,12 +195,7 @@ def import_response(request, id=None, *, adviser_setup=None):
         if not request.session.session_key:
             request.session.create()
         if id:
-            obj = (
-                accessible_offers(request)
-                .exclude(company__isnull=True, created_by__isnull=True)
-                .filter(pk=id)
-                .first()
-            )
+            obj = accessible_offers(request).filter(pk=id).first()
             if not obj:
                 return failure('not_found', 404)
             payload = body(request)
@@ -333,11 +326,11 @@ def import_response(request, id=None, *, adviser_setup=None):
                         },
                         status=400,
                     )
-                from eures_beta.matching.services import schedule_offer_matching
-
-                schedule_offer_matching(obj)
             else:
                 obj.save()
+            from eures_beta.matching.services import schedule_offer_matching
+
+            schedule_offer_matching(obj)
         if adviser_setup:
             from django.urls import reverse
 
@@ -350,7 +343,6 @@ def import_response(request, id=None, *, adviser_setup=None):
                 },
                 status=201,
             )
-        request.session['employer_claim_import'] = str(obj.pk)
         if kind in ('url', 'pdf', 'manual'):
             request.session.pop('pending_offer_source', None)
         language = request.POST.get('language', '')

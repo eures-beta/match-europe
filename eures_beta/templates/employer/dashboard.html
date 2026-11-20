@@ -49,13 +49,7 @@
                   <p>{% translate "Deposited by your adviser" %}</p>
                 {% endif %}
               </td>
-              <td>
-                {% if offer.company %}
-                  {{ offer.company.name }}
-                {% else %}
-                  {% translate "Not attached to an establishment" context "employer dashboard" %}
-                {% endif %}
-              </td>
+              <td>{{ offer.data.companyName|default:"—" }}</td>
               <td>{{ offer.data.city|default:"—" }}</td>
               <td>
                 <time datetime="{{ offer.updated|date:'c' }}">{{ offer.updated|date:"SHORT_DATETIME_FORMAT" }}</time>

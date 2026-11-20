@@ -80,7 +80,7 @@
                     <span class="history-secondary">{{ entry.data.city|default:"—" }}</span>
                   </th>
                   <td>
-                    {% firstof entry.data.companyName entry.company.name "—" %}
+                    {% firstof entry.data.companyName "—" %}
                     <br>
                     <span class="history-secondary">{% firstof entry.created_by.email "—" %}</span>
                   </td>
@@ -134,7 +134,7 @@
       <header{% if section == "employers" %} class="offer-sheet-header"{% endif %}>
         <div>
           {% if section == "employers" %}
-            <p class="offer-sheet-company">{% firstof selected_entry.data.companyName selected_entry.company.name "—" %}</p>
+            <p class="offer-sheet-company">{% firstof selected_entry.data.companyName "—" %}</p>
           {% endif %}
           <h3 id="history-detail-title">
             {% if section == "candidates" %}{{ selected_entry.display_name }}{% else %}{{ selected_entry.data.title|default:_("Untitled offer") }}{% endif %}

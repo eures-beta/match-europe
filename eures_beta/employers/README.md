@@ -1,6 +1,6 @@
 # Domaine employeur
 
-Offres, établissements, propriété et lecture des sources. Les pages et endpoints sont dans [www/employer/](../www/employer/).
+Offres, propriété par compte et lecture des sources. Les pages et endpoints sont dans [www/employer/](../www/employer/).
 
 [Paquet applicatif](../) · [Architecture web](../../docs/ARCHITECTURE_WEB.md)
 
@@ -16,7 +16,7 @@ Offres, établissements, propriété et lecture des sources. Les pages et endpoi
 - [adviser_deposit.py](adviser_deposit.py) — Dépôt pour un employeur et confirmation téléphonique, avec création explicite du compte employeur si nécessaire.
 - [apps.py](apps.py) — Configure l’application Django et son identité stable.
 - [contact.py](contact.py) — Fournit les coordonnées et liens de contact du conseiller.
-- [employer_ownership.py](employer_ownership.py) — Applique les règles de propriété et d’appartenance aux établissements.
+- [employer_ownership.py](employer_ownership.py) — Applique les règles de propriété des offres par compte employeur.
 - [eures_import.py](eures_import.py) — Règles et fonctions propres au domaine, réutilisables par ses interfaces.
 - [models.py](models.py) — Définit les données persistantes, leurs relations et contraintes.
 - [occupation_selection.py](occupation_selection.py) — Valide les références métiers sélectionnées pour une offre.

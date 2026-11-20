@@ -6,49 +6,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class Company(models.Model):
-    """A workspace, not a verified legal company registration."""
-
-    name = models.CharField(max_length=100)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = _('Company')
-        verbose_name_plural = _('Companies')
-
-
-class CompanyMembership(models.Model):
-    company = models.ForeignKey(
-        Company, on_delete=models.PROTECT, related_name='memberships'
-    )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='memberships'
-    )
-    active = models.BooleanField(default=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = _('Company membership')
-        verbose_name_plural = _('Company memberships')
-        constraints = [
-            models.UniqueConstraint(
-                fields=['company', 'user'],
-                name='employers_companymembership_company_user_unique',
-            )
-        ]
-
-
 class JobOffer(models.Model):
-    """Job offers owned by employer accounts, optionally deposited by an adviser."""
+    """Employer-owned offers, optionally deposited by advisers; contact grants no access."""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    company = models.ForeignKey(
-        Company,
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT,
-        related_name='job_offers',
-    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -119,7 +80,7 @@ class JobOffer(models.Model):
 
 
 class EmployerProfile(models.Model):
-    """Personal employer account profile, independent of the company and colleagues."""
+    """Personal employer account profile."""
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,

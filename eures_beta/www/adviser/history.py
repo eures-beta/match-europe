@@ -85,11 +85,10 @@ def history_rows(section, search):
     if section == 'employers':
         # Adviser history mirrors recorded offers, independently of matching eligibility.
         return (
-            JobOffer.objects.select_related('company', 'created_by', 'adviser')
+            JobOffer.objects.select_related('created_by', 'adviser')
             .filter(
                 Q(data__title__icontains=search)
                 | Q(data__companyName__icontains=search)
-                | Q(company__name__icontains=search)
                 | Q(created_by__email__icontains=search)
                 | Q(data__city__icontains=search)
             )

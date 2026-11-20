@@ -65,3 +65,10 @@ def legacy_import_api(request, id=None, source=False):
     return HttpResponsePermanentRedirect(
         destination + ('?' + query if query else ''), preserve_request=True
     )
+
+
+def retired_employer_attachment(request, id=None):
+    """A published action that no longer exists; never claim or move an offer."""
+    from django.http import HttpResponseGone
+
+    return HttpResponseGone()

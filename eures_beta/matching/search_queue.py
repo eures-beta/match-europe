@@ -68,9 +68,7 @@ def classify(pairs, expected, ready, empty_reason):
 
 def search_rows():
     candidates = list(access.candidates().order_by('created_at', 'pk'))
-    offers = list(
-        access.employer_offers().select_related('company').order_by('created', 'pk')
-    )
+    offers = list(access.employer_offers().order_by('created', 'pk'))
     ready_ids = set(access.matchable_offers().values_list('pk', flat=True))
     by_candidate, by_offer = defaultdict(list), defaultdict(list)
     latest = MatchEvaluation.objects.filter(match_id=OuterRef('pk')).order_by('-pk')

@@ -153,10 +153,6 @@ msgstr "Stellenbezeichnung"
 msgid "Company"
 msgstr "Unternehmen"
 
-#: eures_beta/employers/employer_workspace.py:75
-msgid "Changing this text does not change the establishment or access rights."
-msgstr "Eine Änderung dieses Textes ändert weder die Betriebsstätte noch die Zugriffsrechte."
-
 #: eures_beta/employers/employer_workspace.py:78
 msgid "Workplace"
 msgstr "Arbeitsort"
@@ -348,12 +344,8 @@ msgid "Choose either specific conditions or None / To discuss, not both."
 msgstr "Wählen Sie konkrete Bedingungen oder „Keine / Zu besprechen“, nicht beides."
 
 #: eures_beta/employers/employer_workspace.py:380
-msgid "A colleague changed this offer. Your changes have not been saved. Open the current version before trying again."
-msgstr "Ein Kollege hat dieses Angebot geändert. Ihre Änderungen wurden nicht gespeichert. Öffnen Sie zuerst die aktuelle Version."
-
-#: eures_beta/employers/establishments.py:9
-msgid "Establishment name"
-msgstr "Name der Betriebsstätte"
+msgid "This offer has changed. Your changes have not been saved. Open the current version before trying again."
+msgstr "Dieses Angebot wurde geändert. Ihre Änderungen wurden nicht gespeichert. Öffnen Sie zuerst die aktuelle Version."
 
 #: eures_beta/employers/forms.py:6
 msgid "Contact name"
@@ -3417,30 +3409,6 @@ msgctxt "employer review steps"
 msgid "Please answer this question before continuing."
 msgstr "Bitte beantworten Sie diese Frage, bevor Sie fortfahren."
 
-#: eures_beta/templates/employer_attachment.html:4
-msgid "Attach your offer to an establishment"
-msgstr "Ihr Angebot einer Betriebsstätte zuordnen"
-
-#: eures_beta/templates/employer_attachment.html:6
-msgid "The offer is shared with authorised colleagues of this establishment."
-msgstr "Das Angebot wird mit berechtigten Kollegen dieser Betriebsstätte geteilt."
-
-#: eures_beta/templates/employer_attachment.html:16
-msgid "Choose the establishment for this offer"
-msgstr "Wählen Sie die Betriebsstätte für dieses Angebot"
-
-#: eures_beta/templates/employer_attachment.html:23
-msgid "Save the offer for this establishment"
-msgstr "Angebot für diese Betriebsstätte speichern"
-
-#: eures_beta/templates/employer_attachment.html:26
-msgid "Enter your establishment name once to save your offer."
-msgstr "Geben Sie einmalig den Namen Ihrer Betriebsstätte ein, um Ihr Angebot zu speichern."
-
-#: eures_beta/templates/employer_attachment.html:30
-msgid "Enter your establishment name."
-msgstr "Geben Sie den Namen Ihrer Betriebsstätte ein."
-
 #: eures_beta/templates/employer_attachment.html:33
 msgid "Save my offer"
 msgstr "Mein Angebot speichern"
@@ -3532,32 +3500,6 @@ msgstr "Mein Konto"
 msgid "Sign out"
 msgstr "Abmelden"
 
-#: eures_beta/templates/employer_workspace.html:307
-msgid "Your offer is now attached to your establishment."
-msgstr "Ihr Angebot ist jetzt Ihrer Betriebsstätte zugeordnet."
-
-#: eures_beta/templates/employer_workspace.html:311
-#: eures_beta/templates/employer_workspace.html:334
-msgid "Offers from your establishments"
-msgstr "Angebote Ihrer Betriebsstätten"
-
-#: eures_beta/templates/employer_workspace.html:312
-msgid "Offers are shared only with authorised colleagues of each establishment."
-msgstr "Angebote werden nur mit berechtigten Kollegen der jeweiligen Betriebsstätte geteilt."
-
-#: eures_beta/templates/employer_workspace.html:314
-msgid "You do not yet belong to an establishment."
-msgstr "Sie gehören noch keiner Betriebsstätte an."
-
-#: eures_beta/templates/employer_workspace.html:318
-#: eures_beta/templates/employer_workspace.html:338
-msgid "Establishment"
-msgstr "Betriebsstätte"
-
-#: eures_beta/templates/employer_workspace.html:320
-msgid "All your establishments"
-msgstr "Alle Ihre Betriebsstätten"
-
 #: eures_beta/matching/templates/matching/results.html:40
 #: eures_beta/templates/employer_workspace.html:325
 msgid "Filter"
@@ -3604,10 +3546,6 @@ msgstr "Bearbeitbar"
 msgid "View offer"
 msgstr "Angebot ansehen"
 
-#: eures_beta/templates/employer_workspace.html:380
-msgid "No offers saved for this establishment yet."
-msgstr "Für diese Betriebsstätte sind noch keine Angebote gespeichert."
-
 #: eures_beta/templates/employer_workspace.html:381
 msgid "Add your first offer to find it here."
 msgstr "Fügen Sie Ihr erstes Angebot hinzu, um es hier wiederzufinden."
@@ -3627,14 +3565,6 @@ msgstr "Weiter"
 #: eures_beta/templates/employer_workspace.html:397
 msgid "Offers awaiting attachment"
 msgstr "Noch zuzuordnende Angebote"
-
-#: eures_beta/templates/employer_workspace.html:398
-msgid "These drafts are private to you until you attach them to an establishment."
-msgstr "Diese Entwürfe bleiben privat, bis Sie sie einer Betriebsstätte zuordnen."
-
-#: eures_beta/templates/employer_workspace.html:402
-msgid "Choose an establishment"
-msgstr "Betriebsstätte auswählen"
 
 #: eures_beta/templates/employer_workspace.html:409
 msgid "Back to offers"
@@ -3672,8 +3602,8 @@ msgid "Duplicate offer"
 msgstr "Angebot duplizieren"
 
 #: eures_beta/templates/employer_workspace.html:442
-msgid "Duplicating creates a new editable draft in the same establishment. It does not start a candidate search."
-msgstr "Beim Duplizieren entsteht ein neuer bearbeitbarer Entwurf in derselben Betriebsstätte. Es wird keine Kandidatensuche gestartet."
+msgid "Duplicating creates a new editable draft in your account. It does not start a candidate search."
+msgstr "Beim Duplizieren entsteht ein neuer bearbeitbarer Entwurf in Ihrem Konto. Es wird keine Kandidatensuche gestartet."
 
 #: eures_beta/templates/employer_workspace.html:451
 #: eures_beta/templates/employer_workspace.html:494
@@ -3710,8 +3640,8 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: eures_beta/templates/employer_workspace.html:513
-msgid "A colleague changed this offer. Open the current version before duplicating it."
-msgstr "Ein Kollege hat dieses Angebot geändert. Öffnen Sie die aktuelle Version, bevor Sie es duplizieren."
+msgid "This offer has changed. Open the current version before duplicating it."
+msgstr "Dieses Angebot wurde geändert. Öffnen Sie die aktuelle Version, bevor Sie es duplizieren."
 
 #: eures_beta/templates/home.html:5
 msgctxt "public home"
@@ -5334,11 +5264,6 @@ msgctxt "employer dashboard"
 msgid "Untitled offer"
 msgstr "Stellenangebot ohne Titel"
 
-#: eures_beta/templates/employer/dashboard.html:54
-msgctxt "employer dashboard"
-msgid "Not attached to an establishment"
-msgstr "Keinem Betrieb zugeordnet"
-
 #: eures_beta/templates/employer/dashboard.html:64
 msgctxt "employer dashboard"
 msgid "No offers to display yet."
@@ -5379,18 +5304,6 @@ msgstr "Ihr aktuelles Konto ist kein Arbeitgeberkonto."
 #: eures_beta/templates/employer/import_access.html:15
 msgid "Sign out and use an employer account"
 msgstr "Abmelden und ein Arbeitgeberkonto verwenden"
-
-#: eures_beta/employers/models.py:18
-msgid "Companies"
-msgstr "Unternehmen"
-
-#: eures_beta/employers/models.py:33
-msgid "Company membership"
-msgstr "Unternehmenszugehörigkeit"
-
-#: eures_beta/employers/models.py:34
-msgid "Company memberships"
-msgstr "Unternehmenszugehörigkeiten"
 
 #: eures_beta/employers/models.py:110 eures_beta/matching/views.py:22
 #: eures_beta/matching/views.py:35
@@ -7592,10 +7505,6 @@ msgstr "E-Mail des Kontos"
 #: eures_beta/www/adviser/offer_details.py:37
 msgid "Offer reference"
 msgstr "Angebotsreferenz"
-
-#: eures_beta/www/adviser/offer_details.py:38
-msgid "Company workspace"
-msgstr "Zugeordneter Unternehmensbereich"
 
 #: eures_beta/www/adviser/offer_details.py:39
 msgid "Created by"

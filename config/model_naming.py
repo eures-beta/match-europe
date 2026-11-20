@@ -6,7 +6,6 @@ from django.apps import apps
 from django.core.checks import Error, Tags, register
 
 OLD_RELATIONS = {
-    'employers.CompanyMembership': {'person'},
     'matching.MatchEvaluation': {'pair'},
     'matching.MatchDecision': {'pair'},
     'matching.CandidateOfferReview': {'pair'},
