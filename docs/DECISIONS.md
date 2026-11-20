@@ -12,11 +12,7 @@ Cela remplace les anciens contrats de prototype local/loopback/mode démo : leur
 réutilisation bloquait des parcours réels après livraison.
 Les secrets et transports sont configurables, les simulations explicites ;
 un repli guidé prévu est différent d'une simulation silencieuse.
-Référence : [contrat de parité](ENVIRONMENT_PARITY.md), correction des
-[#132](https://github.com/eures-beta/match-europe/pull/132),
-[#146](https://github.com/eures-beta/match-europe/pull/146),
-[#154](https://github.com/eures-beta/match-europe/pull/154) à
-[#163](https://github.com/eures-beta/match-europe/pull/163).
+Référence : [contrat de parité](ENVIRONMENT_PARITY.md) ; historique dans Git.
 
 ## D02 — Comptes, rôles et données de démonstration
 

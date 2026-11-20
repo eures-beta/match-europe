@@ -10,7 +10,7 @@ from django.test import TestCase, TransactionTestCase
 from django.apps import apps as current_apps
 
 from .fixtures.historical import seed_matching
-from tests.common.migration_state import historical_targets
+from tests.common.migration_state import historical_targets, prepare_historical
 
 NAMES = import_module('eures_beta.matching.migrations.0011_harmonize_database_objects')
 BEFORE = historical_targets([('matching', '0008_sharedconversation_sharedmessage')])
@@ -19,6 +19,8 @@ AFTER = [('matching', '0011_harmonize_database_objects')]
 
 class SchemaNamingMigrationTests(TransactionTestCase):
     def migrate(self, targets):
+        if targets == BEFORE:
+            prepare_historical(connection)
         executor = MigrationExecutor(connection)
         executor.migrate(targets)
         return executor.loader.project_state(targets).apps
