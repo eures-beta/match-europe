@@ -12,9 +12,6 @@ class Company(models.Model):
     name = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = _('Company')
         verbose_name_plural = _('Companies')
@@ -42,7 +39,7 @@ class CompanyMembership(models.Model):
 
 
 class JobOffer(models.Model):
-    """Local drafts: private before verification, then attached to an explicit company workspace."""
+    """Job offers owned by employer accounts, optionally deposited by an adviser."""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
@@ -58,6 +55,7 @@ class JobOffer(models.Model):
         blank=True,
         on_delete=models.PROTECT,
         related_name='created_job_offers',
+        limit_choices_to={'kind': 'employer'},
     )
     search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
     phone_confirmed_on = models.DateField(null=True, blank=True, editable=False)
@@ -65,29 +63,6 @@ class JobOffer(models.Model):
     phone_confirmed_revision = models.PositiveIntegerField(
         null=True, blank=True, editable=False
     )
-    phone_recorded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT,
-        related_name='phone_confirmed_job_offers',
-        editable=False,
-    )
-    employer_contact = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT,
-        related_name='contact_job_offers',
-        limit_choices_to={'kind': 'employer'},
-    )
-
-    @property
-    def conversation_employer(self):
-        if self.created_by and self.created_by.kind == 'employer':
-            return self.created_by
-        return self.employer_contact
-
     duplicated_from = models.ForeignKey(
         'self',
         null=True,
@@ -102,7 +77,6 @@ class JobOffer(models.Model):
         return bool(self.search_started_at)
 
     session_key = models.CharField(max_length=64, db_index=True)
-    email = models.EmailField()
     contact = models.JSONField(default=dict)
     adviser = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -127,6 +101,15 @@ class JobOffer(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        from django.core.exceptions import ValidationError
+
+        if self.created_by_id and self.created_by.kind != 'employer':
+            raise ValidationError({'created_by': _('An employer account is required.')})
+        if self.adviser_id and self.adviser.kind != 'adviser':
+            raise ValidationError({'adviser': _('An adviser account is required.')})
+        self.contact = {
+            key: value for key, value in self.contact.items() if key != 'email'
+        }
         validate_requirements(self.structured_requirements)
         return super().save(*args, **kwargs)
 

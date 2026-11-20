@@ -501,7 +501,7 @@ class LocalMatchingTests(TestCase):
         self.assertNotIn('candidate_snapshot', result)
         response = self.client.get(reverse('matching_detail', args=[match.pk]))
         self.assertNotContains(response, match.candidate.user.email)
-        self.assertNotContains(response, match.offer.email)
+        self.assertNotContains(response, match.offer.created_by.email)
 
     def test_translated_pages_show_states_and_not_only_colours(self):
         titles = {

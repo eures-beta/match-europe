@@ -24,8 +24,7 @@ def candidates():
 
 def employer_offers():
     return JobOffer.objects.filter(
-        Q(created_by__is_active=True, created_by__kind='employer')
-        | Q(created_by__kind='adviser', company__isnull=False)
+        created_by__is_active=True, created_by__kind='employer'
     )
 
 
@@ -40,10 +39,9 @@ def matchable_offers():
     )
     for field in required:
         workspace_ready &= ~Q(**{f'data__{field}': ''}) & ~Q(**{f'data__{field}': None})
-    confirmation = Q(created_by__kind='employer') | Q(
-        created_by__kind='adviser',
+    confirmation = Q(phone_recorded_at__isnull=True) | Q(
+        adviser__isnull=False,
         phone_confirmed_on__isnull=False,
-        phone_recorded_by__isnull=False,
         phone_confirmed_revision=F('revision'),
     )
     return (

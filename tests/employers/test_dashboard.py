@@ -28,7 +28,6 @@ class EmployerDashboardTests(TestCase):
 
     def offer(self, title, **fields):
         return JobOffer.objects.create(
-            email=self.employer.email,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
             data={'title': title, 'city': 'Test city'},

@@ -50,8 +50,8 @@ def render_page(request, template, **extra_context):
             else ''
         )
         + (
-            ' data-offer-api="/api/adviser/job-offers/" data-adviser-deposit="true" data-deposit-company="'
-            + escape(adviser_setup['company_name'], quote=True)
+            ' data-offer-api="/api/adviser/job-offers/" data-adviser-deposit="true" data-deposit-email="'
+            + escape(adviser_setup['email'], quote=True)
             + '" data-deposit-token="'
             + adviser_setup['offer_id']
             + '"'

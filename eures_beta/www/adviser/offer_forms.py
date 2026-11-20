@@ -4,67 +4,16 @@ from django import forms
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from eures_beta.employers.models import Company, CompanyMembership
-from eures_beta.users.models import User
-
 
 class DepositSetupForm(forms.Form):
-    company = forms.ModelChoiceField(
-        label=_('Existing establishment'),
-        queryset=Company.objects.order_by('name', 'pk'),
-        required=False,
-        empty_label=_('Create a separate establishment'),
-    )
-    company_name = forms.CharField(
-        label=_('New establishment name'), max_length=100, required=False
-    )
-    employer = forms.ModelChoiceField(
-        label=_('Employer account (optional)'),
-        queryset=User.objects.filter(kind='employer', is_active=True).order_by('email'),
-        required=False,
-        help_text=_(
-            'For an existing establishment, select one of its active members. For a new establishment, the selected account will have access to its offers. Leave blank if the employer has no account.'
-        ),
-    )
+    email = forms.EmailField(label=_('Employer email'), max_length=254)
 
-    def clean(self):
-        values = super().clean()
-        company, employer = values.get('company'), values.get('employer')
-        if not company and not values.get('company_name'):
-            self.add_error(
-                'company_name',
-                _(
-                    'Enter the new establishment name or select an existing establishment.'
-                ),
-            )
-        if (
-            company
-            and employer
-            and not CompanyMembership.objects.filter(
-                company=company, user=employer, active=True
-            ).exists()
-        ):
-            self.add_error(
-                'employer',
-                _(
-                    'This account is not an active member of the selected establishment.'
-                ),
-            )
-        if (
-            company
-            and not employer
-            and CompanyMembership.objects.filter(
-                company=company,
-                active=True,
-                user__is_active=True,
-                user__kind='employer',
-            ).exists()
-        ):
-            self.add_error(
-                'employer',
-                _('Select the employer contact account for this establishment.'),
-            )
-        return values
+    def clean_email(self):
+        from eures_beta.employers.adviser_deposit import check_employer
+
+        email = self.cleaned_data['email'].strip().lower()
+        check_employer(email)
+        return email
 
 
 class PhoneConfirmationForm(forms.Form):

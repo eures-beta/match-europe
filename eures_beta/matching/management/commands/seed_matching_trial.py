@@ -49,9 +49,7 @@ class Command(BaseCommand):
                 'Reserved fictional account is unavailable; no account changed.'
             )
         title = 'Offre fictive — entretien'
-        offer = JobOffer.objects.filter(
-            email=employer.email, source_kind='matching'
-        ).first()
+        offer = JobOffer.objects.filter(source_kind='matching').first()
         if offer is None:
             data = empty_data()
             data.update(
@@ -71,7 +69,6 @@ class Command(BaseCommand):
                 permitRequired='yes', permits=['B'], workConditions=['weekend']
             )
             offer = JobOffer.objects.create(
-                email=employer.email,
                 session_key='matching-trial',
                 created_by=employer,
                 preparation_agreed_at=timezone.now(),

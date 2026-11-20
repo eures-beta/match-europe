@@ -26,10 +26,9 @@ def seed_test_offers(employer):
                 'company': company,
                 'created_by': employer,
                 'session_key': '',
-                'email': employer.email,
                 'preparation_agreed_at': timezone.now(),
                 'source_kind': 'manual',
-                'contact': {'email': employer.email},
+                'contact': {},
                 'data': {'title': title, 'description': description},
             },
         )

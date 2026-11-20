@@ -8000,3 +8000,24 @@ msgstr "Betriebszugang (optional)"
 #: eures_beta/www/invitations/forms.py:14
 msgid "The invited employer will have access to all offers of this establishment after accepting the invitation."
 msgstr "Der eingeladene Arbeitgeber erhält nach Annahme der Einladung Zugang zu allen Angeboten dieses Betriebs."
+
+#: eures_beta/employers/adviser_deposit.py:42
+msgid "This email belongs to an account that is not an employer."
+msgstr "Diese E-Mail-Adresse gehört zu einem Konto, das kein Arbeitgeberkonto ist."
+
+#: eures_beta/employers/adviser_deposit.py:45
+msgid "This employer account is disabled."
+msgstr "Dieses Arbeitgeberkonto ist deaktiviert."
+
+#: eures_beta/employers/models.py:109
+msgid "An adviser account is required."
+msgstr "Ein Beraterkonto ist erforderlich."
+
+#: eures_beta/templates/users/adviser_offers.html:7
+msgid "Enter the employer email. Their account will be created when you save the offer."
+msgstr "Geben Sie die E-Mail-Adresse des Arbeitgebers ein. Sein Konto wird beim Speichern des Angebots erstellt."
+
+#: eures_beta/templates/users/adviser_offers.html:22
+#: eures_beta/www/adviser/offer_forms.py:9
+msgid "Employer email"
+msgstr "E-Mail-Adresse des Arbeitgebers"

@@ -173,7 +173,7 @@
         </section>
         {% if adviser_setup %}
           <section class="surface-card">
-            <p>{% translate "Deposit an offer for an employer" %} — <strong>{{ adviser_setup.company_name }}</strong></p>
+            <p>{% translate "Deposit an offer for an employer" %} — <strong>{{ adviser_setup.email }}</strong></p>
             <a href="{% url 'adviser_offers' %}">{% translate "Back to my deposited offers" %}</a>
           </section>
         {% endif %}

@@ -42,7 +42,6 @@ class ReadOnlyAdminTests(TestCase):
             company=self.company,
             created_by=self.employer,
             session_key='never-show-session-key',
-            email=self.employer.email,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
             source_url='https://example.invalid/offer?token=url-secret&reference=public',

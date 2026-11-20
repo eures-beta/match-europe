@@ -91,7 +91,6 @@ class AdviserHistoryTests(TestCase):
         defaults = dict(
             created_by=employer,
             session_key='private-session-must-stay-hidden',
-            email=employer.email,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
             data={
@@ -137,7 +136,6 @@ class AdviserHistoryTests(TestCase):
         validated = self.make_offer(validated_at=timezone.now(), source_kind='pdf')
         legacy = self.make_offer(
             created_by=None,
-            email='legacy@example.invalid',
             company=Company.objects.create(name='Espace historique'),
             data={},
         )
@@ -184,7 +182,7 @@ class AdviserHistoryTests(TestCase):
                 for value in (
                     '2500 EUR',
                     'Contact fictif',
-                    'contact@example.invalid',
+                    offer.created_by.email,
                     'DE B1',
                     '3000',
                     'Disponible le lundi ?',

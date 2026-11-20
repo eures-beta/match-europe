@@ -55,20 +55,21 @@ class EmployerContactTests(TestCase):
         client.force_login(self.staff[role])
         return client
 
-    def test_contact_separate_from_offer_and_access_email(self):
-        self.assertEqual(self.obj.email, 'workspace@example.invalid')
-        self.assertEqual(self.obj.contact, self.contact)
+    def test_email_is_derived_from_owner_and_not_stored_in_offer(self):
+        self.assertEqual(self.obj.created_by.email, 'workspace@example.invalid')
+        self.assertEqual(
+            self.obj.contact,
+            {key: value for key, value in self.contact.items() if key != 'email'},
+        )
         self.assertNotIn('contact', self.obj.data)
         self.assertEqual(
             self.owner.get(f'/api/job-offers/{self.obj.pk}/').json()['contact'],
-            self.contact,
+            {**self.contact, 'email': self.obj.created_by.email},
         )
 
     def test_contact_required_and_validated_server_side(self):
         for contact in (
             {},
-            {'name': 'Fictional'},
-            dict(self.contact, email='invalid'),
             dict(self.contact, phone='1' * 41),
             [],
             'text',
@@ -167,7 +168,7 @@ class EmployerContactTests(TestCase):
         self.obj.save()
         url = f'/api/job-offers/{self.obj.pk}/'
         self.assertEqual(
-            self.owner.get(url).json()['contact'], {'email': self.obj.email}
+            self.owner.get(url).json()['contact'], {'email': self.obj.created_by.email}
         )
         response = self.owner.post(
             url,
@@ -182,7 +183,10 @@ class EmployerContactTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.obj.refresh_from_db()
-        self.assertEqual(self.obj.contact, self.contact)
+        self.assertEqual(
+            self.obj.contact,
+            {key: value for key, value in self.contact.items() if key != 'email'},
+        )
 
     def test_import_cannot_assign_itself_to_an_adviser(self):
         response = self.owner.post(

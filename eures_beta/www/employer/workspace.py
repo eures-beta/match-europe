@@ -366,9 +366,13 @@ def edit(request, id):
         )
         contact = EmployerContactForm(
             request.POST if request.method == 'POST' else None,
-            initial=offer.contact,
+            initial={
+                **offer.contact,
+                'email': offer.created_by.email if offer.created_by_id else '',
+            },
             prefix='contact',
         )
+        contact.fields['email'].disabled = True
         if request.method == 'POST':
             valid = form.is_valid() & contact.is_valid()
             if valid and form.cleaned_data['revision'] != offer.revision:
@@ -429,7 +433,6 @@ def duplicate(request, id):
             created_by=identity(request),
             duplicated_from=original,
             session_key='',
-            email=identity(request).email,
             contact=deepcopy(original.contact),
             preparation_agreed_at=timezone.now(),
             source_kind='manual',

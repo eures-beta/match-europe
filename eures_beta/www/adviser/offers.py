@@ -52,14 +52,11 @@ def portfolio(request):
     form = DepositSetupForm(request.POST if request.method == 'POST' else None)
     if request.method == 'POST' and form.is_valid():
         values = form.cleaned_data
-        company = values['company']
         request.session['adviser_offer_setup'] = {
             'actor': request.user.pk,
             'at': time.time(),
             'offer_id': str(uuid.uuid4()),
-            'company': company.pk if company else None,
-            'company_name': company.name if company else values['company_name'],
-            'employer': values['employer'].pk if values['employer'] else None,
+            'email': values['email'],
         }
         return redirect('adviser_offer_import')
     return render(
@@ -71,7 +68,7 @@ def portfolio(request):
             'deposit_tab': True,
             'offers': Paginator(
                 JobOffer.objects.filter(adviser=request.user)
-                .select_related('company')
+                .select_related('created_by')
                 .order_by('-updated', 'pk'),
                 25,
             ).get_page(request.GET.get('page')),
@@ -136,16 +133,17 @@ def detail(request, id):
             JobOffer.objects.select_for_update(),
             pk=id,
             adviser=request.user,
-            created_by__kind='adviser',
+            created_by__kind='employer',
         )
         form = OfferEditForm(
             request.POST if request.method == 'POST' else None, offer=offer
         )
         contact = EmployerContactForm(
             request.POST if request.method == 'POST' else None,
-            initial=offer.contact,
+            initial={'email': offer.created_by.email, **offer.contact},
             prefix='contact',
         )
+        contact.fields['email'].disabled = True
         phone = PhoneConfirmationForm(
             request.POST if request.method == 'POST' else None
         )
@@ -166,9 +164,8 @@ def detail(request, id):
                     ),
                 )
             else:
-                offer.data = {**form.offer_data, 'companyName': offer.company.name}
+                offer.data = form.offer_data
                 offer.contact = contact.cleaned_data
-                offer.email = offer.contact['email']
                 offer.revision += 1
                 try:
                     confirm(offer, request.user, phone.cleaned_data['confirmed_on'])
