@@ -5,6 +5,7 @@ import json
 from functools import lru_cache
 from pathlib import Path
 from zipfile import ZipFile
+import ijson
 from eures_beta.occupations import unified
 from eures_beta.occupations.catalog import catalog, normalize
 from .skills_pilot import catalogue as pilot_catalogue
@@ -207,15 +208,23 @@ def metadata(source, selection):
     }
 
 
-@lru_cache(maxsize=1)
-def skill_label_index():
+@lru_cache(maxsize=512)
+def skill_labels(key):
+    """Retain only requested labels, after checking the whole source member."""
     with ZipFile(DATA / 'common_skill_source.zip') as archive:
-        raw = archive.read('labels.json')
-    if hashlib.sha256(raw).hexdigest() != manifest()['files']['labels.json']:
-        raise ValueError('Common label index checksum mismatch')
-    return json.loads(raw)
+        with archive.open('labels.json') as source:
+            if (
+                hashlib.file_digest(source, 'sha256').hexdigest()
+                != manifest()['files']['labels.json']
+            ):
+                raise ValueError('Common label index checksum mismatch')
+            source.seek(0)
+            for reference, labels in ijson.kvitems(source, ''):
+                if reference == key:
+                    return labels
+    return {}
 
 
 def skill_label(key, language):
-    labels = {**skill_label_index().get(key, {}), **READING_AIDS.get(key, {})}
+    labels = {**skill_labels(key), **READING_AIDS.get(key, {})}
     return labels.get(language, labels.get('fr', ''))

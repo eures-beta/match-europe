@@ -98,6 +98,8 @@ la syntaxe et la stabilité Prettier ; il ne lance pas les tests.
 ## Dispositifs distincts
 
 - `make e2e-test` lance les parcours HTTP et le contrôle mémoire dans Docker.
+  Le tableau conseiller contient des rapprochements fictifs avec compétences,
+  consultés en FR/EN/DE : une file vide ne teste pas le coût des référentiels.
 - `make e2e-regression` vérifie le témoin négatif historique du banc mémoire.
 - `make users-upgrade-test` reconstruit un ancien schéma pour vérifier sa mise
   à niveau ; ce diagnostic est distinct de la découverte Django habituelle.

@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+from pathlib import Path
 
 
 def main():
@@ -17,6 +18,17 @@ def main():
     for role in ('adviser', 'employer'):
         User.objects.create_user(email=f'{role}@example.invalid', kind=role)
     call_command('sync_group_and_perms')
+    if Path('eures_beta/skills/common_source.py').exists():
+        # The historical negative control predates the common skill catalogue.
+        # Current HTTP checks must also render real pending matching rows.
+        from django.test import override_settings
+
+        with override_settings(
+            DJANGO_ENVIRONMENT='local',
+            DEMO_ACCOUNTS_ENABLED=True,
+            EMAIL_DELIVERY_ENABLED=False,
+        ):
+            call_command('seed_matching_trial')
     os.execvp(
         'gunicorn',
         [

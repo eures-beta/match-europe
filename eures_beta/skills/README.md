@@ -4,6 +4,8 @@ Cette application porte les catalogues ESCO de compétences, les suggestions par
 
 - [data/](data/) : sélections et sources officielles.
 - [models.py](models.py) : suggestions communes versionnées.
+- [common_source.py](common_source.py) : sources vérifiées ; seuls les libellés
+  demandés sont conservés en cache, sans charger l'index multilingue complet.
 - [migrations/](migrations/) : transfert du modèle sans déplacement de sa table.
 - [tests/skills/](../../tests/skills/) : services, formulaires intégrés et conservation des données.
 - [../occupations/](../occupations/) : référentiels et recherche des métiers.

@@ -30,10 +30,10 @@ python-update: ## Mettre à jour la déclaration Python et son empreinte Docker 
 .PHONY: e2e-test e2e-regression
 
 e2e-test: ## Tester les parcours HTTP sur Gunicorn/PostgreSQL, serveur plafonné à 256 Mio
-	python3 -m tests.e2e.run
+	$(PYTHON_BOOTSTRAP) -m tests.e2e.run
 
 e2e-regression: ## Vérifier que le même banc détecte l'OOM de l'ancien code avant #177
-	python3 -m tests.e2e.run --legacy-control
+	$(PYTHON_BOOTSTRAP) -m tests.e2e.run --legacy-control
 
 .PHONY: dialogue-live-evaluate
 dialogue-live-evaluate: ## Evaluer Albert réel sur six échanges fictifs, sans base ni données utilisateur
