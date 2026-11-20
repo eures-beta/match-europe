@@ -7828,3 +7828,175 @@ msgstr "Gewünschte Länder"
 #: eures_beta/www/adviser/record_details.py:131
 msgid "Availability"
 msgstr "Verfügbarkeit"
+
+#: eures_beta/employers/adviser_deposit.py:21
+#: eures_beta/www/adviser/offer_forms.py:84
+msgid "Enter the date of the telephone confirmation, no later than today."
+msgstr "Geben Sie das Datum der telefonischen Bestätigung an, spätestens heute."
+
+#: eures_beta/employers/adviser_deposit.py:29
+#: eures_beta/templates/employer/import.html:959
+msgid "Complete job title, company, location, description and contract type before confirming."
+msgstr "Ergänzen Sie vor der Bestätigung Stellenbezeichnung, Unternehmen, Arbeitsort, Beschreibung und Vertragsart."
+
+#: eures_beta/invitations/services.py:86
+msgid "Only an employer invitation can grant establishment access."
+msgstr "Nur eine Arbeitgebereinladung kann Zugang zu einem Betrieb gewähren."
+
+#: eures_beta/invitations/templates/invitations/accept_invitation.html:12
+#, python-format
+msgid "You will have access to all offers of %(company)s, including offers deposited by your adviser."
+msgstr "Sie erhalten Zugang zu allen Stellenangeboten von %(company)s, einschließlich der von Ihrer Beratung eingestellten Angebote."
+
+#: eures_beta/templates/employer/dashboard.html:49
+msgid "Deposited by your adviser"
+msgstr "Von Ihrer Beratung eingestellt"
+
+#: eures_beta/templates/employer/import.html:10
+#: eures_beta/templates/employer/import.html:174
+#: eures_beta/templates/users/adviser_offers.html:6
+msgid "Deposit an offer for an employer"
+msgstr "Ein Stellenangebot für einen Arbeitgeber einstellen"
+
+#: eures_beta/templates/employer/import.html:175
+#: eures_beta/templates/users/adviser_offer.html:6
+msgid "Back to my deposited offers"
+msgstr "Zurück zu meinen eingestellten Angeboten"
+
+#: eures_beta/templates/employer/import.html:180
+msgid "Confirm the offer with the employer"
+msgstr "Das Angebot mit dem Arbeitgeber bestätigen"
+
+#: eures_beta/templates/employer/import.html:181
+msgid "Enter the employer contact and record the telephone confirmation. No employer account or email validation is required to start matching."
+msgstr "Geben Sie den Arbeitgeberkontakt an und dokumentieren Sie die telefonische Bestätigung. Für das Matching sind weder ein Arbeitgeberkonto noch eine E-Mail-Bestätigung erforderlich."
+
+#: eures_beta/templates/employer/import.html:698
+#: eures_beta/templates/employer/import.html:784
+msgid "Check the information before recording the telephone confirmation."
+msgstr "Prüfen Sie die Angaben, bevor Sie die telefonische Bestätigung dokumentieren."
+
+#: eures_beta/templates/employer/import.html:957
+msgid "Record the telephone confirmation and its date."
+msgstr "Dokumentieren Sie die telefonische Bestätigung und ihr Datum."
+
+#: eures_beta/templates/employer/import.html:958
+msgid "This deposit session expired. Return to your deposited offers and select the establishment again."
+msgstr "Diese Sitzung ist abgelaufen. Kehren Sie zu Ihren eingestellten Angeboten zurück und wählen Sie den Betrieb erneut aus."
+
+#: eures_beta/templates/users/adviser_offer.html:9
+#: eures_beta/templates/users/adviser_offer.html:28
+#: eures_beta/templates/users/adviser_offers.html:23
+#: eures_beta/www/adviser/offer_details.py:60
+msgid "Telephone confirmation"
+msgstr "Telefonische Bestätigung"
+
+#: eures_beta/templates/users/adviser_offer.html:13
+msgid "The offer changed. Confirm the current version with the employer before matching again."
+msgstr "Das Angebot wurde geändert. Bestätigen Sie die aktuelle Fassung mit dem Arbeitgeber vor einem erneuten Matching."
+
+#: eures_beta/templates/users/adviser_offer.html:16
+msgid "The employer has no access to this establishment yet. An explicit invitation can give them access to these existing offers."
+msgstr "Der Arbeitgeber hat noch keinen Zugang zu diesem Betrieb. Eine ausdrückliche Einladung kann ihm Zugang zu den vorhandenen Angeboten geben."
+
+#: eures_beta/templates/users/adviser_offer.html:17
+msgid "Invite the employer to this establishment"
+msgstr "Den Arbeitgeber zu diesem Betrieb einladen"
+
+#: eures_beta/templates/users/adviser_offer.html:20
+msgid "The search has already started. This offer is locked."
+msgstr "Die Suche hat bereits begonnen. Dieses Angebot ist gesperrt."
+
+#: eures_beta/templates/users/adviser_offer.html:23
+msgid "Edit this offer"
+msgstr "Dieses Angebot bearbeiten"
+
+#: eures_beta/templates/users/adviser_offer.html:29
+msgid "Save and start matching"
+msgstr "Speichern und Matching starten"
+
+#: eures_beta/templates/users/adviser_offers.html:3
+#: eures_beta/templates/users/adviser_offers.html:15
+#: eures_beta/templates/users/adviser_workspace.html:13
+msgid "My deposited offers"
+msgstr "Meine eingestellten Angebote"
+
+#: eures_beta/templates/users/adviser_offers.html:7
+msgid "Select the establishment or create a separate one. The employer does not need an account."
+msgstr "Wählen Sie den Betrieb aus oder erstellen Sie einen separaten Betrieb. Der Arbeitgeber benötigt kein Konto."
+
+#: eures_beta/templates/users/adviser_offers.html:11
+msgid "Prepare the offer"
+msgstr "Das Angebot vorbereiten"
+
+#: eures_beta/templates/users/adviser_offers.html:18
+msgid "Offers deposited for employers"
+msgstr "Für Arbeitgeber eingestellte Angebote"
+
+#: eures_beta/templates/users/adviser_offers.html:28
+msgid "To confirm again"
+msgstr "Erneut zu bestätigen"
+
+#: eures_beta/templates/users/adviser_offers.html:31
+msgid "No deposited offers yet."
+msgstr "Noch keine Angebote eingestellt."
+
+#: eures_beta/www/adviser/offer_details.py:62
+msgid "Confirmation recorded by"
+msgstr "Bestätigung dokumentiert von"
+
+#: eures_beta/www/adviser/offer_details.py:69
+msgid "Confirmed revision"
+msgstr "Bestätigte Version"
+
+#: eures_beta/www/adviser/offer_forms.py:13
+msgid "Existing establishment"
+msgstr "Bestehender Betrieb"
+
+#: eures_beta/www/adviser/offer_forms.py:16
+msgid "Create a separate establishment"
+msgstr "Einen separaten Betrieb erstellen"
+
+#: eures_beta/www/adviser/offer_forms.py:19
+msgid "New establishment name"
+msgstr "Name des neuen Betriebs"
+
+#: eures_beta/www/adviser/offer_forms.py:22
+msgid "Employer account (optional)"
+msgstr "Arbeitgeberkonto (optional)"
+
+#: eures_beta/www/adviser/offer_forms.py:26
+msgid "For an existing establishment, select one of its active members. For a new establishment, the selected account will have access to its offers. Leave blank if the employer has no account."
+msgstr "Wählen Sie bei einem bestehenden Betrieb ein aktives Mitglied aus. Bei einem neuen Betrieb erhält das ausgewählte Konto Zugang zu dessen Angeboten. Lassen Sie das Feld leer, wenn der Arbeitgeber kein Konto hat."
+
+#: eures_beta/www/adviser/offer_forms.py:37
+msgid "Enter the new establishment name or select an existing establishment."
+msgstr "Geben Sie den Namen des neuen Betriebs an oder wählen Sie einen bestehenden Betrieb aus."
+
+#: eures_beta/www/adviser/offer_forms.py:50
+msgid "This account is not an active member of the selected establishment."
+msgstr "Dieses Konto ist kein aktives Mitglied des ausgewählten Betriebs."
+
+#: eures_beta/www/adviser/offer_forms.py:65
+msgid "Select the employer contact account for this establishment."
+msgstr "Wählen Sie das Konto der Arbeitgeberkontaktperson für diesen Betrieb aus."
+
+#: eures_beta/www/adviser/offer_forms.py:72
+msgid "The employer confirmed this offer to me by telephone."
+msgstr "Der Arbeitgeber hat mir dieses Angebot telefonisch bestätigt."
+
+#: eures_beta/www/adviser/offer_forms.py:75
+msgid "Date of the telephone confirmation"
+msgstr "Datum der telefonischen Bestätigung"
+
+#: eures_beta/www/adviser/offers.py:165
+msgid "This offer changed or its search has already started. Reload the page."
+msgstr "Dieses Angebot wurde geändert oder die Suche hat bereits begonnen. Laden Sie die Seite neu."
+
+#: eures_beta/www/invitations/forms.py:10
+msgid "Establishment access (optional)"
+msgstr "Betriebszugang (optional)"
+
+#: eures_beta/www/invitations/forms.py:14
+msgid "The invited employer will have access to all offers of this establishment after accepting the invitation."
+msgstr "Der eingeladene Arbeitgeber erhält nach Annahme der Einladung Zugang zu allen Angeboten dieses Betriebs."

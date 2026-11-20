@@ -45,6 +45,9 @@
                     {% translate "Untitled offer" context "employer dashboard" %}
                   {% endif %}
                 </a>
+                {% if offer.created_by.kind == "adviser" %}
+                  <p>{% translate "Deposited by your adviser" %}</p>
+                {% endif %}
               </td>
               <td>
                 {% if offer.company %}

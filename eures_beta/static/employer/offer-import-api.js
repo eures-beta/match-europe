@@ -10,10 +10,16 @@ window.offerImportAPI =
               ?.split('=')[1] || '';
           let response;
           try {
-            response = await fetch('/api/job-offers/' + path, {
+            response = await fetch((document.body.dataset.offerApi || '/api/job-offers/') + path, {
               ...options,
               credentials: 'same-origin',
-              headers: { ...options.headers, 'X-CSRFToken': csrf },
+              headers: {
+                ...options.headers,
+                'X-CSRFToken': csrf,
+                ...(document.body.dataset.depositToken
+                  ? { 'X-Deposit-Token': document.body.dataset.depositToken }
+                  : {}),
+              },
             });
           } catch {
             throw Object.assign(new Error('network'), { code: 'network' });

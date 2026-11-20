@@ -7828,3 +7828,175 @@ msgstr "Pays souhaités"
 #: eures_beta/www/adviser/record_details.py:131
 msgid "Availability"
 msgstr "Disponibilité"
+
+#: eures_beta/employers/adviser_deposit.py:21
+#: eures_beta/www/adviser/offer_forms.py:84
+msgid "Enter the date of the telephone confirmation, no later than today."
+msgstr "Indiquez la date de confirmation téléphonique, au plus tard aujourd’hui."
+
+#: eures_beta/employers/adviser_deposit.py:29
+#: eures_beta/templates/employer/import.html:959
+msgid "Complete job title, company, location, description and contract type before confirming."
+msgstr "Complétez l’intitulé, l’entreprise, le lieu, la description et le type de contrat avant de confirmer."
+
+#: eures_beta/invitations/services.py:86
+msgid "Only an employer invitation can grant establishment access."
+msgstr "Seule une invitation employeur peut donner accès à un établissement."
+
+#: eures_beta/invitations/templates/invitations/accept_invitation.html:12
+#, python-format
+msgid "You will have access to all offers of %(company)s, including offers deposited by your adviser."
+msgstr "Vous aurez accès à toutes les offres de %(company)s, y compris celles déposées par votre conseiller."
+
+#: eures_beta/templates/employer/dashboard.html:49
+msgid "Deposited by your adviser"
+msgstr "Déposée par votre conseiller"
+
+#: eures_beta/templates/employer/import.html:10
+#: eures_beta/templates/employer/import.html:174
+#: eures_beta/templates/users/adviser_offers.html:6
+msgid "Deposit an offer for an employer"
+msgstr "Déposer une offre pour un employeur"
+
+#: eures_beta/templates/employer/import.html:175
+#: eures_beta/templates/users/adviser_offer.html:6
+msgid "Back to my deposited offers"
+msgstr "Retour à mes offres déposées"
+
+#: eures_beta/templates/employer/import.html:180
+msgid "Confirm the offer with the employer"
+msgstr "Confirmer l’offre avec l’employeur"
+
+#: eures_beta/templates/employer/import.html:181
+msgid "Enter the employer contact and record the telephone confirmation. No employer account or email validation is required to start matching."
+msgstr "Renseignez le contact employeur et consignez la confirmation téléphonique. Aucun compte employeur ni validation par email n’est nécessaire pour lancer le matching."
+
+#: eures_beta/templates/employer/import.html:698
+#: eures_beta/templates/employer/import.html:784
+msgid "Check the information before recording the telephone confirmation."
+msgstr "Vérifiez les informations avant de consigner la confirmation téléphonique."
+
+#: eures_beta/templates/employer/import.html:957
+msgid "Record the telephone confirmation and its date."
+msgstr "Consignez la confirmation téléphonique et sa date."
+
+#: eures_beta/templates/employer/import.html:958
+msgid "This deposit session expired. Return to your deposited offers and select the establishment again."
+msgstr "Cette session de dépôt a expiré. Revenez à vos offres déposées et sélectionnez à nouveau l’établissement."
+
+#: eures_beta/templates/users/adviser_offer.html:9
+#: eures_beta/templates/users/adviser_offer.html:28
+#: eures_beta/templates/users/adviser_offers.html:23
+#: eures_beta/www/adviser/offer_details.py:60
+msgid "Telephone confirmation"
+msgstr "Confirmation téléphonique"
+
+#: eures_beta/templates/users/adviser_offer.html:13
+msgid "The offer changed. Confirm the current version with the employer before matching again."
+msgstr "L’offre a changé. Confirmez la version actuelle avec l’employeur avant de relancer le matching."
+
+#: eures_beta/templates/users/adviser_offer.html:16
+msgid "The employer has no access to this establishment yet. An explicit invitation can give them access to these existing offers."
+msgstr "L’employeur n’a pas encore accès à cet établissement. Une invitation explicite peut lui donner accès aux offres déjà déposées."
+
+#: eures_beta/templates/users/adviser_offer.html:17
+msgid "Invite the employer to this establishment"
+msgstr "Inviter l’employeur dans cet établissement"
+
+#: eures_beta/templates/users/adviser_offer.html:20
+msgid "The search has already started. This offer is locked."
+msgstr "La recherche a déjà commencé. Cette offre est verrouillée."
+
+#: eures_beta/templates/users/adviser_offer.html:23
+msgid "Edit this offer"
+msgstr "Modifier cette offre"
+
+#: eures_beta/templates/users/adviser_offer.html:29
+msgid "Save and start matching"
+msgstr "Enregistrer et lancer le matching"
+
+#: eures_beta/templates/users/adviser_offers.html:3
+#: eures_beta/templates/users/adviser_offers.html:15
+#: eures_beta/templates/users/adviser_workspace.html:13
+msgid "My deposited offers"
+msgstr "Mes offres déposées"
+
+#: eures_beta/templates/users/adviser_offers.html:7
+msgid "Select the establishment or create a separate one. The employer does not need an account."
+msgstr "Sélectionnez l’établissement ou créez-en un distinct. L’employeur n’a pas besoin d’un compte."
+
+#: eures_beta/templates/users/adviser_offers.html:11
+msgid "Prepare the offer"
+msgstr "Préparer l’offre"
+
+#: eures_beta/templates/users/adviser_offers.html:18
+msgid "Offers deposited for employers"
+msgstr "Offres déposées pour des employeurs"
+
+#: eures_beta/templates/users/adviser_offers.html:28
+msgid "To confirm again"
+msgstr "À confirmer à nouveau"
+
+#: eures_beta/templates/users/adviser_offers.html:31
+msgid "No deposited offers yet."
+msgstr "Aucune offre déposée pour le moment."
+
+#: eures_beta/www/adviser/offer_details.py:62
+msgid "Confirmation recorded by"
+msgstr "Confirmation consignée par"
+
+#: eures_beta/www/adviser/offer_details.py:69
+msgid "Confirmed revision"
+msgstr "Version confirmée"
+
+#: eures_beta/www/adviser/offer_forms.py:13
+msgid "Existing establishment"
+msgstr "Établissement existant"
+
+#: eures_beta/www/adviser/offer_forms.py:16
+msgid "Create a separate establishment"
+msgstr "Créer un établissement distinct"
+
+#: eures_beta/www/adviser/offer_forms.py:19
+msgid "New establishment name"
+msgstr "Nom du nouvel établissement"
+
+#: eures_beta/www/adviser/offer_forms.py:22
+msgid "Employer account (optional)"
+msgstr "Compte employeur (facultatif)"
+
+#: eures_beta/www/adviser/offer_forms.py:26
+msgid "For an existing establishment, select one of its active members. For a new establishment, the selected account will have access to its offers. Leave blank if the employer has no account."
+msgstr "Pour un établissement existant, sélectionnez un de ses membres actifs. Pour un nouvel établissement, le compte sélectionné aura accès à ses offres. Laissez vide si l’employeur n’a pas de compte."
+
+#: eures_beta/www/adviser/offer_forms.py:37
+msgid "Enter the new establishment name or select an existing establishment."
+msgstr "Indiquez le nom du nouvel établissement ou sélectionnez un établissement existant."
+
+#: eures_beta/www/adviser/offer_forms.py:50
+msgid "This account is not an active member of the selected establishment."
+msgstr "Ce compte n’est pas un membre actif de l’établissement sélectionné."
+
+#: eures_beta/www/adviser/offer_forms.py:65
+msgid "Select the employer contact account for this establishment."
+msgstr "Sélectionnez le compte du contact employeur pour cet établissement."
+
+#: eures_beta/www/adviser/offer_forms.py:72
+msgid "The employer confirmed this offer to me by telephone."
+msgstr "L’employeur m’a confirmé cette offre par téléphone."
+
+#: eures_beta/www/adviser/offer_forms.py:75
+msgid "Date of the telephone confirmation"
+msgstr "Date de la confirmation téléphonique"
+
+#: eures_beta/www/adviser/offers.py:165
+msgid "This offer changed or its search has already started. Reload the page."
+msgstr "Cette offre a changé ou sa recherche a déjà commencé. Rechargez la page."
+
+#: eures_beta/www/invitations/forms.py:10
+msgid "Establishment access (optional)"
+msgstr "Accès à l’établissement (facultatif)"
+
+#: eures_beta/www/invitations/forms.py:14
+msgid "The invited employer will have access to all offers of this establishment after accepting the invitation."
+msgstr "L’employeur invité aura accès à toutes les offres de cet établissement après avoir accepté l’invitation."

@@ -12,6 +12,8 @@ Import, relecture, offres et tableau de bord de l’employeur.
 - [establishments.py](establishments.py) — Définit le formulaire de rattachement à un établissement.
 - [forms.py](forms.py) — Définit et valide les formulaires propres aux écrans de ce parcours.
 - [imports.py](imports.py) — Expose l’API des offres `/api/job-offers/`, avec extraction, relecture et enregistrement protégés.
+
+La lecture et la validation de l’import sont aussi réutilisées par le parcours conseiller, avec des routes et des contrôles de rôle distincts.
 - [pages.py](pages.py) — Rend les trois pages explicites `/employer/`, `/employer/import/` et `/employer/privacy/`, sans choisir de template depuis l’URL.
 - [profile_forms.py](profile_forms.py) — Définit le formulaire des habitudes de réponse, avec les choix du domaine métier.
 - [profile.py](profile.py) — Expose les habitudes de réponse de l’employeur via HTTP.

@@ -1,5 +1,8 @@
 # Reprise du projet
 
+Dépôt par un conseiller pour un employeur avec ou sans compte :
+[parcours et vérifications](docs/ADVISER_OFFER_DEPOSIT.md), confirmation téléphonique suffisante.
+
 La consultation des offres employeur livrée par #242 inclut toutes les offres
 enregistrées et leur détail en lecture seule, indépendamment de leur éligibilité
 au matching. Voir [le contrat](docs/ADVISER_EMPLOYER_OFFERS.md).

@@ -14,7 +14,7 @@ def employer_dashboard(request):
     offers = (
         accessible_offers(request)
         .exclude(company__isnull=True, created_by__isnull=True)
-        .select_related('company')
+        .select_related('company', 'created_by')
         .order_by('-updated', '-pk')
     )
     return render(

@@ -9,6 +9,8 @@
   <div class="invitations adviser-workspace">
     <header class="invitations-header adviser-workspace-tabs">
       <nav aria-label="{% translate 'Adviser workspace' %}">
+        <a href="{% url 'adviser_offers' %}?lang={{ dashboard_language }}"
+           {% if deposit_tab %}aria-current="page"{% endif %}>{% translate "My deposited offers" %}</a>
         <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}"
            {% if matching_tab %} aria-current="page"{% endif %}>{% translate "To review" %}</a>
         <a href="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}"

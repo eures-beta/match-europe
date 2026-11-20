@@ -15,7 +15,8 @@ let validFile = false;
 let selectionVersion = 0;
 let previousStep = 'file-step';
 let sourceToken = null;
-const connectedSubmission = document.body.dataset.employerConnected === 'true';
+const adviserDeposit = document.body.dataset.adviserDeposit === 'true';
+const connectedSubmission = document.body.dataset.employerConnected === 'true' || adviserDeposit;
 
 // A changed source needs a new preparation agreement.
 for (const id of ['offer-url', 'offer-text', 'offer-file']) {
@@ -25,6 +26,11 @@ for (const id of ['offer-url', 'offer-text', 'offer-file']) {
 }
 
 function showStep(id) {
+  if (adviserDeposit) {
+    const company = document.getElementById('review-companyName');
+    company.value = document.body.dataset.depositCompany;
+    company.readOnly = true;
+  }
   document.querySelector('.import-steps').hidden = id === 'completion-step';
   for (const el of document.querySelectorAll('[data-step]')) el.hidden = el.id !== id;
   const step =
@@ -239,6 +245,10 @@ emailForm.addEventListener('submit', async (event) => {
     form.set('agreement', 'true');
     form.set('language', document.documentElement.lang);
     form.set('data', JSON.stringify(window.meReview.collect()));
+    if (adviserDeposit) {
+      form.set('phone_confirmed', emailForm.elements.phone_confirmed.checked ? 'true' : '');
+      form.set('confirmed_on', emailForm.elements.confirmed_on.value);
+    }
     const kind =
       previousStep === 'url-step' ? 'url' : previousStep === 'manual-step' ? 'manual' : 'pdf';
     form.set('kind', kind);
@@ -321,8 +331,10 @@ if (liveAPI) {
     document.querySelector('label[for=work-email]').hidden = true;
     document.getElementById('email-help').hidden = true;
     const t = [strings.connectedContactTitle, strings.connectedContactHelp];
-    document.querySelector('#email-step h1').textContent = t[0];
-    document.querySelector('#email-step .lede').textContent = t[1];
+    if (!adviserDeposit) {
+      document.querySelector('#email-step h1').textContent = t[0];
+      document.querySelector('#email-step .lede').textContent = t[1];
+    }
   }
   document.getElementById('url-help').textContent = strings.liveUrl;
   const pdfNote = document.createElement('p');

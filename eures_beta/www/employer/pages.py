@@ -37,8 +37,9 @@ def privacy(request):
     return render_page(request, 'privacy.html')
 
 
-def render_page(request, template):
+def render_page(request, template, **extra_context):
     person = identity(request)
+    adviser_setup = extra_context.get('adviser_setup')
     body_tag = (
         '<body data-employer-api="true" data-employer-connected="'
         + ('true' if person else 'false')
@@ -48,12 +49,22 @@ def render_page(request, template):
             if person
             else ''
         )
+        + (
+            ' data-offer-api="/api/adviser/job-offers/" data-adviser-deposit="true" data-deposit-company="'
+            + escape(adviser_setup['company_name'], quote=True)
+            + '" data-deposit-token="'
+            + adviser_setup['offer_id']
+            + '"'
+            if adviser_setup
+            else ''
+        )
         + '>'
     )
     with translation.override(selected_language(request)):
         context = {
-            'signed_in': bool(person),
+            'signed_in': bool(person or adviser_setup),
             'albert_import': False,
+            **extra_context,
         }
         if person and template == 'import.html':
             from .profile import page_context

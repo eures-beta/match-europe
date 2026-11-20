@@ -1,9 +1,27 @@
 from django.urls import path
 from eures_beta.www.adviser import action_queue
+from eures_beta.www.adviser import offers as adviser_offers
 from eures_beta.www.accounts import views
 from eures_beta.www.accounts import test_accounts as test_account_views
 
 urlpatterns = [
+    path('adviser/offers/', adviser_offers.portfolio, name='adviser_offers'),
+    path(
+        'adviser/offers/import/',
+        adviser_offers.import_offer,
+        name='adviser_offer_import',
+    ),
+    path('adviser/offers/<uuid:id>/', adviser_offers.detail, name='adviser_offer'),
+    path(
+        'api/adviser/job-offers/',
+        adviser_offers.deposits,
+        name='adviser_offer_deposits',
+    ),
+    path(
+        'api/adviser/job-offers/source/',
+        adviser_offers.source,
+        name='adviser_offer_source',
+    ),
     path(
         'accounts/dashboard/search/<str:kind>/<uuid:pk>/',
         action_queue.search_detail,

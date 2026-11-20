@@ -13,6 +13,7 @@ Offres, établissements, propriété et lecture des sources. Les pages et endpoi
 
 - [__init__.py](__init__.py) — Déclare le paquet métier.
 - [admin.py](admin.py) — Enregistre les modèles dans l’administration en consultation.
+- [adviser_deposit.py](adviser_deposit.py) — Dépôt pour un employeur et confirmation téléphonique, sans création implicite de compte.
 - [apps.py](apps.py) — Configure l’application Django et son identité stable.
 - [contact.py](contact.py) — Fournit les coordonnées et liens de contact du conseiller.
 - [employer_ownership.py](employer_ownership.py) — Applique les règles de propriété et d’appartenance aux établissements.

@@ -1,0 +1,54 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "My deposited offers" %} — Match Europe{% endblock %}
+{% block adviser_content %}
+  <section class="invitation-card">
+    <h1>{% translate "Deposit an offer for an employer" %}</h1>
+    <p>{% translate "Select the establishment or create a separate one. The employer does not need an account." %}</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primary-action" type="submit">{% translate "Prepare the offer" %}</button>
+    </form>
+  </section>
+  <section class="invitation-card">
+    <h2>{% translate "My deposited offers" %}</h2>
+    <div class="account-table-scroll">
+      <table>
+        <caption>{% translate "Offers deposited for employers" %}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{% translate "Job title" %}</th>
+            <th scope="col">{% translate "Establishment" %}</th>
+            <th scope="col">{% translate "Telephone confirmation" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for offer in offers %}
+            <tr>
+              <td><a href="{% url 'adviser_offer' offer.pk %}">{{ offer.data.title|default:_("Untitled offer") }}</a></td>
+              <td>{{ offer.company.name }}</td>
+              <td>
+                {% if offer.phone_confirmed_revision == offer.revision %}
+                  {{ offer.phone_confirmed_on|date:"SHORT_DATE_FORMAT" }}
+                {% else %}
+                  {% translate "To confirm again" %}
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3">{% translate "No deposited offers yet." %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if offers.has_previous %}
+      <a href="?lang={{ dashboard_language }}&amp;page={{ offers.previous_page_number }}">{% translate "Previous" %}</a>
+    {% endif %}
+    {% if offers.has_next %}
+      <a href="?lang={{ dashboard_language }}&amp;page={{ offers.next_page_number }}">{% translate "Next" %}</a>
+    {% endif %}
+  </section>
+{% endblock %}

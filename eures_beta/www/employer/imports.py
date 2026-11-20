@@ -58,6 +58,10 @@ def body(request):
 @never_cache
 @employer_required
 def read_source(request):
+    return read_source_response(request)
+
+
+def read_source_response(request):
     if request.method != 'POST':
         return failure('method', 405)
     if request.POST.get('agreement') != 'true':
@@ -159,6 +163,10 @@ def clean_contact(value):
 @never_cache
 @employer_required
 def imports(request, id=None):
+    return import_response(request, id=id)
+
+
+def import_response(request, id=None, *, adviser_setup=None):
     if request.method == 'GET':
         if not request.session.session_key:
             return failure('not_found', 404) if id else JsonResponse({'drafts': []})
@@ -199,7 +207,7 @@ def imports(request, id=None):
                 return failure('not_found', 404)
             payload = body(request)
             return update(request, obj, payload)
-        person = identity(request)
+        person = request.user if adviser_setup else identity(request)
         email = person.email
         try:
             validate_email(email)
@@ -279,8 +287,8 @@ def imports(request, id=None):
                 'extractionFailure',
             )
         }
-        with stage('import_save'):
-            obj = JobOffer.objects.create(
+        with stage('import_save'), transaction.atomic():
+            obj = JobOffer(
                 created_by=person,
                 session_key='',
                 email=email,
@@ -289,6 +297,36 @@ def imports(request, id=None):
                 source_kind=kind,
                 source_url=source,
                 data=data,
+            )
+            if adviser_setup:
+                from eures_beta.employers.adviser_deposit import create, confirm
+                from eures_beta.www.adviser.offer_forms import PhoneConfirmationForm
+
+                form = PhoneConfirmationForm(request.POST)
+                obj.data['companyName'] = adviser_setup['company_name']
+                if not form.is_valid():
+                    return failure('phone_confirmation_required')
+                try:
+                    confirm(obj, person, form.cleaned_data['confirmed_on'])
+                except ValidationError:
+                    return failure('required')
+                obj = create(obj, person, adviser_setup)
+                from eures_beta.matching.services import schedule_offer_matching
+
+                schedule_offer_matching(obj)
+            else:
+                obj.save()
+        if adviser_setup:
+            from django.urls import reverse
+
+            request.session.pop('adviser_offer_setup', None)
+            request.session.pop('pending_offer_source', None)
+            return JsonResponse(
+                {
+                    **serialize(obj),
+                    'login_url': reverse('adviser_offer', args=[obj.pk]),
+                },
+                status=201,
             )
         request.session['employer_claim_import'] = str(obj.pk)
         if kind in ('url', 'pdf', 'manual'):
