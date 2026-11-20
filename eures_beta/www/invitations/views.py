@@ -145,7 +145,7 @@ def confirm(request):
                 return confirmation_page(request, 'invalid')
             if (
                 invitation.recipient_kind == Invitation.RecipientKind.ADVISER
-                and not can_invite(invitation.sender)
+                and not can_invite(invitation.sender_adviser)
             ):
                 return confirmation_page(request, 'invalid')
             recipient = User.objects.create_user(

@@ -36,7 +36,7 @@ relances arrivées à échéance remontent en tête ; les recherches déjà comm
 restent visibles. `JobOfferSupport` accompagne une offre (`job_offer`) ;
 `CandidateSupport` accompagne un profil candidat (`candidate_profile`). Chaque
 relation est obligatoire et unique en base : au maximum un accompagnement partagé
-par offre ou profil, sans propriétaire conseiller. `updated_by` est le dernier auteur.
+par offre ou profil, sans propriétaire conseiller. `updated_by_adviser` est le dernier auteur.
 `is_searching` indique la recherche en cours. La migration 0015 répartit les anciens
 suivis entre les deux tables, en conservant identifiants, état, relance, auteur et date.
 La copie et la suppression sont atomiques et verrouillent les tables sources contre

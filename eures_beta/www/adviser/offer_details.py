@@ -54,7 +54,7 @@ def offer_details(offer, language):
     contact = [
         (
             _('Account email'),
-            offer.created_by.email if offer.created_by_id else _('Not provided'),
+            offer.employer.email if offer.employer_id else _('Not provided'),
         )
     ]
     contact.extend(
@@ -72,7 +72,7 @@ def offer_details(offer, language):
         (_('Offer reference'), str(offer.pk)),
         (
             _('Created by'),
-            offer.created_by.email if offer.created_by else _('Not provided'),
+            offer.employer.email if offer.employer else _('Not provided'),
         ),
         (_('Adviser'), offer.adviser.email if offer.adviser else _('Not provided')),
         (

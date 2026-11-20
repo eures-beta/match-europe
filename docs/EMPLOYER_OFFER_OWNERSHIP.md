@@ -1,6 +1,6 @@
 # Propriété des offres employeur
 
-Chaque offre appartient à son compte employeur `JobOffer.created_by`. Un compte
+Chaque offre appartient à son compte employeur `JobOffer.employer`. Un compte
 employeur actif consulte, modifie et duplique uniquement ses propres offres.
 Le nom d’entreprise (`data.companyName`), le contact et les paramètres d’URL ne
 donnent aucun droit. Les offres sans propriétaire ne peuvent pas être réclamées
@@ -45,3 +45,8 @@ les confirmations déjà enregistrées ne sont pas invalidées par un renommage 
 `make test TESTS=tests.employers` couvre l’isolation entre comptes, les sessions,
 les contacts distincts, les refus d’accès et la migration sur offres non vides.
 Les tests historiques continuent à vérifier les anciennes transitions du schéma.
+
+Le propriétaire est `JobOffer.employer`, réservé au rôle employeur. Le conseiller
+déposant reste dans `adviser` ; il ne devient pas propriétaire. Les références
+nulles historiques restent possibles et ne donnent aucun accès ni éligibilité au
+matching. Les nouvelles créations métier exigent un employeur actif.

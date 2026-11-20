@@ -60,7 +60,7 @@ Le questionnaire candidat collecte progressivement projet, compétences, langues
 mobilité, conditions et disponibilité ; il ne réintroduit pas l'import CV abandonné.
 Le brouillon temporaire est distinct du `CandidateProfile` durable créé après
 vérification ; reprise/comparaison explicite avant remplacement d'un profil.
-Les offres sont des `JobOffer` appartenant au compte employeur `created_by`.
+Les offres sont des `JobOffer` appartenant au compte employeur `employer`.
 Le [compte propriétaire](EMPLOYER_OFFER_OWNERSHIP.md) remplace établissements et
 adhésions ; un partage multi-comptes sera conçu séparément.
 Le conseiller déposant est conservé dans `adviser` ; l’email existe uniquement

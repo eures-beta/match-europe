@@ -288,7 +288,7 @@ class LocalMatchingTests(TestCase):
     def test_saved_offer_reuses_evaluations_and_filters_by_offer(self):
         original = self.match().offer
         offer = JobOffer.objects.create(
-            created_by=original.created_by,
+            employer=original.employer,
             preparation_agreed_at=original.preparation_agreed_at,
             data={**original.data, 'description': 'Fictional offer description'},
             duplicated_from=original,
@@ -459,7 +459,7 @@ class LocalMatchingTests(TestCase):
         self.assertEqual(self.client.get(path).status_code, 200)
         self.assertEqual(self.client.post(path, payload).status_code, 302)
 
-        for user in (match.candidate.user, match.offer.created_by):
+        for user in (match.candidate.user, match.offer.employer):
             user.user_permissions.set(
                 Permission.objects.filter(content_type__app_label='matching')
             )
@@ -505,7 +505,7 @@ class LocalMatchingTests(TestCase):
         self.assertNotIn('candidate_snapshot', result)
         response = self.client.get(reverse('matching_detail', args=[match.pk]))
         self.assertNotContains(response, match.candidate.user.email)
-        self.assertNotContains(response, match.offer.created_by.email)
+        self.assertNotContains(response, match.offer.employer.email)
 
     def test_translated_pages_show_states_and_not_only_colours(self):
         titles = {

@@ -6,6 +6,8 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [test_relation_roles.py](test_relation_roles.py) — Rôles des propriétaires/auteurs, refus des écritures directes et aller-retour PostgreSQL non vide, y compris un ancien lien signé.
+
 - [test_test_accounts.py](test_test_accounts.py) — Peuplement idempotent, rôles, langues, CSRF et refus hors environnement fictif ; `make test TESTS=tests.users.test_test_accounts`.
 
 - [test_admin_model_counts.py](test_admin_model_counts.py) — Vérifie les nombres à la demande, les droits et l’absence de comptage par défaut.

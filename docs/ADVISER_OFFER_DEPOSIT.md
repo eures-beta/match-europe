@@ -13,7 +13,7 @@ administrateur. « Actif » signifie autorisé à se connecter, pas déjà conne
 adresse déjà vérifiée. Un compte d’un autre rôle ou désactivé bloque le dépôt ;
 il n’est jamais converti ni réactivé. Compte et offre sont enregistrés atomiquement.
 
-`JobOffer.created_by` désigne uniquement le compte employeur propriétaire ;
+`JobOffer.employer` désigne uniquement le compte employeur propriétaire ;
 `JobOffer.adviser`, déjà existant, conserve le conseiller déposant. Aucun champ
 `employer_contact` supplémentaire. L’adresse employeur n’est stockée que dans
 `User.email`, ni dans une colonne de l’offre ni dans son JSON `contact`.

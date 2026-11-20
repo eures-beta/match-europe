@@ -24,7 +24,7 @@ Les évaluations, décisions et revues référencent `match`.
 Les réponses et partages référencent `review` ; les
 `CandidateOfferConversation` gardent leur relation `offer_review` introduite
 dans la PR précédente, avec les `CandidateOfferConversationMessage` associés.
-Les accès inverses deviennent `job_offers`, `created_job_offers`,
+Les accès inverses deviennent `job_offers`, `owned_job_offers`,
 `advised_job_offers` et `profile_sharings`.
 
 Les contraintes déclarées portent le préfixe de la table. Pour les index
@@ -72,3 +72,19 @@ Les tests de migrations utilisent les modèles historiques du graphe ciblé,
 jamais la commande de peuplement fondée sur l'ORM actuel.
 
 [Retour au dossier de documentation](.)
+
+## Relations utilisateur à rôle explicite
+
+`JobOffer.employer` désigne le propriétaire employeur, même lorsqu’un conseiller
+dépose l’offre ; `JobOffer.adviser` conserve le conseiller. L’accès inverse est
+`owned_job_offers`. Ce n’est pas une attribution automatique au créateur connecté.
+`CandidateOfferReview.assigned_to_adviser`, les deux suivis
+`updated_by_adviser` et `Invitation.sender_adviser` n’acceptent que des conseillers.
+Les champs `actor` des événements et `author` des messages restent multirôles.
+Le destinataire d’une invitation reste multirôle, déterminé par `recipient_kind`.
+
+Les contrôles du modèle et les triggers PostgreSQL protègent aussi les écritures
+ORM directes. Un compte désactivé garde son historique ; les services exigent un
+compte actif pour agir. Les migrations refusent les anciennes attributions de
+rôle incorrect au lieu de les réaffecter. Renommage des colonnes, index et FK en
+place, sans suppression des lignes ; retour arrière testé sur données non vides.

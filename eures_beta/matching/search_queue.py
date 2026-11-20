@@ -89,11 +89,11 @@ def search_rows():
         by_offer[pair.offer_id].append(item)
     offer_followups = {
         row.job_offer_id: row
-        for row in JobOfferSupport.objects.select_related('updated_by')
+        for row in JobOfferSupport.objects.select_related('updated_by_adviser')
     }
     candidate_followups = {
         row.candidate_profile_id: row
-        for row in CandidateSupport.objects.select_related('updated_by')
+        for row in CandidateSupport.objects.select_related('updated_by_adviser')
     }
 
     def rows(objects, kind):

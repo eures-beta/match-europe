@@ -9,13 +9,13 @@ class InvitationAdmin(ReadOnlyAdmin):
         'email',
         'recipient_kind',
         'language',
-        'sender',
+        'sender_adviser',
         'created_at',
         'expires_at',
         'accepted_at',
         'email_sent_at',
     )
     list_filter = ('recipient_kind', 'language', 'accepted_at')
-    search_fields = ('email', 'sender__email')
-    list_select_related = ('sender',)
+    search_fields = ('email', 'sender_adviser__email')
+    list_select_related = ('sender_adviser',)
     ordering = ('-created_at',)

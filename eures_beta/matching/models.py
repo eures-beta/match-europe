@@ -5,6 +5,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from . import validation
+from eures_beta.users.role_validation import validate_user_roles
 
 
 class CandidateOfferMatch(models.Model):
@@ -110,17 +111,24 @@ class CandidateOfferReview(models.Model):
             ('refused', _('Closed by an adviser')),
         ],
     )
-    assigned_to = models.ForeignKey(
+    assigned_to_adviser = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.PROTECT,
         related_name='+',
+        limit_choices_to={'kind': 'adviser'},
     )
     workflow_version = models.PositiveIntegerField(default=0)
     submitted_fingerprint = models.CharField(max_length=64, blank=True)
     submitted_at = models.DateTimeField(null=True, blank=True)
     summary = models.JSONField(default=dict, blank=True)
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(
+            self, requested_by_adviser='adviser', assigned_to_adviser='adviser'
+        )
+        return super().save(*args, **kwargs)
 
 
 class CandidateOfferReviewEvent(models.Model):
@@ -237,8 +245,16 @@ class JobOfferSupport(models.Model):
     job_offer = models.OneToOneField('employers.JobOffer', on_delete=models.CASCADE)
     is_searching = models.BooleanField(default=False)
     follow_up_on = models.DateField(null=True, blank=True)
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    updated_by_adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        limit_choices_to={'kind': 'adviser'},
+    )
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(self, updated_by_adviser='adviser')
+        return super().save(*args, **kwargs)
 
 
 class CandidateSupport(models.Model):
@@ -249,5 +265,13 @@ class CandidateSupport(models.Model):
     )
     is_searching = models.BooleanField(default=False)
     follow_up_on = models.DateField(null=True, blank=True)
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    updated_by_adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        limit_choices_to={'kind': 'adviser'},
+    )
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(self, updated_by_adviser='adviser')
+        return super().save(*args, **kwargs)

@@ -43,7 +43,7 @@ class OwnershipTests(TestCase):
         ):
             draft = self.create()
         offer = JobOffer.objects.get(pk=draft['id'])
-        self.assertEqual(offer.created_by, person)
+        self.assertEqual(offer.employer, person)
         self.assertEqual(offer.session_key, '')
         calculate.assert_called_once_with(offer.pk, offer.revision)
         dashboard = self.client.get(reverse('dashboard'))
@@ -59,7 +59,7 @@ class OwnershipTests(TestCase):
         for method in ('get', 'post'):
             self.assertEqual(
                 getattr(other, method)(
-                    url, {'company': '1', 'created_by': '1'}
+                    url, {'company': '1', 'employer': '1'}
                 ).status_code,
                 404,
             )
@@ -96,7 +96,7 @@ class OwnershipTests(TestCase):
             self.client.post(f'/employer/drafts/{offer.pk}/attach/').status_code, 410
         )
         offer.refresh_from_db()
-        self.assertIsNone(offer.created_by)
+        self.assertIsNone(offer.employer)
 
     @patch('eures_beta.www.employer.imports.aglae')
     @patch('eures_beta.www.employer.imports.geocode')

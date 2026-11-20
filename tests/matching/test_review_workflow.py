@@ -137,7 +137,7 @@ class ReviewWorkflowTests(TestCase):
             public_message='We can proceed with this opportunity.',
         )
         self.review.refresh_from_db()
-        self.assertEqual(self.review.assigned_to, self.other)
+        self.assertEqual(self.review.assigned_to_adviser, self.other)
         self.assertEqual(
             list(self.review.events.values_list('action', flat=True)),
             ['submitted', 'claim', 'takeover', 'validated'],
@@ -450,7 +450,7 @@ class ReviewWorkflowTests(TestCase):
         )
         self.review.refresh_from_db()
         self.assertEqual(self.review.workflow_state, 'claimed')
-        self.assertEqual(self.review.assigned_to, self.other)
+        self.assertEqual(self.review.assigned_to_adviser, self.other)
 
     def test_ordinary_advisers_have_the_same_workflow_in_all_environments(self):
         self.finish()

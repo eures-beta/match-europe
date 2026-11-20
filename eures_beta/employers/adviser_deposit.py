@@ -68,7 +68,7 @@ def create(offer, adviser, setup, *, language='fr'):
     employer = User.objects.select_for_update().get(pk=employer.pk)
     check_employer(email)
     offer.pk = setup['offer_id']
-    offer.created_by = employer
+    offer.employer = employer
     offer.adviser = adviser
     offer.contact = {
         key: value for key, value in offer.contact.items() if key != 'email'

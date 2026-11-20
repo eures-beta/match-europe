@@ -210,7 +210,7 @@ def import_response(request, id=None, *, adviser_setup=None):
             raise ImportFailure('agreement_required')
         if (
             JobOffer.objects.filter(
-                **({'adviser': person} if adviser_setup else {'created_by': person})
+                **({'adviser': person} if adviser_setup else {'employer': person})
             ).count()
             >= 30
         ):
@@ -292,7 +292,7 @@ def import_response(request, id=None, *, adviser_setup=None):
         }
         with stage('import_save'), transaction.atomic():
             obj = JobOffer(
-                created_by=person,
+                employer=person,
                 session_key='',
                 contact=contact,
                 preparation_agreed_at=timezone.now(),
@@ -359,7 +359,7 @@ def serialize(obj):
         'id': str(obj.id),
         'contact': {
             **obj.contact,
-            'email': obj.created_by.email if obj.created_by_id else '',
+            'email': obj.employer.email if obj.employer_id else '',
         },
         'data': obj.data,
         'revision': obj.revision,
@@ -535,7 +535,7 @@ def update_locked(request, obj, payload):
     if action == 'contact':
         submitted_contact = payload.get('contact')
         if isinstance(submitted_contact, dict):
-            submitted_contact = {**submitted_contact, 'email': obj.created_by.email}
+            submitted_contact = {**submitted_contact, 'email': obj.employer.email}
         contact = clean_contact(submitted_contact)
         with transaction.atomic():
             obj = (
@@ -579,7 +579,7 @@ def update_locked(request, obj, payload):
                 or occupation['personal']
             ):
                 raise ImportFailure('occupation_required')
-            clean_contact({**obj.contact, 'email': obj.created_by.email})
+            clean_contact({**obj.contact, 'email': obj.employer.email})
             if not obj.initial_sent_at:
                 raise ImportFailure('initial_required')
             if payload.get('confirmed') is not True or not all(

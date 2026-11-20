@@ -39,7 +39,7 @@ def record(review, actor, action, **kwargs):
         update_fields=[
             'workflow_version',
             'workflow_state',
-            'assigned_to',
+            'assigned_to_adviser',
             'summary',
             'submitted_fingerprint',
             'submitted_at',
@@ -68,13 +68,13 @@ def sync(review, actor):
     if not completion(state):
         if review.workflow_state != 'waiting':
             review.workflow_state = 'waiting'
-            review.assigned_to = None
+            review.assigned_to_adviser = None
             record(review, actor, 'reopened')
         return
     if current(review, state):
         return
     review.workflow_state = 'ready'
-    review.assigned_to = None
+    review.assigned_to_adviser = None
     review.submitted_at = timezone.now()
     review.submitted_fingerprint = signature(state)
     review.summary = {
@@ -121,7 +121,7 @@ def supplement(user, pk, version, text):
         raise StaleEvaluation
     if not isinstance(text, str) or not text.strip() or len(text) > 2000:
         raise ValidationError('Invalid message')
-    review.workflow_state = 'claimed' if review.assigned_to_id else 'ready'
+    review.workflow_state = 'claimed' if review.assigned_to_adviser_id else 'ready'
     review.summary = {
         **review.summary,
         'supplements': [*review.summary.get('supplements', []), text.strip()],
@@ -179,26 +179,29 @@ def handle(
         raise ValidationError('Invalid message')
     public_message, internal_note = public_message.strip(), internal_note.strip()
     if action == 'claim':
-        if review.assigned_to_id or review.workflow_state not in {'ready', 'clarify'}:
+        if review.assigned_to_adviser_id or review.workflow_state not in {
+            'ready',
+            'clarify',
+        }:
             raise StaleEvaluation
-        review.assigned_to = user
+        review.assigned_to_adviser = user
         if review.workflow_state == 'ready':
             review.workflow_state = 'claimed'
     elif action == 'takeover':
         if (
-            not review.assigned_to_id
-            or review.assigned_to_id == user.pk
+            not review.assigned_to_adviser_id
+            or review.assigned_to_adviser_id == user.pk
             or not internal_note
         ):
             raise StaleEvaluation
-        review.assigned_to = user
+        review.assigned_to_adviser = user
     else:
-        if review.assigned_to_id != user.pk:
+        if review.assigned_to_adviser_id != user.pk:
             raise PermissionDenied
         if action == 'release':
             if review.workflow_state in {'validated', 'refused'}:
                 raise StaleEvaluation
-            review.assigned_to = None
+            review.assigned_to_adviser = None
             if review.workflow_state != 'clarify':
                 review.workflow_state = 'ready'
         elif action in DECISIONS:

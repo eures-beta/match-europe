@@ -2,6 +2,7 @@
 
 Vérifient les invitations des trois rôles, le tableau de bord conseiller, les liens signés et les migrations sans perte de données.
 
+- [historical.py](historical.py) — Contrat signé figé pour les fixtures des anciens schémas ; la lecture par le service actuel est vérifiée après la migration des rôles.
 - [test_invitations.py](test_invitations.py) — Création, acceptation, droits, expiration et envoi.
 - [test_adviser_invitations.py](test_adviser_invitations.py) — Préparation, aperçu, suivi et relances depuis le tableau de bord.
 - [test_invitation_names_migration.py](test_invitation_names_migration.py) — Renommage historique et préservation des invitations.

@@ -10,12 +10,12 @@ class JobOffer(models.Model):
     """Employer-owned offers, optionally deposited by advisers; contact grants no access."""
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created_by = models.ForeignKey(
+    employer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.PROTECT,
-        related_name='created_job_offers',
+        related_name='owned_job_offers',
         limit_choices_to={'kind': 'employer'},
     )
     search_started_at = models.DateTimeField(null=True, blank=True, editable=False)
@@ -64,8 +64,8 @@ class JobOffer(models.Model):
     def save(self, *args, **kwargs):
         from django.core.exceptions import ValidationError
 
-        if self.created_by_id and self.created_by.kind != 'employer':
-            raise ValidationError({'created_by': _('An employer account is required.')})
+        if self.employer_id and self.employer.kind != 'employer':
+            raise ValidationError({'employer': _('An employer account is required.')})
         if self.adviser_id and self.adviser.kind != 'adviser':
             raise ValidationError({'adviser': _('An adviser account is required.')})
         self.contact = {

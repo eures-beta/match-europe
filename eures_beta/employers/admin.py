@@ -13,15 +13,15 @@ from .models import (
 class JobOfferAdmin(ReadOnlyAdmin):
     list_display = (
         'id',
-        'created_by',
+        'employer',
         'source_kind',
         'revision',
         'created',
         'updated',
     )
     list_filter = ('source_kind',)
-    search_fields = ('data__companyName', 'created_by__email')
-    list_select_related = ('created_by', 'adviser', 'duplicated_from')
+    search_fields = ('data__companyName', 'employer__email')
+    list_select_related = ('employer', 'adviser', 'duplicated_from')
     ordering = ('-created',)
     replacements = {
         'data': 'safe_data',

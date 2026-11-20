@@ -62,7 +62,7 @@ class AutonomousMigrationTests(TransactionTestCase):
             'person@example.invalid', kind='employer'
         )
         draft = JobOffer.objects.create(
-            created_by=person,
+            employer=person,
             adviser=user,
             session_key='fictional',
             preparation_agreed_at=timezone.now(),

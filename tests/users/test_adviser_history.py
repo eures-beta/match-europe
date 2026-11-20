@@ -39,10 +39,12 @@ class AdviserHistoryTests(TestCase):
         )
         Invitation.objects.create(
             email='sent@example.invalid',
-            sender=cls.adviser,
+            sender_adviser=cls.adviser,
             email_sent_at=timezone.now(),
         )
-        Invitation.objects.create(email='unsent@example.invalid', sender=cls.adviser)
+        Invitation.objects.create(
+            email='unsent@example.invalid', sender_adviser=cls.adviser
+        )
 
     def history(self, **params):
         return self.client.get(reverse('dashboard'), {'tab': 'history', **params})
@@ -89,7 +91,7 @@ class AdviserHistoryTests(TestCase):
             email='recruiter@example.invalid', defaults={'kind': 'employer'}
         )
         defaults = dict(
-            created_by=employer,
+            employer=employer,
             session_key='private-session-must-stay-hidden',
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
@@ -135,7 +137,7 @@ class AdviserHistoryTests(TestCase):
         offer = self.make_offer()
         validated = self.make_offer(validated_at=timezone.now(), source_kind='pdf')
         legacy = self.make_offer(
-            created_by=None,
+            employer=None,
             data={},
         )
         self.client.force_login(self.adviser)
@@ -183,7 +185,7 @@ class AdviserHistoryTests(TestCase):
                 for value in (
                     '2500 EUR',
                     'Contact fictif',
-                    offer.created_by.email,
+                    offer.employer.email,
                     'DE B1',
                     '3000',
                     'Disponible le lundi ?',
@@ -210,7 +212,7 @@ class AdviserHistoryTests(TestCase):
 
     def test_employer_data_permissions_pagination_and_read_only(self):
         offer = self.make_offer()
-        employer = offer.created_by
+        employer = offer.employer
         for user in (employer, self.candidate):
             self.client.force_login(user)
             self.assertEqual(

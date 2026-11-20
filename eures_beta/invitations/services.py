@@ -46,8 +46,8 @@ def find_invitation(token, *, lock=False):
         nonce=nonce,
         accepted_at__isnull=True,
         expires_at__gt=timezone.now(),
-        sender__is_active=True,
-        sender__kind=User.Kind.ADVISER,
+        sender_adviser__is_active=True,
+        sender_adviser__kind=User.Kind.ADVISER,
     ).first()
 
 
@@ -94,7 +94,7 @@ def create_invitation(
         invitation.nonce = uuid.uuid4()
         invitation.created_at = now
         invitation.expires_at = invitation_expiry()
-        invitation.sender = adviser
+        invitation.sender_adviser = adviser
         invitation.language = language
         invitation.email_sent_at = None
         invitation.recipient_kind = recipient_kind
@@ -106,7 +106,7 @@ def create_invitation(
         invitation = Invitation.objects.create(
             email=email,
             language=language,
-            sender=adviser,
+            sender_adviser=adviser,
             recipient_kind=recipient_kind,
             first_name=first_name,
             last_name=last_name,

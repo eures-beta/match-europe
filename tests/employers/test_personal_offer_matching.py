@@ -13,7 +13,7 @@ class PersonalOfferMatchingTests(TestCase):
             'owner@example.invalid', kind='employer'
         )
         self.offer = JobOffer.objects.create(
-            created_by=self.owner,
+            employer=self.owner,
             session_key='',
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
@@ -44,7 +44,7 @@ class PersonalOfferMatchingTests(TestCase):
         self.assertFalse(matchable_offers().exists())
 
     def test_unowned_offer_is_never_matchable_even_if_validated(self):
-        self.offer.created_by = None
+        self.offer.employer = None
         self.offer.validated_at = timezone.now()
         self.offer.save()
         self.assertFalse(matchable_offers().exists())

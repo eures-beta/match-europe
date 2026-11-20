@@ -12,7 +12,7 @@ from eures_beta.employers.employer_ownership import accessible_offers
 def employer_dashboard(request):
     offers = (
         accessible_offers(request)
-        .select_related('created_by')
+        .select_related('employer')
         .order_by('-updated', '-pk')
     )
     return render(

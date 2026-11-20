@@ -172,13 +172,13 @@ class EmployerAccountOwnershipMigrationTests(TransactionTestCase):
             'employer-role@sample.example', kind='employer'
         )
         offer = JobOffer.objects.create(
-            created_by=owner,
+            employer=owner,
             adviser=adviser,
             preparation_agreed_at=timezone.now(),
             source_kind='manual',
         )
         for changes in (
-            {'created_by': adviser},
+            {'employer': adviser},
             {'adviser': owner},
             {'contact': {'email': owner.email}},
         ):

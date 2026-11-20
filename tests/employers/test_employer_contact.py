@@ -56,7 +56,7 @@ class EmployerContactTests(TestCase):
         return client
 
     def test_email_is_derived_from_owner_and_not_stored_in_offer(self):
-        self.assertEqual(self.obj.created_by.email, 'workspace@example.invalid')
+        self.assertEqual(self.obj.employer.email, 'workspace@example.invalid')
         self.assertEqual(
             self.obj.contact,
             {key: value for key, value in self.contact.items() if key != 'email'},
@@ -64,7 +64,7 @@ class EmployerContactTests(TestCase):
         self.assertNotIn('contact', self.obj.data)
         self.assertEqual(
             self.owner.get(f'/api/job-offers/{self.obj.pk}/').json()['contact'],
-            {**self.contact, 'email': self.obj.created_by.email},
+            {**self.contact, 'email': self.obj.employer.email},
         )
 
     def test_contact_required_and_validated_server_side(self):
@@ -168,7 +168,7 @@ class EmployerContactTests(TestCase):
         self.obj.save()
         url = f'/api/job-offers/{self.obj.pk}/'
         self.assertEqual(
-            self.owner.get(url).json()['contact'], {'email': self.obj.created_by.email}
+            self.owner.get(url).json()['contact'], {'email': self.obj.employer.email}
         )
         response = self.owner.post(
             url,
