@@ -4,9 +4,8 @@
 
 Deux questions : réponse à toutes les candidatures ou aux seules personnes retenues,
 et délai habituel de première réponse, hors accusé automatique. Elles sont liées
-au **compte employeur**, jamais partagées automatiquement avec les collègues du
-même établissement. Un compte peut avoir sa propre pratique même si un autre
-compte appartient au même établissement.
+au **compte employeur**, jamais partagées automatiquement avec les collègues de la
+même entreprise. Les réponses restent propres à chaque compte.
 
 Dans les deux variantes de l'import, à l'étape contact, un employeur sans réponse
 enregistrée voit les questions. Le bouton « Enregistrer mes réponses » sauvegarde
@@ -19,8 +18,8 @@ préremplis ; « Annuler » restaure les valeurs enregistrées.
 ## Stockage et droits
 
 Le modèle `EmployerProfile` contient les informations personnelles propres au
-compte employeur, distinctes de `Company`. Son champ `user` est une relation
-obligatoire et unique vers `users.User`, accessible par `user.employer_profile`.
+compte employeur. Son champ `user` est une relation obligatoire et unique vers
+`users.User`, accessible par `user.employer_profile`.
 Un compte possède zéro ou un profil ; il n'est créé qu'après les premières
 réponses. Le rôle employeur est vérifié par la validation Django et les vues,
 pas par une contrainte SQL inter-table.
@@ -70,5 +69,5 @@ Les modalités de purge de la fiche restent à raccorder aux règles du compte.
 Dans la recette, choisir un compte employeur fictif, préparer une offre et aller
 jusqu'à l'étape contact. Enregistrer les réponses, ouvrir leur modification,
 changer un choix puis annuler : les anciennes réponses doivent rester visibles.
-Un autre compte du même établissement doit conserver ses propres réponses.
+Un autre compte employeur doit conserver ses propres réponses.
 Ce travail n'autorise ni fusion ni déploiement.
