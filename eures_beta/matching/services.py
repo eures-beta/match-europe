@@ -91,7 +91,14 @@ def calculate(candidate, offer, *, offer_revision=None):
 
 
 @transaction.atomic
-def decide(match_id, evaluation_id, value, *, actor='local_operator'):
+def decide(match_id, evaluation_id, value, *, by_adviser):
+    from django.core.exceptions import PermissionDenied
+    from eures_beta.users.models import User
+
+    if not User.objects.filter(
+        pk=getattr(by_adviser, 'pk', None), kind='adviser', is_active=True
+    ).exists():
+        raise PermissionDenied('An active adviser is required to decide.')
     if value not in ('retained', 'refused'):
         raise ValueError('Invalid matching decision')
     match = CandidateOfferMatch.objects.select_for_update().get(pk=match_id)
@@ -118,7 +125,7 @@ def decide(match_id, evaluation_id, value, *, actor='local_operator'):
         match.decision = value
         match.save(update_fields=['decision'])
         MatchDecision.objects.create(
-            match=match, evaluation=evaluation, value=value, actor=actor
+            match=match, evaluation=evaluation, value=value, by_adviser=by_adviser
         )
     return match
 

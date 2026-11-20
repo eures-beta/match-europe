@@ -14,11 +14,13 @@ logger = logging.getLogger(__name__)
 
 def send(pk):
     event = CandidateOfferReviewEvent.objects.select_related(
-        'review__requested_by', 'review__match__candidate__user'
+        'review__requested_by_adviser', 'review__match__candidate__user'
     ).get(pk=pk)
     review = event.review
     submitted = event.action in {'submitted', 'candidate_reply'}
-    recipient = review.requested_by if submitted else review.match.candidate.user
+    recipient = (
+        review.requested_by_adviser if submitted else review.match.candidate.user
+    )
     if (
         not recipient.is_active
         or recipient.kind != ('adviser' if submitted else 'candidate')

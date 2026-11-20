@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from . import validation
 
@@ -54,9 +55,20 @@ class MatchDecision(models.Model):
     value = models.CharField(
         max_length=12, choices=[('retained', 'Retained'), ('refused', 'Refused')]
     )
-    # Preserve the legacy actor for decisions recorded by the operator workflow.
-    actor = models.CharField(max_length=32, default='local_operator', editable=False)
+    # NULL is reserved for migrated decisions with an unidentified author.
+    by_adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        limit_choices_to={'kind': 'adviser'},
+    )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if self._state.adding and self.by_adviser_id is None:
+            raise ValidationError({'by_adviser': 'A decision requires an adviser.'})
+        return super().save(*args, **kwargs)
 
 
 class CandidateOfferReview(models.Model):
@@ -67,7 +79,11 @@ class CandidateOfferReview(models.Model):
         on_delete=models.CASCADE,
         related_name='candidate_offer_review',
     )
-    requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    requested_by_adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        limit_choices_to={'kind': 'adviser'},
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     email_status = models.CharField(
         max_length=12,
@@ -148,7 +164,6 @@ class CandidateOfferReviewAnswer(models.Model):
     review = models.ForeignKey(
         CandidateOfferReview, on_delete=models.CASCADE, related_name='answers'
     )
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     question_key = models.CharField(max_length=250)
     fingerprint = models.CharField(max_length=64)
     presented = models.JSONField()
@@ -171,7 +186,6 @@ class CandidateProfileSharing(models.Model):
     review = models.ForeignKey(
         CandidateOfferReview, on_delete=models.CASCADE, related_name='profile_sharings'
     )
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     fingerprint = models.CharField(max_length=64)
     agreed = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)

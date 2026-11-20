@@ -152,6 +152,7 @@ def detail(request, pk):
                         match.pk,
                         int(request.POST.get('evaluation', '')),
                         request.POST['action'],
+                        by_adviser=request.user,
                     )
                 else:
                     raise ValueError()

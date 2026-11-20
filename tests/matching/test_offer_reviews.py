@@ -72,7 +72,7 @@ class ConfirmationTests(TestCase):
         self.assertContains(page, self.match.offer.data['title'])
         self.assertContains(page, 'Is this still correct')
         event = self.answer(row)
-        self.assertEqual(event.actor, self.user)
+        self.assertEqual(event.review.match.candidate.user, self.user)
         self.assertEqual(event.presented, row['presented'])
         self.assertFalse(CandidateProfileSharing.objects.exists())
 
@@ -366,7 +366,9 @@ class ConfirmationTests(TestCase):
             reverse('matching_detail', args=[match.pk]) + '?lang=en',
         )
         match.refresh_from_db()
-        self.assertEqual(match.candidate_offer_review.requested_by, self.adviser)
+        self.assertEqual(
+            match.candidate_offer_review.requested_by_adviser, self.adviser
+        )
 
     def test_get_and_missing_csrf_never_write(self):
         self.client.get(self.url, {'action': 'answer', 'value': 'yes'})

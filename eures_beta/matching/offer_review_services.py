@@ -77,7 +77,7 @@ def request_offer_review(user, match_id):
         pk=match_id, candidate__in=access.candidates(), offer__in=access.offers()
     )
     review, _ = CandidateOfferReview.objects.get_or_create(
-        match=match, defaults={'requested_by': user}
+        match=match, defaults={'requested_by_adviser': user}
     )
     return review
 
@@ -503,7 +503,6 @@ def answer(user, pk, key, fingerprint, value, detail='', previous=0, *, dialogue
         raise StaleEvaluation
     event = CandidateOfferReviewAnswer.objects.create(
         review=review,
-        actor=user,
         question_key=key,
         fingerprint=fingerprint,
         presented=row['presented'],
@@ -538,7 +537,6 @@ def confirm_scope(user, pk, key, fingerprint, previous, scope):
     source = row['answer']
     event = CandidateOfferReviewAnswer.objects.create(
         review=review,
-        actor=user,
         question_key=key,
         fingerprint=fingerprint,
         presented=row['presented'],
@@ -588,7 +586,7 @@ def agree(user, pk, fingerprint, agreed, previous=0):
     if (latest.pk if latest else 0) != previous:
         raise StaleEvaluation
     event = CandidateProfileSharing.objects.create(
-        review=review, actor=user, fingerprint=fingerprint, agreed=agreed
+        review=review, fingerprint=fingerprint, agreed=agreed
     )
     from . import review_workflow
 
