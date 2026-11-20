@@ -9,7 +9,7 @@ par une session de navigateur ou une adresse e-mail correspondante.
 Le parcours actuel est : invitation du compte, connexion, import/relecture,
 enregistrement avec propriétaire, puis tableau de bord. Aucun établissement,
 adhésion ou rattachement supplémentaire n’est nécessaire. L’ancien accès
-`/employer/offers/` rend le même tableau de bord ; ses détails et actions gardent
+`/employer/offers/` redirige vers ce tableau de bord ; ses détails et actions gardent
 les contrôles de rôle, propriété, CSRF, révision et verrou de recherche.
 Les anciennes actions de rattachement répondent 410 sans modifier de données.
 

@@ -87,7 +87,7 @@ class RetiredPathsTests(TestCase):
                             self.assertEqual(method(path, secure=True).status_code, 404)
 
     def test_employer_workspace_and_import_keep_account_and_csrf_guards(self):
-        self.assertEqual(self.client.get('/employer/offers/').status_code, 302)
+        self.assertEqual(self.client.get('/accounts/dashboard/').status_code, 302)
         self.assertEqual(self.client.get('/api/job-offers/').status_code, 403)
         client = Client(enforce_csrf_checks=True)
         employer = get_user_model().objects.create_user(

@@ -17,3 +17,8 @@ Les anciens liens de confirmation et de conversation sont également redirigés
 par `legacy_urls.py`. Le service worker conserve un filtre de compatibilité
 strict pour ouvrir les notifications déjà livrées avant le renommage ; aucun
 nouvel envoi ne génère ces adresses.
+
+Les groupes de routes vestiges ont un délai de 30 jours, un jalon de retrait et
+une échéance, selon [la politique et l’inventaire](../../../docs/LEGACY_ROUTES.md).
+Les anciennes listes employeur redirigent directement vers le tableau de bord ;
+les actions de rattachement retirées répondent 410 sans mutation.

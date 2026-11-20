@@ -92,11 +92,36 @@ class EmployerRouteTests(TestCase):
     def test_connected_is_only_a_retired_bookmark_redirect(self):
         self.assertRedirects(
             self.client.get('/employer/connected/?lang=de'),
-            '/employer/offers/?lang=de',
+            '/accounts/dashboard/?lang=de',
             status_code=301,
             fetch_redirect_response=False,
         )
         self.assertEqual(self.client.post('/employer/connected/').status_code, 405)
+
+    def test_retired_offer_list_redirects_once_to_the_protected_dashboard(self):
+        from django.urls import NoReverseMatch, resolve
+        from eures_beta.www.public.redirects import legacy_employer_dashboard
+
+        self.assertIs(resolve('/employer/offers/').func, legacy_employer_dashboard)
+        with self.assertRaises(NoReverseMatch):
+            reverse('employer_offers')
+        for old in ('/employer/offers/', '/employer/connected/'):
+            for method in ('get', 'head'):
+                response = getattr(self.client, method)(old + '?lang=de&offers_page=2')
+                self.assertEqual(response.status_code, 301)
+                self.assertEqual(
+                    response['Location'], '/accounts/dashboard/?lang=de&offers_page=2'
+                )
+            self.assertEqual(self.client.post(old).status_code, 405)
+        anonymous = self.client.get('/employer/offers/?lang=de', follow=True)
+        self.assertEqual(
+            anonymous.redirect_chain[0], ('/accounts/dashboard/?lang=de', 301)
+        )
+        self.assertTrue(anonymous.redirect_chain[1][0].startswith('/accounts/login/'))
+        self.client.force_login(self.employer)
+        page = self.client.get('/employer/offers/?lang=de', follow=True)
+        self.assertEqual(page.redirect_chain, [('/accounts/dashboard/?lang=de', 301)])
+        self.assertTemplateUsed(page, 'employer/dashboard.html')
 
     def test_old_api_preserves_method_and_body_for_cached_javascript(self):
         # A 301/302 would silently turn a cached browser's POST into a GET.
