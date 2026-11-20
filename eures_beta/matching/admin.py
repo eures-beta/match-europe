@@ -12,7 +12,6 @@ from .models import (
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     CandidateOfferReviewEvent,
-    CandidateProfileReviewPrompt,
 )
 
 
@@ -39,7 +38,6 @@ class MatchDecisionAdmin(MetadataOnlyAdmin):
     CandidateOfferReviewAnswer,
     CandidateProfileSharing,
     CandidateOfferReviewEvent,
-    CandidateProfileReviewPrompt,
 )
 class ConfirmationMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'created_at')

@@ -46,8 +46,10 @@ relecture et la validation des formulaires habituels ; un brouillon n’est pas
 une modification durable. Les changements concurrents du profil restent protégés.
 
 Au troisième refus actuel d’une même condition sur trois offres distinctes,
-`CandidateProfileReviewPrompt` propose de conserver ou revoir le profil. Il garde
+`candidates.CandidateProfileReviewSuggestion` propose de conserver ou revoir le profil. Il garde
 les identifiants des réponses/offres justificatives et la résolution datée.
+Le modèle et son administration appartiennent à `candidates` ; la détection des
+refus et leur validation restent dans `matching`, avec les mêmes règles.
 Le comptage utilise la dernière réponse de chaque offre, encore valide pour les
 déclarations actuelles du profil. Une répétition sur la même offre, une réponse corrigée ou un
 contexte devenu périmé ne compte pas. L’identité est exacte : type de condition
@@ -69,6 +71,12 @@ des modèles, après création des clés étrangères différées ; aucune table
 sa table, ses objets PostgreSQL et les permissions associées en place. Les lignes,
 identifiants, dates, relations et séquence sont conservés, y compris au retour arrière.
 Les migrations publiées `0018–0019` restent inchangées.
+`matching.0021` déplace la table du second modèle en place et renomme ses objets
+PostgreSQL, son type de contenu et ses permissions ; `candidates.0010` adopte
+ensuite son état sous le nom `CandidateProfileReviewSuggestion`, sans créer de table.
+Le graphe impose cet ordre et le retour vers `matching.0020` annule aussi
+`candidates.0010`. Les données, identifiants, relations et séquence sont conservés
+dans les deux sens ; les migrations précédentes ne sont pas réécrites.
 Le retour arrière conserve les données préexistantes, mais retire les nouveaux
 champs et tables : sauvegarder le nouvel historique avant un retour en exploitation.
 

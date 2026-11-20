@@ -5,10 +5,10 @@ from django.db import transaction
 from django.utils import timezone
 
 from . import access, offer_review_services as confirmations
+from eures_beta.candidates.models import CandidateProfileReviewSuggestion
 from .models import (
     CandidateOfferReview,
     CandidateOfferReviewEvent,
-    CandidateProfileReviewPrompt,
 )
 from .services import StaleEvaluation
 
@@ -249,7 +249,7 @@ def check_repeated_refusal(event):
     profile = event.review.match.candidate
     evidence = refusal_evidence(profile, identity)
     if len({item['offer'] for item in evidence}) >= 3:
-        prompt, created = CandidateProfileReviewPrompt.objects.get_or_create(
+        prompt, created = CandidateProfileReviewSuggestion.objects.get_or_create(
             candidate=profile,
             condition_hash=confirmations.digest(identity),
             profile_updated_at=profile.updated_at,
@@ -285,7 +285,7 @@ def refusal_evidence(profile, identity):
 
 
 def prompts(review):
-    rows = CandidateProfileReviewPrompt.objects.filter(
+    rows = CandidateProfileReviewSuggestion.objects.filter(
         candidate=review.match.candidate,
         profile_updated_at=review.match.candidate.updated_at,
         resolution='',
@@ -311,7 +311,7 @@ def resolve_prompt(user, pk, resolution):
     from eures_beta.candidates.models import CandidateProfile
 
     profile = CandidateProfile.objects.select_for_update().get(user=user)
-    prompt = CandidateProfileReviewPrompt.objects.select_for_update().get(
+    prompt = CandidateProfileReviewSuggestion.objects.select_for_update().get(
         pk=pk, candidate=profile
     )
     if (
