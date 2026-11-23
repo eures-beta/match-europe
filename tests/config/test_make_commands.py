@@ -20,7 +20,11 @@ class MakeTestCommandsTests(SimpleTestCase):
         self.addCleanup(self.directory.cleanup)
         self.root = Path(self.directory.name)
         self.record = self.root / 'calls.jsonl'
-        self.makefile = Path(__file__).resolve().parents[2] / 'Makefile'
+        project = Path(__file__).resolve().parents[2]
+        self.makefile = self.root / 'Makefile'
+        shutil.copyfile(project / 'Makefile', self.makefile)
+        shutil.copytree(project / 'mk', self.root / 'mk')
+        shutil.copyfile(project / '.python-version', self.root / '.python-version')
         # Capture arguments and one synthetic marker, never application settings.
         recorder = (
             f'#!{sys.executable}\n'
@@ -46,7 +50,7 @@ class MakeTestCommandsTests(SimpleTestCase):
                 '--no-print-directory',
                 '-f',
                 str(self.makefile),
-                target,
+                *([target] if target else []),
                 f'PYTHON={self.root / "python-probe"}',
                 *(f'{name}={value}' for name, value in parameters.items()),
             ],
@@ -81,6 +85,19 @@ class MakeTestCommandsTests(SimpleTestCase):
 
     def calls(self):
         return [json.loads(line) for line in self.record.read_text().splitlines()]
+
+    def test_root_only_includes_fragments_and_defaults_to_help(self):
+        lines = self.makefile.read_text().splitlines()
+        self.assertTrue(lines)
+        self.assertEqual(len(lines), len(set(lines)))
+        for line in lines:
+            self.assertRegex(line, r'^include mk/[a-z-]+\.mk$')
+            self.assertTrue((self.root / line.removeprefix('include ')).is_file())
+        result = self.run_make(target=None)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('Afficher les commandes', result.stdout)
+        self.assertIn('Tests Django/PostgreSQL', result.stdout)
+        self.assertFalse(self.record.exists())
 
     def test_default_keeps_the_entire_django_suite(self):
         result = self.run_make()

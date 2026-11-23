@@ -31,3 +31,9 @@ utiliser `make run PORT=9041` avec un port et une base propres à chaque worktre
 Pour aller plus loin : [guide de développement détaillé](docs/DEVELOPPEMENT.md).
 Pour les revues : [lire une description de PR avec Make](docs/PR_DESCRIPTION.md).
 La [maintenance Python](docs/PYTHON_RUNTIME.md) propose les mises à jour en PR.
+
+## Commandes du dépôt
+
+Le [Makefile](Makefile) inclut les fragments du dossier [mk/](mk/), classés par
+domaine : exécution, bases, tests, qualité, traductions, catalogues et intégrations.
+Les noms et paramètres des commandes restent communs à tous les worktrees.
