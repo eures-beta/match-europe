@@ -17,10 +17,7 @@ class StylesheetLoadingTests(SimpleTestCase):
                     self.assertIsNotNone(finders.find(name), name)
 
     def test_public_layouts_load_existing_css_in_cascade_order(self):
-        for route, layout in (
-            ('home', 'public/layout.css'),
-            ('candidate_landing', 'public/layout.css'),
-        ):
+        for route, layout in (('candidate_landing', 'public/layout.css'),):
             with self.subTest(route=route):
                 page = self.client.get(reverse(route))
                 self.assertEqual(page.status_code, 200)
@@ -39,7 +36,7 @@ class StylesheetLoadingTests(SimpleTestCase):
                     self.assertIsNotNone(finders.find(name), name)
 
     def test_design_system_pages_load_its_css_in_cascade_order(self):
-        for route in ('employer_landing',):
+        for route in ('home', 'project', 'journal', 'privacy', 'employer_landing'):
             with self.subTest(route=route):
                 page = self.client.get(reverse(route))
                 self.assertEqual(page.status_code, 200)

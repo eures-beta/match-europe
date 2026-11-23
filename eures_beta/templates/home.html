@@ -1,61 +1,80 @@
-{% extends "public_base.html" %}
+{% extends "eures_base.html" %}
 {% load i18n %}
-{% block public_content %}
-  <section class="home-intro">
-    <p class="kicker">{% translate "An experiment in the Greater Region" context "public home" %}</p>
+{% block title %}Match Europe — {% translate "Home" context "employer landing" %}{% endblock %}
+{% block content %}
+  <section class="mb-5 col-xl-9">
+    <p class="ds-eyebrow">{% translate "An experiment in the Greater Region" context "public home" %}</p>
     <h1>{% translate "Employment beyond borders" context "public positioning" %}</h1>
-    <p class="lede">{% translate "Match Europe connects candidates’ career plans with employers’ recruitment needs across countries." context "public positioning" %}</p>
+    <p class="lead">{% translate "Match Europe connects candidates’ career plans with employers’ recruitment needs across countries." context "public positioning" %}</p>
   </section>
-  <section class="home-section" aria-labelledby="home-journeys-title">
+  <section class="mb-5" aria-labelledby="home-journeys-title">
     <h2 id="home-journeys-title">{% translate "Two complementary journeys" context "public home" %}</h2>
-    <div class="home-grid home-grid-two">
-      <article class="surface-card">
-        <h3>{% translate "Work in another country" context "public positioning" %}</h3>
-        <p>{% translate "Describe your career plans. Match Europe identifies opportunities that match your profile." context "public positioning" %}</p>
-        <a href="/candidate/?lang={{ page_language }}">{% translate "I’m a candidate" context "public positioning" %}</a>
-      </article>
-      <article class="surface-card">
-        <h3>{% translate "Recruit in another country" context "public positioning" %}</h3>
-        <p>{% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}</p>
-        <a href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "I’m an employer" context "public positioning" %}</a>
-      </article>
+    <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+      <div class="col">
+        <article class="ds-card h-100">
+          <h3 class="h4">{% translate "Work in another country" context "public positioning" %}</h3>
+          <p>{% translate "Describe your career plans. Match Europe identifies opportunities that match your profile." context "public positioning" %}</p>
+          <a class="btn btn-primary"
+             href="{% url 'candidate_landing' %}?lang={{ page_language }}">{% translate "I’m a candidate" context "public positioning" %}</a>
+        </article>
+      </div>
+      <div class="col">
+        <article class="ds-card h-100">
+          <h3 class="h4">{% translate "Recruit in another country" context "public positioning" %}</h3>
+          <p>{% translate "Describe your recruitment needs. Match Europe identifies profiles that match your requirements." context "public positioning" %}</p>
+          <a class="btn btn-primary"
+             href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "I’m an employer" context "public positioning" %}</a>
+        </article>
+      </div>
     </div>
     <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>
     <p>{% translate "The service is under development. Matching and introductions are not yet available." context "public positioning" %}</p>
   </section>
-  <section class="home-section">
+  <section class="mb-5 col-xl-9">
     <h2>{% translate "A cross-border labour market that remains fragmented" context "public home" %}</h2>
     <p>{% translate "The labour market extends beyond national borders, but recruitment and job searches are still largely organised country by country." context "public home" %}</p>
     <p>{% translate "The project aims to better identify needs, mobility intentions and opportunities to support more relevant and faster introductions." context "public home" %}</p>
     <p>{% translate "In the Greater Region, several hundred thousand people already work across borders. Yet job offers and applications still circulate with difficulty between countries." context "public home" %}</p>
     <p>{% translate "Employers face recruitment difficulties, while candidates open to mobility do not always find the opportunities that might suit them." context "public home" %}</p>
   </section>
-  <section class="home-section" aria-labelledby="home-stats-title">
+  <section class="mb-5" aria-labelledby="home-stats-title">
     <h2 id="home-stats-title">{% translate "A few figures about the Greater Region" context "public home" %}</h2>
-    <div class="home-grid">
-      <p class="surface-card">{% translate "280,000 cross-border workers travel within the Greater Region every day." context "public home" %}</p>
-      <p class="surface-card">{% translate "40–50k people with cross-border experience could be looking for a job." context "public home" %}</p>
-      <p class="surface-card">{% translate "15,000+ positions may remain vacant in the same economic area." context "public home" %}</p>
+    <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+      <div class="col">
+        <p class="ds-card h-100">{% translate "280,000 cross-border workers travel within the Greater Region every day." context "public home" %}</p>
+      </div>
+      <div class="col">
+        <p class="ds-card h-100">{% translate "40–50k people with cross-border experience could be looking for a job." context "public home" %}</p>
+      </div>
+      <div class="col">
+        <p class="ds-card h-100">{% translate "15,000+ positions may remain vacant in the same economic area." context "public home" %}</p>
+      </div>
     </div>
   </section>
-  <section class="home-section">
+  <section class="mb-5">
     <h2>{% translate "An experiment focused on usage" context "public home" %}</h2>
-    <div class="home-grid">
-      <article class="surface-card">
-        <h3>{% translate "Test quickly" context "public home" %}</h3>
-        <p>{% translate "An initial lightweight, multilingual service collects real needs and observes usage." context "public home" %}</p>
-      </article>
-      <article class="surface-card">
-        <h3>{% translate "Build knowledge" context "public home" %}</h3>
-        <p>{% translate "The information collected gradually improves understanding of candidates’ and employers’ needs." context "public home" %}</p>
-      </article>
-      <article class="surface-card">
-        <h3>{% translate "Combine automation and human expertise" context "public home" %}</h3>
-        <p>{% translate "The project explores different forms of assistance while keeping human intervention available when necessary." context "public home" %}</p>
-      </article>
+    <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+      <div class="col">
+        <article class="ds-card h-100">
+          <h3 class="h4">{% translate "Test quickly" context "public home" %}</h3>
+          <p>{% translate "An initial lightweight, multilingual service collects real needs and observes usage." context "public home" %}</p>
+        </article>
+      </div>
+      <div class="col">
+        <article class="ds-card h-100">
+          <h3 class="h4">{% translate "Build knowledge" context "public home" %}</h3>
+          <p>{% translate "The information collected gradually improves understanding of candidates’ and employers’ needs." context "public home" %}</p>
+        </article>
+      </div>
+      <div class="col">
+        <article class="ds-card h-100">
+          <h3 class="h4">{% translate "Combine automation and human expertise" context "public home" %}</h3>
+          <p>{% translate "The project explores different forms of assistance while keeping human intervention available when necessary." context "public home" %}</p>
+        </article>
+      </div>
     </div>
   </section>
-  <section class="home-section">
+  <section class="mb-5">
     <h2>{% translate "Outlook" context "public home" %}</h2>
     <ul>
       <li>{% translate "Opening up to other countries in the Greater Region." context "public home" %}</li>

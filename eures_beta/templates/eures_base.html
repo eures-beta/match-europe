@@ -11,6 +11,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "includes/pwa_head.html" %}
     <title>{% block title %}Match Europe{% endblock %}</title>
     <link rel="stylesheet"
           href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
@@ -50,7 +51,7 @@
               <ul>
                 {% for language in page_languages %}
                   <li>
-                    <a href="{{ request.path }}?lang={{ language.code }}"
+                    <a href="{{ request.path }}?lang={{ language.code }}{% if language_question %}&amp;question={{ language_question|urlencode }}{% endif %}"
                        {% if language.code == page_language %}aria-current="true"{% endif %}
                        lang="{{ language.code }}"
                        hreflang="{{ language.code }}">{{ language.name_local|capfirst }}</a>

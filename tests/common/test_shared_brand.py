@@ -9,14 +9,7 @@ class SharedBrandTests(TestCase):
         for language in ('fr', 'en', 'de'):
             with translation.override(language):
                 brand = render_to_string('includes/public_brand.html')
-            for path in (
-                '/',
-                '/candidate/',
-                '/statistics/',
-                '/project/',
-                '/journal/',
-                f'/employer/import/?lang={language}',
-            ):
+            for path in ('/candidate/',):
                 with self.subTest(language=language, path=path):
                     response = self.client.get(path, {'lang': language}, secure=True)
                     self.assertEqual(response.status_code, 200)
@@ -32,7 +25,12 @@ class SharedBrandTests(TestCase):
             ('de', 'EURES beta'),
         ):
             for path in (
+                f'/?lang={language}',
+                f'/statistics/?lang={language}',
+                f'/project/?lang={language}',
+                f'/journal/?lang={language}',
                 f'/employer/?lang={language}',
+                f'/employer/import/?lang={language}',
                 f'/employer/privacy/?lang={language}',
             ):
                 with self.subTest(language=language, path=path):

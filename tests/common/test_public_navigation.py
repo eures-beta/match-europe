@@ -41,16 +41,17 @@ class PublicNavigationTests(TestCase):
                             )
                         ),
                     )
-                    self.assertTemplateUsed(response, 'public_base.html')
+                    self.assertTemplateUsed(response, 'eures_base.html')
+                    self.assertTemplateNotUsed(response, 'public_base.html')
                     if route in ('project', 'journal'):
                         self.assertNotContains(response, notice)
                     else:
                         self.assertContains(response, notice)
                     self.assertContains(response, f'<html lang="{language}">')
                     self.assertContains(response, f'href="/?lang={language}"')
-                    self.assertContains(response, 'employer-partner-logos')
-                    self.assertContains(response, 'employer-page-footer')
-                    self.assertContains(response, '/static/employer/site.css')
+                    self.assertContains(response, 'ds-partners')
+                    self.assertContains(response, 'ds-site-footer')
+                    self.assertNotContains(response, '/static/employer/site.css')
                     assert_active_link(
                         self, response, reverse(route) + f'?lang={language}'
                     )

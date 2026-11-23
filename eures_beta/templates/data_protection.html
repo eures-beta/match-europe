@@ -1,39 +1,40 @@
-{% extends "public_base.html" %}
-{% load i18n static %}
-{% block extra_styles %}
-  <link rel="stylesheet" href="{% static 'data-protection.css' %}">
-{% endblock %}
-{% block page_title %}{% translate "Data protection and retention" %} — Match Europe{% endblock %}
-{% block public_content %}
-  <div class="data-protection">
-    <section class="hero hero-grid" aria-labelledby="privacy-title">
-      <header class="hero-card">
-        <div class="eyebrow">{% translate "Data protection" context "employer privacy" %}</div>
+{% extends "eures_base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Data protection and retention" %} — Match Europe{% endblock %}
+{% block content %}
+  <div>
+    <section class="row g-4 mb-5" aria-labelledby="privacy-title">
+      <header class="col-lg-8">
+        <p class="ds-eyebrow">{% translate "Data protection" context "employer privacy" %}</p>
         <h1 id="privacy-title">{% translate "Data protection and retention" %}</h1>
-        <p class="lede">{% translate "This notice carries forward the information and retention periods defined for the Match Europe experiment." %}</p>
+        <p class="lead">{% translate "This notice carries forward the information and retention periods defined for the Match Europe experiment." %}</p>
       </header>
-      <aside class="story-card" aria-labelledby="scope-title">
-        <h2 id="scope-title">{% translate "Current scope" %}</h2>
-        <p>{% translate "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice." %}</p>
-      </aside>
-    </section>
-    <div class="section tracks-grid">
-      <section class="surface-card">
-        <h2>{% translate "Use of your data" %}</h2>
-        <p>{% translate "Your answers help describe your professional project or recruitment needs and organise introductions with human support. Public indicators must be aggregated and anonymised." %}</p>
-      </section>
-      <section class="surface-card">
-        <h2>{% translate "Access and introductions" %}</h2>
-        <p>{% translate "Access is restricted to authorised teams and technical services needed for the stated purpose. An employer receives only the information needed for a relevant introduction, after the required human validation and agreements. Personal data is not published." %}</p>
-      </section>
-    </div>
-    <section class="section" aria-labelledby="retention-title">
-      <div class="panel">
-        <h2 id="retention-title">{% translate "Retention periods" %}</h2>
+      <div class="col-lg-4">
+        <aside class="ds-card ds-card-brand" aria-labelledby="scope-title">
+          <h2 class="h5" id="scope-title">{% translate "Current scope" %}</h2>
+          <p>{% translate "Your answers await email confirmation for one hour. Confirmation creates a candidate account and saves the profile. Existing accounts are never replaced. Expired requests are removed by cleanup, not necessarily at the exact expiry time. Matching and automatic introductions are not activated by this notice." %}</p>
+        </aside>
       </div>
-      <div class="table-wrap">
-        <table class="stats-table">
-          <caption class="sr-only">{% translate "Retention periods" %}</caption>
+    </section>
+    <div class="row row-cols-1 row-cols-md-2 g-3 mb-5">
+      <div class="col">
+        <section class="ds-card h-100">
+          <h2 class="h4">{% translate "Use of your data" %}</h2>
+          <p>{% translate "Your answers help describe your professional project or recruitment needs and organise introductions with human support. Public indicators must be aggregated and anonymised." %}</p>
+        </section>
+      </div>
+      <div class="col">
+        <section class="ds-card h-100">
+          <h2 class="h4">{% translate "Access and introductions" %}</h2>
+          <p>{% translate "Access is restricted to authorised teams and technical services needed for the stated purpose. An employer receives only the information needed for a relevant introduction, after the required human validation and agreements. Personal data is not published." %}</p>
+        </section>
+      </div>
+    </div>
+    <section class="mb-5" aria-labelledby="retention-title">
+      <h2 id="retention-title">{% translate "Retention periods" %}</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <caption class="visually-hidden">{% translate "Retention periods" %}</caption>
           <thead>
             <tr>
               <th scope="col">{% translate "Category" context "data protection table" %}</th>
@@ -68,19 +69,23 @@
           </tbody>
         </table>
       </div>
-      <div class="panel retention-note">
-        <p>{% translate "These are the retention rules carried forward from the experiment. Automatic deletion according to these periods is not yet implemented in this version. Detailed information about the responsible organisation, the legal basis and deletion arrangements must be completed before collecting real candidate profiles." %}</p>
+      <div class="alert alert-warning" role="note">
+        <p class="mb-0">{% translate "These are the retention rules carried forward from the experiment. Automatic deletion according to these periods is not yet implemented in this version. Detailed information about the responsible organisation, the legal basis and deletion arrangements must be completed before collecting real candidate profiles." %}</p>
       </div>
     </section>
-    <div class="section tracks-grid">
-      <section class="surface-card">
-        <h2>{% translate "Temporary questionnaire drafts" %}</h2>
-        <p>{% translate "The candidate draft expires after 2 hours without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups." %}</p>
-      </section>
-      <section class="surface-card rights-card">
-        <h2>{% translate "Your rights and contact" context "employer privacy" %}</h2>
-        <p>{% translate "You can request access, correction or deletion of your data and ask the project team about its use. Contact the team:" %} <a href="mailto:{{ team_contact_email }}">{{ team_contact_email }}</a></p>
-      </section>
+    <div class="row row-cols-1 row-cols-md-2 g-3 mb-5">
+      <div class="col">
+        <section class="ds-card h-100">
+          <h2 class="h4">{% translate "Temporary questionnaire drafts" %}</h2>
+          <p>{% translate "The candidate draft expires after 2 hours without activity. This temporary draft is separate from a permanently registered profile. Expiry is checked when you return to the questionnaire; it does not guarantee immediate removal from technical storage or backups." %}</p>
+        </section>
+      </div>
+      <div class="col">
+        <section class="ds-card h-100">
+          <h2 class="h4">{% translate "Your rights and contact" context "employer privacy" %}</h2>
+          <p>{% translate "You can request access, correction or deletion of your data and ask the project team about its use. Contact the team:" %} <a href="mailto:{{ team_contact_email }}">{{ team_contact_email }}</a></p>
+        </section>
+      </div>
     </div>
   </div>
 {% endblock %}
