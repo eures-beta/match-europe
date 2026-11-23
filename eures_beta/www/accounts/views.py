@@ -96,9 +96,7 @@ def dashboard(request):
 
 
 def selected_language(request):
-    language = request.GET.get(
-        'lang', request.session.get('login_language', request.LANGUAGE_CODE)
-    )
+    language = request.GET.get('lang', request.LANGUAGE_CODE)
     return language if language in ('fr', 'en', 'de') else 'fr'
 
 

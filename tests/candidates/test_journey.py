@@ -286,7 +286,7 @@ class CandidateJourneyTests(TestCase):
         response = self.get(without_cv='1')
         self.assertRedirects(
             response,
-            '/candidate/prepare/?step=1&lang=fr',
+            '/candidate/prepare/?step=1&lang=de',
             fetch_redirect_response=False,
         )
 

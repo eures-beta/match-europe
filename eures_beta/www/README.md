@@ -22,3 +22,4 @@ Les modèles, services, validations partagées et commandes restent dans les app
 
 - [__init__.py](__init__.py) — Déclare le paquet Python commun des interfaces.
 - [urls.py](urls.py) — Assemble les routes applicatives ; les endpoints techniques restent dans config.
+- [language.py](language.py) — Partage la langue choisie entre les parcours et l'administration, avec le cookie Django après déconnexion.
