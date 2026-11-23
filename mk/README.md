@@ -4,6 +4,10 @@ Le [Makefile racine](../Makefile) inclut explicitement ces fragments dans leur o
 de lecture. Depuis la racine du dépôt, `make` et `make help` présentent les commandes.
 Les noms, paramètres et protections des cibles restent communs à tous les environnements.
 
+`make test-accounts-seed` peuple les parcours fictifs autorisés en local/recette.
+`SEED_ARGS=--report` lit seulement les compteurs et `SEED_ARGS=--minimal` réserve
+le petit jeu historique aux tests ciblés. Voir [les données préparées](../docs/PREVIEW_DATASET.md).
+
 - [variables.mk](variables.mk) : variables, exports protégés et commande par défaut.
 - [help.mk](help.mk) : aide qui parcourt tous les fichiers chargés par Make.
 - [runtime.mk](runtime.mk) : interpréteur Python, installation et serveurs Django/Clever.
