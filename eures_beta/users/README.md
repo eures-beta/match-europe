@@ -6,6 +6,8 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 ## Contenu
 
+- [preview_data/](preview_data/) — Jeu fictif lié des recettes et rapport des compteurs ; [couverture](../../../docs/PREVIEW_DATASET.md).
+
 - [login_return.py](../www/accounts/return_path.py) — Reprise de l’import après connexion, avec une liste fixe de destinations.
 
 - [Comptes fictifs](../../docs/TEST_ACCOUNTS.md) — Sélection explicite en local/recette uniquement.

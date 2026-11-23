@@ -61,7 +61,7 @@ class ProfileReviewSuggestionMigrationTests(TransactionTestCase):
             return table_oid, sequence_oid, constraints, indexes, cursor.fetchone()[0]
 
     def test_nonempty_roundtrip_preserves_pending_and_resolved_suggestions(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         profile = CandidateProfile.objects.first()
         old = self.migrate(BEFORE)
         Suggestion = old.get_model('matching', 'CandidateProfileReviewPrompt')

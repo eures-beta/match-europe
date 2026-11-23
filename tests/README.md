@@ -1,5 +1,8 @@
 # Tests automatisés
 
+[users/test_preview_data.py](users/test_preview_data.py) vérifie le jeu complet
+des recettes : modèles peuplés, liens, parcours, refus et conservation à la relance.
+
 Tous les tests Python et JavaScript sont réunis ici, par domaine. Ce dossier
 est un paquet Python, pas une application Django.
 

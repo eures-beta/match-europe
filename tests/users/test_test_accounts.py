@@ -25,7 +25,7 @@ User = get_user_model()
 )
 class TestAccountAccessTests(TestCase):
     def seed(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
 
     def test_pages_do_not_seed_data_implicitly(self):
         page = self.client.get(reverse('test_accounts'))

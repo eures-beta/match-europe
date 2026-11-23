@@ -81,7 +81,7 @@ class PostgresConnectionPolicyTests(SimpleTestCase):
                             **os.environ,
                             'DJANGO_SECRET_KEY': 'fictional-postgres-policy',
                             'DJANGO_ENVIRONMENT': environment,
-                            'TEST_ACCOUNTS_ENABLED': '0',
+                            'DEMO_ACCOUNTS_ENABLED': '0',
                             'PGSSLMODE': sslmode,
                         },
                         capture_output=True,

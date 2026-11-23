@@ -1,8 +1,8 @@
 # Comptes de démonstration en local et en recette
 
 Un bandeau rouge permanent permet de choisir ou de changer de compte sans e-mail
-ni mot de passe : conseiller, employeur et superadministrateur. Les trois comptes
-partagés utilisent exclusivement des adresses `@demo.example.invalid`.
+ni mot de passe : conseiller, deux employeurs, deux candidats et superadministrateur.
+Ces six identités utilisent exclusivement des adresses `.invalid`.
 Toute personne visitant cet environnement peut les utiliser : aucune donnée réelle
 ne doit y être saisie. Le superadministrateur conserve l’administration en lecture
 seule ; le tableau conseiller permet d’essayer les invitations sans envoi réel.
@@ -15,19 +15,22 @@ Dans le `.env` ignoré du worktree, configurer `DJANGO_ENVIRONMENT=local`,
 ```bash
 make migrate
 make test-accounts-seed
-make serve
+make run PORT=8000
 ```
 
 Ouvrir `/accounts/test-accounts/`, ou suivre le bandeau. Un seul interrupteur,
 `DEMO_ACCOUNTS_ENABLED`, prépare le même jeu complet en local et en recette :
 neuf comptes (un conseiller, deux employeurs, un superadministrateur et cinq
-candidats), un établissement fictif, une adhésion employeur, deux offres manuelles
-et une offre avec cinq scénarios de rapprochement. Deux candidats sont proposés
-dans le sélecteur avec une demande de confirmation prête à consulter.
+candidats), seize offres, dix-huit rapprochements, treize revues et cinq
+conversations. Les deux candidats du sélecteur disposent chacun de propositions
+et d’une conversation ouverte. Voir [la couverture détaillée](PREVIEW_DATASET.md).
 Il n'existe plus de condition supplémentaire réservée aux scénarios PWA.
 Il ne réinitialise ni ne supprime les essais existants. Les fixtures des offres
 restent dans `employers/test_data.py`, celles des comptes dans `users`.
 Aucun modèle ni migration supplémentaire n’est nécessaire.
+`make test-accounts-seed SEED_ARGS=--report` compte les lignes sans modification.
+`SEED_ARGS=--minimal` conserve le petit jeu historique pour les tests ciblés ; les
+recettes utilisent le mode complet par défaut.
 
 ## Protections et limites
 
@@ -37,7 +40,7 @@ Aucun modèle ni migration supplémentaire n’est nécessaire.
   l’adresse ne se termine pas par `.invalid`. Ce garde-fou ne détecte pas les
   données personnelles saisies dans le texte des offres : utiliser uniquement
   une base jetable et fictive.
-- La connexion accepte uniquement les cinq identités du sélecteur préparées, actives, avec
+- La connexion accepte uniquement les six identités du sélecteur préparées, actives, avec
   rôle exact et mot de passe inutilisable. Aucune création au chargement d’une
   page, aucun identifiant arbitraire ni lien magique exposé.
 - Changer de compte exige un POST protégé par CSRF et renouvelle la session.

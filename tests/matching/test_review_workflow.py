@@ -31,7 +31,7 @@ from eures_beta.users.test_accounts import prepared_user
 class ReviewWorkflowTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
 
     def setUp(self):

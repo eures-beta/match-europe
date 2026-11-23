@@ -27,7 +27,7 @@ DEMO = dict(
 class AuthorRoleTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
 
     def setUp(self):
         self.review = CandidateOfferReview.objects.select_related(
@@ -146,7 +146,7 @@ class AuthorRoleMigrationTests(TransactionTestCase):
         return executor.loader.project_state([('matching', target)]).apps
 
     def setUp(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         self.review_id = CandidateOfferReview.objects.first().pk
         self.old = self.migrate(self.before)
 

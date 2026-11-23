@@ -23,7 +23,7 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
         super().tearDown()
 
     def test_nonempty_upgrade_and_rollback_preserve_reviews_answers_and_consent(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
         review = CandidateOfferReview.objects.first()
         from eures_beta.matching import offer_review_services as service
@@ -89,7 +89,7 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
     def test_event_rename_roundtrip_preserves_history_database_objects_and_permissions(
         self,
     ):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         review = CandidateOfferReview.objects.first()
         old = self.migrate('0019_review_database_names')
         Event = old.get_model('matching', 'CandidateOfferReviewAction')

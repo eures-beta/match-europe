@@ -354,7 +354,7 @@ class ContinuousTests(TestCase):
         from django.core.management import call_command
         from io import StringIO
 
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         response = self.client.post(
             reverse('test_account_sign_in'), {'account': 'employer'}
         )

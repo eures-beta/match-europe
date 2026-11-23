@@ -27,7 +27,7 @@ from tests.matching.test_dialogue import SETTINGS
 class AdviserActionQueueTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         cls.adviser = prepared_user('adviser')
         cls.candidate = CandidateProfile.objects.get(
             user__email='compatible@matching-trial.invalid'
