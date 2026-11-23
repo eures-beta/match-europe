@@ -1,3 +1,7 @@
 {% load i18n %}
-<p>{% translate "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar." %}</p>
-<p><a href="{{ link }}">{{ link }}</a></p>
+<p style="font-size:13px; line-height:1.6; color:#51627d">{% translate "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar." %}</p>
+<p style="font-size:13px;
+          line-height:1.6;
+          overflow-wrap:anywhere;
+          word-break:break-word"><a href="{{ link }}"
+                                    style="color:#004494">{{ link }}</a></p>

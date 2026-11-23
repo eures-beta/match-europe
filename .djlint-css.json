@@ -65,6 +65,7 @@
     "T045"
   ],
   "per-file-ignores": {
+    "(^|/)eures_beta/templates/emails/(base|action|message|link_fallback)\\.html$": "H021",
     "(^|/)eures_beta/invitations/templates/invitations/emails/": "H021,C901",
     "(^|/)eures_beta/templates/design_system\\.html$": "H021"
   }

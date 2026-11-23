@@ -1,13 +1,16 @@
+{% extends "emails/base.html" %}
 {% load i18n %}
-{% get_current_language as language %}
-<!DOCTYPE html>
-<html lang="{{ language }}">
-  <head>
-    <meta charset="utf-8">
-    <title>Match Europe</title>
-  </head>
-  <body>
-    {{ body|force_escape|urlize|linebreaks }}
-    <p>{% translate "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar." %}</p>
-  </body>
-</html>
+{% block content %}
+  {% if subject %}<h1 style="margin:0 0 18px;
+                             color:#16253d;
+                             font-size:23px;
+                             line-height:1.3">{{ subject|force_escape }}</h1>{% endif %}
+  {{ body|force_escape|urlize|linebreaks }}
+  {% if link and action_label %}
+    {% include "emails/action.html" %}
+  {% endif %}
+  <p style="margin:16px 0 0;
+            color:#51627d;
+            font-size:13px;
+            line-height:1.6">{% translate "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar." %}</p>
+{% endblock %}

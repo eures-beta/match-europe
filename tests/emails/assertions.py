@@ -25,6 +25,7 @@ def assert_clickable_email(test, message):
     test.assertEqual(text.get_content_type(), "text/plain")
     test.assertEqual(html.get_content_type(), "text/html")
     test.assertEqual(text.get_content().strip(), message.body.strip())
+    test.assertIn('bgcolor="#004494"', html.get_content())
     urls = re.findall(r"https://[^\s<>]+", message.body)
     test.assertTrue(urls)
     hrefs = Links(html.get_content()).hrefs

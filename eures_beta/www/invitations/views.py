@@ -19,7 +19,7 @@ from eures_beta.www.invitations.forms import InvitationForm
 from eures_beta.invitations.services import (
     create_invitation,
     find_invitation,
-    invitation_message,
+    invitation_content,
 )
 from eures_beta.invitations.models import Invitation
 from eures_beta.users.models import User
@@ -57,7 +57,7 @@ def invite(request):
                 )
             if invitation and email_ready():
                 try:
-                    subject, body = invitation_message(
+                    subject, body, link = invitation_content(
                         invitation, settings.LOGIN_EMAIL_ORIGIN
                     )
                     sent = bool(
@@ -66,7 +66,13 @@ def invite(request):
                             body,
                             settings.DEFAULT_FROM_EMAIL,
                             [invitation.email],
-                            html_message=html_email(body, language=invitation.language),
+                            html_message=html_email(
+                                body,
+                                language=invitation.language,
+                                subject=subject,
+                                link=link,
+                                action_label=_('Open the form'),
+                            ),
                         )
                     )
                     if sent:

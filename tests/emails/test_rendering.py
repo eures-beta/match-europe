@@ -4,12 +4,62 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
 from django.utils.safestring import mark_safe
 
-from eures_beta.emails.rendering import html_email
+from eures_beta.emails.rendering import html_email, presentation_context
 from tests.emails.assertions import Links, assert_clickable_email
 
 
 @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class HtmlEmailTests(SimpleTestCase):
+    def test_subject_is_a_heading_without_repeating_the_first_paragraph(self):
+        body = 'Unique subject\n\nKeep this paragraph.'
+        html = html_email(body, subject='Unique subject')
+        self.assertEqual(html.count('Unique subject'), 2)  # Document title and h1.
+        self.assertIn('Keep this paragraph.', html)
+
+    @override_settings(
+        LOGIN_EMAIL_ORIGIN='https://example.invalid', ALLOWED_HOSTS=['example.invalid']
+    )
+    def test_common_card_keeps_plain_text_and_uses_only_trusted_brand_assets(self):
+        link = 'https://example.invalid/accounts/confirm/?sesame=abc&next=%2F'
+        body = 'A personal link:\n' + link
+        html = html_email(
+            body, subject='Your sign-in link', link=link, action_label='Sign in'
+        )
+        send_mail(
+            'Your sign-in link',
+            body,
+            'sender@example.invalid',
+            ['recipient@example.invalid'],
+            html_message=html,
+        )
+        message = mail.outbox[-1]
+        self.assertEqual(message.body, body)
+        assert_clickable_email(self, message)
+        self.assertIn('<h1', html)
+        self.assertIn('Your sign-in link', html)
+        self.assertIn('max-width:640px', html)
+        self.assertIn('font-family:Arial', html)
+        self.assertIn('https://example.invalid/privacy/', Links(html).hrefs)
+        for filename in (
+            'eures-ela.jpg',
+            'france-travail-email.png',
+            'adem.png',
+            'forem.png',
+        ):
+            self.assertIn(filename, html)
+        self.assertNotIn('<script', html)
+        self.assertNotIn('<link ', html)
+
+    @override_settings(
+        LOGIN_EMAIL_ORIGIN='https://untrusted.invalid',
+        ALLOWED_HOSTS=['example.invalid'],
+    )
+    def test_untrusted_origin_never_becomes_a_footer_destination(self):
+        html = html_email('A message', subject=mark_safe('<script>bad</script>'))
+        self.assertNotIn('untrusted.invalid', html)
+        self.assertNotIn('<script>', html)
+        self.assertIn('&lt;script&gt;', html)
+
     def test_long_signed_urls_survive_html_and_mime_in_all_languages(self):
         link = (
             "https://example.invalid/accounts/confirm/?sesame="
@@ -19,7 +69,9 @@ class HtmlEmailTests(SimpleTestCase):
         for language in ("fr", "en", "de"):
             with self.subTest(language=language):
                 body = "A personal link:\n" + link + "\n\nDo not forward it."
-                html = html_email(body, language=language)
+                html = html_email(
+                    body, language=language, link=link, action_label='Sign in'
+                )
                 self.assertIn(f'lang="{language}"', html)
                 send_mail(
                     "Match Europe",
@@ -74,8 +126,11 @@ class HtmlEmailTests(SimpleTestCase):
             with self.subTest(template=template):
                 html = render_to_string(
                     f"invitations/emails/{template}.html",
-                    {"link": link, "privacy": "https://example.invalid/privacy/"},
+                    {**presentation_context('https://example.invalid'), "link": link},
                 )
                 # The main action and the copyable fallback address target the same URL.
                 self.assertEqual(Links(html).hrefs.count(link), 2)
                 self.assertIn("https://example.invalid/invitations/confirm/", html)
+                self.assertEqual(html.count('<!DOCTYPE html>'), 1)
+                self.assertIn('max-width:640px', html)
+                self.assertIn('france-travail-email.png', html)

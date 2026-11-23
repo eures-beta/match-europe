@@ -131,6 +131,11 @@ def create_verified_profile(user, data, language, notice_read_at):
 
 
 def confirmation_message(pending, origin):
+    return confirmation_content(pending, origin)[:2]
+
+
+def confirmation_content(pending, origin):
+    """Build one personal link for both the text and the HTML action."""
     if pending.expires_at <= timezone.now():
         raise ValidationError('Expired request.')
     link = (
@@ -143,6 +148,7 @@ def confirmation_message(pending, origin):
         return (
             _('Confirm your candidate profile'),
             render_to_string('candidates/registration_email.txt', {'link': link}),
+            link,
         )
 
 
@@ -154,14 +160,20 @@ def send_confirmation(pending):
     if pending is None or not email_ready():
         return False
     try:
-        subject, body = confirmation_message(pending, settings.LOGIN_EMAIL_ORIGIN)
+        subject, body, link = confirmation_content(pending, settings.LOGIN_EMAIL_ORIGIN)
         return bool(
             send_mail(
                 subject,
                 body,
                 settings.DEFAULT_FROM_EMAIL,
                 [pending.email],
-                html_message=html_email(body, language=pending.language),
+                html_message=html_email(
+                    body,
+                    language=pending.language,
+                    subject=subject,
+                    link=link,
+                    action_label=subject,
+                ),
             )
         )
     except Exception:

@@ -50,6 +50,9 @@ Les fichiers CSS passent dans le Prettier existant, avec `make format-css` et
 
 - `invitations/templates/invitations/emails/` : les styles intégrés sont conservés
   pour la compatibilité des clients e-mail.
+- `templates/emails/base.html`, `action.html`, `message.html` et `link_fallback.html` :
+  composants d'e-mail communs, attributs `style` autorisés mais blocs `<style>` interdits.
+  Les autres fichiers de ce dossier ne sont pas automatiquement exemptés.
 - `templates/design_system.html` : seuls ses attributs `style` sont autorisés,
   pour représenter les valeurs des tokens lus dynamiquement. Les blocs `<style>`
   restent interdits dans ce catalogue.
