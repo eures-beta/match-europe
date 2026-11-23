@@ -12,6 +12,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 - [Comptes fictifs](../../docs/TEST_ACCOUNTS.md) — Sélection explicite en local/recette uniquement.
 - [test_accounts.py](test_accounts.py) — Identités autorisées et garde-fous.
+- [demo_employers.py](demo_employers.py) — Réunit les offres des deux anciens employeurs fictifs et conserve les identités historiques sans accès.
 - [test_account_views.py](../www/accounts/test_accounts.py) — Sélecteur et connexion POST protégée.
 
 - [templatetags/](templatetags/) — Balises de présentation de l’administration, dont les compteurs de modèles à la demande.

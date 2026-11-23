@@ -2,8 +2,8 @@
 {% if test_accounts_enabled %}
   {% get_current_language as test_account_language %}
   <aside class="test-accounts-banner"
-         aria-label="{% translate 'Test environment' %}">
-    <strong>{% translate "Test environment — fictional data only. Do not enter real personal data." %}</strong>
-    <a href="{% url 'test_accounts' %}?lang={{ test_account_language }}">{% translate "Choose or switch test account" %}</a>
+         aria-label="{% translate 'Demonstration environment' %}">
+    <strong>{% translate "Demonstration environment — fictional data only. Do not enter real personal data." %}</strong>
+    <a href="{% url 'test_accounts' %}?lang={{ test_account_language }}">{% translate "Switch demonstration account" %}</a>
   </aside>
 {% endif %}

@@ -1,6 +1,6 @@
 {% extends account_base %}
 {% load i18n %}
-{% block page_title %}{% translate "Choose a test account" %} — Match Europe{% endblock %}
+{% block page_title %}{% translate "Choose a demonstration account" %} — Match Europe{% endblock %}
 {% block public_content %}
   {% if compact_preview %}
     <header class="conversation-header">
@@ -9,8 +9,8 @@
   {% endif %}
   <section class="{% if compact_preview %}conversation-thread{% else %}account-panel{% endif %}"
            aria-labelledby="test-accounts-title">
-    <h2 id="test-accounts-title">{% translate "Choose a test account" %}</h2>
-    <p>{% translate "These shared accounts contain fictional data. Anyone testing this environment can access them. Changes disappear when the test environment is deleted." %}</p>
+    <h2 id="test-accounts-title">{% translate "Choose a demonstration account" %}</h2>
+    <p>{% translate "These accounts are shared by everyone testing this demonstration environment. All changes will be permanently lost at the end of this demonstration environment's lifetime." %}</p>
     {% for account in accounts %}
       <form method="post"
             action="{% url 'test_account_sign_in' %}?lang={{ page_language }}">
@@ -22,7 +22,7 @@
         </p>
       </form>
     {% empty %}
-      <p role="status">{% translate "No test accounts are available yet." %}</p>
+      <p role="status">{% translate "No demonstration accounts are available yet." %}</p>
     {% endfor %}
   </section>
 {% endblock %}
