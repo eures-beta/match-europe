@@ -201,9 +201,20 @@ class PreviewDataTests(TestCase):
             accepted_at=timezone.now(),
         )
         expected = self.snapshot()
-        for row in expected['users.User']:
-            if row['id'] == legacy.pk:
-                row['is_active'] = False
+        expected['users.User'] = [
+            row for row in expected['users.User'] if row['id'] != legacy.pk
+        ]
+        expected['employers.EmployerProfile'] = [
+            row
+            for row in expected['employers.EmployerProfile']
+            if row['user_id'] != legacy.pk
+        ]
+        for row in expected['matching.CandidateOfferConversationMessage']:
+            if row['author_id'] == legacy.pk:
+                row['author_id'] = employer.pk
+        for row in expected['invitations.Invitation']:
+            if row['recipient_id'] == legacy.pk:
+                row['recipient_id'] = None
         for row in expected['employers.JobOffer']:
             if row['employer_id'] == legacy.pk:
                 row['employer_id'] = employer.pk

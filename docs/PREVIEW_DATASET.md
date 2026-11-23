@@ -2,7 +2,7 @@
 
 `make test-accounts-seed` prépare des parcours reliés. Huit identités sont créées
 sur une base neuve, dont cinq proposées dans le sélecteur. L'ancien second employeur
-est conservé inactif si nécessaire pour son historique. Aucun modèle ni migration ajouté.
+est supprimé après transfert de ses données utiles. Aucun modèle ni migration ajouté.
 
 ## Couverture d’une base fraîche
 

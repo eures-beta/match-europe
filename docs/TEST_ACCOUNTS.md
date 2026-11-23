@@ -47,14 +47,15 @@ accompagnements détaillés dans [l'inventaire des données](PREVIEW_DATASET.md)
 Le peuplement réunit les offres de `employer@matching-trial.invalid` sous le compte
 `employer@demo.example.invalid`, ainsi que leur accès aux conversations. Il conserve
 les UUID, contenus, compétences, exigences, révisions, dates, messages, réponses,
-décisions et consentements ; aucun effacement ou réinitialisation des essais.
+décisions et consentements. Les auteurs des messages et les événements sont
+rattachés à l'employeur unique, puis l'ancien compte est supprimé.
 
 Un profil employeur personnel est transféré si le compte de destination n'en a pas.
-Si les deux comptes en ont un, aucun n'est écrasé : celui de l'ancien compte reste
-consultable dans l'administration. Les noms déjà renseignés ne sont pas remplacés.
-Les invitations acceptées et auteurs historiques restent associés à leur identité
-d'origine. L'ancien compte est désactivé, retiré du sélecteur et conservé pour ces
-preuves ; il n'est pas recréé dans une base neuve. Aucune migration de schéma ni
+Si les deux comptes en ont un, le profil actuel prévaut et le doublon est supprimé.
+Les noms déjà renseignés ne sont pas remplacés. Les invitations acceptées sont
+rattachées à l'employeur unique ; si celui-ci a déjà une invitation, l'ancienne
+invitation conserve son historique et son adresse, sans destinataire associé.
+L'ancien compte n'est pas recréé dans une base neuve. Aucune migration de schéma ni
 modification de production n'est nécessaire pour cette consolidation.
 
 ## Protections et vérification
