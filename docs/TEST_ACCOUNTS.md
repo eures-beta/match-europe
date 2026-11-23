@@ -1,7 +1,8 @@
 # Comptes de démonstration en local et en environnement jetable
 
 Le bandeau permanent annonce les données fictives et interdit la saisie de données
-personnelles réelles. Son lien ouvre cinq boutons, dans cet ordre : **Conseiller**,
+personnelles réelles. Son lien propose d'abord **Navigation anonyme, sans compte**,
+qui déconnecte sans créer d'utilisateur, puis cinq comptes : **Conseiller**,
 **Employeur**, **Candidat (profil complet)**, **Candidat (profil incomplet)**,
 **Super administrateur**. Les textes sont traduits en français, anglais et allemand.
 Les comptes sont partagés entre toutes les personnes testant cet environnement ;

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils import translation
@@ -54,10 +55,14 @@ def account_list(request):
 @require_POST
 def sign_in(request):
     require_test_environment()
+    language = selected_language(request)
+    if request.POST.get('account') == 'anonymous':
+        auth_logout(request)
+        request.session['login_language'] = language
+        return redirect('home')
     user = prepared_user(request.POST.get('account'))
     if user is None:
         raise Http404
-    language = selected_language(request)
     destination = consume(request, settings.LOGIN_REDIRECT_URL)
     auth_login(request, user, backend='sesame.backends.ModelBackend')
 

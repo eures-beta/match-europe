@@ -8309,7 +8309,6 @@ msgstr "Renseignez une explication au candidat. Une reprise du dossier exige aus
 msgid "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar."
 msgstr "Si un lien n’est pas cliquable, copiez son adresse complète et collez-la dans la barre d’adresse de votre navigateur."
 
-
 msgid "Demonstration environment"
 msgstr "Environnement de démonstration"
 
@@ -8336,3 +8335,6 @@ msgstr "Candidat (profil complet)"
 
 msgid "Candidate (incomplete profile)"
 msgstr "Candidat (profil incomplet)"
+
+msgid "Anonymous browsing, without an account"
+msgstr "Navigation anonyme, sans compte"

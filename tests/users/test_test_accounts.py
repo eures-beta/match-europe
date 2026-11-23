@@ -24,6 +24,19 @@ User = get_user_model()
     EMAIL_DELIVERY_ENABLED=False,
 )
 class TestAccountAccessTests(TestCase):
+    def test_anonymous_choice_logs_out_without_creating_a_user(self):
+        self.seed()
+        self.client.force_login(prepared_user('adviser'))
+        before = User.objects.count()
+        response = self.client.post(
+            reverse('test_account_sign_in') + '?lang=fr',
+            {'account': 'anonymous'},
+        )
+        self.assertRedirects(response, reverse('home'))
+        self.assertNotIn('_auth_user_id', self.client.session)
+        self.assertEqual(self.client.session['login_language'], 'fr')
+        self.assertEqual(User.objects.count(), before)
+
     def seed(self):
         call_command('seed_test_accounts', minimal=True, stdout=StringIO())
 

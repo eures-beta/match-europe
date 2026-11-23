@@ -8309,7 +8309,6 @@ msgstr "Geben Sie eine Erklärung für die kandidierende Person ein. Eine Übern
 msgid "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar."
 msgstr "Falls ein Link nicht anklickbar ist, kopieren Sie seine vollständige Adresse und fügen Sie sie in die Adressleiste Ihres Browsers ein."
 
-
 msgid "Demonstration environment"
 msgstr "Demonstrationsumgebung"
 
@@ -8336,3 +8335,6 @@ msgstr "Bewerber (vollständiges Profil)"
 
 msgid "Candidate (incomplete profile)"
 msgstr "Bewerber (unvollständiges Profil)"
+
+msgid "Anonymous browsing, without an account"
+msgstr "Anonym surfen, ohne Konto"
