@@ -219,6 +219,11 @@ plutôt que recréer un en-tête ou des liens propres à chaque parcours.
 
 ## Vérification
 
+Les e-mails utilisent [un gabarit commun](EMAIL_LINKS.md#présentation-partagée)
+reprenant la présentation des invitations employeur. Leurs styles intégrés et
+logos existants sont isolés dans `templates/emails/`, sans Bootstrap distant ;
+cette contrainte de messagerie ne change pas la politique CSS des pages web.
+
 `make test` lance `tests/common/test_design_system.py`. Il échoue si :
 
 - un code couleur apparaît dans `design-system/` ailleurs que dans la palette de `tokens.css` ;
