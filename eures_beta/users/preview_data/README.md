@@ -42,6 +42,13 @@ Il y a donc quinze offres autour du nettoyage et une de boulangerie. Les treize
 variantes changent le titre et l’étape du parcours, pas le métier ni les exigences.
 Les deux brouillons historiques n’ont aucun rapprochement.
 
+Le cache de suggestions de compétences contient aussi deux références ESCO :
+« aide ménager à domicile / aide ménagère à domicile » et « agent d’entretien
+d’immeubles / agente d’entretien d’immeubles ». Cette seconde référence sert
+seulement à illustrer les suggestions ; aucune des seize offres ne la cible.
+Les profils candidats ont un projet ouvert et des compétences de nettoyage :
+ils ne représentent pas cinq métiers différents.
+
 Avant la simplification : onze offres pour l’employeur principal et cinq pour
 le second. Après la PR271 : les seize offres appartiennent à l’employeur unique.
 
