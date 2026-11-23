@@ -84,6 +84,17 @@ class TemplateStylePolicyTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('C901', result.stdout)
 
+    def test_shared_email_components_allow_inline_styles_only(self):
+        for name in ("base", "action", "message", "link_fallback"):
+            path = f"eures_beta/templates/emails/{name}.html"
+            with self.subTest(name=name):
+                self.assertEqual(
+                    self.lint('<p style="color:red">An email</p>', path).returncode, 0
+                )
+                self.assertNotEqual(
+                    self.lint("<style>p{color:red}</style>", path).returncode, 0
+                )
+
     def test_similarly_named_web_pages_are_not_exempt(self):
         for path in (
             'eures_beta/templates/other_design_system.html',

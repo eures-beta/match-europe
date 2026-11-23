@@ -81,7 +81,12 @@ def send(review_id, *, adviser=None):
                     body,
                     settings.DEFAULT_FROM_EMAIL,
                     [candidate.user.email],
-                    html_message=html_email(body),
+                    html_message=html_email(
+                        body,
+                        subject=_('An offer of employment might suit you'),
+                        link=link,
+                        action_label=_('Open the private review to see the next step.'),
+                    ),
                 )
                 == 1
             )

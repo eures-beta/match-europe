@@ -158,7 +158,12 @@ def login(request):
                             body,
                             settings.DEFAULT_FROM_EMAIL,
                             [user.email],
-                            html_message=html_email(body),
+                            html_message=html_email(
+                                body,
+                                subject=_('Your Match Europe sign-in link'),
+                                link=link,
+                                action_label=_('Sign in'),
+                            ),
                         )
                     except Exception:
                         # No exception payload: SMTP exceptions may contain recipients.

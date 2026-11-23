@@ -15,6 +15,10 @@ L’interface HTTP est dans [www/invitations/](../www/invitations/).
 - `management/commands/invitation_email.py` : simulation privée, sans envoi ;
 - [Tests du domaine](../../tests/invitations/) : parcours, rôles, liens, traductions et migrations sur données non vides.
 
+Les invitations et relances HTML conservent leur contenu métier et étendent
+[le gabarit e-mail partagé](../templates/emails/). Le cadre, les boutons et les
+logos restent communs aux autres messages de Match Europe.
+
 ## Déplacement du modèle existant
 
 `invitations.0001` reprend l'état du modèle existant ; `users.0009` retire cet

@@ -1,4 +1,29 @@
-# Liens cliquables dans les e-mails
+# Liens cliquables et présentation des e-mails
+
+## Présentation partagée
+
+Les invitations employeur disposaient d'une carte claire de largeur limitée,
+d'une police Arial, d'un bouton bleu et d'un pied de page avec les partenaires.
+Les messages transactionnels avaient seulement des paragraphes HTML. Tous les
+e-mails applicatifs utilisent désormais [le même gabarit](../eures_beta/templates/emails/) :
+fond clair, carte de 640 px maximum et largeur fluide, titres, bouton lorsqu'une
+action est fournie explicitement, mentions et logos existants. Les invitations
+candidat et conseiller conservent leur contenu et leur politique de langue actuels.
+La signature personnelle des invitations employeur reste celle du conseiller.
+
+Les textes simples, destinataires, jetons, durées et règles d'envoi sont conservés.
+Le HTML n'interprète jamais le texte utilisateur comme du balisage. Le pied de page
+transactionnel n'utilise que l'origine configurée et validée ; les aperçus sans
+transport configuré restent rendables. Les adresses longues se replient visuellement
+sans caractère ajouté au lien. Les logos reprennent les fichiers existants et ne
+sont pas indispensables pour comprendre le message ou ouvrir l'action.
+
+Le CSS des e-mails est intégré dans les attributs, sans Bootstrap externe,
+JavaScript, police distante ni pixel de suivi ajouté. Les tableaux de mise en page
+ont `role="presentation"`. Ce gabarit centralise les valeurs existantes de l'e-mail
+employeur plutôt que les dupliquer dans chaque parcours ; les pages web continuent
+d'utiliser leurs tokens et feuilles CSS. Les rendus réels dans les logiciels de
+messagerie restent à vérifier après livraison autorisée.
 
 ## Constat et inventaire
 

@@ -57,7 +57,14 @@ def send(pk):
                         body,
                         settings.DEFAULT_FROM_EMAIL,
                         [recipient.email],
-                        html_message=html_email(body),
+                        html_message=html_email(
+                            body,
+                            subject=subject,
+                            link=link,
+                            action_label=_(
+                                'Open the private review to see the next step.'
+                            ),
+                        ),
                     )
                     == 1
                 )

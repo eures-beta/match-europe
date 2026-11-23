@@ -51,7 +51,12 @@ def send_sign_in_link(user_id, language='fr'):
                 body,
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
-                html_message=html_email(body),
+                html_message=html_email(
+                    body,
+                    subject=_('Your Match Europe sign-in link'),
+                    link=link,
+                    action_label=_('Sign in'),
+                ),
             )
         except Exception:
             logging.getLogger(__name__).error(

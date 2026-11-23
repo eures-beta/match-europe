@@ -115,6 +115,11 @@ def create_invitation(
 
 
 def invitation_message(invitation, origin):
+    return invitation_content(invitation, origin)[:2]
+
+
+def invitation_content(invitation, origin):
+    """Build one invitation link for both message alternatives."""
     origin = validate_origin(origin)
     if invitation.accepted_at or invitation.expired:
         raise ValidationError('Invitation already used or expired.')
@@ -131,4 +136,5 @@ def invitation_message(invitation, origin):
                 'invitations/invitation_email.txt',
                 {'link': link, 'expires_at': invitation.expires_at},
             ),
+            link,
         )

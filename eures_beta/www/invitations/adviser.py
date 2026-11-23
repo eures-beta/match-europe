@@ -2,7 +2,7 @@ import csv
 import io
 import logging
 import uuid
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib import messages
@@ -14,7 +14,6 @@ from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone, translation
 from django.views.decorators.cache import never_cache
@@ -31,6 +30,7 @@ from eures_beta.invitations.models import Invitation
 from eures_beta.invitations.defaults import invitation_expiry
 from eures_beta.users.models import User
 from eures_beta.www.invitations.forms import RecipientForm
+from eures_beta.emails.rendering import presentation_context
 from eures_beta.invitations.permissions import can_invite
 from eures_beta.www.accounts.views import email_ready, selected_language
 
@@ -122,6 +122,7 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
         part for part in (recipient['first_name'], recipient['last_name']) if part
     )
     context = {
+        **presentation_context(origin),
         'greeting': (
             (
                 translation.gettext('Hello %(name)s,') % {'name': name}
@@ -139,27 +140,6 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
         context.update(
             adviser_name=adviser.get_full_name(),
             organization_name=adviser.organization_name.strip(),
-            partner_logos=[
-                (
-                    urljoin(origin + '/', static(filename)),
-                    label,
-                    width,
-                )
-                for filename, label, width in (
-                    (
-                        'employer/assets/eures-ela.jpg',
-                        'EURES / European Labour Authority',
-                        112,
-                    ),
-                    (
-                        'invitations/assets/france-travail-email.png',
-                        'France Travail',
-                        88,
-                    ),
-                    ('employer/assets/adem.png', 'ADEM', 34),
-                    ('employer/assets/forem.png', 'Le Forem', 80),
-                )
-            ],
         )
     base = 'invitations/emails/'
     if recipient_kind == RecipientKind.ADVISER:
@@ -174,7 +154,7 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
     return (
         subject,
         render_to_string(stem + '.txt', context),
-        render_to_string(stem + '.html', context),
+        render_to_string(stem + '.html', context).strip(),
     )
 
 
