@@ -37,6 +37,11 @@ Les fixtures des offres sont dans `employers/test_data.py`, celles des comptes
 dans `users`, les cas de matching dans `matching/management/commands/seed_matching_trial.py`.
 Le dépôt privé configure les environnements jetables et lance leur peuplement.
 
+Le jeu complet ajoute treize offres et les états de revue, conversations et
+accompagnements détaillés dans [l'inventaire des données](PREVIEW_DATASET.md).
+`make test-accounts-seed SEED_ARGS=--report` produit leurs compteurs sans écrire ;
+`SEED_ARGS=--minimal` réserve le petit jeu aux tests automatisés ciblés.
+
 ## Conservation des essais des anciennes démonstrations
 
 Le peuplement réunit les offres de `employer@matching-trial.invalid` sous le compte

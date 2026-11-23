@@ -3,6 +3,7 @@ from io import StringIO
 from django.core.management import CommandError, call_command
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from eures_beta.employers.models import EmployerProfile, JobOffer
 from eures_beta.invitations.models import Invitation
@@ -10,6 +11,7 @@ from eures_beta.matching.models import (
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     CandidateOfferReview,
+    CandidateProfileSharing,
 )
 from eures_beta.matching.offer_review_services import review_state
 from eures_beta.users.demo_employers import (
@@ -27,7 +29,7 @@ from eures_beta.users.test_accounts import account_specs, prepared_user
 )
 class DemoEmployerConsolidationTests(TestCase):
     def setUp(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         self.employer = prepared_user('employer')
 
     def legacy_employer(self, **values):
@@ -63,6 +65,7 @@ class DemoEmployerConsolidationTests(TestCase):
             email=legacy.email,
             sender_adviser=prepared_user('adviser'),
             recipient=legacy,
+            accepted_at=timezone.now(),
         )
         profile = EmployerProfile.objects.create(
             user=legacy, response_coverage='all', response_time='under_week'
@@ -70,6 +73,11 @@ class DemoEmployerConsolidationTests(TestCase):
         offer_snapshot = JobOffer.objects.values().get(pk=offer.pk)
         answer_snapshot = list(review.answers.values())
         before_fingerprint = review_state(review)['fingerprint']
+        sharing = CandidateProfileSharing.objects.create(
+            review=review, fingerprint=before_fingerprint, agreed=True
+        )
+        invitation_snapshot = Invitation.objects.values().get(pk=invitation.pk)
+        self.client.force_login(legacy)
 
         consolidate_employers()
         consolidate_employers()
@@ -78,6 +86,9 @@ class DemoEmployerConsolidationTests(TestCase):
         self.assertEqual(list(review.answers.values()), answer_snapshot)
         review.refresh_from_db()
         self.assertEqual(review_state(review)['fingerprint'], before_fingerprint)
+        sharing.refresh_from_db()
+        self.assertTrue(sharing.agreed)
+        self.assertEqual(sharing.fingerprint, before_fingerprint)
         conversation.refresh_from_db()
         self.assertEqual(conversation.employer_id, self.employer.pk)
         self.assertEqual(conversation.employer_read, 23)
@@ -87,6 +98,9 @@ class DemoEmployerConsolidationTests(TestCase):
         invitation.refresh_from_db()
         self.assertEqual(invitation.recipient_id, legacy.pk)
         self.assertEqual(invitation.email, LEGACY_EMPLOYER_EMAIL)
+        self.assertEqual(
+            Invitation.objects.values().get(pk=invitation.pk), invitation_snapshot
+        )
         profile.refresh_from_db()
         self.assertEqual(profile.user_id, self.employer.pk)
         self.employer.refresh_from_db()
@@ -94,6 +108,9 @@ class DemoEmployerConsolidationTests(TestCase):
         legacy.refresh_from_db()
         self.assertFalse(legacy.is_active)
         self.assertFalse(legacy.has_usable_password())
+        response = self.client.get(reverse('dashboard'))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.wsgi_request.user.is_anonymous)
         self.assertEqual(
             self.client.post(
                 reverse('test_account_sign_in'), {'account': 'matching-employer'}

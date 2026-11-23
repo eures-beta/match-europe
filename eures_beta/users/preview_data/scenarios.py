@@ -21,7 +21,6 @@ from eures_beta.matching.models import (
     CandidateSupport,
     JobOfferSupport,
 )
-from eures_beta.users.test_accounts import prepared_user
 from .supporting import seed_supporting_data
 
 NAMESPACE = 'match-europe.preview-dataset.v1.'
@@ -33,7 +32,7 @@ SCENARIOS = (
         'claimed',
         'Dossier pris en charge',
         'candidate-pwa-replay',
-        'matching-employer',
+        'employer',
         'claimed',
     ),
     ('clarify', 'Précision demandée', 'candidate-pwa', 'employer', 'clarify'),
@@ -42,7 +41,7 @@ SCENARIOS = (
         'approved',
         'Conversation acceptée',
         'candidate-pwa-replay',
-        'matching-employer',
+        'employer',
         'approved',
     ),
     ('open', 'Conversation ouverte', 'candidate-pwa', 'employer', 'open'),
@@ -50,14 +49,14 @@ SCENARIOS = (
         'open-replay',
         'Échange en cours',
         'candidate-pwa-replay',
-        'matching-employer',
+        'employer',
         'open',
     ),
     (
         'declined',
         'Invitation refusée',
         'candidate-pwa-replay',
-        'matching-employer',
+        'employer',
         'declined',
     ),
     *[
@@ -79,15 +78,14 @@ def identifier(key):
 
 def seed_scenarios(users):
     adviser = users['adviser']
-    users = {**users, 'matching-employer': prepared_user('matching-employer')}
     template = JobOffer.objects.get(
-        employer=users['matching-employer'], source_kind='matching'
+        employer=users['employer'], source_kind='matching', session_key='matching-trial'
     )
     for key, title, candidate_key, employer_key, phase in SCENARIOS:
         data = deepcopy(template.data)
         data.update(
             title=f'Offre fictive — {title}',
-            description='Scénario fictif de recrutement pour explorer la recette. Aucune candidature réelle.',
+            description='Scénario fictif de recrutement pour explorer cet environnement de démonstration. Aucune candidature réelle.',
         )
         offer, _ = JobOffer.objects.get_or_create(
             pk=identifier(key),

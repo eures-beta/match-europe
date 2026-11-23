@@ -71,8 +71,10 @@ class PreviewDataTests(TestCase):
                 counts['employers.JobOffer'],
                 counts['matching.CandidateOfferMatch'],
             ),
-            (9, 16, 18),
+            (8, 16, 18),
         )
+        self.assertEqual(counts['employers.EmployerProfile'], 1)
+        self.assertEqual(counts['matching.JobOfferSupport'], 16)
         before = self.snapshot()
         call_command('seed_test_accounts', stdout=StringIO())
         self.assertEqual(self.snapshot(), before)
@@ -157,10 +159,64 @@ class PreviewDataTests(TestCase):
                 )
             )
             self.assertTrue(page.context['shared_conversations'])
-        for key in ('employer', 'matching-employer', 'adviser', 'admin'):
+        for key in ('employer', 'adviser', 'admin'):
             self.client.force_login(prepared_user(key))
             self.assertEqual(self.client.get(reverse('dashboard')).status_code, 200)
         self.assertTrue(CandidateOfferMatch.objects.filter(decision='refused').exists())
+
+    def test_previous_two_employers_consolidate_without_losing_rich_trials(self):
+        from django.utils import timezone
+        from eures_beta.employers.models import EmployerProfile
+        from eures_beta.invitations.models import Invitation
+        from eures_beta.matching.models import CandidateOfferConversationMessage
+        from eures_beta.users.demo_employers import LEGACY_EMPLOYER_EMAIL
+
+        employer = prepared_user('employer')
+        legacy = User.objects.create_user(LEGACY_EMPLOYER_EMAIL, kind='employer')
+        offer_ids = [
+            identifier(key)
+            for key in ('claimed', 'approved', 'open-replay', 'declined')
+        ]
+        offer_ids += list(
+            JobOffer.objects.filter(session_key='matching-trial').values_list(
+                'pk', flat=True
+            )
+        )
+        JobOffer.objects.filter(pk__in=offer_ids).update(employer=legacy)
+        conversations = CandidateOfferConversation.objects.filter(
+            offer_review__match__offer_id__in=offer_ids
+        )
+        conversation_ids = list(conversations.values_list('pk', flat=True))
+        conversations.update(employer=legacy)
+        CandidateOfferConversationMessage.objects.filter(
+            conversation_id__in=conversation_ids, author=employer
+        ).update(author=legacy)
+        EmployerProfile.objects.create(
+            user=legacy, response_coverage='selected', response_time='one_two_weeks'
+        )
+        Invitation.objects.create(
+            email=legacy.email,
+            recipient=legacy,
+            sender_adviser=prepared_user('adviser'),
+            accepted_at=timezone.now(),
+        )
+        expected = self.snapshot()
+        for row in expected['users.User']:
+            if row['id'] == legacy.pk:
+                row['is_active'] = False
+        for row in expected['employers.JobOffer']:
+            if row['employer_id'] == legacy.pk:
+                row['employer_id'] = employer.pk
+        for row in expected['matching.CandidateOfferConversation']:
+            if row['employer_id'] == legacy.pk:
+                row['employer_id'] = employer.pk
+        call_command('seed_test_accounts', stdout=StringIO())
+        self.assertEqual(self.snapshot(), expected)
+        call_command('seed_test_accounts', stdout=StringIO())
+        self.assertEqual(self.snapshot(), expected)
+        self.assertFalse(JobOffer.objects.exclude(employer=employer).exists())
+        for thread in CandidateOfferConversation.objects.all():
+            self.assertTrue(review_workflow.current(thread.offer_review))
 
     def test_push_fixtures_are_undeliverable_and_sessions_are_not_authentication(self):
         from django.contrib.sessions.models import Session
