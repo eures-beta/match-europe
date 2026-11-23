@@ -8337,4 +8337,4 @@ msgid "Candidate (incomplete profile)"
 msgstr "Candidat (profil incomplet)"
 
 msgid "Anonymous browsing, without an account"
-msgstr "Navigation anonyme, sans compte"
+msgstr "Navigation anonyme sans compte"
