@@ -124,7 +124,7 @@ class TestAccountAccessTests(TestCase):
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
-        self.assertEqual(User.objects.count(), 9)
+        self.assertEqual(User.objects.count(), 8)
         self.assertEqual(JobOffer.objects.count(), 3)
         identities = list(User.objects.order_by('pk').values_list('pk', flat=True))
         offer = JobOffer.objects.first()
@@ -160,7 +160,7 @@ class TestAccountAccessTests(TestCase):
                 if identities is not None:
                     self.assertEqual(current, identities)
                 identities = current
-                self.assertEqual(len(current), 9)
+                self.assertEqual(len(current), 8)
                 self.assertEqual(CandidateProfile.objects.count(), 5)
                 self.assertEqual(CandidateOfferMatch.objects.count(), 5)
                 self.assertEqual(CandidateOfferReview.objects.count(), 1)
@@ -301,9 +301,9 @@ class TestAccountAccessTests(TestCase):
     def test_banner_is_present_on_public_and_admin_pages_in_all_languages(self):
         self.seed()
         for language, label in (
-            ('fr', 'Choisir un compte de test'),
-            ('en', 'Choose a test account'),
-            ('de', 'Testkonto auswählen'),
+            ('fr', 'Choisir un compte de démonstration'),
+            ('en', 'Choose a demonstration account'),
+            ('de', 'Demonstrationskonto auswählen'),
         ):
             page = self.client.get(reverse('test_accounts'), {'lang': language})
             self.assertContains(page, label)
@@ -311,6 +311,54 @@ class TestAccountAccessTests(TestCase):
         self.assertContains(self.client.get('/'), 'test-accounts-banner')
         self.client.post(reverse('test_account_sign_in'), {'account': 'admin'})
         self.assertContains(self.client.get('/admin/'), 'test-accounts-banner')
+
+    def test_selector_uses_the_five_approved_labels_in_order(self):
+        self.seed()
+        expected = {
+            'fr': [
+                'Conseiller',
+                'Employeur',
+                'Candidat (profil complet)',
+                'Candidat (profil incomplet)',
+                'Super administrateur',
+            ],
+            'en': [
+                'Adviser',
+                'Employer',
+                'Candidate (complete profile)',
+                'Candidate (incomplete profile)',
+                'Super administrator',
+            ],
+            'de': [
+                'Berater',
+                'Arbeitgeber',
+                'Bewerber (vollständiges Profil)',
+                'Bewerber (unvollständiges Profil)',
+                'Superadministrator',
+            ],
+        }
+        for language, labels in expected.items():
+            with self.subTest(language=language):
+                page = self.client.get(reverse('test_accounts'), {'lang': language})
+                self.assertEqual(
+                    [account['key'] for account in page.context['accounts']],
+                    [
+                        'adviser',
+                        'employer',
+                        'candidate-pwa',
+                        'candidate-pwa-replay',
+                        'admin',
+                    ],
+                )
+                html = page.content.decode()
+                positions = [html.index('>' + label + '</button>') for label in labels]
+                self.assertEqual(positions, sorted(positions))
+                self.assertNotContains(page, 'Employer for the matching trial')
+        page = self.client.get(reverse('test_accounts'), {'lang': 'fr'})
+        self.assertContains(
+            page,
+            'Toutes les modifications seront définitivement perdues à la fin du cycle de vie de cet environnement de démonstration.',
+        )
 
     def test_production_disabled_unknown_and_email_enabled_environments_are_closed(
         self,

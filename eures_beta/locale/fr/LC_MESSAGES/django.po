@@ -5179,43 +5179,6 @@ msgstr "Afficher les filtres"
 msgid "Hide filters"
 msgstr "Masquer les filtres"
 
-#: eures_beta/users/test_accounts.py:13
-msgid "Test adviser"
-msgstr "Conseiller de test"
-
-#: eures_beta/users/test_accounts.py:20
-msgid "Test employer"
-msgstr "Employeur de test"
-
-#: eures_beta/users/test_accounts.py:27
-msgid "Test superadministrator"
-msgstr "Superadministrateur de test"
-
-#: eures_beta/templates/includes/test_accounts_banner.html:5
-msgid "Test environment"
-msgstr "Environnement de test"
-
-#: eures_beta/templates/includes/test_accounts_banner.html:6
-msgid "Test environment — fictional data only. Do not enter real personal data."
-msgstr "Environnement de test — données fictives uniquement. Ne saisissez aucune donnée personnelle réelle."
-
-#: eures_beta/templates/includes/test_accounts_banner.html:7
-msgid "Choose or switch test account"
-msgstr "Choisir ou changer de compte de test"
-
-#: eures_beta/templates/users/test_accounts.html:3
-#: eures_beta/templates/users/test_accounts.html:6
-msgid "Choose a test account"
-msgstr "Choisir un compte de test"
-
-#: eures_beta/templates/users/test_accounts.html:7
-msgid "These shared accounts contain fictional data. Anyone testing this environment can access them. Changes disappear when the test environment is deleted."
-msgstr "Ces comptes partagés contiennent des données fictives. Toute personne testant cet environnement peut y accéder. Les modifications disparaissent à la suppression de cet environnement de test."
-
-#: eures_beta/templates/users/test_accounts.html:20
-msgid "No test accounts are available yet."
-msgstr "Aucun compte de test disponible pour le moment."
-
 #: eures_beta/templates/admin/index.html:13
 msgid "Show record counts"
 msgstr "Afficher les nombres d’enregistrements"
@@ -7161,12 +7124,6 @@ msgstr "À préciser"
 msgid "Name"
 msgstr "Nom"
 
-msgid "Test candidate"
-msgstr "Candidat de test"
-
-msgid "Second test candidate"
-msgstr "Deuxième candidat de test"
-
 msgid "Enable notifications"
 msgstr "Activer les notifications"
 
@@ -7373,9 +7330,6 @@ msgstr "Le conseiller vous invite à rejoindre une conversation à trois."
 
 msgid "You have a new message in a shared conversation."
 msgstr "Vous avez un nouveau message dans une conversation à trois."
-
-msgid "Employer for the matching trial"
-msgstr "Employeur de la recette matching"
 
 msgid "We verified with the candidate that they meet the prerequisites for the role."
 msgstr "Nous avons vérifié avec le candidat qu’il remplit les prérequis du poste."
@@ -8354,3 +8308,31 @@ msgstr "Renseignez une explication au candidat. Une reprise du dossier exige aus
 #: eures_beta/templates/emails/link_fallback.html eures_beta/templates/emails/message.html
 msgid "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar."
 msgstr "Si un lien n’est pas cliquable, copiez son adresse complète et collez-la dans la barre d’adresse de votre navigateur."
+
+
+msgid "Demonstration environment"
+msgstr "Environnement de démonstration"
+
+msgid "Demonstration environment — fictional data only. Do not enter real personal data."
+msgstr "Espace de démonstration — données fictives uniquement. Ne saisissez aucune donnée personnelle réelle."
+
+msgid "Switch demonstration account"
+msgstr "Changer de compte de démonstration"
+
+msgid "Choose a demonstration account"
+msgstr "Choisir un compte de démonstration"
+
+msgid "These accounts are shared by everyone testing this demonstration environment. All changes will be permanently lost at the end of this demonstration environment's lifetime."
+msgstr "Ces comptes sont partagés entre toutes les personnes qui testent cet environnement de démonstration. Toutes les modifications seront définitivement perdues à la fin du cycle de vie de cet environnement de démonstration."
+
+msgid "No demonstration accounts are available yet."
+msgstr "Aucun compte de démonstration disponible pour le moment."
+
+msgid "Super administrator"
+msgstr "Super administrateur"
+
+msgid "Candidate (complete profile)"
+msgstr "Candidat (profil complet)"
+
+msgid "Candidate (incomplete profile)"
+msgstr "Candidat (profil incomplet)"

@@ -64,6 +64,9 @@ class Command(BaseCommand):
         from eures_beta.employers.test_data import seed_test_offers
 
         seed_test_offers(users['employer'])
+        from eures_beta.users.demo_employers import consolidate_employers
+
+        consolidate_employers()
         call_command('sync_group_and_perms', stdout=self.stdout)
         call_command('seed_matching_trial', stdout=self.stdout)
         # Leave a separate, answered fixture ready for the invitation push trial.

@@ -29,9 +29,10 @@ class Command(BaseCommand):
         uri = card['occupation']['uri']
         skills = [item['skillUri'] for item in card['keySkills'][:3]]
         behaviours = list(skill_groups()[0]['professional_behaviours'])[:3]
-        from eures_beta.users.test_accounts import MATCHING_EMPLOYER
+        from eures_beta.users.demo_employers import consolidate_employers
+        from eures_beta.users.test_accounts import ACCOUNTS
 
-        specification = MATCHING_EMPLOYER['matching-employer']
+        specification = ACCOUNTS['employer']
         employer = User.objects.filter(email=specification['email']).first()
         if employer is None:
             employer = User.objects.create_user(
@@ -44,13 +45,20 @@ class Command(BaseCommand):
         ):
             employer.set_unusable_password()
             employer.save(update_fields=['password'])
-        if employer.kind != 'employer' or not employer.is_active:
+        if (
+            employer.kind != 'employer'
+            or not employer.is_active
+            or employer.is_staff
+            or employer.is_superuser
+            or employer.has_usable_password()
+        ):
             raise CommandError(
                 'Reserved fictional account is unavailable; no account changed.'
             )
+        consolidate_employers()
         title = 'Offre fictive — entretien'
         offer = JobOffer.objects.filter(
-            employer=employer, source_kind='matching'
+            employer=employer, source_kind='matching', session_key='matching-trial'
         ).first()
         if offer is None:
             data = empty_data()

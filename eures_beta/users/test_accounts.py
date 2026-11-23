@@ -10,21 +10,21 @@ ACCOUNTS = {
         'kind': User.Kind.ADVISER,
         'is_staff': False,
         'is_superuser': False,
-        'label': _('Test adviser'),
+        'label': _('Adviser'),
     },
     'employer': {
         'email': 'employer@demo.example.invalid',
         'kind': User.Kind.EMPLOYER,
         'is_staff': False,
         'is_superuser': False,
-        'label': _('Test employer'),
+        'label': _('Employer'),
     },
     'admin': {
         'email': 'admin@demo.example.invalid',
         'kind': User.Kind.ADVISER,
         'is_staff': True,
         'is_superuser': True,
-        'label': _('Test superadministrator'),
+        'label': _('Super administrator'),
     },
 }
 
@@ -34,31 +34,25 @@ PWA_ACCOUNTS = {
         'kind': User.Kind.CANDIDATE,
         'is_staff': False,
         'is_superuser': False,
-        'label': _('Test candidate'),
+        'label': _('Candidate (complete profile)'),
     },
     'candidate-pwa-replay': {
         'email': 'unknown@matching-trial.invalid',
         'kind': User.Kind.CANDIDATE,
         'is_staff': False,
         'is_superuser': False,
-        'label': _('Second test candidate'),
-    },
-}
-
-
-MATCHING_EMPLOYER = {
-    'matching-employer': {
-        'email': 'employer@matching-trial.invalid',
-        'kind': User.Kind.EMPLOYER,
-        'is_staff': False,
-        'is_superuser': False,
-        'label': _('Employer for the matching trial'),
+        'label': _('Candidate (incomplete profile)'),
     },
 }
 
 
 def account_specs():
-    return {**ACCOUNTS, **PWA_ACCOUNTS, **MATCHING_EMPLOYER}
+    return {
+        'adviser': ACCOUNTS['adviser'],
+        'employer': ACCOUNTS['employer'],
+        **PWA_ACCOUNTS,
+        'admin': ACCOUNTS['admin'],
+    }
 
 
 def enabled():

@@ -1,63 +1,71 @@
-# Comptes de démonstration en local et en recette
+# Comptes de démonstration en local et en environnement jetable
 
-Un bandeau rouge permanent permet de choisir ou de changer de compte sans e-mail
-ni mot de passe : conseiller, deux employeurs, deux candidats et superadministrateur.
-Ces six identités utilisent exclusivement des adresses `.invalid`.
-Toute personne visitant cet environnement peut les utiliser : aucune donnée réelle
-ne doit y être saisie. Le superadministrateur conserve l’administration en lecture
-seule ; le tableau conseiller permet d’essayer les invitations sans envoi réel.
+Le bandeau permanent annonce les données fictives et interdit la saisie de données
+personnelles réelles. Son lien ouvre cinq boutons, dans cet ordre : **Conseiller**,
+**Employeur**, **Candidat (profil complet)**, **Candidat (profil incomplet)**,
+**Super administrateur**. Les textes sont traduits en français, anglais et allemand.
+Les comptes sont partagés entre toutes les personnes testant cet environnement ;
+toutes les modifications sont définitivement perdues à la fin de son cycle de vie.
+Le superadministrateur conserve une administration Django en consultation uniquement.
 
-## Développement local
+## Jeu de données et préparation
 
-Dans le `.env` ignoré du worktree, configurer `DJANGO_ENVIRONMENT=local`,
-`DEMO_ACCOUNTS_ENABLED=1` et `EMAIL_DELIVERY_ENABLED=0`, puis :
+Les deux candidats visibles montrent un profil complet compatible et un profil
+comportant des informations à préciser, avec une revue déjà répondue. Trois autres
+candidats restent dans les données, sans bouton de connexion : disponibilité trop
+tardive, horaires incompatibles et permis absent. Ils illustrent les différences
+de matching dans les listes du conseiller. Le sélecteur est donc un sous-ensemble
+des comptes fictifs préparés, pas une liste de tous les utilisateurs.
+
+Un seul employeur possède les offres manuelles et l'offre d'entretien structurée,
+avec ses compétences et exigences. Sur une base neuve, huit comptes sont créés :
+deux conseillers (dont le superadministrateur), un employeur et cinq candidats.
+Les identifiants des candidats et les états de leurs parcours ne sont pas fusionnés.
+
+Dans le `.env` ignoré du worktree : `DJANGO_ENVIRONMENT=local`,
+`DEMO_ACCOUNTS_ENABLED=1`, `EMAIL_DELIVERY_ENABLED=0`. Puis :
 
 ```bash
 make migrate
 make test-accounts-seed
-make run PORT=8000
+make run
 ```
 
-Ouvrir `/accounts/test-accounts/`, ou suivre le bandeau. Un seul interrupteur,
-`DEMO_ACCOUNTS_ENABLED`, prépare le même jeu complet en local et en recette :
-neuf comptes (un conseiller, deux employeurs, un superadministrateur et cinq
-candidats), seize offres, dix-huit rapprochements, treize revues et cinq
-conversations. Les deux candidats du sélecteur disposent chacun de propositions
-et d’une conversation ouverte. Voir [la couverture détaillée](PREVIEW_DATASET.md).
-Il n'existe plus de condition supplémentaire réservée aux scénarios PWA.
-Il ne réinitialise ni ne supprime les essais existants. Les fixtures des offres
-restent dans `employers/test_data.py`, celles des comptes dans `users`.
-Aucun modèle ni migration supplémentaire n’est nécessaire.
-`make test-accounts-seed SEED_ARGS=--report` compte les lignes sans modification.
-`SEED_ARGS=--minimal` conserve le petit jeu historique pour les tests ciblés ; les
-recettes utilisent le mode complet par défaut.
+Ouvrir `/accounts/test-accounts/` ou suivre le bandeau. Le même jeu est préparé en
+local et en environnement jetable, sans variante réservée aux notifications Push.
+Les fixtures des offres sont dans `employers/test_data.py`, celles des comptes
+dans `users`, les cas de matching dans `matching/management/commands/seed_matching_trial.py`.
+Le dépôt privé configure les environnements jetables et lance leur peuplement.
 
-## Protections et limites
+## Conservation des essais des anciennes démonstrations
 
-- Désactivé par défaut ; refus de démarrage si activé hors `local`/`preview` ou
-  avec envoi réel d’e-mails. Les anciens réglages de démonstration ne l’activent pas.
-- Le sélecteur et le peuplement refusent une base contenant un compte dont
-  l’adresse ne se termine pas par `.invalid`. Ce garde-fou ne détecte pas les
-  données personnelles saisies dans le texte des offres : utiliser uniquement
-  une base jetable et fictive.
-- La connexion accepte uniquement les six identités du sélecteur préparées, actives, avec
-  rôle exact et mot de passe inutilisable. Aucune création au chargement d’une
-  page, aucun identifiant arbitraire ni lien magique exposé.
-- Changer de compte exige un POST protégé par CSRF et renouvelle la session.
-  Les pages de sélection ne sont pas mises en cache.
-- Les offres et comptes existants sont conservés aux redéploiements. Un compte
-  de fixture dont les attributs ont changé provoque un refus explicite du
-  peuplement, sans promotion silencieuse ni changement partiel.
-- En recette, la configuration et l’appel du peuplement après les migrations
-  relèvent du dépôt privé de déploiement. La production ne doit jamais l’appeler.
+Le peuplement réunit les offres de `employer@matching-trial.invalid` sous le compte
+`employer@demo.example.invalid`, ainsi que leur accès aux conversations. Il conserve
+les UUID, contenus, compétences, exigences, révisions, dates, messages, réponses,
+décisions et consentements ; aucun effacement ou réinitialisation des essais.
 
-Le nom `TEST_ACCOUNTS_ENABLED` est remplacé par `DEMO_ACCOUNTS_ENABLED` : adapter
-les configurations locales et de recette avant de démarrer cette version. L'ancien
-nom n'est plus lu et ne constitue pas un deuxième interrupteur. La valeur par
-défaut reste `0`. Le nom « démonstration » ne rend pas ces comptes utilisables en
-production : seuls `local` et `preview`, sans envoi réel et sur une base fictive,
-sont autorisés.
+Un profil employeur personnel est transféré si le compte de destination n'en a pas.
+Si les deux comptes en ont un, aucun n'est écrasé : celui de l'ancien compte reste
+consultable dans l'administration. Les noms déjà renseignés ne sont pas remplacés.
+Les invitations acceptées et auteurs historiques restent associés à leur identité
+d'origine. L'ancien compte est désactivé, retiré du sélecteur et conservé pour ces
+preuves ; il n'est pas recréé dans une base neuve. Aucune migration de schéma ni
+modification de production n'est nécessaire pour cette consolidation.
 
-Vérifications PostgreSQL : `make test TESTS=tests.users.test_test_accounts` ; suite complète : `make test`.
-Les langues FR, EN et DE sont couvertes, ainsi que les refus de connexion,
-la CSRF, la rotation des sessions et la préservation des essais.
+## Protections et vérification
+
+- Désactivé par défaut, réservé à `local`/`preview`, avec envois réels désactivés.
+  Une configuration incompatible provoque un refus explicite.
+- Sélecteur, peuplement et consolidation refusent une base contenant un compte
+  dont l'adresse ne se termine pas par `.invalid`. Ce contrôle ne détecte pas des
+  données personnelles saisies dans un texte : utiliser uniquement une base fictive.
+- Connexion limitée aux cinq identités préparées, actives, avec rôle exact et mot
+  de passe inutilisable ; aucune création implicite à l'ouverture d'une page.
+- Changer de compte exige un POST protégé par CSRF, renouvelle la session et ne
+  permet pas une destination arbitraire. Les pages ne sont pas mises en cache.
+- Un compte réservé dont les attributs ont changé bloque le peuplement, sans
+  promotion silencieuse ni changement partiel. Répéter la commande conserve les essais.
+
+Tests ciblés : `make test TESTS='tests.users.test_test_accounts tests.users.test_demo_employers'`.
+Ils vérifient ordre/libellés FR/EN/DE, accès interdits, données anciennes non vides,
+empreintes de consentement, conservation des auteurs et répétition sans perte.
