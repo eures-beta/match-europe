@@ -1,7 +1,8 @@
 # Jeu fictif des recettes jetables
 
-`make test-accounts-seed` prépare des parcours reliés. Les neuf identités
-existantes et leurs droits sont conservés. Aucun modèle ni migration n’est ajouté.
+`make test-accounts-seed` prépare des parcours reliés. Huit identités sont créées
+sur une base neuve, dont cinq proposées dans le sélecteur. L'ancien second employeur
+est conservé inactif si nécessaire pour son historique. Aucun modèle ni migration ajouté.
 
 ## Couverture d’une base fraîche
 
@@ -10,9 +11,9 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 
 | Modèle | Avant | Après |
 | --- | ---: | ---: |
-| User | 9 | 9 |
+| User | 8 | 8 |
 | CandidateProfile | 5 | 5 |
-| EmployerProfile | 0 | 2 |
+| EmployerProfile | 0 | 1 |
 | JobOffer | 3 | 16 |
 | CandidateOfferMatch | 5 | 18 |
 | MatchEvaluation | 5 | 18 |
@@ -24,7 +25,7 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | CandidateOfferConversation | 0 | 5 |
 | CandidateOfferConversationMessage | 0 | 6 |
 | CandidateSupport | 0 | 5 |
-| JobOfferSupport | 0 | 11 |
+| JobOfferSupport | 0 | 16 |
 | CandidateProfileReviewSuggestion | 0 | 2 |
 | CandidatePushSubscription | 0 | 2 |
 | Invitation | 0 | 3 |
@@ -43,7 +44,7 @@ par compte, offre et revue, les métiers et le calcul des totaux.
 ## Parcours
 
 Les treize offres supplémentaires portent un titre « Offre fictive ». Elles sont
-réparties entre les deux employeurs. Les deux candidats du sélecteur disposent
+possédées par le même employeur. Les deux candidats du sélecteur disposent
 chacun de propositions et d’une conversation ouverte avec trois messages,
 attribués au conseiller, au candidat et à l’employeur correspondant.
 
@@ -55,8 +56,9 @@ réexamen des préférences, via les services métier existants.
 
 Le conseiller trouve des échéances passées, du jour et à venir pour les cinq
 candidats, ainsi que des offres suivies ou sorties du suivi. Les invitations
-illustrent attente, expiration et acceptation. Les employeurs ont chacun leurs
-pratiques de réponse renseignées.
+illustrent attente, expiration et acceptation. L'employeur a ses pratiques de réponse
+renseignées. Les profils personnels différents déjà saisis sur deux anciens comptes
+sont conservés sans écrasement ; voir [la consolidation](TEST_ACCOUNTS.md).
 
 ## Conservation et limites
 

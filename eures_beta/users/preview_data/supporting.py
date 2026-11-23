@@ -22,21 +22,17 @@ from eures_beta.users.models import LoginRateLimit
 
 def seed_supporting_data(users):
     now = timezone.now()
-    for key, coverage, delay in (
-        ('employer', 'all', 'under_week'),
-        ('matching-employer', 'selected', 'one_two_weeks'),
-    ):
-        EmployerProfile.objects.get_or_create(
-            user=users[key],
-            defaults={'response_coverage': coverage, 'response_time': delay},
-        )
+    EmployerProfile.objects.get_or_create(
+        user=users['employer'],
+        defaults={'response_coverage': 'all', 'response_time': 'under_week'},
+    )
     for key, kind, accepted, expired in (
         ('waiting', 'employer', False, False),
         ('expired', 'candidate', False, True),
         ('accepted', 'employer', True, False),
     ):
         email = (
-            users['matching-employer'].email
+            users['employer'].email
             if accepted
             else f'invitation-{key}@preview-dataset.invalid'
         )
@@ -51,7 +47,7 @@ def seed_supporting_data(users):
                 'email_sent_at': now - timedelta(days=3),
                 'expires_at': now + timedelta(days=-1 if expired else 7),
                 'accepted_at': now - timedelta(days=2) if accepted else None,
-                'recipient': users['matching-employer'] if accepted else None,
+                'recipient': users['employer'] if accepted else None,
             },
         )
     cards, _ = catalogue()
