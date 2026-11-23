@@ -1,5 +1,6 @@
 """The full preview is linked, repeatable, private, and performs no external I/O."""
 
+from collections import Counter
 from io import StringIO
 from unittest.mock import patch
 
@@ -18,6 +19,9 @@ from eures_beta.matching.models import (
     CandidateOfferConversation,
     CandidateOfferReview,
     CandidateOfferMatch,
+    CandidateOfferReviewAnswer,
+    CandidateOfferReviewEvent,
+    CandidateProfileSharing,
 )
 from eures_beta.matching import review_workflow
 from eures_beta.users.models import User
@@ -94,6 +98,24 @@ class PreviewDataTests(TestCase):
         self.assertEqual(self.snapshot(), before)
 
     def test_workflow_states_consents_and_repeated_refusals_are_coherent(self):
+        self.assertEqual(
+            Counter(CandidateOfferReviewAnswer.objects.values_list('value', flat=True)),
+            {'yes': 163, 'no': 6},
+        )
+        self.assertTrue(
+            all(
+                review.answers.count() == 13
+                for review in CandidateOfferReview.objects.all()
+            )
+        )
+        self.assertEqual(
+            Counter(CandidateOfferReviewEvent.objects.values_list('action', flat=True)),
+            {'submitted': 12, 'claim': 8, 'validated': 5, 'clarify': 1, 'refused': 1},
+        )
+        self.assertEqual(
+            Counter(CandidateProfileSharing.objects.values_list('agreed', flat=True)),
+            {True: 8, False: 4},
+        )
         self.assertTrue(
             {'ready', 'claimed', 'clarify', 'validated', 'refused'}.issubset(
                 set(

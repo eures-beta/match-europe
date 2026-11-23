@@ -20,7 +20,7 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | CandidateOfferReview | 1 | 13 |
 | CandidateOfferReviewAnswer | 13 | 169 |
 | CandidateOfferReviewEvent | 0 | 27 |
-| CandidateProfileSharing | 0 | 12 |
+| CandidateProfileSharing (8 accords, 4 refus) | 0 | 12 |
 | CandidateOfferConversation | 0 | 5 |
 | CandidateOfferConversationMessage | 0 | 6 |
 | CandidateSupport | 0 | 5 |
@@ -37,6 +37,8 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | ContentType | 26 | 26 |
 
 Les 25 modèles actifs sont peuplés, contre 10 auparavant.
+Le [README des exemples](../eures_beta/users/preview_data/) explique la répartition
+par compte, offre et revue, les métiers et le calcul des totaux.
 
 ## Parcours
 
