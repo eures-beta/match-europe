@@ -8350,3 +8350,7 @@ msgstr "Dieser Vorgang wurde geändert. Laden Sie ihn vor einer Aktion neu."
 #: eures_beta/www/adviser/matching.py:336
 msgid "Enter a message for the candidate; a takeover also needs an internal reason."
 msgstr "Geben Sie eine Erklärung für die kandidierende Person ein. Eine Übernahme erfordert auch eine interne Begründung. Die Bestätigung setzt die Zustimmung zur Weitergabe voraus."
+
+#: eures_beta/templates/emails/link_fallback.html eures_beta/templates/emails/message.html
+msgid "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar."
+msgstr "Falls ein Link nicht anklickbar ist, kopieren Sie seine vollständige Adresse und fügen Sie sie in die Adressleiste Ihres Browsers ein."

@@ -15,6 +15,7 @@ from django.utils.translation import gettext as _
 from sesame.utils import get_query_string
 
 from eures_beta.users.email_login import email_ready
+from eures_beta.emails.rendering import html_email
 from . import access
 from .models import CandidateOfferReview
 
@@ -70,15 +71,17 @@ def send(review_id, *, adviser=None):
     )
     try:
         with translation.override(language):
+            body = render_to_string(
+                'matching/offer_review_email.txt',
+                {'offer': review.match.offer.data, 'link': link},
+            )
             delivered = (
                 send_mail(
                     _('An offer of employment might suit you'),
-                    render_to_string(
-                        'matching/offer_review_email.txt',
-                        {'offer': review.match.offer.data, 'link': link},
-                    ),
+                    body,
                     settings.DEFAULT_FROM_EMAIL,
                     [candidate.user.email],
+                    html_message=html_email(body),
                 )
                 == 1
             )

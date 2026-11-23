@@ -20,6 +20,7 @@ from eures_beta.candidates.forms import KEY
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.candidates import pending as pending_store
 from django.contrib.sessions.models import Session
+from tests.emails.assertions import assert_clickable_email
 
 User = get_user_model()
 
@@ -549,6 +550,7 @@ class CandidateRegistrationTests(TestCase):
 
             self.assertTrue(registration.send_confirmation(pending))
             self.assertEqual(mail.outbox[-1].to, [pending.email])
+            assert_clickable_email(self, mail.outbox[-1])
             self.assertIn(
                 'https://testserver/candidate/registration/confirm/?token=',
                 mail.outbox[-1].body,

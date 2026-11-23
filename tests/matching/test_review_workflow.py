@@ -256,6 +256,9 @@ class ReviewWorkflowTests(TestCase):
         with self.settings(**settings), self.captureOnCommitCallbacks(execute=True):
             self.finish()
         self.assertEqual(mail.outbox[-1].to, [self.adviser.email])
+        from tests.emails.assertions import assert_clickable_email
+
+        assert_clickable_email(self, mail.outbox[-1])
         self.handle('claim')
         with self.settings(**settings), self.captureOnCommitCallbacks(execute=True):
             self.handle(
@@ -264,6 +267,7 @@ class ReviewWorkflowTests(TestCase):
                 internal_note='SECRET_INTERNAL_REASON',
             )
         self.assertEqual(mail.outbox[-1].to, [self.candidate.email])
+        assert_clickable_email(self, mail.outbox[-1])
         self.assertIn('The role starts too early.', mail.outbox[-1].body)
         self.assertNotIn('SECRET_INTERNAL_REASON', str(mail.outbox))
 

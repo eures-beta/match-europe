@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext as _
 from eures_beta.users.email_login import email_ready
+from eures_beta.emails.rendering import html_email
 from .models import CandidateOfferReviewEvent
 
 logger = logging.getLogger(__name__)
@@ -49,12 +50,14 @@ def send(pk):
                     if submitted
                     else event.public_message
                 )
+                body += '\n\n' + link
                 accepted = (
                     send_mail(
                         subject,
-                        body + '\n\n' + link,
+                        body,
                         settings.DEFAULT_FROM_EMAIL,
                         [recipient.email],
+                        html_message=html_email(body),
                     )
                     == 1
                 )

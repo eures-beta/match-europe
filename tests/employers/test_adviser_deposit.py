@@ -324,6 +324,9 @@ class AdviserDepositTests(TestCase):
             self.assertEqual(self.deposit().status_code, 201)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.contact['email']])
+        from tests.emails.assertions import assert_clickable_email
+
+        assert_clickable_email(self, mail.outbox[0])
         import re
 
         link = re.search(r'https://[^\s]+', mail.outbox[0].body).group()
