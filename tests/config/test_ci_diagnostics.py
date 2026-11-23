@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -216,10 +217,12 @@ class CIDiagnosticsTests(unittest.TestCase):
             # GNU Make 4.4 also exports command-line variables to $(shell) while
             # parsing. A future version lookup must run AFTER the unexport guard.
             makefile = Path(directory) / 'Makefile'
-            makefile.write_text(
-                Path('Makefile')
-                .read_text()
-                .replace(
+            shutil.copyfile('Makefile', makefile)
+            shutil.copytree('mk', Path(directory) / 'mk')
+            shutil.copyfile('.python-version', Path(directory) / '.python-version')
+            variables = Path(directory) / 'mk' / 'variables.mk'
+            variables.write_text(
+                variables.read_text().replace(
                     '.DEFAULT_GOAL := help',
                     '.DEFAULT_GOAL := help\nCI_PARSE_PROBE := $(shell true)',
                     1,
@@ -240,6 +243,7 @@ class CIDiagnosticsTests(unittest.TestCase):
                     'PATH': f"{directory}:{os.defpath}",
                     'PATTERN': pattern,
                 },
+                cwd=directory,
                 capture_output=True,
                 text=True,
                 check=True,

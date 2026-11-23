@@ -4,6 +4,7 @@ from contextlib import redirect_stdout, redirect_stderr
 from io import StringIO
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
@@ -214,7 +215,11 @@ class LocalDatabaseMakeTests(SimpleTestCase):
                 'sys.exit(7)\n'
             )
             runner.chmod(0o700)
-            makefile = Path(__file__).resolve().parents[2] / 'Makefile'
+            project = Path(__file__).resolve().parents[2]
+            makefile = root / 'Makefile'
+            shutil.copyfile(project / 'Makefile', makefile)
+            shutil.copytree(project / 'mk', root / 'mk')
+            shutil.copyfile(project / '.python-version', root / '.python-version')
             result = subprocess.run(
                 [
                     'make',
