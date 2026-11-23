@@ -7,7 +7,7 @@
     <title>Match Europe</title>
   </head>
   <body>
-    {{ body|urlize|linebreaks }}
+    {{ body|force_escape|urlize|linebreaks }}
     <p>{% translate "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar." %}</p>
   </body>
 </html>

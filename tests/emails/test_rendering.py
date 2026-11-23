@@ -2,6 +2,7 @@ from django.core import mail
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
+from django.utils.safestring import mark_safe
 
 from eures_beta.emails.rendering import html_email
 from tests.emails.assertions import Links, assert_clickable_email
@@ -48,6 +49,18 @@ class HtmlEmailTests(SimpleTestCase):
         ):
             with self.subTest(language=language):
                 self.assertIn(wording, html_email("Message", language=language))
+
+    def test_rendered_plain_text_is_escaped_even_when_django_marks_it_safe(self):
+        body = mark_safe(
+            '<a href="javascript:alert(1)">Untrusted name</a>\n'
+            "https://example.invalid/confirm/?token=abc&next=%2F"
+        )
+        html = html_email(body)
+        self.assertIn("&lt;a", html)
+        self.assertEqual(
+            Links(html).hrefs,
+            ["https://example.invalid/confirm/?token=abc&next=%2F"],
+        )
 
     def test_every_rich_invitation_keeps_a_visible_copyable_personal_url(self):
         link = "https://example.invalid/invitations/confirm/?invitation=abc&part=def"
