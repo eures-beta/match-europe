@@ -24,7 +24,7 @@ from eures_beta.users.test_accounts import prepared_user
 )
 class ReviewConcurrencyTests(TransactionTestCase):
     def setUp(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
         self.adviser = prepared_user('adviser')
         self.other = User.objects.create_user(

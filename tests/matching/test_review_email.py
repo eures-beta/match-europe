@@ -33,7 +33,7 @@ from eures_beta.www.adviser.matching import pending_pairs, record_review
 class ReviewEmailTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
 
     def setUp(self):
         self.adviser = prepared_user('adviser')

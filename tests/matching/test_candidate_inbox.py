@@ -19,7 +19,7 @@ from eures_beta.www.adviser.matching import record_review
 class CandidateInboxTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
 
     def setUp(self):
         self.user = prepared_user('candidate-pwa')

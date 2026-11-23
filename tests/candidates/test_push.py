@@ -35,7 +35,7 @@ class PushKeyTests(SimpleTestCase):
 )
 class PushProfileTests(TestCase):
     def test_profile_only_exposes_the_connected_candidates_endpoint(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         owner = prepared_user('candidate-pwa')
         other = prepared_user('candidate-pwa-replay')
         for user, name in ((owner, 'owner'), (other, 'other')):

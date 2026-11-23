@@ -25,7 +25,7 @@ DEMO = dict(
 class RelationRoleTests(TestCase):
     @classmethod
     def setUpTestData(cls):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         cls.adviser = User.objects.filter(kind='adviser').first()
         cls.employer = User.objects.filter(kind='employer').first()
         cls.candidate = User.objects.filter(kind='candidate').first()
@@ -137,7 +137,7 @@ class RelationRoleMigrationTests(TransactionTestCase):
         super().tearDown()
 
     def test_nonempty_round_trip_preserves_rows_and_physical_objects(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         adviser = User.objects.filter(kind='adviser').first()
         offer = JobOffer.objects.first()
         review = CandidateOfferReview.objects.first()
@@ -227,7 +227,7 @@ class RelationRoleMigrationTests(TransactionTestCase):
         self.assertEqual(snapshot(self.migrate(targets), True), modern)
 
     def test_migration_refuses_historical_wrong_roles_without_reassigning_them(self):
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         adviser = User.objects.filter(kind='adviser').first()
         candidate = User.objects.filter(kind='candidate').first()
         review = CandidateOfferReview.objects.first()

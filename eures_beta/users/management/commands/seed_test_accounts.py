@@ -15,7 +15,19 @@ from eures_beta.users.test_accounts import (
 
 
 class Command(BaseCommand):
-    help = 'Add the fictional local/preview accounts and two offers, preserving existing test data.'
+    help = 'Add linked fictional local/preview journeys, preserving existing test data.'
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--minimal',
+            action='store_true',
+            help='Only the small foundational fixture used by focused automated tests.',
+        )
+        parser.add_argument(
+            '--report',
+            action='store_true',
+            help='Read-only counts of every active model; do not seed.',
+        )
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -23,6 +35,11 @@ class Command(BaseCommand):
             raise CommandError(
                 'Test seeding requires an explicitly enabled local/preview database with only .invalid accounts.'
             )
+        if options['report']:
+            from eures_beta.users.preview_data.report import report
+
+            report(self.stdout)
+            return
         accounts = {**ACCOUNTS, **PWA_ACCOUNTS}
         for key, specification in accounts.items():
             if (
@@ -51,7 +68,7 @@ class Command(BaseCommand):
         call_command('seed_matching_trial', stdout=self.stdout)
         # Leave a separate, answered fixture ready for the invitation push trial.
         match = CandidateOfferMatch.objects.get(
-            candidate__user=users['candidate-pwa-replay']
+            candidate__user=users['candidate-pwa-replay'], offer__source_kind='matching'
         )
         if (
             match.decision == 'pending'
@@ -78,6 +95,10 @@ class Command(BaseCommand):
                         row['fingerprint'],
                         'yes',
                     )
+        if not options['minimal']:
+            from eures_beta.users.preview_data.scenarios import seed_scenarios
+
+            seed_scenarios(users)
         self.stdout.write(
             'Fictional test accounts and offers are ready; existing data preserved.'
         )

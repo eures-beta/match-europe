@@ -169,7 +169,7 @@ class ImportAccessTests(TestCase):
         from django.core.management import call_command
         from io import StringIO
 
-        call_command('seed_test_accounts', stdout=StringIO())
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         self.client.get(self.destination, secure=True)
         response = self.client.post(
             reverse('test_account_sign_in'), {'account': 'employer'}, secure=True
