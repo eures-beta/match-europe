@@ -22,6 +22,7 @@ HOST ?= 127.0.0.1
 PORT ?= 8000
 TESTS ?= tests
 TEST_ARGS ?= --verbosity=0
+SEED_ARGS ?=
 LOAD_ENV = set -e; set -a; if [ -f .env ]; then . ./.env; fi; set +a;
 MANAGE = $(LOAD_ENV) "$(PYTHON)" manage.py
 EMAIL ?=

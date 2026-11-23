@@ -23,5 +23,5 @@ users-upgrade-test: ## Vérifier la migration des identités dans une base Postg
 	@$(LOAD_ENV) "$(PYTHON)" -m tests.users.verify_upgrade
 
 .PHONY: test-accounts-seed
-test-accounts-seed: ## Ajouter les comptes et offres fictifs (local/preview explicitement activé uniquement)
-	@$(MANAGE) seed_test_accounts
+test-accounts-seed: ## Préparer les parcours fictifs ; SEED_ARGS=--report pour les compteurs seuls
+	@$(MANAGE) seed_test_accounts $(SEED_ARGS)
