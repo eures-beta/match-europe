@@ -1,10 +1,16 @@
-"""Consolidate the two historical demo employers without deleting their history."""
+"""Merge historical demonstration employers into a single account."""
 
 from django.core.management import CommandError
 from django.db import transaction
+from django.contrib.admin.models import LogEntry
 
 from eures_beta.employers.models import EmployerProfile, JobOffer
-from eures_beta.matching.models import CandidateOfferConversation
+from eures_beta.invitations.models import Invitation
+from eures_beta.matching.models import (
+    CandidateOfferConversation,
+    CandidateOfferConversationMessage,
+    CandidateOfferReviewEvent,
+)
 
 from .models import User
 from .test_accounts import ACCOUNTS, enabled, fictional_database
@@ -14,7 +20,7 @@ LEGACY_EMPLOYER_EMAIL = 'employer@matching-trial.invalid'
 
 @transaction.atomic
 def consolidate_employers():
-    """Keep content and author identities; retire only the old demo sign-in."""
+    """Transfer useful fictional data, then delete the redundant account."""
     if not enabled() or not fictional_database():
         raise CommandError(
             'Demo consolidation requires an isolated fictional database.'
@@ -48,6 +54,21 @@ def consolidate_employers():
     CandidateOfferConversation.objects.filter(employer=legacy).update(employer=employer)
     if not EmployerProfile.objects.filter(user=employer).exists():
         EmployerProfile.objects.filter(user=legacy).update(user=employer)
+    else:
+        # These are two preferences for the same fictional person: the current
+        # employer profile takes precedence over the redundant scenario profile.
+        EmployerProfile.objects.filter(user=legacy).delete()
+    CandidateOfferConversationMessage.objects.filter(author=legacy).update(
+        author=employer
+    )
+    CandidateOfferReviewEvent.objects.filter(actor=legacy).update(actor=employer)
+    LogEntry.objects.filter(user=legacy).update(user=employer)
+    # A user can have only one accepted invitation. Keep historical invitation
+    # records even when both demo accounts already have one.
+    recipient = (
+        None if Invitation.objects.filter(recipient=employer).exists() else employer
+    )
+    Invitation.objects.filter(recipient=legacy).update(recipient=recipient)
 
     updates = {
         field: getattr(legacy, field)
@@ -57,9 +78,4 @@ def consolidate_employers():
     if updates:
         User.objects.filter(pk=employer.pk).update(**updates)
 
-    # Existing message authors, accepted invitations, admin logs and a possibly
-    # different second personal profile remain auditable on this inactive account.
-    # No identity is rewritten and no conflicting profile value is discarded.
-    if legacy.is_active:
-        legacy.is_active = False
-        legacy.save(update_fields=['is_active'])
+    legacy.delete()

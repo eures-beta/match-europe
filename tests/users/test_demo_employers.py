@@ -77,6 +77,7 @@ class DemoEmployerConsolidationTests(TestCase):
             review=review, fingerprint=before_fingerprint, agreed=True
         )
         invitation_snapshot = Invitation.objects.values().get(pk=invitation.pk)
+        invitation_snapshot['recipient_id'] = self.employer.pk
         self.client.force_login(legacy)
 
         consolidate_employers()
@@ -93,10 +94,10 @@ class DemoEmployerConsolidationTests(TestCase):
         self.assertEqual(conversation.employer_id, self.employer.pk)
         self.assertEqual(conversation.employer_read, 23)
         message.refresh_from_db()
-        self.assertEqual(message.author_id, legacy.pk)
+        self.assertEqual(message.author_id, self.employer.pk)
         self.assertEqual(message.body, 'Existing employer reply')
         invitation.refresh_from_db()
-        self.assertEqual(invitation.recipient_id, legacy.pk)
+        self.assertEqual(invitation.recipient_id, self.employer.pk)
         self.assertEqual(invitation.email, LEGACY_EMPLOYER_EMAIL)
         self.assertEqual(
             Invitation.objects.values().get(pk=invitation.pk), invitation_snapshot
@@ -105,9 +106,7 @@ class DemoEmployerConsolidationTests(TestCase):
         self.assertEqual(profile.user_id, self.employer.pk)
         self.employer.refresh_from_db()
         self.assertEqual(self.employer.first_name, 'Fictional employer')
-        legacy.refresh_from_db()
-        self.assertFalse(legacy.is_active)
-        self.assertFalse(legacy.has_usable_password())
+        self.assertFalse(User.objects.filter(pk=legacy.pk).exists())
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.wsgi_request.user.is_anonymous)
@@ -118,7 +117,7 @@ class DemoEmployerConsolidationTests(TestCase):
             404,
         )
 
-    def test_different_personal_preferences_are_kept_without_overwriting(self):
+    def test_current_preferences_win_and_redundant_profile_is_deleted(self):
         legacy = self.legacy_employer(first_name='Earlier trial')
         self.employer.first_name = 'Current trial'
         self.employer.save(update_fields=['first_name'])
@@ -128,14 +127,10 @@ class DemoEmployerConsolidationTests(TestCase):
         previous = EmployerProfile.objects.create(
             user=legacy, response_coverage='all', response_time='under_week'
         )
-        snapshots = list(EmployerProfile.objects.order_by('pk').values())
         consolidate_employers()
-        self.assertEqual(
-            list(EmployerProfile.objects.order_by('pk').values()), snapshots
-        )
         current.refresh_from_db()
-        previous.refresh_from_db()
-        self.assertEqual(previous.user_id, legacy.pk)
+        self.assertFalse(EmployerProfile.objects.filter(pk=previous.pk).exists())
+        self.assertFalse(User.objects.filter(email=LEGACY_EMPLOYER_EMAIL).exists())
         self.assertEqual(current.user_id, self.employer.pk)
         self.employer.refresh_from_db()
         self.assertEqual(self.employer.first_name, 'Current trial')
