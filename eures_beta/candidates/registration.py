@@ -19,6 +19,7 @@ from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 
 from eures_beta.emails.origins import validate_origin
+from eures_beta.emails.rendering import html_email
 from eures_beta.users.models import User
 from .models import CandidateProfile
 from . import pending as pending_store
@@ -155,7 +156,13 @@ def send_confirmation(pending):
     try:
         subject, body = confirmation_message(pending, settings.LOGIN_EMAIL_ORIGIN)
         return bool(
-            send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [pending.email])
+            send_mail(
+                subject,
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                [pending.email],
+                html_message=html_email(body, language=pending.language),
+            )
         )
     except Exception:
         logger.error(

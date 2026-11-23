@@ -70,6 +70,10 @@ Brevo restent des lots distincts.
 
 ## Vérification
 
+Les messages de connexion comportent du texte et une alternative HTML avec des
+liens explicites, pour ne plus dépendre uniquement de la détection automatique
+du client mail. Voir [l'inventaire et les limites de compatibilité](EMAIL_LINKS.md).
+
 Les emails de proposition d’offre utilisent aussi cette connexion personnelle :
 confirmation POST, puis retour au dialogue précis de l’offre. Seuls l’import
 employeur et les routes canoniques de dialogue candidat sont autorisés comme

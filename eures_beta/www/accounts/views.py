@@ -14,6 +14,7 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from eures_beta.emails.rendering import html_email
 from django.db import transaction
 from django.http import Http404, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
@@ -157,6 +158,7 @@ def login(request):
                             body,
                             settings.DEFAULT_FROM_EMAIL,
                             [user.email],
+                            html_message=html_email(body),
                         )
                     except Exception:
                         # No exception payload: SMTP exceptions may contain recipients.

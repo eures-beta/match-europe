@@ -3,6 +3,7 @@
 from urllib.parse import urlsplit
 from django.conf import settings
 from eures_beta.emails.backend import real_email_allowed
+from eures_beta.emails.rendering import html_email
 
 
 def email_ready():
@@ -50,6 +51,7 @@ def send_sign_in_link(user_id, language='fr'):
                 body,
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
+                html_message=html_email(body),
             )
         except Exception:
             logging.getLogger(__name__).error(

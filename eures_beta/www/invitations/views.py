@@ -5,6 +5,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.mail import send_mail
+from eures_beta.emails.rendering import html_email
 from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
 from django.shortcuts import redirect, render
@@ -65,6 +66,7 @@ def invite(request):
                             body,
                             settings.DEFAULT_FROM_EMAIL,
                             [invitation.email],
+                            html_message=html_email(body, language=invitation.language),
                         )
                     )
                     if sent:

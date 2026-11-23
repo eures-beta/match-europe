@@ -15,6 +15,7 @@ from sesame.utils import get_token, get_user
 
 from eures_beta.logging import RedactAccessLinks
 from eures_beta.users.models import LoginRateLimit
+from tests.emails.assertions import Links, assert_clickable_email
 
 
 @override_settings(
@@ -68,11 +69,8 @@ class MagicLoginTests(TestCase):
     def request_link(self, client=None, email=None):
         client = client or self.client
         client.post('/accounts/login/?lang=en', {'email': email or self.user.email})
-        url = next(
-            line
-            for line in mail.outbox[-1].body.splitlines()
-            if line.startswith('https://')
-        )
+        assert_clickable_email(self, mail.outbox[-1])
+        url = Links(mail.outbox[-1].alternatives[0].content).hrefs[0]
         return urlsplit(url).path + '?' + urlsplit(url).query
 
     def test_login_in_common_header_in_all_languages(self):

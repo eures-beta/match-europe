@@ -14,6 +14,7 @@ from django.utils import timezone
 from sesame.utils import get_token, get_user
 
 from eures_beta.logging import RedactAccessLinks
+from tests.emails.assertions import assert_clickable_email
 from eures_beta.invitations.services import (
     create_invitation,
     invitation_token,
@@ -139,6 +140,7 @@ class InvitationTests(TestCase):
             )
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ['mail@example.invalid'])
+        assert_clickable_email(self, mail.outbox[0])
         self.assertIn('valid for seven days', mail.outbox[0].body)
         self.assertIn(
             'https://testserver/accounts/invitations/confirm/?invitation=',

@@ -1,0 +1,13 @@
+{% load i18n %}
+{% get_current_language as language %}
+<!DOCTYPE html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <title>Match Europe</title>
+  </head>
+  <body>
+    {{ body|urlize|linebreaks }}
+    <p>{% translate "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar." %}</p>
+  </body>
+</html>

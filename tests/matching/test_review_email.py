@@ -14,6 +14,7 @@ from django.utils import timezone
 
 from eures_beta.matching import review_email, offer_review_services
 from eures_beta.matching.models import CandidateOfferReview
+from tests.emails.assertions import Links, assert_clickable_email
 from eures_beta.users.test_accounts import prepared_user
 from eures_beta.www.accounts.return_path import canonical_destination
 from eures_beta.www.adviser.matching import pending_pairs, record_review
@@ -65,6 +66,7 @@ class ReviewEmailTests(TestCase):
             self.assertEqual(self.review.email_status, 'sent')
             self.assertIsNotNone(self.review.email_sent_at)
             self.assertEqual(mail.outbox[0].to, [self.candidate.email])
+            assert_clickable_email(self, mail.outbox[0])
             self.assertFalse(review_email.send(self.review.pk))
             response = self.client.post(
                 reverse('adviser_match', args=[self.match.pk]),
@@ -77,7 +79,7 @@ class ReviewEmailTests(TestCase):
     def test_link_requires_confirmation_and_opens_owned_offer(self):
         with self.email_settings():
             self.validate()
-        link = urlsplit(self.link())
+        link = urlsplit(Links(mail.outbox[-1].alternatives[0].content).hrefs[0])
         self.assertEqual(parse_qs(link.query)['next'], [self.destination + '?lang=fr'])
         browser = Client(enforce_csrf_checks=True)
         response = browser.get(link.path + '?' + link.query, secure=True)

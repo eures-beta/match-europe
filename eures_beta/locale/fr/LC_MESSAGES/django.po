@@ -8350,3 +8350,7 @@ msgstr "Ce dossier a changé. Rechargez-le avant d’agir."
 #: eures_beta/www/adviser/matching.py:336
 msgid "Enter a message for the candidate; a takeover also needs an internal reason."
 msgstr "Renseignez une explication au candidat. Une reprise du dossier exige aussi un motif interne. La validation nécessite son accord de transmission."
+
+#: eures_beta/templates/emails/link_fallback.html eures_beta/templates/emails/message.html
+msgid "If a link cannot be clicked, copy its complete address and paste it into your browser's address bar."
+msgstr "Si un lien n’est pas cliquable, copiez son adresse complète et collez-la dans la barre d’adresse de votre navigateur."
