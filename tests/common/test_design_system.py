@@ -1,4 +1,4 @@
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from eures_beta.users.models import User
 
@@ -93,6 +93,38 @@ class DesignSystemTokenTests(SimpleTestCase):
 class DesignSystemPageTests(TestCase):
     url = '/design-system/'
     urls = (url,)
+
+    @override_settings(
+        DJANGO_ENVIRONMENT='preview',
+        DEMO_ACCOUNTS_ENABLED=True,
+        EMAIL_DELIVERY_ENABLED=False,
+    )
+    def test_eures_layouts_keep_the_demo_banner_once_in_every_language(self):
+        for language in ('fr', 'en', 'de'):
+            for url in ('/design-system/', '/employer/', '/employer/privacy/'):
+                with self.subTest(language=language, url=url):
+                    response = self.client.get(url, {'lang': language})
+                    self.assertTemplateUsed(response, 'eures_base.html')
+                    self.assertContains(
+                        response, 'class="test-accounts-banner"', count=1
+                    )
+                    self.assertContains(response, 'users/test_accounts.css')
+                    self.assertContains(
+                        response, f'/accounts/test-accounts/?lang={language}'
+                    )
+
+    @override_settings(
+        DJANGO_ENVIRONMENT='production',
+        DEMO_ACCOUNTS_ENABLED=False,
+        EMAIL_DELIVERY_ENABLED=False,
+    )
+    def test_production_eures_layouts_have_no_demo_banner_or_demo_styles(self):
+        for url in ('/design-system/', '/employer/', '/employer/privacy/'):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertTemplateUsed(response, 'eures_base.html')
+                self.assertNotContains(response, 'class="test-accounts-banner"')
+                self.assertNotContains(response, 'users/test_accounts.css')
 
     @classmethod
     def setUpTestData(cls):

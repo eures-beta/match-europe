@@ -18,11 +18,15 @@
     <link rel="stylesheet"
           href="{% static 'design-system/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="{% static 'design-system/components.css' %}">
+    {% if test_accounts_enabled %}
+      <link rel="stylesheet" href="{% static 'users/test_accounts.css' %}">
+    {% endif %}
     {% block head %}{% endblock %}
   </head>
   <body>
     <a class="visually-hidden-focusable"
        href="#main-content">{% translate "Skip to content" context "employer landing" %}</a>
+    {% include "includes/test_accounts_banner.html" %}
     {% block site_notice %}{% endblock %}
     {% with current=request.resolver_match.url_name %}
       <header class="ds-site-header">

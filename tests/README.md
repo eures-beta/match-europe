@@ -1,5 +1,8 @@
 # Tests automatisés
 
+`common/test_design_system.py` vérifie aussi que le nouveau layout EURES conserve
+le bandeau fictif une seule fois en recette (FR/EN/DE), sans l’afficher en production.
+
 [users/test_preview_data.py](users/test_preview_data.py) vérifie le jeu complet
 des recettes : modèles peuplés, liens, parcours, refus et conservation à la relance.
 [users/test_return_path.py](users/test_return_path.py) vérifie la compatibilité

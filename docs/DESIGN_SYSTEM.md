@@ -219,6 +219,10 @@ plutôt que recréer un en-tête ou des liens propres à chaque parcours.
 
 ## Vérification
 
+Le gabarit EURES conserve le bandeau commun des comptes fictifs et sa feuille CSS
+uniquement lorsque ces comptes sont autorisés. Les tests de pages vérifient une
+seule bannière en FR/EN/DE en recette et son absence, avec celle de sa CSS, en production.
+
 Les e-mails utilisent [un gabarit commun](EMAIL_LINKS.md#présentation-partagée)
 reprenant la présentation des invitations employeur. Leurs styles intégrés et
 logos existants sont isolés dans `templates/emails/`, sans Bootstrap distant ;
