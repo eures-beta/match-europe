@@ -8338,3 +8338,18 @@ msgstr "Candidat (profil incomplet)"
 
 msgid "Anonymous browsing, without an account"
 msgstr "Navigation anonyme sans compte"
+
+#: eures_beta/templates/users/adviser_history.html
+msgid "All employers"
+msgstr "Tous les employeurs"
+
+#: eures_beta/templates/users/adviser_history.html
+msgid "No employer account"
+msgstr "Sans compte employeur"
+
+#: eures_beta/templates/users/adviser_history.html
+#, python-format
+msgid "%(counter)s offer"
+msgid_plural "%(counter)s offers"
+msgstr[0] "%(counter)s offre"
+msgstr[1] "%(counter)s offres"

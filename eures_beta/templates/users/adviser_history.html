@@ -33,7 +33,19 @@
         {% endif %}
       </div>
     </form>
-    <p class="history-count">{% blocktranslate count counter=page.paginator.count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %}</p>
+    {% if employer %}
+      <p>
+        <a href="{% querystring employer=None entry=None page=None %}#history-title">‹ {% translate "All employers" %}</a>
+      </p>
+      <h3>{% firstof employer.company employer.email _("No employer account") %}</h3>
+      <p class="history-secondary">
+        {% if employer.company and employer.email %}{{ employer.email }} ·{% endif %}
+        {% blocktranslate count counter=employer.offer_count %}{{ counter }} offer{% plural %}{{ counter }} offers{% endblocktranslate %}
+      </p>
+    {% endif %}
+    {% if search or not employer %}
+      <p class="history-count">{% blocktranslate count counter=page.paginator.count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %}</p>
+    {% endif %}
     {% if page.object_list %}
       <div class="history-table-scroll"
            tabindex="0"
@@ -46,9 +58,12 @@
                 <th scope="col">Candidat</th>
                 <th scope="col">Projet</th>
                 <th scope="col">Mis à jour</th>
+              {% elif section == "employers" and not employer %}
+                <th scope="col">{% translate "Employer" %}</th>
+                <th scope="col">{% translate "Job offers" %}</th>
+                <th scope="col">{% translate "Updated" %}</th>
               {% elif section == "employers" %}
                 <th scope="col">{% translate "Job offer" %}</th>
-                <th scope="col">{% translate "Employer" %}</th>
                 <th scope="col">{% translate "Status" %}</th>
                 <th scope="col">{% translate "Source" %}</th>
                 <th scope="col">{% translate "Created" %}</th>
@@ -73,17 +88,24 @@
                   <th scope="row"><a href="{% querystring entry=entry.pk %}#history-detail">{{ entry.display_name }}</a><br><span class="history-secondary">{{ entry.user.email }}</span></th>
                   <td>{{ entry.desired_occupations|truncatechars:55|default:"—" }}{% if entry.desired_locations %}<br>{{ entry.desired_locations|truncatechars:55 }}{% endif %}</td>
                   <td>{{ entry.updated_at|date:"j M Y" }}</td>
+                {% elif section == "employers" and not employer %}
+                  <th scope="row">
+                    <a href="{% querystring employer=entry.key entry=None page=None %}#history-title">{% firstof entry.company entry.email _("No employer account") %}</a>
+                    {% if entry.company and entry.email %}
+                      <br>
+                      <span class="history-secondary">{{ entry.email }}</span>
+                    {% endif %}
+                  </th>
+                  <td>
+                    {% blocktranslate count counter=entry.offer_count %}{{ counter }} offer{% plural %}{{ counter }} offers{% endblocktranslate %}
+                  </td>
+                  <td>{{ entry.last_update|date:"SHORT_DATETIME_FORMAT" }}</td>
                 {% elif section == "employers" %}
                   <th scope="row">
                     <a href="{% querystring entry=entry.pk %}#history-detail">{{ entry.data.title|default:_("Untitled offer") }}</a>
                     <br>
                     <span class="history-secondary">{{ entry.data.city|default:"—" }}</span>
                   </th>
-                  <td>
-                    {% firstof entry.data.companyName "—" %}
-                    <br>
-                    <span class="history-secondary">{% firstof entry.employer.email "—" %}</span>
-                  </td>
                   <td>{% include "users/offer_status.html" with offer=entry %}</td>
                   <td>{% if entry.source_kind == "manual" %}{% translate "Manual entry" %}{% elif entry.source_kind == "pdf" %}{% translate "PDF import" %}{% elif entry.source_kind == "url" %}{% translate "URL import" %}{% else %}—{% endif %}</td>
                   <td>{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}</td>

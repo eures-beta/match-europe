@@ -1,8 +1,10 @@
 """Read-only access to the adviser workspace's recorded data."""
 
+import uuid
+
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.db.models import OuterRef, Q, Subquery
+from django.db.models import Count, Max, OuterRef, Q, Subquery
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.translation import gettext as _
@@ -37,12 +39,20 @@ def history(request):
         raise Http404
     search = request.GET.get('q', '').strip()[:254]
     language = selected_language(request)
-    page = Paginator(history_rows(section, search), 20).get_page(
-        request.GET.get('page')
-    )
     selected = request.GET.get('entry')
+    employer = None
+    if section == 'employers':
+        employer = selected_employer(request.GET.get('employer'), selected)
+    if section == 'employers' and employer is None:
+        page = Paginator(employer_groups(search), 20).get_page(request.GET.get('page'))
+        describe_employer_groups(page)
+    else:
+        rows = history_rows(section, search)
+        if employer is not None:
+            rows = rows.filter(**employer_filter(employer['key']))
+        page = Paginator(rows, 20).get_page(request.GET.get('page'))
     selected_entry = None
-    if selected and section in ('candidates', 'employers'):
+    if selected and (section == 'candidates' or employer is not None):
         selected_entry = next(
             (entry for entry in page if str(entry.pk) == selected), None
         )
@@ -62,6 +72,7 @@ def history(request):
             'section_title': sections[section],
             'search': search,
             'page': page,
+            'employer': employer,
             'selected_entry': selected_entry,
             'candidate_answers': candidate_answers,
             'offer_details': (
@@ -71,6 +82,85 @@ def history(request):
             ),
         },
     )
+
+
+def offer_search(rows, search):
+    if not search:
+        return rows
+    return rows.filter(
+        Q(data__title__icontains=search)
+        | Q(data__companyName__icontains=search)
+        | Q(employer__email__icontains=search)
+        | Q(data__city__icontains=search)
+    )
+
+
+def employer_filter(key):
+    # Offers recorded before employer accounts existed are grouped under 'none'.
+    return {'employer__isnull': True} if key == 'none' else {'employer_id': key}
+
+
+def selected_employer(key, entry):
+    """The employer whose offers are listed, from `employer` or from an offer link."""
+    if not key and entry:
+        if not is_uuid(entry):
+            return None
+        offer = JobOffer.objects.filter(pk=entry).values('employer_id').first()
+        if offer is None:
+            return None
+        key = str(offer['employer_id'] or 'none')
+    if key != 'none' and not (key or '').isdigit():
+        return None
+    offers = JobOffer.objects.filter(**employer_filter(key))
+    latest = offers.order_by('-updated', '-pk').select_related('employer').first()
+    if latest is None:
+        return None
+    return {
+        'key': key,
+        'company': latest.data.get('companyName', ''),
+        'email': latest.employer.email if latest.employer else '',
+        'offer_count': offers.count(),
+    }
+
+
+def is_uuid(value):
+    try:
+        uuid.UUID(str(value))
+    except ValueError:
+        return False
+    return True
+
+
+def employer_groups(search):
+    """One row per employer account, counting its offers that match the search."""
+    return (
+        offer_search(JobOffer.objects.all(), search)
+        .values('employer')
+        .annotate(offer_count=Count('pk'), last_update=Max('updated'))
+        .order_by('-last_update', 'employer')
+    )
+
+
+def describe_employer_groups(page):
+    """Add the company name of each employer's latest offer and the account email."""
+    keys = [row['employer'] for row in page.object_list]
+    page.object_list = list(page.object_list)
+    accounts = Q(employer__in=[key for key in keys if key])
+    if None in keys:
+        accounts |= Q(employer__isnull=True)
+    rows = (
+        JobOffer.objects.filter(accounts)
+        .order_by('-updated', '-pk')
+        .values('employer', 'employer__email', 'data__companyName')
+    )
+    latest = {}
+    for row in rows:
+        latest.setdefault(row['employer'], row)
+    for group in page.object_list:
+        row = latest.get(group['employer'], {})
+        group['key'] = str(group['employer'] or 'none')
+        group['company'] = row.get('data__companyName') or ''
+        group['email'] = row.get('employer__email') or ''
 
 
 def history_rows(section, search):
@@ -84,14 +174,9 @@ def history_rows(section, search):
         )
     if section == 'employers':
         # Adviser history mirrors recorded offers, independently of matching eligibility.
-        rows = JobOffer.objects.select_related('employer', 'adviser')
-        if search:
-            rows = rows.filter(
-                Q(data__title__icontains=search)
-                | Q(data__companyName__icontains=search)
-                | Q(employer__email__icontains=search)
-                | Q(data__city__icontains=search)
-            )
+        rows = offer_search(
+            JobOffer.objects.select_related('employer', 'adviser'), search
+        )
         return rows.order_by('-created', '-pk')
     if section == 'invitations':
         return (
