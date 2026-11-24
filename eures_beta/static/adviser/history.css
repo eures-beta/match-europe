@@ -76,7 +76,13 @@
 
 .history-table a {
   color: #164b80;
+  text-decoration: none;
   text-underline-offset: 0.15em;
+}
+
+.history-table a:hover,
+.history-table a:focus-visible {
+  text-decoration: underline;
 }
 
 .history-secondary {

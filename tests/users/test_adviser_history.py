@@ -142,17 +142,23 @@ class AdviserHistoryTests(TestCase):
         )
         self.client.force_login(self.adviser)
         response = self.history(view='employers', lang='fr')
-        self.assertEqual(
-            response.context['page'].paginator.count, JobOffer.objects.count()
-        )
+        # One row per employer account; offers without an account form their own row.
+        self.assertEqual(response.context['page'].paginator.count, 2)
         self.assertContains(response, 'Offres employeur')
+        self.assertContains(response, '2 offres')
+        self.assertContains(response, 'Sans compte employeur')
+        response = self.history(view='employers', employer=offer.employer_id, lang='fr')
+        self.assertEqual(response.context['page'].paginator.count, 2)
         self.assertContains(response, 'En préparation')
         self.assertContains(response, 'Validée')
         from eures_beta.matching import access
 
         self.assertEqual(list(access.offers()), [validated])
         with self.settings(MATCHING_ENABLED=False):
-            self.assertContains(self.history(view='employers'), 'Technicien test')
+            self.assertContains(
+                self.history(view='employers', employer=offer.employer_id),
+                'Technicien test',
+            )
         for query in (
             'Metz',
             'Entreprise fictive',
@@ -169,6 +175,57 @@ class AdviserHistoryTests(TestCase):
         response = self.history(view='employers', entry=legacy.pk)
         self.assertContains(response, str(legacy.pk))
         self.assertEqual(offer.revision, 1)
+
+    def test_employer_offers_are_grouped_by_account(self):
+        eclair = User.objects.create_user('rh@eclair.example.invalid', kind='employer')
+        for title in ('Soudeur', 'Technicien', 'Opérateur'):
+            self.make_offer(
+                employer=eclair,
+                data={'title': title, 'companyName': 'Éclair Industries'},
+            )
+        weber = self.make_offer()
+        self.client.force_login(self.adviser)
+
+        response = self.history(view='employers', lang='fr')
+        rows = {row['company']: row for row in response.context['page']}
+        self.assertEqual(set(rows), {'Éclair Industries', 'Entreprise fictive'})
+        self.assertEqual(rows['Éclair Industries']['offer_count'], 3)
+        self.assertEqual(rows['Éclair Industries']['email'], eclair.email)
+        self.assertContains(response, '3 offres')
+        self.assertContains(response, '1 offre\n')
+        self.assertContains(response, f'employer={eclair.pk}')
+        self.assertNotContains(response, 'Soudeur')
+
+        response = self.history(view='employers', employer=eclair.pk, lang='fr')
+        titles = {offer.data['title'] for offer in response.context['page']}
+        self.assertEqual(titles, {'Soudeur', 'Technicien', 'Opérateur'})
+        self.assertEqual(response.context['employer']['offer_count'], 3)
+        self.assertContains(response, 'Tous les employeurs')
+        self.assertNotContains(response, 'Technicien test')
+
+        # The latest offer gives the company name shown for the account.
+        latest = self.make_offer(
+            employer=eclair, data={'title': 'Cariste', 'companyName': 'Éclair Lorraine'}
+        )
+        response = self.history(view='employers', lang='fr')
+        rows = {row['email']: row for row in response.context['page']}
+        self.assertEqual(rows[eclair.email]['company'], 'Éclair Lorraine')
+        self.assertEqual(rows[eclair.email]['offer_count'], 4)
+
+        # Search keeps the employers with a matching offer and counts those offers.
+        response = self.history(view='employers', q='Soudeur')
+        self.assertEqual([row['offer_count'] for row in response.context['page']], [1])
+
+        # A link to an offer opens it inside its employer's list.
+        response = self.history(view='employers', entry=latest.pk)
+        self.assertEqual(response.context['selected_entry'], latest)
+        self.assertEqual(response.context['employer']['key'], str(eclair.pk))
+        response = self.history(view='employers', entry=weber.pk)
+        self.assertEqual(response.context['employer']['key'], str(weber.employer_id))
+        for key in ('abc', '999999', ''):
+            with self.subTest(employer=key):
+                response = self.history(view='employers', employer=key)
+                self.assertIsNone(response.context['employer'])
 
     def test_offer_details_are_readable_translated_and_escape_untrusted_content(self):
         offer = self.make_offer()
