@@ -110,8 +110,8 @@ module.exports = async function propose({
         'Les contrôles habituels sont lancés explicitement sur cette branche : PostgreSQL, HTTP sous 256 Mio, qualité et traductions.',
         'Consulter leurs résultats avant fusion. Aucune fusion ni mise en production automatique.',
         '## :rotating_light: À vérifier',
-        'Vérifier aussi la disponibilité de cette version chez Clever Cloud et sur les postes locaux.',
-        'Sources : tags officiels python/cpython et image officielle library/python.',
+        'La branche mineure figure dans la liste officielle Clever Cloud au moment du contrôle. Vérifier encore la version corrective exacte dans une recette et la disponibilité sur les postes locaux avant fusion.',
+        'Sources : tags officiels python/cpython, liste officielle des versions Python Clever Cloud et image officielle library/python.',
       ].join('\n\n'),
     });
     pr = result.data;
