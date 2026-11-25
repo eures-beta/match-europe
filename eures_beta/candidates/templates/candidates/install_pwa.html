@@ -1,8 +1,8 @@
-{% extends "public_base.html" %}
+{% extends "eures_base.html" %}
 {% load i18n %}
-{% block page_title %}{% translate "Install Match Europe on your phone" %} — Match Europe{% endblock %}
-{% block public_content %}
-  <section class="surface-card home-section">
+{% block title %}{% translate "Install Match Europe on your phone" %} — Match Europe{% endblock %}
+{% block content %}
+  <section class="ds-card mb-5">
     <h1>{% translate "Install Match Europe on your phone" %}</h1>
     {% include "candidates/install_pwa_phone_steps.html" %}
     {% include "candidates/install_pwa_notification_note.html" %}

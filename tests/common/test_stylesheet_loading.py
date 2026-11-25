@@ -16,27 +16,15 @@ class StylesheetLoadingTests(SimpleTestCase):
                 with self.subTest(template=str(template), stylesheet=name):
                     self.assertIsNotNone(finders.find(name), name)
 
-    def test_public_layouts_load_existing_css_in_cascade_order(self):
-        for route, layout in (('candidate_landing', 'public/layout.css'),):
-            with self.subTest(route=route):
-                page = self.client.get(reverse(route))
-                self.assertEqual(page.status_code, 200)
-                self.assertNotContains(page, '<style')
-                css = [
-                    'employer/site.css',
-                    layout,
-                    'public/header-actions.css',
-                    'public-brand.css',
-                ]
-                positions = [
-                    page.content.index(('/static/' + name).encode()) for name in css
-                ]
-                self.assertEqual(positions, sorted(positions))
-                for name in css:
-                    self.assertIsNotNone(finders.find(name), name)
-
     def test_design_system_pages_load_its_css_in_cascade_order(self):
-        for route in ('home', 'project', 'journal', 'privacy', 'employer_landing'):
+        for route in (
+            'home',
+            'project',
+            'journal',
+            'privacy',
+            'employer_landing',
+            'candidate_landing',
+        ):
             with self.subTest(route=route):
                 page = self.client.get(reverse(route))
                 self.assertEqual(page.status_code, 200)

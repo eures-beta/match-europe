@@ -1,246 +1,242 @@
 {% extends "candidates/landing.html" %}
 {% load i18n %}
-{% block page_title %}{% if error_summary %}{% translate "Error" %} — {% endif %}{% blocktranslate with title=title %}Step {{ step }} of 4: {{ title }}{% endblocktranslate %} — {% translate "Candidate journey" context "candidate landing" %} — Match Europe{% endblock %}
+{% block title %}{% if error_summary %}{% translate "Error" %} — {% endif %}{% blocktranslate with title=title %}Step {{ step }} of 4: {{ title }}{% endblocktranslate %} — {% translate "Candidate journey" context "candidate landing" %} — Match Europe{% endblock %}
 {% block candidate_content %}
   <link rel="stylesheet" href="/static/skills/continuous.css">
-  <main id="main-content" class="section candidate-journey">
-    <div class="shell">
-      <nav aria-label="{% translate 'Your progress' %}">
-        <ol class="journey-progress">
-          {% for item in steps %}
-            <li {% if item.number == step %}aria-current="step"{% endif %}>
-              {% if item.available %}<a href="?step={{ item.number }}&amp;lang={{ page_language }}">{{ item.number }}. {{ item.title }}</a>{% else %}<span>{{ item.number }}. {{ item.title }}</span>{% endif %}
-            </li>
-          {% endfor %}
-        </ol>
-      </nav>
-      <div class="journey-layout">
-        <article class="surface-card journey-form">
-          <p class="kicker">{% blocktranslate %}Step {{ step }} of 4{% endblocktranslate %}</p>
-          <h1>{{ title }}</h1>
-          {% if error_summary %}
-            <div class="journey-errors"
-                 id="journey-error-summary"
-                 tabindex="-1"
-                 aria-labelledby="journey-error-title">
-              <h2 id="journey-error-title">
-                {% blocktranslate count counter=error_summary|length %}There is {{ counter }} error to correct{% plural %}There are {{ counter }} errors to correct{% endblocktranslate %}
-              </h2>
-              <ul>
-                {% for error in error_summary %}
-                  <li>
-                    {% if error.anchor %}
-                      <a href="#{{ error.anchor }}">{% if error.label %}{{ error.label }} : {% endif %}{{ error.message }}</a>
-                    {% else %}
-                      {{ error.message }}
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-          {% if expired %}
-            <p role="status">{% translate "Your previous draft expired. Start again." %}</p>
-          {% endif %}
-          {% if step == 1 %}
-            <p>{% translate "Describe your project and choose the countries that interest you. You can continue without choosing an occupation." %}</p>
-          {% elif step == 2 %}
-            <p>{% translate "Tell us how you could travel or move, and which languages you can use." %}</p>
-          {% elif step == 3 %}
-            <p>{% translate "These are your current preferences. You can say that a point needs discussion." %}</p>
-          {% elif step == 4 %}
-            {% for group in summary %}
-              <section class="review-group">
-                <h2>{{ group.title }}</h2>
-                <a href="?step={{ group.step }}&amp;lang={{ page_language }}&amp;return=review">{% blocktranslate with section=group.title %}Edit: {{ section }}{% endblocktranslate %}</a>
-                <dl>
-                  {% for name, label, value in group.fields %}
-                    <dt>{{ label }}</dt>
-                    <dd>
-                      {% if name == "language_skills" %}
-                        {% if language_declaration.status == "discuss" %}
-                          {% translate "To discuss" %}
-                        {% elif language_declaration.languages %}
-                          <ul>
-                            {% for row in language_declaration.languages %}
-                              <li><span data-language-code="{{ row.code }}">{{ row.code|upper }}</span> : {{ row.level }}</li>
-                            {% endfor %}
-                          </ul>
-                        {% else %}
-                          {% translate "Not specified" %}
-                        {% endif %}
-                  {% elif value %}{{ value|linebreaksbr }}{% else %}{% translate "Not specified" %}{% endif %}
-                    </dd>
-                  {% endfor %}
-                </dl>
-              </section>
-            {% endfor %}
-          {% endif %}
-          <form method="post" novalidate id="candidate-project">
-            {% if step == 4 %}
-              <p><a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Read the data protection notice" context "employer import" %}</a></p>
-            {% endif %}
-            {% csrf_token %}
-            <input type="hidden" name="token" value="{{ draft.token }}">
-            {% if return_to_review %}<input type="hidden" name="return" value="review">{% endif %}
-            {% for field in form %}
-              {% if field.name == "project_mode" %}
-                <fieldset class="journey-field guided-choice">
-                  <legend>{{ field.label }}</legend>
-                  {{ field }}{{ field.errors }}
-                </fieldset>
-                {% include "candidates/skill_sections.html" %}
-              {% elif field.name in skill_field_names %}
-              {% elif field.name == "schedule_strict" %}
-              {% elif field.is_hidden and field.name != "language_skills" %}
-                {{ field }}{{ field.errors }}
-              {% elif field.name == "language_skills" %}
-                <div class="candidate-language-field journey-field"
-                     id="candidate-language-field">
-                  {{ field }}
-                  {{ field.errors }}
-                  {% if language_notes %}
-                    <p>{% translate "Please review these previous language answers; no CEFR level has been inferred." %}</p>
-                    <ul>
-                      {% for note in language_notes %}
-                        <li><span data-language-code="{{ note.code }}">{{ note.code|upper }}</span> : {% if note.value == "native" %}{% translate "Native language" %}{% else %}{% translate "To discuss" %}{% endif %}</li>
-                      {% endfor %}
-                    </ul>
-                  {% endif %}
-                  <noscript>
-                    <p>{% translate "The language selector needs JavaScript. You can leave this optional section for discussion." %}</p>
-                    <label>
-                      <input type="checkbox" name="language_discuss" value="on">
-                      {% translate "I prefer to discuss my languages" %}
-                    </label>
-                  </noscript>
-                </div>
-              {% elif field.name|slice:":9" == "schedule_" and field.name != "schedule_preference" %}
-              {% elif field.name == "occupation_references" %}
-                <fieldset class="journey-field occupation-candidate"
-                          data-field="occupation_references"
-                          data-occupation-only
-                          {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
-                  <legend>{{ field.label }}</legend>
-                  <p>{% translate "Choose the occupations that match your project. Read the descriptions to help you decide." %}</p>
-                  <div id="candidate-search-status" role="status" aria-live="polite">
-                    {% if search_performed and not reference_rows %}
-                      {% translate "No result. Try another job title or use the personal title field below." %}
-                    {% endif %}
-                  </div>
-                  <div id="candidate-occupation-results">
-                    {% for row in reference_rows %}
-                      <article class="occupation-result">
-                        <label><input type="checkbox"
-                                      name="occupation_references"
-                                      value="{{ row.value }}"
-                                      data-skill-reference="{{ row.groupKey }}"
-                                      {% if row.value in field.value %}checked{% endif %}> <strong lang="{{ row.labelLanguage|default:page_language }}">{{ row.label }}</strong></label>
-                        {% if row.description %}<p lang="{{ row.descriptionLanguage|default:page_language }}">{{ row.description }}</p>{% endif %}
-                      </article>
-                    {% endfor %}
-                  </div>
-                  {{ field.errors }}
-                  {% include "occupations/continuous.html" with skills_role="candidate" %}
-                </fieldset>
-              {% elif field.field.widget.allow_multiple_selected or field.field.widget.input_type == "radio" %}
-                <fieldset class="journey-field guided-choice"
-                          data-field="{{ field.name }}"
-                          {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
-                  <legend>{{ field.label }}{% if field.field.required or field.name in conditionally_required %} ({% translate "required" %}){% endif %}</legend>
-                  <div class="choice-options">
-                    {% for option in field %}
-                      <label>{{ option.tag }} <span>{{ option.choice_label }}</span></label>
-                    {% endfor %}
-                  </div>
-                  {% if field.name == "working_conditions" %}
-                    <p id="schedule-suggestion-notice"
-                       role="status"
-                       aria-live="polite"
-                       data-suggestion="{% translate 'Suggested from your time slots: %(choices)s. Check these choices; you can change them.' %}"
-                       data-conflict="{% translate 'These choices have no matching slot in your exclusive schedule: %(choices)s.' %}">
-                      {% if schedule_suggestions %}
-                        {% translate "Your time slots suggest some timing choices. Review the options below." %}
-                      {% endif %}
-                    </p>
-                  {% endif %}
-                  {{ field.errors }}
-                </fieldset>
-                {% if field.name == "schedule_preference" %}
-                  <section class="schedule-grid" id="candidate-weekly-schedule">
-                    <h2>{% translate "Select your availabilities" %}</h2>
-                    <div class="schedule-columns" aria-hidden="true"><span></span><span>{% translate "Morning" %}</span><span>{% translate "Afternoon" %}</span><span>{% translate "Evening" %}</span><span>{% translate "Night" %}</span></div>
-                    <label class="schedule-exclusive">{{ form.schedule_strict }} {{ form.schedule_strict.label }}</label>
-                    <p>{% translate "If this is your exclusive schedule, unticked slots are outside your availability. Otherwise they remain unspecified." %}</p>
-                    {% for day_field in schedule_fields %}
-                      <fieldset class="schedule-day">
-                        <legend>{{ day_field.label }}</legend>
-                        <div class="schedule-slots">
-                          {% for option in day_field %}
-                            <label>{{ option.tag }} <span>{{ option.choice_label }}</span></label>
-                          {% endfor %}
-                        </div>
-                        {{ day_field.errors }}
-                      </fieldset>
-                    {% endfor %}
-                  </section>
-                {% endif %}
-              {% else %}
-                <div class="journey-field"
-                     data-field="{{ field.name }}"
-                     {% if field.name == "occupation_query" or field.name == "desired_occupations" %} data-occupation-only{% endif %}>
-                  {% if field.field.widget.input_type == "checkbox" %}{{ field }} {{ field.label_tag }}{% else %}{{ field.label_tag }}{% if field.field.required %} <span>({% translate "required" %})</span>{% endif %}{{ field }}{% endif %}
-                  {% if field.help_text %}<p class="helptext"
-                                             id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
-                  {% if field.name == "occupation_query" %}
-                    <button class="nav-pill"
-                            name="action"
-                            value="search"
-                            id="candidate-search-button">{% translate "Search for an occupation" %}</button>
-                  {% endif %}
-                  {{ field.errors }}
-                </div>
-              {% endif %}
-            {% endfor %}
-            <div class="journey-actions">
-              {% if step > 1 %}
-                <a class="nav-pill"
-                   href="?step={{ previous }}&amp;lang={{ page_language }}">{% translate "Back" %}</a>
-              {% endif %}
-              <button class="primary-action"
-                      name="action"
-                      value="{% if step == 4 %}finish{% else %}continue{% endif %}">
-                {% if step == 4 %}
-                  {% if draft.editing_user or invited_candidate %}
-                    {% translate "Save my profile" %}
+  <div class="candidate-journey">
+    <nav aria-label="{% translate 'Your progress' %}">
+      <ol class="journey-progress">
+        {% for item in steps %}
+          <li {% if item.number == step %}aria-current="step"{% endif %}>
+            {% if item.available %}<a href="?step={{ item.number }}&amp;lang={{ page_language }}">{{ item.number }}. {{ item.title }}</a>{% else %}<span>{{ item.number }}. {{ item.title }}</span>{% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    </nav>
+    <div class="journey-layout">
+      <article class="ds-card journey-form">
+        <p class="ds-eyebrow">{% blocktranslate %}Step {{ step }} of 4{% endblocktranslate %}</p>
+        <h1>{{ title }}</h1>
+        {% if error_summary %}
+          <div class="journey-errors"
+               id="journey-error-summary"
+               tabindex="-1"
+               aria-labelledby="journey-error-title">
+            <h2 id="journey-error-title">
+              {% blocktranslate count counter=error_summary|length %}There is {{ counter }} error to correct{% plural %}There are {{ counter }} errors to correct{% endblocktranslate %}
+            </h2>
+            <ul>
+              {% for error in error_summary %}
+                <li>
+                  {% if error.anchor %}
+                    <a href="#{{ error.anchor }}">{% if error.label %}{{ error.label }} : {% endif %}{{ error.message }}</a>
                   {% else %}
-                    {% translate "Verify my email and save my profile" %}
+                    {{ error.message }}
                   {% endif %}
-                {% elif return_to_review %}
-                  {% translate "Save and return to the review" %}
-                {% else %}
-                  {% translate "Continue" %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        {% if expired %}
+          <p role="status">{% translate "Your previous draft expired. Start again." %}</p>
+        {% endif %}
+        {% if step == 1 %}
+          <p>{% translate "Describe your project and choose the countries that interest you. You can continue without choosing an occupation." %}</p>
+        {% elif step == 2 %}
+          <p>{% translate "Tell us how you could travel or move, and which languages you can use." %}</p>
+        {% elif step == 3 %}
+          <p>{% translate "These are your current preferences. You can say that a point needs discussion." %}</p>
+        {% elif step == 4 %}
+          {% for group in summary %}
+            <section class="review-group">
+              <h2>{{ group.title }}</h2>
+              <a href="?step={{ group.step }}&amp;lang={{ page_language }}&amp;return=review">{% blocktranslate with section=group.title %}Edit: {{ section }}{% endblocktranslate %}</a>
+              <dl>
+                {% for name, label, value in group.fields %}
+                  <dt>{{ label }}</dt>
+                  <dd>
+                    {% if name == "language_skills" %}
+                      {% if language_declaration.status == "discuss" %}
+                        {% translate "To discuss" %}
+                      {% elif language_declaration.languages %}
+                        <ul>
+                          {% for row in language_declaration.languages %}
+                            <li><span data-language-code="{{ row.code }}">{{ row.code|upper }}</span> : {{ row.level }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% else %}
+                        {% translate "Not specified" %}
+                      {% endif %}
+                {% elif value %}{{ value|linebreaksbr }}{% else %}{% translate "Not specified" %}{% endif %}
+                  </dd>
+                {% endfor %}
+              </dl>
+            </section>
+          {% endfor %}
+        {% endif %}
+        <form method="post" novalidate id="candidate-project">
+          {% if step == 4 %}
+            <p><a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Read the data protection notice" context "employer import" %}</a></p>
+          {% endif %}
+          {% csrf_token %}
+          <input type="hidden" name="token" value="{{ draft.token }}">
+          {% if return_to_review %}<input type="hidden" name="return" value="review">{% endif %}
+          {% for field in form %}
+            {% if field.name == "project_mode" %}
+              <fieldset class="journey-field guided-choice">
+                <legend>{{ field.label }}</legend>
+                {{ field }}{{ field.errors }}
+              </fieldset>
+              {% include "candidates/skill_sections.html" %}
+            {% elif field.name in skill_field_names %}
+            {% elif field.name == "schedule_strict" %}
+            {% elif field.is_hidden and field.name != "language_skills" %}
+              {{ field }}{{ field.errors }}
+            {% elif field.name == "language_skills" %}
+              <div class="candidate-language-field journey-field"
+                   id="candidate-language-field">
+                {{ field }}
+                {{ field.errors }}
+                {% if language_notes %}
+                  <p>{% translate "Please review these previous language answers; no CEFR level has been inferred." %}</p>
+                  <ul>
+                    {% for note in language_notes %}
+                      <li><span data-language-code="{{ note.code }}">{{ note.code|upper }}</span> : {% if note.value == "native" %}{% translate "Native language" %}{% else %}{% translate "To discuss" %}{% endif %}</li>
+                    {% endfor %}
+                  </ul>
                 {% endif %}
-              </button>
-            </div>
-          </form>
-        </article>
-        <aside class="surface-card journey-aside">
-          <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
-          <p>{% translate "Your answers describe your current project. You can change them before confirming." %}</p>
-          <p>{% translate "Your draft stays available while you use it, and for 2 hours after your last action. It is private to this session. This is not a permanent save." %}</p>
-          <p>{% translate "Any future introduction to an employer will require a separate agreement." %}</p>
-          <form method="post">
-            {% csrf_token %}
-            <input type="hidden"
-                   name="token"
-                   value="{{ draft.token }}"><button class="nav-pill" name="action" value="discard">{% translate "Delete my draft" %}</button>
-          </form>
-          {% include "candidates/feedback.html" %}
-        </aside>
-      </div>
+                <noscript>
+                  <p>{% translate "The language selector needs JavaScript. You can leave this optional section for discussion." %}</p>
+                  <label>
+                    <input type="checkbox" name="language_discuss" value="on">
+                    {% translate "I prefer to discuss my languages" %}
+                  </label>
+                </noscript>
+              </div>
+            {% elif field.name|slice:":9" == "schedule_" and field.name != "schedule_preference" %}
+            {% elif field.name == "occupation_references" %}
+              <fieldset class="journey-field occupation-candidate"
+                        data-field="occupation_references"
+                        data-occupation-only
+                        {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
+                <legend>{{ field.label }}</legend>
+                <p>{% translate "Choose the occupations that match your project. Read the descriptions to help you decide." %}</p>
+                <div id="candidate-search-status" role="status" aria-live="polite">
+                  {% if search_performed and not reference_rows %}
+                    {% translate "No result. Try another job title or use the personal title field below." %}
+                  {% endif %}
+                </div>
+                <div id="candidate-occupation-results">
+                  {% for row in reference_rows %}
+                    <article class="occupation-result">
+                      <label><input type="checkbox"
+       name="occupation_references"
+       value="{{ row.value }}"
+       data-skill-reference="{{ row.groupKey }}"
+       {% if row.value in field.value %}checked{% endif %}> <strong lang="{{ row.labelLanguage|default:page_language }}">{{ row.label }}</strong></label>
+                      {% if row.description %}<p lang="{{ row.descriptionLanguage|default:page_language }}">{{ row.description }}</p>{% endif %}
+                    </article>
+                  {% endfor %}
+                </div>
+                {{ field.errors }}
+                {% include "occupations/continuous.html" with skills_role="candidate" %}
+              </fieldset>
+            {% elif field.field.widget.allow_multiple_selected or field.field.widget.input_type == "radio" %}
+              <fieldset class="journey-field guided-choice"
+                        data-field="{{ field.name }}"
+                        {% if field.errors %}aria-describedby="{{ field.auto_id }}_error"{% endif %}>
+                <legend>{{ field.label }}{% if field.field.required or field.name in conditionally_required %} ({% translate "required" %}){% endif %}</legend>
+                <div class="choice-options">
+                  {% for option in field %}
+                    <label>{{ option.tag }} <span>{{ option.choice_label }}</span></label>
+                  {% endfor %}
+                </div>
+                {% if field.name == "working_conditions" %}
+                  <p id="schedule-suggestion-notice"
+                     role="status"
+                     aria-live="polite"
+                     data-suggestion="{% translate 'Suggested from your time slots: %(choices)s. Check these choices; you can change them.' %}"
+                     data-conflict="{% translate 'These choices have no matching slot in your exclusive schedule: %(choices)s.' %}">
+                    {% if schedule_suggestions %}
+                      {% translate "Your time slots suggest some timing choices. Review the options below." %}
+                    {% endif %}
+                  </p>
+                {% endif %}
+                {{ field.errors }}
+              </fieldset>
+              {% if field.name == "schedule_preference" %}
+                <section class="schedule-grid" id="candidate-weekly-schedule">
+                  <h2>{% translate "Select your availabilities" %}</h2>
+                  <div class="schedule-columns" aria-hidden="true"><span></span><span>{% translate "Morning" %}</span><span>{% translate "Afternoon" %}</span><span>{% translate "Evening" %}</span><span>{% translate "Night" %}</span></div>
+                  <label class="schedule-exclusive">{{ form.schedule_strict }} {{ form.schedule_strict.label }}</label>
+                  <p>{% translate "If this is your exclusive schedule, unticked slots are outside your availability. Otherwise they remain unspecified." %}</p>
+                  {% for day_field in schedule_fields %}
+                    <fieldset class="schedule-day">
+                      <legend>{{ day_field.label }}</legend>
+                      <div class="schedule-slots">
+                        {% for option in day_field %}
+                          <label>{{ option.tag }} <span>{{ option.choice_label }}</span></label>
+                        {% endfor %}
+                      </div>
+                      {{ day_field.errors }}
+                    </fieldset>
+                  {% endfor %}
+                </section>
+              {% endif %}
+            {% else %}
+              <div class="journey-field"
+                   data-field="{{ field.name }}"
+                   {% if field.name == "occupation_query" or field.name == "desired_occupations" %} data-occupation-only{% endif %}>
+                {% if field.field.widget.input_type == "checkbox" %}{{ field }} {{ field.label_tag }}{% else %}{{ field.label_tag }}{% if field.field.required %} <span>({% translate "required" %})</span>{% endif %}{{ field }}{% endif %}
+                {% if field.help_text %}<p class="helptext"
+   id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
+                {% if field.name == "occupation_query" %}
+                  <button class="btn btn-outline-primary"
+                          name="action"
+                          value="search"
+                          id="candidate-search-button">{% translate "Search for an occupation" %}</button>
+                {% endif %}
+                {{ field.errors }}
+              </div>
+            {% endif %}
+          {% endfor %}
+          <div class="journey-actions">
+            {% if step > 1 %}
+              <a class="btn btn-outline-primary"
+                 href="?step={{ previous }}&amp;lang={{ page_language }}">{% translate "Back" %}</a>
+            {% endif %}
+            <button class="btn btn-primary"
+                    name="action"
+                    value="{% if step == 4 %}finish{% else %}continue{% endif %}">
+              {% if step == 4 %}
+                {% if draft.editing_user or invited_candidate %}
+                  {% translate "Save my profile" %}
+                {% else %}
+                  {% translate "Verify my email and save my profile" %}
+                {% endif %}
+              {% elif return_to_review %}
+                {% translate "Save and return to the review" %}
+              {% else %}
+                {% translate "Continue" %}
+              {% endif %}
+            </button>
+          </div>
+        </form>
+      </article>
+      <aside class="ds-card journey-aside">
+        <h2 class="h5">{% translate "You stay in control" context "candidate landing" %}</h2>
+        <p>{% translate "Your answers describe your current project. You can change them before confirming." %}</p>
+        <p>{% translate "Your draft stays available while you use it, and for 2 hours after your last action. It is private to this session. This is not a permanent save." %}</p>
+        <p>{% translate "Any future introduction to an employer will require a separate agreement." %}</p>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="token" value="{{ draft.token }}"><button class="btn btn-outline-primary btn-sm" name="action" value="discard">{% translate "Delete my draft" %}</button>
+        </form>
+        {% include "candidates/feedback.html" %}
+      </aside>
     </div>
-  </main>
+  </div>
   <div class="journey-timeout"
        id="journey-timeout"
        role="alert"
@@ -249,7 +245,7 @@
        data-warning-seconds="{{ draft_warning_seconds }}">
     <p>{% translate "Your draft will expire in 2 minutes without activity." %}</p>
     <button type="button"
-            class="primary-action"
+            class="btn btn-primary"
             id="journey-timeout-extend"
             data-done="{% translate 'Your draft is kept for 2 more hours.' %}"
             data-failed="{% translate 'The draft could not be extended. Keep this page open and copy your answers before trying again.' %}">{% translate "Keep my draft for 2 more hours" %}</button>

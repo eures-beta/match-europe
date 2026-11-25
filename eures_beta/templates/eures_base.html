@@ -49,14 +49,16 @@
                 <span class="visually-hidden">{% translate "Language" context "employer landing" %} :</span> {{ page_language|upper }}
               </summary>
               <ul>
-                {% for language in page_languages %}
-                  <li>
-                    <a href="{{ request.path }}?lang={{ language.code }}{% if language_question %}&amp;question={{ language_question|urlencode }}{% endif %}"
-                       {% if language.code == page_language %}aria-current="true"{% endif %}
-                       lang="{{ language.code }}"
-                       hreflang="{{ language.code }}">{{ language.name_local|capfirst }}</a>
-                  </li>
-                {% endfor %}
+                {% block language_options %}
+                  {% for language in page_languages %}
+                    <li>
+                      <a href="{{ request.path }}?lang={{ language.code }}{% if language_question %}&amp;question={{ language_question|urlencode }}{% endif %}"
+                         {% if language.code == page_language %}aria-current="true"{% endif %}
+                         lang="{{ language.code }}"
+                         hreflang="{{ language.code }}">{{ language.name_local|capfirst }}</a>
+                    </li>
+                  {% endfor %}
+                {% endblock %}
               </ul>
             </details>
             <nav class="ds-account"
@@ -90,7 +92,7 @@
             <a href="{% url 'home' %}?lang={{ page_language }}"
                {% if current == 'home' %}aria-current="page"{% endif %}>{% translate "Home" context "employer landing" %}</a>
             <a href="{% url 'candidate_landing' %}?lang={{ page_language }}"
-               {% if current == 'candidate_landing' %}aria-current="page"{% endif %}>{% translate "Candidate" context "employer landing" %}</a>
+               {% if current|slice:':9' == 'candidate' %}aria-current="page"{% endif %}>{% translate "Candidate" context "employer landing" %}</a>
             <a href="{% url 'employer_landing' %}?lang={{ page_language }}"
                {% if current|slice:':8' == 'employer' %}aria-current="page"{% endif %}>{% translate "Employer" context "employer landing" %}</a>
             <a href="{% url 'statistics' %}?lang={{ page_language }}"
@@ -110,6 +112,7 @@
       <div class="container">
         <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "employer landing" %}</p>
         {% include "includes/useful_links.html" %}
+        {% block footer_extra %}{% endblock %}
       </div>
     </footer>
   </body>

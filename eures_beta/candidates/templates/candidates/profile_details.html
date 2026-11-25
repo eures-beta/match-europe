@@ -1,5 +1,5 @@
 {% load i18n %}
-<section class="surface-card home-section">
+<section class="ds-card mb-5">
   <h1>{% translate "My candidate profile" %}</h1>
   <p role="status">
     {% if offer_confirmations_available %}
@@ -15,11 +15,11 @@
   <form method="post"
         action="{% url 'candidate_profile_edit' %}?lang={{ page_language }}">
     {% csrf_token %}
-    <button class="primary-action" type="submit">{% translate "Edit my profile" %}</button>
+    <button class="btn btn-primary" type="submit">{% translate "Edit my profile" %}</button>
   </form>
 </section>
 {% for title, rows in groups %}
-  <section class="surface-card home-section">
+  <section class="ds-card mb-5">
     <h2>{{ title }}</h2>
     <dl>
       {% for label, value in rows %}
