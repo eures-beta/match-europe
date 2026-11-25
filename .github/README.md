@@ -1,5 +1,10 @@
 # Automatisation GitHub
 
+`python-update.cjs` publie les deux verrous préparés par `make python-update`.
+Le workflow hebdomadaire s'arrête si le catalogue officiel Clever est illisible ;
+aucune version d'une branche absente ou en fin de vie n'est proposée.
+Voir [la maintenance Python](../docs/PYTHON_RUNTIME.md).
+
 [workflows/](workflows/) contient les contrôles de qualité et les signaux de recette.
 `preview-request.yml` reçoit les événements de PR sans checkout ni secret.
 `preview-relay.yml` s’exécute depuis main et transmet uniquement l’identifiant du

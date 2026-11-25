@@ -12,9 +12,15 @@ eux aussi proposés en PR. Python 4 nécessitera une décision explicite. Une no
 empreinte de l'image système est aussi proposée à version Python inchangée.
 
 Chaque lundi à 07:15 UTC, `Mise à jour hebdomadaire de Python` consulte les tags
-stables officiels de CPython. Les alphas, bêtas et release candidates sont exclus.
-Une image Linux amd64 et arm64 doit exister avant toute proposition. Une erreur
-réseau ou une image indisponible fait échouer le contrôle, sans modifier le dépôt.
+stables officiels de CPython et la [liste officielle Clever Cloud](https://www.clever.cloud/developers/doc/deploy/applications/python/).
+Seules les branches mineures explicitement acceptées et non marquées EOL sont
+retenues : ni l'alias `3`, ni un exemple de code ne prouve leur disponibilité.
+La dernière version stable compatible est sélectionnée ; une version plus récente
+non prise en charge n'empêche pas de proposer un correctif de la branche maintenue.
+Les alphas, bêtas et release candidates sont exclus. Une image Linux amd64 et
+arm64 doit aussi exister avant toute proposition. Une erreur réseau, un tableau
+absent/ambigu ou un format inconnu arrête le contrôle avant toute écriture.
+Une branche non acceptée est simplement ignorée, sans PR ni tests CI de cette version.
 
 Le robot ouvre une PR sur `main`, comme Dependabot. Cette base stable évite de
 choisir automatiquement parmi des piles en cours de réorganisation. Une branche
@@ -24,7 +30,11 @@ sont déclenchés explicitement sur la branche proposée. Aucun merge automatiqu
 Le job hebdomadaire n'accède ni aux secrets applicatifs ni à la base de production.
 
 Avant fusion, vérifier les tests, la compatibilité des dépendances et la présence
-du runtime chez Clever Cloud. Les environnements locaux existants ne sont pas
+du correctif exact chez Clever Cloud : le catalogue prouve une branche mineure,
+pas la version corrective réellement installée. Le filtre concerne le mode Python/pip
+actuel ; une migration vers uv ou Docker demande une adaptation explicite, pas un
+contournement automatique. Aucun accès à la production ni instance de test payante
+n'est nécessaire au contrôle hebdomadaire. Les environnements locaux existants ne sont pas
 recréés silencieusement : relancer `make install` avec le nouvel interpréteur
 installé. `PYTHON_BOOTSTRAP` permet de préciser son chemin.
 
@@ -35,7 +45,7 @@ make test TESTS=tests.config.test_python_runtime
 ```
 
 Ce test est sans réseau et couvre la sélection stable, les correctifs, les refus
-de rétrogradation et les métadonnées invalides.
+de rétrogradation, le filtrage Clever et les erreurs de catalogue/réseau sans écriture.
 
 ```bash
 make python-update-check

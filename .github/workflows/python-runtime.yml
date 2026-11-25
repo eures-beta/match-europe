@@ -32,7 +32,7 @@ jobs:
         with:
           python-version-file: '.python-version'
       - run: make python-runtime-verify
-      - name: Résoudre une version stable et verrouiller son image
+      - name: Filtrer les versions prises en charge par Clever puis verrouiller l’image
         run: make python-update
         env:
           GH_TOKEN: ${{ github.token }}

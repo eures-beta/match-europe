@@ -6,6 +6,7 @@ The scheduled workflow publishes the two resulting files atomically in a PR.
 
 import argparse
 import hashlib
+from html.parser import HTMLParser
 import json
 from pathlib import Path
 import re
@@ -15,12 +16,82 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 STABLE_TAG = re.compile(r'refs/tags/v(3\.\d+\.\d+)')
+CLEVER_PYTHON_URL = (
+    'https://www.clever.cloud/developers/doc/deploy/applications/python/'
+)
 
 
-def latest_version(refs, current):
+class RuntimeTables(HTMLParser):
+    """Read table cells, ignoring examples and unrelated prose on the page."""
+
+    def __init__(self):
+        super().__init__()
+        self.tables = []
+        self.table = None
+        self.row = None
+        self.cell = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'table':
+            if self.table is not None:
+                raise ValueError('Unexpected nested runtime table')
+            self.table = []
+        elif tag == 'tr' and self.table is not None:
+            self.row = []
+        elif tag in ('td', 'th') and self.row is not None:
+            self.cell = []
+
+    def handle_data(self, data):
+        if self.cell is not None:
+            self.cell.append(data)
+
+    def handle_endtag(self, tag):
+        if tag in ('td', 'th') and self.cell is not None:
+            self.row.append(' '.join(''.join(self.cell).split()))
+            self.cell = None
+        elif tag == 'tr' and self.row is not None:
+            self.table.append(self.row)
+            self.row = None
+        elif tag == 'table' and self.table is not None:
+            self.tables.append(self.table)
+            self.table = None
+
+
+def clever_python_versions(document):
+    parser = RuntimeTables()
+    parser.feed(document)
+    tables = [
+        table for table in parser.tables if table and 'Accepted Versions' in table[0]
+    ]
+    if len(tables) != 1 or parser.table is not None:
+        raise ValueError('Cannot identify the official Clever Python version table')
+    table = tables[0]
+    column = table[0].index('Accepted Versions')
+    versions = set()
+    for row in table[1:]:
+        if len(row) != len(table[0]):
+            raise ValueError('Invalid Clever Python version table row')
+        value = row[column]
+        if value in ('', '2', '3'):
+            continue
+        match = re.fullmatch(r'(3\.\d+)( \(EOL\))?', value)
+        if not match:
+            raise ValueError('Unrecognized Clever Python version entry')
+        if not match[2]:
+            versions.add(match[1])
+    if not versions:
+        raise ValueError('No maintained Clever Python branch found')
+    return versions
+
+
+def latest_version(refs, current, supported=None):
     versions = [match[1] for ref in refs if (match := STABLE_TAG.fullmatch(ref['ref']))]
     if not versions:
         raise ValueError('No stable CPython tag found; refusing an empty update')
+    if supported is not None:
+        versions = [v for v in versions if '.'.join(v.split('.')[:2]) in supported]
+        if not versions:
+            return None
     latest = max(versions, key=lambda value: tuple(map(int, value.split('.'))))
     current_tuple = tuple(map(int, current.split('.')))
     latest_tuple = tuple(map(int, latest.split('.')))
@@ -86,8 +157,19 @@ def main():
         text=True,
         timeout=60,
     )
-    latest = latest_version(json.loads(result.stdout), current)
+    supported = clever_python_versions(read_https(CLEVER_PYTHON_URL).decode('utf-8'))
+    refs = json.loads(result.stdout)
+    newest = latest_version(refs, current)
+    if newest and '.'.join(newest.split('.')[:2]) not in supported:
+        print(f'Skipping Python {newest}: branch absent from {CLEVER_PYTHON_URL}')
+    latest = latest_version(refs, current, supported)
     target = latest or current
+    if '.'.join(target.split('.')[:2]) not in supported:
+        print(f'Python {current}: branch not supported by Clever; no proposal')
+        return
+    if not latest and not re.fullmatch(r'3\.\d+\.\d+', current):
+        print(f'Python {current}: no newer stable release supported by Clever')
+        return
     if not re.fullmatch(r'3\.\d+\.\d+', target):
         raise ValueError('Cannot resolve an exact stable runtime')
     digest = image_digest(target)  # Resolve before writing either file.
@@ -96,7 +178,7 @@ def main():
         if args.update:
             (ROOT / '.python-version').write_text(target + '\n')
             (ROOT / '.python-image-digest').write_text(digest + '\n')
-        print(f'Python {current} -> {target}; Docker {digest}')
+        print(f'Python {current} -> {target}; Docker {digest}; Clever branch supported')
     else:
         print(f'Python {current}: no newer stable release')
 
