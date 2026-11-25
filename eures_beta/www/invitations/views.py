@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
 from django.shortcuts import redirect, render
 from django.utils import timezone, translation
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
@@ -71,7 +71,7 @@ def invite(request):
                                 language=invitation.language,
                                 subject=subject,
                                 link=link,
-                                action_label=_('Open the form'),
+                                action_label=gettext_lazy('Open the form'),
                             ),
                         )
                     )

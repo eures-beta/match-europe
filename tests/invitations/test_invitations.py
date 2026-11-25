@@ -171,6 +171,47 @@ class InvitationTests(TestCase):
             with self.assertRaises(ValidationError):
                 invitation_message(invitation, origin)
 
+    def test_invitation_action_uses_recipient_language_independently_of_adviser(self):
+        languages = (
+            (
+                'fr',
+                'Accéder au formulaire',
+                'Votre invitation à Match Europe',
+                'Inviter un employeur',
+            ),
+            (
+                'en',
+                'Open the form',
+                'Your invitation to Match Europe',
+                'Invite an employer',
+            ),
+            (
+                'de',
+                'Zum Formular',
+                'Ihre Einladung zu Match Europe',
+                'Arbeitgeber einladen',
+            ),
+        )
+        for adviser_language, _, _, heading in languages:
+            for recipient_language, action, subject, _ in languages:
+                with self.subTest(
+                    adviser=adviser_language, recipient=recipient_language
+                ):
+                    response = self.client.post(
+                        reverse('employer_invite') + f'?lang={adviser_language}',
+                        {
+                            'email': f'{adviser_language}-{recipient_language}@example.invalid',
+                            'language': recipient_language,
+                        },
+                    )
+                    self.assertContains(response, heading)
+                    message = mail.outbox[-1]
+                    self.assertEqual(message.subject, subject)
+                    html = message.alternatives[0].content
+                    self.assertIn(f'<html lang="{recipient_language}">', html)
+                    self.assertIn(f'>{action}</a>', html)
+                    assert_clickable_email(self, message)
+
     def test_manual_login_email_uses_one_hour_and_never_creates_an_account(self):
         output = StringIO()
         call_command(
