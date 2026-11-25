@@ -27,6 +27,10 @@ Les contrats des nouveaux outils sont dans
 
 Voir [le guide des commandes et sélections](../docs/TESTS.md).
 
+`config/preview_relay.test.cjs` exécute le JavaScript réel du relais GitHub avec
+réseau et horloge simulés : erreurs temporaires, quatre tentatives au maximum,
+attentes progressives, respect de Retry-After et arrêt immédiat sur erreur permanente.
+
 `matching/test_author_roles.py` vérifie les rôles des auteurs, l'immuabilité du
 compte candidat, les écritures directes et les migrations avec données non vides.
 

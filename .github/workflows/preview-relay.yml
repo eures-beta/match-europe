@@ -15,7 +15,7 @@ jobs:
        github.event.workflow_run.event == 'pull_request') &&
       github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 6
     steps:
       # This workflow comes from main. It never checks out or executes PR code.
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
@@ -33,17 +33,50 @@ jobs:
               core.setFailed('Origine du signal inattendue.');
               return;
             }
-            const response = await fetch(
-              'https://api.github.com/repos/eures-beta/match-europe-deploy-clever/actions/workflows/previews.yml/dispatches',
-              {
-                method: 'POST',
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  Accept: 'application/vnd.github+json',
-                  'Content-Type': 'application/json',
-                  'X-GitHub-Api-Version': '2022-11-28'
-                },
-                body: JSON.stringify({ref: 'main', inputs: {source_run: String(run.id)}})
+            // Keep the same source_run: a retry must not create a new lease.
+            const delays = [10, 30, 60];
+            for (let attempt = 0; attempt <= delays.length; attempt++) {
+              let response;
+              try {
+                response = await fetch(
+                  'https://api.github.com/repos/eures-beta/match-europe-deploy-clever/actions/workflows/previews.yml/dispatches',
+                  {
+                    method: 'POST',
+                    signal: AbortSignal.timeout(15000),
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      Accept: 'application/vnd.github+json',
+                      'Content-Type': 'application/json',
+                      'X-GitHub-Api-Version': '2022-11-28'
+                    },
+                    body: JSON.stringify({ref: 'main', inputs: {source_run: String(run.id)}})
+                  }
+                );
+              } catch {
+                // Do not log request details or credentials on network errors.
               }
-            );
-            if (!response.ok) core.setFailed(`Le contrôleur privé a refusé le signal (${response.status}).`);
+              if (response?.ok) {
+                core.info(`Demande acceptée (tentative ${attempt + 1}/4).`);
+                return;
+              }
+              const status = response?.status;
+              const transient = !response || status === 429 || status >= 500;
+              if (!transient || attempt === delays.length) {
+                core.setFailed(`Transmission impossible après ${attempt + 1} tentative(s) : ${status || 'réseau ou délai dépassé'}. Relancer ce relais sans retirer le label recette.`);
+                return;
+              }
+              let delay = delays[attempt];
+              const retryAfter = response?.headers.get('retry-after');
+              if (retryAfter) {
+                const seconds = /^\d+$/.test(retryAfter)
+                  ? Number(retryAfter)
+                  : Math.ceil((Date.parse(retryAfter) - Date.now()) / 1000);
+                if (seconds > 60) {
+                  core.setFailed('GitHub demande une attente supérieure à 60 secondes. Relancer ce relais plus tard, sans retirer le label recette.');
+                  return;
+                }
+                if (Number.isFinite(seconds)) delay = Math.max(delay, seconds);
+              }
+              core.warning(`Transmission temporairement indisponible (${status || 'réseau ou délai dépassé'}), tentative ${attempt + 2}/4 dans ${delay} secondes.`);
+              await new Promise(resolve => setTimeout(resolve, delay * 1000));
+            }
