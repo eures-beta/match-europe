@@ -25,6 +25,9 @@ avec un objet `invitation.subject` pour les employeurs et candidats. Une relance
 utilise `reminder.*` ; chez les conseillers, le même template adapte le texte
 selon le contexte. Les relances employeurs réutilisent le contenu de l’invitation.
 Le rôle dans le nom du sous-dossier désigne le destinataire, pas l’expéditeur.
+Dans le formulaire d’invitation simple, l’objet, le message et son bouton suivent
+la langue du destinataire. Le libellé du bouton est traduit lors du rendu HTML,
+sans reprendre la langue de l’interface du conseiller.
 
 ## Onglet conseiller « Inviter »
 
