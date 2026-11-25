@@ -206,6 +206,18 @@ class MagicLoginTests(TestCase):
         self.assertNotIn('evil.invalid', mail.outbox[-1].body)
         self.assertIn('https://testserver/accounts/confirm/', mail.outbox[-1].body)
 
+    def test_sent_screen_echoes_typed_address_without_revealing_accounts(self):
+        known = self.client.post('/accounts/login/?lang=fr', {'email': self.user.email})
+        unknown = self.client.post(
+            '/accounts/login/?lang=fr', {'email': 'a&b@example.invalid'}
+        )
+        for response, shown in ((known, self.user.email), (unknown, 'a&amp;b')):
+            self.assertContains(response, 'Vérifiez vos e-mails')
+            self.assertContains(response, f'<strong>{shown}')
+            self.assertContains(response, 'Utiliser une autre adresse')
+            self.assertNotContains(response, 'connectez-vous ici')
+        self.assertNotContains(unknown, 'a&b@')
+
     def test_disabled_delivery_preserves_login_ui_without_sending_or_exposing_links(
         self,
     ):

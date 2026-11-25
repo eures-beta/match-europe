@@ -123,11 +123,11 @@ def login(request):
         valid = request.method == 'POST' and form.is_valid()
     ready = email_ready()
     if valid:
+        email = form.cleaned_data['email'].strip().lower()
         if not ready:
             # Transport configuration must not change the previewed login journey.
             # Keep sending disabled, without exposing links or account existence.
-            return page(request, 'sent', email_ready=False)
-        email = form.cleaned_data['email'].strip().lower()
+            return page(request, 'sent', email_ready=False, email=email)
         if allow_request(request, email):
             user = (
                 get_user_model()
@@ -168,7 +168,8 @@ def login(request):
                         logger.error(
                             'Magic-link email delivery failed; inspect the mail service privately.'
                         )
-        return page(request, 'sent', email_ready=ready)
+        # Echo only what the visitor typed, so they can spot a typo.
+        return page(request, 'sent', email_ready=ready, email=email)
     return page(request, 'login', form=form, email_ready=ready)
 
 

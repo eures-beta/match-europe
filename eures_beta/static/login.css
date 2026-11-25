@@ -46,3 +46,17 @@
     padding: 24px;
   }
 }
+
+.login-sent-status {
+  font-size: 1.125rem;
+}
+
+.login-sent-hint {
+  color: var(--muted);
+}
+
+.login-employer-note {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}

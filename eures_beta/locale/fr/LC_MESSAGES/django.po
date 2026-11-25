@@ -8353,3 +8353,36 @@ msgid "%(counter)s offer"
 msgid_plural "%(counter)s offers"
 msgstr[0] "%(counter)s offre"
 msgstr[1] "%(counter)s offres"
+
+#: eures_beta/templates/users/login.html
+msgid "Check your email"
+msgstr "Vérifiez vos e-mails"
+
+#: eures_beta/templates/users/login.html
+#, python-format
+msgid "If an account exists for <strong>%(email)s</strong>, we have just sent a sign-in link to it."
+msgstr "Si un compte existe pour <strong>%(email)s</strong>, nous venons d’y envoyer un lien de connexion."
+
+#: eures_beta/templates/users/login.html
+msgid "If an account exists for this address, we have just sent a sign-in link to it."
+msgstr "Si un compte existe pour cette adresse, nous venons d’y envoyer un lien de connexion."
+
+#: eures_beta/templates/users/login.html
+msgid "The link is valid for one hour and can only be used once."
+msgstr "Le lien est valable une heure et ne fonctionne qu’une seule fois."
+
+#: eures_beta/templates/users/login.html
+msgid "Didn’t receive anything?"
+msgstr "Vous n’avez rien reçu ?"
+
+#: eures_beta/templates/users/login.html
+msgid "Check your spam folder."
+msgstr "Regardez dans vos courriers indésirables."
+
+#: eures_beta/templates/users/login.html
+msgid "Use another email address"
+msgstr "Utiliser une autre adresse"
+
+#: eures_beta/templates/users/login.html
+msgid "No employer account yet?"
+msgstr "Pas encore de compte employeur ?"
