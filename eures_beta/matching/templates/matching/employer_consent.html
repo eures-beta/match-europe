@@ -55,7 +55,7 @@
         </form>
       {% endif %}
     {% elif form %}
-      <form method="post">
+      <form method="post" class="employer-consent-reply">
         {% csrf_token %}
         {% if ready %}
           <input type="hidden" name="stage" value="decision">
