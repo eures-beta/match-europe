@@ -265,6 +265,28 @@ class CandidateOfferConversationTests(TestCase):
         )
         self.assertFalse(CandidateOfferConversation.objects.exists())
 
+        state = offer_review_services.review_state(self.review)
+        offer_review_services.agree(
+            self.candidate,
+            self.review.pk,
+            state['fingerprint'],
+            True,
+            previous=state['agreement'].pk,
+        )
+        self.review.refresh_from_db()
+        for action in ('claim', 'validated'):
+            review_workflow.handle(
+                self.adviser,
+                self.review.pk,
+                action,
+                self.review.workflow_version,
+                state['fingerprint'],
+                public_message='Permission renewed.',
+            )
+            self.review.refresh_from_db()
+        self.assertEqual(self.adviser_client.get(self.start).status_code, 404)
+        self.assertFalse(CandidateOfferConversation.objects.exists())
+
     def test_mismatched_or_incomplete_employer_agreement_is_refused(self):
         self.request_conversation()
         CandidateOfferConversation.objects.all().delete()
