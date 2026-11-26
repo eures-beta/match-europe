@@ -141,6 +141,18 @@
   background: #ffffff;
   border-radius: 8px;
 }
+.employer-consent-reply .dialogue-bubble {
+  width: 92%;
+}
+.employer-consent-reply select,
+.employer-consent-reply textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: var(--me-control-min-height);
+  font: inherit;
+}
 .conversation-app :focus-visible {
   outline: 2px solid #0e47cb;
   outline-offset: 2px;
