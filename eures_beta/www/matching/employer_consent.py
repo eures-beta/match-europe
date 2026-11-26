@@ -13,11 +13,8 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.candidates.models import CandidateProfile
-from eures_beta.employers.models import JobOffer
 from eures_beta.matching import access, employer_consent, offer_review_services
 from eures_beta.matching.models import (
-    CandidateOfferMatch,
     CandidateOfferReview,
     CandidateProfileSharing,
     EmployerCandidateReview,
@@ -93,12 +90,6 @@ def employer_requests(user):
     ).select_related('agreement__review__match__offer')
 
 
-def lock_review_scope(review):
-    CandidateOfferMatch.objects.select_for_update().get(pk=review.match_id)
-    CandidateProfile.objects.select_for_update().get(pk=review.match.candidate_id)
-    JobOffer.objects.select_for_update().get(pk=review.match.offer_id)
-
-
 def current_agreement(review):
     state = offer_review_services.review_state(review)
     agreement = employer_consent.eligible_agreement(state)
@@ -140,7 +131,7 @@ def prepare(request, pk):
             )
         if not consent and action == 'publish':
             with transaction.atomic():
-                lock_review_scope(review)
+                employer_consent.lock_review_scope(review)
                 review.refresh_from_db()
                 if review.match.decision != 'retained':
                     raise Http404
@@ -196,6 +187,9 @@ def prepare(request, pk):
                     replies.get('contact')
                 ),
                 'preparing': True,
+                'can_start_shared': bool(
+                    employer_consent.introduction_consent(review, state, request.user)
+                ),
             },
         )
 
@@ -209,7 +203,7 @@ def respond(request, pk):
     with translation.override(language), transaction.atomic():
         consent = get_object_or_404(employer_requests(request.user), pk=pk)
         review = consent.agreement.review
-        lock_review_scope(review)
+        employer_consent.lock_review_scope(review)
         consent = get_object_or_404(
             employer_requests(request.user).select_for_update(of=('self',)), pk=pk
         )

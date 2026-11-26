@@ -4,12 +4,14 @@ from unittest.mock import patch
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from eures_beta.matching import offer_review_services, services, review_workflow
 from eures_beta.matching.models import (
     CandidateOfferReview,
     CandidateOfferMatch,
     CandidateOfferConversation,
+    EmployerOfferConsent,
 )
 from tests.matching.test_dialogue import SETTINGS
 from eures_beta.users.models import User
@@ -100,26 +102,25 @@ class CandidateOfferConversationTests(TestCase):
         self.assertEqual(
             self.other_client.post(self.start, {'body': 'Intrusion'}).status_code, 404
         )
+        self.assertEqual(
+            self.adviser_client.post(self.start, {'body': 'Premature'}).status_code, 404
+        )
+        self.consent = EmployerOfferConsent.objects.create(
+            agreement=offer_review_services.review_state(self.review)['agreement'],
+            adviser=self.adviser,
+            employer=self.employer,
+            decision='accepted',
+            replies={'contact': 'no', 'conditions': [], 'interest': 'yes'},
+            decided_at=timezone.now(),
+        )
         response = self.adviser_client.post(self.start, {'body': 'Introduction'})
         self.assertEqual(response.status_code, 302)
         return response.url
 
     def test_three_participants_and_unread_messages(self):
         url = self.request_conversation()
-        self.assertEqual(self.employer_client.get(url).status_code, 404)
         self.assertEqual(
-            self.adviser_client.post(url, {'action': 'open'}).status_code, 404
-        )
-        self.assertContains(
-            self.candidate_client.get(reverse('candidate_offer_inbox')),
-            url.split('?')[0],
-        )
-        self.assertEqual(
-            self.candidate_client.post(url, {'action': 'approve'}).status_code, 302
-        )
-        self.assertEqual(self.employer_client.get(url).status_code, 404)
-        self.assertEqual(
-            self.adviser_client.post(url, {'action': 'open'}).status_code, 302
+            self.candidate_client.post(url, {'action': 'approve'}).status_code, 404
         )
         self.assertEqual(
             self.adviser_client.post(url, {'action': 'open'}).status_code, 404
@@ -153,21 +154,137 @@ class CandidateOfferConversationTests(TestCase):
         self.assertTrue(self.review.profile_sharings.exists())
         self.assertEqual(CandidateOfferConversation.objects.get().messages.count(), 3)
 
-    def test_candidate_refusal_leaves_employer_out(self):
-        url = self.request_conversation()
+    def test_missing_refused_or_changed_employer_consent_blocks_opening(self):
+        self.request_conversation()
+        CandidateOfferConversation.objects.all().delete()
+        for decision in ('pending', 'declined', 'clarify'):
+            self.consent.decision = decision
+            self.consent.save()
+            self.assertEqual(self.adviser_client.get(self.start).status_code, 404)
+            self.assertEqual(
+                self.adviser_client.post(self.start, {'body': 'No'}).status_code, 404
+            )
+        self.assertFalse(CandidateOfferConversation.objects.exists())
+
+    def test_changed_offer_invalidates_both_agreements(self):
+        self.request_conversation()
+        CandidateOfferConversation.objects.all().delete()
+        self.match.offer.data['title'] = 'Changed conditions'
+        self.match.offer.save()
         self.assertEqual(
-            self.candidate_client.post(url, {'action': 'decline'}).status_code, 302
+            self.adviser_client.post(self.start, {'body': 'No'}).status_code, 404
         )
+        self.assertFalse(CandidateOfferConversation.objects.exists())
+
+    def test_opening_is_idempotent_and_reuses_candidate_permission(self):
+        url = self.request_conversation()
+        agreement = offer_review_services.review_state(self.review)['agreement']
+        thread = CandidateOfferConversation.objects.get()
+        self.assertEqual(thread.state, 'open')
+        self.assertEqual(thread.consent_at, agreement.created_at)
+        self.assertEqual(
+            self.adviser_client.post(self.start, {'body': 'Again'}).url, url
+        )
+        self.assertEqual(thread.messages.count(), 1)
+
+    def test_historical_approved_conversation_requires_employer_agreement(self):
+        url = self.request_conversation()
+        thread = CandidateOfferConversation.objects.get()
+        thread.messages.all().delete()
+        thread.state = 'approved'
+        thread.save()
+        self.consent.decision = 'pending'
+        self.consent.save()
         self.assertEqual(
             self.adviser_client.post(url, {'action': 'open'}).status_code, 404
         )
-        self.assertEqual(self.employer_client.get(url).status_code, 404)
-        self.assertFalse(CandidateOfferConversation.objects.get().messages.exists())
+        self.assertFalse(thread.messages.exists())
+
+    def test_employer_conditions_then_explicit_yes_unlock_introduction(self):
+        self.request_conversation()
+        CandidateOfferConversation.objects.all().delete()
+        self.consent.questions = [{'condition': 'German', 'expected': 'B2'}]
+        self.consent.replies = {}
+        self.consent.decision = 'pending'
+        self.consent.decided_at = None
+        self.consent.save()
+        url = reverse('respond_employer_consent', args=[self.consent.pk])
+        self.assertEqual(self.candidate_client.get(url).status_code, 404)
+        self.assertEqual(self.other_client.get(url).status_code, 404)
+        self.assertEqual(
+            self.employer_client.post(
+                url,
+                {
+                    'stage': 'conditions',
+                    'contact': 'previous',
+                    'condition_0': 'accepted',
+                    'details': 'B1 is sufficient.',
+                    'interest': 'yes',
+                },
+            ).status_code,
+            302,
+        )
+        self.assertEqual(self.adviser_client.get(self.start).status_code, 404)
+        self.assertEqual(
+            self.employer_client.post(
+                url,
+                {
+                    'stage': 'decision',
+                    'interest': 'yes',
+                },
+            ).status_code,
+            302,
+        )
+        self.assertEqual(self.adviser_client.get(self.start).status_code, 200)
+        self.assertEqual(
+            self.adviser_client.post(self.start, {'body': 'Welcome'}).status_code, 302
+        )
+        self.assertEqual(
+            self.candidate_client.get(
+                reverse(
+                    'shared_conversation',
+                    args=[CandidateOfferConversation.objects.get().pk],
+                )
+            ).status_code,
+            200,
+        )
+
+    def test_candidate_withdrawal_or_new_agreement_cannot_reuse_employer_yes(self):
+        self.request_conversation()
+        CandidateOfferConversation.objects.all().delete()
+        state = offer_review_services.review_state(self.review)
+        offer_review_services.agree(
+            self.candidate,
+            self.review.pk,
+            state['fingerprint'],
+            False,
+            previous=state['agreement'].pk,
+        )
+        self.assertEqual(
+            self.adviser_client.post(self.start, {'body': 'No'}).status_code, 404
+        )
+        self.assertFalse(CandidateOfferConversation.objects.exists())
+
+    def test_mismatched_or_incomplete_employer_agreement_is_refused(self):
+        self.request_conversation()
+        CandidateOfferConversation.objects.all().delete()
+        for replies in (
+            {'contact': 'no', 'conditions': [], 'interest': 'no'},
+            {'contact': 'no', 'conditions': ['clarify'], 'interest': 'yes'},
+            {'contact': 'no', 'conditions': ['blocked'], 'interest': 'yes'},
+        ):
+            self.consent.replies = replies
+            self.consent.save()
+            self.assertEqual(self.adviser_client.get(self.start).status_code, 404)
+        self.consent.replies = {'contact': 'no', 'conditions': [], 'interest': 'yes'}
+        self.consent.employer = User.objects.create_user(
+            'another-employer@example.org', kind='employer'
+        )
+        self.consent.save()
+        self.assertEqual(self.adviser_client.get(self.start).status_code, 404)
 
     def test_takeover_preserves_messages_from_the_previous_adviser(self):
         url = self.request_conversation()
-        self.candidate_client.post(url, {'action': 'approve'})
-        self.adviser_client.post(url, {'action': 'open'})
         self.review.refresh_from_db()
         review_workflow.handle(
             self.other,
@@ -201,7 +318,7 @@ class CandidateOfferConversationTests(TestCase):
             return match
 
         with patch(
-            'eures_beta.www.matching.conversations.CandidateOfferMatch.objects.select_for_update'
+            'eures_beta.matching.models.CandidateOfferMatch.objects.select_for_update'
         ) as locked:
             locked.return_value.get.side_effect = changed_while_waiting
             self.assertEqual(self.adviser_client.get(self.start).status_code, 404)

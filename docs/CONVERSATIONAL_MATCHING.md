@@ -28,3 +28,20 @@ ne sont pas transmis automatiquement.
 Les relances, leur fréquence et leur canal ne sont pas modifiés par ce lot.
 L'évaluation réelle du modèle et les essais téléphone restent à distinguer des
 tests automatisés avec transport simulé.
+
+## Ouverture du fil commun après la qualification employeur
+
+Le conseiller valide les réponses et transmet la demande nominative à l’employeur.
+Celui-ci indique les contacts antérieurs, répond aux écarts puis donne son oui
+explicite. Le conseiller relit le premier message et ouvre le fil à trois :
+l’accord candidat actuel pour cette offre est réutilisé, sans nouvelle demande.
+Le premier message est enregistré une seule fois et les trois participants peuvent
+répondre. Le dialogue privé Albert et les notes internes restent séparés.
+
+Le serveur contrôle la prise en charge, la validation conseiller, l’offre et son
+propriétaire actif, le profil, les réponses et les deux accords actuels sous verrou.
+Une condition refusée ou à revoir bloque l’ouverture. Toute condition modifiée
+exige de repasser par les réponses et l’accord candidat, puis un nouvel accord
+employeur ; l’ancienne décision n’est jamais reportée sur un nouvel accord candidat.
+Les anciens fils en attente ne contournent pas ces règles ; les fils ouverts et
+leurs messages sont conservés. Aucun changement de schéma supplémentaire.

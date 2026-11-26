@@ -8567,3 +8567,7 @@ msgstr "Ich möchte diese Bedingung erläutern oder ändern"
 #: eures_beta/www/matching/employer_consent.py:63
 msgid "This is a requirement for the position"
 msgstr "Diese Abweichung ist für die Stelle nicht akzeptabel"
+
+#: eures_beta/matching/templates/matching/shared_start.html
+msgid "The candidate and employer have agreed to be introduced. Review the first message, then open their conversation."
+msgstr "Die kandidierende Person und der Arbeitgeber haben der Kontaktaufnahme zugestimmt. Prüfen Sie die erste Nachricht und öffnen Sie dann das Gespräch."

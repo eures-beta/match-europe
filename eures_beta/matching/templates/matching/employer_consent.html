@@ -1,5 +1,6 @@
 {% extends "conversation_base.html" %}
 {% load i18n %}
+{% block conversation_class %}conversation-preview{% endblock %}
 {% block page_title %}{% translate "Introduction request" %} — Match Europe{% endblock %}
 {% block public_content %}
   <header class="conversation-header">
@@ -37,6 +38,12 @@
             {% if reply %}<p><strong>{{ reply }}</strong></p>{% endif %}
           </div>
         {% endfor %}
+      {% endif %}
+      {% if can_start_shared %}
+        <p class="dialogue-bubble">
+          <a class="primary-action"
+             href="{% url 'shared_conversation_start' review.pk %}?lang={{ page_language }}">{% translate "Open the three-way conversation" %}</a>
+        </p>
       {% endif %}
       {% if not consent %}
         <form method="post" class="dialogue-bubble dialogue-bubble-reply">

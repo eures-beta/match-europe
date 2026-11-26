@@ -2,7 +2,7 @@
 
 from django.utils.translation import gettext as _
 
-from . import access, dialogue_albert, review_workflow
+from . import access, adviser_opinion, dialogue_albert, review_workflow
 from .models import EmployerCandidateReview
 
 
@@ -22,6 +22,45 @@ def can_prepare(review, state, adviser):
         and review_workflow.current(review, state)
         and bool(eligible_agreement(state))
     )
+
+
+def introduction_consent(review, state, adviser):
+    """Return the current explicit employer agreement, never an older permission."""
+    if (
+        not can_prepare(review, state, adviser)
+        or review.match.decision != 'retained'
+        or not adviser_opinion.ready(state)
+        or not review.match.offer.employer_id
+    ):
+        return None
+    employer = review.match.offer.employer
+    if not employer.is_active or employer.kind != 'employer':
+        return None
+    consent = EmployerCandidateReview.objects.filter(
+        agreement=eligible_agreement(state),
+        employer=employer,
+        decision=EmployerCandidateReview.Decision.ACCEPTED,
+        decided_at__isnull=False,
+    ).first()
+    if (
+        consent
+        and consent.replies.get('interest') == 'yes'
+        and consent.replies.get('contact') in {'no', 'previous', 'ongoing'}
+        and consent.replies.get('conditions') == ['accepted'] * len(consent.questions)
+    ):
+        return consent
+    return None
+
+
+def lock_review_scope(review):
+    """Serialize decisions with candidate answers and offer/profile changes."""
+    from eures_beta.candidates.models import CandidateProfile
+    from eures_beta.employers.models import JobOffer
+    from .models import CandidateOfferMatch
+
+    CandidateOfferMatch.objects.select_for_update().get(pk=review.match_id)
+    CandidateProfile.objects.select_for_update().get(pk=review.match.candidate_id)
+    JobOffer.objects.select_for_update().get(pk=review.match.offer_id)
 
 
 def draft_questions(rows, language):
