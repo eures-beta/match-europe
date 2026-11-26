@@ -8567,3 +8567,7 @@ msgstr "Je souhaite préciser ou modifier cette condition"
 #: eures_beta/www/matching/employer_consent.py:63
 msgid "This is a requirement for the position"
 msgstr "Cet écart est bloquant pour ce poste"
+
+#: eures_beta/matching/templates/matching/shared_start.html
+msgid "The candidate and employer have agreed to be introduced. Review the first message, then open their conversation."
+msgstr "Le candidat et l’employeur ont accepté la mise en relation. Relisez le premier message, puis ouvrez leur conversation."

@@ -417,13 +417,8 @@ def follow(request, pk):
                 employer_consent.can_prepare(conversation, state, request.user)
                 and bool(conversation.match.offer.employer_id)
             ),
-            can_start_shared=(
-                ready
-                and conversation.workflow_state == 'validated'
-                and review_workflow.current(conversation, state)
-                and conversation.assigned_to_adviser_id == request.user.pk
-                and access.can_change_match(request.user)
-                and bool(conversation.match.offer.employer_id)
+            can_start_shared=bool(
+                employer_consent.introduction_consent(conversation, state, request.user)
             ),
             can_analyse=can_analyse and access.can_change_match(request.user),
             analysis_fingerprint=state['fingerprint'],

@@ -1,16 +1,29 @@
-{% extends "public_base.html" %}
+{% extends "conversation_base.html" %}
 {% load i18n %}
+{% block conversation_class %}conversation-preview{% endblock %}
+{% block page_title %}{% translate "Three-way conversation" %} — Match Europe{% endblock %}
 {% block public_content %}
-  <section class="surface-card home-section">
-    <a href="{% url 'dashboard' %}?lang={{ page_language }}&amp;view=conversations">{% translate "Open conversations" %}</a>
-    <h1>{% translate "Continue with the employer" %}</h1>
-    <p>{{ review.match.offer.data.title }} · {{ review.match.offer.data.companyName }}</p>
-    <p>{% translate "Prepare the first message. The candidate must agree before you can open the conversation." %}</p>
-    <form method="post">
+  <header class="conversation-header">
+    <a class="conversation-back"
+       href="{% url 'adviser_conversation' review.pk %}?lang={{ page_language }}"
+       aria-label="{% translate 'Back' %}">‹</a>
+    <div>
+      <h1>{% translate "Three-way conversation" %}</h1>
+      <p>{{ review.match.offer.data.title }}</p>
+    </div>
+  </header>
+  <section class="conversation-thread"
+           aria-label="{% translate 'First message' %}">
+    <div class="dialogue-bubble">
+      <p>{% translate "The candidate and employer have agreed to be introduced. Review the first message, then open their conversation." %}</p>
+    </div>
+    <form method="post"
+          class="employer-consent-reply dialogue-bubble dialogue-bubble-reply">
       {% csrf_token %}
+      {{ form.non_field_errors }}
       {{ form.body.as_field_group }}
       {{ form.prerequisites_verified.as_field_group }}
-      <button class="primary-action" type="submit">{% translate "Ask for the candidate’s agreement" %}</button>
+      <button class="primary-action" type="submit">{% translate "Open the three-way conversation" %}</button>
     </form>
   </section>
 {% endblock %}

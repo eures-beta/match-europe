@@ -17,6 +17,7 @@ from eures_beta.candidates.models import CandidateProfileReviewSuggestion
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferReview,
+    EmployerOfferConsent,
 )
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
@@ -141,6 +142,16 @@ class ReviewWorkflowTests(TestCase):
         self.assertEqual(
             list(self.review.events.values_list('action', flat=True)),
             ['submitted', 'claim', 'takeover', 'validated'],
+        )
+        from django.utils import timezone
+
+        EmployerOfferConsent.objects.create(
+            agreement=answers.review_state(self.review)['agreement'],
+            adviser=self.other,
+            employer=self.match.offer.employer,
+            decision='accepted',
+            replies={'contact': 'no', 'conditions': [], 'interest': 'yes'},
+            decided_at=timezone.now(),
         )
         self.client.force_login(self.other)
         self.assertEqual(

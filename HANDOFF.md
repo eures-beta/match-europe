@@ -96,3 +96,10 @@ Catalogue métiers/compétences candidat et employeur : [contrat et validations]
 
 Suite locale de #253 : clôture Albert et traitement partagé des dossiers.
 Voir [contrat et recette](docs/REVIEW_HANDOFF.md). Publication et recette 7 jours demandées.
+
+## Suite de la PR 290
+
+La branche `codex/employer-shared-conversation` raccorde l’accord employeur
+au fil à trois : ouverture par le conseiller avec les deux accords actuels,
+sans nouvelle demande candidat. Aucun changement de schéma supplémentaire.
+Les vérifications et limites de publication sont décrites dans la PR descendante.

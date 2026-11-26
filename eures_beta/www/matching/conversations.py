@@ -18,13 +18,11 @@ from eures_beta.candidates import push
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.matching import (
     access,
-    adviser_opinion,
+    employer_consent,
     offer_review_services,
-    review_workflow,
 )
 from eures_beta.matching.models import (
     CandidateOfferReview,
-    CandidateOfferMatch,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
 )
@@ -153,7 +151,7 @@ def start(request, pk):
             match__candidate__in=access.candidates(),
             match__offer__in=access.matchable_offers(),
         )
-        CandidateOfferMatch.objects.select_for_update().get(pk=review.match_id)
+        employer_consent.lock_review_scope(review)
         review = CandidateOfferReview.objects.select_related(
             'match__offer__employer', 'match__candidate'
         ).get(pk=pk)
@@ -169,35 +167,55 @@ def start(request, pk):
         ):
             raise Http404
         existing = conversations(request.user).filter(offer_review=review).first()
-        if existing:
+        if existing and existing.state == State.OPEN:
             return redirect(destination('shared_conversation', existing.pk, language))
-        if CandidateOfferConversation.objects.filter(offer_review=review).exists():
+        if existing and existing.state == State.DECLINED:
             raise Http404
-        if not review_workflow.current(review) or not adviser_opinion.ready(
-            offer_review_services.review_state(review)
+        if (
+            not existing
+            and CandidateOfferConversation.objects.filter(offer_review=review).exists()
         ):
+            raise Http404
+        state = offer_review_services.review_state(review)
+        consent = employer_consent.introduction_consent(review, state, request.user)
+        if not consent:
             raise Http404
         form = IntroductionForm(
             request.POST if request.method == 'POST' else None,
             initial={'body': introduction(match, request.user)},
         )
         if request.method == 'POST' and form.is_valid():
-            thread = CandidateOfferConversation.objects.create(
-                offer_review=review,
-                adviser=request.user,
-                candidate_id=match.candidate.user_id,
-                employer=employer,
-                introduction=form.cleaned_data['body'],
+            thread = existing
+            if thread:
+                thread.state = State.OPEN
+                thread.introduction = form.cleaned_data['body']
+                thread.consent_at = state['agreement'].created_at
+                thread.save(update_fields=['state', 'introduction', 'consent_at'])
+            else:
+                thread = CandidateOfferConversation.objects.create(
+                    offer_review=review,
+                    adviser=request.user,
+                    candidate_id=match.candidate.user_id,
+                    employer=employer,
+                    introduction=form.cleaned_data['body'],
+                    state=State.OPEN,
+                    consent_at=state['agreement'].created_at,
+                )
+            CandidateOfferConversationMessage.objects.create(
+                conversation=thread, author=request.user, body=thread.introduction
             )
             if push.available():
-                transaction.on_commit(
-                    lambda: push.notify_shared(thread, invitation=True)
-                )
+                transaction.on_commit(lambda: push.notify_shared(thread))
             return redirect(destination('shared_conversation', thread.pk, language))
         return render(
             request,
             'matching/shared_start.html',
-            {'review': review, 'form': form, 'page_language': language},
+            {
+                'review': review,
+                'form': form,
+                'page_language': language,
+                'consent': consent,
+            },
             status=400 if form.errors else 200,
         )
 
@@ -210,6 +228,18 @@ def detail(request, pk):
     user = request.user
     language = selected_language(request)
     with translation.override(language), transaction.atomic():
+        if request.method == 'POST' and request.POST.get('action') == 'open':
+            pending = get_object_or_404(
+                conversations(user).select_related('offer_review__match'), pk=pk
+            )
+            employer_consent.lock_review_scope(pending.offer_review)
+            review = CandidateOfferReview.objects.select_related(
+                'match__offer__employer', 'match__candidate'
+            ).get(pk=pending.offer_review_id)
+            if not employer_consent.introduction_consent(
+                review, offer_review_services.review_state(review), user
+            ):
+                raise Http404
         thread = get_object_or_404(
             conversations(user)
             .select_related(
@@ -321,11 +351,7 @@ def detail(request, pk):
                 'can_resend': can_resend,
                 'push_result': push_result,
                 'page_language': language,
-                'base_template': (
-                    'conversation_base.html'
-                    if role == 'candidate'
-                    else 'public_base.html'
-                ),
+                'base_template': 'conversation_base.html',
             },
             status=status,
         )

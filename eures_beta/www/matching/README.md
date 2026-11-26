@@ -8,7 +8,7 @@ Pages de rapprochement, confirmations par offre et conversations partagées.
 
 - [__init__.py](__init__.py) — Déclare le paquet Python, sans modèle ni effet au chargement.
 - [offer_reviews.py](offer_reviews.py) — Présente les conditions d’une offre et recueille les réponses du candidat.
-- [conversations.py](conversations.py) — Présente les conversations partagées et contrôle leurs accès.
+- [conversations.py](conversations.py) — Présente les conversations partagées et contrôle leurs accès ; ouvre le fil sur décision du conseiller après les deux accords actuels.
 - [dialogue.py](dialogue.py) — Présente le dialogue de clarification candidat avec validation humaine.
 - [urls.py](urls.py) — Associe les URL existantes aux vues, sans changer leur nom public.
 - [views.py](views.py) — Traite les requêtes de ce parcours et prépare les réponses.
@@ -27,3 +27,8 @@ conseiller. L'employeur retrouve la demande nominative dans son tableau de bord.
 Les réponses sur le contact antérieur et les conditions sont enregistrées avant
 la décision de mise en relation. La demande est rattachée à une autorisation
 candidat précise et son accès cesse si celle-ci est retirée ou devient périmée.
+
+Après le oui explicite de l’employeur, le conseiller relit le premier message
+et ouvre directement le fil commun. Aucun nouvel accord candidat n’est demandé.
+Un refus, une condition à revoir ou un accord périmé bloque l’ouverture, y compris
+par les anciens écrans. Les fils déjà ouverts restent consultables.
