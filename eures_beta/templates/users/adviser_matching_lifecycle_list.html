@@ -1,0 +1,50 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block adviser_content %}
+  <section class="invitation-card" aria-labelledby="followup-title">
+    <h1 id="followup-title">{% translate "Matching follow-up" %}</h1>
+    <p>{% translate "One matching, one candidate and one offer. Follow each dossier from its creation to the confirmed outcome." %}</p>
+    <nav class="d-flex flex-wrap gap-2 mb-3"
+         aria-label="{% translate 'Matching filters' %}">
+      <a class="btn btn-outline-primary"
+         href="?lang={{ dashboard_language }}&amp;filter=all">{% translate "All active matchings" %} · {{ counts.total }}</a>
+      <a class="btn btn-outline-primary"
+         href="?lang={{ dashboard_language }}&amp;filter=examine">{% translate "To examine" %} · {{ counts.examine }}</a>
+      <a class="btn btn-outline-primary"
+         href="?lang={{ dashboard_language }}&amp;filter=confirm">{% translate "Hiring to confirm" %} · {{ counts.confirm }}</a>
+      <a class="btn btn-outline-primary"
+         href="?lang={{ dashboard_language }}&amp;due=1">{% translate "Check-in due" %} · {{ counts.due }}</a>
+      <a class="btn btn-link"
+         href="?lang={{ dashboard_language }}&amp;closed=1">{% translate "Closed matchings" %}</a>
+    </nav>
+    {% for dossier in rows %}
+      <article class="border rounded p-3 mb-3"
+               aria-labelledby="matching-{{ dossier.match.pk }}">
+        <p><strong>{% blocktranslate with number=dossier.current_step %}Step {{ number }} of 8{% endblocktranslate %} · {{ dossier.stage }}</strong></p>
+        <h2 class="h4"
+            id="matching-{{ dossier.match.pk }}">{{ dossier.match.candidate.display_name }} · {{ dossier.match.offer.data.title }}</h2>
+        <p>{{ dossier.match.offer.data.companyName }}</p>
+        {% if dossier.closed %}<p>{{ dossier.reason }}</p>{% else %}
+          <p>{% translate "Who needs to act?" %} <strong>{{ dossier.waiting_label }}</strong> · {% blocktranslate count days=dossier.waiting_days %}Waiting for {{ days }} day{% plural %}Waiting for {{ days }} days{% endblocktranslate %}</p>
+          {% if dossier.plan.due_on %}<p>{% translate "Follow-up date" %} : {{ dossier.plan.due_on|date:"SHORT_DATE_FORMAT" }} · <strong>{{ dossier.date_status }}</strong></p>{% endif %}
+        {% endif %}
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-primary"
+             href="{{ dossier.action_url }}?lang={{ dashboard_language }}{{ dossier.action_anchor }}">{{ dossier.action_label }}</a>
+          <a class="btn btn-outline-primary"
+             href="{% url 'adviser_match_lifecycle' dossier.match.pk %}?lang={{ dashboard_language }}#matching-title">{% translate "View the matching life line" %}</a>
+        </div>
+      </article>
+    {% empty %}
+      <p>{% translate "No matching in this section." %}</p>
+    {% endfor %}
+    <nav aria-label="{% translate 'Pages' %}">
+      {% if page.has_previous %}
+        <a href="?lang={{ dashboard_language }}&amp;filter={{ followup_section }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+      {% endif %}
+      {% if page.has_next %}
+        <a href="?lang={{ dashboard_language }}&amp;filter={{ followup_section }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+      {% endif %}
+    </nav>
+  </section>
+{% endblock %}

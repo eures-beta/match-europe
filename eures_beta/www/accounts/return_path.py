@@ -1,4 +1,4 @@
-"""Explicit import and candidate-dialogue destinations, never arbitrary next URLs."""
+"""Explicit journey destinations, never arbitrary next URLs."""
 
 from urllib.parse import parse_qs, urlencode, urlsplit
 
@@ -23,8 +23,16 @@ def canonical_destination(destination):
                 match = resolve(url.path)
             except Resolver404:
                 match = None
-            if match and match.url_name == 'candidate_offer_dialogue':
-                path = reverse('candidate_offer_dialogue', kwargs=match.kwargs)
+            if match and match.url_name in {
+                'candidate_offer_dialogue',
+                'candidate_offer_confirmation',
+                'adviser_followup_list',
+                'adviser_match_lifecycle',
+                'report_match_hiring',
+                'shared_conversation',
+                'respond_employer_consent',
+            }:
+                path = reverse(match.url_name, kwargs=match.kwargs)
                 return path + ('?' + urlencode({'lang': language}) if language else '')
             from eures_beta.www.public.redirects import old_import_destination
 

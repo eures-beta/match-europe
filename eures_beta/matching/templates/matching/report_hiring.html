@@ -1,0 +1,14 @@
+{% extends "conversation_base.html" %}
+{% load i18n %}
+{% block public_content %}
+  <section class="invitation-card" aria-labelledby="hiring-title">
+    <h1 id="hiring-title">{% translate "I have hired this person" %}</h1>
+    <p>{{ matching.candidate.display_name }} · {{ matching.offer.data.title }}</p>
+    <p>{% translate "Confirm that you have hired this person for this offer. Your adviser will verify the outcome and close this matching." %}</p>
+    {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+    <form method="post">{% csrf_token %}{{ form.version }}
+      {% include "eures/form_field.html" with field=form.start_on %}
+      <button class="btn btn-primary" type="submit">{% translate "Confirm my hiring declaration" %}</button>
+    </form>
+  </section>
+{% endblock %}

@@ -102,6 +102,8 @@ def decide(match_id, evaluation_id, value, *, by_adviser):
     if value not in ('retained', 'refused'):
         raise ValueError('Invalid matching decision')
     match = CandidateOfferMatch.objects.select_for_update().get(pk=match_id)
+    if hasattr(match, 'conclusion'):
+        raise StaleEvaluation('This matching already has an outcome.')
     evaluation = match.evaluations.order_by('-id').first()
     _, current = inputs(match, lock=True)
     if (

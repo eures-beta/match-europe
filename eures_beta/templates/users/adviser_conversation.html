@@ -12,7 +12,7 @@
 {% endblock %}
 {% block adviser_content %}
   <p><a class="btn btn-outline-primary"
-        href="{% url 'adviser_followup' conversation.pk %}?lang={{ dashboard_language }}">{% translate "Plan follow-up or send a reminder" %}</a></p>
+        href="{% url 'adviser_match_lifecycle' conversation.match_id %}?lang={{ dashboard_language }}">{% translate "View the matching life line" %}</a></p>
   <div class="adviser-record conversation-followup">
     {% include "users/review_handling.html" %}
     <a class="record-back"

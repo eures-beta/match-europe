@@ -15,3 +15,5 @@
 - [offer_forms.py](offer_forms.py) — Email du compte employeur et confirmation téléphonique.
 
 - [record_details.py](record_details.py) — Organise les fiches offre et candidat en résumé et sections lisibles.
+
+- [lifecycle.py](lifecycle.py) — Tableau et ligne de vie par matching, dates, relances et confirmation d’embauche ; `followup.py` conserve les anciennes adresses par revue.

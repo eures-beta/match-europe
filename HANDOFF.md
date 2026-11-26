@@ -93,7 +93,7 @@ Voir [contrat et recette](docs/REVIEW_HANDOFF.md). Publication et recette 7 jour
 
 ## Suite de la PR 291
 
-`codex/adviser-followup` ajoute le suivi partagé et les relances manuelles à la
-suite de `codex/employer-shared-conversation`. Deux modèles et migrations additives ;
-voir [le contrat de suivi](docs/INTRODUCTION_FOLLOWUP.md).
-Travail local : aucune publication, fusion ni modification de service distant.
+`codex/adviser-followup` suit désormais chaque matching dès sa création, avec
+ligne de vie, relances et embauche déclarée par l’employeur puis confirmée par
+le conseiller. Migrations additives 0028–0031 ; [contrat](docs/INTRODUCTION_FOLLOWUP.md).
+Travail local uniquement, sans publication ni déploiement.

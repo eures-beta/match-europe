@@ -77,9 +77,9 @@ Le dialogue demande d'abord l'intérêt pour le poste puis, après ses condition
 l'intérêt pour l'employeur. Un refus arrête la proposition sans motif obligatoire
 ni changement de profil. Les réserves restent dans le résumé à relire avant
 l'accord distinct de transmission ; Albert accompagne sans décider.
-La finalisation du profil vérifié et ses modifications confirmées déclenchent
-le matching après commit contre les offres éligibles déjà enregistrées ; cela
-complète le déclenchement côté offre sans modifier les décisions humaines.
+Le profil vérifié et ses modifications confirmées déclenchent le matching après commit.
+Le [suivi](INTRODUCTION_FOLLOWUP.md) porte sur le matching dès sa création ;
+l’employeur déclare l’embauche, le conseiller la vérifie et clôture.
 Références : [questionnaire](CANDIDATE_JOURNEY.md), [stockage](CANDIDATE_PROFILE_STORAGE.md),
 [matching](MATCHING.md), [confirmations](CANDIDATE_OFFER_CONFIRMATIONS.md),
 [dialogue](ALBERT_DIALOGUE_ADAPTER.md), [conversation](CONVERSATIONAL_MATCHING.md).

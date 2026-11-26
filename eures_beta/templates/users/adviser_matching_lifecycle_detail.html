@@ -1,0 +1,110 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n static %}
+{% block extra_head %}{{ block.super }}<link rel="stylesheet"
+                                             href="{% static 'adviser/matching-lifeline.css' %}">{% endblock %}
+{% block adviser_content %}
+  <p><a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}">← {% translate "Matching follow-up" %}</a></p>
+  <section class="invitation-card" aria-labelledby="matching-title">
+    <h1 id="matching-title">{{ dossier.match.candidate.display_name }} · {{ dossier.match.offer.data.title }}</h1>
+    <p>{{ dossier.match.offer.data.companyName }} · {% translate "Matching created" %} {{ dossier.match.created_at|date:"SHORT_DATE_FORMAT" }}</p>
+    {% include "users/matching_lifeline.html" %}
+    <h2>{{ dossier.stage }}</h2>
+    {% if dossier.conclusion.start_on and dossier.conclusion.state != "stopped" %}<p>{% translate "Expected start date, if known" %} : {{ dossier.conclusion.start_on|date:"SHORT_DATE_FORMAT" }}</p>{% endif %}
+    {% if not dossier.closed %}
+      {% if dossier.plan.due_on %}<p>{{ dossier.plan.due_on|date:"SHORT_DATE_FORMAT" }} · <strong>{{ dossier.date_status }}</strong></p>{% endif %}
+      <p>{% translate "Who needs to act?" %} <strong>{{ dossier.waiting_label }}</strong> · {% blocktranslate count days=dossier.waiting_days %}Waiting for {{ days }} day{% plural %}Waiting for {{ days }} days{% endblocktranslate %}</p>
+      <p><a class="btn btn-primary"
+            href="{{ dossier.action_url }}?lang={{ dashboard_language }}{{ dossier.action_anchor }}">{{ dossier.action_label }}</a></p>
+{% else %}<p>{{ dossier.reason }}</p>{% endif %}
+{% if error %}<p class="alert alert-danger" role="alert">{{ error }}</p>{% endif %}
+{% if saved == "schedule" %}
+  <p role="status">{% translate "Next check-in saved. No reminder has been sent." %}</p>
+{% endif %}
+{% if saved == "hired" %}
+  <p role="status">{% translate "Hiring confirmed. This matching is now closed." %}</p>
+{% endif %}
+{% if saved == "stopped" %}
+  <p role="status">{% translate "This matching was closed without hiring." %}</p>
+{% endif %}
+{% if reminder_result %}<p role="status">{% translate "Reminder result" %} : {{ reminder_result.get_delivery_status_display }}</p>{% endif %}
+  </section>
+  {% if not dossier.closed %}
+    {% if dossier.conclusion.state == "reported" %}
+      <section class="invitation-card"
+               id="conclusion"
+               aria-labelledby="conclusion-title">
+        <h2 id="conclusion-title">{% translate "Confirm the declared hiring" %}</h2>
+        <p>{% translate "The employer has declared the hiring. Check the outcome before closing this matching." %}</p>
+        <p>{{ dossier.conclusion.declared_at|date:"SHORT_DATETIME_FORMAT" }}</p>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="version" value="{{ outcome_form.version.value }}">
+          {% include "eures/form_field.html" with field=outcome_form.start_on %}
+          {% include "eures/form_field.html" with field=outcome_form.verified %}
+          <button class="btn btn-primary"
+                  name="action"
+                  value="hired"
+                  type="submit">{% translate "Confirm the hiring and close" %}</button>
+        </form>
+      </section>
+    {% endif %}
+    {% if recipients %}
+      <section class="invitation-card"
+               id="reminder"
+               aria-labelledby="reminder-title">
+        <h2 id="reminder-title">{% translate "Send a reminder" %}</h2>
+        {% if not email_available %}
+          <p role="status">{% translate "Email delivery is unavailable here. This attempt will be recorded, but no email will be sent." %}</p>
+        {% endif %}
+        <form method="post">{% csrf_token %}{{ reminder_form.non_field_errors }}
+          {% for field in reminder_form %}{% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}{% endfor %}
+          <button class="btn btn-primary" name="action" value="reminder" type="submit">
+            {% if email_available %}
+              {% translate "Send this reminder by email" %}
+            {% else %}
+              {% translate "Record this reminder without sending" %}
+            {% endif %}
+          </button>
+        </form>
+      </section>
+    {% endif %}
+    {% if not dossier.conclusion %}
+      <section class="invitation-card" aria-labelledby="checkin-title">
+        <h2 id="checkin-title">{% translate "Plan your next check-in" %}</h2>
+        <p>{% translate "Choose your next check-in date. No reminder is sent automatically." %}</p>
+        <form method="post">{% csrf_token %}{{ schedule_form.version }}
+          {% include "eures/form_field.html" with field=schedule_form.due_on %}
+          <button class="btn btn-outline-primary"
+                  name="action"
+                  value="schedule"
+                  type="submit">{% translate "Save the check-in date" %}</button>
+        </form>
+      </section>
+    {% endif %}
+    <details class="invitation-card">
+      <summary>{% translate "Close this matching without hiring" %}</summary>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="version" value="{{ outcome_form.version.value }}">
+        {% include "eures/form_field.html" with field=outcome_form.reason %}
+        <button class="btn btn-outline-primary"
+                name="action"
+                value="stopped"
+                type="submit">{% translate "Confirm closure without hiring" %}</button>
+      </form>
+    </details>
+  {% endif %}
+  <details class="invitation-card">
+    <summary>{% translate "Matching history — advisers only" %}</summary>
+    <ul>
+      {% for event in events %}
+        <li>
+          <p>{{ event.date|date:"SHORT_DATETIME_FORMAT" }} · {{ event.label }}{% if event.actor %} · {{ event.actor.get_full_name|default:event.actor.email }}{% endif %}</p>
+          {% if event.detail %}<p>{{ event.detail|linebreaksbr }}</p>{% endif %}
+        </li>
+      {% empty %}
+        <li>{% translate "No adviser action recorded yet." %}</li>
+      {% endfor %}
+    </ul>
+  </details>
+{% endblock %}

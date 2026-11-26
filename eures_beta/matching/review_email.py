@@ -42,6 +42,7 @@ def send(review_id, *, adviser=None):
                 match__offer__in=access.matchable_offers(),
             )
             .exclude(workflow_state='refused')
+            .filter(match__conclusion__isnull=True)
             .first()
         )
         if review is None:

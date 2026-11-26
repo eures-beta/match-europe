@@ -48,6 +48,7 @@ class IntroductionFollowupTests(TestCase):
         self.employer = self.match.offer.employer
         self.review = answers.request_offer_review(self.adviser, self.match.pk)
         self.url = reverse('adviser_followup', args=[self.review.pk])
+        self.match_url = reverse('adviser_match_lifecycle', args=[self.match.pk])
         self.client.force_login(self.adviser)
 
     def current(self):
@@ -245,10 +246,11 @@ class IntroductionFollowupTests(TestCase):
         self.match.refresh_from_db()
         self.assertEqual(self.match.decision, 'retained')
         self.assertNotContains(
-            self.client.get(reverse('adviser_followup_list')), self.url
+            self.client.get(reverse('adviser_followup_list')), self.match_url
         )
         self.assertContains(
-            self.client.get(reverse('adviser_followup_list') + '?closed=1'), self.url
+            self.client.get(reverse('adviser_followup_list') + '?closed=1'),
+            self.match_url,
         )
         response = self.client.post(
             self.url,
@@ -305,11 +307,11 @@ class IntroductionFollowupTests(TestCase):
         page = self.client.get(reverse('dashboard'))
         self.assertEqual(page.context['followup_due_count'], 1)
         self.assertContains(
-            self.client.get(reverse('adviser_followup_list') + '?due=1'), self.url
+            self.client.get(reverse('adviser_followup_list') + '?due=1'), self.match_url
         )
         self.plan(due_on=timezone.localdate() + timedelta(days=1))
         self.assertNotContains(
-            self.client.get(reverse('adviser_followup_list') + '?due=1'), self.url
+            self.client.get(reverse('adviser_followup_list') + '?due=1'), self.match_url
         )
 
     def test_reminder_and_rescheduling_keep_the_original_waiting_date(self):
@@ -363,15 +365,17 @@ class IntroductionFollowupTests(TestCase):
         self.plan(due_on=timezone.localdate() - timedelta(days=2))
         response = self.client.get(reverse('adviser_followup_list') + '?lang=fr')
         self.assertEqual(response.context['rows'][0]['review'].pk, self.review.pk)
-        self.assertTrue(response.context['due_only'])
+        self.assertFalse(response.context['due_only'])
         self.assertContains(response, 'Suivi en retard de 2 jours')
         self.assertContains(response, 'Préparer la relance du candidat')
         self.assertEqual(response.context['counts']['due'], 1)
-        self.assertContains(response, 'Aucun délai de réponse')
+        self.assertContains(response, self.match_url)
 
     def test_unplanned_and_future_filters_and_guided_plan_form(self):
         index = reverse('adviser_followup_list')
-        self.assertContains(self.client.get(index + '?filter=unplanned'), self.url)
+        self.assertContains(
+            self.client.get(index + '?filter=unplanned'), self.match_url
+        )
         page = self.client.get(self.url + '?lang=fr')
         self.assertEqual(
             page.context['plan_form'].initial['next_action'],
@@ -379,12 +383,14 @@ class IntroductionFollowupTests(TestCase):
         )
         self.assertContains(page, 'À quelle date souhaitez-vous refaire le point ?')
         self.plan(due_on=timezone.localdate() + timedelta(days=3))
-        self.assertNotContains(self.client.get(index + '?filter=unplanned'), self.url)
+        self.assertNotContains(
+            self.client.get(index + '?filter=unplanned'), self.match_url
+        )
         self.assertContains(
             self.client.get(index + '?filter=upcoming&lang=fr'),
             'Prochain point dans 3 jours',
         )
-        self.assertContains(self.client.get(index + '?filter=upcoming'), self.url)
+        self.assertContains(self.client.get(index + '?filter=upcoming'), self.match_url)
 
     def test_today_and_disabled_delivery_are_explicit_in_the_dossier(self):
         self.plan()

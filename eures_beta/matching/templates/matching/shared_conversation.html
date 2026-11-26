@@ -68,6 +68,14 @@
         </form>
       {% endif %}
     {% elif thread.state == "open" %}
+      {% if matching_conclusion %}<p role="status">{{ matching_conclusion.get_state_display }}</p>{% endif %}
+      {% if can_report_hiring %}
+        <p><a class="btn btn-outline-primary"
+              href="{% url 'report_match_hiring' thread.offer_review.match_id %}?lang={{ page_language }}">{% translate "I have hired this person" %}</a></p>
+      {% endif %}
+      {% if role == "adviser" %}
+        <p><a href="{% url 'adviser_match_lifecycle' thread.offer_review.match_id %}?lang={{ page_language }}">{% translate "View the matching life line" %}</a></p>
+      {% endif %}
       <div class="conversation-thread">
         {% for message, author_role, author_name in messages %}
           <article class="dialogue-bubble{% if message.author_id == request.user.pk %} dialogue-bubble-reply{% endif %}">

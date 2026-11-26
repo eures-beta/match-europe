@@ -25,7 +25,7 @@
       {% block adviser_subnav %}
         <nav aria-label="{% translate 'To review' %}">
           <a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}"
-             {% if followup_tab %}aria-current="page"{% endif %}>{% translate "Introduction follow-up" %}{% if followup_due_count %} · {{ followup_due_count }}{% endif %}</a>
+             {% if followup_tab %}aria-current="page"{% endif %}>{% translate "Matching follow-up" %}{% if followup_due_count %} · {{ followup_due_count }}{% endif %}</a>
           {% if queue_navigation %}
             {% for item in queue_navigation %}
               <a class="adviser-action-link"
@@ -44,6 +44,7 @@
       {% endblock %}
     </aside>
     <div class="adviser-workspace-content">
+      {% if hiring_confirmation_count %}<p class="alert alert-info" role="status"><a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}&amp;filter=confirm">{% translate "Hiring to confirm" %} · {{ hiring_confirmation_count }}</a></p>{% endif %}
       {% if initiated_review_count %}<p role="status"><a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations">{% translate "Replies to review from your candidate" %} · {{ initiated_review_count }}</a></p>{% endif %}
       {% block adviser_heading %}{% endblock %}
       {% block adviser_content %}{% endblock %}
