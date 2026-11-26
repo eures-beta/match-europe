@@ -8916,3 +8916,342 @@ msgstr "Examiner ce dossier"
 #: eures_beta/www/adviser/followup.py:143
 msgid "View the closed follow-up"
 msgstr "Voir le suivi clôturé"
+
+#: eures_beta/matching/introduction_followup.py:71
+#: eures_beta/matching/match_lifecycle.py:191
+msgid "Additional candidate information awaited"
+msgstr "Complément d’information candidat attendu"
+
+#: eures_beta/matching/introduction_followup.py:197
+msgid "This matching already has a declared outcome."
+msgstr "Une issue a déjà été déclarée pour ce matching."
+
+#: eures_beta/matching/introduction_followup.py:200
+#: eures_beta/matching/match_lifecycle.py:359
+msgid "Verify the employer’s hiring declaration before closing this matching."
+msgstr "Vérifiez la déclaration d’embauche de l’employeur avant de clôturer ce matching."
+
+#: eures_beta/matching/introduction_followup.py:252
+msgid "Follow up on this matching"
+msgstr "Suivre ce matching"
+
+#: eures_beta/matching/match_lifecycle.py:68
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:9
+msgid "Matching created"
+msgstr "Matching créé"
+
+#: eures_beta/matching/match_lifecycle.py:69
+msgid "Matching examined"
+msgstr "Matching examiné"
+
+#: eures_beta/matching/match_lifecycle.py:70
+msgid "Candidate agreement"
+msgstr "Accord candidat"
+
+#: eures_beta/matching/match_lifecycle.py:71
+msgid "Adviser validation"
+msgstr "Validation conseiller"
+
+#: eures_beta/matching/match_lifecycle.py:72
+msgid "Employer agreement"
+msgstr "Accord employeur"
+
+#: eures_beta/matching/match_lifecycle.py:73
+msgid "Three-person conversation"
+msgstr "Conversation à trois"
+
+#: eures_beta/matching/match_lifecycle.py:74
+msgid "Hiring"
+msgstr "Embauche"
+
+#: eures_beta/matching/match_lifecycle.py:75
+msgid "Matching closed"
+msgstr "Matching clôturé"
+
+#: eures_beta/matching/match_lifecycle.py:77
+msgid "Matching to examine"
+msgstr "Matching à examiner"
+
+#: eures_beta/matching/match_lifecycle.py:83
+msgid "Matching declined by an adviser"
+msgstr "Matching écarté par un conseiller"
+
+#: eures_beta/matching/match_lifecycle.py:93
+msgid "Awaiting candidate replies and permission"
+msgstr "Réponses et accord du candidat attendus"
+
+#: eures_beta/matching/match_lifecycle.py:99
+msgid "Matching stopped after candidate review"
+msgstr "Arrêt après la revue candidat"
+
+#: eures_beta/matching/match_lifecycle.py:110
+msgid "Candidate replies to validate"
+msgstr "Réponses candidat à valider"
+
+#: eures_beta/matching/match_lifecycle.py:132
+msgid "Employer declined this introduction"
+msgstr "L’employeur a refusé cette mise en relation"
+
+#: eures_beta/matching/match_lifecycle.py:138
+msgid "Clarify the employer’s reservations"
+msgstr "Clarifier les réserves de l’employeur"
+
+#: eures_beta/matching/match_lifecycle.py:146
+msgid "Ready to open the three-person conversation"
+msgstr "Conversation à trois à ouvrir"
+
+#: eures_beta/matching/match_lifecycle.py:151
+#: eures_beta/matching/match_lifecycle.py:170
+msgid "Three-person exchange in progress"
+msgstr "Échange à trois en cours"
+
+#: eures_beta/matching/match_lifecycle.py:161
+msgid "Candidate permission to clarify"
+msgstr "Accord de transmission candidat à clarifier"
+
+#: eures_beta/matching/match_lifecycle.py:166
+msgid "Offer proposal to prepare"
+msgstr "Proposition d’offre à préparer"
+
+#: eures_beta/matching/match_lifecycle.py:180
+msgid "Conversation open — conditions to review"
+msgstr "Conversation ouverte — conditions à revoir"
+
+#: eures_beta/matching/match_lifecycle.py:204
+msgid "Matching data changed — review needed"
+msgstr "Données du matching modifiées — réexamen nécessaire"
+
+#: eures_beta/matching/match_lifecycle.py:212
+msgid "Matching stopped by an adviser"
+msgstr "Matching arrêté par un conseiller"
+
+#: eures_beta/matching/match_lifecycle.py:221 eures_beta/matching/models.py:400
+msgid "Hiring declared — adviser confirmation needed"
+msgstr "Embauche déclarée — à confirmer par le conseiller"
+
+#: eures_beta/matching/match_lifecycle.py:236
+msgid "Recorded hiring outcome to verify"
+msgstr "Embauche enregistrée à vérifier"
+
+#: eures_beta/matching/match_lifecycle.py:368
+msgid "Give a reason for stopping this matching."
+msgstr "Indiquez le motif d’arrêt de ce matching."
+
+#: eures_beta/matching/match_lifecycle.py:376
+msgid "Choose a valid matching outcome."
+msgstr "Choisissez une issue valide pour ce matching."
+
+#: eures_beta/matching/match_lifecycle.py:396
+msgid "Hiring confirmed by an adviser."
+msgstr "Embauche confirmée par un conseiller."
+
+#: eures_beta/matching/match_lifecycle.py:403
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:36
+msgid "Confirm the declared hiring"
+msgstr "Confirmer l’embauche déclarée"
+
+#: eures_beta/matching/match_lifecycle.py:419
+msgid "Choose a check-in date and a responsible person."
+msgstr "Choisissez une date de suivi et la personne attendue."
+
+#: eures_beta/matching/models.py:401
+msgid "Closed: hiring confirmed"
+msgstr "Conclu : embauche confirmée"
+
+#: eures_beta/matching/models.py:402 eures_beta/matching/models.py:479
+msgid "Closed without hiring"
+msgstr "Clôturé sans embauche"
+
+#: eures_beta/matching/models.py:477
+msgid "Hiring declared"
+msgstr "Embauche déclarée"
+
+#: eures_beta/matching/models.py:478
+msgid "Hiring confirmed"
+msgstr "Embauche confirmée"
+
+#: eures_beta/matching/templates/matching/report_hiring.html:5
+#: eures_beta/matching/templates/matching/shared_conversation.html:74
+msgid "I have hired this person"
+msgstr "J’ai embauché cette personne"
+
+#: eures_beta/matching/templates/matching/report_hiring.html:7
+msgid "Confirm that you have hired this person for this offer. Your adviser will verify the outcome and close this matching."
+msgstr "Confirmez que vous avez embauché cette personne pour cette offre. Votre conseiller vérifiera le résultat puis clôturera ce matching."
+
+#: eures_beta/matching/templates/matching/report_hiring.html:11
+msgid "Confirm my hiring declaration"
+msgstr "Confirmer ma déclaration d’embauche"
+
+#: eures_beta/matching/templates/matching/shared_conversation.html:77
+#: eures_beta/templates/users/adviser_conversation.html:15
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:35
+msgid "View the matching life line"
+msgstr "Voir la ligne de vie du matching"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:6
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:5
+#: eures_beta/templates/users/adviser_workspace.html:29
+msgid "Matching follow-up"
+msgstr "Suivi des matchings"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:12
+#: eures_beta/www/adviser/lifecycle.py:41
+msgid "Expected start date, if known"
+msgstr "Date de début prévue, si connue"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:15
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:28
+#, python-format
+msgid "Waiting for %(days)s day"
+msgid_plural "Waiting for %(days)s days"
+msgstr[0] "En attente depuis %(days)s jour"
+msgstr[1] "En attente depuis %(days)s jours"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:24
+msgid "Hiring confirmed. This matching is now closed."
+msgstr "Embauche confirmée. Ce matching est maintenant clôturé."
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:27
+msgid "This matching was closed without hiring."
+msgstr "Ce matching a été clôturé sans embauche."
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:37
+msgid "The employer has declared the hiring. Check the outcome before closing this matching."
+msgstr "L’employeur a déclaré l’embauche. Vérifiez le résultat avant de clôturer ce matching."
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:47
+#: eures_beta/www/adviser/lifecycle.py:71
+msgid "Confirm the hiring and close"
+msgstr "Confirmer l’embauche et clôturer"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:73
+msgid "Plan your next check-in"
+msgstr "Prévoir votre prochain point"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:80
+msgid "Save the check-in date"
+msgstr "Enregistrer la date de suivi"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:85
+msgid "Close this matching without hiring"
+msgstr "Clôturer ce matching sans embauche"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:93
+msgid "Confirm closure without hiring"
+msgstr "Confirmer la clôture sans embauche"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:98
+msgid "Matching history — advisers only"
+msgstr "Historique du matching — réservé aux conseillers"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:106
+msgid "No adviser action recorded yet."
+msgstr "Aucune action conseiller enregistrée pour le moment."
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:6
+msgid "One matching, one candidate and one offer. Follow each dossier from its creation to the confirmed outcome."
+msgstr "Un matching relie un candidat et une offre. Suivez chaque dossier depuis sa création jusqu’à son issue confirmée."
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:8
+msgid "Matching filters"
+msgstr "Filtres des matchings"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:10
+msgid "All active matchings"
+msgstr "Tous les matchings en cours"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:12
+msgid "To examine"
+msgstr "À examiner"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:14
+#: eures_beta/templates/users/adviser_workspace.html:48
+msgid "Hiring to confirm"
+msgstr "Embauches à confirmer"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:16
+msgid "Check-in due"
+msgstr "Point de suivi à faire"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:18
+msgid "Closed matchings"
+msgstr "Matchings clôturés"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:23
+#, python-format
+msgid "Step %(number)s of 8"
+msgstr "Étape %(number)s sur 8"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html:39
+msgid "No matching in this section."
+msgstr "Aucun matching dans cette rubrique."
+
+#: eures_beta/templates/users/matching_lifeline.html:3
+msgid "Matching life line"
+msgstr "Ligne de vie du matching"
+
+#: eures_beta/templates/users/matching_lifeline.html:12
+msgid "Current step"
+msgstr "Étape actuelle"
+
+#: eures_beta/templates/users/matching_lifeline.html:14
+msgid "Stopped here"
+msgstr "Arrêt à cette étape"
+
+#: eures_beta/templates/users/matching_lifeline.html:16
+msgid "Not documented"
+msgstr "Non documentée"
+
+#: eures_beta/templates/users/matching_lifeline.html:18
+msgid "Not reached"
+msgstr "Non atteinte"
+
+#: eures_beta/www/adviser/lifecycle.py:33
+msgid "When will you check this matching again?"
+msgstr "À quelle date souhaitez-vous refaire le point sur ce matching ?"
+
+#: eures_beta/www/adviser/lifecycle.py:46
+msgid "I have checked this hiring with the employer or candidate."
+msgstr "J’ai vérifié cette embauche auprès de l’employeur ou du candidat."
+
+#: eures_beta/www/adviser/lifecycle.py:50
+msgid "Reason for stopping this matching"
+msgstr "Motif d’arrêt de ce matching"
+
+#: eures_beta/www/adviser/lifecycle.py:63
+msgid "Examine this matching"
+msgstr "Examiner ce matching"
+
+#: eures_beta/www/adviser/lifecycle.py:64
+msgid "Prepare the offer proposal"
+msgstr "Préparer la proposition d’offre"
+
+#: eures_beta/www/adviser/lifecycle.py:65
+msgid "Review the replies"
+msgstr "Examiner les réponses"
+
+#: eures_beta/www/adviser/lifecycle.py:66
+msgid "Prepare the employer request"
+msgstr "Préparer la demande employeur"
+
+#: eures_beta/www/adviser/lifecycle.py:70
+msgid "Open the conversation"
+msgstr "Ouvrir la conversation"
+
+#: eures_beta/www/adviser/lifecycle.py:72
+msgid "View the matching history"
+msgstr "Voir l’historique du matching"
+
+#: eures_beta/www/adviser/lifecycle.py:288
+#: eures_beta/www/adviser/lifecycle.py:390
+msgid "This matching changed. Reload it before acting."
+msgstr "Ce matching a changé. Rechargez-le avant d’agir."
+
+#: eures_beta/www/adviser/lifecycle.py:301
+msgid "Matching retained"
+msgstr "Matching retenu"
+
+#: eures_beta/www/adviser/lifecycle.py:303
+msgid "Matching declined"
+msgstr "Matching écarté"

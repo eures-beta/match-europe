@@ -47,3 +47,5 @@ seulement. La migration additive `0026` renomme le modèle, sa table et ses obje
 PostgreSQL en place ; les données et la relation `agreement` sont conservées.
 La migration `0027` précise le conseiller demandeur : `requested_by_adviser`,
 avec colonne, clé étrangère, index et contrainte NOT NULL harmonisés.
+
+- [match_lifecycle.py](match_lifecycle.py) — Étapes réelles du matching, planification et conclusion employeur/conseiller.

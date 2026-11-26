@@ -39,7 +39,7 @@ def seed_followups(adviser, identifiers):
         review = followup.reviews().filter(match__offer_id=identifiers(key)).first()
         if (
             review is None
-            or IntroductionFollowup.objects.filter(review=review).exists()
+            or IntroductionFollowup.objects.filter(match=review.match).exists()
         ):
             continue
         followup.plan(
@@ -51,4 +51,15 @@ def seed_followups(adviser, identifiers):
             due_on=timezone.localdate() + timedelta(days=days),
             outcome=outcome,
             closure_reason=reason,
+        )
+    from eures_beta.matching import match_lifecycle
+
+    review = followup.reviews().filter(match__offer_id=identifiers('closed')).first()
+    if review and not hasattr(review.match, 'conclusion'):
+        match_lifecycle.conclude(
+            adviser,
+            review.match_id,
+            'stopped',
+            0,
+            reason='[Fictif] Recrutement arrêté après examen du dossier.',
         )

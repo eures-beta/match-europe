@@ -2,6 +2,8 @@ from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from .models import (
     EmployerCandidateReview,
+    MatchConclusion,
+    MatchConclusionEvent,
     IntroductionFollowup,
     IntroductionFollowupEvent,
     CandidateSupport,
@@ -16,6 +18,11 @@ from .models import (
     CandidateOfferConversationMessage,
     CandidateOfferReviewEvent,
 )
+
+
+@admin.register(MatchConclusion, MatchConclusionEvent)
+class MatchConclusionMetadataAdmin(MetadataOnlyAdmin):
+    list_display = ('id',)
 
 
 @admin.register(IntroductionFollowup, IntroductionFollowupEvent)

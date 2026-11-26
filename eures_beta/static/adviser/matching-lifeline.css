@@ -1,0 +1,38 @@
+.matching-lifeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--me-space-s);
+  padding: 0;
+  list-style: none;
+}
+
+.matching-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--me-space-2xs);
+  padding: var(--me-space-s);
+  border: var(--me-focus-outline-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+  color: var(--me-color-text);
+  background: var(--me-color-surface);
+  overflow-wrap: anywhere;
+}
+
+.matching-step-current {
+  border-color: var(--me-color-action);
+  background: var(--me-color-surface-brand);
+}
+
+.matching-step-done {
+  border-color: var(--me-color-success);
+}
+
+.matching-step-stopped {
+  border-color: var(--me-color-error);
+}
+
+@media (max-width: 48rem) {
+  .matching-lifeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

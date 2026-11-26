@@ -17,6 +17,7 @@ from django.views.decorators.http import require_http_methods
 from eures_beta.candidates import push
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.matching import (
+    match_lifecycle,
     access,
     employer_consent,
     offer_review_services,
@@ -344,6 +345,12 @@ def detail(request, pk):
             'matching/shared_conversation.html',
             {
                 'thread': thread,
+                'can_report_hiring': match_lifecycle.can_report(
+                    user, thread.offer_review.match
+                ),
+                'matching_conclusion': getattr(
+                    thread.offer_review.match, 'conclusion', None
+                ),
                 'messages': messages,
                 'form': form,
                 'role': role,

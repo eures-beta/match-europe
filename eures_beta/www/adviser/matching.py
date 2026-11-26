@@ -35,6 +35,7 @@ from eures_beta.matching.models import (
     MatchEvaluation,
     CandidateOfferMatch,
     IntroductionFollowup,
+    MatchConclusion,
 )
 from eures_beta.matching.presentation import present
 from eures_beta.www.matching.conversations import listed
@@ -116,6 +117,9 @@ def render_workspace(request, template, status=200, **context):
     if access.can_view_pairs(request.user):
         context['followup_due_count'] = IntroductionFollowup.objects.filter(
             outcome='open', due_on__lte=timezone.localdate()
+        ).count()
+        context['hiring_confirmation_count'] = MatchConclusion.objects.filter(
+            state='reported'
         ).count()
         context['ready_review_count'] = (
             open_conversations().filter(workflow_state='ready').count()
@@ -275,6 +279,7 @@ def follow(request, pk):
         can_resend = (
             access.can_change_match(request.user)
             and conversation.workflow_state != 'refused'
+            and not hasattr(conversation.match, 'conclusion')
         )
         language = selected_language(request)
         state = offer_review_services.review_state(conversation)

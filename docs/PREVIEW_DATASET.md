@@ -37,10 +37,10 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | LoginRateLimit | 0 | 2 |
 | LogEntry | 0 | 2 |
 | Group | 2 | 2 |
-| Permission | 104 | 116 |
-| ContentType | 26 | 29 |
+| Permission | 104 | 124 |
+| ContentType | 26 | 31 |
 
-Les 28 modèles actifs sont peuplés, contre 10 auparavant.
+Les 30 modèles actifs sont peuplés, contre 10 auparavant.
 Le [README des exemples](../eures_beta/users/preview_data/) explique la répartition
 par compte, offre et revue, les métiers et le calcul des totaux.
 
@@ -94,6 +94,8 @@ base. `SEED_ARGS=--minimal` conserve le petit jeu pour les tests ciblés ; les
 recettes utilisent le jeu complet par défaut.
 
 Code : [users/preview_data](../eures_beta/users/preview_data/).
-`make test TESTS=tests.users.test_preview_data` vérifie les 28 modèles, liens,
+`make test TESTS=tests.users.test_preview_data` vérifie les 30 modèles, liens,
 états, parcours des comptes, refus, absence d’appels externes et relance à
 données identiques.
+
+Le scénario terminé possède une conclusion sans embauche et son événement, sans ajout de messages ni modification des autres scénarios.

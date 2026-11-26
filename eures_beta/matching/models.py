@@ -325,8 +325,13 @@ class IntroductionFollowup(models.Model):
 
     review = models.OneToOneField(
         CandidateOfferReview,
-        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
         related_name='introduction_followup',
+    )
+    match = models.OneToOneField(
+        CandidateOfferMatch, on_delete=models.CASCADE, related_name='followup'
     )
     next_action = models.CharField(max_length=500)
     waiting_for = models.CharField(max_length=12, choices=WaitingFor.choices)
@@ -345,6 +350,10 @@ class IntroductionFollowup(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        if not self.match_id and self.review_id:
+            self.match_id = self.review.match_id
+        if self.review_id and self.review.match_id != self.match_id:
+            raise ValidationError('The follow-up must belong to the same matching.')
         validate_user_roles(self, updated_by_adviser='adviser')
         return super().save(*args, **kwargs)
 
@@ -384,3 +393,101 @@ class IntroductionFollowupEvent(models.Model):
     def save(self, *args, **kwargs):
         validate_user_roles(self, actor='adviser')
         return super().save(*args, **kwargs)
+
+
+class MatchConclusion(models.Model):
+    class State(models.TextChoices):
+        REPORTED = 'reported', _('Hiring declared — adviser confirmation needed')
+        HIRED = 'hired', _('Closed: hiring confirmed')
+        STOPPED = 'stopped', _('Closed without hiring')
+
+    match = models.OneToOneField(
+        CandidateOfferMatch, on_delete=models.CASCADE, related_name='conclusion'
+    )
+    state = models.CharField(max_length=12, choices=State.choices)
+    declared_by_employer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+        limit_choices_to={'kind': 'employer'},
+    )
+    declared_at = models.DateTimeField(null=True, blank=True)
+    confirmed_by_adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+        limit_choices_to={'kind': 'adviser'},
+    )
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+    start_on = models.DateField(null=True, blank=True)
+    reason = models.CharField(max_length=1000, blank=True)
+    version = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(state__in=['reported', 'hired', 'stopped']),
+                name='matching_matchconclusion_state_valid',
+            ),
+            models.CheckConstraint(
+                condition=(
+                    models.Q(state='stopped')
+                    | models.Q(
+                        declared_by_employer__isnull=False, declared_at__isnull=False
+                    )
+                ),
+                name='matching_matchconclusion_declaration_required',
+            ),
+            models.CheckConstraint(
+                condition=(
+                    models.Q(state='reported')
+                    | models.Q(
+                        confirmed_by_adviser__isnull=False, confirmed_at__isnull=False
+                    )
+                ),
+                name='matching_matchconclusion_confirmation_required',
+            ),
+            models.CheckConstraint(
+                condition=(~models.Q(state='stopped') | ~models.Q(reason='')),
+                name='matching_matchconclusion_stop_reason_required',
+            ),
+        ]
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(
+            self, declared_by_employer='employer', confirmed_by_adviser='adviser'
+        )
+        return super().save(*args, **kwargs)
+
+
+class MatchConclusionEvent(models.Model):
+    conclusion = models.ForeignKey(
+        MatchConclusion, on_delete=models.CASCADE, related_name='events'
+    )
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    action = models.CharField(
+        max_length=12,
+        choices=[
+            ('reported', _('Hiring declared')),
+            ('hired', _('Hiring confirmed')),
+            ('stopped', _('Closed without hiring')),
+        ],
+    )
+    version = models.PositiveIntegerField()
+    start_on = models.DateField(null=True, blank=True)
+    reason = models.CharField(max_length=1000, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['conclusion', 'version'],
+                name='matching_matchconclusionevent_version_unique',
+            )
+        ]

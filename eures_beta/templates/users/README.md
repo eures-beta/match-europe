@@ -12,3 +12,7 @@ Ces templates communs aux conseillers et employeurs utilisent gettext et le
 - [test_accounts.html](test_accounts.html) — Choix d’un compte fictif, uniquement en local/recette explicitement activé.
 
 [Remonter au dossier parent](../).
+
+- [adviser_matching_lifecycle_list.html](adviser_matching_lifecycle_list.html) — Suivi par matching.
+- [adviser_matching_lifecycle_detail.html](adviser_matching_lifecycle_detail.html) — Étape, action, date et conclusion.
+- [matching_lifeline.html](matching_lifeline.html) — Les huit étapes et leurs preuves disponibles.

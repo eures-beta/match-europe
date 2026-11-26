@@ -23,6 +23,7 @@ from .models import (
     EmployerOfferConsent,
     IntroductionFollowup,
     IntroductionFollowupEvent,
+    MatchConclusion,
 )
 
 
@@ -46,7 +47,7 @@ def reviews():
 
 def context(review):
     state = offer_review_services.review_state(review)
-    plan = IntroductionFollowup.objects.filter(review=review).first()
+    plan = IntroductionFollowup.objects.filter(match=review.match).first()
     thread = CandidateOfferConversation.objects.filter(offer_review=review).first()
     agreement = employer_consent.eligible_agreement(state)
     consent = (
@@ -66,6 +67,13 @@ def context(review):
     waiting = 'candidate'
     if not eligible:
         stage, waiting = _('Review the dossier before continuing'), 'adviser'
+    elif review.workflow_state == 'clarify':
+        stage, waiting = _('Additional candidate information awaited'), 'candidate'
+        recipients['candidate'] = (
+            review.match.candidate.user,
+            'candidate_offer_confirmation',
+            review.pk,
+        )
     elif thread and thread.state == 'open':
         if (
             thread.candidate_id == review.match.candidate.user_id
@@ -106,6 +114,8 @@ def context(review):
             review.pk,
         )
     if plan and plan.outcome != 'open':
+        recipients = {}
+    if MatchConclusion.objects.filter(match=review.match).exists():
         recipients = {}
     waiting_since = None
     if plan:
@@ -183,7 +193,17 @@ def plan(adviser, pk, stamp, **values):
         raise ValidationError(_('Give a reason for closing this follow-up.'))
     if values['outcome'] == 'open' and not values['due_on']:
         raise ValidationError(_('Choose when to check this dossier again.'))
-    followup = current['plan'] or IntroductionFollowup(review=review)
+    if MatchConclusion.objects.filter(match=review.match).exists():
+        raise ValidationError(_('This matching already has a declared outcome.'))
+    if values['outcome'] == 'hired':
+        raise ValidationError(
+            _('Verify the employer’s hiring declaration before closing this matching.')
+        )
+    followup = current['plan'] or IntroductionFollowup(
+        review=review, match=review.match
+    )
+    if followup.review_id is None:
+        followup.review = review
     for key in ('next_action', 'waiting_for', 'due_on', 'outcome', 'closure_reason'):
         setattr(followup, key, values[key])
     if followup.outcome != 'open':
@@ -222,9 +242,17 @@ def reminder(adviser, pk, stamp, recipient, message, language='fr'):
         current = context(review)
         if current['stamp'] != stamp:
             raise Changed
-        if not current['plan'] or recipient not in current['recipients']:
+        if recipient not in current['recipients']:
             raise ValidationError(_('This person cannot be reminded at this stage.'))
         followup = current['plan']
+        if not followup:
+            followup = IntroductionFollowup.objects.create(
+                match=review.match,
+                review=review,
+                next_action=str(_('Follow up on this matching')),
+                waiting_for=recipient,
+                updated_by_adviser=adviser,
+            )
         if followup.events.filter(
             action='reminder', created_at__gt=timezone.now() - timedelta(seconds=60)
         ).exists():

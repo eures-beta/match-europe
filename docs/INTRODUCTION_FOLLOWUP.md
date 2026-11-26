@@ -1,71 +1,71 @@
-# Suivi conseiller des mises en relation
+# Ligne de vie du matching
 
-La rubrique « Suivi des mises en relation » est commune à tous les conseillers
-actifs. Elle couvre chaque revue par offre déjà engagée, avant et après ouverture
-du fil à trois, y compris les dossiers devenus inéligibles : ils restent visibles
-pour permettre un bilan et une clôture explicites.
+Le suivi porte sur un `CandidateOfferMatch` : un candidat et une offre, dès la
+création du matching. Il est commun aux conseillers actifs. La revue candidat,
+les accords et la conversation à trois sont des étapes de ce même dossier.
 
-## Parcours
+## Lire et agir
 
-- Lire l’étape calculée à partir des réponses, validations, accords et conversations.
-- Enregistrer une prochaine action, la personne attendue et une date de suivi.
-  Aucune échéance arbitraire n’est appliquée aux anciens dossiers.
-- Ouvrir le suivi : les dossiers échus ou du jour sont présentés par défaut s’il
-  y en a. Les filtres comptés distinguent aujourd’hui/retard, date à fixer, plus
-  tard, tous les dossiers et les clôtures. Les échéances sont triées avant les
-  dossiers sans date ; le retard et le temps restant sont exprimés en jours.
-- Chaque fiche affiche qui doit agir, l’action proposée ou enregistrée, l’attente
-  suivie et un bouton explicite vers l’examen, la date ou la relance. Le formulaire
-  préremplit une action selon l’étape, sans attribuer de délai arbitraire.
-- Relire et modifier le message de relance, choisir le destinataire et la langue
-  de l’email, puis déclencher explicitement son envoi.
-  La préparation de la date et la relance sont deux étapes numérotées ; clôture et
-  historique sont repliables. Si l’email est indisponible, l’écran et le bouton
-  annoncent explicitement un enregistrement sans envoi.
-- Renseigner l’issue : en cours, embauché ou recrutement arrêté. Une clôture
-  exige un motif, retire l’échéance et bloque les relances de ce suivi. Une
-  réouverture se fait par une nouvelle sauvegarde explicite avec échéance.
+Le tableau affiche l’étape actuelle, la personne attendue, le temps d’attente,
+la date de suivi éventuelle et l’action principale. Les embauches à confirmer
+et les échéances arrivées passent en priorité. Les filtres séparent notamment
+les dossiers à examiner, les embauches à confirmer et les dossiers terminés.
 
-L’issue est le bilan déclaré par le conseiller pour cette mise en relation, pas
-une décision automatique ni une modification du profil, des accords ou du fil.
-Le temps d’attente part de la définition de l’action et de la personne attendue ;
-changer uniquement l’échéance ou envoyer une relance ne remet pas ce temps à zéro.
+La fiche présente huit étapes : création, examen conseiller, accord candidat,
+validation conseiller, accord employeur, conversation à trois, embauche et
+clôture. Chaque état vient des données réelles ; une ancienne étape sans preuve
+est indiquée « Non documentée ». Le temps d’attente part de l’entrée dans l’étape,
+pas de la dernière relance. Aucun délai de réponse arbitraire n’est imposé.
+
+L’action principale mène directement à l’examen, au dialogue, à la validation,
+à l’accord employeur ou à la conversation. Le conseiller peut fixer une date de
+suivi sans créer artificiellement une revue candidat. Il peut préparer une
+relance sans avoir préalablement enregistré une date.
+
+## Terminer le matching
+
+Dans une conversation à trois ouverte, l’employeur propriétaire peut déclarer
+« J’ai embauché cette personne » et une date de début facultative. Cette déclaration
+place le matching dans les embauches à confirmer ; elle ne le clôture pas.
+Le conseiller vérifie explicitement l’embauche, coche la confirmation puis clôture.
+Il peut aussi terminer un matching sans embauche, avec un motif obligatoire.
+Une issue terminale ne se réouvre pas par un ancien formulaire.
+
+La conclusion concerne uniquement ce matching : ni profil, ni offre, ni messages
+ne sont supprimés ou modifiés. Le fil reste consultable. Les échéances et relances
+cessent dès la déclaration d’embauche ; l’action attendue devient sa vérification.
+Le tableau de bord conseiller signale les embauches à confirmer.
 
 ## Relances et confidentialité
 
-Avant le fil commun, une relance candidat mène à sa revue privée. La relance
-employeur exige une demande d’accord actuelle encore en attente, validée par le
-conseiller responsable. Après ouverture, les deux destinataires sont possibles
-si les accords et participants sont toujours actuels. Un refus, un retrait ou
-une modification des conditions bloque la relance employeur périmée. Les refus
-ne deviennent jamais automatiquement une absence de réponse.
+Le conseiller choisit le destinataire, la langue et relit le texte avant envoi
+explicite. Avant le fil commun, le lien candidat mène à sa revue privée ou à la
+clarification demandée. Une relance employeur exige un accord actuel encore attendu.
+Après ouverture, les deux participants peuvent être relancés si les conditions
+et accords sont toujours actuels. Refus et absence de réponse restent distincts.
+Aucune note privée Albert ou conseiller n’est copiée dans le fil ou l’email.
 
-Seul le texte relu et un lien personnel vers le dossier sont envoyés. Aucun
-résumé privé Albert ni note de suivi n’est copié dans l’email ou le fil commun.
-Les contrôles des pages de destination restent applicables. La langue choisie
-concerne les libellés et le lien de l’email ; le texte modifié par le conseiller
-est conservé tel quel, sans traduction automatique.
-
-Le backend Django commun et `EMAIL_DELIVERY_ENABLED` s’appliquent. L’historique
-distingue transport désactivé, tentative en cours, acceptation par le transport
-et échec. Une acceptation ne prouve ni réception ni lecture. Pas de relance
-automatique, de nouvelle tentative après échec ou de délai de réponse imposé.
-Les doubles soumissions sont bloquées par une version sous verrou et un délai
-de 60 secondes entre tentatives sur un dossier. Une réponse reçue pendant la
-préparation invalide l’ancien formulaire de relance.
+Le backend Django et `EMAIL_DELIVERY_ENABLED` s’appliquent. L’écran distingue
+transport désactivé, tentative, acceptation par le transport et échec ; acceptation
+ne prouve ni réception ni lecture. Aucun envoi automatique ni nouvelle tentative
+automatique. Verrou, version et intervalle de 60 secondes empêchent les doubles
+soumissions ; une réponse reçue invalide un formulaire périmé.
 
 ## Stockage et vérification
 
-`IntroductionFollowup` conserve la prochaine action, l’attente, l’échéance,
-l’issue, son motif, la version et le dernier conseiller intervenu.
-`IntroductionFollowupEvent` conserve les sauvegardes et tentatives de relance,
-avec auteur, date, destinataire, message et état d’envoi ; aucun lien de connexion
-ni secret n’y est enregistré. Ces données sont réservées aux conseillers ;
-l’administration permet seulement la consultation des identifiants.
-Migrations additives `0026`/`0027`, sans reprise ni modification des anciens dossiers.
+`IntroductionFollowup` est lié au matching ; sa revue devient facultative.
+Ses événements conservent dates, auteurs, messages et résultats du transport.
+`MatchConclusion` et ses événements distinguent déclaration employeur et
+confirmation conseiller. Les rôles sont également contrôlés dans PostgreSQL.
+L’historique détaillé est réservé aux conseillers, l’admin aux identifiants.
 
-Vérifier avec `make test TESTS=tests.matching.test_introduction_followup` et
-`make test TESTS=tests.matching.test_introduction_followup_migration`, puis les
-contrôles communs `make check` et les cibles de formatage/gettext.
-Pour une recette locale fictive : `make test-accounts-seed`, puis `make run PORT=9047`.
-Le transport réel demeure à vérifier dans un environnement configuré autorisé.
+Les migrations additives `0028` à `0031` conservent les plans et événements
+existants, avec rattachement par la revue historique. Un retour arrière est
+refusé s’il détruirait un plan sans revue ou une conclusion déclarée ; préserver
+ces données avant toute opération de retour arrière. Les migrations historiques
+`0026` et `0027` restent nécessaires. Les anciennes adresses par revue restent
+compatibles ; les nouveaux liens utilisent explicitement l’identifiant du matching.
+
+Recette : `make test TESTS='tests.matching.test_match_lifecycle tests.matching.test_match_lifecycle_migration tests.matching.test_introduction_followup'`,
+puis contrôles communs Python, HTML/CSS et gettext. Le transport réel doit être
+vérifié séparément dans un environnement configuré autorisé.
