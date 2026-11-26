@@ -8748,3 +8748,171 @@ msgstr "Erinnerungsnachricht"
 #: eures_beta/www/adviser/followup.py:173
 msgid "This dossier changed. Reload it before acting."
 msgstr "Dieses Dossier hat sich geändert. Laden Sie es vor einer Aktion neu."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:13
+#: eures_beta/templates/users/adviser_followup_list.html:34
+#: eures_beta/www/adviser/followup.py:27
+msgid "Who needs to act?"
+msgstr "Wer muss handeln?"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:14
+#: eures_beta/templates/users/adviser_followup_list.html:35
+#: eures_beta/www/adviser/followup.py:25
+msgid "What needs to happen next?"
+msgstr "Was muss als Nächstes geschehen?"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:15
+#: eures_beta/templates/users/adviser_followup_list.html:36
+msgid "Waiting tracked since"
+msgstr "Wartezeit erfasst seit"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:15
+#: eures_beta/templates/users/adviser_followup_list.html:36
+#: eures_beta/templates/users/adviser_followup_list.html:37
+#, python-format
+msgid "%(days)s day"
+msgid_plural "%(days)s days"
+msgstr[0] "%(days)s Tag"
+msgstr[1] "%(days)s Tage"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:16
+msgid "Last recorded activity"
+msgstr "Letzte erfasste Aktivität"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:18
+msgid "What should you do now?"
+msgstr "Was sollten Sie jetzt tun?"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:24
+msgid "Next check-in saved. No reminder has been sent."
+msgstr "Nächste Prüfung gespeichert. Es wurde keine Erinnerung versendet."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:26
+msgid "Reminder result"
+msgstr "Ergebnis der Erinnerung"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:31
+msgid "1. Plan the next check-in"
+msgstr "1. Nächste Prüfung planen"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:32
+msgid "Choose who should act and when you will check progress. Saving this date does not send a reminder."
+msgstr "Geben Sie an, wer handeln muss und wann Sie den Fortschritt prüfen. Das Speichern des Datums versendet keine Erinnerung."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:39
+msgid "Close or reopen this follow-up"
+msgstr "Diese Begleitung abschließen oder wieder öffnen"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:52
+msgid "2. Send a reminder if needed"
+msgstr "2. Bei Bedarf eine Erinnerung senden"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:56
+msgid "Email delivery is unavailable here. This attempt will be recorded, but no email will be sent."
+msgstr "Der E-Mail-Versand ist hier nicht verfügbar. Dieser Versuch wird erfasst, aber es wird keine E-Mail versendet."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:65
+msgid "Record this reminder without sending"
+msgstr "Diese Erinnerung ohne Versand erfassen"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:70
+msgid "First save a check-in date in step 1 above. Then you can prepare a reminder here."
+msgstr "Speichern Sie zuerst in Schritt 1 oben ein Prüfdatum. Danach können Sie hier eine Erinnerung vorbereiten."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:72
+msgid "No reminder is available at this stage. Review the replies and agreements to decide what to do next."
+msgstr "In diesem Schritt ist keine Erinnerung verfügbar. Prüfen Sie die Antworten und Zustimmungen, um die nächsten Schritte festzulegen."
+
+#: eures_beta/templates/users/adviser_followup_list.html:6
+msgid "Start with overdue dossiers. Open a dossier to review it, set a date or prepare a reminder."
+msgstr "Beginnen Sie mit den heute fälligen oder überfälligen Dossiers. Die Schaltfläche zeigt für jedes Dossier die nächste Aktion."
+
+#: eures_beta/templates/users/adviser_followup_list.html:11
+msgid "To check today or overdue"
+msgstr "Heute fällig oder überfällig"
+
+#: eures_beta/templates/users/adviser_followup_list.html:14
+msgid "Date to set"
+msgstr "Datum festlegen"
+
+#: eures_beta/templates/users/adviser_followup_list.html:17
+msgid "Scheduled for later"
+msgstr "Für später geplant"
+
+#: eures_beta/templates/users/adviser_followup_list.html:20
+msgid "All active dossiers"
+msgstr "Alle laufenden Dossiers"
+
+#: eures_beta/templates/users/adviser_followup_list.html:25
+msgid "The check-in date is chosen by the adviser. It is not a response deadline imposed on the candidate or employer."
+msgstr "Das Prüfdatum ist der von Ihnen geplante nächste Prüftermin. Der kandidierenden Person oder dem Arbeitgeber wird keine Antwortfrist auferlegt."
+
+#: eures_beta/templates/users/adviser_followup_list.html:37
+msgid "Dossier opened"
+msgstr "Dossier eröffnet am"
+
+#: eures_beta/templates/users/adviser_followup_list.html:45
+msgid "Set or change the check-in date"
+msgstr "Prüfdatum festlegen oder ändern"
+
+#: eures_beta/www/adviser/followup.py:30
+msgid "When will you check this dossier again?"
+msgstr "Wann möchten Sie dieses Dossier erneut prüfen?"
+
+#: eures_beta/www/adviser/followup.py:32
+msgid "Choose your next check-in date. No reminder is sent automatically."
+msgstr "Sie wählen dieses Datum. Es wird keine Erinnerung automatisch versendet."
+
+#: eures_beta/www/adviser/followup.py:88
+msgid "Collect the candidate’s reply"
+msgstr "Antwort der kandidierenden Person einholen"
+
+#: eures_beta/www/adviser/followup.py:89
+msgid "Collect the employer’s decision"
+msgstr "Entscheidung des Arbeitgebers einholen"
+
+#: eures_beta/www/adviser/followup.py:90
+msgid "Review the replies and decide on the next step"
+msgstr "Antworten prüfen und nächste Schritte festlegen"
+
+#: eures_beta/www/adviser/followup.py:92
+msgid "No check-in date set"
+msgstr "Prüfdatum noch nicht festgelegt"
+
+#: eures_beta/www/adviser/followup.py:101
+#, python-format
+msgid "Check-in overdue by %(days)s day"
+msgid_plural "Check-in overdue by %(days)s days"
+msgstr[0] "Prüfung seit %(days)s Tag überfällig"
+msgstr[1] "Prüfung seit %(days)s Tagen überfällig"
+
+#: eures_beta/www/adviser/followup.py:107
+msgid "Check in today"
+msgstr "Heute prüfen"
+
+#: eures_beta/www/adviser/followup.py:110
+#, python-format
+msgid "Next check-in in %(days)s day"
+msgid_plural "Next check-in in %(days)s days"
+msgstr[0] "Nächste Prüfung in %(days)s Tag"
+msgstr[1] "Nächste Prüfung in %(days)s Tagen"
+
+#: eures_beta/www/adviser/followup.py:121
+msgid "Set the next check-in date"
+msgstr "Nächstes Prüfdatum festlegen"
+
+#: eures_beta/www/adviser/followup.py:129
+msgid "Prepare a reminder for the candidate"
+msgstr "Erinnerung für die kandidierende Person vorbereiten"
+
+#: eures_beta/www/adviser/followup.py:131
+msgid "Prepare a reminder for the employer"
+msgstr "Erinnerung für den Arbeitgeber vorbereiten"
+
+#: eures_beta/www/adviser/followup.py:139
+msgid "Examine this dossier"
+msgstr "Dieses Dossier prüfen"
+
+#: eures_beta/www/adviser/followup.py:143
+msgid "View the closed follow-up"
+msgstr "Abgeschlossene Begleitung ansehen"

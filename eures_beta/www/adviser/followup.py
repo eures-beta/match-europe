@@ -3,11 +3,11 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from django.db.models import F
+from django.db.models import Count, F, Q
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone, translation
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
@@ -16,17 +16,21 @@ from eures_beta.matching import access, introduction_followup as service
 from eures_beta.matching.models import IntroductionFollowup
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.www.design_system import bootstrap_form
+from eures_beta.users.email_login import email_ready
 from .matching import render_workspace
 
 
 class PlanForm(forms.Form):
     stamp = forms.CharField(widget=forms.HiddenInput, max_length=64)
-    next_action = forms.CharField(label=_('Next action'), max_length=500)
+    next_action = forms.CharField(label=_('What needs to happen next?'), max_length=500)
     waiting_for = forms.ChoiceField(
-        label=_('Action expected from'), choices=IntroductionFollowup.WaitingFor.choices
+        label=_('Who needs to act?'), choices=IntroductionFollowup.WaitingFor.choices
     )
     due_on = forms.DateField(
-        label=_('Follow-up date'),
+        label=_('When will you check this dossier again?'),
+        help_text=_(
+            'Choose your next check-in date. No reminder is sent automatically.'
+        ),
         required=False,
         widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
     )
@@ -74,6 +78,83 @@ class ReminderForm(forms.Form):
         ]
 
 
+def presentation(review, current):
+    """Concrete dates and actions, without inventing a response deadline."""
+    today = timezone.localdate()
+    plan = current['plan']
+    role = plan.waiting_for if plan else current['waiting']
+    role_label = dict(IntroductionFollowup.WaitingFor.choices)[role]
+    default_action = {
+        'candidate': _('Collect the candidate’s reply'),
+        'employer': _('Collect the employer’s decision'),
+        'adviser': _('Review the replies and decide on the next step'),
+    }[current['waiting']]
+    status = _('No check-in date set')
+    tone = 'info'
+    delta = None
+    if plan and plan.outcome != 'open':
+        status = plan.get_outcome_display()
+    elif plan and plan.due_on:
+        delta = (plan.due_on - today).days
+        if delta < 0:
+            status = ngettext(
+                'Check-in overdue by %(days)s day',
+                'Check-in overdue by %(days)s days',
+                -delta,
+            ) % {'days': -delta}
+            tone = 'danger'
+        elif delta == 0:
+            status, tone = _('Check in today'), 'warning'
+        else:
+            status = ngettext(
+                'Next check-in in %(days)s day', 'Next check-in in %(days)s days', delta
+            ) % {'days': delta}
+    tracked_days = (
+        (today - timezone.localdate(current['waiting_since'])).days
+        if current['waiting_since']
+        else None
+    )
+    opened_days = (today - timezone.localdate(review.created_at)).days
+    detail_url = reverse('adviser_followup', args=[review.pk])
+    action_url, action_label, anchor = (
+        detail_url,
+        _('Set the next check-in date'),
+        '#planning',
+    )
+    if plan and current['recipients'] and role != 'adviser':
+        target = (
+            role if role in current['recipients'] else next(iter(current['recipients']))
+        )
+        action_label = (
+            _('Prepare a reminder for the candidate')
+            if target == 'candidate'
+            else _('Prepare a reminder for the employer')
+        )
+        anchor = '#reminder'
+    elif (current['waiting'] == 'adviser' or role == 'adviser') and (
+        not plan or plan.outcome == 'open'
+    ):
+        action_url, action_label, anchor = (
+            reverse('adviser_conversation', args=[review.pk]),
+            _('Examine this dossier'),
+            '',
+        )
+    if plan and plan.outcome != 'open':
+        action_label, anchor = _('View the closed follow-up'), '#overview'
+    return dict(
+        **current,
+        status_label=status,
+        status_tone=tone,
+        waiting_label=role_label,
+        proposed_action=default_action,
+        action_label=action_label,
+        action_url=action_url,
+        action_anchor=anchor,
+        tracked_days=tracked_days,
+        opened_days=opened_days,
+    )
+
+
 @never_cache
 @require_http_methods(['GET'])
 def index(request):
@@ -81,7 +162,28 @@ def index(request):
     with translation.override(selected_language(request)):
         closed = request.GET.get('closed') == '1'
         due_only = not closed and request.GET.get('due') == '1'
+        section = request.GET.get('filter', 'all')
+        if section not in ('all', 'unplanned', 'upcoming'):
+            section = 'all'
         query = service.reviews()
+        active = query.exclude(introduction_followup__outcome__in=['hired', 'stopped'])
+        counts = active.aggregate(
+            total=Count('pk'),
+            due=Count(
+                'pk', filter=Q(introduction_followup__due_on__lte=timezone.localdate())
+            ),
+            unplanned=Count('pk', filter=Q(introduction_followup__due_on__isnull=True)),
+            upcoming=Count(
+                'pk', filter=Q(introduction_followup__due_on__gt=timezone.localdate())
+            ),
+        )
+        if (
+            not closed
+            and 'filter' not in request.GET
+            and 'due' not in request.GET
+            and counts['due']
+        ):
+            due_only = True
         if closed:
             query = query.filter(
                 introduction_followup__outcome__in=['hired', 'stopped']
@@ -94,11 +196,18 @@ def index(request):
             query = query.filter(
                 introduction_followup__due_on__lte=timezone.localdate()
             )
+        elif not closed and section == 'unplanned':
+            query = query.filter(introduction_followup__due_on__isnull=True)
+        elif not closed and section == 'upcoming':
+            query = query.filter(introduction_followup__due_on__gt=timezone.localdate())
         query = query.order_by(
-            F('introduction_followup__due_on').asc(nulls_first=True), 'pk'
+            F('introduction_followup__due_on').asc(nulls_last=True), 'pk'
         )
         page = Paginator(query, 20).get_page(request.GET.get('page'))
-        rows = [dict(review=review, **service.context(review)) for review in page]
+        rows = [
+            dict(review=review, **presentation(review, service.context(review)))
+            for review in page
+        ]
         return render_workspace(
             request,
             'adviser_followup_list.html',
@@ -106,6 +215,8 @@ def index(request):
             rows=rows,
             closed=closed,
             due_only=due_only,
+            followup_section=section,
+            counts=counts,
             followup_tab=True,
         )
 
@@ -118,7 +229,7 @@ def detail(request, pk):
     language = selected_language(request)
     with translation.override(language):
         review = get_object_or_404(service.reviews(), pk=pk)
-        current = service.context(review)
+        current = presentation(review, service.context(review))
         plan = current['plan']
         action = request.POST.get('action') if request.method == 'POST' else ''
         initial = (
@@ -133,7 +244,11 @@ def detail(request, pk):
                 )
             }
             if plan
-            else {'waiting_for': current['waiting'], 'outcome': 'open'}
+            else {
+                'waiting_for': current['waiting'],
+                'outcome': 'open',
+                'next_action': current['proposed_action'],
+            }
         )
         initial['stamp'] = current['stamp']
         plan_form = PlanForm(
@@ -172,7 +287,9 @@ def detail(request, pk):
                         reverse('adviser_followup', args=[pk])
                         + '?lang='
                         + language
-                        + '&saved=1'
+                        + '&saved='
+                        + action
+                        + '#overview'
                     )
                 except service.Changed:
                     error, status = (
@@ -194,5 +311,11 @@ def detail(request, pk):
             events=plan.events.select_related('actor').order_by('-pk') if plan else [],
             followup_tab=True,
             error=error,
-            saved=request.GET.get('saved') == '1',
+            saved=request.GET.get('saved', ''),
+            reminder_result=(
+                plan.events.filter(action='reminder').order_by('-pk').first()
+                if plan and request.GET.get('saved') == 'reminder'
+                else None
+            ),
+            email_available=email_ready(),
         )

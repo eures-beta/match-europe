@@ -99,7 +99,9 @@ class IntroductionFollowupTests(TestCase):
         )
 
     def test_get_never_creates_a_plan_and_shared_adviser_can_update(self):
-        self.assertContains(self.client.get(self.url + '?lang=en'), 'Next action')
+        self.assertContains(
+            self.client.get(self.url + '?lang=en'), 'What should you do now?'
+        )
         self.assertEqual(IntroductionFollowup.objects.count(), 0)
         plan = self.plan()
         self.assertTrue(self.current()['due'])
@@ -356,3 +358,38 @@ class IntroductionFollowupTests(TestCase):
         event = IntroductionFollowupEvent.objects.get(action='reminder')
         self.assertEqual(event.delivery_status, 'disabled')
         self.assertContains(response, 'Pouvez-vous répondre ?')
+
+    def test_dashboard_puts_overdue_dossiers_first_and_explains_the_delay(self):
+        self.plan(due_on=timezone.localdate() - timedelta(days=2))
+        response = self.client.get(reverse('adviser_followup_list') + '?lang=fr')
+        self.assertEqual(response.context['rows'][0]['review'].pk, self.review.pk)
+        self.assertTrue(response.context['due_only'])
+        self.assertContains(response, 'Suivi en retard de 2 jours')
+        self.assertContains(response, 'Préparer la relance du candidat')
+        self.assertEqual(response.context['counts']['due'], 1)
+        self.assertContains(response, 'Aucun délai de réponse')
+
+    def test_unplanned_and_future_filters_and_guided_plan_form(self):
+        index = reverse('adviser_followup_list')
+        self.assertContains(self.client.get(index + '?filter=unplanned'), self.url)
+        page = self.client.get(self.url + '?lang=fr')
+        self.assertEqual(
+            page.context['plan_form'].initial['next_action'],
+            'Recueillir la réponse du candidat',
+        )
+        self.assertContains(page, 'À quelle date souhaitez-vous refaire le point ?')
+        self.plan(due_on=timezone.localdate() + timedelta(days=3))
+        self.assertNotContains(self.client.get(index + '?filter=unplanned'), self.url)
+        self.assertContains(
+            self.client.get(index + '?filter=upcoming&lang=fr'),
+            'Prochain point dans 3 jours',
+        )
+        self.assertContains(self.client.get(index + '?filter=upcoming'), self.url)
+
+    def test_today_and_disabled_delivery_are_explicit_in_the_dossier(self):
+        self.plan()
+        response = self.client.get(self.url + '?lang=fr')
+        self.assertContains(response, 'À suivre aujourd’hui')
+        self.assertContains(response, 'aucun email ne sera envoyé')
+        self.assertContains(response, 'Enregistrer cette relance sans envoi')
+        self.assertNotContains(response, 'Envoyer cette relance par email')

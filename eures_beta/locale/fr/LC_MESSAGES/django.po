@@ -8748,3 +8748,171 @@ msgstr "Message de relance"
 #: eures_beta/www/adviser/followup.py:173
 msgid "This dossier changed. Reload it before acting."
 msgstr "Ce dossier a changé. Rechargez-le avant d’agir."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:13
+#: eures_beta/templates/users/adviser_followup_list.html:34
+#: eures_beta/www/adviser/followup.py:27
+msgid "Who needs to act?"
+msgstr "Qui doit agir ?"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:14
+#: eures_beta/templates/users/adviser_followup_list.html:35
+#: eures_beta/www/adviser/followup.py:25
+msgid "What needs to happen next?"
+msgstr "Quelle est la prochaine action ?"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:15
+#: eures_beta/templates/users/adviser_followup_list.html:36
+msgid "Waiting tracked since"
+msgstr "Attente suivie depuis le"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:15
+#: eures_beta/templates/users/adviser_followup_list.html:36
+#: eures_beta/templates/users/adviser_followup_list.html:37
+#, python-format
+msgid "%(days)s day"
+msgid_plural "%(days)s days"
+msgstr[0] "%(days)s jour"
+msgstr[1] "%(days)s jours"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:16
+msgid "Last recorded activity"
+msgstr "Dernière activité enregistrée"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:18
+msgid "What should you do now?"
+msgstr "Que faire maintenant ?"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:24
+msgid "Next check-in saved. No reminder has been sent."
+msgstr "Prochain point enregistré. Aucune relance n’a été envoyée."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:26
+msgid "Reminder result"
+msgstr "Résultat de la relance"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:31
+msgid "1. Plan the next check-in"
+msgstr "1. Prévoir quand refaire le point"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:32
+msgid "Choose who should act and when you will check progress. Saving this date does not send a reminder."
+msgstr "Indiquez qui doit agir et à quelle date vous referez le point. Enregistrer cette date n’envoie aucune relance."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:39
+msgid "Close or reopen this follow-up"
+msgstr "Clôturer ou rouvrir ce suivi"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:52
+msgid "2. Send a reminder if needed"
+msgstr "2. Relancer si nécessaire"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:56
+msgid "Email delivery is unavailable here. This attempt will be recorded, but no email will be sent."
+msgstr "L’envoi d’emails est indisponible ici. Cette tentative sera enregistrée, mais aucun email ne sera envoyé."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:65
+msgid "Record this reminder without sending"
+msgstr "Enregistrer cette relance sans envoi"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:70
+msgid "First save a check-in date in step 1 above. Then you can prepare a reminder here."
+msgstr "Enregistrez d’abord une date à l’étape 1 ci-dessus. Vous pourrez ensuite préparer la relance ici."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:72
+msgid "No reminder is available at this stage. Review the replies and agreements to decide what to do next."
+msgstr "La relance n’est pas disponible à cette étape. Examinez les réponses et les accords pour décider de la suite."
+
+#: eures_beta/templates/users/adviser_followup_list.html:6
+msgid "Start with overdue dossiers. Open a dossier to review it, set a date or prepare a reminder."
+msgstr "Commencez par les dossiers à suivre aujourd’hui ou en retard. Pour chacun, le bouton indique l’action à faire."
+
+#: eures_beta/templates/users/adviser_followup_list.html:11
+msgid "To check today or overdue"
+msgstr "À suivre aujourd’hui ou en retard"
+
+#: eures_beta/templates/users/adviser_followup_list.html:14
+msgid "Date to set"
+msgstr "Date à fixer"
+
+#: eures_beta/templates/users/adviser_followup_list.html:17
+msgid "Scheduled for later"
+msgstr "Prévus plus tard"
+
+#: eures_beta/templates/users/adviser_followup_list.html:20
+msgid "All active dossiers"
+msgstr "Tous les dossiers en cours"
+
+#: eures_beta/templates/users/adviser_followup_list.html:25
+msgid "The check-in date is chosen by the adviser. It is not a response deadline imposed on the candidate or employer."
+msgstr "La date de suivi est celle à laquelle vous prévoyez de refaire le point. Aucun délai de réponse n’est imposé au candidat ou à l’employeur."
+
+#: eures_beta/templates/users/adviser_followup_list.html:37
+msgid "Dossier opened"
+msgstr "Dossier ouvert le"
+
+#: eures_beta/templates/users/adviser_followup_list.html:45
+msgid "Set or change the check-in date"
+msgstr "Fixer ou modifier la date de suivi"
+
+#: eures_beta/www/adviser/followup.py:30
+msgid "When will you check this dossier again?"
+msgstr "À quelle date souhaitez-vous refaire le point ?"
+
+#: eures_beta/www/adviser/followup.py:32
+msgid "Choose your next check-in date. No reminder is sent automatically."
+msgstr "Vous choisissez cette date. Aucune relance n’est envoyée automatiquement."
+
+#: eures_beta/www/adviser/followup.py:88
+msgid "Collect the candidate’s reply"
+msgstr "Recueillir la réponse du candidat"
+
+#: eures_beta/www/adviser/followup.py:89
+msgid "Collect the employer’s decision"
+msgstr "Recueillir la décision de l’employeur"
+
+#: eures_beta/www/adviser/followup.py:90
+msgid "Review the replies and decide on the next step"
+msgstr "Examiner les réponses et décider de la suite"
+
+#: eures_beta/www/adviser/followup.py:92
+msgid "No check-in date set"
+msgstr "Date de suivi à fixer"
+
+#: eures_beta/www/adviser/followup.py:101
+#, python-format
+msgid "Check-in overdue by %(days)s day"
+msgid_plural "Check-in overdue by %(days)s days"
+msgstr[0] "Suivi en retard de %(days)s jour"
+msgstr[1] "Suivi en retard de %(days)s jours"
+
+#: eures_beta/www/adviser/followup.py:107
+msgid "Check in today"
+msgstr "À suivre aujourd’hui"
+
+#: eures_beta/www/adviser/followup.py:110
+#, python-format
+msgid "Next check-in in %(days)s day"
+msgid_plural "Next check-in in %(days)s days"
+msgstr[0] "Prochain point dans %(days)s jour"
+msgstr[1] "Prochain point dans %(days)s jours"
+
+#: eures_beta/www/adviser/followup.py:121
+msgid "Set the next check-in date"
+msgstr "Fixer la date de suivi"
+
+#: eures_beta/www/adviser/followup.py:129
+msgid "Prepare a reminder for the candidate"
+msgstr "Préparer la relance du candidat"
+
+#: eures_beta/www/adviser/followup.py:131
+msgid "Prepare a reminder for the employer"
+msgstr "Préparer la relance de l’employeur"
+
+#: eures_beta/www/adviser/followup.py:139
+msgid "Examine this dossier"
+msgstr "Examiner ce dossier"
+
+#: eures_beta/www/adviser/followup.py:143
+msgid "View the closed follow-up"
+msgstr "Voir le suivi clôturé"
