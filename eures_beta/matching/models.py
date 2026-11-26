@@ -308,3 +308,79 @@ class EmployerCandidateReview(models.Model):
     def save(self, *args, **kwargs):
         validate_user_roles(self, requested_by_adviser='adviser', employer='employer')
         return super().save(*args, **kwargs)
+
+
+class IntroductionFollowup(models.Model):
+    """Shared adviser planning; closing this record never changes consent."""
+
+    class WaitingFor(models.TextChoices):
+        ADVISER = 'adviser', _('Adviser')
+        CANDIDATE = 'candidate', _('Candidate')
+        EMPLOYER = 'employer', _('Employer')
+
+    class Outcome(models.TextChoices):
+        OPEN = 'open', _('In progress')
+        HIRED = 'hired', _('Hired')
+        STOPPED = 'stopped', _('Recruitment stopped')
+
+    review = models.OneToOneField(
+        CandidateOfferReview,
+        on_delete=models.CASCADE,
+        related_name='introduction_followup',
+    )
+    next_action = models.CharField(max_length=500)
+    waiting_for = models.CharField(max_length=12, choices=WaitingFor.choices)
+    due_on = models.DateField(null=True, blank=True, db_index=True)
+    outcome = models.CharField(
+        max_length=12, choices=Outcome.choices, default=Outcome.OPEN
+    )
+    closure_reason = models.CharField(max_length=1000, blank=True)
+    version = models.PositiveIntegerField(default=0)
+    updated_by_adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='+',
+        limit_choices_to={'kind': 'adviser'},
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(self, updated_by_adviser='adviser')
+        return super().save(*args, **kwargs)
+
+
+class IntroductionFollowupEvent(models.Model):
+    """Adviser-only audit of plans and explicit email attempts; no login links."""
+
+    followup = models.ForeignKey(
+        IntroductionFollowup, on_delete=models.CASCADE, related_name='events'
+    )
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        limit_choices_to={'kind': 'adviser'},
+    )
+    action = models.CharField(
+        max_length=12,
+        choices=[('plan', _('Follow-up updated')), ('reminder', _('Reminder'))],
+    )
+    recipient = models.CharField(
+        max_length=12, blank=True, choices=IntroductionFollowup.WaitingFor.choices
+    )
+    message = models.TextField(max_length=2000, blank=True)
+    snapshot = models.JSONField(default=dict)
+    delivery_status = models.CharField(
+        max_length=12,
+        blank=True,
+        choices=[
+            ('sending', _('Email sending in progress')),
+            ('sent', _('Email accepted by the mail service')),
+            ('failed', _('Email could not be sent')),
+            ('disabled', _('Email delivery is not configured or enabled')),
+        ],
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(self, actor='adviser')
+        return super().save(*args, **kwargs)

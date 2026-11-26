@@ -23,7 +23,8 @@ class EmployerConsentMigrationTests(TransactionTestCase):
         return executor.loader.project_state([('matching', target)]).apps
 
     def tearDown(self):
-        self.migrate('0027_employer_review_requested_by_adviser')
+        executor = MigrationExecutor(connection)
+        executor.migrate(executor.loader.graph.leaf_nodes())
         super().tearDown()
 
     def test_review_rename_preserves_rows_table_and_sequence(self):

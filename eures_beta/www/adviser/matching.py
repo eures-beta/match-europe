@@ -11,6 +11,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import translation
+from django.utils import timezone
 from django.utils.translation import get_language_info, gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
@@ -33,6 +34,7 @@ from eures_beta.matching.models import (
     CandidateOfferReview,
     MatchEvaluation,
     CandidateOfferMatch,
+    IntroductionFollowup,
 )
 from eures_beta.matching.presentation import present
 from eures_beta.www.matching.conversations import listed
@@ -112,6 +114,9 @@ def open_conversations():
 
 def render_workspace(request, template, status=200, **context):
     if access.can_view_pairs(request.user):
+        context['followup_due_count'] = IntroductionFollowup.objects.filter(
+            outcome='open', due_on__lte=timezone.localdate()
+        ).count()
         context['ready_review_count'] = (
             open_conversations().filter(workflow_state='ready').count()
         )

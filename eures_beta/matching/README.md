@@ -25,6 +25,7 @@ palette EURES, bulles sobres et cadre téléphone sur ordinateur seulement.
 - [dialogue_albert.py](dialogue_albert.py) — Porte les consignes de conversation naturelle et adapte les clarifications au client Albert commun.
 - [dialogue_services.py](dialogue_services.py) — Valide les propositions du dialogue et leurs modifications de profil.
 - [employer_consent.py](employer_consent.py) — Questions employeur, décision explicite et contrôle des deux accords actuels avant ouverture du fil commun.
+- [introduction_followup.py](introduction_followup.py) — Suivi partagé des mises en relation, échéances et relances ciblées ; [contrat](../../docs/INTRODUCTION_FOLLOWUP.md).
 - [engine.py](engine.py) — Calcule les critères et explications du rapprochement.
 - [models.py](models.py) — Définit les données persistantes, dont JobOfferSupport et CandidateSupport, accompagnements partagés à cible unique.
 - [presentation.py](presentation.py) — Prépare les libellés et données de présentation des résultats.

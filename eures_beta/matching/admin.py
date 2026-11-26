@@ -2,6 +2,8 @@ from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from .models import (
     EmployerCandidateReview,
+    IntroductionFollowup,
+    IntroductionFollowupEvent,
     CandidateSupport,
     JobOfferSupport,
     CandidateOfferMatch,
@@ -14,6 +16,11 @@ from .models import (
     CandidateOfferConversationMessage,
     CandidateOfferReviewEvent,
 )
+
+
+@admin.register(IntroductionFollowup, IntroductionFollowupEvent)
+class FollowupMetadataAdmin(MetadataOnlyAdmin):
+    list_display = ('id',)
 
 
 @admin.register(CandidateOfferMatch)

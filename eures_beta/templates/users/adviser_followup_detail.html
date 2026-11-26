@@ -1,0 +1,70 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block adviser_content %}
+  <a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}">← {% translate "Introduction follow-up" %}</a>
+  <section class="invitation-card" aria-labelledby="followup-title">
+    <h1 id="followup-title">{{ review.match.candidate.display_name }} · {{ review.match.offer.data.title }}</h1>
+    <p>{{ followup.stage }}</p>
+    <p>{% translate "Last activity" %} : {{ followup.last_activity|date:"SHORT_DATETIME_FORMAT" }}</p>
+    {% if followup.waiting_since %}<p>{% translate "Action expected since" %} : {{ followup.waiting_since|date:"SHORT_DATETIME_FORMAT" }}</p>{% endif %}
+    <p><a href="{% url 'adviser_conversation' review.pk %}?lang={{ dashboard_language }}">{% translate "View replies and agreements" %}</a></p>
+    {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+    {% if saved %}
+      <p role="status">{% translate "Follow-up saved. Check the history for email delivery status." %}</p>
+    {% endif %}
+    {% if followup.due %}
+      <p><strong>{% translate "Follow-up due" %}</strong></p>
+    {% endif %}
+    <h2>{% translate "Next action" %}</h2>
+    <p>{% translate "This plan is shared between advisers. It does not change any agreement or send a message." %}</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ plan_form.non_field_errors }}
+      {% for field in plan_form %}
+        {% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}
+      {% endfor %}
+      <button class="btn btn-primary"
+              name="action"
+              value="plan"
+              type="submit">{% translate "Save this follow-up" %}</button>
+    </form>
+  </section>
+  <section class="invitation-card" aria-labelledby="reminder-title">
+    <h2 id="reminder-title">{% translate "Send a reminder" %}</h2>
+    {% if followup.plan and followup.recipients %}
+      <p>{% translate "Review the message before sending. Only the selected person receives it. Internal notes are never included." %}</p>
+      <form method="post">
+        {% csrf_token %}
+        {{ reminder_form.non_field_errors }}
+        {% for field in reminder_form %}
+          {% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}
+        {% endfor %}
+        <button class="btn btn-primary"
+                name="action"
+                value="reminder"
+                type="submit">{% translate "Send this reminder by email" %}</button>
+      </form>
+    {% else %}
+      <p>{% translate "Save the next action first. Reminders are available only while a reply or an exchange is possible." %}</p>
+    {% endif %}
+  </section>
+  <section class="invitation-card" aria-labelledby="history-title">
+    <h2 id="history-title">{% translate "Follow-up history — advisers only" %}</h2>
+    <ul class="list-unstyled">
+      {% for event in events %}
+        <li class="border-bottom py-3">
+          <p>{{ event.created_at|date:"SHORT_DATETIME_FORMAT" }} · {{ event.actor.get_full_name|default:event.actor.email }} · {{ event.get_action_display }}</p>
+          {% if event.action == "reminder" %}
+            <p>{{ event.get_recipient_display }} · <strong>{{ event.get_delivery_status_display }}</strong></p>
+            <p>{{ event.message|linebreaksbr }}</p>
+          {% else %}
+            <p>{{ event.snapshot.next_action }} · {{ event.snapshot.due_on }}</p>
+            {% if event.snapshot.closure_reason %}<p>{{ event.snapshot.closure_reason }}</p>{% endif %}
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>{% translate "No follow-up action recorded yet." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

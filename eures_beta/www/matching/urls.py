@@ -1,5 +1,6 @@
 from django.urls import path
 from eures_beta.www.adviser import matching as adviser_matching
+from eures_beta.www.adviser import followup
 from eures_beta.www.matching import (
     offer_reviews as confirmation_views,
     conversations,
@@ -8,6 +9,8 @@ from eures_beta.www.matching import (
 )
 
 urlpatterns = [
+    path('follow-up/', followup.index, name='adviser_followup_list'),
+    path('follow-up/<int:pk>/', followup.detail, name='adviser_followup'),
     path(
         'offer-reviews/<int:pk>/employer-consent/',
         employer_consent.prepare,
