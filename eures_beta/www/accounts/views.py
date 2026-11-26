@@ -28,6 +28,7 @@ from django.views.decorators.http import require_http_methods, require_POST, req
 from sesame.utils import get_query_string, get_user
 
 from eures_beta.www.accounts.forms import AdviserSignatureForm, LoginForm
+from eures_beta.www.design_system import bootstrap_form
 from eures_beta.users.models import User
 from eures_beta.invitations.eligibility import has_candidate_invitation
 from eures_beta.emails.backend import real_email_allowed
@@ -61,7 +62,9 @@ def account(request):
             form.save(commit=False).save(update_fields=form.Meta.fields)
             messages.success(request, _('Your email signature has been saved.'))
             return redirect(reverse('account', query={'lang': language}))
-        return render(request, 'users/account.html', {'signature_form': form})
+        return render(
+            request, 'users/account.html', {'signature_form': bootstrap_form(form)}
+        )
 
 
 @never_cache
@@ -170,7 +173,7 @@ def login(request):
                         )
         # Echo only what the visitor typed, so they can spot a typo.
         return page(request, 'sent', email_ready=ready, email=email)
-    return page(request, 'login', form=form, email_ready=ready)
+    return page(request, 'login', form=bootstrap_form(form), email_ready=ready)
 
 
 @never_cache

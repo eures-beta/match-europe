@@ -341,6 +341,17 @@ class MagicLoginTests(TestCase):
         RedactAccessLinks().filter(record)
         self.assertNotIn('secret', record.getMessage())
 
+    def test_login_page_uses_design_system_layout_and_marks_invalid_email(self):
+        page = self.client.get('/accounts/login/?lang=en')
+        self.assertTemplateUsed(page, 'eures_base.html')
+        self.assertTemplateNotUsed(page, 'public_base.html')
+        self.assertContains(page, 'class="form-control"')
+        self.assertContains(page, 'class="btn btn-primary"')
+        response = self.client.post('/accounts/login/?lang=en', {'email': 'invalid'})
+        self.assertContains(response, 'class="form-control is-invalid"')
+        self.assertContains(response, 'aria-invalid="true"')
+        self.assertContains(response, '<div class="invalid-feedback">')
+
     def test_validation_and_email_follow_the_selected_language(self):
         for language, error, subject in (
             (

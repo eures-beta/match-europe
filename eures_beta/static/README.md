@@ -23,6 +23,5 @@ application peuvent aussi vivre dans son dossier `static/`. Le nom utilisé par
 - [home.css](home.css) — Présentation de l'accueil public.
 - [icon.svg](icon.svg) — Icône vectorielle du site.
 - [journal.css](journal.css) — Présentation du journal du projet.
-- [login.css](login.css) — Présentation du formulaire de connexion.
 - [public-brand.css](public-brand.css) — Harmonisation commune de la marque sur les pages publiques.
 - [sw.js](sw.js) — Notifications Push et ouverture contrôlée des conversations, sans cache de pages privées.

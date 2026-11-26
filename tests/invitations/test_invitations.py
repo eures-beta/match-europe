@@ -294,6 +294,8 @@ class InvitationTests(TestCase):
         page = self.open_link(browser, invitation)
         self.assertContains(page, 'Accept invitation and sign in')
         self.assertNotContains(page, '?invitation=')
+        self.assertTemplateUsed(page, 'eures_base.html')
+        self.assertTemplateNotUsed(page, 'public_base.html')
         self.assertEqual(page['Referrer-Policy'], 'same-origin')
         self.assertFalse(User.objects.filter(email=invitation.email).exists())
         response = browser.post(

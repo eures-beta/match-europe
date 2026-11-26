@@ -1,61 +1,69 @@
-{% extends "public_base.html" %}
-{% load i18n static %}
-{% block extra_head %}
-  <link rel="stylesheet" href="{% static 'login.css' %}">
-{% endblock %}
-{% block page_title %}{% translate "Sign in" %} — Match Europe{% endblock %}
-{% block public_content %}
-  <section class="import-card account-login" aria-labelledby="login-title">
-    {% if stage == "sent" %}
-      <h1 id="login-title">{% translate "Check your email" %}</h1>
-      <p class="login-sent-status" role="status">
-        {% if email %}
-          {% blocktranslate %}If an account exists for <strong>{{ email }}</strong>, we have just sent a sign-in link to it.{% endblocktranslate %}
-        {% else %}
-          {% translate "If an account exists for this address, we have just sent a sign-in link to it." %}
-        {% endif %}
-      </p>
-      <p class="login-sent-hint">{% translate "The link is valid for one hour and can only be used once." %}</p>
-      <h2>{% translate "Didn’t receive anything?" %}</h2>
-      <ul>
-        <li>{% translate "Check your spam folder." %}</li>
-        <li>
-          <a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Use another email address" %}</a>
-        </li>
-      </ul>
-    {% else %}
-      <h1 id="login-title">{% translate "Sign in" %}</h1>
-      <p>{% translate "Candidates, employers and advisers: sign in here with your email address." %}</p>
-    {% endif %}
-    {% if stage == "confirm" %}
-      <p>{% translate "Confirm to sign in on this device. Do not share your personal link." %}</p>
-      <form method="post" action="{% url 'magic_confirm' %}">
-        {% csrf_token %}
-        <button class="primary-action" type="submit">{% translate "Confirm sign-in" %}</button>
-      </form>
-    {% elif stage == "invalid" %}
-      <p role="alert">{% translate "This link is invalid, expired or already used. Request a new sign-in link." %}</p>
-      <a class="primary-action" href="{% url 'magic_login' %}">{% translate "Request a new link" %}</a>
-    {% elif stage != "sent" %}
-      <p>{% translate "Already have an account? Enter your email address to receive a secure sign-in link. No password is needed." %}</p>
-      <form method="post"
-            action="{% url 'magic_login' %}?lang={{ page_language }}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="primary-action" type="submit">{% translate "Send me a sign-in link" %}</button>
-      </form>
-      <p>{% translate "The link expires after one hour and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
-    {% endif %}
-    <aside aria-labelledby="employer-accounts-note"
-           {% if stage == "sent" %}class="login-employer-note"{% endif %}>
-      <h2 id="employer-accounts-note">
+{% extends "eures_base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Sign in" %} — Match Europe{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+      <section class="ds-card" aria-labelledby="login-title">
         {% if stage == "sent" %}
-          {% translate "No employer account yet?" %}
+          <h1 id="login-title">{% translate "Check your email" %}</h1>
+          <p class="lead" role="status">
+            {% if email %}
+              {% blocktranslate %}If an account exists for <strong>{{ email }}</strong>, we have just sent a sign-in link to it.{% endblocktranslate %}
+            {% else %}
+              {% translate "If an account exists for this address, we have just sent a sign-in link to it." %}
+            {% endif %}
+          </p>
+          <p class="ds-meta">{% translate "The link is valid for one hour and can only be used once." %}</p>
+          <h2 class="h5">{% translate "Didn’t receive anything?" %}</h2>
+          <ul>
+            <li>{% translate "Check your spam folder." %}</li>
+            <li>
+              <a href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Use another email address" %}</a>
+            </li>
+          </ul>
         {% else %}
-          {% translate "Note for employer accounts" %}
+          <h1 id="login-title">{% translate "Sign in" %}</h1>
+          <p class="lead">{% translate "Candidates, employers and advisers: sign in here with your email address." %}</p>
         {% endif %}
-      </h2>
-      {% include "invitations/includes/employer_invitation_help.html" %}
-    </aside>
-  </section>
+        {% if stage == "confirm" %}
+          <p>{% translate "Confirm to sign in on this device. Do not share your personal link." %}</p>
+          <form method="post" action="{% url 'magic_confirm' %}">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">{% translate "Confirm sign-in" %}</button>
+          </form>
+        {% elif stage == "invalid" %}
+          <div class="alert alert-danger" role="alert">
+            {% translate "This link is invalid, expired or already used. Request a new sign-in link." %}
+          </div>
+          <a class="btn btn-primary" href="{% url 'magic_login' %}">{% translate "Request a new link" %}</a>
+        {% elif stage != "sent" %}
+          <p>{% translate "Already have an account? Enter your email address to receive a secure sign-in link. No password is needed." %}</p>
+          <form method="post"
+                action="{% url 'magic_login' %}?lang={{ page_language }}">
+            {% csrf_token %}
+            {% for error in form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">{{ error }}</div>
+            {% endfor %}
+            {% for field in form.visible_fields %}
+              {% include "eures/form_field.html" %}
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">{% translate "Send me a sign-in link" %}</button>
+          </form>
+          <p class="ds-meta mt-3 mb-0">{% translate "The link expires after one hour and can be used once. You stay signed in until 30 days without activity on this device. Sign out on shared devices." %}</p>
+        {% endif %}
+      </section>
+      <aside class="ds-card ds-card-brand mt-4"
+             aria-labelledby="employer-accounts-note">
+        <h2 class="h5" id="employer-accounts-note">
+          {% if stage == "sent" %}
+            {% translate "No employer account yet?" %}
+          {% else %}
+            {% translate "Note for employer accounts" %}
+          {% endif %}
+        </h2>
+        {% include "invitations/includes/employer_invitation_help.html" with link_class="btn btn-outline-primary" %}
+      </aside>
+    </div>
+  </div>
 {% endblock %}
