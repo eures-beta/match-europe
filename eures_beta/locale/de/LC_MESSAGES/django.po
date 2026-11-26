@@ -8571,3 +8571,180 @@ msgstr "Diese Abweichung ist für die Stelle nicht akzeptabel"
 #: eures_beta/matching/templates/matching/shared_start.html
 msgid "The candidate and employer have agreed to be introduced. Review the first message, then open their conversation."
 msgstr "Die kandidierende Person und der Arbeitgeber haben der Kontaktaufnahme zugestimmt. Prüfen Sie die erste Nachricht und öffnen Sie dann das Gespräch."
+
+#: eures_beta/matching/introduction_followup.py:68
+#: eures_beta/matching/introduction_followup.py:83
+msgid "Review the dossier before continuing"
+msgstr "Dossier vor dem Fortfahren prüfen"
+
+#: eures_beta/matching/introduction_followup.py:77
+msgid "Three-person conversation open"
+msgstr "Dreiergespräch eröffnet"
+
+#: eures_beta/matching/introduction_followup.py:101
+msgid "Adviser action needed"
+msgstr "Aktion der Beratung erforderlich"
+
+#: eures_beta/matching/introduction_followup.py:180
+#: eures_beta/www/adviser/followup.py:51
+msgid "Give a reason for closing this follow-up."
+msgstr "Geben Sie einen Grund für den Abschluss dieser Begleitung an."
+
+#: eures_beta/matching/introduction_followup.py:182
+#: eures_beta/www/adviser/followup.py:46
+msgid "Choose when to check this dossier again."
+msgstr "Wählen Sie, wann dieses Dossier erneut geprüft werden soll."
+
+#: eures_beta/matching/introduction_followup.py:216
+msgid "Enter a reminder message."
+msgstr "Geben Sie eine Erinnerungsnachricht ein."
+
+#: eures_beta/matching/introduction_followup.py:223
+msgid "This person cannot be reminded at this stage."
+msgstr "Dieser Person kann in diesem Schritt keine Erinnerung gesendet werden."
+
+#: eures_beta/matching/introduction_followup.py:257
+msgid "A reminder from your Match Europe adviser"
+msgstr "Eine Erinnerung Ihrer Match Europe-Beratung"
+
+#: eures_beta/matching/introduction_followup.py:258
+#: eures_beta/matching/introduction_followup.py:269
+msgid "Open your dossier"
+msgstr "Ihr Dossier öffnen"
+
+#: eures_beta/matching/introduction_followup.py:284
+msgid "Hello, I am following up on the next step in your recruitment. Could you reply in your dossier so that we can move forward? Thank you."
+msgstr "Guten Tag, ich komme auf den nächsten Schritt Ihres Einstellungsverfahrens zurück. Könnten Sie in Ihrem Dossier antworten, damit wir weiterkommen? Vielen Dank."
+
+#: eures_beta/matching/introduction_followup.py:287
+msgid "Hello, I am following up on your next step with Match Europe. Could you reply in your dossier, or tell me if you need help? Thank you."
+msgstr "Guten Tag, ich komme auf Ihren nächsten Schritt mit Match Europe zurück. Könnten Sie in Ihrem Dossier antworten oder mir mitteilen, ob Sie Hilfe benötigen? Vielen Dank."
+
+#: eures_beta/matching/models.py:323
+msgid "Hired"
+msgstr "Eingestellt"
+
+#: eures_beta/matching/models.py:324
+msgid "Recruitment stopped"
+msgstr "Einstellungsverfahren beendet"
+
+#: eures_beta/matching/models.py:365
+msgid "Follow-up updated"
+msgstr "Begleitung aktualisiert"
+
+#: eures_beta/matching/models.py:365
+msgid "Reminder"
+msgstr "Erinnerung"
+
+#: eures_beta/templates/users/adviser_conversation.html:15
+msgid "Plan follow-up or send a reminder"
+msgstr "Nächsten Schritt planen oder Erinnerung senden"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:4
+#: eures_beta/templates/users/adviser_followup_list.html:5
+#: eures_beta/templates/users/adviser_workspace.html:29
+msgid "Introduction follow-up"
+msgstr "Begleitung der Kontaktvermittlungen"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:8
+#: eures_beta/templates/users/adviser_followup_list.html:18
+msgid "Last activity"
+msgstr "Letzte Aktivität"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:9
+#: eures_beta/templates/users/adviser_followup_list.html:21
+msgid "Action expected since"
+msgstr "Aktion erwartet seit"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:10
+msgid "View replies and agreements"
+msgstr "Antworten und Zustimmungen ansehen"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:13
+msgid "Follow-up saved. Check the history for email delivery status."
+msgstr "Begleitung gespeichert. Den Versandstatus finden Sie im Verlauf."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:18
+#: eures_beta/www/adviser/followup.py:24
+msgid "Next action"
+msgstr "Nächste Aktion"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:19
+msgid "This plan is shared between advisers. It does not change any agreement or send a message."
+msgstr "Diese Planung wird zwischen den Beratenden geteilt. Das Speichern ändert keine Zustimmung und versendet keine Nachricht."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:26
+msgid "Save this follow-up"
+msgstr "Diese Begleitung speichern"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:30
+msgid "Send a reminder"
+msgstr "Erinnerung senden"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:32
+msgid "Review the message before sending. Only the selected person receives it. Internal notes are never included."
+msgstr "Prüfen Sie die Nachricht vor dem Versand. Nur die ausgewählte Person erhält sie. Interne Notizen werden nie beigefügt."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:42
+msgid "Send this reminder by email"
+msgstr "Diese Erinnerung per E-Mail senden"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:45
+msgid "Save the next action first. Reminders are available only while a reply or an exchange is possible."
+msgstr "Speichern Sie zuerst die nächste Aktion. Erinnerungen sind nur verfügbar, solange eine Antwort oder ein Austausch möglich ist."
+
+#: eures_beta/templates/users/adviser_followup_detail.html:49
+msgid "Follow-up history — advisers only"
+msgstr "Begleitungsverlauf — nur für Beratende"
+
+#: eures_beta/templates/users/adviser_followup_detail.html:63
+msgid "No follow-up action recorded yet."
+msgstr "Noch keine Begleitungsaktion erfasst."
+
+#: eures_beta/templates/users/adviser_followup_list.html:6
+msgid "Track the next action, remind the right person and record the outcome."
+msgstr "Planen Sie die nächste Aktion, erinnern Sie die richtige Person und erfassen Sie das Ergebnis."
+
+#: eures_beta/templates/users/adviser_followup_list.html:7
+msgid "Follow-up status"
+msgstr "Begleitungsstatus"
+
+#: eures_beta/templates/users/adviser_followup_list.html:11
+msgid "Closed follow-ups"
+msgstr "Abgeschlossene Begleitungen"
+
+#: eures_beta/templates/users/adviser_followup_list.html:25
+msgid "Next action to define"
+msgstr "Nächste Aktion festlegen"
+
+#: eures_beta/templates/users/adviser_followup_list.html:29
+msgid "No dossier in this section."
+msgstr "Keine Dossiers in diesem Bereich."
+
+#: eures_beta/www/adviser/followup.py:26
+msgid "Action expected from"
+msgstr "Aktion erwartet von"
+
+#: eures_beta/www/adviser/followup.py:34
+msgid "Outcome"
+msgstr "Ergebnis"
+
+#: eures_beta/www/adviser/followup.py:37
+msgid "Reason for closing"
+msgstr "Abschlussgrund"
+
+#: eures_beta/www/adviser/followup.py:58
+msgid "Recipient"
+msgstr "Empfänger"
+
+#: eures_beta/www/adviser/followup.py:60
+msgid "Email language"
+msgstr "Sprache der E-Mail"
+
+#: eures_beta/www/adviser/followup.py:64
+msgid "Reminder message"
+msgstr "Erinnerungsnachricht"
+
+#: eures_beta/www/adviser/followup.py:173
+msgid "This dossier changed. Reload it before acting."
+msgstr "Dieses Dossier hat sich geändert. Laden Sie es vor einer Aktion neu."

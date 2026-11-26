@@ -2,7 +2,7 @@
 
 `make test-accounts-seed` prépare des parcours reliés. Huit identités sont créées
 sur une base neuve, dont cinq proposées dans le sélecteur. L'ancien second employeur
-est supprimé après transfert de ses données utiles. Aucun modèle ni migration ajouté.
+est supprimé après transfert de ses données utiles. Le peuplement utilise le schéma migré.
 
 ## Couverture d’une base fraîche
 
@@ -24,6 +24,9 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | CandidateProfileSharing (8 accords, 4 refus) | 0 | 12 |
 | CandidateOfferConversation | 0 | 5 |
 | CandidateOfferConversationMessage | 0 | 6 |
+| EmployerOfferConsent | 0 | 1 |
+| IntroductionFollowup | 0 | 3 |
+| IntroductionFollowupEvent | 0 | 3 |
 | CandidateSupport | 0 | 5 |
 | JobOfferSupport | 0 | 16 |
 | CandidateProfileReviewSuggestion | 0 | 2 |
@@ -34,10 +37,10 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | LoginRateLimit | 0 | 2 |
 | LogEntry | 0 | 2 |
 | Group | 2 | 2 |
-| Permission | 104 | 104 |
-| ContentType | 26 | 26 |
+| Permission | 104 | 116 |
+| ContentType | 26 | 29 |
 
-Les 25 modèles actifs sont peuplés, contre 10 auparavant.
+Les 28 modèles actifs sont peuplés, contre 10 auparavant.
 Le [README des exemples](../eures_beta/users/preview_data/) explique la répartition
 par compte, offre et revue, les métiers et le calcul des totaux.
 
@@ -91,6 +94,6 @@ base. `SEED_ARGS=--minimal` conserve le petit jeu pour les tests ciblés ; les
 recettes utilisent le jeu complet par défaut.
 
 Code : [users/preview_data](../eures_beta/users/preview_data/).
-`make test TESTS=tests.users.test_preview_data` vérifie les 25 modèles, liens,
+`make test TESTS=tests.users.test_preview_data` vérifie les 28 modèles, liens,
 états, parcours des comptes, refus, absence d’appels externes et relance à
 données identiques.

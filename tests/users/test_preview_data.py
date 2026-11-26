@@ -61,7 +61,7 @@ class PreviewDataTests(TestCase):
 
     def test_every_active_model_has_records_and_reseeding_preserves_all_rows(self):
         counts = model_counts()
-        self.assertEqual(len(counts), 26)
+        self.assertEqual(len(counts), 28)
         self.assertFalse(
             {label: count for label, count in counts.items() if count == 0}
         )
@@ -75,6 +75,8 @@ class PreviewDataTests(TestCase):
         )
         self.assertEqual(counts['employers.EmployerProfile'], 1)
         self.assertEqual(counts['matching.JobOfferSupport'], 16)
+        self.assertEqual(counts['matching.IntroductionFollowup'], 3)
+        self.assertEqual(counts['matching.IntroductionFollowupEvent'], 3)
         before = self.snapshot()
         call_command('seed_test_accounts', stdout=StringIO())
         self.assertEqual(self.snapshot(), before)

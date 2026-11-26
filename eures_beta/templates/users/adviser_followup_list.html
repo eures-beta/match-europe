@@ -1,0 +1,43 @@
+{% extends "users/adviser_workspace.html" %}
+{% load i18n %}
+{% block adviser_content %}
+  <section class="invitation-card" aria-labelledby="followup-title">
+    <h1 id="followup-title">{% translate "Introduction follow-up" %}</h1>
+    <p>{% translate "Track the next action, remind the right person and record the outcome." %}</p>
+    <nav aria-label="{% translate 'Follow-up status' %}">
+      <a href="?lang={{ dashboard_language }}"
+         {% if not closed and not due_only %}aria-current="page"{% endif %}>{% translate "In progress" %}</a> ·
+      <a href="?lang={{ dashboard_language }}&amp;due=1"
+         {% if due_only %}aria-current="page"{% endif %}>{% translate "Follow-up due" %}</a> ·
+      <a href="?lang={{ dashboard_language }}&amp;closed=1"
+         {% if closed %}aria-current="page"{% endif %}>{% translate "Closed follow-ups" %}</a>
+    </nav>
+    <ul class="list-unstyled">
+      {% for row in rows %}
+        <li class="border-bottom py-3">
+          <h2 class="h5"><a href="{% url 'adviser_followup' row.review.pk %}?lang={{ dashboard_language }}">{{ row.review.match.candidate.display_name }} · {{ row.review.match.offer.data.title }}</a></h2>
+          <p>{{ row.stage }}</p>
+          <p>{% translate "Last activity" %} : {{ row.last_activity|date:"SHORT_DATETIME_FORMAT" }}</p>
+          {% if row.plan %}
+            <p>{{ row.plan.next_action }} · {{ row.plan.get_waiting_for_display }}</p>
+            {% if row.waiting_since %}<p>{% translate "Action expected since" %} : {{ row.waiting_since|date:"SHORT_DATETIME_FORMAT" }}</p>{% endif %}
+            {% if closed %}<p>{{ row.plan.get_outcome_display }} · {{ row.plan.closure_reason }}</p>{% endif %}
+            {% if row.plan.due_on %}<p>{% translate "Follow-up date" %} : {{ row.plan.due_on|date:"SHORT_DATE_FORMAT" }}{% if row.due %} · <strong>{% translate "Follow-up due" %}</strong>{% endif %}</p>{% endif %}
+          {% else %}
+            <p><strong>{% translate "Next action to define" %}</strong></p>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li>{% translate "No dossier in this section." %}</li>
+      {% endfor %}
+    </ul>
+    <nav aria-label="{% translate 'Pages' %}">
+      {% if page.has_previous %}
+        <a href="?lang={{ dashboard_language }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+      {% endif %}
+      {% if page.has_next %}
+        <a href="?lang={{ dashboard_language }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+      {% endif %}
+    </nav>
+  </section>
+{% endblock %}

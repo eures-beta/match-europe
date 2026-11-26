@@ -155,6 +155,7 @@ Voir [les compteurs et les limites détaillées](../../../docs/PREVIEW_DATASET.m
 ## Où lire le code et préparer la base ?
 
 - [scenarios.py](scenarios.py) — Offres, rapprochements, revues, conversations et accompagnements liés.
+- [followups.py](followups.py) — Trois suivis fictifs : échéance passée, échéance future et clôture motivée ; aucun envoi ni remplacement d’un suivi existant.
 - [supporting.py](supporting.py) — Invitations, profils employeurs et exemples techniques fictifs.
 - [report.py](report.py) — Compteurs des modèles actifs, sans modification.
 - [__init__.py](__init__.py) — Déclare le paquet.

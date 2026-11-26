@@ -10,6 +10,7 @@
 - [action_queue.py](action_queue.py) — Présente les trois actions et enregistre les recherches externes partagées.
 - [history.py](history.py) — Présente l’historique accessible au conseiller.
 - [matching.py](matching.py) — Présente la file de rapprochements et les décisions du conseiller.
+- [followup.py](followup.py) — Liste des mises en relation, prochaine action, clôture et préparation des relances explicites.
 - [offers.py](offers.py) — Portefeuille, import partagé et modification des offres déposées pour un employeur.
 - [offer_forms.py](offer_forms.py) — Email du compte employeur et confirmation téléphonique.
 

@@ -91,9 +91,9 @@ Catalogue métiers/compétences candidat et employeur : [contrat et validations]
 Suite locale de #253 : clôture Albert et traitement partagé des dossiers.
 Voir [contrat et recette](docs/REVIEW_HANDOFF.md). Publication et recette 7 jours demandées.
 
-## Suite de la PR 290
+## Suite de la PR 291
 
-La branche `codex/employer-shared-conversation` raccorde l’accord employeur
-au fil à trois : ouverture par le conseiller avec les deux accords actuels,
-sans nouvelle demande candidat. Aucun changement de schéma supplémentaire.
-Les vérifications et limites de publication sont décrites dans la PR descendante.
+`codex/adviser-followup` ajoute le suivi partagé et les relances manuelles à la
+suite de `codex/employer-shared-conversation`. Deux modèles et migrations additives ;
+voir [le contrat de suivi](docs/INTRODUCTION_FOLLOWUP.md).
+Travail local : aucune publication, fusion ni modification de service distant.

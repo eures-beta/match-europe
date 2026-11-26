@@ -208,6 +208,9 @@ def seed_scenarios(users):
                 },
             )
     seed_supporting_data(users)
+    from .followups import seed_followups
+
+    seed_followups(adviser, identifier)
 
 
 def handle(review, adviser, action, *, message=''):

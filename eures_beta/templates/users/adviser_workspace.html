@@ -24,6 +24,8 @@
     <aside class="adviser-sidebar invitation-card">
       {% block adviser_subnav %}
         <nav aria-label="{% translate 'To review' %}">
+          <a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}"
+             {% if followup_tab %}aria-current="page"{% endif %}>{% translate "Introduction follow-up" %}{% if followup_due_count %} · {{ followup_due_count }}{% endif %}</a>
           {% if queue_navigation %}
             {% for item in queue_navigation %}
               <a class="adviser-action-link"
