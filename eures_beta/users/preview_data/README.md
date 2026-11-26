@@ -150,7 +150,7 @@ de préférences et deux suggestions de compétences complètent les interfaces.
 Les modèles techniques ont également des exemples : abonnements Push `.invalid`
 non livrables, sessions de confirmation sans authentification, compteurs anti-abus
 expirés et journal d’initialisation explicitement fictif. Aucun envoi réel n’a lieu.
-Voir [les 25 compteurs et les limites détaillées](../../../docs/PREVIEW_DATASET.md).
+Voir [les compteurs et les limites détaillées](../../../docs/PREVIEW_DATASET.md).
 
 ## Où lire le code et préparer la base ?
 
@@ -172,3 +172,7 @@ make test-accounts-seed SEED_ARGS=--report
 Voir [la couverture et les limites](../../../docs/PREVIEW_DATASET.md).
 
 [Remonter au domaine utilisateurs](../).
+
+Une demande employeur en attente est liée à l’accord candidat du scénario
+« Conversation acceptée ». Sa création est idempotente et ne modifie jamais
+les réponses ou décisions d’une demande déjà explorée.

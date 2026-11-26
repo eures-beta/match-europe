@@ -39,3 +39,6 @@ Contrat : [clôture et traitement conseiller](../../docs/REVIEW_HANDOFF.md).
 Les [auteurs et leurs rôles](../../docs/MATCHING_AUTHORS.md) sont contrôlés en base :
 conseillers explicites pour décisions/demandes, candidat déduit du profil pour
 réponses et partage, auteur multirôle pour les messages.
+
+Le consentement employeur est visible dans l’admin en métadonnées seulement.
+La migration additive `0025` normalise les noms PostgreSQL sans toucher aux données.
