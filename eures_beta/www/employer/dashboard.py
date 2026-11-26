@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from eures_beta.www.matching.conversations import listed
+from eures_beta.www.matching.employer_consent import employer_requests
 from eures_beta.www.accounts.views import selected_language
 
 from eures_beta.employers.employer_ownership import accessible_offers
@@ -20,6 +21,7 @@ def employer_dashboard(request):
         'employer/dashboard.html',
         {
             'shared_conversations': listed(request.user),
+            'employer_consents': employer_requests(request.user).order_by('-pk'),
             'page_language': selected_language(request),
             'offers': Paginator(offers, 25).get_page(request.GET.get('offers_page')),
             # Shown once, right after an invitation has created the account.

@@ -275,3 +275,36 @@ class CandidateSupport(models.Model):
     def save(self, *args, **kwargs):
         validate_user_roles(self, updated_by_adviser='adviser')
         return super().save(*args, **kwargs)
+
+
+class EmployerOfferConsent(models.Model):
+    class Decision(models.TextChoices):
+        PENDING = 'pending', _('Awaiting employer response')
+        ACCEPTED = 'accepted', _('Employer agreed to an introduction')
+        DECLINED = 'declined', _('Employer declined')
+        CLARIFY = 'clarify', _('Conditions to review with the candidate')
+
+    agreement = models.OneToOneField(CandidateProfileSharing, on_delete=models.CASCADE)
+    adviser = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='+',
+        limit_choices_to={'kind': 'adviser'},
+    )
+    employer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='+',
+        limit_choices_to={'kind': 'employer'},
+    )
+    questions = models.JSONField(default=list)
+    decision = models.CharField(
+        max_length=12, choices=Decision.choices, default=Decision.PENDING
+    )
+    replies = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    decided_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        validate_user_roles(self, adviser='adviser', employer='employer')
+        return super().save(*args, **kwargs)

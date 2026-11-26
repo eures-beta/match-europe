@@ -8484,3 +8484,86 @@ msgstr "%(email)s — Einladung gespeichert, E-Mail nicht gesendet. Versuchen Si
 
 msgid "UTF-8 CSV, maximum file size: 64 KB."
 msgstr "UTF-8-CSV, maximale Dateigröße: 64 KB."
+
+#: eures_beta/matching/employer_consent.py:55
+msgid "Can you accommodate this difference for this position?"
+msgstr "Ist diese Abweichung für die Stelle akzeptabel?"
+
+#: eures_beta/matching/models.py:171
+msgid "Awaiting employer response"
+msgstr "Antwort des Arbeitgebers steht aus"
+
+#: eures_beta/matching/models.py:172
+msgid "Employer agreed to an introduction"
+msgstr "Arbeitgeber stimmt der Kontaktaufnahme zu"
+
+#: eures_beta/matching/models.py:173
+msgid "Employer declined"
+msgstr "Arbeitgeber hat abgelehnt"
+
+#: eures_beta/matching/models.py:174
+msgid "Conditions to review with the candidate"
+msgstr "Mit der Person zu klärende Bedingungen"
+
+#: eures_beta/matching/templates/matching/employer_consent.html:3
+#: eures_beta/matching/templates/matching/employer_consent.html:10
+#: eures_beta/matching/templates/matching/employer_consent.html:14
+msgid "Introduction request"
+msgstr "Anfrage zur Kontaktaufnahme"
+
+#: eures_beta/matching/templates/matching/employer_consent.html:17
+#, python-format
+msgid "%(candidate)s has confirmed their interest in this position."
+msgstr "%(candidate)s hat Interesse an dieser Stelle bestätigt."
+
+#: eures_beta/matching/templates/matching/employer_consent.html:43
+msgid "Confirm and send to the employer"
+msgstr "Bestätigen und an den Arbeitgeber senden"
+
+#: eures_beta/matching/templates/matching/employer_consent.html:45
+msgid "Prepare the questions with Albert"
+msgstr "Fragen mit Albert vorbereiten"
+
+#: eures_beta/templates/employer/dashboard.html:8
+msgid "Introduction requests"
+msgstr "Anfragen zur Kontaktaufnahme"
+
+#: eures_beta/templates/users/adviser_conversation.html:41
+msgid "Ask for the employer’s agreement"
+msgstr "Zustimmung des Arbeitgebers einholen"
+
+#: eures_beta/www/matching/employer_consent.py:29
+msgid "Have you already been in contact with this person?"
+msgstr "Hatten Sie bereits Kontakt mit dieser Person?"
+
+#: eures_beta/www/matching/employer_consent.py:33
+msgid "Yes, we were in contact before"
+msgstr "Ja, wir hatten bereits Kontakt"
+
+#: eures_beta/www/matching/employer_consent.py:34
+msgid "Yes, a recruitment process is already underway"
+msgstr "Ja, ein Bewerbungsverfahren läuft bereits"
+
+#: eures_beta/www/matching/employer_consent.py:38
+msgid "Would you like to be introduced?"
+msgstr "Möchten Sie mit dieser Person in Kontakt treten?"
+
+#: eures_beta/www/matching/employer_consent.py:39
+msgid "Yes, introduce us"
+msgstr "Ja, ich möchte Kontakt aufnehmen"
+
+#: eures_beta/www/matching/employer_consent.py:43
+msgid "Details for the adviser"
+msgstr "Hinweise für die Beratungskraft"
+
+#: eures_beta/www/matching/employer_consent.py:61
+msgid "This works for the position"
+msgstr "Diese Abweichung ist akzeptabel"
+
+#: eures_beta/www/matching/employer_consent.py:62
+msgid "I need to clarify or change this condition"
+msgstr "Ich möchte diese Bedingung erläutern oder ändern"
+
+#: eures_beta/www/matching/employer_consent.py:63
+msgid "This is a requirement for the position"
+msgstr "Diese Abweichung ist für die Stelle nicht akzeptabel"

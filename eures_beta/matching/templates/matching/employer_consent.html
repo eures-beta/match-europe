@@ -1,0 +1,79 @@
+{% extends "conversation_base.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "Introduction request" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <header class="conversation-header">
+    <a class="conversation-back"
+       href="{% url 'dashboard' %}?lang={{ page_language }}{% if preparing %}&amp;view=conversations{% endif %}"
+       aria-label="{% translate 'Dashboard' context 'account navigation' %}">‹</a>
+    <div>
+      <h1>{% translate "Introduction request" %}</h1>
+      <p>{{ review.match.offer.data.title }}</p>
+    </div>
+  </header>
+  <section class="conversation-thread"
+           aria-label="{% translate 'Introduction request' %}">
+    <div class="dialogue-bubble">
+      <p>
+        {% blocktranslate with candidate=review.match.candidate.display_name %}{{ candidate }} has confirmed their interest in this position.{% endblocktranslate %}
+      </p>
+      {% if consent %}
+        <p role="status">{{ consent.get_decision_display }}</p>
+      {% endif %}
+    </div>
+    {% if preparing %}
+      {% if contact_label %}
+        <div class="dialogue-bubble dialogue-bubble-reply">
+          <p>{{ contact_label }}</p>
+          {% if consent.replies.details %}<p>{{ consent.replies.details|linebreaksbr }}</p>{% endif %}
+        </div>
+      {% endif %}
+      {% if drafted or consent %}
+        {% for question, reply in question_rows %}
+          <div class="dialogue-bubble">
+            <p><strong>{{ question.condition }}</strong> · {{ question.expected }}</p>
+            <p>{{ question.answer }} · {{ question.declared|join:", " }}</p>
+            {% if question.wording %}<p>{{ question.wording }}</p>{% endif %}
+            {% if reply %}<p><strong>{{ reply }}</strong></p>{% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% if not consent %}
+        <form method="post" class="dialogue-bubble dialogue-bubble-reply">
+          {% csrf_token %}
+          {% if drafted %}
+            <button class="primary-action"
+                    name="action"
+                    value="publish"
+                    type="submit">{% translate "Confirm and send to the employer" %}</button>
+          {% else %}
+            <button class="primary-action"
+                    name="action"
+                    value="draft"
+                    type="submit">{% translate "Prepare the questions with Albert" %}</button>
+          {% endif %}
+        </form>
+      {% endif %}
+    {% elif form %}
+      <form method="post">
+        {% csrf_token %}
+        {% if ready %}
+          <input type="hidden" name="stage" value="decision">
+          <div class="dialogue-bubble dialogue-bubble-reply">{{ form.interest.as_field_group }}</div>
+        {% else %}
+          <input type="hidden" name="stage" value="conditions">
+          <div class="dialogue-bubble dialogue-bubble-reply">{{ form.contact.as_field_group }}</div>
+          {% for question, field in conditions %}
+            <div class="dialogue-bubble dialogue-bubble-reply">
+              <p><strong>{{ question.condition }}</strong> · {{ question.expected }}</p>
+              <p>{{ question.answer }} · {{ question.declared|join:", " }}</p>
+              {{ field.as_field_group }}
+            </div>
+          {% endfor %}
+          <div class="dialogue-bubble dialogue-bubble-reply">{{ form.details.as_field_group }}</div>
+        {% endif %}
+        <button class="primary-action" type="submit">{% translate "Continue" %}</button>
+      </form>
+    {% endif %}
+  </section>
+{% endblock %}

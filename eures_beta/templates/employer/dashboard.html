@@ -4,6 +4,17 @@
   <section class="account-panel" aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
     {% include "matching/shared_list.html" with shared_language=page_language %}
+    {% if employer_consents %}
+      <h2>{% translate "Introduction requests" %}</h2>
+      <ul>
+        {% for consent in employer_consents %}
+          <li>
+            <a href="{% url 'respond_employer_consent' consent.pk %}?lang={{ page_language }}">{{ consent.agreement.review.match.offer.data.title }}</a>
+            · {{ consent.get_decision_display }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     {% if welcome %}
       <div class="account-welcome" role="status">
         <p>

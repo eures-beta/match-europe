@@ -21,3 +21,9 @@ est `/matching/conversations/<id>/`. Les identifiants des deux premières routes
 sont ceux de la confirmation par offre ; le dernier est celui de la conversation.
 
 Le suivi candidat et les décisions conseiller suivent le [contrat de clôture](../../../docs/REVIEW_HANDOFF.md) ; `offer_reviews.py` expose les remises, compléments et choix de révision du profil.
+
+Le [consentement employeur](employer_consent.py) se prépare depuis le suivi
+conseiller. L'employeur retrouve la demande nominative dans son tableau de bord.
+Les réponses sur le contact antérieur et les conditions sont enregistrées avant
+la décision de mise en relation. La demande est rattachée à une autorisation
+candidat précise et son accès cesse si celle-ci est retirée ou devient périmée.
