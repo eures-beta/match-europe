@@ -14,6 +14,7 @@ from eures_beta.matching import (
     services,
 )
 from eures_beta.matching.models import (
+    EmployerOfferConsent,
     CandidateOfferMatch,
     CandidateOfferReview,
     CandidateOfferConversation,
@@ -191,6 +192,21 @@ def seed_scenarios(users):
                 ),
             },
         )
+    # Add the new model to existing fixtures without advancing an explored request.
+    review = CandidateOfferReview.objects.filter(
+        match__offer_id=identifier('approved')
+    ).first()
+    if review:
+        agreement = reviews.review_state(review)['agreement']
+        if agreement and agreement.agreed:
+            EmployerOfferConsent.objects.get_or_create(
+                agreement=agreement,
+                defaults={
+                    'adviser': adviser,
+                    'employer': review.match.offer.employer,
+                    'questions': [],
+                },
+            )
     seed_supporting_data(users)
 
 

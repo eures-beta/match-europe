@@ -1,6 +1,7 @@
 from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from .models import (
+    EmployerOfferConsent,
     CandidateSupport,
     JobOfferSupport,
     CandidateOfferMatch,
@@ -56,3 +57,8 @@ class CandidateOfferConversationMessageMetadataAdmin(MetadataOnlyAdmin):
 @admin.register(JobOfferSupport, CandidateSupport)
 class SupportAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'is_searching', 'follow_up_on', 'updated_at')
+
+
+@admin.register(EmployerOfferConsent)
+class EmployerOfferConsentMetadataAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'decision', 'created_at', 'decided_at')

@@ -61,7 +61,7 @@ class PreviewDataTests(TestCase):
 
     def test_every_active_model_has_records_and_reseeding_preserves_all_rows(self):
         counts = model_counts()
-        self.assertEqual(len(counts), 25)
+        self.assertEqual(len(counts), 26)
         self.assertFalse(
             {label: count for label, count in counts.items() if count == 0}
         )
