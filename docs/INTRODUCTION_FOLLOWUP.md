@@ -6,6 +6,8 @@ les accords et la conversation à trois sont des étapes de ce même dossier.
 
 ## Lire et agir
 
+Le tableau compact présente un matching par ligne ; le nom ouvre sa fiche.
+La fiche utilise une frise horizontale et des formulaires repliables.
 Le tableau affiche l’étape actuelle, la personne attendue, le temps d’attente,
 la date de suivi éventuelle et l’action principale. Les embauches à confirmer
 et les échéances arrivées passent en priorité. Les filtres séparent notamment

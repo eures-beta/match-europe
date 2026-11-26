@@ -5,10 +5,11 @@
 {% block adviser_content %}
   <p><a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}">← {% translate "Matching follow-up" %}</a></p>
   <section class="invitation-card" aria-labelledby="matching-title">
-    <h1 id="matching-title">{{ dossier.match.candidate.display_name }} · {{ dossier.match.offer.data.title }}</h1>
-    <p>{{ dossier.match.offer.data.companyName }} · {% translate "Matching created" %} {{ dossier.match.created_at|date:"SHORT_DATE_FORMAT" }}</p>
+    <h1 class="h4"
+        id="matching-title">{{ dossier.match.candidate.display_name }} · {{ dossier.match.offer.data.title }}</h1>
+    <p>{{ dossier.match.offer.data.companyName }}</p>
     {% include "users/matching_lifeline.html" %}
-    <h2>{{ dossier.stage }}</h2>
+    <h2 class="h5">{{ dossier.stage }}</h2>
     {% if dossier.conclusion.start_on and dossier.conclusion.state != "stopped" %}<p>{% translate "Expected start date, if known" %} : {{ dossier.conclusion.start_on|date:"SHORT_DATE_FORMAT" }}</p>{% endif %}
     {% if not dossier.closed %}
       {% if dossier.plan.due_on %}<p>{{ dossier.plan.due_on|date:"SHORT_DATE_FORMAT" }} · <strong>{{ dossier.date_status }}</strong></p>{% endif %}
@@ -34,7 +35,6 @@
                id="conclusion"
                aria-labelledby="conclusion-title">
         <h2 id="conclusion-title">{% translate "Confirm the declared hiring" %}</h2>
-        <p>{% translate "The employer has declared the hiring. Check the outcome before closing this matching." %}</p>
         <p>{{ dossier.conclusion.declared_at|date:"SHORT_DATETIME_FORMAT" }}</p>
         <form method="post">
           {% csrf_token %}
@@ -49,29 +49,31 @@
       </section>
     {% endif %}
     {% if recipients %}
-      <section class="invitation-card"
-               id="reminder"
-               aria-labelledby="reminder-title">
-        <h2 id="reminder-title">{% translate "Send a reminder" %}</h2>
-        {% if not email_available %}
-          <p role="status">{% translate "Email delivery is unavailable here. This attempt will be recorded, but no email will be sent." %}</p>
-        {% endif %}
-        <form method="post">{% csrf_token %}{{ reminder_form.non_field_errors }}
-          {% for field in reminder_form %}{% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}{% endfor %}
-          <button class="btn btn-primary" name="action" value="reminder" type="submit">
-            {% if email_available %}
-              {% translate "Send this reminder by email" %}
-            {% else %}
-              {% translate "Record this reminder without sending" %}
-            {% endif %}
-          </button>
-        </form>
-      </section>
+      <details class="invitation-card matching-secondary"
+               {% if reminder_form.errors %}open{% endif %}>
+        <summary>{% translate "Send a reminder" %}</summary>
+        <section id="reminder" aria-labelledby="reminder-title">
+          <h2 class="visually-hidden" id="reminder-title">{% translate "Send a reminder" %}</h2>
+          {% if not email_available %}
+            <p role="status">{% translate "Email delivery is unavailable here. This attempt will be recorded, but no email will be sent." %}</p>
+          {% endif %}
+          <form method="post">{% csrf_token %}{{ reminder_form.non_field_errors }}
+            {% for field in reminder_form %}{% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}{% endfor %}
+            <button class="btn btn-primary" name="action" value="reminder" type="submit">
+              {% if email_available %}
+                {% translate "Send this reminder by email" %}
+              {% else %}
+                {% translate "Record this reminder without sending" %}
+              {% endif %}
+            </button>
+          </form>
+        </section>
+      </details>
     {% endif %}
     {% if not dossier.conclusion %}
-      <section class="invitation-card" aria-labelledby="checkin-title">
-        <h2 id="checkin-title">{% translate "Plan your next check-in" %}</h2>
-        <p>{% translate "Choose your next check-in date. No reminder is sent automatically." %}</p>
+      <details class="invitation-card matching-secondary"
+               {% if schedule_form.errors %}open{% endif %}>
+        <summary>{% translate "Plan your next check-in" %}</summary>
         <form method="post">{% csrf_token %}{{ schedule_form.version }}
           {% include "eures/form_field.html" with field=schedule_form.due_on %}
           <button class="btn btn-outline-primary"
@@ -79,9 +81,9 @@
                   value="schedule"
                   type="submit">{% translate "Save the check-in date" %}</button>
         </form>
-      </section>
+      </details>
     {% endif %}
-    <details class="invitation-card">
+    <details class="invitation-card matching-secondary">
       <summary>{% translate "Close this matching without hiring" %}</summary>
       <form method="post">
         {% csrf_token %}
@@ -94,7 +96,7 @@
       </form>
     </details>
   {% endif %}
-  <details class="invitation-card">
+  <details class="invitation-card matching-secondary">
     <summary>{% translate "Matching history — advisers only" %}</summary>
     <ul>
       {% for event in events %}

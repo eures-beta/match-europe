@@ -1,24 +1,28 @@
-{% load i18n %}
-<ol class="matching-lifeline"
-    aria-label="{% translate 'Matching life line' %}">
-  {% for step in dossier.steps %}
-    <li class="matching-step matching-step-{{ step.status }}"
-        {% if step.status == 'current' %}aria-current="step"{% endif %}>
-      <strong>{{ forloop.counter }}. {{ step.label }}</strong>
-      <span>
-        {% if step.status == "done" %}
-          {% translate "Completed" %}
-        {% elif step.status == "current" %}
-          {% translate "Current step" %}
-        {% elif step.status == "stopped" %}
-          {% translate "Stopped here" %}
-        {% elif step.status == "historical" %}
-          {% translate "Not documented" %}
-        {% else %}
-          {% translate "Not reached" %}
-        {% endif %}
-      </span>
-      {% if step.date %}<time datetime="{{ step.date|date:'c' }}">{{ step.date|date:"SHORT_DATE_FORMAT" }}</time>{% endif %}
-    </li>
-  {% endfor %}
-</ol>
+<div class="matching-timeline-scroll" tabindex="0">
+  {% load i18n %}
+  <ol class="matching-lifeline"
+      aria-label="{% translate 'Matching life line' %}">
+    {% for step in dossier.steps %}
+      <li class="matching-step matching-step-{{ step.status }}"
+          {% if step.status == 'current' %}aria-current="step"{% endif %}>
+        <span class="matching-dot"
+              aria-hidden="true">{% if step.status == "done" %}✓{% else %}{{ forloop.counter }}{% endif %}</span>
+        <strong>{{ step.label }}</strong>
+        <span class="{% if step.status != 'current' and step.status != 'historical' and step.status != 'stopped' %}visually-hidden{% endif %}">
+          {% if step.status == "done" %}
+            {% translate "Completed" %}
+          {% elif step.status == "current" %}
+            {% translate "Current step" %}
+          {% elif step.status == "stopped" %}
+            {% translate "Stopped here" %}
+          {% elif step.status == "historical" %}
+            {% translate "Not documented" %}
+          {% else %}
+            {% translate "Not reached" %}
+          {% endif %}
+        </span>
+        {% if step.date %}<time datetime="{{ step.date|date:'c' }}">{{ step.date|date:"SHORT_DATE_FORMAT" }}</time>{% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</div>
