@@ -231,7 +231,10 @@
         <p>{% translate "Any future introduction to an employer will require a separate agreement." %}</p>
         <form method="post">
           {% csrf_token %}
-          <input type="hidden" name="token" value="{{ draft.token }}"><button class="btn btn-outline-primary btn-sm" name="action" value="discard">{% translate "Delete my draft" %}</button>
+          <input type="hidden" name="token" value="{{ draft.token }}">
+          <button class="btn btn-outline-primary btn-sm"
+                  name="action"
+                  value="discard">{% translate "Delete my draft" %}</button>
         </form>
         {% include "candidates/feedback.html" %}
       </aside>
