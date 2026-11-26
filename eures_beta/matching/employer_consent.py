@@ -31,6 +31,8 @@ def introduction_consent(review, state, adviser):
         or review.match.decision != 'retained'
         or not adviser_opinion.ready(state)
         or not review.match.offer.employer_id
+        or not access.candidates().filter(pk=review.match.candidate_id).exists()
+        or not access.matchable_offers().filter(pk=review.match.offer_id).exists()
     ):
         return None
     employer = review.match.offer.employer
