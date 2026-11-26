@@ -2,69 +2,88 @@
 {% load i18n %}
 {% block adviser_content %}
   <a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}">← {% translate "Introduction follow-up" %}</a>
-  <section class="invitation-card" aria-labelledby="followup-title">
-    <h1 id="followup-title">{{ review.match.candidate.display_name }} · {{ review.match.offer.data.title }}</h1>
+  <section id="overview"
+           class="invitation-card"
+           aria-labelledby="followup-title">
+    <h1 id="followup-title">{{ review.match.candidate.display_name }}</h1>
+    <p>{{ review.match.offer.data.title }} · {{ review.match.offer.data.companyName }}</p>
+    <p class="alert alert-{{ followup.status_tone }}"><strong>{{ followup.status_label }}</strong>{% if followup.plan.due_on %} · {{ followup.plan.due_on|date:"SHORT_DATE_FORMAT" }}{% endif %}</p>
     <p>{{ followup.stage }}</p>
-    <p>{% translate "Last activity" %} : {{ followup.last_activity|date:"SHORT_DATETIME_FORMAT" }}</p>
-    {% if followup.waiting_since %}<p>{% translate "Action expected since" %} : {{ followup.waiting_since|date:"SHORT_DATETIME_FORMAT" }}</p>{% endif %}
-    <p><a href="{% url 'adviser_conversation' review.pk %}?lang={{ dashboard_language }}">{% translate "View replies and agreements" %}</a></p>
+    <dl>
+      <dt>{% translate "Who needs to act?" %}</dt><dd>{{ followup.waiting_label }}</dd>
+      <dt>{% translate "What needs to happen next?" %}</dt><dd>{{ followup.plan.next_action|default:followup.proposed_action }}</dd>
+      {% if followup.waiting_since %}<dt>{% translate "Waiting tracked since" %}</dt><dd>{{ followup.waiting_since|date:"SHORT_DATE_FORMAT" }} · {% blocktranslate count days=followup.tracked_days %}{{ days }} day{% plural %}{{ days }} days{% endblocktranslate %}</dd>{% endif %}
+      <dt>{% translate "Last recorded activity" %}</dt><dd>{{ followup.last_activity|date:"SHORT_DATETIME_FORMAT" }}</dd>
+    </dl>
+    <h2 class="h4">{% translate "What should you do now?" %}</h2>
+    <p><a class="btn btn-primary"
+          href="{{ followup.action_url }}?lang={{ dashboard_language }}{{ followup.action_anchor }}">{{ followup.action_label }}</a></p>
+    <a href="{% url 'adviser_conversation' review.pk %}?lang={{ dashboard_language }}">{% translate "View replies and agreements" %}</a>
     {% if error %}<p role="alert">{{ error }}</p>{% endif %}
-    {% if saved %}
-      <p role="status">{% translate "Follow-up saved. Check the history for email delivery status." %}</p>
+    {% if saved == "plan" %}
+      <p class="alert alert-success" role="status">{% translate "Next check-in saved. No reminder has been sent." %}</p>
     {% endif %}
-    {% if followup.due %}
-      <p><strong>{% translate "Follow-up due" %}</strong></p>
-    {% endif %}
-    <h2>{% translate "Next action" %}</h2>
-    <p>{% translate "This plan is shared between advisers. It does not change any agreement or send a message." %}</p>
+    {% if reminder_result %}<p class="alert alert-info" role="status">{% translate "Reminder result" %} : {{ reminder_result.get_delivery_status_display }}</p>{% endif %}
+  </section>
+  <section id="planning"
+           class="invitation-card"
+           aria-labelledby="planning-title">
+    <h2 id="planning-title">{% translate "1. Plan the next check-in" %}</h2>
+    <p>{% translate "Choose who should act and when you will check progress. Saving this date does not send a reminder." %}</p>
     <form method="post">
-      {% csrf_token %}
-      {{ plan_form.non_field_errors }}
-      {% for field in plan_form %}
-        {% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}
-      {% endfor %}
-      <button class="btn btn-primary"
+      {% csrf_token %}{{ plan_form.non_field_errors }}{{ plan_form.stamp }}
+      {% include "eures/form_field.html" with field=plan_form.next_action %}
+      {% include "eures/form_field.html" with field=plan_form.waiting_for %}
+      {% include "eures/form_field.html" with field=plan_form.due_on %}
+      <details {% if plan_form.outcome.errors or plan_form.closure_reason.errors or followup.plan.outcome and followup.plan.outcome != 'open' %}open{% endif %}>
+        <summary>{% translate "Close or reopen this follow-up" %}</summary>
+        {% include "eures/form_field.html" with field=plan_form.outcome %}
+        {% include "eures/form_field.html" with field=plan_form.closure_reason %}
+      </details>
+      <button class="btn btn-primary mt-3"
               name="action"
               value="plan"
               type="submit">{% translate "Save this follow-up" %}</button>
     </form>
   </section>
-  <section class="invitation-card" aria-labelledby="reminder-title">
-    <h2 id="reminder-title">{% translate "Send a reminder" %}</h2>
+  <section id="reminder"
+           class="invitation-card"
+           aria-labelledby="reminder-title">
+    <h2 id="reminder-title">{% translate "2. Send a reminder if needed" %}</h2>
     {% if followup.plan and followup.recipients %}
       <p>{% translate "Review the message before sending. Only the selected person receives it. Internal notes are never included." %}</p>
+      {% if not email_available %}
+        <p class="alert alert-warning" role="status">{% translate "Email delivery is unavailable here. This attempt will be recorded, but no email will be sent." %}</p>
+      {% endif %}
       <form method="post">
-        {% csrf_token %}
-        {{ reminder_form.non_field_errors }}
-        {% for field in reminder_form %}
-          {% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}
-        {% endfor %}
-        <button class="btn btn-primary"
-                name="action"
-                value="reminder"
-                type="submit">{% translate "Send this reminder by email" %}</button>
+        {% csrf_token %}{{ reminder_form.non_field_errors }}
+        {% for field in reminder_form %}{% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}{% endfor %}
+        <button class="btn btn-primary" name="action" value="reminder" type="submit">
+          {% if email_available %}
+            {% translate "Send this reminder by email" %}
+          {% else %}
+            {% translate "Record this reminder without sending" %}
+          {% endif %}
+        </button>
       </form>
+    {% elif not followup.plan %}
+      <p>{% translate "First save a check-in date in step 1 above. Then you can prepare a reminder here." %}</p>
     {% else %}
-      <p>{% translate "Save the next action first. Reminders are available only while a reply or an exchange is possible." %}</p>
+      <p>{% translate "No reminder is available at this stage. Review the replies and agreements to decide what to do next." %}</p>
     {% endif %}
   </section>
-  <section class="invitation-card" aria-labelledby="history-title">
-    <h2 id="history-title">{% translate "Follow-up history — advisers only" %}</h2>
+  <details class="invitation-card">
+    <summary>{% translate "Follow-up history — advisers only" %}</summary>
     <ul class="list-unstyled">
       {% for event in events %}
         <li class="border-bottom py-3">
           <p>{{ event.created_at|date:"SHORT_DATETIME_FORMAT" }} · {{ event.actor.get_full_name|default:event.actor.email }} · {{ event.get_action_display }}</p>
-          {% if event.action == "reminder" %}
-            <p>{{ event.get_recipient_display }} · <strong>{{ event.get_delivery_status_display }}</strong></p>
-            <p>{{ event.message|linebreaksbr }}</p>
-          {% else %}
-            <p>{{ event.snapshot.next_action }} · {{ event.snapshot.due_on }}</p>
-            {% if event.snapshot.closure_reason %}<p>{{ event.snapshot.closure_reason }}</p>{% endif %}
-          {% endif %}
+          {% if event.action == "reminder" %}<p>{{ event.get_recipient_display }} · <strong>{{ event.get_delivery_status_display }}</strong></p><p>{{ event.message|linebreaksbr }}</p>
+      {% else %}<p>{{ event.snapshot.next_action }} · {{ event.snapshot.due_on }}</p>{% if event.snapshot.closure_reason %}<p>{{ event.snapshot.closure_reason }}</p>{% endif %}{% endif %}
         </li>
       {% empty %}
         <li>{% translate "No follow-up action recorded yet." %}</li>
       {% endfor %}
     </ul>
-  </section>
+  </details>
 {% endblock %}

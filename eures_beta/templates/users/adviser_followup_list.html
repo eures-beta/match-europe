@@ -3,41 +3,59 @@
 {% block adviser_content %}
   <section class="invitation-card" aria-labelledby="followup-title">
     <h1 id="followup-title">{% translate "Introduction follow-up" %}</h1>
-    <p>{% translate "Track the next action, remind the right person and record the outcome." %}</p>
-    <nav aria-label="{% translate 'Follow-up status' %}">
-      <a href="?lang={{ dashboard_language }}"
-         {% if not closed and not due_only %}aria-current="page"{% endif %}>{% translate "In progress" %}</a> ·
-      <a href="?lang={{ dashboard_language }}&amp;due=1"
-         {% if due_only %}aria-current="page"{% endif %}>{% translate "Follow-up due" %}</a> ·
-      <a href="?lang={{ dashboard_language }}&amp;closed=1"
+    <p>{% translate "Start with overdue dossiers. Open a dossier to review it, set a date or prepare a reminder." %}</p>
+    <nav class="d-flex flex-wrap gap-2 mb-4"
+         aria-label="{% translate 'Follow-up status' %}">
+      <a class="btn btn-outline-primary{% if due_only %} active{% endif %}"
+         href="?lang={{ dashboard_language }}&amp;due=1"
+         {% if due_only %}aria-current="page"{% endif %}>{% translate "To check today or overdue" %} <strong class="ms-2">{{ counts.due }}</strong></a>
+      <a class="btn btn-outline-primary{% if followup_section == 'unplanned' and not closed and not due_only %} active{% endif %}"
+         href="?lang={{ dashboard_language }}&amp;filter=unplanned"
+         {% if followup_section == 'unplanned' and not closed and not due_only %}aria-current="page"{% endif %}>{% translate "Date to set" %} <strong class="ms-2">{{ counts.unplanned }}</strong></a>
+      <a class="btn btn-outline-primary{% if followup_section == 'upcoming' and not closed and not due_only %} active{% endif %}"
+         href="?lang={{ dashboard_language }}&amp;filter=upcoming"
+         {% if followup_section == 'upcoming' and not closed and not due_only %}aria-current="page"{% endif %}>{% translate "Scheduled for later" %} <strong class="ms-2">{{ counts.upcoming }}</strong></a>
+      <a class="btn btn-outline-primary{% if followup_section == 'all' and not closed and not due_only %} active{% endif %}"
+         href="?lang={{ dashboard_language }}&amp;filter=all"
+         {% if followup_section == 'all' and not closed and not due_only %}aria-current="page"{% endif %}>{% translate "All active dossiers" %} <strong class="ms-2">{{ counts.total }}</strong></a>
+      <a class="btn btn-link"
+         href="?lang={{ dashboard_language }}&amp;closed=1"
          {% if closed %}aria-current="page"{% endif %}>{% translate "Closed follow-ups" %}</a>
     </nav>
-    <ul class="list-unstyled">
-      {% for row in rows %}
-        <li class="border-bottom py-3">
-          <h2 class="h5"><a href="{% url 'adviser_followup' row.review.pk %}?lang={{ dashboard_language }}">{{ row.review.match.candidate.display_name }} · {{ row.review.match.offer.data.title }}</a></h2>
-          <p>{{ row.stage }}</p>
-          <p>{% translate "Last activity" %} : {{ row.last_activity|date:"SHORT_DATETIME_FORMAT" }}</p>
-          {% if row.plan %}
-            <p>{{ row.plan.next_action }} · {{ row.plan.get_waiting_for_display }}</p>
-            {% if row.waiting_since %}<p>{% translate "Action expected since" %} : {{ row.waiting_since|date:"SHORT_DATETIME_FORMAT" }}</p>{% endif %}
-            {% if closed %}<p>{{ row.plan.get_outcome_display }} · {{ row.plan.closure_reason }}</p>{% endif %}
-            {% if row.plan.due_on %}<p>{% translate "Follow-up date" %} : {{ row.plan.due_on|date:"SHORT_DATE_FORMAT" }}{% if row.due %} · <strong>{% translate "Follow-up due" %}</strong>{% endif %}</p>{% endif %}
-          {% else %}
-            <p><strong>{% translate "Next action to define" %}</strong></p>
-          {% endif %}
-        </li>
-      {% empty %}
-        <li>{% translate "No dossier in this section." %}</li>
-      {% endfor %}
-    </ul>
-    <nav aria-label="{% translate 'Pages' %}">
-      {% if page.has_previous %}
-        <a href="?lang={{ dashboard_language }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
-      {% endif %}
-      {% if page.has_next %}
-        <a href="?lang={{ dashboard_language }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
-      {% endif %}
-    </nav>
-  </section>
+    <p>{% translate "The check-in date is chosen by the adviser. It is not a response deadline imposed on the candidate or employer." %}</p>
+    {% for row in rows %}
+      <article class="border rounded p-3 mb-3"
+               aria-labelledby="dossier-{{ row.review.pk }}">
+        <p class="alert alert-{{ row.status_tone }}"><strong>{{ row.status_label }}</strong>{% if row.plan.due_on %} · {{ row.plan.due_on|date:"SHORT_DATE_FORMAT" }}{% endif %}</p>
+        <h2 class="h4" id="dossier-{{ row.review.pk }}">{{ row.review.match.candidate.display_name }}</h2>
+        <p>{{ row.review.match.offer.data.title }} · {{ row.review.match.offer.data.companyName }}</p>
+        <p>{{ row.stage }}</p>
+        <dl>
+          <dt>{% translate "Who needs to act?" %}</dt><dd>{{ row.waiting_label }}</dd>
+          <dt>{% translate "What needs to happen next?" %}</dt><dd>{{ row.plan.next_action|default:row.proposed_action }}</dd>
+          {% if row.waiting_since %}<dt>{% translate "Waiting tracked since" %}</dt><dd>{{ row.waiting_since|date:"SHORT_DATE_FORMAT" }} · {% blocktranslate count days=row.tracked_days %}{{ days }} day{% plural %}{{ days }} days{% endblocktranslate %}</dd>
+{% else %}<dt>{% translate "Dossier opened" %}</dt><dd>{{ row.review.created_at|date:"SHORT_DATE_FORMAT" }} · {% blocktranslate count days=row.opened_days %}{{ days }} day{% plural %}{{ days }} days{% endblocktranslate %}</dd>{% endif %}
+  </dl>
+  {% if closed %}<p>{{ row.plan.closure_reason }}</p>{% endif %}
+  <div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-primary"
+       href="{{ row.action_url }}?lang={{ dashboard_language }}{{ row.action_anchor }}">{{ row.action_label }}</a>
+    {% if not closed and row.action_anchor != "#planning" %}
+      <a class="btn btn-outline-primary"
+         href="{% url 'adviser_followup' row.review.pk %}?lang={{ dashboard_language }}#planning">{% translate "Set or change the check-in date" %}</a>
+    {% endif %}
+  </div>
+  </article>
+{% empty %}
+  <p>{% translate "No dossier in this section." %}</p>
+{% endfor %}
+<nav aria-label="{% translate 'Pages' %}">
+  {% if page.has_previous %}
+    <a href="?lang={{ dashboard_language }}&amp;filter={{ followup_section }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.previous_page_number }}">{% translate "Previous" %}</a>
+  {% endif %}
+  {% if page.has_next %}
+    <a href="?lang={{ dashboard_language }}&amp;filter={{ followup_section }}&amp;closed={{ closed|yesno:'1,0' }}&amp;due={{ due_only|yesno:'1,0' }}&amp;page={{ page.next_page_number }}">{% translate "Next" %}</a>
+  {% endif %}
+</nav>
+</section>
 {% endblock %}

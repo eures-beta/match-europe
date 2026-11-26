@@ -10,10 +10,18 @@ pour permettre un bilan et une clôture explicites.
 - Lire l’étape calculée à partir des réponses, validations, accords et conversations.
 - Enregistrer une prochaine action, la personne attendue et une date de suivi.
   Aucune échéance arbitraire n’est appliquée aux anciens dossiers.
-- Consulter les suivis échus depuis le compteur de navigation et la liste triée
-  par date ; les dossiers sans prochaine action sont présentés en premier.
+- Ouvrir le suivi : les dossiers échus ou du jour sont présentés par défaut s’il
+  y en a. Les filtres comptés distinguent aujourd’hui/retard, date à fixer, plus
+  tard, tous les dossiers et les clôtures. Les échéances sont triées avant les
+  dossiers sans date ; le retard et le temps restant sont exprimés en jours.
+- Chaque fiche affiche qui doit agir, l’action proposée ou enregistrée, l’attente
+  suivie et un bouton explicite vers l’examen, la date ou la relance. Le formulaire
+  préremplit une action selon l’étape, sans attribuer de délai arbitraire.
 - Relire et modifier le message de relance, choisir le destinataire et la langue
   de l’email, puis déclencher explicitement son envoi.
+  La préparation de la date et la relance sont deux étapes numérotées ; clôture et
+  historique sont repliables. Si l’email est indisponible, l’écran et le bouton
+  annoncent explicitement un enregistrement sans envoi.
 - Renseigner l’issue : en cours, embauché ou recrutement arrêté. Une clôture
   exige un motif, retire l’échéance et bloque les relances de ce suivi. Une
   réouverture se fait par une nouvelle sauvegarde explicite avec échéance.
