@@ -3,10 +3,21 @@ from eures_beta.www.adviser import matching as adviser_matching
 from eures_beta.www.matching import (
     offer_reviews as confirmation_views,
     conversations,
+    employer_consent,
     views,
 )
 
 urlpatterns = [
+    path(
+        'offer-reviews/<int:pk>/employer-consent/',
+        employer_consent.prepare,
+        name='prepare_employer_consent',
+    ),
+    path(
+        'employer-consents/<int:pk>/',
+        employer_consent.respond,
+        name='respond_employer_consent',
+    ),
     path('<int:pk>/review/', adviser_matching.detail, name='adviser_match'),
     path(
         'offer-reviews/<int:pk>/conversation/',

@@ -21,6 +21,7 @@ from eures_beta.matching import (
     access,
     adviser_opinion,
     dialogue_albert,
+    employer_consent,
     offer_review_services,
     dialogue_services,
     services,
@@ -412,6 +413,10 @@ def follow(request, pk):
             reply_count=answered,
             reply_progress=progress,
             analysis_ready=ready,
+            can_prepare_employer=(
+                employer_consent.can_prepare(conversation, state, request.user)
+                and bool(conversation.match.offer.employer_id)
+            ),
             can_start_shared=(
                 ready
                 and conversation.workflow_state == 'validated'
