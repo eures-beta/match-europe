@@ -1,38 +1,100 @@
+.matching-timeline-scroll {
+  overflow-x: auto;
+  margin-block: var(--me-space-m);
+}
+
 .matching-lifeline {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--me-space-s);
+  display: flex;
+  min-width: 38rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .matching-step {
+  position: relative;
   display: flex;
+  flex: 1;
   flex-direction: column;
+  align-items: center;
   gap: var(--me-space-2xs);
-  padding: var(--me-space-s);
-  border: var(--me-focus-outline-width) solid var(--me-color-border);
-  border-radius: var(--me-radius-card);
-  color: var(--me-color-text);
+  text-align: center;
+  font-size: 0.75rem;
+  padding-inline: var(--me-space-2xs);
+}
+
+.matching-step::before {
+  content: '';
+  position: absolute;
+  top: 0.875rem;
+  left: 0;
+  width: 100%;
+  border-top: 2px solid var(--me-color-border);
+}
+
+.matching-step:first-child::before {
+  left: 50%;
+  width: 50%;
+}
+
+.matching-step:last-child::before {
+  width: 50%;
+}
+
+.matching-dot {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid var(--me-color-border);
+  border-radius: 50%;
   background: var(--me-color-surface);
-  overflow-wrap: anywhere;
 }
 
-.matching-step-current {
+.matching-step-current .matching-dot {
   border-color: var(--me-color-action);
-  background: var(--me-color-surface-brand);
+  background: var(--me-color-action);
+  color: var(--me-color-surface);
 }
 
-.matching-step-done {
+.matching-step-done .matching-dot {
   border-color: var(--me-color-success);
+  color: var(--me-color-success);
 }
 
-.matching-step-stopped {
+.matching-step-stopped .matching-dot {
   border-color: var(--me-color-error);
+  color: var(--me-color-error);
 }
 
-@media (max-width: 48rem) {
-  .matching-lifeline {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.matching-table {
+  font-size: 0.875rem;
+}
+
+.matching-table td,
+.matching-table th {
+  padding: var(--me-space-s);
+}
+
+.matching-offer {
+  display: block;
+  font-weight: normal;
+}
+
+.matching-secondary.invitation-card {
+  padding: var(--me-space-s) var(--me-space-m);
+  margin-block: var(--me-space-s);
+}
+
+.matching-table-scroll {
+  overflow-x: auto;
+}
+
+.matching-table small {
+  display: block;
+}
+
+.matching-table {
+  min-width: 38rem;
 }

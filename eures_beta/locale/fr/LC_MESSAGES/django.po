@@ -9255,3 +9255,7 @@ msgstr "Matching retenu"
 #: eures_beta/www/adviser/lifecycle.py:303
 msgid "Matching declined"
 msgstr "Matching écarté"
+
+#: eures_beta/templates/users/adviser_matching_lifecycle_list.html
+msgid "Offer"
+msgstr "Offre"
