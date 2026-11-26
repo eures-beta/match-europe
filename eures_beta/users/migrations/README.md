@@ -15,3 +15,5 @@ Voir [la documentation de transition](../../../docs/USER_MODEL.md).
 [Remonter au dossier parent](../).
 
 - [0010_harmonize_model_names.py](0010_harmonize_model_names.py) — Migration réversible des noms, sans suppression de données métier.
+
+- [0011_adviseravailability.py](0011_adviseravailability.py) — Crée la table de disponibilités quotidiennes sans modifier les comptes.

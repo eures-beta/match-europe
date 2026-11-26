@@ -1,0 +1,80 @@
+{% extends "users/adviser_workspace.html" %}
+{% load static i18n %}
+{% block page_title %}
+  {% translate "Agent schedule" %} — Match Europe
+{% endblock %}
+{% block extra_head %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'adviser/planning.css' %}">
+{% endblock %}
+{% block adviser_sidebar %}{% endblock %}
+{% block adviser_content %}
+  <section class="invitation-card adviser-planning"
+           aria-labelledby="planning-title">
+    <h1 id="planning-title">{% translate "Agent schedule" %}</h1>
+    <p>{% translate "Select a day on your row to change your availability." %}</p>
+    <nav class="planning-navigation"
+         aria-label="{% translate 'Schedule week' %}">
+      {% if previous_week %}
+        <a class="ghost-action"
+           href="?lang={{ dashboard_language }}&amp;week={{ previous_week|date:'Y-m-d' }}">{% translate "Previous week" %}</a>
+      {% endif %}
+      <a class="ghost-action"
+         href="{% url 'adviser_planning' %}?lang={{ dashboard_language }}">{% translate "Current week" %}</a>
+      {% if next_week %}
+        <a class="ghost-action"
+           href="?lang={{ dashboard_language }}&amp;week={{ next_week|date:'Y-m-d' }}">{% translate "Next week" %}</a>
+      {% endif %}
+    </nav>
+    <div class="account-table-scroll"
+         role="region"
+         aria-labelledby="planning-week"
+         tabindex="0">
+      <table class="planning-table">
+        <caption id="planning-week">
+          {% blocktranslate with first=start|date:"SHORT_DATE_FORMAT" last=end|date:"SHORT_DATE_FORMAT" %}Week from {{ first }} to {{ last }}{% endblocktranslate %}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{% translate "Adviser" %}</th>
+            {% for day in days %}
+              <th scope="col">
+                <time datetime="{{ day|date:'Y-m-d' }}">{{ day|date:"l" }}
+                  <br>
+                {{ day|date:"SHORT_DATE_FORMAT" }}</time>
+              </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr>
+              <th scope="row">
+                {{ row.name }}
+                {% if row.own %}({% translate "Your row" %}){% endif %}
+                {% if row.organisation %}<small>{{ row.organisation }}</small>{% endif %}
+              </th>
+              {% for day, status_class, status_label, next_status, action_label in row.days %}
+                <td>
+                  {% if row.own %}
+                    <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="day" value="{{ day|date:'Y-m-d' }}">
+                      <button class="planning-status planning-status-{{ status_class }}"
+                              name="status"
+                              value="{{ next_status }}"
+                              aria-label="{{ status_label }} · {{ day|date:'DATE_FORMAT' }} · {{ action_label }}"
+                              type="submit">{{ status_label }}</button>
+                    </form>
+                  {% else %}
+                    <span class="planning-status planning-status-{{ status_class }}">{{ status_label }}</span>
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

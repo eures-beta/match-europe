@@ -1,0 +1,55 @@
+.adviser-planning-content {
+  grid-column: 1 / -1;
+}
+
+.planning-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-end: 1rem;
+}
+
+.planning-table {
+  width: 100%;
+}
+
+.planning-table th,
+.planning-table td {
+  text-align: start;
+  vertical-align: middle;
+}
+
+.planning-table th small {
+  display: block;
+}
+
+.planning-status {
+  display: inline-block;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  color: var(--invite-ink, #243246);
+  background-color: var(--invite-paper);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+button.planning-status {
+  min-height: 2rem;
+  border-color: currentColor;
+  cursor: pointer;
+}
+
+button.planning-status:hover {
+  text-decoration: underline;
+}
+
+.planning-status-present {
+  color: var(--bs-success-text-emphasis, #0a3622);
+  background-color: var(--bs-success-bg-subtle, #d1e7dd);
+}
+
+.planning-status-absent {
+  color: var(--bs-danger-text-emphasis, #58151c);
+  background-color: var(--bs-danger-bg-subtle, #f8d7da);
+}

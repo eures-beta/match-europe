@@ -27,3 +27,5 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 
 [Remonter au dossier parent](../).
 - [admin_navigation.test.cjs](admin_navigation.test.cjs) — Vérifie la navigation masquée par défaut et la conservation des préférences explicites.
+
+- [test_adviser_planning.py](test_adviser_planning.py) — Vérifie l’accès, la propriété des modifications, la CSRF, les semaines et les langues.
