@@ -9259,3 +9259,68 @@ msgstr "Matching écarté"
 #: eures_beta/templates/users/adviser_matching_lifecycle_list.html
 msgid "Offer"
 msgstr "Offre"
+
+#: eures_beta/templates/users/adviser_planning.html:4
+#: eures_beta/templates/users/adviser_planning.html:14
+#: eures_beta/templates/users/adviser_workspace.html:20
+msgid "Agent schedule"
+msgstr "Planning agent"
+
+#: eures_beta/templates/users/adviser_planning.html:15
+msgid "Select a day on your row to change your availability."
+msgstr "Sélectionnez un jour sur votre ligne pour modifier votre disponibilité."
+
+#: eures_beta/templates/users/adviser_planning.html:17
+msgid "Schedule week"
+msgstr "Navigation entre les semaines"
+
+#: eures_beta/templates/users/adviser_planning.html:20
+msgid "Previous week"
+msgstr "Semaine précédente"
+
+#: eures_beta/templates/users/adviser_planning.html:23
+msgid "Current week"
+msgstr "Semaine en cours"
+
+#: eures_beta/templates/users/adviser_planning.html:26
+msgid "Next week"
+msgstr "Semaine suivante"
+
+#: eures_beta/templates/users/adviser_planning.html:35
+#, python-format
+msgid "Week from %(first)s to %(last)s"
+msgstr "Semaine du %(first)s au %(last)s"
+
+#: eures_beta/templates/users/adviser_planning.html:54
+msgid "Your row"
+msgstr "Vous"
+
+#: eures_beta/www/adviser/planning.py:41
+msgid "Invalid planning week."
+msgstr "Semaine de planning invalide."
+
+#: eures_beta/www/adviser/planning.py:49
+msgid "Invalid availability."
+msgstr "Disponibilité invalide."
+
+#: eures_beta/www/adviser/planning.py:67 eures_beta/www/adviser/planning.py:69
+msgid "Mark as present"
+msgstr "Marquer comme présent"
+
+#: eures_beta/www/adviser/planning.py:68
+msgid "Present"
+msgstr "Présent"
+
+#: eures_beta/www/adviser/planning.py:68
+msgid "Mark as absent"
+msgstr "Marquer comme absent"
+
+#: eures_beta/www/adviser/planning.py:69
+msgid "Absent"
+msgstr "Absent"
+
+#: eures_beta/www/adviser/planning.py:74
+#, python-format
+msgid "Adviser %(number)s"
+msgstr "Conseiller %(number)s"
+

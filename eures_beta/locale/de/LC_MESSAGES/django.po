@@ -9259,3 +9259,68 @@ msgstr "Matching abgelehnt"
 #: eures_beta/templates/users/adviser_matching_lifecycle_list.html
 msgid "Offer"
 msgstr "Stellenangebot"
+
+#: eures_beta/templates/users/adviser_planning.html:4
+#: eures_beta/templates/users/adviser_planning.html:14
+#: eures_beta/templates/users/adviser_workspace.html:20
+msgid "Agent schedule"
+msgstr "Dienstplan"
+
+#: eures_beta/templates/users/adviser_planning.html:15
+msgid "Select a day on your row to change your availability."
+msgstr "Wählen Sie einen Tag in Ihrer Zeile aus, um Ihre Verfügbarkeit zu ändern."
+
+#: eures_beta/templates/users/adviser_planning.html:17
+msgid "Schedule week"
+msgstr "Wochenauswahl"
+
+#: eures_beta/templates/users/adviser_planning.html:20
+msgid "Previous week"
+msgstr "Vorherige Woche"
+
+#: eures_beta/templates/users/adviser_planning.html:23
+msgid "Current week"
+msgstr "Aktuelle Woche"
+
+#: eures_beta/templates/users/adviser_planning.html:26
+msgid "Next week"
+msgstr "Nächste Woche"
+
+#: eures_beta/templates/users/adviser_planning.html:35
+#, python-format
+msgid "Week from %(first)s to %(last)s"
+msgstr "Woche vom %(first)s bis %(last)s"
+
+#: eures_beta/templates/users/adviser_planning.html:54
+msgid "Your row"
+msgstr "Ihre Zeile"
+
+#: eures_beta/www/adviser/planning.py:41
+msgid "Invalid planning week."
+msgstr "Ungültige Kalenderwoche."
+
+#: eures_beta/www/adviser/planning.py:49
+msgid "Invalid availability."
+msgstr "Ungültige Verfügbarkeit."
+
+#: eures_beta/www/adviser/planning.py:67 eures_beta/www/adviser/planning.py:69
+msgid "Mark as present"
+msgstr "Als anwesend markieren"
+
+#: eures_beta/www/adviser/planning.py:68
+msgid "Present"
+msgstr "Anwesend"
+
+#: eures_beta/www/adviser/planning.py:68
+msgid "Mark as absent"
+msgstr "Als abwesend markieren"
+
+#: eures_beta/www/adviser/planning.py:69
+msgid "Absent"
+msgstr "Abwesend"
+
+#: eures_beta/www/adviser/planning.py:74
+#, python-format
+msgid "Adviser %(number)s"
+msgstr "Beratungskraft %(number)s"
+

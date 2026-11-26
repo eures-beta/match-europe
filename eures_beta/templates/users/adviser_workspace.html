@@ -16,11 +16,14 @@
            {% endblock %}>{% translate "Invite" %}</a>
         <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;tab=history"
            {% if history_tab %} aria-current="page"{% endif %}>Données et historique</a>
+        <a href="{% url 'adviser_planning' %}?lang={{ dashboard_language }}"
+           {% if planning_tab %}aria-current="page"{% endif %}>{% translate "Agent schedule" %}</a>
         <a href="{% url 'adviser_offers' %}?lang={{ dashboard_language }}"
            {% if deposit_tab %}aria-current="page"{% endif %}>{% translate "My deposited offers" %}</a>
         {% block adviser_tabs %}{% endblock %}
       </nav>
     </header>
+    {% block adviser_sidebar %}
     <aside class="adviser-sidebar invitation-card">
       {% block adviser_subnav %}
         <nav aria-label="{% translate 'To review' %}">
@@ -43,7 +46,8 @@
         </nav>
       {% endblock %}
     </aside>
-    <div class="adviser-workspace-content">
+    {% endblock %}
+    <div class="adviser-workspace-content{% if planning_tab %} adviser-planning-content{% endif %}">
       {% if hiring_confirmation_count %}<p class="alert alert-info" role="status"><a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}&amp;filter=confirm">{% translate "Hiring to confirm" %} · {{ hiring_confirmation_count }}</a></p>{% endif %}
       {% if initiated_review_count %}<p role="status"><a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations">{% translate "Replies to review from your candidate" %} · {{ initiated_review_count }}</a></p>{% endif %}
       {% block adviser_heading %}{% endblock %}

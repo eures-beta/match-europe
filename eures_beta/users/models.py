@@ -77,3 +77,18 @@ class User(AbstractUser):
             if old.kind != self.kind:
                 raise ValidationError({'kind': _('The user kind cannot be changed.')})
         return super().save(*args, **kwargs)
+
+
+class AdviserAvailability(models.Model):
+    adviser = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='planning_availability'
+    )
+    day = models.DateField(db_index=True)
+    present = models.BooleanField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['adviser', 'day'], name='users_adviseravailability_unique_day'
+            )
+        ]
