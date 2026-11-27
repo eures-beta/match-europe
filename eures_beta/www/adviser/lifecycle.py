@@ -22,7 +22,7 @@ from eures_beta.matching import (
 from eures_beta.matching.models import CandidateOfferConversation
 from eures_beta.users.email_login import email_ready
 from eures_beta.www.accounts.views import selected_language
-from eures_beta.www.design_system import bootstrap_form
+from eures_beta.www.forms import bootstrap_form
 from .followup import ReminderForm
 from .matching import render_workspace, pending_pairs
 
