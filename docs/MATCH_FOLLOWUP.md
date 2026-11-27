@@ -55,13 +55,13 @@ soumissions ; une réponse reçue invalide un formulaire périmé.
 
 ## Stockage et vérification
 
-`MatchFollowup` est lié au matching ; sa revue devient facultative.
+`MatchFollowup` est lié uniquement au matching ; la revue se retrouve par ce matching.
 Ses événements conservent dates, auteurs, messages et résultats du transport.
 `MatchConclusion` et ses événements distinguent déclaration employeur et
 confirmation conseiller. Les rôles sont également contrôlés dans PostgreSQL.
 L’historique détaillé est réservé aux conseillers, l’admin aux identifiants.
 
-Les migrations additives `0028` à `0031` conservent les plans et événements
+Les migrations additives `0028` à `0033` conservent les plans et événements
 existants, avec rattachement par la revue historique. Un retour arrière est
 refusé s’il détruirait un plan sans revue ou une conclusion déclarée ; préserver
 ces données avant toute opération de retour arrière. Les migrations historiques

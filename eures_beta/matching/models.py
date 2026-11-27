@@ -323,13 +323,6 @@ class MatchFollowup(models.Model):
         HIRED = 'hired', _('Hired')
         STOPPED = 'stopped', _('Recruitment stopped')
 
-    review = models.OneToOneField(
-        CandidateOfferReview,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='match_followup',
-    )
     match = models.OneToOneField(
         CandidateOfferMatch, on_delete=models.CASCADE, related_name='followup'
     )
@@ -350,10 +343,6 @@ class MatchFollowup(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        if not self.match_id and self.review_id:
-            self.match_id = self.review.match_id
-        if self.review_id and self.review.match_id != self.match_id:
-            raise ValidationError('The follow-up must belong to the same matching.')
         validate_user_roles(self, updated_by_adviser='adviser')
         return super().save(*args, **kwargs)
 

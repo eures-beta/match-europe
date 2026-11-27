@@ -165,13 +165,15 @@ def index(request):
         if section not in ('all', 'unplanned', 'upcoming'):
             section = 'all'
         query = service.reviews()
-        active = query.exclude(match_followup__outcome__in=['hired', 'stopped'])
+        active = query.exclude(match__followup__outcome__in=['hired', 'stopped'])
         counts = active.aggregate(
             total=Count('pk'),
-            due=Count('pk', filter=Q(match_followup__due_on__lte=timezone.localdate())),
-            unplanned=Count('pk', filter=Q(match_followup__due_on__isnull=True)),
+            due=Count(
+                'pk', filter=Q(match__followup__due_on__lte=timezone.localdate())
+            ),
+            unplanned=Count('pk', filter=Q(match__followup__due_on__isnull=True)),
             upcoming=Count(
-                'pk', filter=Q(match_followup__due_on__gt=timezone.localdate())
+                'pk', filter=Q(match__followup__due_on__gt=timezone.localdate())
             ),
         )
         if (
@@ -182,16 +184,16 @@ def index(request):
         ):
             due_only = True
         if closed:
-            query = query.filter(match_followup__outcome__in=['hired', 'stopped'])
+            query = query.filter(match__followup__outcome__in=['hired', 'stopped'])
         else:
-            query = query.exclude(match_followup__outcome__in=['hired', 'stopped'])
+            query = query.exclude(match__followup__outcome__in=['hired', 'stopped'])
         if due_only:
-            query = query.filter(match_followup__due_on__lte=timezone.localdate())
+            query = query.filter(match__followup__due_on__lte=timezone.localdate())
         elif not closed and section == 'unplanned':
-            query = query.filter(match_followup__due_on__isnull=True)
+            query = query.filter(match__followup__due_on__isnull=True)
         elif not closed and section == 'upcoming':
-            query = query.filter(match_followup__due_on__gt=timezone.localdate())
-        query = query.order_by(F('match_followup__due_on').asc(nulls_last=True), 'pk')
+            query = query.filter(match__followup__due_on__gt=timezone.localdate())
+        query = query.order_by(F('match__followup__due_on').asc(nulls_last=True), 'pk')
         page = Paginator(query, 20).get_page(request.GET.get('page'))
         rows = [
             dict(review=review, **presentation(review, service.context(review)))
