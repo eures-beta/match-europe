@@ -16,7 +16,7 @@ from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
-    EmployerOfferConsent,
+    EmployerCandidateReview,
     MatchFollowup,
     MatchFollowupEvent,
 )
@@ -93,9 +93,9 @@ class MatchFollowupTests(TestCase):
                 public_message='Proceed',
             )
         self.review.refresh_from_db()
-        return EmployerOfferConsent.objects.create(
+        return EmployerCandidateReview.objects.create(
             agreement=answers.review_state(self.review)['agreement'],
-            adviser=self.adviser,
+            requested_by_adviser=self.adviser,
             employer=self.employer,
         )
 
