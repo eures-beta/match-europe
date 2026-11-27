@@ -16,12 +16,32 @@ from django.views.decorators.http import require_http_methods
 
 from eures_beta.matching import access
 from eures_beta.followup import match_lifecycle as service, match_followup
+from eures_beta.followup.models import MatchFollowup
 from eures_beta.introductions.models import CandidateOfferConversation
 from eures_beta.users.email_login import email_ready
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.www.forms import bootstrap_form
-from .followup import ReminderForm
 from .matching import render_workspace, pending_pairs
+
+
+class ReminderForm(forms.Form):
+    stamp = forms.CharField(widget=forms.HiddenInput, max_length=64)
+    recipient = forms.ChoiceField(label=_('Recipient'))
+    language = forms.ChoiceField(
+        label=_('Email language'),
+        choices=[('fr', 'Français'), ('en', 'English'), ('de', 'Deutsch')],
+    )
+    message = forms.CharField(
+        label=_('Reminder message'),
+        max_length=2000,
+        widget=forms.Textarea(attrs={'rows': 5}),
+    )
+
+    def __init__(self, recipients, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['recipient'].choices = [
+            (role, dict(MatchFollowup.WaitingFor.choices)[role]) for role in recipients
+        ]
 
 
 class CheckInForm(forms.Form):

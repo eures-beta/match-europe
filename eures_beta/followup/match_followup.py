@@ -186,51 +186,6 @@ def locked_review(adviser, pk):
     return reviews().select_for_update(of=('self',)).get(pk=pk)
 
 
-@transaction.atomic
-def plan(adviser, pk, stamp, **values):
-    review = locked_review(adviser, pk)
-    current = context(review)
-    if current['stamp'] != stamp:
-        raise Changed
-    if values['outcome'] != 'open' and not values['closure_reason'].strip():
-        raise ValidationError(_('Give a reason for closing this follow-up.'))
-    if values['outcome'] == 'open' and not values['due_on']:
-        raise ValidationError(_('Choose when to check this dossier again.'))
-    if MatchConclusion.objects.filter(match=review.match).exists():
-        raise ValidationError(_('This matching already has a declared outcome.'))
-    if values['outcome'] == 'hired':
-        raise ValidationError(
-            _('Verify the employer’s hiring declaration before closing this matching.')
-        )
-    followup = current['plan'] or MatchFollowup(match=review.match)
-    for key in ('next_action', 'waiting_for', 'due_on', 'outcome', 'closure_reason'):
-        setattr(followup, key, values[key])
-    if followup.outcome != 'open':
-        followup.due_on = None
-    else:
-        followup.closure_reason = ''
-    followup.updated_by_adviser = adviser
-    followup.version += 1
-    followup.full_clean()
-    followup.save()
-    MatchFollowupEvent.objects.create(
-        followup=followup,
-        actor=adviser,
-        action='plan',
-        snapshot={
-            key: str(getattr(followup, key) or '')
-            for key in (
-                'next_action',
-                'waiting_for',
-                'due_on',
-                'outcome',
-                'closure_reason',
-            )
-        },
-    )
-    return followup
-
-
 def reminder(adviser, pk, stamp, recipient, message, language='fr'):
     """Claim once before transport. No automatic retry on ambiguous SMTP failures."""
     message = message.strip()
