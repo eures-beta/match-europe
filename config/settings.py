@@ -47,8 +47,6 @@ DEMO_ACCOUNTS_ENABLED = os.environ.get('DEMO_ACCOUNTS_ENABLED', '0') == '1'
 TEAM_CONTACT_EMAIL = (
     os.environ.get('TEAM_CONTACT_EMAIL') or 'eric.barthelemy@francetravail.fr'
 )
-# Optional alternative destination for employers requesting an invitation.
-EMPLOYER_ADVISER_CONTACT_URL = os.environ.get('EMPLOYER_ADVISER_CONTACT_URL', '')
 if DEMO_ACCOUNTS_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
 ):
@@ -135,7 +133,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'eures_beta.users.test_accounts.context',
-                'eures_beta.employers.contact.context',
                 'eures_beta.www.contact.context',
             ],
         },

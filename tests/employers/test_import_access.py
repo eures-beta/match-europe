@@ -263,12 +263,10 @@ class ImportAccessTests(TestCase):
             'employer-invitation-help',
         )
 
-    @override_settings(
-        EMPLOYER_ADVISER_CONTACT_URL='https://contact.example.invalid/?x=1'
-    )
-    def test_configured_adviser_contact_is_used_as_is(self):
+    @override_settings(TEAM_CONTACT_EMAIL='team@example.invalid')
+    def test_employer_invitation_uses_the_shared_team_contact(self):
         page = self.client.get('/employer/import/?lang=en', secure=True)
-        self.assertContains(page, 'href="https://contact.example.invalid/?x=1"')
+        self.assertContains(page, 'href="mailto:team@example.invalid"')
 
     def test_signed_in_employer_contact_email_is_prefilled(self):
         self.client.force_login(self.employer)
