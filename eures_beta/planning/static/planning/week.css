@@ -7,8 +7,21 @@
 .planning-navigation {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-block-end: 1rem;
+  gap: var(--me-space-xs);
+  margin-block-end: var(--me-space-m);
+}
+
+/* On a phone the three week buttons share one row instead of stacking */
+@media (max-width: 760px) {
+  .planning-navigation {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+  }
+
+  .planning-navigation .btn {
+    white-space: normal;
+  }
 }
 
 .planning-table {

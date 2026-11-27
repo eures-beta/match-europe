@@ -174,7 +174,7 @@
   background: var(--me-color-surface-subtle);
 }
 
-.invitation-history button {
+.invitation-history button:not(.btn) {
   border: 1px solid #8c9cb0;
   border-radius: 0.45rem;
   padding: 0.42rem 0.65rem;
