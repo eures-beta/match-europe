@@ -127,17 +127,36 @@
   background: var(--me-color-surface);
   border-radius: var(--me-radius-control);
 }
-.employer-consent-reply .dialogue-bubble {
-  width: 92%;
+/* Employer reply: one form panel (label above each control, context in muted text)
+   instead of one bubble per field. */
+.employer-consent-reply {
+  display: grid;
+  margin-top: var(--me-space-m);
+  padding: var(--me-space-l);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+  box-shadow: var(--me-shadow-card);
 }
-.employer-consent-reply select,
-.employer-consent-reply textarea {
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  min-height: var(--me-control-min-height);
-  font: inherit;
+.employer-consent-reply-title {
+  margin: 0 0 var(--me-space-m);
+  font-size: var(--me-font-size-m);
+  font-weight: var(--me-font-weight-bold);
+}
+.employer-consent-condition {
+  padding-top: var(--me-space-m);
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+.employer-consent-context {
+  margin: 0 0 var(--me-space-xs);
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+.employer-consent-context strong {
+  color: var(--me-color-text);
+}
+.employer-consent-reply .btn {
+  justify-self: start;
 }
 .conversation-app :focus-visible {
   outline: var(--me-focus-outline-width) solid var(--me-color-focus);
