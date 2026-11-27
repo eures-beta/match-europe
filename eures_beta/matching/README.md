@@ -21,3 +21,6 @@ Rapprochement explicable entre candidats et offres : calcul, évaluations et pr�
 - [presentation.py](presentation.py) — Prépare les libellés lisibles des critères de rapprochement.
 - [services.py](services.py) — Orchestre calculs, décisions et recalculs après modification du profil ou de l’offre.
 - [validation.py](validation.py) — Valide les données métier du rapprochement.
+
+Le [journal `MatchEvent`](../../docs/MATCH_EVENTS.md) appartient au matching et
+rassemble les événements de revue, de suivi et de conclusion sans dépendre de leurs modèles.

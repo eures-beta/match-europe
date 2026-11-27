@@ -1,7 +1,6 @@
-from eures_beta.matching.models import MatchEvent
-
 """Shared follow-up and deliberate, single-recipient reminders."""
 
+from eures_beta.matching.models import MatchEvent
 from datetime import timedelta
 import hashlib
 import json

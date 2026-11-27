@@ -9412,3 +9412,11 @@ msgstr "Begleitung und Nachverfolgung"
 msgid "Introductions"
 msgstr "Kontaktanbahnung"
 
+
+
+msgid "Candidate review"
+msgstr "Prüfung durch die kandidierende Person"
+
+msgid "Conclusion"
+msgstr "Abschluss"
+

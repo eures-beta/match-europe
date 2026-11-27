@@ -1,7 +1,6 @@
-from eures_beta.matching.models import MatchEvent
-
 """One dossier per matching, from calculation to a human-confirmed outcome."""
 
+from eures_beta.matching.models import MatchEvent
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.utils import timezone

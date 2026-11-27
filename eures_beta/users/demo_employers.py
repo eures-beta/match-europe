@@ -1,7 +1,6 @@
-from eures_beta.matching.models import MatchEvent
-
 """Merge historical demonstration employers into a single account."""
 
+from eures_beta.matching.models import MatchEvent
 from django.core.management import CommandError
 from django.db import transaction
 from django.contrib.admin.models import LogEntry

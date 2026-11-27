@@ -20,13 +20,12 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | MatchDecision | 1 | 14 |
 | CandidateOfferReview | 1 | 13 |
 | CandidateOfferReviewAnswer | 13 | 169 |
-| CandidateOfferReviewEvent | 0 | 27 |
+| MatchEvent (27 revues, 2 suivis, 1 conclusion) | 0 | 30 |
 | CandidateProfileSharing (8 accords, 4 refus) | 0 | 12 |
 | CandidateOfferConversation | 0 | 5 |
 | CandidateOfferConversationMessage | 0 | 6 |
 | EmployerOfferConsent | 0 | 1 |
-| MatchFollowup | 0 | 3 |
-| MatchFollowupEvent | 0 | 3 |
+| MatchFollowup | 0 | 2 |
 | CandidateSupport | 0 | 5 |
 | JobOfferSupport | 0 | 16 |
 | CandidateProfileReviewSuggestion | 0 | 2 |
@@ -40,7 +39,7 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | Permission | 104 | 124 |
 | ContentType | 26 | 31 |
 
-Les 30 modèles actifs sont peuplés, contre 10 auparavant.
+Les 29 modèles actifs sont peuplés, contre 10 auparavant.
 Le [README des exemples](../eures_beta/users/preview_data/) explique la répartition
 par compte, offre et revue, les métiers et le calcul des totaux.
 

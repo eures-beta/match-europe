@@ -31,11 +31,14 @@ class DomainBoundariesTests(SimpleTestCase):
                 )
                 self.assertEqual(actual, expected)
 
-    def test_three_apps_own_the_existing_sixteen_models(self):
+    def test_three_apps_own_models_and_one_shared_journal(self):
         expected = {
             'matching': {'CandidateOfferMatch', 'MatchEvaluation', 'MatchDecision'},
             **{app: set(names) for app, names in DOMAIN_MODELS.items()},
         }
+        expected['matching'].add('MatchEvent')
+        expected['introductions'].remove('CandidateOfferReviewEvent')
+        expected['followup'] -= {'MatchFollowupEvent', 'MatchConclusionEvent'}
         for app, names in expected.items():
             with self.subTest(app=app):
                 self.assertEqual(
@@ -310,10 +313,8 @@ class DomainExtractionMigrationTests(TransactionTestCase):
                 adviser.pk,
             )
             with connection.cursor() as cursor:
-                for owner, names in DOMAIN_MODELS.items():
-                    for name in names:
-                        cursor.execute(
-                            'SELECT to_regclass(%s)', [f'{owner}_{name.lower()}']
-                        )
+                for owner in ('matching', 'introductions', 'followup'):
+                    for model in current_apps.get_app_config(owner).get_models():
+                        cursor.execute('SELECT to_regclass(%s)', [model._meta.db_table])
                         self.assertIsNotNone(cursor.fetchone()[0])
             self.migrate(BEFORE)

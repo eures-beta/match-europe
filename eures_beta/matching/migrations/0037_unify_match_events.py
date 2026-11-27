@@ -78,7 +78,9 @@ def restore_events(apps, schema_editor):
     alias = schema_editor.connection.alias
     Event = apps.get_model('matching', 'MatchEvent')
     for kind, name, parent, relation, fields in SOURCES:
-        Source = apps.get_model('matching', name)
+        Source = apps.get_model(
+            'introductions' if kind == 'review' else 'followup', name
+        )
         Parent = apps.get_model(
             'introductions' if kind == 'review' else 'followup', parent
         )
@@ -99,22 +101,45 @@ def restore_events(apps, schema_editor):
             original_id = event.source_id
             if original_id is None:
                 original_id, next_id = next_id, next_id + 1
-            old = Source.objects.using(alias).create(
-                pk=original_id,
-                **{relation + '_id': anchor.pk},
-                actor_id=event.actor_id,
-                action=event.action,
+            values = {
+                relation + '_id': anchor.pk,
+                'actor_id': event.actor_id,
+                'action': event.action,
                 **{field: getattr(event, field) for field in fields},
-            )
-            Source.objects.using(alias).filter(pk=old.pk).update(
-                created_at=event.created_at
-            )
+            }
+            existing = Source.objects.using(alias).filter(pk=original_id).first()
+            if existing is not None:
+                # A targeted migration may have copied but not yet dropped this source.
+                if existing.created_at != event.created_at or any(
+                    getattr(existing, field) != value for field, value in values.items()
+                ):
+                    raise RuntimeError(
+                        'Conflicting source history prevents a lossless rollback.'
+                    )
+            else:
+                old = Source.objects.using(alias).create(pk=original_id, **values)
+                Source.objects.using(alias).filter(pk=old.pk).update(
+                    created_at=event.created_at
+                )
         from django.core.management.color import no_style
 
         for statement in schema_editor.connection.ops.sequence_reset_sql(
             no_style(), [Source]
         ):
             schema_editor.execute(statement)
+        if kind in ('followup', 'conclusion'):
+            table = schema_editor.quote_name(Source._meta.db_table)
+            suffix = 'adviser' if kind == 'followup' else 'actor'
+            trigger = schema_editor.quote_name(
+                Source._meta.db_table + '_' + suffix + '_guard'
+            )
+            function = schema_editor.quote_name(
+                Source._meta.db_table + '_check_' + suffix
+            )
+            schema_editor.execute(f'DROP TRIGGER IF EXISTS {trigger} ON {table}')
+            schema_editor.execute(
+                f'CREATE TRIGGER {trigger} BEFORE INSERT OR UPDATE ON {table} FOR EACH ROW EXECUTE FUNCTION {function}()'
+            )
 
 
 class Migration(migrations.Migration):

@@ -61,3 +61,7 @@ la compatibilité des anciennes notifications et le refus des destinations exter
   avec l’API GitHub simulée et sans modifier d’alerte réelle.
 
 Le traitement post-Albert est couvert par `introductions/test_review_workflow.py`, `introductions/test_review_concurrency.py` et `matching/test_review_workflow_migration.py` : droits, notes privées, décisions, concurrence PostgreSQL, refus sur trois offres et migration non vide.
+
+`matching/test_match_events.py` vérifie le journal commun, les versions, les rôles
+et les lectures filtrées ; `matching/test_match_event_migration.py` vérifie
+l’aller-retour peuplé avec des identifiants d’origine qui se chevauchent.

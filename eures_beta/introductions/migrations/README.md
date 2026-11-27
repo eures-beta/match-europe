@@ -8,3 +8,5 @@ Historique versionné du schéma ; les migrations déplacent les tables en conse
 - [0001_initial.py](0001_initial.py) — Migration historique à conserver pour les mises à jour et retours arrière.
 - [0002_domain_table_names.py](0002_domain_table_names.py) — Migration historique à conserver pour les mises à jour et retours arrière.
 - [__init__.py](__init__.py) — Déclare le paquet Python.
+
+- [0004_remove_review_event.py](0004_remove_review_event.py) — Supprime le journal de revue après sa copie vers MatchEvent.

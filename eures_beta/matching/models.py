@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from eures_beta.users.role_validation import validate_user_roles
 from eures_beta.matching import validation
 
 
