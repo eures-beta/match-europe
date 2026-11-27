@@ -39,3 +39,30 @@ class ReturnPathRoleTests(SimpleTestCase):
             consume(request, '/accounts/dashboard/', user=adviser),
             '/accounts/dashboard/',
         )
+
+
+class PlanningReturnPathTests(SimpleTestCase):
+    def test_only_active_staff_can_return_to_planning_regardless_of_role(self):
+        from eures_beta.www.accounts.return_path import canonical_destination
+
+        path = reverse('staff_planning', query={'lang': 'fr', 'week': '2026-11-23'})
+        self.assertEqual(canonical_destination(path), path)
+        for role in ('candidate', 'employer', 'adviser'):
+            for staff in (False, True):
+                user = SimpleNamespace(
+                    is_authenticated=True, is_active=True, is_staff=staff, kind=role
+                )
+                request = SimpleNamespace(
+                    user=user, session={'login_return_path': path}
+                )
+                self.assertEqual(consume(request, '/'), path if staff else '/')
+        for suffix in (
+            '?week=invalid',
+            '?week=20261123',
+            '?week=2026-11-23&week=2026-11-30',
+            '?next=https://evil.invalid',
+            '?lang=es',
+        ):
+            self.assertEqual(
+                canonical_destination(reverse('staff_planning') + suffix), ''
+            )

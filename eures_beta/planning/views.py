@@ -2,8 +2,8 @@
 
 from datetime import date, timedelta
 
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -31,6 +31,7 @@ def monday(day):
 
 
 @never_cache
+@login_required
 @require_http_methods(['GET', 'POST'])
 def planning(request):
     if not (
@@ -38,7 +39,7 @@ def planning(request):
         and request.user.is_active
         and request.user.is_staff
     ):
-        raise PermissionDenied
+        raise Http404
     language = request.LANGUAGE_CODE
     today = timezone.localdate()
     selected = parse_day(request.GET.get('week', today.isoformat()))

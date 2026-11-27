@@ -342,7 +342,7 @@ class TestAccountAccessTests(TestCase):
             403,
         )
         self.client.post(reverse('test_account_sign_in'), {'account': 'adviser'})
-        self.assertEqual(self.client.get(reverse('staff_planning')).status_code, 403)
+        self.assertEqual(self.client.get(reverse('staff_planning')).status_code, 404)
 
     def test_selector_uses_the_six_approved_labels_in_order(self):
         self.seed()

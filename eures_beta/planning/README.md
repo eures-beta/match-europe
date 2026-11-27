@@ -15,3 +15,5 @@ Sans ligne enregistrée : présent du lundi au vendredi, absent le samedi et le 
 Seules intégrations : compte `AUTH_USER_MODEL`, layout/middleware de langue, liens du header et de l’espace conseiller. Les vues et données ne dépendent pas de `www` ; cette exception architecturale prépare une extraction ultérieure.
 
 Tests : `make test TESTS=eures_beta.planning.tests` ; l’entrée `make test` les découvre aussi.
+
+Un visiteur non connecté est dirigé vers la connexion avec retour au planning (langue et semaine conservées). Un compte connecté sans accès reçoit une page 404 intégrée au site. Les pages 403/404 communes conservent les liens de navigation sans exposer de détail technique.

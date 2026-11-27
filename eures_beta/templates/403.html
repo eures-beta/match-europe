@@ -1,0 +1,10 @@
+{% extends "public_base.html" %}
+{% load i18n %}
+{% block page_title %}{% translate "Access denied" %} — Match Europe{% endblock %}
+{% block public_content %}
+  <section class="shell" aria-labelledby="error-title">
+    <h1 id="error-title">{% translate "Access denied" %}</h1>
+    <p>{% translate "This page is unavailable for this account." %}</p>
+    <a href="{% url 'home' %}">{% translate "Home" context "employer landing" %}</a>
+  </section>
+{% endblock %}
