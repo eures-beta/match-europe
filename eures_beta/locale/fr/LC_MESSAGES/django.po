@@ -8441,3 +8441,28 @@ msgstr "Des opportunités d’emploi en Europe avec Match Europe et EURES."
 msgctxt "candidate invitation"
 msgid "Kind regards,"
 msgstr "Bien cordialement,"
+
+#, python-format
+msgctxt "candidate feedback"
+msgid "Match Europe – candidate feedback (step %(step)s of 4)"
+msgstr "Match Europe – retour candidat (étape %(step)s sur 4)"
+
+msgctxt "candidate feedback"
+msgid "A problem or a suggestion?"
+msgstr "Un problème ou une suggestion ?"
+
+msgctxt "candidate feedback"
+msgid "This service is new. Tell us what does not work or what could be better."
+msgstr "Ce service est nouveau. Dites-nous ce qui ne fonctionne pas ou ce qui pourrait être amélioré."
+
+msgctxt "candidate feedback"
+msgid "Write to the team"
+msgstr "Écrire à l’équipe"
+
+msgctxt "candidate feedback"
+msgid "Match Europe – candidate feedback"
+msgstr "Match Europe – retour candidat"
+
+msgctxt "candidate shell"
+msgid "Report a problem or a suggestion"
+msgstr "Signaler un problème ou une suggestion"

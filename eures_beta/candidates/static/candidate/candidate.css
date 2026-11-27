@@ -195,6 +195,15 @@ a:focus-visible {
 .journey-aside p {
   line-height: 1.6;
 }
+.journey-feedback {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.journey-feedback a {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
 @media (max-width: 800px) {
   .journey-layout {
     grid-template-columns: 1fr;
