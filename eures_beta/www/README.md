@@ -22,6 +22,7 @@ Les modèles, services, validations partagées et commandes restent dans les app
 
 - [contact.py](contact.py) — Fournit l’adresse commune de l’équipe aux templates.
 - [forms.py](forms.py) — Présentation Bootstrap des widgets, indépendante du catalogue graphique, avec le [champ partagé](../templates/form_field.html).
+- [design_system.py](design_system.py) — Réexporte le formateur commun pour les pages du catalogue EURES.
 - [__init__.py](__init__.py) — Déclare le paquet Python commun des interfaces.
 - [urls.py](urls.py) — Assemble les routes applicatives ; les endpoints techniques restent dans config.
 - [language.py](language.py) — Partage la langue choisie entre les parcours et l'administration, avec le cookie Django après déconnexion.
