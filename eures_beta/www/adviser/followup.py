@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods
 from eures_beta.matching import access, introduction_followup as service
 from eures_beta.matching.models import IntroductionFollowup
 from eures_beta.www.accounts.views import selected_language
-from eures_beta.www.design_system import bootstrap_form
+from eures_beta.www.forms import bootstrap_form
 from eures_beta.users.email_login import email_ready
 from .matching import render_workspace
 
