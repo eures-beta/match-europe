@@ -1,6 +1,7 @@
 {% load i18n %}
-<section class="result-card">
-  <h2>{% translate "Candidate confirmations" %}</h2>
+<section class="ds-card match-section match-confirmations"
+         aria-labelledby="candidate-confirmations-title">
+  <h2 id="candidate-confirmations-title">{% translate "Candidate confirmations" %}</h2>
   {% if review %}
     <p>{% translate "The candidate can review this offer in their private space. No notification has been sent." %}</p>
     {% if confirmation_state.unresolved %}
@@ -11,7 +12,7 @@
     {% else %}
       <p>{% translate "No current permission to transmit the profile." %}</p>
     {% endif %}
-    <ul>
+    <ul class="match-confirmation-rows">
       {% for row in confirmation_state.rows %}
         <li>{{ row.label }} — {{ row.expected }} : {% if row.askable %}{{ row.answer_label }}{% else %}{% translate "Employer clarification needed" %}{% endif %}{% if row.answer.detail %} — {{ row.answer.detail }}{% endif %}</li>
       {% endfor %}

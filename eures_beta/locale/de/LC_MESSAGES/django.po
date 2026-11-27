@@ -9369,3 +9369,29 @@ msgctxt "account navigation"
 msgid "Account"
 msgstr "Konto"
 
+
+
+msgid "To do"
+msgstr "Zu erledigen"
+
+msgid "Awaiting an adviser"
+msgstr "Wartet auf die Beratung"
+
+msgid "Finished"
+msgstr "Abgeschlossen"
+
+msgid "Permission"
+msgstr "Einwilligung"
+
+msgid "Confirmed"
+msgstr "Bestätigt"
+
+msgid "An adviser needs more information from you."
+msgstr "Die Beratung benötigt weitere Angaben von Ihnen."
+
+msgid "Reply to the adviser"
+msgstr "Der Beratung antworten"
+
+msgid "A blocked pair cannot be retained for review."
+msgstr "Ein blockiertes Paar kann nicht zur Prüfung vorgemerkt werden."
+

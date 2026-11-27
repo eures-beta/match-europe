@@ -149,6 +149,10 @@ h6,
 /* Decision buttons. ECL green fails AA under white text, so "approve" keeps dark text on the
    success surface with a green border; "refuse" uses the error colour, allowed for text. */
 .btn-success {
+  --bs-btn-disabled-color: var(--me-palette-dark-60);
+  --bs-btn-disabled-bg: var(--me-color-surface-subtle);
+  --bs-btn-disabled-border-color: var(--me-palette-dark-40);
+  --bs-btn-disabled-opacity: 1;
   --bs-btn-color: var(--me-color-text);
   --bs-btn-bg: var(--me-color-success-surface);
   --bs-btn-border-color: var(--me-color-success);
@@ -162,6 +166,10 @@ h6,
 }
 
 .btn-outline-danger {
+  --bs-btn-disabled-color: var(--me-palette-dark-60);
+  --bs-btn-disabled-bg: var(--me-color-surface-subtle);
+  --bs-btn-disabled-border-color: var(--me-palette-dark-40);
+  --bs-btn-disabled-opacity: 1;
   --bs-btn-color: var(--me-color-error);
   --bs-btn-bg: var(--me-color-surface);
   --bs-btn-border-color: var(--me-color-error);

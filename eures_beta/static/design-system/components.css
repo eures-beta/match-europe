@@ -515,3 +515,169 @@ body:has(> .ds-site-header) {
   background: var(--me-color-surface);
   border-top: var(--me-border-width) solid var(--me-color-border);
 }
+
+/* Row list: a white surface holding clickable rows separated by lines (inbox, conversations).
+   One surface only: rows are never cards inside a card. */
+.ds-row-group {
+  margin-bottom: var(--me-space-xl);
+}
+
+.ds-group-title {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-xs);
+  margin: 0 0 var(--me-space-s);
+  font-family: var(--me-font-family);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--me-color-text-muted);
+}
+
+.ds-count {
+  min-width: var(--me-space-l);
+  padding: 0 var(--me-space-xs);
+  border-radius: var(--me-radius-badge);
+  background: var(--me-color-surface-subtle);
+  color: var(--me-color-text);
+  text-align: center;
+}
+
+.ds-row-list {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-card);
+}
+
+.ds-row-list li + li {
+  border-top: var(--me-border-width) solid var(--me-color-border);
+}
+
+.ds-row {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-m);
+  padding: var(--me-space-m) var(--me-space-l);
+  color: var(--me-color-text);
+  text-decoration: none;
+}
+
+.ds-row:hover {
+  color: var(--me-color-text);
+  background: var(--me-color-surface-subtle);
+}
+
+.ds-row::after {
+  flex: none;
+  content: '›';
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-xl);
+  line-height: 1;
+}
+
+.ds-row-main {
+  display: grid;
+  flex: 1;
+  gap: var(--me-space-2xs);
+  min-width: 0;
+}
+
+.ds-row-title {
+  font-weight: var(--me-font-weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.ds-row:hover .ds-row-title {
+  color: var(--me-color-link);
+  text-decoration: underline;
+}
+
+.ds-row-sub {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+.ds-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--me-space-xs);
+  margin-top: var(--me-space-2xs);
+}
+
+/* The row's call to action, as text: the whole row is the link */
+.ds-row-action {
+  flex: none;
+  color: var(--me-color-link);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+}
+
+/* Pill: dark text on a tinted background, the tone is the dot
+   (ECL status colours fail AA as text) */
+.ds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--me-space-2xs);
+  padding: var(--me-space-2xs) var(--me-space-xs);
+  border-radius: var(--me-radius-badge);
+  background: var(--me-color-surface-subtle);
+  color: var(--me-color-text);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+}
+
+.ds-pill::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  content: '';
+  border-radius: var(--me-radius-round);
+  background: var(--me-color-text-muted);
+}
+
+.ds-pill-warning {
+  background: var(--me-color-warning-surface);
+}
+
+.ds-pill-warning::before {
+  background: var(--me-color-warning);
+}
+
+.ds-pill-info {
+  background: var(--me-color-info-surface);
+}
+
+.ds-pill-info::before {
+  background: var(--me-color-info);
+}
+
+.ds-pill-success {
+  background: var(--me-color-success-surface);
+}
+
+.ds-pill-success::before {
+  background: var(--me-color-success);
+}
+
+.ds-pill-error {
+  background: var(--me-color-error-surface);
+}
+
+.ds-pill-error::before {
+  background: var(--me-color-error);
+}
+
+@media (max-width: 600px) {
+  .ds-row {
+    padding: var(--me-space-m);
+  }
+
+  .ds-row-action {
+    display: none;
+  }
+}

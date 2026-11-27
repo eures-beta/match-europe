@@ -1,14 +1,20 @@
 {% load i18n %}
+{% comment %}
+  Adviser review of a candidate's replies: status, follow-up messages and profile prompts.
+  status_shown: the page already shows the review status (offer confirmation page).
+{% endcomment %}
 {% if workflow_current %}
-  <section class="ds-card mb-4" aria-labelledby="handoff-title">
+  <section class="ds-card offer-section" aria-labelledby="handoff-title">
     <h2 id="handoff-title">{% translate "Adviser review" %}</h2>
     <p class="dialogue-bubble">{% translate "Your replies have been saved and sent to an adviser for review. Nothing has been sent to the employer." %}</p>
-    <p role="status">{{ obj.get_workflow_state_display }}</p>
-    {% if obj.workflow_state == "ready" or obj.workflow_state == "claimed" %}
-      <p>{% translate "An adviser will review your answers and reservations, then tell you the next step or ask for more information." %}</p>
+    {% if not status_shown %}
+      <p role="status">{{ obj.get_workflow_state_display }}</p>
+      {% if obj.workflow_state == "ready" or obj.workflow_state == "claimed" %}
+        <p>{% translate "An adviser will review your answers and reservations, then tell you the next step or ask for more information." %}</p>
+      {% endif %}
     {% endif %}
     {% if latest_adviser_message %}<p class="dialogue-bubble">{{ latest_adviser_message|linebreaksbr }}</p>{% endif %}
-    {% if obj.workflow_state == "refused" %}
+    {% if obj.workflow_state == "refused" and not status_shown %}
       <p>{% translate "This decision concerns this offer only. Your profile remains available for other opportunities." %}</p>
     {% endif %}
     {% if obj.workflow_state == "clarify" %}
@@ -17,12 +23,16 @@
             class="confirmation-form">
         {% csrf_token %}
         <input type="hidden" name="version" value="{{ obj.workflow_version }}">
-        <label for="review-supplement">{% translate "Additional information for the adviser" %}</label>
-        <textarea name="message"
-                  id="review-supplement"
-                  rows="3"
-                  maxlength="2000"
-                  required></textarea>
+        <div class="mb-3">
+          <label class="form-label"
+                 for="review-supplement">{% translate "Additional information for the adviser" %}</label>
+          <textarea class="form-control"
+                    name="message"
+                    id="review-supplement"
+                    rows="3"
+                    maxlength="2000"
+                    required></textarea>
+        </div>
         <button class="btn btn-primary"
                 name="action"
                 value="supplement"
@@ -31,7 +41,7 @@
     {% endif %}
   </section>
 {% elif workflow_complete %}
-  <section class="ds-card mb-4">
+  <section class="ds-card ds-card-brand offer-section">
     <p>{% translate "Review your current replies before sending them to an adviser." %}</p>
     <form method="post"
           action="{% url 'candidate_review_reply' obj.pk %}?lang={{ page_language }}">
@@ -46,28 +56,34 @@
   </section>
 {% endif %}
 {% if public_actions %}
-  <section class="ds-card mb-4" aria-labelledby="adviser-messages-title">
-    <h2 id="adviser-messages-title">{% translate "Follow-up messages" %}</h2>
+  <section class="offer-section" aria-labelledby="adviser-messages-title">
+    <h2 class="ds-group-title" id="adviser-messages-title">{% translate "Follow-up messages" %}</h2>
     {% if not workflow_current %}
-      <p>{% translate "Earlier messages are kept below. Changed answers or conditions need a new review." %}</p>
+      <p class="offer-hint">{% translate "Earlier messages are kept below. Changed answers or conditions need a new review." %}</p>
     {% endif %}
-    {% for entry in public_actions %}
-      <p><time datetime="{{ entry.created_at|date:'c' }}">{{ entry.created_at }}</time></p>
-      <p>{{ entry.public_message|linebreaksbr }}</p>
-    {% endfor %}
+    <ol class="ds-row-list followup-messages">
+      {% for entry in public_actions %}
+        <li>
+          <time class="followup-date" datetime="{{ entry.created_at|date:'c' }}">{{ entry.created_at }}</time>
+          <p>{{ entry.public_message|linebreaksbr }}</p>
+        </li>
+      {% endfor %}
+    </ol>
   </section>
 {% endif %}
 {% if not state.scope_pending %}
   {% for prompt in profile_prompts %}
-    <section class="ds-card mb-4" aria-labelledby="profile-prompt-{{ prompt.pk }}">
-      <h2 id="profile-prompt-{{ prompt.pk }}">{% translate "You declined the same condition in three different offers. Would you like to review your general profile?" %}</h2>
-      <p>{{ prompt.label }} — {{ prompt.expected }}</p>
+    <section class="profile-prompt"
+             aria-labelledby="profile-prompt-{{ prompt.pk }}">
+      <h2 class="profile-prompt-title" id="profile-prompt-{{ prompt.pk }}">{% translate "You declined the same condition in three different offers. Would you like to review your general profile?" %}</h2>
+      <p class="profile-prompt-condition">{{ prompt.label }} — {{ prompt.expected }}</p>
       <p>{% translate "You can keep your profile as it is. Any change must be reviewed and confirmed by you." %}</p>
       <form method="post"
+            class="ds-actions"
             action="{% url 'candidate_review_reply' obj.pk %}?lang={{ page_language }}">
         {% csrf_token %}
         <input type="hidden" name="prompt" value="{{ prompt.pk }}">
-        <button class="btn btn-primary"
+        <button class="btn btn-outline-primary"
                 name="action"
                 value="keep"
                 type="submit">{% translate "Keep my profile unchanged" %}</button>

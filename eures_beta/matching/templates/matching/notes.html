@@ -1,34 +1,29 @@
 {% load i18n %}
+{% comment %}What stands in the way first, then what is unknown, then what fits.{% endcomment %}
 <div class="result-notes">
-  <section class="result-note">
-    <h3>{% translate "Strengths" %}</h3>
-    <ul>
-      {% for row in result.strengths %}
-        <li>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</li>
-      {% empty %}
-        <li>{% translate "No established correspondence yet." %}</li>
-      {% endfor %}
-    </ul>
-  </section>
-  <section class="result-note">
-    <h3>{% translate "Explicit incompatibilities" %}</h3>
+  <section class="result-note result-note-error">
+    <h3>
+      {% translate "Explicit incompatibilities" %} <span class="ds-count">{{ result.incompatibilities|length }}</span>
+    </h3>
     <ul>
       {% for row in result.incompatibilities %}
         <li>
           <strong>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</strong>
           {% if row.blocking %}
-            <span class="result-status result-status-blocked">{% translate "Blocking point for this offer" %}</span>
+            <span class="ds-pill ds-pill-error">{% translate "Blocking point for this offer" %}</span>
           {% endif %}
-          {% if row.expected_label %}<div>{% translate "Offer declaration" %}: {{ row.expected_label }}</div>{% endif %}
-          {% if row.declared_label %}<div>{% translate "Candidate declaration" %}: {{ row.declared_label }}</div>{% endif %}
+          {% if row.expected_label %}<div class="result-caption">{% translate "Offer declaration" %} : {{ row.expected_label }}</div>{% endif %}
+          {% if row.declared_label %}<div class="result-caption">{% translate "Candidate declaration" %} : {{ row.declared_label }}</div>{% endif %}
         </li>
       {% empty %}
-        <li>{% translate "No explicit incompatibility identified." %}</li>
+        <li class="result-caption">{% translate "No explicit incompatibility identified." %}</li>
       {% endfor %}
     </ul>
   </section>
-  <section class="result-note">
-    <h3>{% translate "Points to confirm" %}</h3>
+  <section class="result-note result-note-warning">
+    <h3>
+      {% translate "Points to confirm" %} <span class="ds-count">{{ result.unknowns|length }}</span>
+    </h3>
     <ul>
       {% for row in result.unknowns %}
         <li>
@@ -36,7 +31,19 @@
           <div class="result-caption">{{ row.explanation }}</div>
         </li>
       {% empty %}
-        <li>{% translate "No unknown point in the evaluated criteria." %}</li>
+        <li class="result-caption">{% translate "No unknown point in the evaluated criteria." %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="result-note result-note-success">
+    <h3>
+      {% translate "Strengths" %} <span class="ds-count">{{ result.strengths|length }}</span>
+    </h3>
+    <ul>
+      {% for row in result.strengths %}
+        <li>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</li>
+      {% empty %}
+        <li class="result-caption">{% translate "No established correspondence yet." %}</li>
       {% endfor %}
     </ul>
   </section>

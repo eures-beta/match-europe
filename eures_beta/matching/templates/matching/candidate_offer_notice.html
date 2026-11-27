@@ -6,7 +6,7 @@
       {% if new_offer_count == 1 %}{% translate "A new offer to review" %}{% elif new_offer_count %}{% translate "New offers to review" %} · {{ new_offer_count }}{% else %}{% translate "My offers" %}{% endif %}
     </h2>
     <p>{% translate "Find your offers and continue your conversation with Albert here, even without the email." %}</p>
-    <a class="offer-action"
+    <a class="btn btn-primary"
        href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">{% translate "View my offers" %}</a>
   </section>
 {% endif %}

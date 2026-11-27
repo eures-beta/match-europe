@@ -40,7 +40,7 @@
   cursor: pointer;
 }
 
-.confirmation-form textarea {
+.confirmation-form textarea:not(.form-control) {
   display: block;
   width: 100%;
   max-width: 100%;
@@ -126,4 +126,277 @@
 
 .dialogue-precision > summary {
   width: fit-content;
+}
+
+/* Answer choices as option cards (DS form-check markup) */
+.confirmation-form .ds-check-grid {
+  display: grid;
+  gap: var(--me-space-xs);
+}
+
+.confirmation-form .ds-check-grid .form-check {
+  display: flex;
+  align-items: center;
+  gap: var(--me-space-s);
+  min-height: var(--me-control-min-height);
+  margin: 0;
+  padding: var(--me-space-xs) var(--me-space-s);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-radius: var(--me-radius-control);
+}
+
+.confirmation-form .ds-check-grid .form-check:has(:checked) {
+  background: var(--me-color-surface-brand);
+  border-color: var(--me-color-action);
+}
+
+.confirmation-form .ds-check-grid .form-check-input {
+  flex: none;
+  margin: 0;
+}
+
+.confirmation-form .ds-check-grid .form-check-label {
+  flex: 1;
+  margin: 0;
+  font-weight: var(--me-font-weight-regular);
+  cursor: pointer;
+}
+
+/* Offer confirmation page: header, step bar, status panel, then one section per step */
+.offer-confirmation {
+  max-width: 56rem;
+}
+
+.offer-confirmation-back {
+  margin-bottom: var(--me-space-s);
+  font-size: var(--me-font-size-s);
+}
+
+.offer-confirmation-header h1 {
+  margin-bottom: var(--me-space-2xs);
+}
+
+.offer-confirmation-place {
+  margin-bottom: var(--me-space-xs);
+  color: var(--me-color-text-muted);
+}
+
+.offer-confirmation-details summary {
+  color: var(--me-color-link);
+  font-weight: var(--me-font-weight-bold);
+}
+
+.offer-steps {
+  display: flex;
+  gap: var(--me-space-xs);
+  margin: var(--me-space-l) 0 var(--me-space-m);
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.offer-steps li {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--me-space-xs);
+  padding-top: var(--me-space-xs);
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+  border-top: var(--me-border-width-strong) solid var(--me-color-border);
+}
+
+.offer-step-number {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: var(--me-border-width) solid var(--me-color-border-strong);
+  border-radius: var(--me-radius-round);
+  font-weight: var(--me-font-weight-bold);
+}
+
+.offer-steps li.is-done {
+  border-top-color: var(--me-color-success);
+}
+
+.offer-steps li.is-done .offer-step-number {
+  color: var(--me-color-text-inverse);
+  background: var(--me-color-success);
+  border-color: var(--me-color-success);
+}
+
+.offer-steps [aria-current='step'] {
+  color: var(--me-color-text);
+  font-weight: var(--me-font-weight-bold);
+  border-top-color: var(--me-color-action);
+}
+
+.offer-steps [aria-current='step'] .offer-step-number {
+  color: var(--me-color-action-text);
+  background: var(--me-color-action);
+  border-color: var(--me-color-action);
+}
+
+.offer-status-panel {
+  margin-bottom: var(--me-space-l);
+  padding: var(--me-space-m) var(--me-space-l);
+  background: var(--me-color-surface);
+  border: var(--me-border-width) solid var(--me-color-border);
+  border-inline-start: var(--me-space-2xs) solid var(--me-color-action);
+  border-radius: var(--me-radius-m);
+}
+
+.offer-status-panel p {
+  margin: 0;
+}
+
+.offer-status-panel p + p {
+  margin-top: var(--me-space-xs);
+}
+
+.offer-section,
+.offer-question {
+  margin-bottom: var(--me-space-xl);
+}
+
+.offer-section > h2:not(.ds-group-title),
+.offer-question > h2 {
+  font-size: var(--me-font-size-xl);
+}
+
+.offer-hint {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+.offer-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--me-space-m);
+  margin-block: var(--me-space-m);
+}
+
+.offer-compare > div {
+  padding: var(--me-space-m);
+  background: var(--me-color-surface-subtle);
+  border-radius: var(--me-radius-m);
+}
+
+.offer-compare h3 {
+  margin-bottom: var(--me-space-xs);
+  color: var(--me-color-text-muted);
+  font-family: var(--me-font-family);
+  font-size: var(--me-font-size-s);
+  font-weight: var(--me-font-weight-bold);
+}
+
+.offer-compare p,
+.offer-compare dl {
+  margin: 0;
+}
+
+/* Conditions: one row each (label, value, status), details on demand */
+.confirmation-flow .offer-condition {
+  padding: 0;
+}
+
+.confirmation-flow .offer-condition summary {
+  display: grid;
+  /* Fixed outer columns so every row lines up whatever the pill length */
+  grid-template-columns: 12rem minmax(0, 1fr) 16rem;
+  align-items: center;
+  gap: var(--me-space-s) var(--me-space-m);
+  padding: var(--me-space-s) var(--me-space-l);
+  list-style: none;
+}
+
+.offer-condition summary::-webkit-details-marker {
+  display: none;
+}
+
+.offer-condition summary:hover {
+  background: var(--me-color-surface-subtle);
+}
+
+.offer-condition summary .ds-pill {
+  justify-self: end;
+}
+
+.offer-condition-label {
+  font-weight: var(--me-font-weight-bold);
+}
+
+.offer-condition-value {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+.offer-condition-body {
+  padding: 0 var(--me-space-l) var(--me-space-m);
+}
+
+.followup-messages li {
+  padding: var(--me-space-m) var(--me-space-l);
+}
+
+.followup-messages p {
+  margin: var(--me-space-2xs) 0 0;
+}
+
+.followup-date {
+  color: var(--me-color-text-muted);
+  font-size: var(--me-font-size-s);
+}
+
+/* Profile prompt: a notice, not a page title */
+.profile-prompt {
+  margin-bottom: var(--me-space-l);
+  padding: var(--me-space-m) var(--me-space-l);
+  background: var(--me-color-warning-surface);
+  border-inline-start: var(--me-space-2xs) solid var(--me-color-warning);
+  border-radius: var(--me-radius-m);
+}
+
+.confirmation-flow .profile-prompt-title {
+  margin-bottom: var(--me-space-xs);
+  font-family: var(--me-font-family);
+  font-size: var(--me-font-size-m);
+  font-weight: var(--me-font-weight-bold);
+}
+
+.profile-prompt-condition {
+  font-weight: var(--me-font-weight-bold);
+}
+
+.profile-prompt .ds-actions {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.profile-prompt .ds-actions button {
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .offer-compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .confirmation-flow .offer-condition summary {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--me-space-2xs);
+    padding-inline: var(--me-space-m);
+  }
+
+  .offer-condition summary .ds-pill {
+    justify-self: start;
+  }
+
+  .offer-steps li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
