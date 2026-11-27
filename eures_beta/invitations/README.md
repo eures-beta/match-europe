@@ -44,3 +44,8 @@ les invitations déjà envoyées restent utilisables. Le seul import conservé d
 
 Appliquer l'ensemble avec `make migrate`, puis `make check` et `make test`.
 Voir [le parcours et les limites](../../docs/INVITATIONS.md).
+
+L’invitation candidat présente le conseiller et sa structure renseignés dans son
+compte, sans prénom du destinataire. Sans identité, le message parle au nom de
+l’équipe ; sans structure, aucune institution n’est attribuée au conseiller.
+Objet et contenu sont traduits en FR/EN/DE ; la relance reste distincte.

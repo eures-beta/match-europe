@@ -8386,3 +8386,58 @@ msgstr "Eine andere E-Mail-Adresse verwenden"
 #: eures_beta/templates/users/login.html
 msgid "No employer account yet?"
 msgstr "Noch kein Arbeitgeberkonto?"
+
+msgid "EURES – Job opportunities in Europe"
+msgstr "EURES – Beschäftigungsmöglichkeiten in Europa"
+
+#, python-format
+msgid "I am %(adviser_name)s, an adviser at %(organization_name)s within the European EURES network."
+msgstr "Ich bin %(adviser_name)s, Berater bei %(organization_name)s im europäischen EURES-Netzwerk."
+
+#, python-format
+msgid "I am %(adviser_name)s, an adviser within the European EURES network."
+msgstr "Ich bin %(adviser_name)s, Berater im europäischen EURES-Netzwerk."
+
+#, python-format
+msgid "We are contacting you from %(organization_name)s within the European EURES network."
+msgstr "Wir kontaktieren Sie von %(organization_name)s im europäischen EURES-Netzwerk."
+
+msgid "We are contacting you on behalf of the Match Europe team within the European EURES network."
+msgstr "Wir kontaktieren Sie im Namen des Match Europe-Teams im europäischen EURES-Netzwerk."
+
+msgid "I am contacting you as part of Match Europe, an experiment that aims to make it easier to access job opportunities in other European countries."
+msgstr "Ich kontaktiere Sie im Rahmen von Match Europe, einem Pilotprojekt, das den Zugang zu Beschäftigungsmöglichkeiten in anderen europäischen Ländern erleichtern soll."
+
+msgid "As part of Match Europe, an experiment, we aim to make it easier to access job opportunities in other European countries."
+msgstr "Im Rahmen des Pilotprojekts Match Europe möchten wir den Zugang zu Beschäftigungsmöglichkeiten in anderen europäischen Ländern erleichtern."
+
+msgid "Partner companies are currently looking for candidates and your profile could meet their needs."
+msgstr "Partnerunternehmen suchen derzeit Bewerberinnen und Bewerber, und Ihr Profil könnte ihren Anforderungen entsprechen."
+
+msgid "I therefore invite you to complete a short questionnaire so that we can better understand your professional plans and identify opportunities that may interest you."
+msgstr "Ich lade Sie daher ein, einen kurzen Fragebogen auszufüllen, damit wir Ihre beruflichen Pläne besser verstehen und Möglichkeiten finden können, die Sie interessieren könnten."
+
+msgid "We invite you to complete a short questionnaire so that we can better understand your professional plans and identify opportunities that may interest you."
+msgstr "Wir laden Sie ein, einen kurzen Fragebogen auszufüllen, damit wir Ihre beruflichen Pläne besser verstehen und Möglichkeiten finden können, die Sie interessieren könnten."
+
+msgid "See if my profile matches"
+msgstr "Prüfen, ob mein Profil passt"
+
+msgid "The questionnaire takes 2 to 3 minutes. Participation is free and without obligation."
+msgstr "Der Fragebogen dauert 2 bis 3 Minuten. Die Teilnahme ist kostenlos und unverbindlich."
+
+msgid "Match Europe team"
+msgstr "Match Europe-Team"
+
+msgid "EURES adviser"
+msgstr "EURES-Berater"
+
+msgid "You are receiving this message as part of the EURES beta experiment led by France Travail and EURES."
+msgstr "Sie erhalten diese Nachricht im Rahmen des von France Travail und EURES getragenen Pilotprojekts EURES beta."
+
+msgid "Job opportunities in Europe with Match Europe and EURES."
+msgstr "Beschäftigungsmöglichkeiten in Europa mit Match Europe und EURES."
+
+msgctxt "candidate invitation"
+msgid "Kind regards,"
+msgstr "Mit freundlichen Grüßen"

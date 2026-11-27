@@ -10,6 +10,12 @@ au matching. Voir [le contrat](docs/ADVISER_EMPLOYER_OFFERS.md).
 Vérifier GitHub, les CI et l'environnement avant toute opération : ce document
 ne prouve aucun déploiement et n'autorise aucune fusion.
 
+## Invitation candidat
+
+Objet EURES et introduction contextualisée FR/EN/DE, salutation sans prénom.
+Identité et structure du conseiller reprises du compte, replis sans identité
+inventée ; liens, notice et logos conservés. La relance reste inchangée.
+
 ## À lire pour reprendre
 
 - [Vue d'ensemble](docs/VUE_ENSEMBLE.md) : rôles, domaines et parcours.

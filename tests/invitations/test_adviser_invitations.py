@@ -4,7 +4,7 @@ from tempfile import TemporaryDirectory
 from time import time
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -98,6 +98,33 @@ class AdviserInvitationsTests(TestCase):
         ):
             self.assertIn(filename, preview['html'])
 
+    def test_candidate_delivery_keeps_preview_language(self):
+        from unittest.mock import patch
+        from django.test import RequestFactory
+        from eures_beta.www.invitations.adviser import send_batch
+
+        request = RequestFactory().post(self.tab)
+        request.user = self.adviser
+        with patch('eures_beta.www.invitations.adviser.deliver', return_value=True):
+            self.assertEqual(
+                send_batch(
+                    request,
+                    {
+                        'recipient_kind': 'candidate',
+                        'language': 'de',
+                        'recipients': [
+                            {
+                                'email': 'candidate@example.invalid',
+                                'first_name': 'Camille',
+                                'last_name': '',
+                            }
+                        ],
+                    },
+                ),
+                (1, 0),
+            )
+        self.assertEqual(Invitation.objects.get().language, 'de')
+
     def test_candidate_preview_delivery_and_acceptance(self):
         with (
             TemporaryDirectory() as directory,
@@ -111,7 +138,8 @@ class AdviserInvitationsTests(TestCase):
             ),
         ):
             response = self.preview('candidate')
-            self.assertContains(response, 'Bonjour Camille')
+            self.assertContains(response, 'Bonjour,')
+            self.assertNotContains(response, 'Bonjour Camille')
             self.assertContains(response, 'srcdoc="&lt;!')
             self.assertFalse(Invitation.objects.exists())
             self.assertRedirects(
@@ -249,3 +277,85 @@ class AdviserInvitationsTests(TestCase):
         invited = User.objects.get(email=invitation.email)
         self.assertEqual(invited.kind, User.Kind.ADVISER)
         self.assertFalse(invited.is_staff)
+
+
+class CandidateInvitationContentTests(SimpleTestCase):
+    def render(self, language='fr', name='Lou', organization='France Travail'):
+        from types import SimpleNamespace
+        from eures_beta.www.invitations.adviser import render_message
+
+        return render_message(
+            'candidate',
+            {'first_name': 'Recipient', 'last_name': 'Private'},
+            'https://example.invalid',
+            'https://example.invalid/invitation/?invitation=fictional-token',
+            adviser=SimpleNamespace(
+                get_full_name=lambda: name, organization_name=organization
+            ),
+            language=language,
+        )
+
+    def test_invitation_languages_links_signature_and_brand(self):
+        for language, subject, greeting, intro, cta in (
+            (
+                'fr',
+                'EURES – Des opportunités d’emploi en Europe',
+                'Bonjour,',
+                'Je suis Lou, conseiller France Travail au sein du réseau européen EURES.',
+                'Voir si mon profil correspond',
+            ),
+            (
+                'en',
+                'EURES – Job opportunities in Europe',
+                'Hello,',
+                'I am Lou, an adviser at France Travail within the European EURES network.',
+                'See if my profile matches',
+            ),
+            (
+                'de',
+                'EURES – Beschäftigungsmöglichkeiten in Europa',
+                'Guten Tag,',
+                'Ich bin Lou, Berater bei France Travail im europäischen EURES-Netzwerk.',
+                'Prüfen, ob mein Profil passt',
+            ),
+        ):
+            with self.subTest(language=language):
+                actual, text, html = self.render(language)
+                self.assertEqual(actual, subject)
+                for content in (text, html):
+                    for expected in (
+                        greeting,
+                        intro,
+                        cta,
+                        'https://example.invalid/privacy/',
+                        'https://example.invalid/invitation/?invitation=fictional-token',
+                    ):
+                        self.assertIn(expected, content)
+                    self.assertNotIn('Recipient', content)
+                    self.assertNotIn('Private', content)
+                self.assertIn('lang="' + language + '"', html)
+                for asset in (
+                    'eures-ela.jpg',
+                    'france-travail-email.png',
+                    'adem.png',
+                    'forem.png',
+                ):
+                    self.assertIn(asset, html)
+                self.assertIn('alt="France Travail"', html)
+
+    def test_real_identity_is_escaped_and_missing_data_is_not_invented(self):
+        _, text, html = self.render(
+            name='<script>alert(1)</script>', organization='ADEM & partenaires'
+        )
+        self.assertIn('&lt;script&gt;', html)
+        self.assertNotIn('<script>', html)
+        self.assertIn('ADEM &amp; partenaires', html)
+        self.assertIn('conseiller ADEM & partenaires', text)
+        self.assertNotIn('conseiller France Travail', text)
+        _, text, html = self.render(name='', organization='')
+        self.assertIn('au nom de l’équipe Match Europe', text)
+        self.assertNotIn('Je suis', text)
+        self.assertNotIn('Conseiller EURES – France Travail', text)
+        _, text, _ = self.render(organization='')
+        self.assertIn('Je suis Lou, conseiller au sein du réseau européen EURES.', text)
+        self.assertNotIn('conseiller France Travail', text)

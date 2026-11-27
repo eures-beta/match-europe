@@ -1,1 +1,1 @@
-Des entreprises recrutent actuellement — votre profil nous intéresse
+{% load i18n %}{% translate "EURES – Job opportunities in Europe" %}
