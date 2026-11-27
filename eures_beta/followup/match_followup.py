@@ -1,3 +1,5 @@
+from eures_beta.matching.models import MatchEvent
+
 """Shared follow-up and deliberate, single-recipient reminders."""
 
 from datetime import timedelta
@@ -25,7 +27,6 @@ from eures_beta.introductions.models import (
 )
 from eures_beta.followup.models import (
     MatchFollowup,
-    MatchFollowupEvent,
     MatchConclusion,
 )
 
@@ -213,8 +214,9 @@ def reminder(adviser, pk, stamp, recipient, message, language='fr'):
         user, route, target = current['recipients'][recipient]
         if not user.is_active or user.kind != recipient:
             raise Changed
-        event = MatchFollowupEvent.objects.create(
-            followup=followup,
+        event = MatchEvent.objects.create(
+            match=followup.match,
+            kind=MatchEvent.Kind.FOLLOWUP,
             actor=adviser,
             action='reminder',
             recipient=recipient,

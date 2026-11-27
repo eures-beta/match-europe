@@ -1,3 +1,5 @@
+from eures_beta.matching.models import MatchEvent
+
 """One dossier per matching, from calculation to a human-confirmed outcome."""
 
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -18,9 +20,7 @@ from eures_beta.introductions.models import (
 )
 from eures_beta.followup.models import (
     MatchFollowup,
-    MatchFollowupEvent,
     MatchConclusion,
-    MatchConclusionEvent,
 )
 
 
@@ -385,8 +385,9 @@ def conclude(user, pk, action, version, *, start_on=None, reason='', verified=Fa
     obj.version += 1
     obj.full_clean()
     obj.save()
-    MatchConclusionEvent.objects.create(
-        conclusion=obj,
+    MatchEvent.objects.create(
+        match=match,
+        kind=MatchEvent.Kind.CONCLUSION,
         actor=user,
         action=action,
         version=obj.version,
@@ -434,8 +435,9 @@ def schedule(user, pk, *, due_on, version, next_action='', waiting_for='adviser'
     plan.version += 1
     plan.full_clean()
     plan.save()
-    MatchFollowupEvent.objects.create(
-        followup=plan,
+    MatchEvent.objects.create(
+        match=match,
+        kind=MatchEvent.Kind.FOLLOWUP,
         actor=user,
         action='plan',
         snapshot={

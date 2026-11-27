@@ -56,48 +56,15 @@ class CandidateOfferReview(models.Model):
     submitted_at = models.DateTimeField(null=True, blank=True)
     summary = models.JSONField(default=dict, blank=True)
 
+    @property
+    def events(self):
+        return self.match.events.filter(kind='review')
+
     def save(self, *args, **kwargs):
         validate_user_roles(
             self, requested_by_adviser='adviser', assigned_to_adviser='adviser'
         )
         return super().save(*args, **kwargs)
-
-
-class CandidateOfferReviewEvent(models.Model):
-    """Append-only adviser handling and immutable submitted summaries."""
-
-    review = models.ForeignKey(
-        CandidateOfferReview, on_delete=models.CASCADE, related_name='events'
-    )
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    version = models.PositiveIntegerField()
-    action = models.CharField(
-        max_length=16,
-        choices=[
-            ('submitted', _('Replies submitted')),
-            ('reopened', _('Review reopened')),
-            ('claim', _('Responsibility accepted')),
-            ('release', _('Responsibility released')),
-            ('takeover', _('Review taken over')),
-            ('validated', _('Validated by an adviser')),
-            ('clarify', _('Additional information requested')),
-            ('refused', _('Closed by an adviser')),
-            ('candidate_reply', _('Additional information received')),
-        ],
-    )
-    internal_note = models.TextField(max_length=2000, blank=True)
-    public_message = models.TextField(max_length=2000, blank=True)
-    snapshot = models.JSONField(default=dict, blank=True)
-    delivery_status = models.CharField(max_length=12, default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['review', 'version'],
-                name='introductions_candidateofferreviewevent_version_unique',
-            )
-        ]
 
 
 class CandidateOfferReviewAnswer(models.Model):

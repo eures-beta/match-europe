@@ -1,3 +1,5 @@
+from eures_beta.matching.models import MatchEvent
+
 """Merge historical demonstration employers into a single account."""
 
 from django.core.management import CommandError
@@ -9,7 +11,6 @@ from eures_beta.invitations.models import Invitation
 from eures_beta.introductions.models import (
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
-    CandidateOfferReviewEvent,
 )
 
 from .models import User
@@ -61,7 +62,7 @@ def consolidate_employers():
     CandidateOfferConversationMessage.objects.filter(author=legacy).update(
         author=employer
     )
-    CandidateOfferReviewEvent.objects.filter(actor=legacy).update(actor=employer)
+    MatchEvent.objects.filter(actor=legacy).update(actor=employer)
     LogEntry.objects.filter(user=legacy).update(user=employer)
     # A user can have only one accepted invitation. Keep historical invitation
     # records even when both demo accounts already have one.

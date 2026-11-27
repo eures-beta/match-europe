@@ -19,3 +19,11 @@ class MatchEvaluationAdmin(MetadataOnlyAdmin):
 class MatchDecisionAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'value', 'created_at')
     exclude = ('match', 'evaluation', 'by_adviser')
+
+
+from .models import MatchEvent
+
+
+@admin.register(MatchEvent)
+class MatchEventAdmin(MetadataOnlyAdmin):
+    list_display = ('id', 'kind', 'action', 'created_at')

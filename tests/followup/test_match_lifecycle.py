@@ -1,3 +1,4 @@
+from eures_beta.matching.models import MatchEvent
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -17,7 +18,6 @@ from eures_beta.introductions.models import (
 from eures_beta.followup.models import (
     MatchFollowup,
     MatchConclusion,
-    MatchConclusionEvent,
 )
 from eures_beta.users.models import User
 from tests.introductions import test_review_workflow as workflow_fixtures
@@ -249,13 +249,13 @@ class MatchLifeLineTests(TestCase):
         life.conclude(employer, self.match.pk, 'reported', 0)
         with self.assertRaises(life.Changed):
             life.conclude(employer, self.match.pk, 'reported', 0)
-        self.assertEqual(MatchConclusionEvent.objects.count(), 1)
+        self.assertEqual(MatchEvent.objects.filter(kind='conclusion').count(), 1)
         with self.assertRaises(PermissionDenied):
             life.conclude(employer, self.match.pk, 'hired', 1, verified=True)
         life.conclude(self.adviser, self.match.pk, 'hired', 1, verified=True)
         with self.assertRaises(life.Changed):
             life.conclude(self.other, self.match.pk, 'stopped', 1, reason='Stale form')
-        self.assertEqual(MatchConclusionEvent.objects.count(), 2)
+        self.assertEqual(MatchEvent.objects.filter(kind='conclusion').count(), 2)
 
     def test_negative_closure_requires_a_reason_and_keeps_candidate_data(self):
         initial = self.match.candidate.desired_countries

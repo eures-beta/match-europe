@@ -1,3 +1,5 @@
+from eures_beta.matching.models import MatchEvent
+
 """Durable handoff to the adviser team; all mutations are versioned and locked."""
 
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -9,7 +11,6 @@ from eures_beta.introductions import offer_review_services as confirmations
 from eures_beta.candidates.models import CandidateProfileReviewSuggestion
 from eures_beta.introductions.models import (
     CandidateOfferReview,
-    CandidateOfferReviewEvent,
 )
 from eures_beta.matching.services import StaleEvaluation
 
@@ -46,8 +47,10 @@ def record(review, actor, action, **kwargs):
             'submitted_at',
         ]
     )
-    return CandidateOfferReviewEvent.objects.create(
-        review=review,
+    return MatchEvent.objects.create(
+        match=review.match,
+        kind=MatchEvent.Kind.REVIEW,
+        delivery_status='pending',
         actor=actor,
         version=review.workflow_version,
         action=action,

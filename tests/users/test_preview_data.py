@@ -20,10 +20,9 @@ from eures_beta.introductions.models import (
     CandidateOfferConversation,
     CandidateOfferReview,
     CandidateOfferReviewAnswer,
-    CandidateOfferReviewEvent,
     CandidateProfileSharing,
 )
-from eures_beta.matching.models import CandidateOfferMatch
+from eures_beta.matching.models import CandidateOfferMatch, MatchEvent
 from eures_beta.introductions import review_workflow
 from eures_beta.users.models import User
 from eures_beta.users.preview_data.report import model_counts
@@ -62,7 +61,7 @@ class PreviewDataTests(TestCase):
 
     def test_every_active_model_has_records_and_reseeding_preserves_all_rows(self):
         counts = model_counts()
-        self.assertEqual(len(counts), 31)
+        self.assertEqual(len(counts), 29)
         self.assertEqual(counts['planning.StaffDailyAvailability'], 1)
         self.assertFalse(
             {label: count for label, count in counts.items() if count == 0}
@@ -78,9 +77,9 @@ class PreviewDataTests(TestCase):
         self.assertEqual(counts['employers.EmployerProfile'], 1)
         self.assertEqual(counts['followup.JobOfferSupport'], 16)
         self.assertEqual(counts['followup.MatchFollowup'], 2)
-        self.assertEqual(counts['followup.MatchFollowupEvent'], 2)
+        self.assertEqual(MatchEvent.objects.filter(kind='followup').count(), 2)
         self.assertEqual(counts['followup.MatchConclusion'], 1)
-        self.assertEqual(counts['followup.MatchConclusionEvent'], 1)
+        self.assertEqual(MatchEvent.objects.filter(kind='conclusion').count(), 1)
         before = self.snapshot()
         call_command('seed_test_accounts', stdout=StringIO())
         self.assertEqual(self.snapshot(), before)
@@ -120,7 +119,11 @@ class PreviewDataTests(TestCase):
             )
         )
         self.assertEqual(
-            Counter(CandidateOfferReviewEvent.objects.values_list('action', flat=True)),
+            Counter(
+                MatchEvent.objects.filter(kind='review').values_list(
+                    'action', flat=True
+                )
+            ),
             {'submitted': 12, 'claim': 8, 'validated': 5, 'clarify': 1, 'refused': 1},
         )
         self.assertEqual(
