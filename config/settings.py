@@ -93,6 +93,7 @@ INSTALLED_APPS = [
     'eures_beta.occupations',
     'eures_beta.skills',
     'eures_beta.users.apps.UsersConfig',
+    'eures_beta.planning.apps.PlanningConfig',
     'eures_beta.invitations.apps.InvitationsConfig',
     'eures_beta.users.admin_config.VersionedPermissionsAdminConfig',
     'django.contrib.auth',

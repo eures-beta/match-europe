@@ -109,6 +109,7 @@ class MakeTestCommandsTests(SimpleTestCase):
                     'manage.py',
                     'test',
                     'tests',
+                    'eures_beta.planning.tests',
                     '--noinput',
                     '--verbosity=0',
                 ]
@@ -156,6 +157,7 @@ class MakeTestCommandsTests(SimpleTestCase):
                     'manage.py',
                     'test',
                     'tests',
+                    'eures_beta.planning.tests',
                     '--noinput',
                     '-k',
                     'albert',

@@ -3,7 +3,8 @@ from datetime import date
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from eures_beta.users.models import AdviserAvailability, User
+from eures_beta.users.models import User
+from eures_beta.planning.models import StaffDailyAvailability
 
 
 class AdviserPlanningTests(TestCase):
@@ -43,11 +44,11 @@ class AdviserPlanningTests(TestCase):
 
     def setUp(self):
         self.day = date(2026, 11, 23)
-        self.url = reverse('adviser_planning', query={'lang': 'en', 'week': self.day})
+        self.url = reverse('staff_planning', query={'lang': 'en', 'week': self.day})
 
     def test_only_active_advisers_are_listed_and_own_row_is_editable(self):
-        AdviserAvailability.objects.create(
-            adviser=self.colleague, day=self.day, present=False
+        StaffDailyAvailability.objects.create(
+            user=self.colleague, day=self.day, present=False
         )
         self.client.force_login(self.adviser)
         response = self.client.get(self.url)
@@ -55,13 +56,13 @@ class AdviserPlanningTests(TestCase):
         self.assertContains(response, 'Sam Test')
         self.assertNotContains(response, 'Inactive Test')
         self.assertNotContains(response, 'Nonstaff Test')
-        self.assertNotContains(response, 'Candidate Test')
+        self.assertContains(response, 'Candidate Test')
         self.assertNotContains(response, self.colleague.email)
         self.assertContains(response, 'name="status"', count=7)
-        self.assertContains(response, 'planning-status-absent', count=1)
-        self.assertContains(response, 'planning-status-present', count=13)
+        self.assertContains(response, 'planning-status-absent', count=9)
+        self.assertContains(response, 'planning-status-present', count=19)
         self.assertNotContains(response, 'planning-status-unspecified')
-        self.assertEqual(AdviserAvailability.objects.count(), 1)
+        self.assertEqual(StaffDailyAvailability.objects.count(), 1)
         self.assertEqual(response.context['previous_week'], date(2026, 11, 16))
         self.assertEqual(response.context['next_week'], date(2026, 11, 30))
 
@@ -72,11 +73,11 @@ class AdviserPlanningTests(TestCase):
         tabs = response.content.decode().split('adviser-workspace-tabs', 1)[1]
         tab_links = tabs.split('</nav>', 1)[0].rsplit('<a ', 2)[1:]
         self.assertIn(reverse('adviser_offers'), tab_links[0])
-        self.assertIn(reverse('adviser_planning'), tab_links[1])
+        self.assertIn(reverse('staff_planning'), tab_links[1])
 
     def test_save_change_and_retry_only_touch_signed_in_adviser(self):
-        other = AdviserAvailability.objects.create(
-            adviser=self.colleague, day=self.day, present=False
+        other = StaffDailyAvailability.objects.create(
+            user=self.colleague, day=self.day, present=False
         )
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.adviser)
@@ -94,9 +95,9 @@ class AdviserPlanningTests(TestCase):
             self.assertContains(
                 client.get(self.url),
                 'planning-status-absent',
-                count=2 if status == 'absent' else 1,
+                count=10 if status == 'absent' else 9,
             )
-            own = AdviserAvailability.objects.get(adviser=self.adviser, day=self.day)
+            own = StaffDailyAvailability.objects.get(user=self.adviser, day=self.day)
             self.assertEqual(own.present, status == 'present')
         other.refresh_from_db()
         self.assertFalse(other.present)
@@ -104,8 +105,6 @@ class AdviserPlanningTests(TestCase):
     def test_guest_and_other_roles_cannot_read_or_save(self):
         for user in (
             None,
-            self.candidate,
-            self.employer,
             self.inactive,
             self.non_staff,
         ):
@@ -118,7 +117,7 @@ class AdviserPlanningTests(TestCase):
                     self.url, {'day': self.day.isoformat(), 'status': 'present'}
                 )
                 self.assertEqual(response.status_code, 403)
-        self.assertFalse(AdviserAvailability.objects.exists())
+        self.assertFalse(StaffDailyAvailability.objects.exists())
 
     def test_non_staff_adviser_keeps_business_access_but_has_no_planning_tab(self):
         self.client.force_login(self.non_staff)
@@ -137,9 +136,7 @@ class AdviserPlanningTests(TestCase):
     def test_invalid_week_date_and_status_are_rejected(self):
         self.client.force_login(self.adviser)
         self.assertEqual(
-            self.client.get(
-                reverse('adviser_planning') + '?week=2026-02-31'
-            ).status_code,
+            self.client.get(reverse('staff_planning') + '?week=2026-02-31').status_code,
             400,
         )
         for data in (
@@ -147,7 +144,7 @@ class AdviserPlanningTests(TestCase):
             {'day': '2026-11-23', 'status': 'unexpected'},
         ):
             self.assertEqual(self.client.post(self.url, data).status_code, 400)
-        self.assertFalse(AdviserAvailability.objects.exists())
+        self.assertFalse(StaffDailyAvailability.objects.exists())
 
     def test_schedule_is_translated(self):
         self.client.force_login(self.adviser)
@@ -156,5 +153,42 @@ class AdviserPlanningTests(TestCase):
             ('fr', 'Planning agent'),
             ('de', 'Dienstplan'),
         ):
-            response = self.client.get(reverse('adviser_planning'), {'lang': language})
+            response = self.client.get(reverse('staff_planning'), {'lang': language})
             self.assertContains(response, title)
+
+    def test_staff_of_every_role_can_read_and_edit_only_their_own_row(self):
+        for user in (self.candidate, self.employer):
+            self.client.force_login(user)
+            self.assertEqual(self.client.get(self.url).status_code, 200)
+            self.assertRedirects(
+                self.client.post(
+                    self.url,
+                    {
+                        'day': '2026-11-28',
+                        'status': 'present',
+                        'user': self.colleague.pk,
+                    },
+                ),
+                self.url,
+            )
+            self.assertTrue(
+                StaffDailyAvailability.objects.get(user=user, day='2026-11-28').present
+            )
+        self.assertFalse(
+            StaffDailyAvailability.objects.filter(user=self.colleague).exists()
+        )
+
+    def test_unrecorded_weekend_absent_and_explicit_override_preserved(self):
+        self.client.force_login(self.adviser)
+        page = self.client.get(self.url)
+        row = next(row for row in page.context['rows'] if row['own'])
+        self.assertEqual(
+            [day[1] for day in row['days']], ['present'] * 5 + ['absent'] * 2
+        )
+        StaffDailyAvailability.objects.create(
+            user=self.adviser, day='2026-11-28', present=True
+        )
+        row = next(
+            row for row in self.client.get(self.url).context['rows'] if row['own']
+        )
+        self.assertEqual(row['days'][5][1], 'present')

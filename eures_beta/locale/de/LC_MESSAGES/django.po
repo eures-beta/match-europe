@@ -9260,38 +9260,38 @@ msgstr "Matching abgelehnt"
 msgid "Offer"
 msgstr "Stellenangebot"
 
-#: eures_beta/templates/users/adviser_planning.html:4
-#: eures_beta/templates/users/adviser_planning.html:14
+#: eures_beta/planning/templates/planning/week.html:4
+#: eures_beta/planning/templates/planning/week.html:14
 #: eures_beta/templates/users/adviser_workspace.html:20
 msgid "Agent schedule"
 msgstr "Dienstplan"
 
-#: eures_beta/templates/users/adviser_planning.html:15
+#: eures_beta/planning/templates/planning/week.html:15
 msgid "Select a day on your row to change your availability."
 msgstr "Wählen Sie einen Tag in Ihrer Zeile aus, um Ihre Verfügbarkeit zu ändern."
 
-#: eures_beta/templates/users/adviser_planning.html:17
+#: eures_beta/planning/templates/planning/week.html:17
 msgid "Schedule week"
 msgstr "Wochenauswahl"
 
-#: eures_beta/templates/users/adviser_planning.html:20
+#: eures_beta/planning/templates/planning/week.html:20
 msgid "Previous week"
 msgstr "Vorherige Woche"
 
-#: eures_beta/templates/users/adviser_planning.html:23
+#: eures_beta/planning/templates/planning/week.html:23
 msgid "Current week"
 msgstr "Aktuelle Woche"
 
-#: eures_beta/templates/users/adviser_planning.html:26
+#: eures_beta/planning/templates/planning/week.html:26
 msgid "Next week"
 msgstr "Nächste Woche"
 
-#: eures_beta/templates/users/adviser_planning.html:35
+#: eures_beta/planning/templates/planning/week.html:35
 #, python-format
 msgid "Week from %(first)s to %(last)s"
 msgstr "Woche vom %(first)s bis %(last)s"
 
-#: eures_beta/templates/users/adviser_planning.html:54
+#: eures_beta/planning/templates/planning/week.html:54
 msgid "Your row"
 msgstr "Ihre Zeile"
 
@@ -9336,3 +9336,10 @@ msgstr "Verfügbarkeit der Berater"
 msgid "Staff (adviser)"
 msgstr "Mitarbeiter (Berater)"
 
+
+msgid "Staff"
+msgstr "Team"
+
+#, python-format
+msgid "Staff %(number)s"
+msgstr "Teammitglied %(number)s"

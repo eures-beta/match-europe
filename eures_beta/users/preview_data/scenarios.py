@@ -6,9 +6,9 @@ import uuid
 
 from django.utils import timezone
 
+from eures_beta.planning.preview_data import seed_availability
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
-from eures_beta.users.models import AdviserAvailability
 from eures_beta.matching import (
     offer_review_services as reviews,
     review_workflow,
@@ -80,9 +80,7 @@ def identifier(key):
 
 def seed_scenarios(users):
     adviser = users['adviser']
-    AdviserAvailability.objects.get_or_create(
-        adviser=users['staff'], day=date(2026, 11, 23), defaults={'present': True}
-    )
+    seed_availability(users['staff'])
     template = JobOffer.objects.get(
         employer=users['employer'], source_kind='matching', session_key='matching-trial'
     )

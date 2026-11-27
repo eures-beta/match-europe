@@ -38,3 +38,5 @@ la table PostgreSQL, les identifiants, les suggestions et les permissions.
 métier conservent modèles, migrations et services. Voir
 [le guide](../docs/ARCHITECTURE_WEB.md). Les dossiers templates, static, locale
 et les tests à la racine restent partagés.
+
+- [planning/](planning/) : application autonome de disponibilité quotidienne des comptes staff actifs, tous rôles.

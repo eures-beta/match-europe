@@ -20,7 +20,7 @@ CATALOG_ALLOW_REMOVALS ?= 0
 CATALOG_SYNC_OPTIONS = --output "$(CATALOG_OUTPUT)" $(if $(filter 1,$(CATALOG_ALLOW_REMOVALS)),--allow-removals,)
 HOST ?= 127.0.0.1
 PORT ?= 8000
-TESTS ?= tests
+TESTS ?= tests eures_beta.planning.tests
 TEST_ARGS ?= --verbosity=0
 SEED_ARGS ?=
 LOAD_ENV = set -e; set -a; if [ -f .env ]; then . ./.env; fi; set +a;

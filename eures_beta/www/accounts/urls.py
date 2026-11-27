@@ -1,11 +1,10 @@
 from django.urls import path
-from eures_beta.www.adviser import action_queue, planning
+from eures_beta.www.adviser import action_queue
 from eures_beta.www.adviser import offers as adviser_offers
 from eures_beta.www.accounts import views
 from eures_beta.www.accounts import test_accounts as test_account_views
 
 urlpatterns = [
-    path('adviser/planning/', planning.planning, name='adviser_planning'),
     path('adviser/offers/', adviser_offers.portfolio, name='adviser_offers'),
     path(
         'adviser/offers/import/',
