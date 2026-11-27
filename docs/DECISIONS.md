@@ -1,6 +1,6 @@
 # Décisions actuelles
 
-Choix durables, raisons et références, sans journal d'activité. Toute nouvelle
+Choix durables et références. Toute nouvelle
 décision humaine validée précise ce qu'elle remplace et pourquoi.
 Les versions précédentes restent dans [Git](https://github.com/eures-beta/match-europe/commits/main/docs/DECISIONS.md).
 
@@ -32,8 +32,8 @@ Références : [utilisateurs](USER_MODEL.md), [inscription](CANDIDATE_EMAIL_REGI
 
 ## D03 — Autorisations et administration
 
-Les conseillers actifs ont les mêmes droits d’invitation, revue et suivi.
-Le planning interne exige aussi `is_staff` ; les autres droits restent inchangés.
+Les conseillers actifs partagent les droits d’invitation, revue et suivi.
+Le planning exige un compte actif `is_staff`, tout rôle ; les autres droits restent inchangés.
 Propriété des objets, CSRF, consentement et validation restent obligatoires.
 L'administration est en consultation même pour les superutilisateurs ; le rôle
 métier n'octroie pas d'accès admin. Ces deux décisions limitent les habilitations
@@ -46,10 +46,10 @@ Références : [droits](ADMIN_PERMISSIONS.md), [administration](ADMIN_READONLY.m
 Applications métier : users, invitations, candidates, employers, occupations,
 skills et matching ; documents, emails, integrations et observability portent
 les responsabilités de support selon leur configuration Django.
-Vues, formulaires et routes web sont rangés dans `www/` ; les services, modèles,
+Hors planning autonome, vues et routes sont rangées dans `www/` ; les services, modèles,
 migrations et validations partagées restent dans leurs domaines et ne dépendent
 pas de `www`. Les outils métiers restent dans ces paquets, pas dans `scripts/` racine.
-Les tests et helpers sont centralisés dans `tests/`, sans en faire une application.
+Les tests restent dans `tests/`, sauf le planning autonome dans `planning/tests/`.
 Cette séparation évite un nouveau monolithe `journeys` et les dépendances croisées
 d'interface. Références : [architecture](ARCHITECTURE_WEB.md),
 [extractions](DOMAIN_EXTRACTION.md), [tests](TESTS.md), [#202](https://github.com/eures-beta/match-europe/pull/202).

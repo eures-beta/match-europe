@@ -19,6 +19,8 @@ from .redirects import (
 )
 
 urlpatterns = [
+    # Retired by #289; deployment pending, remove 30 days after deployment.
+    path('adviser/planning/', legacy_workspace_route, {'target': 'staff_planning'}),
     # Retired by #261, deployment pending: remove 30 days after that deployment.
     # Record the actual retirement/removal dates when #261 is first deployed.
     path('employer/offers/', legacy_employer_dashboard),

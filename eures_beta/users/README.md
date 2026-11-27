@@ -53,5 +53,3 @@ L’envoi SMTP reste désactivé jusqu’à sa configuration privée.
 
 [Mon compte](../../docs/ACCOUNT_PAGES.md) affiche les informations de l’utilisateur
 connecté en lecture seule ; le lien d’administration est réservé aux comptes staff.
-
-- [models.py](models.py) définit aussi `AdviserAvailability`, une disponibilité par conseiller et par jour. Le planning interne exige un conseiller actif staff ; une date sans enregistrement est affichée comme présente.

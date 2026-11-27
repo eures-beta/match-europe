@@ -1,5 +1,7 @@
-.adviser-planning-content {
-  grid-column: 1 / -1;
+.staff-planning {
+  max-width: 90rem;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
 .planning-navigation {

@@ -1,4 +1,4 @@
-"""Weekly availability for active EURES advisers."""
+"""Weekly availability for active staff, irrespective of business role."""
 
 from datetime import date, timedelta
 
@@ -11,9 +11,8 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.users.models import AdviserAvailability, User
-from eures_beta.www.accounts.views import selected_language
-from .offers import adviser_required
+from django.contrib.auth import get_user_model
+from .models import StaffDailyAvailability
 
 WEEK = timedelta(days=7)
 LAST_WEEK = date.max - timedelta(days=6)
@@ -32,12 +31,15 @@ def monday(day):
 
 
 @never_cache
-@adviser_required
 @require_http_methods(['GET', 'POST'])
 def planning(request):
-    if not request.user.is_staff:
+    if not (
+        request.user.is_authenticated
+        and request.user.is_active
+        and request.user.is_staff
+    ):
         raise PermissionDenied
-    language = selected_language(request)
+    language = request.LANGUAGE_CODE
     today = timezone.localdate()
     selected = parse_day(request.GET.get('week', today.isoformat()))
     if selected is None or monday(selected) > LAST_WEEK:
@@ -50,21 +52,23 @@ def planning(request):
         status = request.POST.get('status')
         if day not in days or status not in ('present', 'absent'):
             return HttpResponseBadRequest(_('Invalid availability.'))
-        AdviserAvailability.objects.update_or_create(
-            adviser=request.user, day=day, defaults={'present': status == 'present'}
+        StaffDailyAvailability.objects.update_or_create(
+            user=request.user, day=day, defaults={'present': status == 'present'}
         )
         return redirect(
-            reverse('adviser_planning', query={'lang': language, 'week': start})
+            reverse('staff_planning', query={'lang': language, 'week': start})
         )
 
-    advisers = User.objects.filter(
-        is_active=True, is_staff=True, kind=User.Kind.ADVISER
-    ).order_by('last_name', 'first_name', 'pk')
+    users = (
+        get_user_model()
+        .objects.filter(is_active=True, is_staff=True)
+        .order_by('last_name', 'first_name', 'pk')
+    )
     availability = {
-        (adviser_id, day): present
-        for adviser_id, day, present in AdviserAvailability.objects.filter(
-            adviser__in=advisers, day__range=(start, days[-1])
-        ).values_list('adviser_id', 'day', 'present')
+        (user_id, day): present
+        for user_id, day, present in StaffDailyAvailability.objects.filter(
+            user__in=users, day__range=(start, days[-1])
+        ).values_list('user_id', 'day', 'present')
     }
     statuses = {
         True: ('present', _('Present'), 'absent', _('Mark as absent')),
@@ -72,20 +76,19 @@ def planning(request):
     }
     rows = [
         {
-            'name': adviser.get_full_name()
-            or _('Adviser %(number)s') % {'number': adviser.pk},
-            'organisation': adviser.organization_name,
-            'own': adviser.pk == request.user.pk,
+            'name': user.get_full_name() or _('Staff %(number)s') % {'number': user.pk},
+            'organisation': user.organization_name,
+            'own': user.pk == request.user.pk,
             'days': [
-                (day, *statuses[availability.get((adviser.pk, day), True)])
+                (day, *statuses[availability.get((user.pk, day), day.weekday() < 5)])
                 for day in days
             ],
         }
-        for adviser in advisers
+        for user in users
     ]
     return render(
         request,
-        'users/adviser_planning.html',
+        'planning/week.html',
         {
             'dashboard_language': language,
             'planning_tab': True,

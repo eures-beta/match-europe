@@ -2,8 +2,6 @@ from django.contrib.admin.apps import AdminConfig
 
 
 class VersionedPermissionsAdminConfig(AdminConfig):
-    default_site = 'eures_beta.users.admin_site.PlanningAdminSite'
-
     def ready(self):
         super().ready()
         # Run after all admin modules, including Django auth, are registered.

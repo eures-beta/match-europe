@@ -33,7 +33,7 @@
 - Vérifier côté serveur authentification, rôle actif, propriété, consentement,
   CSRF et validité des données. Pas de droits déduits de l'interface ou d'une IP.
 - Les conseillers actifs ont les mêmes droits métier sans permissions individuelles.
-  Le planning interne exige aussi `is_staff` ; cela n’étend pas les droits admin.
+  Le planning exige un compte actif `is_staff`, tout rôle ; cela n’étend pas les droits admin.
 - L'admin Django est en consultation, même pour les superutilisateurs : pas
   d'ajout, modification, suppression ou action groupée ; utiliser `users/admin_base.py`.
 - Connexion : seulement un compte existant actif, jamais de création implicite.
@@ -57,7 +57,7 @@
   ne pas réinventer les logos, couleurs ou règles officielles.
 - Clavier, labels, sémantique HTML, contrastes, alternatives et responsive sont
   nécessaires ; une information ne repose jamais uniquement sur la couleur.
-- Vues, formulaires et routes web dans `eures_beta/www/` ; modèles, migrations
+- Hors planning autonome, vues et routes dans `eures_beta/www/` ; modèles, migrations
   et services dans les applications métier, sans dépendance vers la couche web.
   Garder les validations partagées dans le domaine ; éviter les duplications.
 - Aucun dossier `scripts/` racine. Les outils vont dans leur domaine ou un paquet

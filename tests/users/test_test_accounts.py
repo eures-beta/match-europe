@@ -334,15 +334,15 @@ class TestAccountAccessTests(TestCase):
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.has_usable_password())
         self.client.post(reverse('test_account_sign_in'), {'account': 'staff'})
-        self.assertEqual(self.client.get(reverse('adviser_planning')).status_code, 200)
+        self.assertEqual(self.client.get(reverse('staff_planning')).status_code, 200)
         self.assertEqual(
             self.client.get(
-                reverse('admin:users_adviseravailability_changelist')
+                reverse('admin:planning_staffdailyavailability_changelist')
             ).status_code,
             403,
         )
         self.client.post(reverse('test_account_sign_in'), {'account': 'adviser'})
-        self.assertEqual(self.client.get(reverse('adviser_planning')).status_code, 403)
+        self.assertEqual(self.client.get(reverse('staff_planning')).status_code, 403)
 
     def test_selector_uses_the_six_approved_labels_in_order(self):
         self.seed()

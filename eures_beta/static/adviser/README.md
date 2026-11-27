@@ -14,6 +14,3 @@ domaines Django et leurs adaptateurs web.
 
 
 - [matching-lifeline.css](matching-lifeline.css) — Ligne de vie responsive, états et dates du matching.
-
-- [planning.css](planning.css) — Mise en page du planning hebdomadaire et couleurs des disponibilités.
-

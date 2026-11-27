@@ -9,6 +9,7 @@ from django.core.management import call_command, CommandError
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from eures_beta.planning.models import StaffDailyAvailability
 from eures_beta.candidates import push
 from eures_beta.candidates.models import (
     CandidateProfileReviewSuggestion,
@@ -24,7 +25,7 @@ from eures_beta.matching.models import (
     CandidateProfileSharing,
 )
 from eures_beta.matching import review_workflow
-from eures_beta.users.models import AdviserAvailability, User
+from eures_beta.users.models import User
 from eures_beta.users.preview_data.report import model_counts
 from eures_beta.users.preview_data.scenarios import identifier
 from eures_beta.users.test_accounts import prepared_user
@@ -62,7 +63,7 @@ class PreviewDataTests(TestCase):
     def test_every_active_model_has_records_and_reseeding_preserves_all_rows(self):
         counts = model_counts()
         self.assertEqual(len(counts), 31)
-        self.assertEqual(counts['users.AdviserAvailability'], 1)
+        self.assertEqual(counts['planning.StaffDailyAvailability'], 1)
         self.assertFalse(
             {label: count for label, count in counts.items() if count == 0}
         )
@@ -93,7 +94,7 @@ class PreviewDataTests(TestCase):
                 call_command('seed_test_accounts', stdout=StringIO())
 
     def test_existing_edits_answers_and_closed_conversations_are_not_reset(self):
-        availability = AdviserAvailability.objects.get()
+        availability = StaffDailyAvailability.objects.get()
         availability.present = False
         availability.save(update_fields=['present'])
         offer = JobOffer.objects.get(pk=identifier('open'))

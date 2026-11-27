@@ -6,6 +6,7 @@ from eures_beta.www.accounts import views as account_views
 from .health import health
 
 urlpatterns = [
+    path('staff/planning/', include('eures_beta.planning.urls')),
     path('health/', health, name='health'),
     path('admin/login/', account_views.admin_login),
     path('admin/password_change/', account_views.password_disabled),

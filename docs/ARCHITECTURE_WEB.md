@@ -53,3 +53,5 @@ les routes applicatives pointent vers les adaptateurs web. Les routes natives
 Django (administration, traduction et redirections) et la sonde restent distinctes.
 
 [Couche web](../eures_beta/www/) · [Retour à la documentation](./)
+
+Le [planning staff](../eures_beta/planning/) est volontairement autonome pour extraction future : vues, routes, modèle, migrations, templates, CSS et tests dans son application. Il utilise le compte Django configuré, le layout et le middleware de langue communs.

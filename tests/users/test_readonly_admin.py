@@ -1,3 +1,4 @@
+from eures_beta.planning.models import StaffDailyAvailability
 from datetime import timedelta
 from django.apps import apps
 from django.contrib import admin
@@ -12,7 +13,7 @@ from django.utils import timezone
 from io import StringIO
 
 from eures_beta.invitations.models import Invitation
-from eures_beta.users.models import AdviserAvailability, User, LoginRateLimit
+from eures_beta.users.models import User, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (
@@ -72,8 +73,8 @@ class ReadOnlyAdminTests(TestCase):
             response_time='under_week',
         )
         self.records = [
-            AdviserAvailability.objects.create(
-                adviser=self.superuser, day=timezone.localdate(), present=True
+            StaffDailyAvailability.objects.create(
+                user=self.superuser, day=timezone.localdate(), present=True
             ),
             OccupationSkillSuggestion.objects.create(
                 occupation_uri='https://example.invalid/occupation',
@@ -107,22 +108,21 @@ class ReadOnlyAdminTests(TestCase):
     def test_availability_has_its_own_admin_section_without_an_extra_model(self):
         page = self.client.get(reverse('admin:index'))
         groups = page.context['app_list']
-        planning = next(
-            group for group in groups if group['app_label'] == 'adviser_planning'
-        )
+        planning = next(group for group in groups if group['app_label'] == 'planning')
         self.assertEqual(
             [entry['object_name'] for entry in planning['models']],
-            ['AdviserAvailability'],
+            ['StaffDailyAvailability'],
         )
         users = next(group for group in groups if group['app_label'] == 'users')
         self.assertNotIn(
-            'AdviserAvailability', [entry['object_name'] for entry in users['models']]
+            'StaffDailyAvailability',
+            [entry['object_name'] for entry in users['models']],
         )
-        self.assertEqual(AdviserAvailability._meta.app_label, 'users')
+        self.assertEqual(StaffDailyAvailability._meta.app_label, 'planning')
         self.assertEqual(self.client.get(planning['app_url']).status_code, 200)
         self.client.force_login(self.staff)
         groups = self.client.get(reverse('admin:index')).context['app_list']
-        self.assertNotIn('adviser_planning', [group['app_label'] for group in groups])
+        self.assertNotIn('planning', [group['app_label'] for group in groups])
 
     def test_superuser_can_list_all_models_and_read_business_objects(self):
         for record in self.records:

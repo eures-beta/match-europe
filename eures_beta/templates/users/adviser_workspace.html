@@ -21,7 +21,7 @@
         {% block adviser_tabs %}{% endblock %}
         {% if request.user.is_staff %}
           <a class="adviser-planning-tab"
-             href="{% url 'adviser_planning' %}?lang={{ dashboard_language }}"
+             href="{% url 'staff_planning' %}?lang={{ dashboard_language }}"
              {% if planning_tab %}aria-current="page"{% endif %}>{% translate "Agent schedule" %}</a>
         {% endif %}
       </nav>
