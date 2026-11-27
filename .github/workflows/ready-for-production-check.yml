@@ -47,7 +47,9 @@ jobs:
       github.event_name == 'push' || github.event_name == 'workflow_dispatch' ||
       github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # The full PostgreSQL suite includes populated migration round trips.
+    # At >1,000 tests it can exceed 15 minutes on a shared runner.
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:17
