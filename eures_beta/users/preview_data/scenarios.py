@@ -14,7 +14,7 @@ from eures_beta.matching import (
     services,
 )
 from eures_beta.matching.models import (
-    EmployerOfferConsent,
+    EmployerCandidateReview,
     CandidateOfferMatch,
     CandidateOfferReview,
     CandidateOfferConversation,
@@ -199,7 +199,7 @@ def seed_scenarios(users):
     if review:
         agreement = reviews.review_state(review)['agreement']
         if agreement and agreement.agreed:
-            EmployerOfferConsent.objects.get_or_create(
+            EmployerCandidateReview.objects.get_or_create(
                 agreement=agreement,
                 defaults={
                     'adviser': adviser,

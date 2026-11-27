@@ -40,5 +40,6 @@ Les [auteurs et leurs rôles](../../docs/MATCHING_AUTHORS.md) sont contrôlés e
 conseillers explicites pour décisions/demandes, candidat déduit du profil pour
 réponses et partage, auteur multirôle pour les messages.
 
-Le consentement employeur est visible dans l’admin en métadonnées seulement.
-La migration additive `0025` normalise les noms PostgreSQL sans toucher aux données.
+La revue employeur `EmployerCandidateReview` est visible dans l’admin en métadonnées
+seulement. La migration additive `0026` renomme le modèle, sa table et ses objets
+PostgreSQL en place ; les données et la relation `agreement` sont conservées.

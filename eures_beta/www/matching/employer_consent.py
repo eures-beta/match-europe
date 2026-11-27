@@ -20,7 +20,7 @@ from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferReview,
     CandidateProfileSharing,
-    EmployerOfferConsent,
+    EmployerCandidateReview,
 )
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.www.matching.offer_reviews import display_rows
@@ -78,11 +78,11 @@ class EmployerReply(forms.Form):
 
 def employer_requests(user):
     if not user.is_authenticated or not user.is_active or user.kind != 'employer':
-        return EmployerOfferConsent.objects.none()
+        return EmployerCandidateReview.objects.none()
     latest = CandidateProfileSharing.objects.filter(
         review_id=OuterRef('agreement__review_id')
     ).order_by('-pk')
-    return EmployerOfferConsent.objects.filter(
+    return EmployerCandidateReview.objects.filter(
         employer=user,
         agreement_id=Subquery(latest.values('pk')[:1]),
         agreement__agreed=True,
@@ -131,7 +131,7 @@ def prepare(request, pk):
         employer = review.match.offer.employer
         if not employer or not employer.is_active or employer.kind != 'employer':
             raise Http404
-        consent = EmployerOfferConsent.objects.filter(agreement=agreement).first()
+        consent = EmployerCandidateReview.objects.filter(agreement=agreement).first()
         questions = []
         action = request.POST.get('action')
         if not consent and action == 'draft':
@@ -154,7 +154,7 @@ def prepare(request, pk):
                 questions = request.session.get(f'employer-consent:{agreement.pk}')
                 if questions is None:
                     raise Http404
-                EmployerOfferConsent.objects.get_or_create(
+                EmployerCandidateReview.objects.get_or_create(
                     agreement=agreement,
                     defaults={
                         'adviser': request.user,
@@ -219,7 +219,7 @@ def respond(request, pk):
             review, state, review.assigned_to_adviser
         ):
             raise Http404
-        pending = consent.decision == EmployerOfferConsent.Decision.PENDING
+        pending = consent.decision == EmployerCandidateReview.Decision.PENDING
         ready = bool(consent.replies)
         form = EmployerReply(
             consent.questions, ready, request.POST if request.method == 'POST' else None
@@ -237,7 +237,7 @@ def respond(request, pk):
                 else:
                     consent.replies = form.replies(len(consent.questions))
                 consent.decision = employer_consent.decision_for(consent.replies)
-                if consent.decision != EmployerOfferConsent.Decision.PENDING:
+                if consent.decision != EmployerCandidateReview.Decision.PENDING:
                     consent.decided_at = timezone.now()
                 consent.save(update_fields=['replies', 'decision', 'decided_at'])
                 return redirect(

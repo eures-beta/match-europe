@@ -9,7 +9,7 @@ from eures_beta.matching.employer_consent import (
     draft_questions,
     eligible_agreement,
 )
-from eures_beta.matching.models import EmployerOfferConsent
+from eures_beta.matching.models import EmployerCandidateReview
 from eures_beta.www.matching.employer_consent import EmployerReply
 
 
@@ -31,18 +31,20 @@ class EmployerConsentTests(SimpleTestCase):
         self.assertNotIn('interest', form.fields)
         self.assertTrue(form.is_valid(), form.errors)
         replies = form.replies(1)
-        self.assertEqual(decision_for(replies), EmployerOfferConsent.Decision.PENDING)
+        self.assertEqual(
+            decision_for(replies), EmployerCandidateReview.Decision.PENDING
+        )
         self.assertEqual(
             decision_for(dict(replies, interest='yes')),
-            EmployerOfferConsent.Decision.ACCEPTED,
+            EmployerCandidateReview.Decision.ACCEPTED,
         )
         self.assertEqual(
             decision_for(dict(replies, conditions=['clarify'], interest='yes')),
-            EmployerOfferConsent.Decision.CLARIFY,
+            EmployerCandidateReview.Decision.CLARIFY,
         )
         self.assertEqual(
             decision_for(dict(replies, conditions=['blocked'], interest='yes')),
-            EmployerOfferConsent.Decision.DECLINED,
+            EmployerCandidateReview.Decision.DECLINED,
         )
 
     @patch('eures_beta.matching.dialogue_albert.complete')

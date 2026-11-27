@@ -277,7 +277,7 @@ class CandidateSupport(models.Model):
         return super().save(*args, **kwargs)
 
 
-class EmployerOfferConsent(models.Model):
+class EmployerCandidateReview(models.Model):
     class Decision(models.TextChoices):
         PENDING = 'pending', _('Awaiting employer response')
         ACCEPTED = 'accepted', _('Employer agreed to an introduction')
