@@ -585,3 +585,28 @@ class CandidateJourneyAccessibilityTests(TestCase):
             ).status_code,
             403,
         )
+
+
+class CandidateFeedbackTests(TestCase):
+    def get(self, step=1):
+        return self.client.get(
+            '/candidate/prepare/', {'step': step, 'lang': 'fr'}, secure=True
+        )
+
+    def test_every_step_offers_a_way_to_report_problems_and_suggestions(self):
+        response = self.get()
+        self.assertContains(response, 'id="candidate-feedback"')
+        self.assertContains(
+            response,
+            'href="mailto:eric.barthelemy@francetravail.fr?subject=',
+            count=2,
+        )
+        self.assertContains(response, 'Un problème ou une suggestion ?')
+
+    @override_settings(CANDIDATE_FEEDBACK_EMAIL='retours@example.invalid')
+    def test_feedback_address_comes_from_the_setting_with_the_step_in_subject(self):
+        response = self.get()
+        self.assertContains(response, 'href="mailto:retours@example.invalid?subject=')
+        self.assertContains(response, ': retours@example.invalid')
+        self.assertContains(response, '%C3%A9tape%201%20sur%204')
+        self.assertNotContains(response, 'eric.barthelemy@francetravail.fr')

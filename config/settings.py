@@ -48,6 +48,10 @@ EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
     'EMPLOYER_ADVISER_CONTACT_URL',
     'mailto:eric.barthelemy@francetravail.fr',
 )
+# Team address receiving problems and suggestions from candidates.
+CANDIDATE_FEEDBACK_EMAIL = (
+    os.environ.get('CANDIDATE_FEEDBACK_EMAIL') or 'eric.barthelemy@francetravail.fr'
+)
 if DEMO_ACCOUNTS_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
 ):
@@ -135,6 +139,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'eures_beta.users.test_accounts.context',
                 'eures_beta.employers.contact.context',
+                'eures_beta.candidates.feedback.context',
             ],
         },
     },

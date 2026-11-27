@@ -17,6 +17,7 @@ Profils, suggestions de vérification des préférences, validation des réponse
 - [admin.py](admin.py) — Enregistre les modèles dans l’administration en consultation.
 - [apps.py](apps.py) — Configure l’application Django et son identité stable.
 - [behaviour_help.py](behaviour_help.py) — Décrit les savoir-être et leurs aides traduisibles.
+- [feedback.py](feedback.py) — Fournit l’adresse de l’équipe pour les problèmes et suggestions des candidats.
 - [forms.py](forms.py) — Valide le questionnaire partagé par le modèle, les services et les pages.
 - [language_choices.py](language_choices.py) — Définit les langues et la validation de leurs niveaux.
 - [models.py](models.py) — Définit le profil, les abonnements Push et CandidateProfileReviewSuggestion ; la détection des refus répétés reste dans matching.
