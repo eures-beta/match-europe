@@ -15,7 +15,7 @@
             action="{% url 'employer_invite' %}?lang={{ page_language }}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="primary-action" type="submit">{% translate "Create invitation" %}</button>
+        <button class="btn btn-primary" type="submit">{% translate "Create invitation" %}</button>
       </form>
     {% endif %}
     <p><a href="{% url 'dashboard' %}?lang={{ page_language }}">{% translate "Back to dashboard" %}</a></p>

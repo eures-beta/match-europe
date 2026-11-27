@@ -1,12 +1,21 @@
-{% extends "public_base.html" %}
+{% extends "eures_base.html" %}
 {% load i18n static %}
-{% block page_title %}{% translate "Dashboard" context "account navigation" %} — Match Europe{% endblock %}
-{% block extra_head %}
-  <link rel="stylesheet" href="{% static 'users/account.css' %}">
+{% comment %}
+  Base of the signed-in workspaces (adviser space, employer dashboard). Child templates keep the
+  page_title, extra_head and public_content blocks.
+{% endcomment %}
+{% block title %}
+  {% block page_title %}{% translate "Dashboard" context "account navigation" %} — Match Europe{% endblock %}
 {% endblock %}
-{% block public_content %}
-  <section class="account-panel" aria-labelledby="dashboard-title">
-    <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
-    <p>{% translate "Your dashboard is under construction." context "account dashboard" %}</p>
-  </section>
+{% block head %}
+  <link rel="stylesheet" href="{% static 'users/account.css' %}">
+  {% block extra_head %}{% endblock %}
+{% endblock %}
+{% block content %}
+  {% block public_content %}
+    <section class="account-panel" aria-labelledby="dashboard-title">
+      <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
+      <p>{% translate "Your dashboard is under construction." context "account dashboard" %}</p>
+    </section>
+  {% endblock %}
 {% endblock %}

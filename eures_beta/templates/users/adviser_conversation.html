@@ -69,12 +69,12 @@
           </div>
           {% if can_prepare_employer %}
             <p class="followup-next">
-              <a class="primary-action"
+              <a class="btn btn-primary"
                  href="{% url 'prepare_employer_consent' conversation.pk %}?lang={{ dashboard_language }}">{% translate "Ask for the employer’s agreement" %}</a>
             </p>
           {% endif %}
           {% if can_start_shared %}
-            <p class="followup-next"><a class="primary-action"
+            <p class="followup-next"><a class="btn btn-primary"
                                         href="{% url 'shared_conversation_start' conversation.pk %}?lang={{ dashboard_language }}">{% translate "Continue with the employer" %}</a></p>
           {% endif %}
         </section>
@@ -85,7 +85,7 @@
         {% if can_resend %}
           <form method="post">
             {% csrf_token %}
-            <button class="primary-action"
+            <button class="btn btn-primary"
                     name="action"
                     value="resend"
                     type="submit">{% translate "Send the offer email again" %}</button>
@@ -118,7 +118,7 @@
           <form method="post">
             {% csrf_token %}
             <input type="hidden" name="fingerprint" value="{{ analysis_fingerprint }}">
-            <button class="primary-action"
+            <button class="btn btn-primary"
                     name="action"
                     value="analyse"
                     type="submit">{% translate "Analyse the replies" %}</button>

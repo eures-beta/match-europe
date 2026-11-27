@@ -124,7 +124,7 @@ class EmployerDashboardTests(TestCase):
             ):
                 with self.subTest(populated=populated, language=language):
                     url = f'/employer/import/?lang={language}'
-                    button = f'<a class="primary-action" href="{url}">{label}</a>'
+                    button = f'<a class="btn btn-primary" href="{url}">{label}</a>'
                     # The public page is built with the design system: same link, Bootstrap button.
                     public_button = (
                         f'<a class="btn btn-primary btn-lg" href="{url}">{label}</a>'
@@ -144,5 +144,5 @@ class EmployerDashboardTests(TestCase):
         )
         self.client.force_login(adviser)
         self.assertNotContains(
-            self.client.get(reverse('dashboard')), 'class="landing-actions"'
+            self.client.get(reverse('dashboard')), 'class="ds-actions"'
         )

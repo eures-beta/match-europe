@@ -80,28 +80,6 @@
   margin-top: var(--me-space-l);
 }
 
-.conversation-followup .primary-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-height: var(--me-control-min-height);
-  padding: var(--me-space-xs) var(--me-space-m);
-  border: var(--me-border-width) solid var(--me-color-action);
-  border-radius: var(--me-radius-control);
-  background: var(--me-color-surface);
-  color: var(--me-color-link);
-  font: inherit;
-  font-weight: var(--me-font-weight-bold);
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.conversation-followup .primary-action:hover {
-  background: var(--me-color-surface-brand);
-}
-
 .conversation-followup > .invitation-card {
   margin-top: var(--me-space-l);
 }

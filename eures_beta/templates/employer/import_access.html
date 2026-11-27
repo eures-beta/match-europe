@@ -12,10 +12,10 @@
       <form method="post"
             action="{% url 'magic_logout' %}?{{ import_login_query }}">
         {% csrf_token %}
-        <button type="submit" class="primary-action">{% translate "Sign out and use an employer account" %}</button>
+        <button type="submit" class="btn btn-primary">{% translate "Sign out and use an employer account" %}</button>
       </form>
     {% else %}
-      <a class="primary-action"
+      <a class="btn btn-primary"
          href="{% url 'magic_login' %}?{{ import_login_query }}">{% translate "Sign in" %}</a>
     {% endif %}
   </section>

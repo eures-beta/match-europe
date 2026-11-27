@@ -13,7 +13,7 @@
         {{ handling_form.version }}{{ handling_form.fingerprint }}
         {{ handling_form.internal_note.as_field_group }}
         <p>{% translate "Explain the takeover. The previous handler remains in the history." %}</p>
-        <button class="primary-action"
+        <button class="btn btn-primary"
                 name="action"
                 value="takeover"
                 type="submit">{% translate "Take over this review" %}</button>
@@ -27,31 +27,31 @@
           {{ handling_form.public_message.as_field_group }}
           <p>{% translate "Write the explanation the candidate will receive. Internal notes are kept separate." %}</p>
           {{ handling_form.internal_note.as_field_group }}
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="validated"
                   type="submit">{% translate "Validate the review" %}</button>
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="clarify"
                   type="submit">{% translate "Request additional information" %}</button>
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="refused"
                   type="submit">{% translate "Decline with an explanation" %}</button>
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="release"
                   type="submit">{% translate "Release this review" %}</button>
         {% elif conversation.assigned_to_adviser %}
           {{ handling_form.internal_note.as_field_group }}
           <p>{% translate "Explain the takeover. The previous handler remains in the history." %}</p>
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="takeover"
                   type="submit">{% translate "Take over this review" %}</button>
         {% else %}
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="claim"
                   type="submit">{% translate "Take responsibility for this review" %}</button>

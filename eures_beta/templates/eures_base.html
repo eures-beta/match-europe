@@ -44,7 +44,7 @@
               </span>
             </a>
             {# Language menu: native details/summary, works without JavaScript #}
-            <details class="ds-lang">
+            <details class="ds-dropdown ds-lang">
               <summary>
                 <span class="visually-hidden">{% translate "Language" context "employer landing" %} :</span> {{ page_language|upper }}
               </summary>
@@ -61,30 +61,20 @@
                 {% endblock %}
               </ul>
             </details>
-            <nav class="ds-account"
+            <nav class="ds-account{% if user.is_authenticated %} ds-account-folds{% endif %}"
                  aria-label="{% translate 'Account navigation' context 'account navigation' %}">
-              {% if user.is_authenticated %}
-                <a class="btn btn-outline-primary btn-sm"
-                   {% if current == 'dashboard' %}aria-current="page"{% endif %}
-                   href="{% url 'dashboard' %}?lang={{ page_language }}">{% translate "Dashboard" context "account navigation" %}</a>
-                <a class="btn btn-outline-primary btn-sm"
-                   {% if current == 'account' %}aria-current="page"{% endif %}
-                   href="{% url 'account' %}?lang={{ page_language }}">{% translate "My account" context "account navigation" %}</a>
-                {% if user.is_staff %}
-                  <a class="btn btn-outline-primary btn-sm"
-                     href="{% url 'admin:index' %}">{% translate "Admin" context "account navigation" %}</a>
-                {% endif %}
-                <form action="{% url 'magic_logout' %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn-link btn-sm ds-logout" type="submit">
-                    {% translate "Sign out" context "account navigation" %}
-                  </button>
-                </form>
-              {% else %}
-                <a class="btn btn-outline-primary btn-sm"
-                   href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>
-              {% endif %}
+              {% include "eures/account_links.html" with buttons=True %}
             </nav>
+            {% if user.is_authenticated %}
+              <details class="ds-dropdown ds-account-menu">
+                <summary>{% translate "Account" context "account navigation" %}</summary>
+                <nav aria-label="{% translate 'Account navigation' context 'account navigation' %}">
+                  <ul>
+                    {% include "eures/account_links.html" with items=True %}
+                  </ul>
+                </nav>
+              </details>
+            {% endif %}
           </div>
           {% include "eures/partners.html" %}
           <nav class="ds-site-nav"

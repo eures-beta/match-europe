@@ -26,20 +26,20 @@
             <input type="hidden" name="evaluation" value="{{ evaluation.pk }}">
             {% if stale %}
               <button type="submit"
-                      class="primary-action"
+                      class="btn btn-primary"
                       name="action"
                       value="refresh">{% translate "Refresh evaluation" %}</button>
             {% else %}
               {% if albert_available %}
                 <button type="submit"
-                        class="primary-action adviser-match-approve"
+                        class="btn btn-success adviser-match-approve"
                         name="action"
                         value="retained">{% translate "Validate and open conversation" %}</button>
               {% else %}
                 <p>{% translate "Albert is currently unavailable. Try again later." %}</p>
               {% endif %}
               <button type="submit"
-                      class="secondary-action adviser-match-refuse"
+                      class="btn btn-outline-danger adviser-match-refuse"
                       name="action"
                       value="refused">{% translate "Refuse matching" %}</button>
             {% endif %}

@@ -43,7 +43,7 @@
                      aria-describedby="csv-help"
                      required>
               <p id="csv-help" class="invitation-hint">{% translate "UTF-8 CSV, maximum file size: 64 KB." %} Colonne <code>email</code> obligatoire. Colonnes <code>prénom</code> et <code>nom</code> facultatives.</p>
-              <button class="primary-action" name="action" value="import">Vérifier et prévisualiser</button>
+              <button class="btn btn-primary" name="action" value="import">Vérifier et prévisualiser</button>
             {% else %}
               <div class="invitation-names">
                 <div>{{ form.first_name.label_tag }}{{ form.first_name }}{{ form.first_name.errors }}</div>
@@ -51,7 +51,7 @@
               </div>
               {{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}
               <p class="invitation-hint">Seule l’adresse e-mail est obligatoire.</p>
-              <button class="primary-action" name="action" value="preview">Prévisualiser l’e-mail</button>
+              <button class="btn btn-primary" name="action" value="preview">Prévisualiser l’e-mail</button>
             {% endif %}
           </form>
         </section>
@@ -74,7 +74,7 @@
                 action="{% url 'adviser_invitations' %}?lang={{ dashboard_language }}{% if tracking %}&amp;view=history{% endif %}">
             {% csrf_token %}
             <input type="hidden" name="preview" value="{{ preview_token }}">
-            <button class="primary-action" name="action" value="send">{% if reminder_preview %}Confirmer l’envoi{% else %}Envoyer {{ previews|length }} invitation{{ previews|length|pluralize }}{% endif %}</button>
+            <button class="btn btn-primary" name="action" value="send">{% if reminder_preview %}Confirmer l’envoi{% else %}Envoyer {{ previews|length }} invitation{{ previews|length|pluralize }}{% endif %}</button>
           </form>
         {% else %}
           <div class="invitation-empty">

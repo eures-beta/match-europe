@@ -14,3 +14,5 @@ domaines Django et leurs adaptateurs web.
 
 
 - [matching-lifeline.css](matching-lifeline.css) — Ligne de vie responsive, états et dates du matching.
+
+- [workspace-tabs.js](workspace-tabs.js) — Sur téléphone, fait apparaître l’onglet et la liste courants dans leurs rangées défilantes.

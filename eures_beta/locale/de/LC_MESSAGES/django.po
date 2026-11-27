@@ -9352,6 +9352,7 @@ msgstr "Team"
 msgid "Staff %(number)s"
 msgstr "Teammitglied %(number)s"
 
+
 msgid "Page not found"
 msgstr "Seite nicht gefunden"
 
@@ -9363,3 +9364,8 @@ msgstr "Zugriff verweigert"
 
 msgid "This page is unavailable for this account."
 msgstr "Diese Seite ist für dieses Konto nicht verfügbar."
+
+msgctxt "account navigation"
+msgid "Account"
+msgstr "Konto"
+

@@ -2,13 +2,13 @@
 {% load static i18n %}
 {% block extra_head %}
   {{ block.super }}
-  <link rel="stylesheet" href="{% static 'design-system/tokens.css' %}">
   <link rel="stylesheet" href="{% static 'invitations/invitations.css' %}">
   <link rel="stylesheet" href="{% static 'adviser/action-queue.css' %}">
+  <script src="{% static 'adviser/workspace-tabs.js' %}" defer></script>
 {% endblock %}
 {% block public_content %}
   <div class="invitations adviser-workspace">
-    <header class="invitations-header adviser-workspace-tabs">
+    <header class="adviser-workspace-tabs">
       <nav aria-label="{% translate 'Adviser workspace' %}">
         <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}"
            {% if matching_tab %} aria-current="page"{% endif %}>{% translate "To review" %}</a>
