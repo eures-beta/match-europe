@@ -12,7 +12,7 @@ from django.utils import timezone
 from io import StringIO
 
 from eures_beta.invitations.models import Invitation
-from eures_beta.users.models import User, LoginRateLimit
+from eures_beta.users.models import AdviserAvailability, User, LoginRateLimit
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from eures_beta.skills.models import OccupationSkillSuggestion
 from eures_beta.employers.models import (
@@ -72,6 +72,9 @@ class ReadOnlyAdminTests(TestCase):
             response_time='under_week',
         )
         self.records = [
+            AdviserAvailability.objects.create(
+                adviser=self.superuser, day=timezone.localdate(), present=True
+            ),
             OccupationSkillSuggestion.objects.create(
                 occupation_uri='https://example.invalid/occupation',
                 source_version='fictional-source',
