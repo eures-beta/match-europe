@@ -68,6 +68,11 @@ ces données avant toute opération de retour arrière. Les migrations historiqu
 `0026` et `0027` restent nécessaires. Les anciennes adresses par revue restent
 compatibles ; les nouveaux liens utilisent explicitement l’identifiant du matching.
 
+Le rattachement et les protections de retour arrière utilisent exclusivement
+la connexion du moteur de migration, y compris sur une base nommée autrement
+que `default`. `tests/matching/test_migration_database_alias.py` vérifie ce ciblage ;
+`make users-upgrade-test` éprouve la transition complète dans une base isolée.
+
 Recette : `make test TESTS='tests.matching.test_match_lifecycle tests.matching.test_match_lifecycle_migration tests.matching.test_introduction_followup'`,
 puis contrôles communs Python, HTML/CSS et gettext. Le transport réel doit être
 vérifié séparément dans un environnement configuré autorisé.

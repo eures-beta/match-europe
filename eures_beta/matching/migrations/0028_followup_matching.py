@@ -6,13 +6,18 @@ import django.db.models.deletion
 
 def attach(apps, schema_editor):
     Plan = apps.get_model('matching', 'IntroductionFollowup')
-    for row in Plan.objects.select_related('review').all().iterator():
-        Plan.objects.filter(pk=row.pk).update(match_id=row.review.match_id)
+    plans = Plan.objects.using(schema_editor.connection.alias)
+    for row in plans.select_related('review').all().iterator():
+        plans.filter(pk=row.pk).update(match_id=row.review.match_id)
 
 
 def check_rollback(apps, schema_editor):
     Plan = apps.get_model('matching', 'IntroductionFollowup')
-    if Plan.objects.filter(review__isnull=True).exists():
+    if (
+        Plan.objects.using(schema_editor.connection.alias)
+        .filter(review__isnull=True)
+        .exists()
+    ):
         raise RuntimeError(
             'Cannot roll back plans created before a candidate review; preserve these plans first.'
         )
