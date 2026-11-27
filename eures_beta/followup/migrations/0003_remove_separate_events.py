@@ -1,6 +1,21 @@
 """Follow-up and conclusion histories now live in matching.MatchEvent."""
 
+from importlib import import_module
+
 from django.db import migrations
+
+
+def copy_followup(apps, schema_editor):
+    import_module('eures_beta.matching.migrations.0037_unify_match_events').copy_events(
+        apps, schema_editor, kinds={'followup', 'conclusion'}
+    )
+
+
+def restore_followup(apps, schema_editor):
+    import_module(
+        'eures_beta.matching.migrations.0037_unify_match_events'
+    ).restore_events(apps, schema_editor, kinds={'followup', 'conclusion'})
+
 
 DROP_GUARDS = """
 DROP FUNCTION followup_matchfollowupevent_check_adviser();
@@ -30,6 +45,7 @@ class Migration(migrations.Migration):
         ('matching', '0037_unify_match_events'),
     ]
     operations = [
+        migrations.RunPython(copy_followup, restore_followup),
         migrations.DeleteModel(name='MatchFollowupEvent'),
         migrations.DeleteModel(name='MatchConclusionEvent'),
         migrations.RunSQL(DROP_GUARDS, RESTORE_GUARDS),

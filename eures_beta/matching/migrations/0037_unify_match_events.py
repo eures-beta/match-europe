@@ -48,10 +48,12 @@ DROP FUNCTION matching_matchevent_check_actor();
 """
 
 
-def copy_events(apps, schema_editor):
+def copy_events(apps, schema_editor, *, kinds):
     alias = schema_editor.connection.alias
     Event = apps.get_model('matching', 'MatchEvent')
     for kind, name, _, relation, fields in SOURCES:
+        if kind not in kinds:
+            continue
         Source = apps.get_model(
             'introductions' if kind == 'review' else 'followup', name
         )
@@ -74,10 +76,12 @@ def copy_events(apps, schema_editor):
             )
 
 
-def restore_events(apps, schema_editor):
+def restore_events(apps, schema_editor, *, kinds):
     alias = schema_editor.connection.alias
     Event = apps.get_model('matching', 'MatchEvent')
     for kind, name, parent, relation, fields in SOURCES:
+        if kind not in kinds:
+            continue
         Source = apps.get_model(
             'introductions' if kind == 'review' else 'followup', name
         )
@@ -140,6 +144,7 @@ def restore_events(apps, schema_editor):
             schema_editor.execute(
                 f'CREATE TRIGGER {trigger} BEFORE INSERT OR UPDATE ON {table} FOR EACH ROW EXECUTE FUNCTION {function}()'
             )
+        Event.objects.using(alias).filter(kind=kind).delete()
 
 
 class Migration(migrations.Migration):
@@ -310,6 +315,5 @@ class Migration(migrations.Migration):
                 name='matching_matchevent_kind_action_valid',
             ),
         ),
-        migrations.RunPython(copy_events, restore_events),
         migrations.RunSQL(GUARD, UNGUARD),
     ]
