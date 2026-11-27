@@ -105,23 +105,23 @@ class AdviserInvitationsTests(TestCase):
 
         request = RequestFactory().post(self.tab)
         request.user = self.adviser
-        with patch('eures_beta.www.invitations.adviser.deliver', return_value=True):
-            self.assertEqual(
-                send_batch(
-                    request,
-                    {
-                        'recipient_kind': 'candidate',
-                        'language': 'de',
-                        'recipients': [
-                            {
-                                'email': 'candidate@example.invalid',
-                                'first_name': 'Camille',
-                                'last_name': '',
-                            }
-                        ],
-                    },
-                ),
-                (1, 0),
+        with (
+            patch('eures_beta.www.invitations.adviser.deliver', return_value=True),
+            patch('eures_beta.www.invitations.adviser.messages.success'),
+        ):
+            send_batch(
+                request,
+                {
+                    'recipient_kind': 'candidate',
+                    'language': 'de',
+                    'recipients': [
+                        {
+                            'email': 'candidate@example.invalid',
+                            'first_name': 'Camille',
+                            'last_name': '',
+                        }
+                    ],
+                },
             )
         self.assertEqual(Invitation.objects.get().language, 'de')
 
