@@ -1,5 +1,5 @@
 {% extends "conversation_base.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block conversation_class %}conversation-preview{% endblock %}
 {% block page_title %}{% translate "Introduction request" %} — Match Europe{% endblock %}
 {% block public_content %}
@@ -7,6 +7,11 @@
     <a class="conversation-back"
        href="{% url 'dashboard' %}?lang={{ page_language }}{% if preparing %}&amp;view=conversations{% endif %}"
        aria-label="{% translate 'Dashboard' context 'account navigation' %}">‹</a>
+    <img class="conversation-logo"
+         src="{% static 'employer/assets/match-europe-logo.png' %}"
+         alt=""
+         width="32"
+         height="32">
     <div>
       <h1>{% translate "Introduction request" %}</h1>
       <p>{{ review.match.offer.data.title }}</p>
@@ -41,7 +46,7 @@
       {% endif %}
       {% if can_start_shared %}
         <p class="dialogue-bubble">
-          <a class="primary-action"
+          <a class="btn btn-primary"
              href="{% url 'shared_conversation_start' review.pk %}?lang={{ page_language }}">{% translate "Open the three-way conversation" %}</a>
         </p>
       {% endif %}
@@ -49,12 +54,12 @@
         <form method="post" class="dialogue-bubble dialogue-bubble-reply">
           {% csrf_token %}
           {% if drafted %}
-            <button class="primary-action"
+            <button class="btn btn-primary"
                     name="action"
                     value="publish"
                     type="submit">{% translate "Confirm and send to the employer" %}</button>
           {% else %}
-            <button class="primary-action"
+            <button class="btn btn-primary"
                     name="action"
                     value="draft"
                     type="submit">{% translate "Prepare the questions with Albert" %}</button>
@@ -79,7 +84,7 @@
           {% endfor %}
           <div class="dialogue-bubble dialogue-bubble-reply">{{ form.details.as_field_group }}</div>
         {% endif %}
-        <button class="primary-action" type="submit">{% translate "Continue" %}</button>
+        <button class="btn btn-primary" type="submit">{% translate "Continue" %}</button>
       </form>
     {% endif %}
   </section>

@@ -1,206 +1,187 @@
+{% extends "eures_base.html" %}
 {% load i18n static %}
-<!DOCTYPE html>
-<html lang="{{ page_language }}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% translate "Matching" %} — Match Europe</title>
-    <link rel="stylesheet"
-          href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'employer/site.css' %}">
-    <link rel="stylesheet" href="{% static 'public-brand.css' %}">
-    <link rel="stylesheet" href="{% static 'matching/results.css' %}?v=2">
-  </head>
-  <body>
-    <a class="visually-hidden-focusable" href="#main-content">{% translate "Skip to content" %}</a>
-    <header class="site-header">
-      <div class="shell">
-        {% include "includes/public_brand.html" %}
-        <nav aria-label="{% translate 'Language' %}">
-          <a class="nav-pill" href="?lang=fr" lang="fr">FR</a>
-          <a class="nav-pill" href="?lang=en" lang="en">EN</a>
-          <a class="nav-pill" href="?lang=de" lang="de">DE</a>
-        </nav>
-      </div>
-    </header>
-    <main class="container py-4 matching-results" id="main-content">
-      <h1>{% translate "Matching" %}</h1>
-      <p class="alert alert-info"
-         role="note">{% translate "No message, notification or introduction is sent automatically." %}</p>
-      {% if review or can_request_review %}
-        {% include "matching/offer_review_adviser.html" %}
-      {% endif %}
-      {% if error %}<p role="alert" class="alert alert-danger">{{ error }}</p>{% endif %}
-      {% if form %}
-        <h2>{% translate "Matching results" %}</h2>
-        <p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
-        <form method="get" class="mb-3">
-          <input type="hidden" name="lang" value="{{ page_language }}">
-          {{ offer_filter.as_p }}
-          <button type="submit" class="btn btn-outline-primary">{% translate "Filter" %}</button>
-        </form>
-        {% for entry in entries %}
-          <details class="result-card">
-            <summary>
-              <span class="result-row">
-                <span class="result-person">
-                  <span class="result-kicker">{% translate "Candidate" %}</span>
-                  <strong class="result-main">{{ entry.match.candidate.display_name }}</strong>
-                  <span class="result-sub">{{ entry.match.candidate.get_project_mode_display }}</span>
-                </span>
-                <span class="result-offer">
-                  <span class="result-kicker">{% translate "Employer and position" %}</span>
-                  <strong class="result-main">{{ entry.title }}</strong>
-                  <span class="result-sub">{{ entry.match.offer.data.companyName }} · {{ entry.match.offer.data.city }}</span>
-                </span>
-                <span class="result-score">
-                  <strong>{% if entry.result %}{{ entry.result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
-                  <span>/ 100</span>
-                </span>
-                <span class="result-tags">
-                  {% if entry.result %}<span class="result-status{% if entry.result.blocked %} result-status-blocked{% endif %}">{{ entry.result.status_label }}</span>{% endif %}
-                  <span class="result-status">{{ entry.decision }}</span>
-                  {% if entry.stale %}
-                    <span class="result-status result-status-unknown">{% translate "Outdated evaluation" %}</span>
-                  {% endif %}
-                </span>
-                <span class="result-toggle">{% translate "Details" %}</span>
+{% block title %}{% translate "Matching" %} — Match Europe{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'matching/results.css' %}?v=3">
+{% endblock %}
+{% block content %}
+  <div class="matching-results">
+    <h1>{% translate "Matching" %}</h1>
+    <p class="alert alert-info"
+       role="note">{% translate "No message, notification or introduction is sent automatically." %}</p>
+    {% if review or can_request_review %}
+      {% include "matching/offer_review_adviser.html" %}
+    {% endif %}
+    {% if error %}<p role="alert" class="alert alert-danger">{{ error }}</p>{% endif %}
+    {% if form %}
+      <h2>{% translate "Matching results" %}</h2>
+      <p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
+      <form method="get" class="mb-3">
+        <input type="hidden" name="lang" value="{{ page_language }}">
+        {{ offer_filter.as_p }}
+        <button type="submit" class="btn btn-outline-primary">{% translate "Filter" %}</button>
+      </form>
+      {% for entry in entries %}
+        <details class="result-card">
+          <summary>
+            <span class="result-row">
+              <span class="result-person">
+                <span class="result-kicker">{% translate "Candidate" %}</span>
+                <strong class="result-main">{{ entry.match.candidate.display_name }}</strong>
+                <span class="result-sub">{{ entry.match.candidate.get_project_mode_display }}</span>
               </span>
-            </summary>
-            <div class="result-body">
-              {% if entry.evaluation %}
-                <p class="result-caption">{% translate "Calculated on" %}: {{ entry.evaluation.created_at }}</p>
+              <span class="result-offer">
+                <span class="result-kicker">{% translate "Employer and position" %}</span>
+                <strong class="result-main">{{ entry.title }}</strong>
+                <span class="result-sub">{{ entry.match.offer.data.companyName }} · {{ entry.match.offer.data.city }}</span>
+              </span>
+              <span class="result-score">
+                <strong>{% if entry.result %}{{ entry.result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
+                <span>/ 100</span>
+              </span>
+              <span class="result-tags">
+                {% if entry.result %}<span class="result-status{% if entry.result.blocked %} result-status-blocked{% endif %}">{{ entry.result.status_label }}</span>{% endif %}
+                <span class="result-status">{{ entry.decision }}</span>
                 {% if entry.stale %}
-                  <p class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>
+                  <span class="result-status result-status-unknown">{% translate "Outdated evaluation" %}</span>
                 {% endif %}
-                {% include "matching/dimensions.html" with result=entry.result %}
-                {% include "matching/notes.html" with result=entry.result %}
-              {% else %}
-                <p>{% translate "No evaluation yet." %}</p>
-              {% endif %}
-              <a class="btn btn-primary"
-                 href="{% url 'matching_detail' entry.match.pk %}?lang={{ page_language }}">{% translate "Compare and decide" %}</a>
-            </div>
-          </details>
-        {% empty %}
-          <p>{% translate "No evaluation yet." %}</p>
-        {% endfor %}
-        <details class="result-card" {% if form.errors %}open{% endif %}>
-          <summary>{% translate "Calculate another pair" %}</summary>
+              </span>
+              <span class="result-toggle">{% translate "Details" %}</span>
+            </span>
+          </summary>
           <div class="result-body">
-            <p>{% translate "Choose an offer and a candidate to examine their correspondence." %}</p>
-            <form method="post">
-              {% csrf_token %}
-              {{ form.as_p }}
-              <button class="btn btn-primary" type="submit">{% translate "Calculate correspondence" %}</button>
-            </form>
+            {% if entry.evaluation %}
+              <p class="result-caption">{% translate "Calculated on" %}: {{ entry.evaluation.created_at }}</p>
+              {% if entry.stale %}
+                <p class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>
+              {% endif %}
+              {% include "matching/dimensions.html" with result=entry.result %}
+              {% include "matching/notes.html" with result=entry.result %}
+            {% else %}
+              <p>{% translate "No evaluation yet." %}</p>
+            {% endif %}
+            <a class="btn btn-primary"
+               href="{% url 'matching_detail' entry.match.pk %}?lang={{ page_language }}">{% translate "Compare and decide" %}</a>
           </div>
         </details>
-      {% else %}
-        <a href="{% url 'matching' %}?lang={{ page_language }}">{% translate "Choose another pair" %}</a>
-        <section class="result-hero" aria-label="{% translate 'Matching summary' %}">
-          <div>
-            <span class="result-kicker">{% translate "Candidate" %}</span>
-            <h2>{{ match.candidate.display_name }}</h2>
-            <span class="result-kicker">{% translate "Employer and position" %}</span>
-            <h2>{{ match.offer.data.title }}</h2>
-            <p>{{ match.offer.data.companyName }} · {{ match.offer.data.city }}</p>
-            {% if result %}<p class="result-status{% if result.blocked %} result-status-blocked{% endif %}">{{ result.status_label }}</p>{% endif %}
-            <p>{% translate "Human decision" %}: <strong>{{ decision }}</strong></p>
-            {% if evaluation %}<p class="result-caption">{% translate "Calculated on" %}: {{ evaluation.created_at }}</p>{% endif %}
-          </div>
-          <div class="result-score result-score-large">
-            <span>{% translate "Global score" %}</span>
-            <strong>{% if result %}{{ result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
-            <span>/ 100</span>
-            <span>{% translate "Experimental" %}</span>
-          </div>
-        </section>
-        <p>{% translate "Occupation preferences are shown for discussion and do not add points." %}</p>
-        <p>{{ match.candidate.get_project_mode_display }}</p>
-        {% if occupation_labels %}
-          <ul>
-            {% for label in occupation_labels %}<li>{{ label }}</li>{% endfor %}
-          </ul>
-        {% endif %}
-        {% if match.candidate.desired_occupations %}<p>{{ match.candidate.desired_occupations }}</p>{% endif %}
-        {% if stale %}
-          <p role="alert"
-             class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>
-        {% endif %}
-        <form method="post" class="mb-4">
-          {% csrf_token %}
-          <button class="btn btn-secondary"
-                  name="action"
-                  value="calculate"
-                  type="submit">{% translate "Recalculate" %}</button>
-        </form>
-        {% if result %}
-          <h2>{{ result.status_label }}</h2>
-          {% if result.blocked %}
-            <div class="alert alert-danger" role="note">
-              {% for row in result.rows %}
-                {% if row.blocking %}
-                  <p><strong>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</strong>: {{ row.explanation }}</p>
-                  {% if row.expected_label %}<p>{% translate "Offer declaration" %}: {{ row.expected_label }}</p>{% endif %}
-                  {% if row.declared_label %}<p>{% translate "Candidate declaration" %}: {{ row.declared_label }}</p>{% endif %}
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% else %}
-            <p>{% translate "No confirmed blocking point does not mean all requirements are satisfied." %}</p>
-          {% endif %}
-          <section aria-labelledby="score-details-title">
-            <h3 id="score-details-title">{% translate "Scoring details" %}</h3>
-            <p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
-            {% include "matching/dimensions.html" %}
-            <p>{% translate "Unresolved point budget" %}: {{ result.unresolved|floatformat:"-2" }}</p>
-          </section>
-          {% include "matching/notes.html" %}
-          <h3>{% translate "Reasons and points to verify" %}</h3>
-          <div class="row">
+      {% empty %}
+        <p>{% translate "No evaluation yet." %}</p>
+      {% endfor %}
+      <details class="result-card" {% if form.errors %}open{% endif %}>
+        <summary>{% translate "Calculate another pair" %}</summary>
+        <div class="result-body">
+          <p>{% translate "Choose an offer and a candidate to examine their correspondence." %}</p>
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">{% translate "Calculate correspondence" %}</button>
+          </form>
+        </div>
+      </details>
+    {% else %}
+      <a href="{% url 'matching' %}?lang={{ page_language }}">{% translate "Choose another pair" %}</a>
+      <section class="result-hero" aria-label="{% translate 'Matching summary' %}">
+        <div>
+          <span class="result-kicker">{% translate "Candidate" %}</span>
+          <h2>{{ match.candidate.display_name }}</h2>
+          <span class="result-kicker">{% translate "Employer and position" %}</span>
+          <h2>{{ match.offer.data.title }}</h2>
+          <p>{{ match.offer.data.companyName }} · {{ match.offer.data.city }}</p>
+          {% if result %}<p class="result-status{% if result.blocked %} result-status-blocked{% endif %}">{{ result.status_label }}</p>{% endif %}
+          <p>{% translate "Human decision" %}: <strong>{{ decision }}</strong></p>
+          {% if evaluation %}<p class="result-caption">{% translate "Calculated on" %}: {{ evaluation.created_at }}</p>{% endif %}
+        </div>
+        <div class="result-score result-score-large">
+          <span>{% translate "Global score" %}</span>
+          <strong>{% if result %}{{ result.established|floatformat:"-2" }}{% else %}—{% endif %}</strong>
+          <span>/ 100</span>
+          <span>{% translate "Experimental" %}</span>
+        </div>
+      </section>
+      <p>{% translate "Occupation preferences are shown for discussion and do not add points." %}</p>
+      <p>{{ match.candidate.get_project_mode_display }}</p>
+      {% if occupation_labels %}
+        <ul>
+          {% for label in occupation_labels %}<li>{{ label }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+      {% if match.candidate.desired_occupations %}<p>{{ match.candidate.desired_occupations }}</p>{% endif %}
+      {% if stale %}
+        <p role="alert"
+           class="alert alert-warning">{% translate "This evaluation is out of date. Recalculate before making a decision." %}</p>
+      {% endif %}
+      <form method="post" class="mb-4">
+        {% csrf_token %}
+        <button class="btn btn-secondary"
+                name="action"
+                value="calculate"
+                type="submit">{% translate "Recalculate" %}</button>
+      </form>
+      {% if result %}
+        <h2>{{ result.status_label }}</h2>
+        {% if result.blocked %}
+          <div class="alert alert-danger" role="note">
             {% for row in result.rows %}
-              <div class="col-md-6 mb-3">
-                <article class="card card-body h-100">
-                  <h4 class="h5">{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</h4>
-                  <p><strong>{{ row.state_label }}</strong>{% if row.blocking %} · <strong>{% translate "Blocking point for this offer" %}</strong>{% endif %}</p>
-                  <p>{{ row.explanation }}</p>
-                  {% if row.expected_label or row.declared_label %}
-                    <dl class="mb-0">
-                      <dt>{% translate "Offer declaration" %}</dt><dd>{{ row.expected_label|default:'—' }}</dd>
-                      <dt>{% translate "Candidate declaration" %}</dt><dd>{{ row.declared_label|default:'—' }}</dd>
-                    </dl>
-                  {% endif %}
-                </article>
-              </div>
+              {% if row.blocking %}
+                <p><strong>{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</strong>: {{ row.explanation }}</p>
+                {% if row.expected_label %}<p>{% translate "Offer declaration" %}: {{ row.expected_label }}</p>{% endif %}
+                {% if row.declared_label %}<p>{% translate "Candidate declaration" %}: {{ row.declared_label }}</p>{% endif %}
+              {% endif %}
             {% endfor %}
           </div>
-          <p>{% translate "Unknown points will support the future candidate dialogue. Albert is not connected here." %}</p>
-          <section aria-labelledby="decision-title" class="my-4">
-            <h3 id="decision-title">{% translate "Human decision" %}</h3>
-            <p>{% translate "A recalculation preserves the previous human decision. Retaining a pair does not authorise transmission." %}</p>
-            <form method="post">
-              {% csrf_token %}
-              <input type="hidden" name="evaluation" value="{{ evaluation.pk }}">
-              <button type="submit"
-                      name="action"
-                      value="retained"
-                      class="btn btn-primary"
-                      {% if not can_retain %}disabled{% endif %}>{% translate "Retain for review" %}</button>
-              <button type="submit"
-                      name="action"
-                      value="refused"
-                      class="btn btn-outline-secondary"
-                      {% if stale %}disabled{% endif %}>{% translate "Refuse this pair" %}</button>
-            </form>
-            <ul class="mt-3">
-              {% for event in decisions %}
-                <li>{{ event.created_at }} · {% if event.value == "retained" %}{% translate "Retained for review" %}{% else %}{% translate "Refused by the local operator" %}{% endif %}</li>
-              {% endfor %}
-            </ul>
-          </section>
+        {% else %}
+          <p>{% translate "No confirmed blocking point does not mean all requirements are satisfied." %}</p>
         {% endif %}
+        <section aria-labelledby="score-details-title">
+          <h3 id="score-details-title">{% translate "Scoring details" %}</h3>
+          <p class="result-caption">{% translate "Scores are experimental. Blocking points and unknown information remain separate from the score." %}</p>
+          {% include "matching/dimensions.html" %}
+          <p>{% translate "Unresolved point budget" %}: {{ result.unresolved|floatformat:"-2" }}</p>
+        </section>
+        {% include "matching/notes.html" %}
+        <h3>{% translate "Reasons and points to verify" %}</h3>
+        <div class="row">
+          {% for row in result.rows %}
+            <div class="col-md-6 mb-3">
+              <article class="card card-body h-100">
+                <h4 class="h5">{{ row.label }}{% if row.reference_label %} — {{ row.reference_label }}{% endif %}</h4>
+                <p><strong>{{ row.state_label }}</strong>{% if row.blocking %} · <strong>{% translate "Blocking point for this offer" %}</strong>{% endif %}</p>
+                <p>{{ row.explanation }}</p>
+                {% if row.expected_label or row.declared_label %}
+                  <dl class="mb-0">
+                    <dt>{% translate "Offer declaration" %}</dt><dd>{{ row.expected_label|default:'—' }}</dd>
+                    <dt>{% translate "Candidate declaration" %}</dt><dd>{{ row.declared_label|default:'—' }}</dd>
+                  </dl>
+                {% endif %}
+              </article>
+            </div>
+          {% endfor %}
+        </div>
+        <p>{% translate "Unknown points will support the future candidate dialogue. Albert is not connected here." %}</p>
+        <section aria-labelledby="decision-title" class="my-4">
+          <h3 id="decision-title">{% translate "Human decision" %}</h3>
+          <p>{% translate "A recalculation preserves the previous human decision. Retaining a pair does not authorise transmission." %}</p>
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="evaluation" value="{{ evaluation.pk }}">
+            <button type="submit"
+                    name="action"
+                    value="retained"
+                    class="btn btn-primary"
+                    {% if not can_retain %}disabled{% endif %}>{% translate "Retain for review" %}</button>
+            <button type="submit"
+                    name="action"
+                    value="refused"
+                    class="btn btn-outline-secondary"
+                    {% if stale %}disabled{% endif %}>{% translate "Refuse this pair" %}</button>
+          </form>
+          <ul class="mt-3">
+            {% for event in decisions %}
+              <li>{{ event.created_at }} · {% if event.value == "retained" %}{% translate "Retained for review" %}{% else %}{% translate "Refused by the local operator" %}{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </section>
       {% endif %}
-    </main>
-  </body>
-</html>
+    {% endif %}
+  </div>
+{% endblock %}

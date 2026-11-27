@@ -15,6 +15,11 @@
          href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}"
          aria-label="{% translate 'Offers to confirm' %}">‹</a>
       <span class="conversation-avatar" aria-hidden="true">A</span>
+      <img class="conversation-logo"
+           src="{% static 'employer/assets/match-europe-logo.png' %}"
+           alt=""
+           width="32"
+           height="32">
       <div>
         <h1>Albert</h1>
         <p>{{ obj.match.offer.data.title }}</p>
@@ -85,7 +90,7 @@
               </label>
             </p>
           {% endif %}
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="accept"
                   type="submit">{% translate "Validate this summary" %}</button>
@@ -112,8 +117,8 @@
             <input type="hidden" name="fingerprint" value="{{ form.fingerprint.value }}">
             <input type="hidden" name="previous" value="{{ form.previous.value }}">
             <input type="hidden" name="action" value="quick">
-            <button class="primary-action" name="value" value="yes" type="submit">{% translate "Yes" %}</button>
-            <button class="primary-action" name="value" value="no" type="submit">{% translate "No" %}</button>
+            <button class="btn btn-primary" name="value" value="yes" type="submit">{% translate "Yes" %}</button>
+            <button class="btn btn-primary" name="value" value="no" type="submit">{% translate "No" %}</button>
           </form>
         {% endif %}
         <details class="dialogue-precision"
@@ -130,7 +135,7 @@
                 {{ form.scope }}
               </details>
             {% endif %}
-            <button class="primary-action" name="action" value="reply" type="submit">{% translate "Send" %}</button>
+            <button class="btn btn-primary" name="action" value="reply" type="submit">{% translate "Send" %}</button>
           </form>
         </details>
       </section>
@@ -140,12 +145,12 @@
         <a href="?lang={{ page_language }}&amp;question={{ state.declined.key|urlencode }}">{% translate "Change this answer" %}</a>
       </section>
     {% elif shared_conversation %}
-      <section class="surface-card home-section">
-        <a class="primary-action"
+      <section class="ds-card mb-4">
+        <a class="btn btn-primary"
            href="{% url 'shared_conversation' shared_conversation.pk %}?lang={{ page_language }}">{% translate "Three-way conversation" %}</a>
       </section>
     {% else %}
-      <section class="surface-card home-section">
+      <section class="ds-card mb-4">
         <h2>{% translate "Review of this offer" %}</h2>
         {% for row in rows %}
           <details>
@@ -157,7 +162,7 @@
             {% endif %}
           </details>
         {% endfor %}
-        <a class="primary-action"
+        <a class="btn btn-primary"
            href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}">{% translate "Review the summary and choose what may be shared" %}</a>
       </section>
     {% endif %}

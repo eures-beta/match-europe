@@ -59,6 +59,10 @@
   color: var(--me-color-action);
   font-weight: var(--me-font-weight-bold);
 }
+.conversation-logo {
+  flex: none;
+  border-radius: var(--me-radius-m);
+}
 .conversation-back {
   display: grid;
   width: var(--me-control-min-height);
@@ -71,7 +75,7 @@
 }
 .conversation-info,
 .conversation-thread {
-  padding: var(--me-space-s) var(--me-space-m);
+  padding: var(--me-space-m);
 }
 .conversation-thread {
   padding-top: 0;
@@ -102,24 +106,6 @@
   background: var(--me-color-surface-brand);
   border-color: var(--me-color-border);
   box-shadow: none;
-}
-.conversation-app .primary-action {
-  display: inline-grid;
-  min-height: var(--me-control-min-height);
-  place-items: center;
-  padding: var(--me-space-xs) var(--me-space-m);
-  border: var(--me-border-width) solid var(--me-color-action);
-  border-radius: var(--me-radius-control);
-  background: var(--me-color-action);
-  color: var(--me-color-action-text);
-  cursor: pointer;
-  font: inherit;
-  font-weight: var(--me-font-weight-bold);
-  text-align: center;
-  text-decoration: none;
-}
-.conversation-app .primary-action:hover {
-  background: var(--me-color-action-hover);
 }
 .conversation-app .dialogue-quick-replies {
   justify-content: flex-end;
