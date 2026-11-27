@@ -7,10 +7,10 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.management import call_command
 from django.db import DatabaseError, transaction
 from django.test import Client, TestCase, override_settings
-from django.urls import reverse
+from django.urls import reverse, NoReverseMatch
 from django.utils import timezone
 
-from eures_beta.followup import match_followup as followup
+from eures_beta.followup import match_followup as followup, match_lifecycle
 from eures_beta.introductions import offer_review_services as answers, review_workflow
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.introductions.models import (
@@ -46,7 +46,7 @@ class MatchFollowupTests(TestCase):
         self.candidate = self.match.candidate.user
         self.employer = self.match.offer.employer
         self.review = answers.request_offer_review(self.adviser, self.match.pk)
-        self.url = reverse('adviser_followup', args=[self.review.pk])
+        self.url = reverse('adviser_match_lifecycle', args=[self.match.pk])
         self.match_url = reverse('adviser_match_lifecycle', args=[self.match.pk])
         self.client.force_login(self.adviser)
 
@@ -55,18 +55,19 @@ class MatchFollowupTests(TestCase):
         return followup.context(self.review)
 
     def plan(self, **changes):
-        values = dict(
-            next_action='Organiser un entretien',
-            waiting_for='candidate',
-            due_on=timezone.localdate(),
-            outcome='open',
-            closure_reason='',
-        )
-        return followup.plan(
+        current = MatchFollowup.objects.filter(match=self.match).first()
+        return match_lifecycle.schedule(
             self.adviser,
-            self.review.pk,
-            self.current()['stamp'],
-            **dict(values, **changes),
+            self.match.pk,
+            version=current.version if current else 0,
+            **(
+                dict(
+                    next_action='Organiser un entretien',
+                    waiting_for='candidate',
+                    due_on=timezone.localdate(),
+                )
+                | changes
+            ),
         )
 
     def employer_request(self):
@@ -98,19 +99,32 @@ class MatchFollowupTests(TestCase):
             employer=self.employer,
         )
 
-    def test_get_never_creates_a_plan_and_shared_adviser_can_update(self):
-        self.assertContains(
-            self.client.get(self.url + '?lang=en'), 'What should you do now?'
+    def test_replaced_review_route_is_removed_and_current_navigation_remains(self):
+        with self.assertRaises(NoReverseMatch):
+            reverse('adviser_followup', args=[self.review.pk])
+        self.assertEqual(
+            self.client.get(
+                '/matching/follow-up/' + str(self.review.pk) + '/'
+            ).status_code,
+            404,
         )
+        self.assertContains(
+            self.client.get(reverse('adviser_followup_list')), self.match_url
+        )
+
+    def test_get_never_creates_a_plan_and_shared_adviser_can_update(self):
+        self.assertEqual(self.client.get(self.url).status_code, 200)
         self.assertEqual(MatchFollowup.objects.count(), 0)
         plan = self.plan()
-        self.assertTrue(self.current()['due'])
         self.client.force_login(self.other)
         page = self.client.get(self.url)
-        self.assertContains(page, 'Organiser un entretien')
-        data = dict(page.context['plan_form'].initial, next_action='Attendre le retour')
-        response = self.client.post(self.url, dict(data, action='plan'))
-        self.assertEqual(response.status_code, 302)
+        data = dict(
+            page.context['schedule_form'].initial,
+            due_on=timezone.localdate() + timedelta(days=2),
+        )
+        self.assertEqual(
+            self.client.post(self.url, dict(data, action='schedule')).status_code, 302
+        )
         plan.refresh_from_db()
         self.assertEqual(plan.updated_by_adviser, self.other)
         self.assertEqual(plan.events.count(), 2)
@@ -235,8 +249,13 @@ class MatchFollowupTests(TestCase):
             )
 
     def test_closing_is_explicit_and_keeps_agreements_and_messages(self):
-        self.plan(
-            outcome='stopped', closure_reason='The candidate accepted another offer.'
+        self.plan()
+        match_lifecycle.conclude(
+            self.adviser,
+            self.match.pk,
+            'stopped',
+            0,
+            reason='The candidate accepted another offer.',
         )
         current = self.current()
         self.assertFalse(current['due'])
@@ -273,7 +292,9 @@ class MatchFollowupTests(TestCase):
         self.adviser.is_active = False
         self.adviser.save()
         self.client.force_login(self.adviser)
-        self.assertEqual(self.client.get(self.url).status_code, 403)
+        self.assertEqual(self.client.get(self.url).status_code, 302)
+        with self.assertRaises(PermissionDenied):
+            followup.reminder(self.adviser, self.review.pk, '', 'candidate', 'Hello')
         csrf = Client(enforce_csrf_checks=True)
         csrf.force_login(self.other)
         self.assertEqual(csrf.post(self.url, {'action': 'plan'}).status_code, 403)
@@ -377,10 +398,12 @@ class MatchFollowupTests(TestCase):
         )
         page = self.client.get(self.url + '?lang=fr')
         self.assertEqual(
-            page.context['plan_form'].initial['next_action'],
-            'Recueillir la réponse du candidat',
+            page.context['schedule_form'].initial['due_on'],
+            None,
         )
-        self.assertContains(page, 'À quelle date souhaitez-vous refaire le point ?')
+        self.assertContains(
+            page, 'À quelle date souhaitez-vous refaire le point sur ce matching ?'
+        )
         self.plan(due_on=timezone.localdate() + timedelta(days=3))
         self.assertNotContains(
             self.client.get(index + '?filter=unplanned'), self.match_url
@@ -394,7 +417,9 @@ class MatchFollowupTests(TestCase):
     def test_today_and_disabled_delivery_are_explicit_in_the_dossier(self):
         self.plan()
         response = self.client.get(self.url + '?lang=fr')
-        self.assertContains(response, 'À suivre aujourd’hui')
+        self.assertEqual(
+            response.context['dossier']['date_status'], 'À suivre aujourd’hui'
+        )
         self.assertContains(response, 'aucun email ne sera envoyé')
         self.assertContains(response, 'Enregistrer cette relance sans envoi')
         self.assertNotContains(response, 'Envoyer cette relance par email')

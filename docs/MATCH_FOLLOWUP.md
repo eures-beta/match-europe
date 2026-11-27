@@ -65,8 +65,8 @@ Les migrations additives `0028` à `0033` conservent les plans et événements
 existants, avec rattachement par la revue historique. Un retour arrière est
 refusé s’il détruirait un plan sans revue ou une conclusion déclarée ; préserver
 ces données avant toute opération de retour arrière. Les migrations historiques
-`0026` et `0027` restent nécessaires. Les anciennes adresses par revue restent
-compatibles ; les nouveaux liens utilisent explicitement l’identifiant du matching.
+`0026` et `0027` restent nécessaires. Les liens utilisent uniquement l’identifiant du matching. Les écrans par revue
+remplacés avant livraison sont supprimés, sans alias de compatibilité.
 
 Le rattachement et les protections de retour arrière utilisent exclusivement
 la connexion du moteur de migration, y compris sur une base nommée autrement

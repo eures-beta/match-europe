@@ -10,13 +10,12 @@
 - [action_queue.py](action_queue.py) — Présente les trois actions et enregistre les recherches externes partagées.
 - [history.py](history.py) — Présente l’historique accessible au conseiller.
 - [matching.py](matching.py) — Présente la file de rapprochements et les décisions du conseiller.
-- [followup.py](followup.py) — Liste des mises en relation, prochaine action, clôture et préparation des relances explicites.
 - [offers.py](offers.py) — Portefeuille, import partagé et modification des offres déposées pour un employeur.
 - [offer_forms.py](offer_forms.py) — Email du compte employeur et confirmation téléphonique.
 
 - [record_details.py](record_details.py) — Organise les fiches offre et candidat en résumé et sections lisibles.
 
 
-- [lifecycle.py](lifecycle.py) — Tableau et ligne de vie par matching, dates, relances et confirmation d’embauche ; `followup.py` conserve les anciennes adresses par revue.
+- [lifecycle.py](lifecycle.py) — Tableau et ligne de vie par matching, dates, relances et confirmation d’embauche.
 
 - [Planning staff](../../planning/) — Application autonome accessible à tout compte staff actif ; seul le lien de navigation reste intégré à cet espace.
