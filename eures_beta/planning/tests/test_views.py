@@ -192,3 +192,21 @@ class AdviserPlanningTests(TestCase):
             row for row in self.client.get(self.url).context['rows'] if row['own']
         )
         self.assertEqual(row['days'][5][1], 'present')
+
+    def test_retired_route_preserves_method_query_and_csrf(self):
+        response = self.client.post(
+            '/adviser/planning/?lang=de&week=2026-11-23',
+            {'day': '2026-11-23', 'status': 'absent'},
+        )
+        self.assertEqual(response.status_code, 308)
+        self.assertEqual(
+            response['Location'], '/staff/planning/?lang=de&week=2026-11-23'
+        )
+        guarded = Client(enforce_csrf_checks=True)
+        guarded.force_login(self.adviser)
+        self.assertEqual(
+            guarded.post(
+                '/adviser/planning/', {'day': '2026-11-23', 'status': 'absent'}
+            ).status_code,
+            403,
+        )
