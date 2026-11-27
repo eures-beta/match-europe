@@ -28,10 +28,9 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
                 'from eures_beta.employers.offer_structuring import enabled as offer; '
                 'from eures_beta.skills.albert_skills import enabled as skills; '
                 'from eures_beta.matching.dialogue_services import enabled as dialogue; '
-                'from eures_beta.employers.contact import adviser_contact_url; '
                 'print(json.dumps([offer(), skills(), dialogue(), '
                 'settings.ALBERT_SIMULATED, settings.EMAIL_DELIVERY_ENABLED, '
-                'adviser_contact_url()]))',
+                'settings.TEAM_CONTACT_EMAIL]))',
             ],
             env={**values, 'DJANGO_SETTINGS_MODULE': 'config.settings'},
             capture_output=True,
@@ -56,10 +55,9 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
                 self.assertEqual(result[:5], [True, True, True, True, False])
 
     def test_contact_uses_the_same_environment_and_setting_name(self):
-        result = self.probe(
-            'local', EMPLOYER_ADVISER_CONTACT_URL='https://example.invalid/contact'
-        )
-        self.assertEqual(result[5], 'https://example.invalid/contact')
+        for environment in ('local', 'preview', 'production'):
+            result = self.probe(environment, TEAM_CONTACT_EMAIL='team@example.invalid')
+            self.assertEqual(result[5], 'team@example.invalid')
 
 
 class PostgresConnectionPolicyTests(SimpleTestCase):

@@ -1,10 +1,10 @@
 {% load i18n %}
 <div class="employer-invitation-help">
   <p>{% translate "Employer accounts are created by our Match Europe advisers. To request an invitation, contact Eric Barthélémy." context "employer invitation help" %}</p>
-  {% if employer_adviser_contact_url %}
+  {% if team_contact_email %}
     <p>
       <a class="nav-pill"
-         href="{{ employer_adviser_contact_url }}"
+         href="mailto:{{ team_contact_email }}"
          rel="noopener">{% translate "Contact Eric Barthélémy" context "employer invitation help" %}</a>
     </p>
   {% endif %}
