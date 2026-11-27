@@ -20,9 +20,9 @@ fournie par la configuration privée de l’environnement.
 
 L’import Albert est disponible dans tous les environnements avec un accès configuré.
 `ALBERT_SIMULATED=1` simule explicitement tous les usages Albert, sans appel réel.
-`ALBERT_MODEL` sélectionne le modèle ; la valeur
-initiale est `mistral-small-3-2-24b-instruct-2506`. Ce choix doit encore être comparé
-à d'autres modèles sur plusieurs annonces. Les tests automatiques simulent Albert.
+`ALBERT_MODEL` sélectionne le modèle ; la valeur par défaut est
+`openweight-medium`. La qualité doit être vérifiée sur plusieurs annonces après
+un changement de cible de cet alias. Les tests automatiques simulent Albert.
 
 Après `make db-create`, `make migrate` et `make test-accounts-seed`, lancer
 `make run PORT=9037` et ouvrir le parcours employeur sur le port local 9037.
