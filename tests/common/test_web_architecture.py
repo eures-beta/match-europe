@@ -17,6 +17,7 @@ class WebArchitectureTests(SimpleTestCase):
             'matching',
             'occupations',
             'skills',
+            'planning',
         ):
             for path in (settings.APPS_DIR / package).rglob('*.py'):
                 if 'migrations' in path.parts:
@@ -55,6 +56,10 @@ class WebArchitectureTests(SimpleTestCase):
                 getattr(callback, 'view_class', callback), '__module__', ''
             )
             with self.subTest(route=str(pattern.pattern), name=pattern.name):
+                # Explicitly autonomous staff app, intended for later extraction.
+                if pattern.name == 'staff_planning':
+                    self.assertEqual(module, 'eures_beta.planning.views')
+                    continue
                 self.assertTrue(
                     module.startswith(('eures_beta.www.', 'django.views.generic.'))
                 )
