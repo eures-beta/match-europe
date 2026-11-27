@@ -43,7 +43,7 @@ def summary(match):
     )
     state = offer_review_services.review_state(review) if review else None
     agreement = employer_consent.eligible_agreement(state) if state else None
-    consent = getattr(agreement, 'employerofferconsent', None) if agreement else None
+    consent = getattr(agreement, 'employercandidatereview', None) if agreement else None
     validation = (
         review.events.filter(action='validated').order_by('-version').first()
         if review
