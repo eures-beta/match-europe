@@ -17,6 +17,20 @@ AFTER = ('matching', '0036_complete_domain_extraction')
 
 
 class DomainBoundariesTests(SimpleTestCase):
+    def test_admin_domain_labels_are_translated(self):
+        from django.utils import translation
+
+        for language, expected in {
+            'fr': ('Mises en relation', 'Accompagnement et suivi'),
+            'de': ('Kontaktanbahnung', 'Begleitung und Nachverfolgung'),
+        }.items():
+            with translation.override(language):
+                actual = tuple(
+                    str(current_apps.get_app_config(app).verbose_name)
+                    for app in ('introductions', 'followup')
+                )
+                self.assertEqual(actual, expected)
+
     def test_three_apps_own_the_existing_sixteen_models(self):
         expected = {
             'matching': {'CandidateOfferMatch', 'MatchEvaluation', 'MatchDecision'},

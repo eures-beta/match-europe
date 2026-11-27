@@ -9406,3 +9406,9 @@ msgstr "Conditions"
 msgid "Follow-up"
 msgstr "Accompagnement et suivi"
 
+
+
+#: eures_beta/introductions/apps.py:7
+msgid "Introductions"
+msgstr "Mises en relation"
+

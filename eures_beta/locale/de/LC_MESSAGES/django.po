@@ -9406,3 +9406,9 @@ msgstr "Bedingungen"
 msgid "Follow-up"
 msgstr "Begleitung und Nachverfolgung"
 
+
+
+#: eures_beta/introductions/apps.py:7
+msgid "Introductions"
+msgstr "Kontaktanbahnung"
+
