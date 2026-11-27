@@ -157,7 +157,7 @@ def prepare(request, pk):
                 EmployerCandidateReview.objects.get_or_create(
                     agreement=agreement,
                     defaults={
-                        'adviser': request.user,
+                        'requested_by_adviser': request.user,
                         'employer': employer,
                         'questions': questions,
                     },

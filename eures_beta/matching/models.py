@@ -285,7 +285,7 @@ class EmployerCandidateReview(models.Model):
         CLARIFY = 'clarify', _('Conditions to review with the candidate')
 
     agreement = models.OneToOneField(CandidateProfileSharing, on_delete=models.CASCADE)
-    adviser = models.ForeignKey(
+    requested_by_adviser = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         related_name='+',
@@ -306,5 +306,5 @@ class EmployerCandidateReview(models.Model):
     decided_at = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        validate_user_roles(self, adviser='adviser', employer='employer')
+        validate_user_roles(self, requested_by_adviser='adviser', employer='employer')
         return super().save(*args, **kwargs)

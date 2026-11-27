@@ -202,7 +202,7 @@ def seed_scenarios(users):
             EmployerCandidateReview.objects.get_or_create(
                 agreement=agreement,
                 defaults={
-                    'adviser': adviser,
+                    'requested_by_adviser': adviser,
                     'employer': review.match.offer.employer,
                     'questions': [],
                 },

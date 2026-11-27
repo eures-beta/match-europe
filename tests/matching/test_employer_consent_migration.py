@@ -23,7 +23,7 @@ class EmployerConsentMigrationTests(TransactionTestCase):
         return executor.loader.project_state([('matching', target)]).apps
 
     def tearDown(self):
-        self.migrate('0026_rename_employer_candidate_review')
+        self.migrate('0027_employer_review_requested_by_adviser')
         super().tearDown()
 
     def test_review_rename_preserves_rows_table_and_sequence(self):
@@ -66,6 +66,38 @@ class EmployerConsentMigrationTests(TransactionTestCase):
         self.assertEqual(renamed.questions, old.questions)
         self.assertEqual(renamed.decision, old.decision)
         self.assertEqual(identifiers('matching_employercandidatereview'), before)
+        apps = self.migrate('0027_employer_review_requested_by_adviser')
+        current = apps.get_model('matching', 'EmployerCandidateReview').objects.get(
+            pk=old.pk
+        )
+        self.assertEqual(current.requested_by_adviser_id, adviser.pk)
+        self.assertEqual(current.agreement_id, agreement.pk)
+        with connection.cursor() as cursor:
+            names = connection.introspection.get_constraints(
+                cursor, 'matching_employercandidatereview'
+            )
+            for name, details in names.items():
+                if details['columns'] == ['requested_by_adviser_id']:
+                    self.assertTrue(
+                        name.startswith(
+                            'matching_employercandidatereview_requested_by_adviser_id_'
+                        )
+                    )
+            columns = [
+                column.name
+                for column in connection.introspection.get_table_description(
+                    cursor, 'matching_employercandidatereview'
+                )
+            ]
+            self.assertIn('requested_by_adviser_id', columns)
+            self.assertNotIn('adviser_id', columns)
+        apps = self.migrate('0026_rename_employer_candidate_review')
+        self.assertEqual(
+            apps.get_model('matching', 'EmployerCandidateReview')
+            .objects.get(pk=old.pk)
+            .adviser_id,
+            adviser.pk,
+        )
         with connection.cursor() as cursor:
             cursor.execute(
                 'SELECT conname FROM pg_constraint WHERE conrelid=%s::regclass',

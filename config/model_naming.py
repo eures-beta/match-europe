@@ -6,6 +6,7 @@ from django.apps import apps
 from django.core.checks import Error, Tags, register
 
 OLD_RELATIONS = {
+    'matching.EmployerCandidateReview': {'adviser'},
     'employers.JobOffer': {'created_by'},
     'invitations.Invitation': {'sender'},
     'matching.JobOfferSupport': {'updated_by'},

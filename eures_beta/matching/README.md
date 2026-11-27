@@ -43,3 +43,5 @@ réponses et partage, auteur multirôle pour les messages.
 La revue employeur `EmployerCandidateReview` est visible dans l’admin en métadonnées
 seulement. La migration additive `0026` renomme le modèle, sa table et ses objets
 PostgreSQL en place ; les données et la relation `agreement` sont conservées.
+La migration `0027` précise le conseiller demandeur : `requested_by_adviser`,
+avec colonne, clé étrangère, index et contrainte NOT NULL harmonisés.
