@@ -13,6 +13,9 @@ un mandat de fusion/déploiement. Les règles impératives restent dans
   composants Bootstrap existants, gettext et contrôles HTML/CSS/JS.
 - Rebase, refresh ou fusion autorisée : skill
   [stack-maintenance](../.agents/skills/stack-maintenance/).
+- Ouverture de PR : skill
+  [pull-request-opening](../.agents/skills/pull-request-opening/), template courant,
+  aperçus et vérifications de pile juste avant puis après création.
 - Diagnostic de production : commandes existantes du dépôt privé de déploiement,
   sans copier des secrets ni créer de script d'accès ad hoc dans ce dépôt.
 

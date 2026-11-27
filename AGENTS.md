@@ -106,9 +106,9 @@
 
 ## Collaboration, documentation et publication
 
-- Les descriptions de PR sont en français selon le
-  [modèle commun](https://github.com/eures-beta/.github/blob/main/pull_request_template.md),
-  à lire avant édition. Assigner au demandeur identifié et demander la relecture
+- Ouvrir une PR : charger [pull-request-opening](.agents/skills/pull-request-opening/).
+  Relire le template partagé actuel, remplir les aperçus et vérifier la pile avant/après.
+  Description en français ; assigner au demandeur et demander la relecture
   à `dejafait` ; signaler les refus.
 - Décrire le rôle utilisateur, changements, données/modèles/migrations, tests
   exécutés et limites. Si le modèle est inaccessible, le signaler et utiliser
