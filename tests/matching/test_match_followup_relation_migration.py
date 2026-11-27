@@ -44,7 +44,8 @@ class MatchFollowupRelationMigrationTests(TransactionTestCase):
         records = []
         for match in (reviewed, unreviewed):
             review_id = (
-                reviewed.candidate_offer_review.pk if match.pk == reviewed.pk else None
+                apps.get_model('matching', 'CandidateOfferReview').objects
+                .filter(match_id=match.pk).values_list('pk', flat=True).first()
             )
             row = Followup.objects.create(
                 match_id=match.pk,
