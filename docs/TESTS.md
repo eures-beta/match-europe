@@ -126,3 +126,5 @@ nécessaires via les mêmes commandes documentées.
 Pour ajouter des tests à un domaine, ajouter ses fichiers au bon endroit et
 utiliser ces paramètres ; ne pas créer une nouvelle cible Make pour chaque module.
 Les règles d'architecture restent dans [AGENTS.md](../AGENTS.md).
+
+Le planning autonome conserve ses tests dans `eures_beta/planning/tests/`. `make test` les inclut ; sélection explicite : `make test TESTS=eures_beta.planning.tests`.

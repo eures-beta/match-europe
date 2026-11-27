@@ -19,5 +19,4 @@
 
 - [lifecycle.py](lifecycle.py) — Tableau et ligne de vie par matching, dates, relances et confirmation d’embauche ; `followup.py` conserve les anciennes adresses par revue.
 
-- [planning.py](planning.py) — Planning interne des conseillers actifs staff ; chacun modifie seulement sa ligne. Les autres écrans métier ne dépendent pas du flag staff.
-
+- [Planning staff](../../planning/) — Application autonome accessible à tout compte staff actif ; seul le lien de navigation reste intégré à cet espace.

@@ -94,3 +94,7 @@ make test-js
 
 Vérifier les redirections en un seul saut, les paramètres de langue/pagination,
 les refus de POST et l’absence de contournement de connexion ou de propriété.
+
+## Planning staff — retrait de la PR #289
+
+`/adviser/planning/` redirige en 308 vers `/staff/planning/`, avec méthode, corps et paramètres conservés. Aucun lien actuel ne l’émet. Retrait à prévoir 30 jours après le premier déploiement de #289, encore non livré ; ne pas dater ce délai à partir du rebase ou de la revue.
