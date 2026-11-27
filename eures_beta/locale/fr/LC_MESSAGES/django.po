@@ -9395,3 +9395,8 @@ msgstr "Répondre au conseiller"
 msgid "A blocked pair cannot be retained for review."
 msgstr "Une paire bloquée ne peut pas être retenue pour examen."
 
+
+
+msgid "Conditions"
+msgstr "Conditions"
+

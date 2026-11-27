@@ -9395,3 +9395,8 @@ msgstr "Der Beratung antworten"
 msgid "A blocked pair cannot be retained for review."
 msgstr "Ein blockiertes Paar kann nicht zur Prüfung vorgemerkt werden."
 
+
+
+msgid "Conditions"
+msgstr "Bedingungen"
+
