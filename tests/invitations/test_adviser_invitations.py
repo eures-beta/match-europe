@@ -2,7 +2,9 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from time import time
+from unittest.mock import patch
 
+from django.core import mail
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
@@ -227,7 +229,7 @@ class AdviserInvitationsTests(TestCase):
         invitation = Invitation.objects.create(
             email='employer@example.invalid',
             sender_adviser=self.adviser,
-            email_sent_at=timezone.now() - timedelta(hours=2),
+            email_sent_at=timezone.now() - timedelta(hours=25),
         )
         initial_token = invitation_token(invitation)
         response = self.client.post(
@@ -277,6 +279,128 @@ class AdviserInvitationsTests(TestCase):
         invited = User.objects.get(email=invitation.email)
         self.assertEqual(invited.kind, User.Kind.ADVISER)
         self.assertFalse(invited.is_staff)
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+    @patch('eures_beta.www.invitations.adviser.email_ready', return_value=True)
+    @override_settings(
+        LOGIN_EMAIL_ORIGIN='https://example.invalid',
+        ALLOWED_HOSTS=['testserver', 'example.invalid'],
+    )
+    def test_fifteen_individual_sends_and_replayed_confirmation(self, ready):
+        for index in range(15):
+            preview = self.preview('candidate', f'person{index}@example.invalid')
+            payload = {'action': 'send', 'preview': preview.context['preview_token']}
+            self.client.post(self.tab, payload)
+        self.client.post(self.tab, payload)
+        self.assertEqual(Invitation.objects.count(), 15)
+        self.assertEqual(len(mail.outbox), 15)
+
+    @override_settings(
+        EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+        LOGIN_EMAIL_ORIGIN='https://example.invalid',
+        ALLOWED_HOSTS=['testserver', 'example.invalid'],
+    )
+    @patch('eures_beta.www.invitations.adviser.email_ready', return_value=True)
+    def test_csv_accepts_and_sends_more_than_ten_recipients(self, ready):
+        content = 'email\n' + ''.join(f'person{i}@example.invalid\n' for i in range(15))
+        response = self.client.post(
+            self.tab,
+            {
+                'action': 'import',
+                'recipient_kind': 'candidate',
+                'csv': SimpleUploadedFile('contacts.csv', content.encode()),
+            },
+        )
+        self.assertEqual(len(response.context['previews']), 15)
+        self.assertFalse(Invitation.objects.exists())
+        payload = {'action': 'send', 'preview': response.context['preview_token']}
+        result = self.client.post(self.tab, payload, follow=True)
+        self.assertEqual(
+            Invitation.objects.filter(email_sent_at__isnull=False).count(), 15
+        )
+        self.assertEqual(len(mail.outbox), 15)
+        for index in range(15):
+            self.assertContains(result, f'person{index}@example.invalid')
+        self.client.post(self.tab, payload)
+        self.assertEqual(len(mail.outbox), 15)
+
+    @patch('eures_beta.www.invitations.adviser.deliver', return_value=True)
+    def test_reminder_cooldown_and_replayed_confirmation(self, deliver):
+        now = timezone.now()
+        invitation = Invitation.objects.create(
+            email='reminder@example.invalid',
+            sender_adviser=self.adviser,
+            email_sent_at=now - timedelta(days=2),
+            reminder_sent_at=now - timedelta(hours=23),
+        )
+        original_nonce = invitation.nonce
+        response = self.client.post(
+            self.tab, {'action': 'preview_reminder', 'invitation': invitation.pk}
+        )
+        payload = {'action': 'send', 'preview': response.context['preview_token']}
+        blocked = self.client.post(self.tab, payload)
+        self.assertContains(blocked, '24')
+        deliver.assert_not_called()
+        invitation.refresh_from_db()
+        self.assertEqual(invitation.nonce, original_nonce)
+        invitation.reminder_sent_at = now - timedelta(hours=24)
+        invitation.save(update_fields=['reminder_sent_at'])
+        self.client.post(self.tab, payload)
+        self.client.post(self.tab, payload)
+        self.assertEqual(deliver.call_count, 1)
+
+    @patch('eures_beta.www.invitations.adviser.deliver', return_value=False)
+    def test_failed_delivery_is_explicit_and_saved_without_sent_date(self, deliver):
+        preview = self.preview('candidate')
+        response = self.client.post(
+            self.tab,
+            {
+                'action': 'send',
+                'preview': preview.context['preview_token'],
+            },
+            follow=True,
+        )
+        invitation = Invitation.objects.get()
+        self.assertIsNone(invitation.email_sent_at)
+        self.assertContains(response, invitation.email)
+        self.assertContains(response, 'non envoyé')
+
+    @patch('eures_beta.www.invitations.adviser.deliver', return_value=True)
+    def test_initial_send_starts_reminder_delay_but_unsent_retry_is_allowed(
+        self, deliver
+    ):
+        invitation = Invitation.objects.create(
+            email='retry@example.invalid',
+            sender_adviser=self.adviser,
+            email_sent_at=timezone.now(),
+        )
+        preview = self.client.post(
+            self.tab, {'action': 'preview_reminder', 'invitation': invitation.pk}
+        )
+        payload = {'action': 'send', 'preview': preview.context['preview_token']}
+        self.client.post(self.tab, payload)
+        deliver.assert_not_called()
+        invitation.email_sent_at = None
+        invitation.save(update_fields=['email_sent_at'])
+        self.client.post(self.tab, payload)
+        deliver.assert_called_once()
+        invitation.refresh_from_db()
+        self.assertIsNotNone(invitation.email_sent_at)
+        self.assertIsNone(invitation.reminder_sent_at)
+
+    def test_csv_file_size_guard_is_preserved(self):
+        response = self.client.post(
+            self.tab,
+            {
+                'action': 'import',
+                'recipient_kind': 'candidate',
+                'csv': SimpleUploadedFile(
+                    'contacts.csv', b'email\n' + b'x' * (64 * 1024)
+                ),
+            },
+        )
+        self.assertContains(response, '64 Ko')
+        self.assertNotIn('previews', response.context)
 
 
 class CandidateInvitationContentTests(SimpleTestCase):

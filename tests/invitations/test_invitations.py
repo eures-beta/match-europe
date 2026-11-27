@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.crypto import salted_hmac
 from sesame.utils import get_token, get_user
 
 from eures_beta.logging import RedactAccessLinks
@@ -21,7 +22,7 @@ from eures_beta.invitations.services import (
     invitation_message,
 )
 from eures_beta.invitations.models import Invitation
-from eures_beta.users.models import User
+from eures_beta.users.models import LoginRateLimit, User
 from eures_beta.invitations.permissions import EMPLOYER_INVITER_GROUP
 
 
@@ -361,15 +362,17 @@ class InvitationTests(TestCase):
         self.assertEqual(user.kind, 'adviser')
         self.assertIsNone(user.last_login)
 
-    def test_hourly_limit_applies_to_one_adviser_across_browsers(self):
-        for i in range(10):
-            self.create(email=f'limited{i}@example.invalid')
-        page = self.client.post(
-            reverse('employer_invite'),
-            {'email': 'blocked@example.invalid', 'language': 'en'},
+    def test_more_than_ten_invitations_ignore_an_existing_full_quota(self):
+        LoginRateLimit.objects.create(
+            key=salted_hmac(
+                'employer-invitation-limit', str(self.adviser.pk)
+            ).hexdigest(),
+            attempts=10,
+            expires=timezone.now() + timedelta(hours=1),
         )
-        self.assertTrue(page.context['form'].errors)
-        self.assertEqual(Invitation.objects.count(), 10)
+        for i in range(15):
+            self.create(email=f'person{i}@example.invalid')
+        self.assertEqual(Invitation.objects.count(), 15)
 
     def test_permissions_are_versioned_and_new_advisers_get_only_invitation_rights(
         self,

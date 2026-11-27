@@ -33,15 +33,20 @@ tableau de bord `/accounts/dashboard/`, l’onglet **Inviter** s’ouvre par dé
 employeur, candidat ou conseiller, puis de vérifier l’objet, le destinataire
 et le rendu HTML avant confirmation. Prénom et nom sont facultatifs. Le CSV
 UTF-8 accepte les séparateurs virgule et point-virgule et les colonnes
-`email`, `prénom` (ou `prenom`) et `nom`. Un fichier contient au plus dix
-destinataires, tous du même type. Les erreurs de saisie sont affichées avant
-tout envoi, et les conflits détectés à l’envoi sont signalés par destinataire.
+`email`, `prénom` (ou `prenom`) et `nom`. Les destinataires sont tous du même type ; leur nombre n’est pas plafonné.
+Le fichier reste limité à 64 Ko. Les erreurs de saisie sont affichées avant
+tout envoi. Le résultat est annoncé par destinataire : e-mail accepté par le
+service, invitation enregistrée mais e-mail non envoyé, ou refus avec sa raison.
+Une double confirmation ne provoque pas un second envoi. Les envois sont
+synchrones : un fichier volumineux augmente la durée de la requête ; aucun
+traitement en arrière-plan ni renvoi automatique n’est ajouté.
 
 Le suivi affiche les invitations en attente d’envoi, sans réponse, expirées
 ou acceptées. Le tableau indique séparément la date et l’heure de l’envoi initial et
 de la dernière relance. Un tiret signale une date absente. Une relance confirmée
-renouvelle le lien pour sept jours et révoque le précédent. Les nouveaux envois et les relances partagent le
-quota existant de dix opérations par conseiller et par heure.
+renouvelle le lien pour sept jours et révoque le précédent. Les nouveaux envois n’ont plus de quota horaire. Une relance exige un délai
+de 24 heures depuis le dernier e-mail accepté pour ce destinataire, tous
+conseillers confondus. Un échec ne décale pas ce délai.
 La suppression révoque le lien d’une invitation non acceptée. L’invitation
 d’un conseiller est ouverte à tous les conseillers connectés et actifs
 et crée un compte conseiller ordinaire, sans accès à l’administration. Le candidat
@@ -103,8 +108,7 @@ invalide ses invitations en attente.
 
 Une adresse déjà inscrite ou invitée est signalée au conseiller connecté.
 Une invitation expirée peut être renouvelée via le même formulaire, ce qui
-invalide ses anciens liens. Limite partagée entre navigateurs : dix invitations
-ou renouvellements par conseiller et heure. Pas de renvoi d'invitation encore
+invalide ses anciens liens. Aucun quota horaire ne limite les invitations ou renouvellements. Pas de renvoi d'invitation encore
 valide dans cette première version. Les invitations restent conservées pour
 retrouver qui les a créées ; aucune suppression automatique n'est ajoutée.
 
