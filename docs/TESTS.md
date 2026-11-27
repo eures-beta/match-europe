@@ -2,6 +2,10 @@
 
 ## Contrôles GitHub et annulations
 
+Black, Prettier et les contrôles de templates suivent la même règle : validation
+du push interne ou de la PR provenant d’un fork, sans groupe d’annulation mutuelle.
+Le doublon de PR interne est ignoré ; la relance manuelle reste possible.
+
 La validation PostgreSQL et HTTP complète part du `push` sur chaque branche
 du dépôt, y compris `main`. Elle ne dépend pas du commit de fusion synthétique
 d'une PR : une branche en conflit reste donc testée.

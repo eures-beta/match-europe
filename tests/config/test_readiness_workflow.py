@@ -43,6 +43,31 @@ class ReadinessWorkflowTests(unittest.TestCase):
     def test_a_second_event_cannot_cancel_an_existing_validation(self):
         self.assertNotIn('\nconcurrency:', self.workflow)
 
+    def test_quality_checks_validate_pushes_and_forks_without_cancelling_duplicates(
+        self,
+    ):
+        condition = (
+            "github.event_name == 'push' || "
+            "github.event_name == 'workflow_dispatch' || "
+            'github.event.pull_request.head.repo.full_name != github.repository'
+        )
+        for filename, job in (
+            ('black.yml', 'black'),
+            ('javascript.yml', 'prettier'),
+            ('templates.yml', 'templates'),
+        ):
+            with self.subTest(workflow=filename):
+                workflow = (WORKFLOWS / filename).read_text()
+                self.assertNotIn('pull_request_target:', workflow)
+                self.assertNotIn('\nconcurrency:', workflow)
+                match = re.search(
+                    rf'^  {job}:\n    if: >-\n((?:      .+\n)+)',
+                    workflow,
+                    re.MULTILINE,
+                )
+                self.assertIsNotNone(match)
+                self.assertEqual(' '.join(match[1].split()), condition)
+
     def test_production_still_requires_a_successful_main_push_from_this_repository(
         self,
     ):
