@@ -54,7 +54,11 @@ def remember(request):
             request.session['login_language'] = language
 
 
-def consume(request, default):
-    return (
-        canonical_destination(request.session.pop('login_return_path', '')) or default
-    )
+def consume(request, default, *, user=None):
+    destination = canonical_destination(request.session.pop('login_return_path', ''))
+    user = request.user if user is None else user
+    if destination:
+        kind = 'employer' if is_import_destination(destination) else 'candidate'
+        if user.is_authenticated and user.is_active and user.kind == kind:
+            return destination
+    return default

@@ -77,7 +77,10 @@ du client mail. Voir [l'inventaire et les limites de compatibilité](EMAIL_LINKS
 Les emails de proposition d’offre utilisent aussi cette connexion personnelle :
 confirmation POST, puis retour au dialogue précis de l’offre. Seuls l’import
 employeur et les routes canoniques de dialogue candidat sont autorisés comme
-destination ; les rôles et la propriété restent contrôlés par la page cible.
+destination. Le retour est conservé uniquement pour un rôle compatible : employeur
+pour l’import, candidat pour le dialogue. Sinon la connexion aboutit au tableau
+de bord et efface cette destination, même mémorisée lors d’une visite antérieure
+ou transportée dans l’email. La propriété reste contrôlée par la page cible.
 Un lien expiré permet de demander une nouvelle connexion en conservant cette
 destination, y compris si le nouvel email est ouvert dans un autre navigateur.
 Voir [le parcours email candidat](CANDIDATE_OFFER_EMAIL.md).

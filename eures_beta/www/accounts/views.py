@@ -196,7 +196,7 @@ def confirm(request):
     user = get_user(token, update_last_login=False) if token else None
     if user is None:
         return page(request, 'invalid')
-    destination = consume(request, settings.LOGIN_REDIRECT_URL)
+    destination = consume(request, settings.LOGIN_REDIRECT_URL, user=user)
     with transaction.atomic():
         # Serialise token consumption with other logins for the same account.
         if not get_user_model().objects.select_for_update().filter(pk=user.pk).exists():

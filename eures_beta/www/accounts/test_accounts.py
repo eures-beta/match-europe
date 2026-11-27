@@ -63,7 +63,7 @@ def sign_in(request):
     user = prepared_user(request.POST.get('account'))
     if user is None:
         raise Http404
-    destination = consume(request, settings.LOGIN_REDIRECT_URL)
+    destination = consume(request, settings.LOGIN_REDIRECT_URL, user=user)
     auth_login(request, user, backend='sesame.backends.ModelBackend')
 
     if user.kind == 'employer':

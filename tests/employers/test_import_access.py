@@ -132,6 +132,38 @@ class ImportAccessTests(TestCase):
             'data-employer-connected="true"',
         )
 
+    def test_wrong_role_magic_login_discards_import_return_path(self):
+        candidate = User.objects.create_user(
+            email='candidate@example.invalid', kind='candidate'
+        )
+        for user in (self.adviser, candidate):
+            for from_email in (False, True):
+                with self.subTest(kind=user.kind, from_email=from_email):
+                    client = Client()
+                    if not from_email:
+                        client.get(self.destination, secure=True)
+                        client.get(reverse('magic_login'), secure=True)
+                    user.refresh_from_db()
+                    link = reverse('magic_confirm') + get_query_string(user)
+                    if from_email:
+                        link += '&' + urlencode({'next': self.destination})
+                    client.get(link, secure=True)
+                    response = client.post(reverse('magic_confirm'), secure=True)
+                    self.assertRedirects(
+                        response, reverse('dashboard'), fetch_redirect_response=False
+                    )
+                    self.assertNotIn('login_return_path', client.session)
+                    self.assertEqual(int(client.session['_auth_user_id']), user.pk)
+
+    def test_signed_in_adviser_login_discards_import_return_path(self):
+        self.client.force_login(self.adviser)
+        self.client.get(self.destination, secure=True)
+        response = self.client.get(reverse('magic_login'), secure=True)
+        self.assertRedirects(
+            response, reverse('dashboard'), fetch_redirect_response=False
+        )
+        self.assertNotIn('login_return_path', self.client.session)
+
     def test_magic_link_in_new_browser_accepts_only_fixed_local_import_destinations(
         self,
     ):
@@ -175,6 +207,23 @@ class ImportAccessTests(TestCase):
             reverse('test_account_sign_in'), {'account': 'employer'}, secure=True
         )
         self.assertEqual(response['Location'], self.destination)
+
+    @override_settings(
+        DEMO_ACCOUNTS_ENABLED=True,
+        DJANGO_ENVIRONMENT='preview',
+        EMAIL_DELIVERY_ENABLED=False,
+    )
+    def test_instant_adviser_login_discards_import(self):
+        from django.core.management import call_command
+        from io import StringIO
+
+        call_command('seed_test_accounts', minimal=True, stdout=StringIO())
+        self.client.get(self.destination, secure=True)
+        response = self.client.post(
+            reverse('test_account_sign_in'), {'account': 'adviser'}, secure=True
+        )
+        self.assertEqual(response['Location'], reverse('dashboard'))
+        self.assertNotIn('login_return_path', self.client.session)
 
     def test_wrong_role_can_sign_out_and_resume_without_creating_an_account(self):
         self.client.force_login(self.adviser)
