@@ -37,7 +37,7 @@ DJANGO_ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'local')
 ALBERT_SIMULATED = os.environ.get('ALBERT_SIMULATED', '0') == '1'
 EMAIL_DELIVERY_ENABLED = os.environ.get('EMAIL_DELIVERY_ENABLED', '0') == '1'
 ALBERT_API_KEY = os.environ.get('ALBERT_API_KEY', '')
-ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'mistral-small-3-2-24b-instruct-2506')
+ALBERT_MODEL = os.environ.get('ALBERT_MODEL', 'openweight-medium')
 CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
 # Simulation is explicit; real calls require the private API key.
 ALBERT_DIALOGUE_MODEL = os.environ.get('ALBERT_DIALOGUE_MODEL', ALBERT_MODEL)

@@ -25,10 +25,18 @@ compétences pour les aligner sur celles de l’import.
 | Dialogue candidat | 25 s | 30 s | 20 000 octets | 24 000 octets | 1 800 |
 | Compétences ESCO | 35 s | 40 s | 30 000 octets | 180 000 octets | 2 000 |
 
-L’import et les compétences utilisent `ALBERT_MODEL`. Le dialogue conserve
+L’import et les compétences utilisent `ALBERT_MODEL`, par défaut
+`openweight-medium`. Le dialogue conserve
 `ALBERT_DIALOGUE_MODEL`, transmis explicitement au client partagé. L’import garde
 sa tolérance historique aux délimiteurs Markdown autour du JSON ; le dialogue
 et les compétences continuent à exiger du JSON sans ces délimiteurs.
+
+Une valeur explicite de `ALBERT_MODEL` ou `ALBERT_DIALOGUE_MODEL` dans
+l'environnement prime sur ce défaut : remplacer toute référence à Mistral Small
+3.2 avant son retrait annoncé le 1er décembre 2026. Le dialogue hérite de
+`ALBERT_MODEL` lorsque son propre réglage est absent. L'alias peut changer de
+modèle ; vérifier les sorties d'import, de compétences et de dialogue à chaque
+bascule avec des données fictives avant activation sur les parcours réels.
 
 Aucun nouveau secret, paramètre d’environnement, modèle ou migration n’est
 nécessaire. La sélection du modèle reste une configuration de l’application,
