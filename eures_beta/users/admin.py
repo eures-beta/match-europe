@@ -8,7 +8,15 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from .admin_base import ReadOnlyAdmin, MetadataOnlyAdmin
-from .models import User, LoginRateLimit
+from .models import AdviserAvailability, User, LoginRateLimit
+
+
+@admin.register(AdviserAvailability)
+class AdviserAvailabilityAdmin(ReadOnlyAdmin):
+    list_display = ('adviser', 'day', 'present')
+    list_filter = ('present', 'day')
+    list_select_related = ('adviser',)
+    ordering = ('-day', 'adviser_id')
 
 
 @admin.register(User)

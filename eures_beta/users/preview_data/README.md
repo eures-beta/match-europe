@@ -142,6 +142,9 @@ l’autre à B. Après simplification des comptes, le même employeur participe 
 
 ## Autres données et limites
 
+Une disponibilité fictive du conseiller est enregistrée pour le 23 novembre 2026.
+Le peuplement ne remplace jamais une disponibilité déjà modifiée dans le planning.
+
 Les cinq candidats ont un accompagnement. Onze offres ont un accompagnement dans
 la PR270 ; les seize en ont un après la simplification des employeurs dans la PR271.
 Trois invitations illustrent attente, expiration et acceptation. Deux suggestions
