@@ -9332,3 +9332,7 @@ msgstr "Planning"
 msgid "Adviser availability"
 msgstr "Disponibilités des conseillers"
 
+#: eures_beta/users/test_accounts.py
+msgid "Staff (adviser)"
+msgstr "Staff (conseiller)"
+

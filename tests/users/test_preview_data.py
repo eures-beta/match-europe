@@ -72,7 +72,7 @@ class PreviewDataTests(TestCase):
                 counts['employers.JobOffer'],
                 counts['matching.CandidateOfferMatch'],
             ),
-            (8, 16, 18),
+            (9, 16, 18),
         )
         self.assertEqual(counts['employers.EmployerProfile'], 1)
         self.assertEqual(counts['matching.JobOfferSupport'], 16)

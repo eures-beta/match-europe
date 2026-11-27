@@ -9332,3 +9332,7 @@ msgstr "Dienstplanung"
 msgid "Adviser availability"
 msgstr "Verfügbarkeit der Berater"
 
+#: eures_beta/users/test_accounts.py
+msgid "Staff (adviser)"
+msgstr "Mitarbeiter (Berater)"
+

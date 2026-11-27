@@ -42,7 +42,7 @@ class DemoEmployerConsolidationTests(TestCase):
         self.assertEqual(JobOffer.objects.count(), 3)
         self.assertFalse(JobOffer.objects.exclude(employer=self.employer).exists())
         self.assertEqual(User.objects.filter(kind='candidate').count(), 5)
-        self.assertEqual(len(account_specs()), 5)
+        self.assertEqual(len(account_specs()), 6)
 
     def test_existing_content_consent_and_author_history_are_preserved(self):
         legacy = self.legacy_employer(first_name='Fictional employer')

@@ -81,7 +81,7 @@ def identifier(key):
 def seed_scenarios(users):
     adviser = users['adviser']
     AdviserAvailability.objects.get_or_create(
-        adviser=adviser, day=date(2026, 11, 23), defaults={'present': True}
+        adviser=users['staff'], day=date(2026, 11, 23), defaults={'present': True}
     )
     template = JobOffer.objects.get(
         employer=users['employer'], source_kind='matching', session_key='matching-trial'

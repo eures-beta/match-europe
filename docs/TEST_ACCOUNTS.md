@@ -2,9 +2,9 @@
 
 Le bandeau permanent annonce les données fictives et interdit la saisie de données
 personnelles réelles. Son lien propose d'abord **Navigation anonyme, sans compte**,
-qui déconnecte sans créer d'utilisateur, puis cinq comptes : **Conseiller**,
+qui déconnecte sans créer d'utilisateur, puis six comptes : **Conseiller**,
 **Employeur**, **Candidat (profil complet)**, **Candidat (profil incomplet)**,
-**Super administrateur**. Les textes sont traduits en français, anglais et allemand.
+**Staff (conseiller)**, **Super administrateur**. Les textes sont traduits en français, anglais et allemand.
 Les comptes sont partagés entre toutes les personnes testant cet environnement ;
 toutes les modifications sont définitivement perdues à la fin de son cycle de vie.
 Le superadministrateur conserve une administration Django en consultation uniquement.
@@ -19,8 +19,8 @@ de matching dans les listes du conseiller. Le sélecteur est donc un sous-ensemb
 des comptes fictifs préparés, pas une liste de tous les utilisateurs.
 
 Un seul employeur possède les offres manuelles et l'offre d'entretien structurée,
-avec ses compétences et exigences. Sur une base neuve, huit comptes sont créés :
-deux conseillers (dont le superadministrateur), un employeur et cinq candidats.
+avec ses compétences et exigences. Sur une base neuve, neuf comptes sont créés :
+trois conseillers (staff et superadministrateur compris), un employeur et cinq candidats.
 Les identifiants des candidats et les états de leurs parcours ne sont pas fusionnés.
 
 Dans le `.env` ignoré du worktree : `DJANGO_ENVIRONMENT=local`,
@@ -66,7 +66,7 @@ modification de production n'est nécessaire pour cette consolidation.
 - Sélecteur, peuplement et consolidation refusent une base contenant un compte
   dont l'adresse ne se termine pas par `.invalid`. Ce contrôle ne détecte pas des
   données personnelles saisies dans un texte : utiliser uniquement une base fictive.
-- Connexion limitée aux cinq identités préparées, actives, avec rôle exact et mot
+- Connexion limitée aux six identités préparées, actives, avec rôle exact et mot
   de passe inutilisable ; aucune création implicite à l'ouverture d'une page.
 - Changer de compte exige un POST protégé par CSRF, renouvelle la session et ne
   permet pas une destination arbitraire. Les pages ne sont pas mises en cache.
