@@ -7,13 +7,18 @@ from django.db import migrations, models
 def preserve_lifecycle_records(apps, schema_editor):
     if (
         apps.get_model('matching', 'IntroductionFollowup')
-        .objects.filter(review__isnull=True)
+        .objects.using(schema_editor.connection.alias)
+        .filter(review__isnull=True)
         .exists()
     ):
         raise RuntimeError(
             'Cannot roll back plans created before a candidate review; preserve these plans first.'
         )
-    if apps.get_model('matching', 'MatchConclusion').objects.exists():
+    if (
+        apps.get_model('matching', 'MatchConclusion')
+        .objects.using(schema_editor.connection.alias)
+        .exists()
+    ):
         raise RuntimeError(
             'Cannot roll back declared matching outcomes; preserve these records first.'
         )
