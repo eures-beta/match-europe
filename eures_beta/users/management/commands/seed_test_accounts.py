@@ -2,8 +2,9 @@
 
 from django.core.management import BaseCommand, CommandError, call_command
 from django.db import transaction
-from eures_beta.matching import offer_review_services
-from eures_beta.matching.models import CandidateOfferReview, CandidateOfferMatch
+from eures_beta.introductions import offer_review_services
+from eures_beta.introductions.models import CandidateOfferReview
+from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import (
     ACCOUNTS,

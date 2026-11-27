@@ -85,7 +85,7 @@ failed ou disabled. `sent` indique l’acceptation par le service, pas la livrai
 SMTP reste synchrone après commit, sans file de relance durable : une interruption
 peut laisser une tentative pending. L’alerte et les messages restent dans l’app.
 
-Tests : `make test TESTS='tests.matching.test_review_workflow tests.matching.test_review_concurrency tests.matching.test_review_workflow_migration'`.
+Tests : `make test TESTS='tests.introductions.test_review_workflow tests.introductions.test_review_concurrency tests.introductions.test_review_workflow_migration'`.
 Suite complète : `make test`, avec `ALBERT_SIMULATED=0` et
 `DEMO_ACCOUNTS_ENABLED=0` dans le `.env` de test : chaque test choisit son
 scénario et simule les frontières réseau. Vérifier FR/EN/DE, sécurité, templates et traductions

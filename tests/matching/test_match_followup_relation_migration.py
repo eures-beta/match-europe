@@ -9,7 +9,7 @@ from django.test import TransactionTestCase, override_settings
 
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.users.test_accounts import prepared_user
-from .test_schema_names import assert_schema_names
+from tests.matching.test_schema_names import assert_schema_names
 
 
 @override_settings(
@@ -44,7 +44,10 @@ class MatchFollowupRelationMigrationTests(TransactionTestCase):
         records = []
         for match in (reviewed, unreviewed):
             review_id = (
-                reviewed.candidate_offer_review.pk if match.pk == reviewed.pk else None
+                apps.get_model('matching', 'CandidateOfferReview')
+                .objects.filter(match_id=match.pk)
+                .values_list('pk', flat=True)
+                .first()
             )
             row = Followup.objects.create(
                 match_id=match.pk,

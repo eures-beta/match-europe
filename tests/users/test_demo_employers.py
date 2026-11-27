@@ -7,13 +7,13 @@ from django.utils import timezone
 
 from eures_beta.employers.models import EmployerProfile, JobOffer
 from eures_beta.invitations.models import Invitation
-from eures_beta.matching.models import (
+from eures_beta.introductions.models import (
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     CandidateOfferReview,
     CandidateProfileSharing,
 )
-from eures_beta.matching.offer_review_services import review_state
+from eures_beta.introductions.offer_review_services import review_state
 from eures_beta.users.demo_employers import (
     LEGACY_EMPLOYER_EMAIL,
     consolidate_employers,

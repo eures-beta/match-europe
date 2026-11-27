@@ -1,6 +1,6 @@
 """Business model renames preserve stored reviews and Django metadata."""
 
-from .fixtures.historical import seed_matching
+from tests.matching.fixtures.historical import seed_matching
 from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.contrib import admin
@@ -13,6 +13,7 @@ from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from eures_beta.matching import models
+from eures_beta.introductions import models as introduction_models
 
 RENAMES = (
     ('MatchPair', 'CandidateOfferMatch', 'matching_matchpair'),
@@ -33,12 +34,15 @@ class CandidateOfferModelNamesTests(TestCase):
         for old, new, table in RENAMES:
             with self.subTest(model=new):
                 self.assertFalse(hasattr(models, old))
-                model = getattr(models, new)
-                self.assertEqual(model._meta.db_table, f'matching_{new.lower()}')
+                owner = 'matching' if new == 'CandidateOfferMatch' else 'introductions'
+                model = getattr(
+                    models if owner == 'matching' else introduction_models, new
+                )
+                self.assertEqual(model._meta.db_table, f'{owner}_{new.lower()}')
                 self.assertTrue(admin.site.is_registered(model))
                 self.assertEqual(
-                    reverse(f'admin:matching_{new.lower()}_changelist'),
-                    f'/admin/matching/{new.lower()}/',
+                    reverse(f'admin:{owner}_{new.lower()}_changelist'),
+                    f'/admin/{owner}/{new.lower()}/',
                 )
 
 

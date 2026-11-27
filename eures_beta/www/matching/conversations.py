@@ -16,13 +16,10 @@ from django.views.decorators.http import require_http_methods
 
 from eures_beta.candidates import push
 from eures_beta.www.accounts.views import selected_language
-from eures_beta.matching import (
-    match_lifecycle,
-    access,
-    employer_consent,
-    offer_review_services,
-)
-from eures_beta.matching.models import (
+from eures_beta.followup import match_lifecycle
+from eures_beta.matching import access
+from eures_beta.introductions import employer_consent, offer_review_services
+from eures_beta.introductions.models import (
     CandidateOfferReview,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
@@ -210,7 +207,7 @@ def start(request, pk):
             return redirect(destination('shared_conversation', thread.pk, language))
         return render(
             request,
-            'matching/shared_start.html',
+            'introductions/shared_start.html',
             {
                 'review': review,
                 'form': form,
@@ -342,7 +339,7 @@ def detail(request, pk):
                 thread.save(update_fields=[field])
         return render(
             request,
-            'matching/shared_conversation.html',
+            'introductions/shared_conversation.html',
             {
                 'thread': thread,
                 'can_report_hiring': match_lifecycle.can_report(

@@ -1,6 +1,6 @@
 """Fresh and already deployed dialogue schemas survive the model renames."""
 
-from .fixtures.historical import seed_matching
+from tests.matching.fixtures.historical import seed_matching
 from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.db import connection, models

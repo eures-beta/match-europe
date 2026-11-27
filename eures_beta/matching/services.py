@@ -4,9 +4,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.utils import timezone
-from . import engine, validation
-from .access import candidates, matchable_offers
-from .models import CandidateOfferMatch, MatchEvaluation, MatchDecision
+from eures_beta.matching import engine, validation
+from eures_beta.matching.access import candidates, matchable_offers
+from eures_beta.matching.models import (
+    CandidateOfferMatch,
+    MatchEvaluation,
+    MatchDecision,
+)
 
 
 class StaleEvaluation(ValueError):

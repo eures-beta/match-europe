@@ -17,8 +17,8 @@ from eures_beta.www.design_system import bootstrap_form
 from eures_beta.candidates.forms import FORMS, SCHEDULE_DAYS, SCHEDULE_PERIODS
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.skills.skills_pilot import catalogue
-from eures_beta.matching import (
-    access,
+from eures_beta.matching import access
+from eures_beta.introductions import (
     offer_review_services as service,
     dialogue_services,
     review_workflow,
@@ -223,7 +223,7 @@ def workflow_reply(request, pk):
     except (StaleEvaluation, ValueError, ValidationError, ObjectDoesNotExist):
         return render(
             request,
-            'matching/dialogue_profile_conflict.html',
+            'introductions/dialogue_profile_conflict.html',
             {'page_language': selected_language(request)},
             status=409,
         )
@@ -409,7 +409,7 @@ def inbox(request):
     entries = candidate_entries(request.user)
     return render(
         request,
-        'matching/offer_review_inbox.html',
+        'introductions/offer_review_inbox.html',
         dict(
             entries=entries,
             groups=inbox_groups(entries),
@@ -575,7 +575,7 @@ def dialogue(request, pk):
         )
     return render(
         request,
-        'matching/offer_review_dialogue.html',
+        'introductions/offer_review_dialogue.html',
         dict(
             obj=obj,
             state=state,

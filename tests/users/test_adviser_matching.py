@@ -5,9 +5,11 @@ from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from eures_beta.matching import offer_review_services, services
-from eures_beta.matching.models import CandidateOfferReview, CandidateOfferMatch
-from tests.matching.test_dialogue import SETTINGS
+from eures_beta.introductions import offer_review_services
+from eures_beta.matching import services
+from eures_beta.introductions.models import CandidateOfferReview
+from eures_beta.matching.models import CandidateOfferMatch
+from tests.introductions.test_dialogue import SETTINGS
 from eures_beta.users.test_accounts import prepared_user
 
 
@@ -109,7 +111,7 @@ class AdviserMatchingTests(TestCase):
             )
         current = offer_review_services.review_state(conversation)['fingerprint']
         self.assertContains(self.client.get(follow), 'Analyser les réponses')
-        with patch('eures_beta.matching.dialogue_albert.complete') as complete:
+        with patch('eures_beta.introductions.dialogue_albert.complete') as complete:
             page = self.client.post(
                 follow, {'action': 'analyse', 'fingerprint': current}
             )
@@ -182,7 +184,7 @@ class AdviserMatchingTests(TestCase):
             'question': 'L’employeur peut-il donner trois jours de préavis ?',
         }
         with patch(
-            'eures_beta.matching.dialogue_albert.complete',
+            'eures_beta.introductions.dialogue_albert.complete',
             side_effect=[
                 {'recommendation': 'proceed', 'points': [point]},
                 {'recommendation': 'clarify', 'points': [point]},

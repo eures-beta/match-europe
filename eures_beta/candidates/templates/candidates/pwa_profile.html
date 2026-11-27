@@ -2,7 +2,8 @@
 {% load i18n static %}
 {% block page_title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'matching/candidate-inbox.css' %}">
+  <link rel="stylesheet"
+        href="{% static 'introductions/candidate-inbox.css' %}">
 {% endblock %}
 {% block public_content %}
   <header class="conversation-header">
@@ -33,7 +34,7 @@
         <script src="{% static 'pwa/candidate-push.js' %}" defer></script>
       </section>
     {% endif %}
-    {% include "matching/candidate_offer_notice.html" %}
+    {% include "introductions/candidate_offer_notice.html" %}
     {% include "candidates/install_pwa_next_step.html" %}
   </div>
   {% include "candidates/profile_details.html" %}

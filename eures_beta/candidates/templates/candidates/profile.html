@@ -2,10 +2,11 @@
 {% load i18n static %}
 {% block title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
 {% block content %}
-  {% include "matching/candidate_offer_notice.html" %}
+  {% include "introductions/candidate_offer_notice.html" %}
   {% include "candidates/profile_details.html" %}
   {% include "candidates/install_pwa_next_step.html" %}
 {% endblock %}
 {% block head %}
-  <link rel="stylesheet" href="{% static 'matching/candidate-inbox.css' %}">
+  <link rel="stylesheet"
+        href="{% static 'introductions/candidate-inbox.css' %}">
 {% endblock %}

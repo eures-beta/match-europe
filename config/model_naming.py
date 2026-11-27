@@ -6,17 +6,17 @@ from django.apps import apps
 from django.core.checks import Error, Tags, register
 
 OLD_RELATIONS = {
-    'matching.EmployerCandidateReview': {'adviser'},
+    'introductions.EmployerCandidateReview': {'adviser'},
     'employers.JobOffer': {'created_by'},
     'invitations.Invitation': {'sender'},
-    'matching.JobOfferSupport': {'updated_by'},
-    'matching.CandidateSupport': {'updated_by'},
+    'followup.JobOfferSupport': {'updated_by'},
+    'followup.CandidateSupport': {'updated_by'},
     'matching.MatchEvaluation': {'pair'},
     'matching.MatchDecision': {'pair'},
-    'matching.CandidateOfferReview': {'pair', 'assigned_to'},
-    'matching.CandidateOfferReviewAnswer': {'request'},
-    'matching.CandidateProfileSharing': {'request'},
-    'matching.CandidateOfferConversation': {'confirmation', 'review'},
+    'introductions.CandidateOfferReview': {'pair', 'assigned_to'},
+    'introductions.CandidateOfferReviewAnswer': {'request'},
+    'introductions.CandidateProfileSharing': {'request'},
+    'introductions.CandidateOfferConversation': {'confirmation', 'review'},
 }
 OLD_REVERSE_RELATIONS = {
     'imports',

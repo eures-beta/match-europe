@@ -7,8 +7,11 @@ from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase, override_settings
 
-from eures_beta.matching.models import CandidateOfferReview, CandidateProfileSharing
-from eures_beta.matching import offer_review_services
+from eures_beta.introductions.models import (
+    CandidateOfferReview,
+    CandidateProfileSharing,
+)
+from eures_beta.introductions import offer_review_services
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.users.test_accounts import prepared_user
 
@@ -166,10 +169,22 @@ class EmployerConsentMigrationTests(TransactionTestCase):
             .exists()
         )
         self.assertEqual(consent.agreement_id, agreement.pk)
-        self.assertTrue(CandidateOfferReview.objects.filter(pk=review.pk).exists())
-        self.migrate('0023_explicit_user_relations')
-        self.assertTrue(CandidateProfileSharing.objects.get(pk=agreement.pk).agreed)
-        self.assertTrue(CandidateOfferReview.objects.filter(pk=review.pk).exists())
+        self.assertTrue(
+            apps.get_model('matching', 'CandidateOfferReview')
+            .objects.filter(pk=review.pk)
+            .exists()
+        )
+        apps = self.migrate('0023_explicit_user_relations')
+        self.assertTrue(
+            apps.get_model('matching', 'CandidateProfileSharing')
+            .objects.get(pk=agreement.pk)
+            .agreed
+        )
+        self.assertTrue(
+            apps.get_model('matching', 'CandidateOfferReview')
+            .objects.filter(pk=review.pk)
+            .exists()
+        )
         self.assertNotIn(
             'matching_employerofferconsent', connection.introspection.table_names()
         )

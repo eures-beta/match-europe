@@ -6,14 +6,15 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from eures_beta.matching import offer_review_services, services, review_workflow
-from eures_beta.matching.models import (
+from eures_beta.introductions import offer_review_services, review_workflow
+from eures_beta.matching import services
+from eures_beta.introductions.models import (
     CandidateOfferReview,
-    CandidateOfferMatch,
     CandidateOfferConversation,
     EmployerCandidateReview,
 )
-from tests.matching.test_dialogue import SETTINGS
+from eures_beta.matching.models import CandidateOfferMatch
+from tests.introductions.test_dialogue import SETTINGS
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
 

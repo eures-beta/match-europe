@@ -1,6 +1,6 @@
 """Renaming matching models must preserve rows, references and granted rights."""
 
-from .fixtures.historical import seed_matching
+from tests.matching.fixtures.historical import seed_matching
 from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.contrib.auth.models import Group, Permission

@@ -34,7 +34,7 @@ ne constitue pas une restriction permanente du produit.
 - `employers` porte offres et profil employeur.
 - `occupations` porte la recherche métiers ESCO/ROME ; `skills` les compétences
   et suggestions appuyées sur les sources officielles.
-- `matching` porte rapprochements, évaluations, décisions, revues d'offres et conversations.
+- `matching` porte rapprochements, évaluations et présélection ; `introductions` les revues, accords et conversations ; `followup` l’accompagnement et les conclusions.
 - `documents`, `emails`, `integrations` et `observability` portent les services
   de support ; toutes ces responsabilités ne sont pas de nouvelles applications installées.
 - `www/` regroupe routes, vues et formulaires par parcours sans porter les modèles.

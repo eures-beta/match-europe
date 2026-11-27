@@ -6,7 +6,7 @@ from django.contrib.admin.models import LogEntry
 
 from eures_beta.employers.models import EmployerProfile, JobOffer
 from eures_beta.invitations.models import Invitation
-from eures_beta.matching.models import (
+from eures_beta.introductions.models import (
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     CandidateOfferReviewEvent,

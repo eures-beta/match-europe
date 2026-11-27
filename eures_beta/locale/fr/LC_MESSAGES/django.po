@@ -5740,8 +5740,8 @@ msgstr "Utilisez ce lien personnel dans l’heure, puis confirmez sur la page po
 
 #: eures_beta/candidates/templates/candidates/profile.html:3
 #: eures_beta/candidates/templates/candidates/profile.html:6
-#: eures_beta/matching/templates/matching/offer_review_inbox.html:19
-#: eures_beta/matching/templates/matching/dialogue_profile_conflict.html:8
+#: eures_beta/introductions/templates/introductions/offer_review_inbox.html:19
+#: eures_beta/introductions/templates/introductions/dialogue_profile_conflict.html:8
 msgid "My candidate profile"
 msgstr "Mon profil candidat"
 
@@ -6535,9 +6535,9 @@ msgid "No unknown point in the evaluated criteria."
 msgstr "Aucun point inconnu parmi les critères évalués."
 
 #: eures_beta/candidates/templates/candidates/profile.html:15
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:19
-#: eures_beta/matching/templates/matching/offer_review_inbox.html:3
-#: eures_beta/matching/templates/matching/offer_review_inbox.html:10
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:19
+#: eures_beta/introductions/templates/introductions/offer_review_inbox.html:3
+#: eures_beta/introductions/templates/introductions/offer_review_inbox.html:10
 msgid "Offers to confirm"
 msgstr "Offres à confirmer"
 
@@ -6608,130 +6608,130 @@ msgstr "En attente de confirmation"
 
 #: eures_beta/matching/confirmation_views.py:308
 #: eures_beta/matching/dialogue_views.py:157
-#: eures_beta/matching/templates/matching/dialogue_profile_conflict.html:7
+#: eures_beta/introductions/templates/introductions/dialogue_profile_conflict.html:7
 msgid "The offer, profile or answers changed. Review the current information before confirming."
 msgstr "L’offre, le profil ou les réponses ont changé. Relisez les informations actuelles avant de confirmer."
 
 #: eures_beta/matching/confirmation_views.py:316
 #: eures_beta/matching/dialogue_views.py:163
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:30
-#: eures_beta/matching/templates/matching/dialogue.html:29
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:30
+#: eures_beta/introductions/templates/introductions/dialogue.html:29
 msgid "Review the conditions before recording your answer."
 msgstr "Relisez les conditions avant d’enregistrer votre réponse."
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:3
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:3
 msgid "Candidate confirmations"
 msgstr "Confirmations du candidat"
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:5
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:5
 msgid "The candidate can review this offer in their private space. No notification has been sent."
 msgstr "Le candidat peut examiner cette offre dans son espace privé. Aucune notification n’a été envoyée."
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:7
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:80
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:7
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:80
 msgid "Some conditions still need clarification or human review."
 msgstr "Certaines conditions restent à préciser ou à examiner par une personne."
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:10
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:10
 msgid "Separate transmission permission recorded for the current information. Nothing has been sent."
 msgstr "L’accord distinct de transmission est enregistré pour les informations actuelles. Rien n’a été envoyé."
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:12
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:12
 msgid "No current permission to transmit the profile."
 msgstr "Aucun accord de transmission du profil valable actuellement."
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:23
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:23
 msgid "Ask the candidate to confirm this offer"
 msgstr "Faire confirmer cette offre par le candidat"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:3
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:10
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:3
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:10
 msgid "Confirm this offer"
 msgstr "Confirmer les conditions de cette offre"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:14
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:14
 msgid "Offer details"
 msgstr "Détails de l’offre"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:18
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:18
 msgid "Your existing answers are a starting point. Confirm what still applies to this specific offer. Nothing is sent to the employer."
 msgstr "Vos réponses existantes servent de point de départ. Confirmez ce qui reste valable pour cette offre précise. Rien n’est envoyé à l’employeur."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:56
-#: eures_beta/matching/templates/matching/dialogue.html:70
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:56
+#: eures_beta/introductions/templates/introductions/dialogue.html:70
 msgid "In this offer"
 msgstr "Dans cette offre"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:58
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:58
 msgid "Only the details shown here are known. Missing exact times, frequency or other details are not assumed."
 msgstr "Seuls les détails affichés ici sont connus. Les heures exactes, la fréquence ou les autres précisions manquantes ne sont pas supposées."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:59
-#: eures_beta/matching/templates/matching/dialogue.html:72
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:59
+#: eures_beta/introductions/templates/introductions/dialogue.html:72
 msgid "You previously declared"
 msgstr "Vous aviez indiqué"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:63
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:63
 msgid "Is this still correct and acceptable for this offer? If only part is acceptable, choose an answer under conditions and specify the exception."
 msgstr "Cela reste-t-il valable et acceptable pour cette offre ? Si seule une partie vous convient, répondez sous conditions et précisez l’exception."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:65
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:65
 msgid "For a skill, yes means you can already perform this activity. If you want to learn it, answer under conditions and specify the training needed."
 msgstr "Pour un savoir-faire, « oui » signifie que vous savez déjà réaliser cette activité. Si vous souhaitez l’apprendre, répondez sous conditions et précisez la formation nécessaire."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:73
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:73
 msgid "Save this answer"
 msgstr "Enregistrer cette réponse"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:78
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:78
 msgid "Review of this offer"
 msgstr "Récapitulatif pour cette offre"
 
-#: eures_beta/matching/templates/matching/offer_review_adviser.html:16
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:84
+#: eures_beta/introductions/templates/introductions/offer_review_adviser.html:16
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:84
 msgid "Employer clarification needed"
 msgstr "Précision nécessaire côté employeur"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:87
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:87
 msgid "Previous confirmation is out of date."
 msgstr "La confirmation précédente n’est plus valable."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:93
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:93
 msgid "Your general profile has not changed. Review and validate the correction separately."
 msgstr "Votre profil général n’a pas été modifié. Relisez et validez la correction séparément."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:97
-#: eures_beta/matching/templates/matching/dialogue_profile_conflict.html:3
-#: eures_beta/matching/templates/matching/dialogue_profile_conflict.html:6
-#: eures_beta/matching/templates/matching/dialogue_profile_conflict.html:12
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:97
+#: eures_beta/introductions/templates/introductions/dialogue_profile_conflict.html:3
+#: eures_beta/introductions/templates/introductions/dialogue_profile_conflict.html:6
+#: eures_beta/introductions/templates/introductions/dialogue_profile_conflict.html:12
 msgid "Review my general profile"
 msgstr "Relire mon profil général"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:100
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:100
 msgid "Change this answer"
 msgstr "Modifier cette réponse"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:107
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:107
 msgid "Separate transmission permission"
 msgstr "Accord distinct de transmission"
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:112
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:112
 msgid "Permission recorded. Nothing has been sent."
 msgstr "Accord enregistré. Rien n’a été envoyé."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:114
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:114
 msgid "Transmission permission refused. Nothing has been sent."
 msgstr "Transmission refusée. Rien n’a été envoyé."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:124
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:124
 msgid "Record my choice"
 msgstr "Enregistrer mon choix"
 
-#: eures_beta/matching/templates/matching/offer_review_inbox.html:11
+#: eures_beta/introductions/templates/introductions/offer_review_inbox.html:11
 msgid "Confirm the conditions for each offer. This does not change your general profile or send it to an employer."
 msgstr "Confirmez les conditions de chaque offre. Cela ne modifie pas votre profil général et ne le transmet pas à un employeur."
 
-#: eures_beta/matching/templates/matching/offer_review_inbox.html:16
+#: eures_beta/introductions/templates/introductions/offer_review_inbox.html:16
 msgid "No offer is awaiting your confirmation."
 msgstr "Aucune offre n’attend votre confirmation."
 
@@ -6747,24 +6747,24 @@ msgstr "Date limite de prise de poste"
 msgid "Maximum"
 msgstr "Maximum"
 
-#: eures_beta/matching/dialogue_services.py:257
+#: eures_beta/introductions/dialogue_services.py:257
 msgid "You describe a general change. Confirm the proposed profile update separately from transmission permission."
 msgstr "Vous décrivez un changement général. Validez la modification proposée du profil séparément de l’accord de transmission."
 
-#: eures_beta/matching/dialogue_services.py:261
+#: eures_beta/introductions/dialogue_services.py:261
 msgid "You accept under conditions for this offer. Your general profile will stay unchanged."
 msgstr "Vous acceptez sous conditions pour cette offre. Votre profil général restera inchangé."
 
-#: eures_beta/matching/dialogue_services.py:265
+#: eures_beta/introductions/dialogue_services.py:265
 msgid "You do not accept this condition for this offer. Your general profile will stay unchanged."
 msgstr "Vous refusez cette condition pour cette offre. Votre profil général restera inchangé."
 
-#: eures_beta/matching/dialogue_services.py:268
+#: eures_beta/introductions/dialogue_services.py:268
 msgid "This condition is still acceptable for this offer. Your general profile will stay unchanged."
 msgstr "Cette condition reste acceptable pour cette offre. Votre profil général restera inchangé."
 
 #: eures_beta/matching/dialogue_views.py:32
-#: eures_beta/matching/templates/matching/dialogue.html:81
+#: eures_beta/introductions/templates/introductions/dialogue.html:81
 msgid "Your reply"
 msgstr "Votre réponse"
 
@@ -6781,7 +6781,7 @@ msgid "My general profile"
 msgstr "Mon profil général"
 
 #: eures_beta/matching/dialogue_views.py:50
-#: eures_beta/matching/templates/matching/dialogue.html:56
+#: eures_beta/introductions/templates/introductions/dialogue.html:56
 msgid "I confirm this change to my general profile"
 msgstr "Je confirme cette proposition de modification de mon profil général"
 
@@ -6789,56 +6789,56 @@ msgstr "Je confirme cette proposition de modification de mon profil général"
 msgid "Please clarify the scope of your reply. This simulation only recognises the examples below; use the guided form for other replies."
 msgstr "Précisez la portée de votre réponse. Cette simulation reconnaît uniquement les exemples ci-dessous ; utilisez le formulaire guidé pour les autres réponses."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:51
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:51
 msgid "Try the simulated Albert dialogue"
 msgstr "Essayer le dialogue Albert simulé"
 
-#: eures_beta/matching/templates/matching/dialogue.html:3
-#: eures_beta/matching/templates/matching/dialogue.html:14
+#: eures_beta/introductions/templates/introductions/dialogue.html:3
+#: eures_beta/introductions/templates/introductions/dialogue.html:14
 msgid "Simulated Albert dialogue"
 msgstr "Dialogue Albert simulé"
 
-#: eures_beta/matching/templates/matching/dialogue.html:26
+#: eures_beta/introductions/templates/introductions/dialogue.html:26
 msgid "Use the guided form"
 msgstr "Utiliser le formulaire guidé"
 
-#: eures_beta/matching/templates/matching/dialogue.html:34
+#: eures_beta/introductions/templates/introductions/dialogue.html:34
 msgid "Review what I understood"
 msgstr "Vérifiez ce que j’ai compris"
 
-#: eures_beta/matching/templates/matching/dialogue.html:40
+#: eures_beta/introductions/templates/introductions/dialogue.html:40
 msgid "Proposed profile update"
 msgstr "Modification proposée du profil"
 
-#: eures_beta/matching/templates/matching/dialogue.html:46
+#: eures_beta/introductions/templates/introductions/dialogue.html:46
 msgid "This update makes earlier transmission permission out of date. It does not transmit your profile."
 msgstr "Cette modification rend l’ancien accord de transmission caduc. Elle ne transmet pas votre profil."
 
-#: eures_beta/matching/templates/matching/dialogue.html:47
+#: eures_beta/introductions/templates/introductions/dialogue.html:47
 msgid "The proposed change opens your profile for review. Check your other time slots, then validate the profile in the usual form. Your profile is not changed yet."
 msgstr "La proposition ouvre votre profil pour relecture. Vérifiez vos autres créneaux, puis validez le profil dans le formulaire habituel. Votre profil n’est pas encore modifié."
 
-#: eures_beta/matching/templates/matching/dialogue.html:63
+#: eures_beta/introductions/templates/introductions/dialogue.html:63
 msgid "Validate this summary"
 msgstr "Valider ce récapitulatif"
 
-#: eures_beta/matching/templates/matching/dialogue.html:65
+#: eures_beta/introductions/templates/introductions/dialogue.html:65
 msgid "Correct or cancel this proposal"
 msgstr "Corriger ou annuler cette proposition"
 
-#: eures_beta/matching/templates/matching/dialogue.html:74
+#: eures_beta/introductions/templates/introductions/dialogue.html:74
 msgid "Is this still correct and acceptable for this offer?"
 msgstr "Cela reste-t-il valable et acceptable pour cette offre ?"
 
-#: eures_beta/matching/templates/matching/dialogue.html:78
+#: eures_beta/introductions/templates/introductions/dialogue.html:78
 msgid "Simulation examples: yes; no. For Saturday: every other Saturday; I am no longer available on Saturdays. Specify whether this concerns this offer or your general profile."
 msgstr "Exemples de simulation : oui ; non. Pour le samedi : un samedi sur deux ; je ne suis plus disponible le samedi. Précisez si cela concerne cette offre ou votre profil général."
 
-#: eures_beta/matching/templates/matching/dialogue.html:93
+#: eures_beta/introductions/templates/introductions/dialogue.html:93
 msgid "Continue the dialogue"
 msgstr "Poursuivre le dialogue"
 
-#: eures_beta/matching/templates/matching/dialogue.html:98
+#: eures_beta/introductions/templates/introductions/dialogue.html:98
 msgid "Review your answers and give transmission permission separately in the guided form."
 msgstr "Relisez vos réponses et donnez séparément votre accord de transmission dans le formulaire guidé."
 
@@ -6846,21 +6846,21 @@ msgstr "Relisez vos réponses et donnez séparément votre accord de transmissio
 msgid "Albert is unavailable or the reply could not be validated. Your profile has not changed. Use the guided form or try again later."
 msgstr "Albert est indisponible ou sa réponse n’a pas pu être validée. Votre profil n’a pas changé. Utilisez le formulaire guidé ou réessayez plus tard."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:49
-#: eures_beta/matching/templates/matching/dialogue.html:3
-#: eures_beta/matching/templates/matching/dialogue.html:12
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:49
+#: eures_beta/introductions/templates/introductions/dialogue.html:3
+#: eures_beta/introductions/templates/introductions/dialogue.html:12
 msgid "Dialogue with Albert"
 msgstr "Dialoguer avec Albert"
 
-#: eures_beta/matching/templates/matching/dialogue.html:43
+#: eures_beta/introductions/templates/introductions/dialogue.html:43
 msgid "Before"
 msgstr "Avant"
 
-#: eures_beta/matching/templates/matching/dialogue.html:44
+#: eures_beta/introductions/templates/introductions/dialogue.html:44
 msgid "After"
 msgstr "Après"
 
-#: eures_beta/matching/templates/matching/dialogue.html:76
+#: eures_beta/introductions/templates/introductions/dialogue.html:76
 msgid "Reply in your own words. If your situation has changed in general, say so. You will review any proposed profile change before saving it."
 msgstr "Répondez avec vos mots. Si votre situation a changé de manière générale, précisez-le. Vous relirez toute modification proposée du profil avant de l’enregistrer."
 
@@ -6868,11 +6868,11 @@ msgstr "Répondez avec vos mots. Si votre situation a changé de manière géné
 msgid "No message, notification or introduction is sent automatically."
 msgstr "Aucun message, notification ou mise en relation n’est envoyé automatiquement."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:108
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:108
 msgid "This permission concerns this employer and this offer only. Reservations remain subject to human review. No profile is transmitted automatically."
 msgstr "Cet accord concerne uniquement cet employeur et cette offre. Les réserves restent à examiner par une personne. Aucun profil n’est transmis automatiquement."
 
-#: eures_beta/matching/templates/matching/dialogue.html:19
+#: eures_beta/introductions/templates/introductions/dialogue.html:19
 msgid "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer."
 msgstr "Albert reçoit cette condition, vos déclarations associées et vos réponses. Vérifiez ses propositions avant de les enregistrer. Rien n’est envoyé à l’employeur."
 
@@ -6921,7 +6921,7 @@ msgstr "Sur Android, ouvrez le menu de Chrome et choisissez « Installer » ou �
 msgid "Open Match Europe from its icon and sign in with the same email address."
 msgstr "Ouvrez Match Europe depuis son icône et connectez-vous avec la même adresse e-mail."
 
-#: eures_beta/matching/templates/matching/dialogue.html:21
+#: eures_beta/introductions/templates/introductions/dialogue.html:21
 msgid "Test simulation: no AI service is called. Nothing is sent to the employer."
 msgstr "Simulation de test : aucun service d’IA n’est appelé. Rien n’est envoyé à l’employeur."
 
@@ -7544,27 +7544,27 @@ msgstr "Envoi initial"
 msgid "Last reminder"
 msgstr "Dernière relance"
 
-#: eures_beta/matching/search_queue.py:13
+#: eures_beta/followup/search_queue.py:13
 msgid "No eligible candidate is available. Search your internal tools and network."
 msgstr "Aucun candidat éligible n’est disponible. Recherchez dans vos outils internes et votre réseau."
 
-#: eures_beta/matching/search_queue.py:16
+#: eures_beta/followup/search_queue.py:16
 msgid "No eligible offer is available. Look for employers and new offers."
 msgstr "Aucune offre éligible n’est disponible. Recherchez des employeurs et de nouvelles offres."
 
-#: eures_beta/matching/search_queue.py:18
+#: eures_beta/followup/search_queue.py:18
 msgid "No suitable matching found. Start an external search."
 msgstr "Aucun rapprochement pertinent trouvé. Lancez une recherche externe."
 
-#: eures_beta/matching/search_queue.py:19
+#: eures_beta/followup/search_queue.py:19
 msgid "All proposed matchings were rejected. Continue the external search."
 msgstr "Tous les rapprochements proposés ont été écartés. Poursuivez la recherche externe."
 
-#: eures_beta/matching/search_queue.py:21
+#: eures_beta/followup/search_queue.py:21
 msgid "Matching calculation is missing or out of date. No conclusion is available yet."
 msgstr "Le calcul des rapprochements est absent ou périmé. Aucune conclusion n’est encore disponible."
 
-#: eures_beta/matching/search_queue.py:24
+#: eures_beta/followup/search_queue.py:24
 msgid "Information is insufficient. Check the record before starting an external search."
 msgstr "Les informations sont insuffisantes. Vérifiez le dossier avant de lancer une recherche externe."
 
@@ -7975,7 +7975,7 @@ msgstr "Choisissez les 5 compétences les plus importantes pour votre projet et 
 msgid "This choice helps identify your priorities when looking for suitable offers. You can change it at any time. An unchecked skill does not mean you lack it."
 msgstr "Ce choix aide à repérer vos priorités pour rechercher des offres adaptées. Vous pourrez le modifier à tout moment. Une compétence non cochée ne signifie pas que vous ne la maîtrisez pas."
 
-#: eures_beta/matching/offer_review_services.py:25
+#: eures_beta/introductions/offer_review_services.py:25
 #, python-format
 msgid "Would you be interested in this occupation: %(requirement)s?"
 msgstr "Ce métier t’intéresserait-il : %(requirement)s ?"
@@ -8165,81 +8165,81 @@ msgstr "Dossier repris"
 msgid "Additional information received"
 msgstr "Complément reçu"
 
-#: eures_beta/matching/review_notifications.py:41
+#: eures_beta/introductions/review_notifications.py:41
 msgid "Candidate replies are ready for review"
 msgstr "Des réponses candidat sont à examiner"
 
-#: eures_beta/matching/review_notifications.py:43
+#: eures_beta/introductions/review_notifications.py:43
 msgid "An adviser has reviewed your replies"
 msgstr "Un conseiller a examiné vos réponses"
 
-#: eures_beta/matching/review_notifications.py:46
+#: eures_beta/introductions/review_notifications.py:46
 msgid "Open the private review to see the next step."
 msgstr "Ouvrez le dossier privé pour connaître la prochaine étape."
 
-#: eures_beta/matching/templates/matching/dialogue.html:137
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:106
+#: eures_beta/introductions/templates/introductions/dialogue.html:137
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:106
 msgid "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent to the employer."
 msgstr "On s’arrête ici pour cette offre. Ton profil reste inchangé et rien n’est envoyé à l’employeur."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:115
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:115
 msgid "Permission recorded. Nothing has been sent to the employer."
 msgstr "Accord enregistré. Rien n’a été envoyé à l’employeur."
 
-#: eures_beta/matching/templates/matching/offer_review_dialogue.html:117
+#: eures_beta/introductions/templates/introductions/offer_review_dialogue.html:117
 msgid "Transmission permission refused. Nothing has been sent to the employer."
 msgstr "Transmission refusée. Rien n’a été envoyé à l’employeur."
 
-#: eures_beta/matching/templates/matching/review_followup.html:4
+#: eures_beta/followup/templates/followup/review_followup.html:4
 #: eures_beta/templates/users/review_handling.html:3
 msgid "Adviser review"
 msgstr "Examen conseiller"
 
-#: eures_beta/matching/templates/matching/review_followup.html:5
+#: eures_beta/followup/templates/followup/review_followup.html:5
 msgid "Your replies have been saved and sent to an adviser for review. Nothing has been sent to the employer."
 msgstr "Tes réponses sont enregistrées et transmises à un conseiller pour examen. Rien n’a été envoyé à l’employeur."
 
-#: eures_beta/matching/templates/matching/review_followup.html:7
+#: eures_beta/followup/templates/followup/review_followup.html:7
 msgid "An adviser will review your answers and reservations, then tell you the next step or ask for more information."
 msgstr "Un conseiller va examiner tes réponses et tes réserves, puis t’indiquer la suite ou te demander des précisions."
 
-#: eures_beta/matching/templates/matching/review_followup.html:9
+#: eures_beta/followup/templates/followup/review_followup.html:9
 msgid "This decision concerns this offer only. Your profile remains available for other opportunities."
 msgstr "Cette décision concerne uniquement cette offre. Ton profil reste disponible pour d’autres opportunités."
 
-#: eures_beta/matching/templates/matching/review_followup.html:17
+#: eures_beta/followup/templates/followup/review_followup.html:17
 msgid "Additional information for the adviser"
 msgstr "Précisions pour le conseiller"
 
-#: eures_beta/matching/templates/matching/review_followup.html:26
+#: eures_beta/followup/templates/followup/review_followup.html:26
 msgid "Send my additional information"
 msgstr "Envoyer mes précisions"
 
-#: eures_beta/matching/templates/matching/review_followup.html:32
+#: eures_beta/followup/templates/followup/review_followup.html:32
 msgid "Review your current replies before sending them to an adviser."
 msgstr "Relis tes réponses actuelles avant de les transmettre à un conseiller."
 
-#: eures_beta/matching/templates/matching/review_followup.html:39
+#: eures_beta/followup/templates/followup/review_followup.html:39
 msgid "Send my replies to an adviser"
 msgstr "Transmettre mes réponses au conseiller"
 
-#: eures_beta/matching/templates/matching/review_followup.html:46
+#: eures_beta/followup/templates/followup/review_followup.html:46
 msgid "Follow-up messages"
 msgstr "Messages de suivi"
 
-#: eures_beta/matching/templates/matching/review_followup.html:48
+#: eures_beta/followup/templates/followup/review_followup.html:48
 msgid "Earlier messages are kept below. Changed answers or conditions need a new review."
 msgstr "Les messages précédents sont conservés ci-dessous. Des réponses ou conditions modifiées nécessitent un nouvel examen."
 
-#: eures_beta/matching/templates/matching/review_followup.html:59
+#: eures_beta/followup/templates/followup/review_followup.html:59
 msgid "You declined the same condition in three different offers. Would you like to review your general profile?"
 msgstr "Tu as refusé la même condition sur trois offres différentes. Souhaites-tu revoir ton profil général ?"
 
-#: eures_beta/matching/templates/matching/review_followup.html:61
+#: eures_beta/followup/templates/followup/review_followup.html:61
 msgid "You can keep your profile as it is. Any change must be reviewed and confirmed by you."
 msgstr "Tu peux conserver ton profil tel quel. Toute modification doit être relue et confirmée par toi."
 
-#: eures_beta/matching/templates/matching/review_followup.html:69
+#: eures_beta/followup/templates/followup/review_followup.html:69
 msgid "Keep my profile unchanged"
 msgstr "Conserver mon profil tel quel"
 
@@ -8493,7 +8493,7 @@ msgstr "%(email)s — Invitation enregistrée, e-mail non envoyé. Réessayez de
 msgid "UTF-8 CSV, maximum file size: 64 KB."
 msgstr "CSV UTF-8, taille maximale du fichier : 64 Ko."
 
-#: eures_beta/matching/employer_consent.py:55
+#: eures_beta/introductions/employer_consent.py:55
 msgid "Can you accommodate this difference for this position?"
 msgstr "Cet écart est-il acceptable pour ce poste ?"
 
@@ -8513,22 +8513,22 @@ msgstr "L’employeur a décliné"
 msgid "Conditions to review with the candidate"
 msgstr "Conditions à revoir avec le candidat"
 
-#: eures_beta/matching/templates/matching/employer_consent.html:3
-#: eures_beta/matching/templates/matching/employer_consent.html:10
-#: eures_beta/matching/templates/matching/employer_consent.html:14
+#: eures_beta/introductions/templates/introductions/employer_consent.html:3
+#: eures_beta/introductions/templates/introductions/employer_consent.html:10
+#: eures_beta/introductions/templates/introductions/employer_consent.html:14
 msgid "Introduction request"
 msgstr "Demande de mise en relation"
 
-#: eures_beta/matching/templates/matching/employer_consent.html:17
+#: eures_beta/introductions/templates/introductions/employer_consent.html:17
 #, python-format
 msgid "%(candidate)s has confirmed their interest in this position."
 msgstr "%(candidate)s a confirmé son intérêt pour ce poste."
 
-#: eures_beta/matching/templates/matching/employer_consent.html:43
+#: eures_beta/introductions/templates/introductions/employer_consent.html:43
 msgid "Confirm and send to the employer"
 msgstr "Valider et transmettre à l’employeur"
 
-#: eures_beta/matching/templates/matching/employer_consent.html:45
+#: eures_beta/introductions/templates/introductions/employer_consent.html:45
 msgid "Prepare the questions with Albert"
 msgstr "Préparer les questions avec Albert"
 
@@ -8576,7 +8576,7 @@ msgstr "Je souhaite préciser ou modifier cette condition"
 msgid "This is a requirement for the position"
 msgstr "Cet écart est bloquant pour ce poste"
 
-#: eures_beta/matching/templates/matching/shared_start.html
+#: eures_beta/introductions/templates/introductions/shared_start.html
 msgid "The candidate and employer have agreed to be introduced. Review the first message, then open their conversation."
 msgstr "Le candidat et l’employeur ont accepté la mise en relation. Relisez le premier message, puis ouvrez leur conversation."
 
@@ -8926,7 +8926,7 @@ msgid "View the closed follow-up"
 msgstr "Voir le suivi clôturé"
 
 #: eures_beta/matching/introduction_followup.py:71
-#: eures_beta/matching/match_lifecycle.py:191
+#: eures_beta/followup/match_lifecycle.py:191
 msgid "Additional candidate information awaited"
 msgstr "Complément d’information candidat attendu"
 
@@ -8935,7 +8935,7 @@ msgid "This matching already has a declared outcome."
 msgstr "Une issue a déjà été déclarée pour ce matching."
 
 #: eures_beta/matching/introduction_followup.py:200
-#: eures_beta/matching/match_lifecycle.py:359
+#: eures_beta/followup/match_lifecycle.py:359
 msgid "Verify the employer’s hiring declaration before closing this matching."
 msgstr "Vérifiez la déclaration d’embauche de l’employeur avant de clôturer ce matching."
 
@@ -8943,122 +8943,122 @@ msgstr "Vérifiez la déclaration d’embauche de l’employeur avant de clôtur
 msgid "Follow up on this matching"
 msgstr "Suivre ce matching"
 
-#: eures_beta/matching/match_lifecycle.py:68
+#: eures_beta/followup/match_lifecycle.py:68
 #: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:9
 msgid "Matching created"
 msgstr "Matching créé"
 
-#: eures_beta/matching/match_lifecycle.py:69
+#: eures_beta/followup/match_lifecycle.py:69
 msgid "Matching examined"
 msgstr "Matching examiné"
 
-#: eures_beta/matching/match_lifecycle.py:70
+#: eures_beta/followup/match_lifecycle.py:70
 msgid "Candidate agreement"
 msgstr "Accord candidat"
 
-#: eures_beta/matching/match_lifecycle.py:71
+#: eures_beta/followup/match_lifecycle.py:71
 msgid "Adviser validation"
 msgstr "Validation conseiller"
 
-#: eures_beta/matching/match_lifecycle.py:72
+#: eures_beta/followup/match_lifecycle.py:72
 msgid "Employer agreement"
 msgstr "Accord employeur"
 
-#: eures_beta/matching/match_lifecycle.py:73
+#: eures_beta/followup/match_lifecycle.py:73
 msgid "Three-person conversation"
 msgstr "Conversation à trois"
 
-#: eures_beta/matching/match_lifecycle.py:74
+#: eures_beta/followup/match_lifecycle.py:74
 msgid "Hiring"
 msgstr "Embauche"
 
-#: eures_beta/matching/match_lifecycle.py:75
+#: eures_beta/followup/match_lifecycle.py:75
 msgid "Matching closed"
 msgstr "Matching clôturé"
 
-#: eures_beta/matching/match_lifecycle.py:77
+#: eures_beta/followup/match_lifecycle.py:77
 msgid "Matching to examine"
 msgstr "Matching à examiner"
 
-#: eures_beta/matching/match_lifecycle.py:83
+#: eures_beta/followup/match_lifecycle.py:83
 msgid "Matching declined by an adviser"
 msgstr "Matching écarté par un conseiller"
 
-#: eures_beta/matching/match_lifecycle.py:93
+#: eures_beta/followup/match_lifecycle.py:93
 msgid "Awaiting candidate replies and permission"
 msgstr "Réponses et accord du candidat attendus"
 
-#: eures_beta/matching/match_lifecycle.py:99
+#: eures_beta/followup/match_lifecycle.py:99
 msgid "Matching stopped after candidate review"
 msgstr "Arrêt après la revue candidat"
 
-#: eures_beta/matching/match_lifecycle.py:110
+#: eures_beta/followup/match_lifecycle.py:110
 msgid "Candidate replies to validate"
 msgstr "Réponses candidat à valider"
 
-#: eures_beta/matching/match_lifecycle.py:132
+#: eures_beta/followup/match_lifecycle.py:132
 msgid "Employer declined this introduction"
 msgstr "L’employeur a refusé cette mise en relation"
 
-#: eures_beta/matching/match_lifecycle.py:138
+#: eures_beta/followup/match_lifecycle.py:138
 msgid "Clarify the employer’s reservations"
 msgstr "Clarifier les réserves de l’employeur"
 
-#: eures_beta/matching/match_lifecycle.py:146
+#: eures_beta/followup/match_lifecycle.py:146
 msgid "Ready to open the three-person conversation"
 msgstr "Conversation à trois à ouvrir"
 
-#: eures_beta/matching/match_lifecycle.py:151
-#: eures_beta/matching/match_lifecycle.py:170
+#: eures_beta/followup/match_lifecycle.py:151
+#: eures_beta/followup/match_lifecycle.py:170
 msgid "Three-person exchange in progress"
 msgstr "Échange à trois en cours"
 
-#: eures_beta/matching/match_lifecycle.py:161
+#: eures_beta/followup/match_lifecycle.py:161
 msgid "Candidate permission to clarify"
 msgstr "Accord de transmission candidat à clarifier"
 
-#: eures_beta/matching/match_lifecycle.py:166
+#: eures_beta/followup/match_lifecycle.py:166
 msgid "Offer proposal to prepare"
 msgstr "Proposition d’offre à préparer"
 
-#: eures_beta/matching/match_lifecycle.py:180
+#: eures_beta/followup/match_lifecycle.py:180
 msgid "Conversation open — conditions to review"
 msgstr "Conversation ouverte — conditions à revoir"
 
-#: eures_beta/matching/match_lifecycle.py:204
+#: eures_beta/followup/match_lifecycle.py:204
 msgid "Matching data changed — review needed"
 msgstr "Données du matching modifiées — réexamen nécessaire"
 
-#: eures_beta/matching/match_lifecycle.py:212
+#: eures_beta/followup/match_lifecycle.py:212
 msgid "Matching stopped by an adviser"
 msgstr "Matching arrêté par un conseiller"
 
-#: eures_beta/matching/match_lifecycle.py:221 eures_beta/matching/models.py:400
+#: eures_beta/followup/match_lifecycle.py:221 eures_beta/matching/models.py:400
 msgid "Hiring declared — adviser confirmation needed"
 msgstr "Embauche déclarée — à confirmer par le conseiller"
 
-#: eures_beta/matching/match_lifecycle.py:236
+#: eures_beta/followup/match_lifecycle.py:236
 msgid "Recorded hiring outcome to verify"
 msgstr "Embauche enregistrée à vérifier"
 
-#: eures_beta/matching/match_lifecycle.py:368
+#: eures_beta/followup/match_lifecycle.py:368
 msgid "Give a reason for stopping this matching."
 msgstr "Indiquez le motif d’arrêt de ce matching."
 
-#: eures_beta/matching/match_lifecycle.py:376
+#: eures_beta/followup/match_lifecycle.py:376
 msgid "Choose a valid matching outcome."
 msgstr "Choisissez une issue valide pour ce matching."
 
-#: eures_beta/matching/match_lifecycle.py:396
+#: eures_beta/followup/match_lifecycle.py:396
 msgid "Hiring confirmed by an adviser."
 msgstr "Embauche confirmée par un conseiller."
 
-#: eures_beta/matching/match_lifecycle.py:403
+#: eures_beta/followup/match_lifecycle.py:403
 #: eures_beta/templates/users/adviser_matching_lifecycle_detail.html:36
 msgid "Confirm the declared hiring"
 msgstr "Confirmer l’embauche déclarée"
 
-#: eures_beta/matching/match_lifecycle.py:419
+#: eures_beta/followup/match_lifecycle.py:419
 msgid "Choose a check-in date and a responsible person."
 msgstr "Choisissez une date de suivi et la personne attendue."
 
@@ -9078,20 +9078,20 @@ msgstr "Embauche déclarée"
 msgid "Hiring confirmed"
 msgstr "Embauche confirmée"
 
-#: eures_beta/matching/templates/matching/report_hiring.html:5
-#: eures_beta/matching/templates/matching/shared_conversation.html:74
+#: eures_beta/followup/templates/followup/report_hiring.html:5
+#: eures_beta/introductions/templates/introductions/shared_conversation.html:74
 msgid "I have hired this person"
 msgstr "J’ai embauché cette personne"
 
-#: eures_beta/matching/templates/matching/report_hiring.html:7
+#: eures_beta/followup/templates/followup/report_hiring.html:7
 msgid "Confirm that you have hired this person for this offer. Your adviser will verify the outcome and close this matching."
 msgstr "Confirmez que vous avez embauché cette personne pour cette offre. Votre conseiller vérifiera le résultat puis clôturera ce matching."
 
-#: eures_beta/matching/templates/matching/report_hiring.html:11
+#: eures_beta/followup/templates/followup/report_hiring.html:11
 msgid "Confirm my hiring declaration"
 msgstr "Confirmer ma déclaration d’embauche"
 
-#: eures_beta/matching/templates/matching/shared_conversation.html:77
+#: eures_beta/introductions/templates/introductions/shared_conversation.html:77
 #: eures_beta/templates/users/adviser_conversation.html:15
 #: eures_beta/templates/users/adviser_matching_lifecycle_list.html:35
 msgid "View the matching life line"
@@ -9399,4 +9399,16 @@ msgstr "Une paire bloquée ne peut pas être retenue pour examen."
 
 msgid "Conditions"
 msgstr "Conditions"
+
+
+
+#: eures_beta/followup/apps.py:7
+msgid "Follow-up"
+msgstr "Accompagnement et suivi"
+
+
+
+#: eures_beta/introductions/apps.py:7
+msgid "Introductions"
+msgstr "Mises en relation"
 

@@ -6,10 +6,10 @@ from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase, override_settings
 from django.utils import timezone
 
-from eures_beta.matching import match_lifecycle
+from eures_beta.followup import match_lifecycle
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.users.test_accounts import prepared_user
-from .test_schema_names import assert_schema_names
+from tests.matching.test_schema_names import assert_schema_names
 
 
 @override_settings(
@@ -106,8 +106,15 @@ class MatchingLifeLineMigrationTests(TransactionTestCase):
             RuntimeError, 'Cannot roll back declared matching outcomes'
         ):
             self.migrate('0027_followup_database_names')
-        from eures_beta.matching.models import MatchConclusion
+        from eures_beta.followup.models import MatchConclusion
 
         self.assertEqual(
-            MatchConclusion.objects.get(pk=result.pk).reason, 'Keep this conclusion'
+            MigrationExecutor(connection)
+            .loader.project_state(
+                [('matching', '0031_alter_introductionfollowup_review')]
+            )
+            .apps.get_model('matching', 'MatchConclusion')
+            .objects.get(pk=result.pk)
+            .reason,
+            'Keep this conclusion',
         )

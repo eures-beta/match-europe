@@ -18,25 +18,20 @@ from django.views.decorators.http import require_http_methods
 from types import SimpleNamespace
 
 from eures_beta.candidates.occupation_choices import resolve_reference
-from eures_beta.matching import (
-    access,
+from eures_beta.matching import access, services
+from eures_beta.introductions import (
     adviser_opinion,
     dialogue_albert,
     employer_consent,
     offer_review_services,
     dialogue_services,
-    services,
     review_email,
     review_workflow,
 )
 from eures_beta.www.matching.offer_reviews import display_rows
-from eures_beta.matching.models import (
-    CandidateOfferReview,
-    MatchEvaluation,
-    CandidateOfferMatch,
-    MatchFollowup,
-    MatchConclusion,
-)
+from eures_beta.introductions.models import CandidateOfferReview
+from eures_beta.matching.models import MatchEvaluation, CandidateOfferMatch
+from eures_beta.followup.models import MatchFollowup, MatchConclusion
 from eures_beta.matching.presentation import present
 from eures_beta.www.matching.conversations import listed
 from eures_beta.www.accounts.views import selected_language

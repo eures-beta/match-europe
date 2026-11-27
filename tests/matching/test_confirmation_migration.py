@@ -1,6 +1,6 @@
 """Upgrade the deployed confirmation schema without recreating its tables."""
 
-from .fixtures.historical import seed_matching
+from tests.matching.fixtures.historical import seed_matching
 from tests.common.migration_state import historical_targets, prepare_historical
 
 from django.db import connection
@@ -8,7 +8,7 @@ from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.recorder import MigrationRecorder
 from django.test import TransactionTestCase, override_settings
 
-from .fixtures.legacy_confirmations import Migration as LegacyMigration
+from tests.matching.fixtures.legacy_confirmations import Migration as LegacyMigration
 
 OLD = '0003_confirmationrequest_confirmationanswer_and_more'
 NEW = '0005_offer_confirmations'

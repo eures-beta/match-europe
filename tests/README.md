@@ -14,7 +14,7 @@ Les tests Python et JavaScript sont réunis ici, par domaine, sauf le
 [planning autonome](../eures_beta/planning/tests/) conservé dans son application. Ce dossier
 est un paquet Python, pas une application Django.
 
-- `candidates/`, `employers/`, `matching/`, `users/`, `invitations/`, `skills/`, `occupations/`,
+- `candidates/`, `employers/`, `matching/`, `introductions/`, `followup/`, `users/`, `invitations/`, `skills/`, `occupations/`,
   `documents/`, `emails/`, `integrations/`, `observability/` : tests métier et
   tests des services de chaque domaine, avec leurs fixtures spécifiques ;
 - `common/` : navigation, pages publiques, présentation et traductions ;
@@ -27,7 +27,7 @@ Lancer `make test` pour Python et `make test-js` pour JavaScript. Les tests
 Docker ont leurs entrées distinctes : `make e2e-test` et `make e2e-regression`.
 Les comptes fictifs utilisables dans l'application restent sous `eures_beta/`.
 
-`matching/test_review_email.py` vérifie la proposition d’offre par email après
+`introductions/test_review_email.py` vérifie la proposition d’offre par email après
 validation conseiller, sans Push, et le retour sécurisé au dialogue candidat.
 
 Les régressions PDF ajoutées dans `main` sont conservées dans
@@ -60,4 +60,4 @@ la compatibilité des anciennes notifications et le refus des destinations exter
   de classement CodeQL, les refus, la reprise et les paramètres littéraux Make,
   avec l’API GitHub simulée et sans modifier d’alerte réelle.
 
-Le traitement post-Albert est couvert par `matching/test_review_workflow.py`, `matching/test_review_concurrency.py` et `matching/test_review_workflow_migration.py` : droits, notes privées, décisions, concurrence PostgreSQL, refus sur trois offres et migration non vide.
+Le traitement post-Albert est couvert par `introductions/test_review_workflow.py`, `introductions/test_review_concurrency.py` et `matching/test_review_workflow_migration.py` : droits, notes privées, décisions, concurrence PostgreSQL, refus sur trois offres et migration non vide.

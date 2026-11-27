@@ -14,12 +14,9 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.matching import (
-    access,
-    match_lifecycle as service,
-    match_followup,
-)
-from eures_beta.matching.models import CandidateOfferConversation
+from eures_beta.matching import access
+from eures_beta.followup import match_lifecycle as service, match_followup
+from eures_beta.introductions.models import CandidateOfferConversation
 from eures_beta.users.email_login import email_ready
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.www.forms import bootstrap_form
@@ -392,7 +389,7 @@ def report_hiring(request, pk):
                 )
         return render(
             request,
-            'matching/report_hiring.html',
+            'followup/report_hiring.html',
             {
                 'matching': match,
                 'form': bootstrap_form(form),

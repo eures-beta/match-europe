@@ -1,0 +1,171 @@
+{% extends "conversation_base.html" %}
+{% load i18n static %}
+{% block conversation_class %}conversation-preview{% endblock %}
+{% block conversation_intro %}
+  <header class="conversation-desktop-brand">
+    <a href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}">Match Europe</a>
+    <span>Albert</span>
+  </header>
+{% endblock %}
+{% block page_title %}{% if live_dialogue %}{% translate "Dialogue with Albert" %}{% else %}{% translate "Simulated Albert dialogue" %}{% endif %} — Match Europe{% endblock %}
+{% block public_content %}
+  <div class="confirmation-flow">
+    <header class="conversation-header">
+      <a class="conversation-back"
+         href="{% url 'candidate_offer_inbox' %}?lang={{ page_language }}"
+         aria-label="{% translate 'Offers to confirm' %}">‹</a>
+      <span class="conversation-avatar" aria-hidden="true">A</span>
+      <img class="conversation-logo"
+           src="{% static 'employer/assets/match-europe-logo.png' %}"
+           alt=""
+           width="32"
+           height="32">
+      <div>
+        <h1>Albert</h1>
+        <p>{{ obj.match.offer.data.title }}</p>
+      </div>
+    </header>
+    <section class="conversation-info">
+      <details>
+        <summary>{% translate "Offer details" %}</summary>
+        <p role="note">
+          {% if live_dialogue %}
+            {% translate "Albert receives this condition, your related declarations and your replies. Review its suggestions before saving. Nothing is sent to the employer." %}
+          {% else %}
+            {% translate "Test simulation: no AI service is called. Nothing is sent to the employer." %}
+          {% endif %}
+        </p>
+        <p>{{ obj.match.offer.data.companyName }} · {{ obj.match.offer.data.city }}</p>
+        <p><a href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Use the guided form" %}</a></p>
+        {% if current %}
+          <h2>{% translate "You previously declared" %}</h2>
+          <dl>{% for label, value in current.declared %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+        {% endif %}
+      </details>
+      {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+      {% if form.errors %}
+        <p role="alert">{% translate "Review the conditions before recording your answer." %}</p>
+      {% endif %}
+    </section>
+    <div class="conversation-thread">
+      <p class="dialogue-bubble">
+        {% blocktranslate with title=obj.match.offer.data.title city=obj.match.offer.data.city %}An offer is available: {{ title }} · {{ city }}. I’ll go over the job conditions with you so you can decide if it suits you.{% endblocktranslate %}
+      </p>
+    </div>
+    {% if answered %}
+      <div class="conversation-thread">
+        {% for row in answered %}
+          <p class="dialogue-bubble">{{ row.prompt }}</p>
+          {% for turn in row.answer.dialogue.turns %}
+            <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">{{ turn.text|linebreaksbr }}</p>
+          {% empty %}
+            <p class="dialogue-bubble dialogue-bubble-reply">{{ row.answer.detail|default:row.answer_label|linebreaksbr }}</p>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if proposal %}
+      <section class="conversation-thread" aria-labelledby="proposal-title">
+        <h2 id="proposal-title">{% translate "Review what I understood" %}</h2>
+        <p class="dialogue-bubble">{{ proposal.text|linebreaksbr }}</p>
+        <p>{{ proposal.explanation }}</p>
+        {% if proposal.patch %}
+          <h3>{% translate "Proposed profile update" %}</h3>
+          {% for change in changes %}
+            <h4>{{ change.label }}</h4>
+            <p>{% translate "Before" %} : {{ change.before }}</p>
+            <p>{% translate "After" %} : {{ change.after }}</p>
+          {% endfor %}
+          <p>{% translate "This update makes earlier transmission permission out of date. It does not transmit your profile." %}</p>
+          <p>{% translate "The proposed change opens your profile for review. Check your other time slots, then validate the profile in the usual form. Your profile is not changed yet." %}</p>
+        {% endif %}
+        <form method="post" class="confirmation-form">
+          {% csrf_token %}
+          <input type="hidden" name="token" value="{{ proposal.token }}">
+          {% if proposal.patch %}
+            <p>
+              <label>
+                <input type="checkbox" name="update_profile" required>
+                {% translate "I confirm this change to my general profile" %}
+              </label>
+            </p>
+          {% endif %}
+          <button class="btn btn-primary"
+                  name="action"
+                  value="accept"
+                  type="submit">{% translate "Validate this summary" %}</button>
+        </form>
+        <p><a href="?lang={{ page_language }}{% if current %}&amp;question={{ current.key|urlencode }}{% endif %}">{% translate "Correct or cancel this proposal" %}</a></p>
+      </section>
+    {% elif state.scope_pending %}
+      {% include "matching/condition_scope.html" %}
+    {% elif current %}
+      <section class="conversation-thread" aria-labelledby="question-title">
+        <h2 id="question-title" class="dialogue-bubble">{{ prompt }}</h2>
+        {% for turn in turns %}
+          <p class="dialogue-bubble{% if turn.role == "candidate" %} dialogue-bubble-reply{% endif %}">
+            <strong>{% if turn.role == "candidate" %}{% translate "Your reply" %}{% else %}Albert{% endif %}</strong>
+            <br>
+            {{ turn.text|linebreaksbr }}
+          </p>
+        {% endfor %}
+        {% if clarification %}<p role="status" class="dialogue-bubble">{{ clarification }}</p>{% endif %}
+        {% if not clarification %}
+          <form method="post" class="dialogue-quick-replies">
+            {% csrf_token %}
+            <input type="hidden" name="key" value="{{ form.key.value }}">
+            <input type="hidden" name="fingerprint" value="{{ form.fingerprint.value }}">
+            <input type="hidden" name="previous" value="{{ form.previous.value }}">
+            <input type="hidden" name="action" value="quick">
+            <button class="btn btn-primary" name="value" value="yes" type="submit">{% translate "Yes" %}</button>
+            <button class="btn btn-primary" name="value" value="no" type="submit">{% translate "No" %}</button>
+          </form>
+        {% endif %}
+        <details class="dialogue-precision"
+                 {% if clarification or form.is_bound or form.history_token.value %} open{% endif %}>
+          <summary>{% translate "It depends / I have a question" %}</summary>
+          <form method="post" class="confirmation-form dialogue-composer">
+            {% csrf_token %}
+            {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+            {{ form.text.as_field_group }}
+            {% if current.kind != "occupation" and current.kind != "employer" %}
+              <details{% if form.scope.errors %} open{% endif %}>
+                <summary>{% translate "Does your reply concern this offer or your general profile?" %}</summary>
+                {{ form.scope.errors }}
+                {{ form.scope }}
+              </details>
+            {% endif %}
+            <button class="btn btn-primary" name="action" value="reply" type="submit">{% translate "Send" %}</button>
+          </form>
+        </details>
+      </section>
+    {% elif state.declined %}
+      <section class="conversation-thread" aria-labelledby="declined-title">
+        <h2 id="declined-title">{% translate "We’ll stop here for this offer. Your profile stays unchanged and nothing is sent to the employer." %}</h2>
+        <a href="?lang={{ page_language }}&amp;question={{ state.declined.key|urlencode }}">{% translate "Change this answer" %}</a>
+      </section>
+    {% elif shared_conversation %}
+      <section class="ds-card mb-4">
+        <a class="btn btn-primary"
+           href="{% url 'shared_conversation' shared_conversation.pk %}?lang={{ page_language }}">{% translate "Three-way conversation" %}</a>
+      </section>
+    {% else %}
+      <section class="ds-card mb-4">
+        <h2>{% translate "Review of this offer" %}</h2>
+        {% for row in rows %}
+          <details>
+            <summary>{{ row.label }} — {% if row.askable %}{{ row.answer_label }}{% else %}{% translate "Employer clarification needed" %}{% endif %}</summary>
+            <p>{{ row.expected }}</p>
+            {% if row.answer.detail %}<p>{{ row.answer.detail|linebreaksbr }}</p>{% endif %}
+            {% if not row.askable %}
+              <p>{% translate "Employer clarification needed" %}</p>
+            {% endif %}
+          </details>
+        {% endfor %}
+        <a class="btn btn-primary"
+           href="{% url 'candidate_offer_confirmation' obj.pk %}?lang={{ page_language }}">{% translate "Review the summary and choose what may be shared" %}</a>
+      </section>
+    {% endif %}
+    {% include "followup/review_followup.html" %}
+  </div>
+{% endblock %}

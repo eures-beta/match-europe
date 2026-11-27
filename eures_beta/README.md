@@ -28,7 +28,7 @@ sans conserver leur contenu. Voir [les champs, réglages et limites](../docs/OBS
 ## Séparation métiers et compétences — 9 novembre 2026
 
 Les métiers et recherches restent dans occupations ; catalogues de compétences,
-suggestions et composant intégré vivent dans [skills](skills/). Le matching est créé séparément par la PR #160. Le transfert du modèle conserve
+suggestions et composant intégré vivent dans [skills](skills/). Les domaines [matching](matching/), [introductions](introductions/) et [followup](followup/) séparent calcul, mise en relation et accompagnement. Le transfert du modèle conserve
 la table PostgreSQL, les identifiants, les suggestions et les permissions.
 
 

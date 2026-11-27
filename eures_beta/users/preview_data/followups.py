@@ -4,8 +4,8 @@ from datetime import timedelta
 
 from django.utils import timezone
 
-from eures_beta.matching import match_followup as followup
-from eures_beta.matching.models import MatchFollowup
+from eures_beta.followup import match_followup as followup
+from eures_beta.followup.models import MatchFollowup
 
 
 def seed_followups(adviser, identifiers):
@@ -49,7 +49,7 @@ def seed_followups(adviser, identifiers):
             outcome=outcome,
             closure_reason=reason,
         )
-    from eures_beta.matching import match_lifecycle
+    from eures_beta.followup import match_lifecycle
 
     review = followup.reviews().filter(match__offer_id=identifiers('closed')).first()
     if review and not hasattr(review.match, 'conclusion'):

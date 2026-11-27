@@ -49,7 +49,7 @@ class TestAccountAccessTests(TestCase):
     @override_settings(DJANGO_ENVIRONMENT='preview', EMAIL_DELIVERY_ENABLED=False)
     def test_preview_candidates_are_ready_for_adviser_review(self):
         from eures_beta.www.adviser.matching import pending_pairs
-        from eures_beta.matching.models import CandidateOfferReview
+        from eures_beta.introductions.models import CandidateOfferReview
 
         self.seed()
         self.seed()
@@ -63,7 +63,7 @@ class TestAccountAccessTests(TestCase):
             user = prepared_user(key)
             self.assertEqual(client.session['_auth_user_id'], str(user.pk))
             if key == 'candidate-pwa-replay':
-                from eures_beta.matching.offer_review_services import review_state
+                from eures_beta.introductions.offer_review_services import review_state
 
                 confirmation = CandidateOfferReview.objects.get(
                     match__candidate__user=user
@@ -79,7 +79,7 @@ class TestAccountAccessTests(TestCase):
     )
     def test_web_dialogue_starts_after_validation_without_push(self):
         from unittest.mock import patch
-        from eures_beta.matching.models import CandidateOfferReview
+        from eures_beta.introductions.models import CandidateOfferReview
         from eures_beta.www.adviser.matching import pending_pairs
 
         self.seed()
@@ -107,7 +107,7 @@ class TestAccountAccessTests(TestCase):
     def test_push_is_universal_and_subscription_is_optional(self):
         from unittest.mock import patch
         from eures_beta.candidates import push
-        from eures_beta.matching.models import CandidateOfferReview
+        from eures_beta.introductions.models import CandidateOfferReview
         from eures_beta.www.adviser.matching import pending_pairs, record_review
 
         self.seed()
@@ -159,7 +159,8 @@ class TestAccountAccessTests(TestCase):
 
     def test_local_and_preview_prepare_the_same_complete_demo(self):
         from eures_beta.candidates.models import CandidateProfile
-        from eures_beta.matching.models import CandidateOfferMatch, CandidateOfferReview
+        from eures_beta.matching.models import CandidateOfferMatch
+        from eures_beta.introductions.models import CandidateOfferReview
         from eures_beta.users.test_accounts import PWA_ACCOUNTS
 
         identities = None
