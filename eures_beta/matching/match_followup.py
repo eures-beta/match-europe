@@ -20,7 +20,7 @@ from . import access, employer_consent, offer_review_services
 from .models import (
     CandidateOfferConversation,
     CandidateOfferReview,
-    EmployerOfferConsent,
+    EmployerCandidateReview,
     MatchFollowup,
     MatchFollowupEvent,
     MatchConclusion,
@@ -51,7 +51,7 @@ def context(review):
     thread = CandidateOfferConversation.objects.filter(offer_review=review).first()
     agreement = employer_consent.eligible_agreement(state)
     consent = (
-        EmployerOfferConsent.objects.filter(agreement=agreement).first()
+        EmployerCandidateReview.objects.filter(agreement=agreement).first()
         if agreement
         else None
     )

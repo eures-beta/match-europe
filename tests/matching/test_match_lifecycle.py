@@ -15,7 +15,7 @@ from eures_beta.matching import (
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferConversation,
-    EmployerOfferConsent,
+    EmployerCandidateReview,
     MatchFollowup,
     MatchConclusion,
     MatchConclusionEvent,
@@ -48,9 +48,9 @@ class MatchLifeLineTests(TestCase):
         self.finish()
         self.handle('claim')
         self.handle('validated', public_message='Proceed')
-        consent = EmployerOfferConsent.objects.create(
+        consent = EmployerCandidateReview.objects.create(
             agreement=self.current()['review'].profile_sharings.latest('pk'),
-            adviser=self.adviser,
+            requested_by_adviser=self.adviser,
             employer=self.match.offer.employer,
             decision='accepted',
             decided_at=timezone.now(),
@@ -101,9 +101,9 @@ class MatchLifeLineTests(TestCase):
         self.handle('claim')
         self.handle('validated', public_message='Proceed')
         self.assertEqual(self.current()['action'], 'prepare_employer')
-        consent = EmployerOfferConsent.objects.create(
+        consent = EmployerCandidateReview.objects.create(
             agreement=self.current()['review'].profile_sharings.latest('pk'),
-            adviser=self.adviser,
+            requested_by_adviser=self.adviser,
             employer=self.match.offer.employer,
         )
         self.assertEqual(self.current()['action'], 'employer_reminder')
