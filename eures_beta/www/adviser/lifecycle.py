@@ -322,37 +322,28 @@ def detail(request, pk):
                     actor=decision.by_adviser,
                 )
             )
-        if review:
-            events += [
-                dict(date=e.created_at, label=e.get_action_display(), actor=e.actor)
-                for e in review.events.select_related('actor')
-            ]
-        if plan:
-            for event in plan.events.select_related('actor'):
-                label = event.get_action_display()
+        for event in match.events.select_related('actor').order_by('created_at', 'pk'):
+            label = event.get_action_display()
+            detail = ''
+            if event.kind == 'followup':
                 detail = event.snapshot.get('next_action', '')
                 if event.action == 'reminder':
-                    label = (
-                        str(label)
-                        + ' · '
-                        + str(event.get_recipient_display())
-                        + ' · '
-                        + str(event.get_delivery_status_display())
+                    label = ' · '.join(
+                        map(
+                            str,
+                            (
+                                label,
+                                event.get_recipient_display(),
+                                event.get_delivery_status_display(),
+                            ),
+                        )
                     )
                     detail = event.message
-                events.append(
-                    dict(
-                        date=event.created_at,
-                        label=label,
-                        actor=event.actor,
-                        detail=detail,
-                    )
+            events.append(
+                dict(
+                    date=event.created_at, label=label, actor=event.actor, detail=detail
                 )
-        if item['conclusion']:
-            events += [
-                dict(date=e.created_at, label=e.get_action_display(), actor=e.actor)
-                for e in item['conclusion'].events.select_related('actor')
-            ]
+            )
         reminder_result = (
             plan.events.filter(action='reminder').order_by('-pk').first()
             if plan and request.GET.get('saved') == 'reminder'

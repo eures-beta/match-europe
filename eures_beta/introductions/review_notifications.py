@@ -8,16 +8,16 @@ from django.utils import translation
 from django.utils.translation import gettext as _
 from eures_beta.users.email_login import email_ready
 from eures_beta.emails.rendering import html_email
-from eures_beta.introductions.models import CandidateOfferReviewEvent
+from eures_beta.matching.models import MatchEvent
 
 logger = logging.getLogger(__name__)
 
 
 def send(pk):
-    event = CandidateOfferReviewEvent.objects.select_related(
-        'review__requested_by_adviser', 'review__match__candidate__user'
-    ).get(pk=pk)
-    review = event.review
+    event = MatchEvent.objects.select_related(
+        'match__candidate_offer_review__requested_by_adviser', 'match__candidate__user'
+    ).get(pk=pk, kind=MatchEvent.Kind.REVIEW)
+    review = event.match.candidate_offer_review
     submitted = event.action in {'submitted', 'candidate_reply'}
     recipient = (
         review.requested_by_adviser if submitted else review.match.candidate.user

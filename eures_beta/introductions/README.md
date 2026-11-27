@@ -25,3 +25,5 @@ Mise en relation : revue de l’offre par le candidat, partage explicite du prof
 - [review_email.py](review_email.py) — Envoie la proposition d’offre via le backend email commun.
 - [review_notifications.py](review_notifications.py) — Déclenche les notifications minimales après commit.
 - [review_workflow.py](review_workflow.py) — Gère la prise en charge et les décisions de revue du conseiller.
+
+Les événements de revue sont enregistrés dans le [journal commun du matching](../../docs/MATCH_EVENTS.md).

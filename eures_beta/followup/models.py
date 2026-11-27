@@ -77,45 +77,12 @@ class MatchFollowup(models.Model):
     )
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def events(self):
+        return self.match.events.filter(kind='followup')
+
     def save(self, *args, **kwargs):
         validate_user_roles(self, updated_by_adviser='adviser')
-        return super().save(*args, **kwargs)
-
-
-class MatchFollowupEvent(models.Model):
-    """Adviser-only audit of plans and explicit email attempts; no login links."""
-
-    followup = models.ForeignKey(
-        MatchFollowup, on_delete=models.CASCADE, related_name='events'
-    )
-    actor = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        limit_choices_to={'kind': 'adviser'},
-    )
-    action = models.CharField(
-        max_length=12,
-        choices=[('plan', _('Follow-up updated')), ('reminder', _('Reminder'))],
-    )
-    recipient = models.CharField(
-        max_length=12, blank=True, choices=MatchFollowup.WaitingFor.choices
-    )
-    message = models.TextField(max_length=2000, blank=True)
-    snapshot = models.JSONField(default=dict)
-    delivery_status = models.CharField(
-        max_length=12,
-        blank=True,
-        choices=[
-            ('sending', _('Email sending in progress')),
-            ('sent', _('Email accepted by the mail service')),
-            ('failed', _('Email could not be sent')),
-            ('disabled', _('Email delivery is not configured or enabled')),
-        ],
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        validate_user_roles(self, actor='adviser')
         return super().save(*args, **kwargs)
 
 
@@ -185,35 +152,12 @@ class MatchConclusion(models.Model):
             ),
         ]
 
+    @property
+    def events(self):
+        return self.match.events.filter(kind='conclusion')
+
     def save(self, *args, **kwargs):
         validate_user_roles(
             self, declared_by_employer='employer', confirmed_by_adviser='adviser'
         )
         return super().save(*args, **kwargs)
-
-
-class MatchConclusionEvent(models.Model):
-    conclusion = models.ForeignKey(
-        MatchConclusion, on_delete=models.CASCADE, related_name='events'
-    )
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    action = models.CharField(
-        max_length=12,
-        choices=[
-            ('reported', _('Hiring declared')),
-            ('hired', _('Hiring confirmed')),
-            ('stopped', _('Closed without hiring')),
-        ],
-    )
-    version = models.PositiveIntegerField()
-    start_on = models.DateField(null=True, blank=True)
-    reason = models.CharField(max_length=1000, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['conclusion', 'version'],
-                name='followup_matchconclusionevent_version_unique',
-            )
-        ]

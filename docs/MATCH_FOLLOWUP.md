@@ -56,9 +56,9 @@ soumissions ; une réponse reçue invalide un formulaire périmé.
 ## Stockage et vérification
 
 `MatchFollowup` est lié uniquement au matching ; la revue se retrouve par ce matching.
-Ses événements conservent dates, auteurs, messages et résultats du transport.
-`MatchConclusion` et ses événements distinguent déclaration employeur et
-confirmation conseiller. Les rôles sont également contrôlés dans PostgreSQL.
+Le [journal commun `MatchEvent`](MATCH_EVENTS.md) conserve dates, auteurs,
+messages et résultats du transport. `MatchConclusion` et les événements de
+conclusion distinguent déclaration employeur et confirmation conseiller. Les rôles sont également contrôlés dans PostgreSQL.
 L’historique détaillé est réservé aux conseillers, l’admin aux identifiants.
 
 Les migrations additives `0028` à `0033` conservent les plans et événements

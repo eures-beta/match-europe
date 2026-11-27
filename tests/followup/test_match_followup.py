@@ -12,13 +12,13 @@ from django.utils import timezone
 
 from eures_beta.followup import match_followup as followup, match_lifecycle
 from eures_beta.introductions import offer_review_services as answers, review_workflow
-from eures_beta.matching.models import CandidateOfferMatch
+from eures_beta.matching.models import CandidateOfferMatch, MatchEvent
 from eures_beta.introductions.models import (
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     EmployerCandidateReview,
 )
-from eures_beta.followup.models import MatchFollowup, MatchFollowupEvent
+from eures_beta.followup.models import MatchFollowup
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
 
@@ -148,9 +148,7 @@ class MatchFollowupTests(TestCase):
                 'candidate',
                 'Please reply',
             )
-        self.assertEqual(
-            MatchFollowupEvent.objects.filter(action='reminder').count(), 1
-        )
+        self.assertEqual(MatchEvent.objects.filter(action='reminder').count(), 1)
 
     def test_email_is_single_recipient_and_has_no_private_plan_or_tokens_in_history(
         self,
@@ -377,7 +375,7 @@ class MatchFollowupTests(TestCase):
         )
         response = self.client.post(self.url, data, follow=True)
         self.assertEqual(response.status_code, 200)
-        event = MatchFollowupEvent.objects.get(action='reminder')
+        event = MatchEvent.objects.get(action='reminder')
         self.assertEqual(event.delivery_status, 'disabled')
         self.assertContains(response, 'Pouvez-vous répondre ?')
 

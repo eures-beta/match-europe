@@ -9,7 +9,7 @@ Le dossier reste consultable après un accord comme après un refus de partage.
 
 `CandidateOfferReview` conserve l’état de traitement, le conseiller responsable,
 la version, la date de remise, l’empreinte et la synthèse courante.
-`CandidateOfferReviewEvent` garde chaque remise et sa synthèse figée, les prises
+`MatchEvent` (catégorie revue) garde chaque remise et sa synthèse figée, les prises
 en charge, libérations, reprises motivées et décisions, avec auteur/date/version.
 La relation inverse est `review.events` ; `action` indique le type d'événement.
 Les réserves et les conditions inconnues sont conservées. Il ne s’agit pas d’une

@@ -6,9 +6,9 @@ Les interfaces HTTP demeurent dans [www/](../eures_beta/www/).
 
 | Domaine | Modèles | Responsabilité |
 | --- | --- | --- |
-| [matching](../eures_beta/matching/) | CandidateOfferMatch, MatchEvaluation, MatchDecision | Calcul explicable et présélection du conseiller |
-| [introductions](../eures_beta/introductions/) | CandidateOfferReview, CandidateOfferReviewEvent, CandidateOfferReviewAnswer, CandidateProfileSharing, EmployerCandidateReview, CandidateOfferConversation, CandidateOfferConversationMessage | Questions, réponses, accords et conversation |
-| [followup](../eures_beta/followup/) | JobOfferSupport, CandidateSupport, MatchFollowup, MatchFollowupEvent, MatchConclusion, MatchConclusionEvent | Accompagnement, prochaine action, relance et issue vérifiée |
+| [matching](../eures_beta/matching/) | CandidateOfferMatch, MatchEvaluation, MatchDecision, MatchEvent | Calcul explicable, présélection et journal du matching |
+| [introductions](../eures_beta/introductions/) | CandidateOfferReview, CandidateOfferReviewAnswer, CandidateProfileSharing, EmployerCandidateReview, CandidateOfferConversation, CandidateOfferConversationMessage | Questions, réponses, accords et conversation |
+| [followup](../eures_beta/followup/) | JobOfferSupport, CandidateSupport, MatchFollowup, MatchConclusion | Accompagnement, prochaine action, relance et issue vérifiée |
 
 `introductions` utilise le rapprochement ; `followup` peut lire les deux domaines.
 Le calcul ne dépend pas des étapes suivantes. La synthèse du cycle de vie reste
@@ -48,7 +48,7 @@ make e2e-test
 
 Les tests peuplent les treize tables et contrôlent l’aller-retour, les OID des
 tables/séquences/déclencheurs/fonctions, les relations, JSON, permissions et journaux.
-Les tests de parcours couvrent aussi les refus d’accès. Le découpage ne fusionne
-pas les historiques et ne change pas les règles de conclusion du recrutement.
+Les tests de parcours couvrent aussi les refus d’accès. Le [journal commun](MATCH_EVENTS.md) rassemble ensuite les événements de revue,
+de suivi et de conclusion sans changer les règles du recrutement.
 
 [Architecture web](ARCHITECTURE_WEB.md) · [Noms du schéma](MODEL_NAMING.md) · [Documentation](.)

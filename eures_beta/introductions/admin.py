@@ -4,7 +4,6 @@ from .models import (
     CandidateOfferReview,
     CandidateOfferReviewAnswer,
     CandidateProfileSharing,
-    CandidateOfferReviewEvent,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     EmployerCandidateReview,
@@ -15,7 +14,6 @@ from .models import (
     CandidateOfferReview,
     CandidateOfferReviewAnswer,
     CandidateProfileSharing,
-    CandidateOfferReviewEvent,
 )
 class ConfirmationMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id', 'created_at')

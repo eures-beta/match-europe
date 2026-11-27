@@ -9412,3 +9412,11 @@ msgstr "Accompagnement et suivi"
 msgid "Introductions"
 msgstr "Mises en relation"
 
+
+
+msgid "Candidate review"
+msgstr "Examen candidat"
+
+msgid "Conclusion"
+msgstr "Conclusion"
+

@@ -18,3 +18,5 @@ Accompagnement des candidats et des offres, prochaines actions, relances et issu
 - [match_lifecycle.py](match_lifecycle.py) — Présente l’avancement du matching et enregistre son issue vérifiée.
 - [models.py](models.py) — Définit les modèles persistants de ce domaine et leurs contraintes.
 - [search_queue.py](search_queue.py) — Identifie les candidats et offres qui nécessitent une recherche externe.
+
+Les événements sont enregistrés dans le [journal commun du matching](../../docs/MATCH_EVENTS.md).

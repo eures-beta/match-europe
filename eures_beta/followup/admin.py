@@ -2,20 +2,18 @@ from django.contrib import admin
 from eures_beta.users.admin_base import MetadataOnlyAdmin
 from .models import (
     MatchConclusion,
-    MatchConclusionEvent,
     MatchFollowup,
-    MatchFollowupEvent,
     JobOfferSupport,
     CandidateSupport,
 )
 
 
-@admin.register(MatchConclusion, MatchConclusionEvent)
+@admin.register(MatchConclusion)
 class MatchConclusionMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id',)
 
 
-@admin.register(MatchFollowup, MatchFollowupEvent)
+@admin.register(MatchFollowup)
 class FollowupMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id',)
 

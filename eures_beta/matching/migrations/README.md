@@ -44,3 +44,6 @@ Historique versionné du schéma ; les migrations déplacent les tables en conse
 - [0036_complete_domain_extraction.py](0036_complete_domain_extraction.py) — Migration historique à conserver pour les mises à jour et retours arrière.
 - [__init__.py](__init__.py) — Déclare le paquet Python.
 - [_domain_transfer.py](_domain_transfer.py) — Fige le transfert des ContentTypes et le renommage des objets PostgreSQL.
+
+- [0037_unify_match_events.py](0037_unify_match_events.py) — Copie réversible des trois journaux vers MatchEvent et contrôle des auteurs.
+- [0038_complete_event_fusion.py](0038_complete_event_fusion.py) — Termine la suppression des trois tables sources.
