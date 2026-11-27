@@ -2,6 +2,7 @@
 
 from django.db import IntegrityError, transaction
 from django.test import TestCase, override_settings
+from django.urls import reverse
 
 from eures_beta.matching.models import MatchEvent
 from eures_beta.followup.models import MatchFollowup, MatchConclusion
@@ -97,3 +98,37 @@ class MatchEventTests(TestCase):
         event.refresh_from_db()
         self.assertEqual(event.match_id, self.match.pk)
         self.assertEqual(event.internal_note, 'Preserved adviser-only audit')
+
+    def test_candidate_http_page_never_reads_another_event_category(self):
+        self.event(
+            action='clarify',
+            public_message='Public clarification',
+            internal_note='PRIVATE_ADVISER_NOTE',
+        )
+        self.event(
+            'followup',
+            'reminder',
+            None,
+            public_message='PRIVATE_FOLLOWUP',
+            message='PRIVATE_REMINDER',
+        )
+        self.event(
+            'conclusion',
+            'stopped',
+            1,
+            public_message='PRIVATE_CONCLUSION',
+            reason='PRIVATE_REASON',
+        )
+        self.client.force_login(self.candidate)
+        page = self.client.get(
+            reverse('candidate_offer_confirmation', args=[self.review.pk]), follow=True
+        )
+        self.assertContains(page, 'Public clarification')
+        for private in (
+            'PRIVATE_ADVISER_NOTE',
+            'PRIVATE_FOLLOWUP',
+            'PRIVATE_REMINDER',
+            'PRIVATE_CONCLUSION',
+            'PRIVATE_REASON',
+        ):
+            self.assertNotContains(page, private)
