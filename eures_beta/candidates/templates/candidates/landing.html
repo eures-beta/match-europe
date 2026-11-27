@@ -156,9 +156,9 @@
           <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "candidate shell" %}</a>
           <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "candidate shell" %}</a>
           <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "candidate shell" %}</a>
-          {% if candidate_feedback_email %}
+          {% if team_contact_email %}
             {% translate "Match Europe – candidate feedback" context "candidate feedback" as feedback_subject %}
-            <a href="mailto:{{ candidate_feedback_email }}?subject={{ feedback_subject|urlencode }}">{% translate "Report a problem or a suggestion" context "candidate shell" %}</a>
+            <a href="mailto:{{ team_contact_email }}?subject={{ feedback_subject|urlencode }}">{% translate "Report a problem or a suggestion" context "candidate shell" %}</a>
           {% endif %}
         </nav>
       </div>

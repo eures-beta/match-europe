@@ -154,8 +154,10 @@ consultable dans Git et le [registre des décisions](DECISIONS.md).
 Les parcours métier sont permanents : leurs anciens interrupteurs sont retirés.
 `EMAIL_DELIVERY_ENABLED` est l’unique autorisation d’envoi, avec SMTP et origine
 HTTPS configurés. `ALBERT_SIMULATED=1` simule tous les usages Albert ; son défaut
-est `0`, sans simulation automatique en cas de panne. La variable de contact et
-le setting portent le même nom : `EMPLOYER_ADVISER_CONTACT_URL`.
+est `0`, sans simulation automatique en cas de panne. `TEAM_CONTACT_EMAIL` centralise
+le contact d’équipe (retours candidat/employeur et demandes de confidentialité).
+`EMPLOYER_ADVISER_CONTACT_URL` reste une destination facultative distincte pour
+les demandes d’invitation employeur ; vide, elle utilise l’adresse commune.
 
 Lors d’une mise à jour de configuration, remplacer les trois anciens paramètres
 de simulation par cette valeur unique et renommer le contact. Les anciens noms
