@@ -91,3 +91,24 @@ class PostgresConnectionPolicyTests(SimpleTestCase):
                     if sslmode:
                         options['sslmode'] = sslmode
                     self.assertEqual(json.loads(result.stdout), [60, True, options])
+
+    def test_connection_reuse_can_be_disabled_explicitly_without_environment_gate(self):
+        for environment in ('local', 'preview', 'production'):
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    '-c',
+                    'from config.settings import DATABASES; print(DATABASES["default"]["CONN_MAX_AGE"])',
+                ],
+                env={
+                    **os.environ,
+                    'DJANGO_SECRET_KEY': 'fictional-connection-age',
+                    'DJANGO_ENVIRONMENT': environment,
+                    'DEMO_ACCOUNTS_ENABLED': '0',
+                    'DB_CONN_MAX_AGE': '0',
+                },
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            self.assertEqual(result.stdout.strip(), '0')
