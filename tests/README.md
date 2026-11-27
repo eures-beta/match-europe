@@ -7,7 +7,8 @@ du rôle avec la destination reprise après connexion ;
 [employers/test_import_access.py](employers/test_import_access.py) couvre aussi
 la connexion par lien magique après une visite de l’import avec un autre rôle.
 
-Tous les tests Python et JavaScript sont réunis ici, par domaine. Ce dossier
+Les tests Python et JavaScript sont réunis ici, par domaine, sauf le
+[planning autonome](../eures_beta/planning/tests/) conservé dans son application. Ce dossier
 est un paquet Python, pas une application Django.
 
 - `candidates/`, `employers/`, `matching/`, `users/`, `invitations/`, `skills/`, `occupations/`,
