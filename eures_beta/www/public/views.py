@@ -41,6 +41,25 @@ def journal(request):
     return _public_page(request, 'journal.html', {'entries': ENTRIES})
 
 
+@never_cache
+@require_safe
+def design_system(request):
+    """Public component reference, linked from the shared site footer."""
+    from eures_beta import design_system as tokens
+
+    return _public_page(
+        request,
+        'design_system.html',
+        {
+            'role_colours': tokens.colour_tokens('--me-color-'),
+            'palette_colours': tokens.colour_tokens('--me-palette-'),
+            'font_sizes': tokens.scale_tokens('--me-font-size-'),
+            'spaces': tokens.scale_tokens('--me-space-'),
+            'radii': tokens.scale_tokens('--me-radius-'),
+        },
+    )
+
+
 def _public_page(request, template, context=None):
     language = request.GET.get('lang', request.LANGUAGE_CODE)
     if language not in ('fr', 'en', 'de'):

@@ -1,0 +1,8 @@
+{% load i18n %}
+{% if offer.search_started_at %}
+  <span class="ds-status ds-status-success">{% trans "Candidate search started" %}</span>
+{% elif offer.search_write_blocked %}
+  <span class="ds-status ds-status-warning">{% trans "Start to be checked" %}</span>
+{% else %}
+  <span class="ds-status ds-status-info">{% trans "Editable" %}</span>
+{% endif %}

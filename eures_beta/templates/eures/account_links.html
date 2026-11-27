@@ -1,0 +1,37 @@
+{% load i18n %}
+{% comment %}
+  Account links of the header. "buttons" renders the desktop buttons, "items" the list items of
+  the phone "Account" menu: the same links and order in both.
+{% endcomment %}
+{% with current=request.resolver_match.url_name %}
+  {% if user.is_authenticated %}
+    {% if items %}<li>{% endif %}
+    <a {% if buttons %}class="btn btn-outline-primary btn-sm"{% endif %}
+       {% if current == 'dashboard' %}aria-current="page"{% endif %}
+       href="{% url 'dashboard' %}?lang={{ page_language }}">{% translate "Dashboard" context "account navigation" %}</a>
+    {% if items %}
+      </li>
+      <li>
+    {% endif %}
+    <a {% if buttons %}class="btn btn-outline-primary btn-sm"{% endif %}
+       {% if current == 'account' %}aria-current="page"{% endif %}
+       href="{% url 'account' %}?lang={{ page_language }}">{% translate "My account" context "account navigation" %}</a>
+    {% if items %}</li>{% endif %}
+    {% if user.is_staff %}
+      {% if items %}<li>{% endif %}
+      <a {% if buttons %}class="btn btn-outline-primary btn-sm"{% endif %}
+         href="{% url 'admin:index' %}">{% translate "Admin" context "account navigation" %}</a>
+      {% if items %}</li>{% endif %}
+    {% endif %}
+    {% if items %}<li>{% endif %}
+    <form action="{% url 'magic_logout' %}" method="post">
+      {% csrf_token %}
+      <button class="{% if buttons %}btn btn-link btn-sm {% endif %}ds-logout"
+              type="submit">{% translate "Sign out" context "account navigation" %}</button>
+    </form>
+    {% if items %}</li>{% endif %}
+  {% elif buttons %}
+    <a class="btn btn-outline-primary btn-sm"
+       href="{% url 'magic_login' %}?lang={{ page_language }}">{% translate "Sign in" %}</a>
+  {% endif %}
+{% endwith %}

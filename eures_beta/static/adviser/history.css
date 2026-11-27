@@ -100,10 +100,10 @@
   margin-top: 1.5rem;
   padding: 0;
   overflow: hidden;
-  color: var(--text);
-  border: 1px solid var(--line);
+  color: var(--me-color-text);
+  border: 1px solid var(--me-color-border);
   border-radius: 12px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--me-shadow-card);
 }
 .offer-sheet-header {
   display: flex;
@@ -112,14 +112,14 @@
   flex-wrap: wrap;
   gap: 1.25rem;
   padding: 1.75rem;
-  background: var(--ft-soft);
-  border-bottom: 1px solid var(--line);
+  background: var(--me-color-surface-subtle);
+  border-bottom: 1px solid var(--me-color-border);
 }
 .offer-sheet-company {
   margin: 0 0 0.5rem;
   font-size: 0.875rem;
   font-weight: 700;
-  color: var(--muted);
+  color: var(--me-color-text-muted);
 }
 .offer-sheet-header h3 {
   margin: 0;
@@ -138,9 +138,9 @@
 }
 .offer-sheet-status {
   padding: 0.3rem 0.65rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--me-color-border);
   border-radius: 8px;
-  background: var(--panel-solid);
+  background: var(--me-color-surface);
   font-weight: 700;
 }
 .offer-sheet-close {
@@ -148,17 +148,17 @@
   align-items: center;
   min-height: 2.75rem;
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--line);
+  border: 1px solid var(--me-color-border);
   border-radius: 8px;
-  background: var(--panel-solid);
-  color: var(--accent);
+  background: var(--me-color-surface);
+  color: var(--me-color-link);
   font-size: 0.875rem;
   font-weight: 600;
   text-underline-offset: 0.2em;
 }
 .offer-sheet-close:hover {
-  color: var(--accent-strong);
-  border-color: var(--accent-strong);
+  color: var(--me-color-link-hover);
+  border-color: var(--me-color-link-hover);
 }
 .offer-sheet-sections {
   padding: 0 1.75rem;
@@ -167,14 +167,14 @@
   padding: 1.5rem 0;
 }
 .offer-sheet-section + .offer-sheet-section {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--me-color-border);
 }
 .offer-sheet-section h4,
 .offer-sheet-section summary {
   margin: 0 0 1.25rem;
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--me-color-text);
 }
 .offer-detail-grid {
   display: grid;
@@ -186,7 +186,7 @@
   min-width: 0;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  background: var(--ft-soft);
+  background: var(--me-color-surface-subtle);
   overflow-wrap: anywhere;
 }
 .offer-detail-field-wide {
@@ -194,7 +194,7 @@
 }
 .offer-detail-grid dt {
   margin: 0 0 0.4rem;
-  color: var(--muted);
+  color: var(--me-color-text-muted);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
@@ -210,7 +210,7 @@
   padding-bottom: 0.4rem;
 }
 .offer-detail-field-empty dd {
-  color: var(--muted);
+  color: var(--me-color-text-muted);
   font-size: 0.875rem;
 }
 .offer-sheet-tracking summary {

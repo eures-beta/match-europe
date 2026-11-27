@@ -93,7 +93,7 @@ class CandidateLandingTests(SimpleTestCase):
                 )
                 self.assertContains(response, f'<html lang="{language}">')
                 self.assertContains(response, skip)
-                self.assertContains(response, f'aria-label="{navigation}"')
+                self.assertContains(response, f"aria-label='{navigation}'")
                 self.assertContains(
                     response, f'href="/accounts/login/?lang={language}"'
                 )

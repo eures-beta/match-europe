@@ -4,7 +4,7 @@
   <section class="account-panel" aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
     <nav aria-label="Tableau de bord conseiller">
-      <a class="primary-action"
+      <a class="btn btn-primary"
          href="{% url 'adviser_invitations' %}?lang={{ page_language }}">Inviter</a>
       <a href="{% url 'dashboard' %}?lang={{ page_language }}&amp;tab=history">Données et historique</a>
     </nav>

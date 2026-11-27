@@ -613,6 +613,8 @@ class LocalMatchingTests(TestCase):
         self.assertContains(response, 'Points à confirmer')
         self.assertContains(response, 'Points forts')
         self.assertContains(response, 'Incompatibilités explicites')
-        self.assertNotContains(response, '<details')
+        # The header menus (language, account) are details elements; the page content has none.
+        content = response.content.decode().split('id="main-content"', 1)[1]
+        self.assertNotIn('<details', content)
         self.assertTrue(response.context['result']['unknowns'])
         self.assertTrue(response.context['result']['strengths'])

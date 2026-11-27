@@ -29,7 +29,8 @@ class AccountPageTests(TestCase):
                 reverse('account'),
                 {'user': self.other.pk if user == self.user else self.user.pk},
             )
-            self.assertTemplateUsed(response, 'public_base.html')
+            self.assertTemplateUsed(response, 'eures_base.html')
+            self.assertTemplateNotUsed(response, 'public_base.html')
             self.assertContains(response, user.email)
             self.assertNotContains(
                 response, self.other.email if user == self.user else self.user.email
@@ -52,6 +53,7 @@ class AccountPageTests(TestCase):
         page = self.client.get(url)
         for label in ('Prénom', 'Nom', 'Structure', 'Ces informations seront reprises'):
             self.assertContains(page, label)
+        self.assertContains(page, 'class="form-control"', count=3)
         response = self.client.post(
             url,
             {

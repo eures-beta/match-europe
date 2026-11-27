@@ -1,7 +1,8 @@
 {% extends "users/dashboard.html" %}
 {% load i18n %}
 {% block public_content %}
-  <section class="account-panel" aria-labelledby="dashboard-title">
+  <section class="account-panel account-panel-wide"
+           aria-labelledby="dashboard-title">
     <h1 id="dashboard-title">{% translate "Dashboard" context "account navigation" %}</h1>
     {% include "matching/shared_list.html" with shared_language=page_language %}
     {% if employer_consents %}
@@ -33,7 +34,7 @@
         <li>{% translate "Prepare your questions for candidates and save your offer." context "employer dashboard" %}</li>
       </ol>
     {% endif %}
-    <div class="landing-actions">{% include "includes/employer_import_button.html" %}</div>
+    <div class="ds-actions">{% include "includes/employer_import_button.html" %}</div>
     <div class="account-table-scroll">
       <table>
         <caption>{% translate "Offers you can view" context "employer dashboard" %}</caption>

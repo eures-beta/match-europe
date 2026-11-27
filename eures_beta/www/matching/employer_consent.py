@@ -20,6 +20,7 @@ from eures_beta.matching.models import (
     EmployerCandidateReview,
 )
 from eures_beta.www.accounts.views import selected_language
+from eures_beta.www.design_system import bootstrap_form
 from eures_beta.www.matching.offer_reviews import display_rows
 
 
@@ -27,7 +28,7 @@ class EmployerReply(forms.Form):
     contact = forms.ChoiceField(
         label=_('Have you already been in contact with this person?'),
         choices=[
-            ('', '—'),
+            ('', _('Choose an answer')),
             ('no', _('No')),
             ('previous', _('Yes, we were in contact before')),
             ('ongoing', _('Yes, a recruitment process is already underway')),
@@ -35,7 +36,11 @@ class EmployerReply(forms.Form):
     )
     interest = forms.ChoiceField(
         label=_('Would you like to be introduced?'),
-        choices=[('', '—'), ('yes', _('Yes, introduce us')), ('no', _('No'))],
+        choices=[
+            ('', _('Choose an answer')),
+            ('yes', _('Yes, introduce us')),
+            ('no', _('No')),
+        ],
     )
 
     details = forms.CharField(
@@ -56,7 +61,7 @@ class EmployerReply(forms.Form):
             self.fields[f'condition_{index}'] = forms.ChoiceField(
                 label=employer_consent.question_text(question),
                 choices=[
-                    ('', '—'),
+                    ('', _('Choose an answer')),
                     ('accepted', _('This works for the position')),
                     ('clarify', _('I need to clarify or change this condition')),
                     ('blocked', _('This is a requirement for the position')),
@@ -244,7 +249,7 @@ def respond(request, pk):
                 'page_language': language,
                 'review': review,
                 'consent': consent,
-                'form': form if pending else None,
+                'form': bootstrap_form(form) if pending else None,
                 'ready': ready,
                 'conditions': (
                     zip(

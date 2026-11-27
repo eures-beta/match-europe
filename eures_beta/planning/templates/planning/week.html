@@ -14,13 +14,13 @@
     <nav class="planning-navigation"
          aria-label="{% translate 'Schedule week' %}">
       {% if previous_week %}
-        <a class="ghost-action"
+        <a class="btn btn-outline-primary btn-sm"
            href="?lang={{ dashboard_language }}&amp;week={{ previous_week|date:'Y-m-d' }}">{% translate "Previous week" %}</a>
       {% endif %}
-      <a class="ghost-action"
+      <a class="btn btn-outline-primary btn-sm"
          href="{% url 'staff_planning' %}?lang={{ dashboard_language }}">{% translate "Current week" %}</a>
       {% if next_week %}
-        <a class="ghost-action"
+        <a class="btn btn-outline-primary btn-sm"
            href="?lang={{ dashboard_language }}&amp;week={{ next_week|date:'Y-m-d' }}">{% translate "Next week" %}</a>
       {% endif %}
     </nav>

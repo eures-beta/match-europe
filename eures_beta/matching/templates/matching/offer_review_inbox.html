@@ -1,35 +1,48 @@
-{% extends "public_base.html" %}
+{% extends "eures_base.html" %}
 {% load i18n static %}
-{% block page_title %}{% translate "Offers to confirm" %} — Match Europe{% endblock %}
-{% block extra_head %}
+{% block title %}{% translate "Offers to confirm" %} — Match Europe{% endblock %}
+{% block head %}
   <link rel="stylesheet" href="{% static 'matching/offer_reviews.css' %}">
   <link rel="stylesheet" href="{% static 'matching/candidate-inbox.css' %}">
 {% endblock %}
-{% block public_content %}
+{% block content %}
   <div class="confirmation-flow candidate-offers">
-    {% include "matching/shared_list.html" with shared_language=page_language %}
-    <section class="surface-card home-section">
+    <header class="offer-inbox-header">
       <h1>{% translate "Offers to confirm" %}</h1>
       <p>{% translate "Confirm the conditions for each offer. This does not change your general profile or send it to an employer." %}</p>
-      <ul class="offer-cards">
-        {% for entry in entries %}
-          <li class="offer-card">
-            <div class="offer-card-heading">
-              <h2>{{ entry.review.match.offer.data.title }}</h2>
-              <span class="offer-status">{{ entry.status }}</span>
-            </div>
-            {% if entry.is_new %}
-              <p class="offer-new">{% translate "A new offer to review" %}</p>
-            {% endif %}
-            <p class="offer-location">{{ entry.review.match.offer.data.companyName }} · {{ entry.review.match.offer.data.city }}</p>
-            <a class="offer-action"
-               href="{% url entry.target entry.review.pk %}?lang={{ page_language }}">{{ entry.action }}</a>
-          </li>
-        {% empty %}
-          <li>{% translate "No offer is awaiting your confirmation." %}</li>
-        {% endfor %}
-      </ul>
-      <p><a href="{% url 'candidate_profile' %}?lang={{ page_language }}">{% translate "My candidate profile" %}</a></p>
-    </section>
+    </header>
+    {% include "matching/shared_list.html" with shared_language=page_language %}
+    {% for group in groups %}
+      <section class="ds-row-group" aria-labelledby="offer-group-{{ group.key }}">
+        <h2 class="ds-group-title" id="offer-group-{{ group.key }}">
+          {{ group.label }} <span class="ds-count">{{ group.entries|length }}</span>
+        </h2>
+        <ul class="ds-row-list">
+          {% for entry in group.entries %}
+            <li>
+              <a class="ds-row"
+                 href="{% url entry.target entry.review.pk %}?lang={{ page_language }}">
+                <span class="ds-row-main">
+                  <span class="ds-row-title">{{ entry.review.match.offer.data.title }}</span>
+                  <span class="ds-row-sub">{{ entry.review.match.offer.data.companyName }} · {{ entry.review.match.offer.data.city }}</span>
+                  <span class="ds-row-meta">
+                    <span class="ds-pill{% if group.key == 'todo' %} ds-pill-warning{% elif group.key == 'waiting' %} ds-pill-info{% endif %}">{{ entry.status }}</span>
+                    {% if entry.is_new %}
+                      <span class="offer-new">{% translate "A new offer to review" %}</span>
+                    {% endif %}
+                  </span>
+                </span>
+                <span class="ds-row-action">{{ entry.action }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% empty %}
+      <p class="ds-empty">{% translate "No offer is awaiting your confirmation." %}</p>
+    {% endfor %}
+    <p class="offer-inbox-footer">
+      <a href="{% url 'candidate_profile' %}?lang={{ page_language }}">{% translate "My candidate profile" %}</a>
+    </p>
   </div>
 {% endblock %}

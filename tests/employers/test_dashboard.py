@@ -124,13 +124,17 @@ class EmployerDashboardTests(TestCase):
             ):
                 with self.subTest(populated=populated, language=language):
                     url = f'/employer/import/?lang={language}'
-                    button = f'<a class="primary-action" href="{url}">{label}</a>'
+                    button = f'<a class="btn btn-primary" href="{url}">{label}</a>'
+                    # The public page is built with the design system: same link, Bootstrap button.
+                    public_button = (
+                        f'<a class="btn btn-primary btn-lg" href="{url}">{label}</a>'
+                    )
                     dashboard = self.client.get(
                         reverse('dashboard'), {'lang': language}
                     )
                     public = self.client.get(f'/employer/?lang={language}', secure=True)
                     self.assertContains(dashboard, button, html=True)
-                    self.assertContains(public, button, html=True)
+                    self.assertContains(public, public_button, html=True)
                     self.assertEqual(self.client.get(url, secure=True).status_code, 200)
                     self.assertNotContains(
                         dashboard, 'Creating and editing offers is not available'
@@ -140,5 +144,5 @@ class EmployerDashboardTests(TestCase):
         )
         self.client.force_login(adviser)
         self.assertNotContains(
-            self.client.get(reverse('dashboard')), 'class="landing-actions"'
+            self.client.get(reverse('dashboard')), 'class="ds-actions"'
         )

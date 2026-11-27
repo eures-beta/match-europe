@@ -1,6 +1,8 @@
 # Interface public
 
 Accueil et pages publiques, manifeste PWA, service worker et redirections des anciennes adresses.
+Le catalogue `/design-system/` est une page publique de composants en lecture seule,
+sans autorisation staff. Les anciennes pages factices ont été supprimées.
 
 [Retour à la couche web](../) · [Architecture](../../../docs/ARCHITECTURE_WEB.md)
 

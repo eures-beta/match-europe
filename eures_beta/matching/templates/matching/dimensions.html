@@ -1,11 +1,18 @@
 {% load i18n %}
-<div class="result-grid">
+{% comment %}One bar per scoring dimension: points established out of its weight.{% endcomment %}
+<ul class="result-grid">
   {% for dimension in result.dimensions %}
-    <div class="result-dimension">
+    <li class="result-dimension">
+      <span class="result-dimension-label">{{ dimension.label }}</span>
+      <progress class="result-dimension-bar"
+                value="{{ dimension.established|stringformat:'s' }}"
+                max="{{ dimension.weight }}"
+                aria-hidden="true"></progress>
       <strong>{{ dimension.established|floatformat:"-2" }} / {{ dimension.weight }}</strong>
-      <span>{{ dimension.label }}</span>
-      <small>{% translate "Requirements evaluated" %}: {{ dimension.evaluated }} / {{ dimension.applicable }}</small>
-      {% if dimension.unresolved %}<small>{% translate "Unresolved point budget" %}: {{ dimension.unresolved|floatformat:"-2" }}</small>{% endif %}
-    </div>
+      <small>
+        {% translate "Requirements evaluated" %} : {{ dimension.evaluated }} / {{ dimension.applicable }}
+        {% if dimension.unresolved %}· {% translate "Unresolved point budget" %} : {{ dimension.unresolved|floatformat:"-2" }}{% endif %}
+      </small>
+    </li>
   {% endfor %}
-</div>
+</ul>

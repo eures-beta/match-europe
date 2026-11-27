@@ -7,6 +7,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: eures_beta/templates/includes/useful_links.html
+msgid "Design system"
+msgstr "Système de design"
+
+#: eures_beta/templates/includes/useful_links.html
+msgid "Source code on GitHub"
+msgstr "Code source sur GitHub"
+
 #: eures_beta/templates/users/adviser_history.html:36
 #, python-format
 msgid "%(counter)s result"
@@ -9344,6 +9352,7 @@ msgstr "Équipe"
 msgid "Staff %(number)s"
 msgstr "Membre %(number)s"
 
+
 msgid "Page not found"
 msgstr "Page introuvable"
 
@@ -9355,3 +9364,39 @@ msgstr "Accès refusé"
 
 msgid "This page is unavailable for this account."
 msgstr "Cette page est indisponible pour ce compte."
+
+msgctxt "account navigation"
+msgid "Account"
+msgstr "Compte"
+
+
+
+msgid "To do"
+msgstr "À faire"
+
+msgid "Awaiting an adviser"
+msgstr "En attente du conseiller"
+
+msgid "Finished"
+msgstr "Terminées"
+
+msgid "Permission"
+msgstr "Accord"
+
+msgid "Confirmed"
+msgstr "Confirmé"
+
+msgid "An adviser needs more information from you."
+msgstr "Un conseiller a besoin d’une précision de votre part."
+
+msgid "Reply to the adviser"
+msgstr "Répondre au conseiller"
+
+msgid "A blocked pair cannot be retained for review."
+msgstr "Une paire bloquée ne peut pas être retenue pour examen."
+
+
+
+msgid "Conditions"
+msgstr "Conditions"
+

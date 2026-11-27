@@ -13,6 +13,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.views import redirect_to_login
 from eures_beta.www.accounts.views import selected_language
+from eures_beta.www.design_system import bootstrap_form
 from eures_beta.candidates.forms import FORMS, SCHEDULE_DAYS, SCHEDULE_PERIODS
 from eures_beta.candidates.occupation_choices import resolve_reference
 from eures_beta.skills.skills_pilot import catalogue
@@ -405,11 +406,13 @@ def display_rows(rows, language):
 def inbox(request):
     from eures_beta.www.matching.conversations import listed
 
+    entries = candidate_entries(request.user)
     return render(
         request,
         'matching/offer_review_inbox.html',
         dict(
-            entries=candidate_entries(request.user),
+            entries=entries,
+            groups=inbox_groups(entries),
             albert_available=dialogue_services.enabled(),
             shared_conversations=listed(request.user),
             page_language=selected_language(request),
@@ -449,21 +452,49 @@ def candidate_entries(user):
             action = _('Review this offer with Albert')
         else:
             action = _('Continue with Albert')
+        submitted = review_workflow.current(review, state)
         entries.append(
             dict(
                 review=review,
                 progress=progress,
                 status=(
                     review.get_workflow_state_display()
-                    if review_workflow.current(review, state)
+                    if submitted
                     else labels[progress]
                 ),
                 is_new=progress == 'not_started',
                 target=target,
                 action=action,
+                group=inbox_group(review, progress, submitted),
             )
         )
     return entries
+
+
+INBOX_GROUPS = (
+    ('todo', _('To do')),
+    ('waiting', _('Awaiting an adviser')),
+    ('done', _('Finished')),
+)
+
+
+def inbox_group(review, progress, submitted):
+    """Where the offer sits for the candidate: something to do, waiting, or finished."""
+    if progress == 'declined' or (
+        submitted and review.workflow_state in ('validated', 'refused')
+    ):
+        return 'done'
+    if submitted and review.workflow_state in ('ready', 'claimed'):
+        return 'waiting'
+    return 'todo'
+
+
+def inbox_groups(entries):
+    return [
+        dict(key=key, label=label, entries=[e for e in entries if e['group'] == key])
+        for key, label in INBOX_GROUPS
+        if any(e['group'] == key for e in entries)
+    ]
 
 
 @entry_candidate
@@ -550,9 +581,12 @@ def dialogue(request, pk):
             state=state,
             rows=rows,
             current=current,
-            form=form,
-            agreement_form=agreement_form,
+            form=bootstrap_form(form),
+            agreement_form=bootstrap_form(agreement_form),
             error_forms=(form, agreement_form),
+            confirmed_count=sum(
+                1 for row in rows if row['answer'] and row['answer'].value == 'yes'
+            ),
             simulated_dialogue=dialogue_services.enabled(),
             live_dialogue=dialogue_services.live(),
             page_language=language,

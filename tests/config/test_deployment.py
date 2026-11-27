@@ -16,7 +16,7 @@ class CollectedStaticTests(TestCase):
                 home = client.get("/")
                 self.assertEqual(home.status_code, 200)
                 css_path = re.search(
-                    r'href="([^"]+employer/site.css)"', home.content.decode()
+                    r'href="([^"]+design-system/components.css)"', home.content.decode()
                 )[1]
                 for path in (
                     css_path,

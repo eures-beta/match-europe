@@ -1,168 +1,84 @@
-{% load i18n static %}
-{% get_current_language as page_language %}
-<!DOCTYPE html>
-<html lang="{{ page_language }}">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% include "includes/pwa_head.html" %}
-    <title>{% block page_title %}Match Europe — {% translate "Candidate journey" context "candidate landing" %}{% endblock %}</title>
-    <link rel="stylesheet" href="/static/employer/site.css">
-    <link rel="stylesheet" href="{% static 'public/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'public/header-actions.css' %}">
-    <link rel="stylesheet" href="/static/candidate/candidate.css">
-    <link rel="stylesheet" href="/static/public-brand.css">
-  </head>
-  <body>
-    <a class="skip-content" href="#main-content">{% translate "Skip to content" context "candidate shell" %}</a>
-    <header class="site-header">
-      <div class="shell">
-        {% include "includes/public_brand.html" %}
-        <nav class="nav"
-             aria-label="{% translate "Main navigation" context "candidate shell" %}">
-          <div class="nav-links">
-            <a class="nav-pill"
-               href="{% url 'home' %}?lang={{ page_language }}">{% translate "Home" context "candidate shell" %}</a>
-            <a class="nav-pill is-active"
-               aria-current="page"
-               href="/candidate/?lang={{ page_language }}">{% translate "Candidate" context "candidate shell" %}</a>
-            <a class="nav-pill"
-               href="{% url 'employer_landing' %}?lang={{ page_language }}">{% translate "Employer" context "candidate shell" %}</a>
-            <a class="nav-pill"
-               href="{% url 'statistics' %}?lang={{ page_language }}">{% translate "Stats" context "candidate shell" %}</a>
-          </div>
-          <div class="nav-links nav-links-secondary">
-            <a class="nav-pill"
-               href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "candidate shell" %}</a>
-            <a class="nav-pill"
-               href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "candidate shell" %}</a>
-          </div>
-          <div class="employer-header-actions">
-            <div class="lang-switch"
-                 aria-label="{% translate "Language" context "candidate shell" %}">
-              {% if step == 1 %}
-                <button class="lang-link"
-                        type="submit"
-                        form="candidate-project"
-                        name="target_language"
-                        value="fr"
-                        lang="fr"
-                        aria-label="Français">FR</button>
-                <button class="lang-link"
-                        type="submit"
-                        form="candidate-project"
-                        name="target_language"
-                        value="en"
-                        lang="en"
-                        aria-label="English">EN</button>
-                <button class="lang-link"
-                        type="submit"
-                        form="candidate-project"
-                        name="target_language"
-                        value="de"
-                        lang="de"
-                        aria-label="Deutsch">DE</button>
-              {% else %}
-                <a class="lang-link{% if page_language == 'fr' %} is-active{% endif %}"
-                   href="{{ request.path }}?lang=fr{% if step %}&amp;step={{ step }}{% endif %}">FR</a>
-                <a class="lang-link{% if page_language == 'en' %} is-active{% endif %}"
-                   href="{{ request.path }}?lang=en{% if step %}&amp;step={{ step }}{% endif %}">EN</a>
-                <a class="lang-link{% if page_language == 'de' %} is-active{% endif %}"
-                   href="{{ request.path }}?lang=de{% if step %}&amp;step={{ step }}{% endif %}">DE</a>
-              {% endif %}
-            </div>
-            {% include "includes/account_link.html" %}
-          </div>
-        </nav>
-      </div>
-    </header>
-    {% block candidate_content %}
-      <main id="main-content" class="section candidate-landing-page">
-        <div class="shell candidate-landing-layout">
-          <article class="candidate-letter">
-            <div class="employer-partner-logos"
-                 role="group"
-                 aria-label="{% translate "Partners" context "candidate shell" %}">
-              <div class="employer-partner-logo employer-partner-eures">
-                <img src="/static/employer/assets/eures-ela.jpg"
-                     alt="EURES / European Labour Authority"
-                     width="5956"
-                     height="2372">
-              </div>
-              <div class="employer-partner-logo employer-partner-ft">
-                <img src="/static/employer/assets/france-travail.svg"
-                     alt="République française — France Travail"
-                     width="893"
-                     height="296">
-              </div>
-              <div class="employer-partner-logo employer-partner-adem">
-                <img src="/static/employer/assets/adem.png"
-                     alt="ADEM — Agence pour le développement de l’emploi"
-                     width="591"
-                     height="591">
-              </div>
-              <div class="employer-partner-logo employer-partner-forem">
-                <img src="/static/employer/assets/forem.png"
-                     alt="Le Forem"
-                     width="795"
-                     height="229">
-              </div>
-            </div>
-            <div class="candidate-letter-head">
-              <div class="kicker">{% translate "Candidate journey" context "candidate landing" %}</div>
-              <h1>{% translate "Work in another country" context "public positioning" %}</h1>
-              <p class="lede">{% translate "Describe your career plans. Match Europe identifies opportunities that match your profile." context "public positioning" %}</p>
-            </div>
-            <div>
-              <div class="entry-choices">
-                <a class="import-choice"
-                   href="/candidate/prepare/?lang={{ page_language }}">
-                  <span class="choice-symbol" aria-hidden="true">→</span>
-                  <span><strong>{% translate "Describe my career plans for the first time" context "public positioning" %}</strong><span class="choice-description">{% translate "Never completed the questionnaire? Start here, without an account. Four steps to describe your project and review your answers." context "public positioning" %}</span></span>
-                  <span class="choice-arrow" aria-hidden="true">→</span>
-                </a>
-                <a class="import-choice"
-                   href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'magic_login' %}{% endif %}?lang={{ page_language }}">
-                  <span class="choice-symbol" aria-hidden="true">↪</span>
-                  <span><strong>{% translate "Retrieve or edit my profile" %}</strong><span class="choice-description">{% translate "Already completed the questionnaire? Sign in using your email." %}</span></span>
-                  <span class="choice-arrow" aria-hidden="true">→</span>
-                </a>
-              </div>
-              <p>{% translate "Start without an account. Your email is requested only at the end to save your answers securely." %}</p>
-            </div>
-            <p id="candidate-status"
-               class="candidate-highlight"
-               role="status"
-               hidden
-               data-selection-notice="{% translate "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted." context "candidate landing" %}"
-               data-account-notice="{% translate "Candidate sign-in will be prepared in a later step." context "candidate landing" %}">
-            </p>
-            <p><strong>{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</strong></p>
-            <p class="candidate-highlight">{% translate "The service is under development. Matching and introductions are not yet available." context "public positioning" %}</p>
-          </article>
-          <aside class="candidate-sidebar">
-            <article class="surface-card candidate-info-card">
-              <h2>{% translate "You stay in control" context "candidate landing" %}</h2>
-              <p>{% translate "You can correct your information before confirming it. An introduction requires your agreement and the employer’s." context "candidate landing" %}</p>
-            </article>
-          </aside>
+{% extends "eures_base.html" %}
+{% load i18n %}
+{% block footer_extra %}
+  {% if team_contact_email %}
+    {% translate "Match Europe – candidate feedback" context "candidate feedback" as feedback_subject %}
+    <a href="mailto:{{ team_contact_email }}?subject={{ feedback_subject|urlencode }}">{% translate "Report a problem or a suggestion" context "candidate shell" %}</a>
+  {% endif %}
+{% endblock %}
+{% block title %}{% block page_title %}Match Europe — {% translate "Candidate journey" context "candidate landing" %}{% endblock %}{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="/static/candidate/candidate.css">
+{% endblock %}
+{% block language_options %}
+  {% get_available_languages as available_languages %}
+  {% get_language_info_list for available_languages as candidate_languages %}
+  {% for language in candidate_languages %}
+    <li>
+      {% if step == 1 %}
+        {# Step 1 submits the form so that the answers typed so far are kept. #}
+        <button type="submit"
+                form="candidate-project"
+                name="target_language"
+                value="{{ language.code }}"
+                {% if language.code == page_language %}aria-current="true"{% endif %}
+                lang="{{ language.code }}">{{ language.name_local|capfirst }}</button>
+      {% else %}
+        <a href="{{ request.path }}?lang={{ language.code }}{% if step %}&amp;step={{ step }}{% endif %}"
+           {% if language.code == page_language %}aria-current="true"{% endif %}
+           lang="{{ language.code }}"
+           hreflang="{{ language.code }}">{{ language.name_local|capfirst }}</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+{% endblock %}
+{% block content %}
+  {% block candidate_content %}
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <p class="ds-eyebrow">{% translate "Candidate journey" context "candidate landing" %}</p>
+        <h1>{% translate "Work in another country" context "public positioning" %}</h1>
+        <p class="lead">
+          {% translate "Describe your career plans. Match Europe identifies opportunities that match your profile." context "public positioning" %}
+        </p>
+        <div class="entry-choices">
+          <a class="import-choice"
+             href="/candidate/prepare/?lang={{ page_language }}">
+            <span class="choice-symbol" aria-hidden="true">→</span>
+            <span><strong>{% translate "Describe my career plans for the first time" context "public positioning" %}</strong><span class="choice-description">{% translate "Never completed the questionnaire? Start here, without an account. Four steps to describe your project and review your answers." context "public positioning" %}</span></span>
+            <span class="choice-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="import-choice"
+             href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'magic_login' %}{% endif %}?lang={{ page_language }}">
+            <span class="choice-symbol" aria-hidden="true">↪</span>
+            <span><strong>{% translate "Retrieve or edit my profile" %}</strong><span class="choice-description">{% translate "Already completed the questionnaire? Sign in using your email." %}</span></span>
+            <span class="choice-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
-      </main>
-    {% endblock %}
-    <footer class="employer-page-footer">
-      <div class="shell employer-page-footer-inner">
-        <p>{% translate "Match Europe · A France Travail / EURES / ADEM / Le Forem / ELA experiment" context "candidate shell" %}</p>
-        <nav aria-label="{% translate "Useful links" context "candidate shell" %}">
-          <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "candidate shell" %}</a>
-          <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "candidate shell" %}</a>
-          <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "candidate shell" %}</a>
-          {% if team_contact_email %}
-            {% translate "Match Europe – candidate feedback" context "candidate feedback" as feedback_subject %}
-            <a href="mailto:{{ team_contact_email }}?subject={{ feedback_subject|urlencode }}">{% translate "Report a problem or a suggestion" context "candidate shell" %}</a>
-          {% endif %}
-        </nav>
+        <p class="ds-meta mt-2">
+          {% translate "Start without an account. Your email is requested only at the end to save your answers securely." %}
+        </p>
+        <p id="candidate-status"
+           class="alert alert-info"
+           role="status"
+           hidden
+           data-selection-notice="{% translate "Choice selected. The next steps of the candidate journey are still being prepared; no data is transmitted." context "candidate landing" %}"
+           data-account-notice="{% translate "Candidate sign-in will be prepared in a later step." context "candidate landing" %}">
+        </p>
+        <p class="h5 mt-4">{% translate "Relevant matches. Introductions by mutual consent." context "public positioning" %}</p>
+        <div class="alert alert-warning" role="note">
+          {% translate "The service is under development. Matching and introductions are not yet available." context "public positioning" %}
+        </div>
       </div>
-    </footer>
-    <script src="/static/candidate/candidate.js" defer></script>
-  </body>
-</html>
+      <div class="col-lg-4">
+        <aside class="ds-card ds-card-brand" aria-labelledby="candidate-control">
+          <h2 class="h5" id="candidate-control">{% translate "You stay in control" context "candidate landing" %}</h2>
+          <p class="mb-0">
+            {% translate "You can correct your information before confirming it. An introduction requires your agreement and the employer’s." context "candidate landing" %}
+          </p>
+        </aside>
+      </div>
+    </div>
+  {% endblock %}
+  <script src="/static/candidate/candidate.js" defer></script>
+{% endblock %}

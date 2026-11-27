@@ -1,11 +1,11 @@
-{% extends "public_base.html" %}
+{% extends "eures_base.html" %}
 {% load i18n static %}
-{% block page_title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
-{% block public_content %}
+{% block title %}{% translate "My candidate profile" %} — Match Europe{% endblock %}
+{% block content %}
   {% include "matching/candidate_offer_notice.html" %}
   {% include "candidates/profile_details.html" %}
   {% include "candidates/install_pwa_next_step.html" %}
 {% endblock %}
-{% block extra_head %}
+{% block head %}
   <link rel="stylesheet" href="{% static 'matching/candidate-inbox.css' %}">
 {% endblock %}

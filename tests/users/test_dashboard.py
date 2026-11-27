@@ -51,7 +51,7 @@ class DashboardTests(TestCase):
                 self.assertContains(response, 'aria-current="page"')
                 self.assertNotContains(response, other.email)
                 self.assertIn('no-store', response['Cache-Control'])
-                self.assertTemplateUsed(response, 'public_base.html')
+                self.assertTemplateUsed(response, 'eures_base.html')
 
     def test_magic_link_always_lands_on_dashboard_for_each_role_and_staff_status(self):
         for kind, staff in (('employer', False), ('adviser', False), ('adviser', True)):
@@ -88,6 +88,19 @@ class DashboardTests(TestCase):
             '/accounts/logout/',
         ):
             self.assertNotContains(response, f'"{url}')
+        self.assertNotContains(response, 'ds-account-menu')
+
+    def test_phone_account_menu_repeats_the_header_account_links(self):
+        user = get_user_model().objects.create_user(
+            email='menu@example.invalid', kind='adviser'
+        )
+        self.client.force_login(user)
+        response = self.client.get(reverse('dashboard'), {'lang': 'fr'})
+        self.assertContains(response, 'class="ds-dropdown ds-account-menu"')
+        self.assertContains(response, '<summary>Compte</summary>')
+        for url in ('/accounts/me/', '/accounts/logout/'):
+            self.assertContains(response, f'"{url}', count=2)
+        self.assertNotContains(response, '"/admin/')
 
     def test_switching_account_keeps_the_language_selected_before_confirmation(self):
         previous = get_user_model().objects.create_user(

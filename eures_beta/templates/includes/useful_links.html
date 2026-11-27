@@ -1,0 +1,9 @@
+{% load i18n %}
+<nav class="site-useful-links"
+     aria-label="{% translate 'Useful links' context 'employer landing' %}">
+  <a href="{% url 'design_system' %}?lang={{ page_language }}">{% translate "Design system" %}</a>
+  <a href="https://github.com/eures-beta">{% translate "Source code on GitHub" %}</a>
+  <a href="{% url 'project' %}?lang={{ page_language }}">{% translate "Project" context "employer landing" %}</a>
+  <a href="{% url 'journal' %}?lang={{ page_language }}">{% translate "Project journal" context "employer landing" %}</a>
+  <a href="{% url 'privacy' %}?lang={{ page_language }}">{% translate "Data protection" context "employer landing" %}</a>
+</nav>

@@ -18,6 +18,7 @@ urlpatterns = [
     path("statistics/", views.statistics, name="statistics"),
     path("project/", views.project, name="project"),
     path("journal/", views.journal, name="journal"),
+    path("design-system/", views.design_system, name="design_system"),
     path('', include('eures_beta.www.public.legacy_urls')),
     path('manifest.webmanifest', views.manifest, name='pwa_manifest'),
     path('sw.js', views.service_worker, name='pwa_worker'),

@@ -1,46 +1,50 @@
-{% extends "public_base.html" %}
-{% load i18n static %}
-{% block page_title %}{% translate "My account" context "account navigation" %} — Match Europe{% endblock %}
-{% block extra_head %}
-  <link rel="stylesheet" href="{% static 'users/account.css' %}">
-{% endblock %}
-{% block public_content %}
-  <section class="account-panel" aria-labelledby="account-title">
-    <h1 id="account-title">{% translate "My account" context "account navigation" %}</h1>
-    <dl class="account-details">
-      <dt>{% translate "Account type" context "account summary" %}</dt>
-      <dd>
-        {{ user.get_kind_display }}
-      </dd>
-      <dt>{% translate "Email address" %}</dt>
-      <dd>
-        {{ user.email }}
-      </dd>
-      {% if not signature_form and user.get_full_name %}
-        <dt>{% translate "Name" context "account summary" %}</dt>
-        <dd>
-          {{ user.get_full_name }}
-        </dd>
+{% extends "eures_base.html" %}
+{% load i18n %}
+{% block title %}{% translate "My account" context "account navigation" %} — Match Europe{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <section class="ds-card" aria-labelledby="account-title">
+        <h1 id="account-title">{% translate "My account" context "account navigation" %}</h1>
+        <dl class="ds-fields">
+          <dt>{% translate "Account type" context "account summary" %}</dt>
+          <dd>
+            {{ user.get_kind_display }}
+          </dd>
+          <dt>{% translate "Email address" %}</dt>
+          <dd>
+            {{ user.email }}
+          </dd>
+          {% if not signature_form and user.get_full_name %}
+            <dt>{% translate "Name" context "account summary" %}</dt>
+            <dd>
+              {{ user.get_full_name }}
+            </dd>
+          {% endif %}
+          <dt>{% translate "Account created on" context "account summary" %}</dt>
+          <dd>
+            <time datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"DATE_FORMAT" }}</time>
+          </dd>
+        </dl>
+      </section>
+      {% if signature_form %}
+        <section class="ds-card mt-4" aria-labelledby="signature-title">
+          <h2 class="h4" id="signature-title">{% translate "Email signature" %}</h2>
+          <p id="signature-help">{% translate "These details will appear in the signature of the employer invitations and reminders you send." %}</p>
+          {% for message in messages %}
+            <div class="alert alert-success" role="status">{{ message }}</div>
+          {% endfor %}
+          <form method="post"
+                aria-labelledby="signature-title"
+                aria-describedby="signature-help">
+            {% csrf_token %}
+            {% for field in signature_form.visible_fields %}
+              {% include "eures/form_field.html" %}
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">{% translate "Save changes" %}</button>
+          </form>
+        </section>
       {% endif %}
-      <dt>{% translate "Account created on" context "account summary" %}</dt>
-      <dd>
-        <time datetime="{{ user.date_joined|date:'c' }}">{{ user.date_joined|date:"DATE_FORMAT" }}</time>
-      </dd>
-    </dl>
-    {% if signature_form %}
-      <h2 id="signature-title">{% translate "Email signature" %}</h2>
-      <p id="signature-help">{% translate "These details will appear in the signature of the employer invitations and reminders you send." %}</p>
-      {% for message in messages %}
-        <p role="status">{{ message }}</p>
-      {% endfor %}
-      <form class="account-signature-form"
-            method="post"
-            aria-labelledby="signature-title"
-            aria-describedby="signature-help">
-        {% csrf_token %}
-        {{ signature_form.as_p }}
-        <button type="submit">{% translate "Save changes" %}</button>
-      </form>
-    {% endif %}
-  </section>
+    </div>
+  </div>
 {% endblock %}

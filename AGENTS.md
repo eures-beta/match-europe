@@ -32,8 +32,8 @@
   Ces protections ne doivent pas restreindre un parcours métier.
 - Vérifier côté serveur authentification, rôle actif, propriété, consentement,
   CSRF et validité des données. Pas de droits déduits de l'interface ou d'une IP.
-- Les conseillers actifs ont les mêmes droits métier sans permissions individuelles.
-  Le planning exige un compte actif `is_staff`, tout rôle ; cela n’étend pas les droits admin.
+- Droits métier identiques pour les conseillers actifs, sans permission individuelle.
+  Planning : compte actif `is_staff`, tout rôle, sans droit admin ajouté.
 - L'admin Django est en consultation, même pour les superutilisateurs : pas
   d'ajout, modification, suppression ou action groupée ; utiliser `users/admin_base.py`.
 - Connexion : seulement un compte existant actif, jamais de création implicite.
@@ -52,8 +52,8 @@
   tests pertinents et identité EURES/ELA. Les cinq exigences sont obligatoires.
 - Utiliser un template commun et gettext, pas une copie HTML par langue.
   Tous les messages visibles, y compris JavaScript, erreurs et e-mails, sont traduits.
-- Avant une interface, réutiliser Bootstrap et les composants communs.
-  Les EURES Graphic Guidelines 2022 font autorité ;
+- Avant une interface, lire [le design system](docs/DESIGN_SYSTEM.md) : Bootstrap,
+  tokens ECL/EURES, composants communs. Les EURES Graphic Guidelines 2022 font autorité ;
   ne pas réinventer les logos, couleurs ou règles officielles.
 - Clavier, labels, sémantique HTML, contrastes, alternatives et responsive sont
   nécessaires ; une information ne repose jamais uniquement sur la couleur.

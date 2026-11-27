@@ -19,6 +19,11 @@
          href="{% url 'dashboard' %}?lang={{ page_language }}{% if role == 'adviser' %}&amp;view=conversations{% endif %}"
          aria-label="{% translate 'Dashboard' context 'account navigation' %}">‹</a>
     {% endif %}
+    <img class="conversation-logo"
+         src="{% static 'employer/assets/match-europe-logo.png' %}"
+         alt=""
+         width="32"
+         height="32">
     <div>
       <h1>{% translate "Three-way conversation" %}</h1>
       <p>{{ thread.offer_review.match.offer.data.title }} · {{ thread.offer_review.match.offer.data.companyName }}</p>
@@ -32,7 +37,7 @@
       <p>{{ thread.introduction|linebreaksbr }}</p>
       <form method="post">
         {% csrf_token %}
-        <button class="primary-action"
+        <button class="btn btn-primary"
                 name="action"
                 value="approve"
                 type="submit">{% translate "I agree to join" %}</button>
@@ -46,7 +51,7 @@
       {% if can_resend %}
         <form method="post">
           {% csrf_token %}
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="resend"
                   type="submit">{% translate "Resend notification" %}</button>
@@ -61,7 +66,7 @@
         <p>{{ thread.introduction|linebreaksbr }}</p>
         <form method="post">
           {% csrf_token %}
-          <button class="primary-action"
+          <button class="btn btn-primary"
                   name="action"
                   value="open"
                   type="submit">{% translate "Open the three-way conversation" %}</button>
@@ -90,7 +95,7 @@
               class="confirmation-form dialogue-composer employer-consent-reply">
           {% csrf_token %}
           {{ form.body.as_field_group }}
-          <button class="primary-action" name="action" value="send" type="submit">{% translate "Send" %}</button>
+          <button class="btn btn-primary" name="action" value="send" type="submit">{% translate "Send" %}</button>
         </form>
       {% endif %}
     {% endif %}

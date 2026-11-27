@@ -16,7 +16,7 @@
       {% csrf_token %}
       <input type="hidden" name="account" value="anonymous">
       <p>
-        <button type="submit" class="primary-action">{% translate "Anonymous browsing, without an account" %}</button>
+        <button type="submit" class="btn btn-primary">{% translate "Anonymous browsing, without an account" %}</button>
       </p>
     </form>
     {% for account in accounts %}
@@ -25,7 +25,7 @@
         {% csrf_token %}
         <input type="hidden" name="account" value="{{ account.key }}">
         <p>
-          <button type="submit" class="primary-action">{{ account.label }}</button>
+          <button type="submit" class="btn btn-primary">{{ account.label }}</button>
           {% if not compact_preview %}<br>{{ account.email }}{% endif %}
         </p>
       </form>

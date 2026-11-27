@@ -1,5 +1,5 @@
 {% extends "conversation_base.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block conversation_class %}conversation-preview{% endblock %}
 {% block page_title %}{% translate "Three-way conversation" %} — Match Europe{% endblock %}
 {% block public_content %}
@@ -7,6 +7,11 @@
     <a class="conversation-back"
        href="{% url 'adviser_conversation' review.pk %}?lang={{ page_language }}"
        aria-label="{% translate 'Back' %}">‹</a>
+    <img class="conversation-logo"
+         src="{% static 'employer/assets/match-europe-logo.png' %}"
+         alt=""
+         width="32"
+         height="32">
     <div>
       <h1>{% translate "Three-way conversation" %}</h1>
       <p>{{ review.match.offer.data.title }}</p>
@@ -23,7 +28,7 @@
       {{ form.non_field_errors }}
       {{ form.body.as_field_group }}
       {{ form.prerequisites_verified.as_field_group }}
-      <button class="primary-action" type="submit">{% translate "Open the three-way conversation" %}</button>
+      <button class="btn btn-primary" type="submit">{% translate "Open the three-way conversation" %}</button>
     </form>
   </section>
 {% endblock %}

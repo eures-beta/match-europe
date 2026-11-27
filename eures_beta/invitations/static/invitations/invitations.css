@@ -1,16 +1,11 @@
 .invitations {
-  --invite-ink: #152d48;
-  --invite-blue: #004494;
-  --invite-line: #dce5ee;
-  --invite-paper: #f4f7fb;
-  width: min(100% - 2rem, 73rem);
-  margin: 2rem auto 4rem;
-  color: var(--invite-ink);
+  margin-block: 0 var(--me-space-2xl);
+  color: var(--me-color-text);
 }
 
 .invitations-header {
   padding: clamp(1.25rem, 4vw, 2.75rem);
-  border: 1px solid var(--invite-line);
+  border: 1px solid var(--me-color-border);
   border-radius: 1.25rem;
   background: linear-gradient(120deg, #edf5ff, #f7fafc 70%);
 }
@@ -28,12 +23,12 @@
 .invitation-modes a {
   border-radius: 0.5rem;
   padding: 0.5rem 0.8rem;
-  color: var(--invite-blue);
+  color: var(--me-color-link);
   font-weight: 650;
 }
 
 .invitations a[aria-current='page'] {
-  background: #dceafa;
+  background: var(--me-color-surface-brand);
   text-decoration: none;
 }
 
@@ -59,7 +54,7 @@
 .invitation-card {
   min-width: 0;
   padding: clamp(1rem, 3vw, 1.6rem);
-  border: 1px solid var(--invite-line);
+  border: 1px solid var(--me-color-border);
   border-radius: 1rem;
   background: white;
   box-shadow: 0 6px 22px rgb(22 45 72 / 5%);
@@ -89,7 +84,7 @@
   border: 1px solid #8c9cb0;
   border-radius: 0.5rem;
   background: white;
-  color: var(--invite-ink);
+  color: var(--me-color-text);
   font: inherit;
 }
 
@@ -124,13 +119,13 @@
   border: 1px dashed #b1c3d6;
   border-radius: 0.75rem;
   padding: 1rem 2rem;
-  background: var(--invite-paper);
+  background: var(--me-color-surface-subtle);
   text-align: center;
 }
 
 .invitation-preview details {
   margin-bottom: 0.7rem;
-  border: 1px solid var(--invite-line);
+  border: 1px solid var(--me-color-border);
   border-radius: 0.65rem;
   padding: 0.65rem;
   overflow-wrap: anywhere;
@@ -140,12 +135,12 @@
   width: 100%;
   height: 25rem;
   border: 0;
-  background: var(--invite-paper);
+  background: var(--me-color-surface-subtle);
 }
 
 .invitations summary {
   cursor: pointer;
-  color: var(--invite-blue);
+  color: var(--me-color-link);
 }
 
 .invitation-history-heading,
@@ -170,21 +165,21 @@
 
 .invitation-history th,
 .invitation-history td {
-  border-bottom: 1px solid var(--invite-line);
+  border-bottom: 1px solid var(--me-color-border);
   padding: 0.65rem;
   vertical-align: top;
 }
 
 .invitation-history th {
-  background: var(--invite-paper);
+  background: var(--me-color-surface-subtle);
 }
 
-.invitation-history button {
+.invitation-history button:not(.btn) {
   border: 1px solid #8c9cb0;
   border-radius: 0.45rem;
   padding: 0.42rem 0.65rem;
   background: white;
-  color: var(--invite-blue);
+  color: var(--me-color-link);
   font: inherit;
   cursor: pointer;
 }
@@ -236,9 +231,9 @@
   justify-content: space-between;
   gap: 0.75rem 1rem;
   padding: 1rem;
-  border: 1px solid var(--invite-line);
+  border: 1px solid var(--me-color-border);
   border-radius: 0.75rem;
-  background: var(--invite-paper);
+  background: var(--me-color-surface-subtle);
 }
 
 .adviser-matching-card h3 {
@@ -270,35 +265,12 @@
 }
 
 .adviser-match-summary dt {
-  color: var(--muted);
+  color: var(--me-color-text-muted);
 }
 
 .adviser-match-summary dd {
   margin: 0;
   overflow-wrap: anywhere;
-}
-
-.primary-action.adviser-match-approve {
-  background: #dff4e8;
-  border-color: #6e9c83;
-  color: #174b35;
-}
-
-.primary-action.adviser-match-approve:hover,
-.primary-action.adviser-match-approve:focus-visible {
-  background: #cfeada;
-  border-color: #527e66;
-  color: #174b35;
-}
-
-.adviser-match-refuse {
-  background: #fff4f4;
-  border-color: #cd7777;
-  color: #9d2424;
-}
-
-.adviser-match-refuse:hover {
-  background: #ffe6e6;
 }
 
 @media (max-width: 760px) {
@@ -309,7 +281,7 @@
 
 .adviser-matching-panel {
   margin-block: 1rem;
-  border: 1px solid var(--invite-line);
+  border: 1px solid var(--me-color-border);
   border-radius: 1rem;
   background: white;
   box-shadow: 0 6px 22px rgb(22 45 72 / 5%);
@@ -318,7 +290,7 @@
 .adviser-matching-panel .invitations-header {
   padding: 1rem;
   border: 0;
-  border-bottom: 1px solid var(--invite-line);
+  border-bottom: 1px solid var(--me-color-border);
   border-radius: 1rem 1rem 0 0;
 }
 
@@ -330,65 +302,132 @@
   padding: 0 1rem 1rem;
 }
 
+/* Adviser workspace: tabs on top, the "To review" lists on the side.
+   On a phone both become one scrolling row (tabs, then chips) so the work starts on screen one. */
 .adviser-workspace {
   display: grid;
-  grid-template-columns: minmax(10rem, 13rem) minmax(0, 1fr);
+  grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
   align-items: start;
-  gap: 1rem;
+  gap: var(--me-space-l);
 }
 
 .adviser-workspace-content {
   min-width: 0;
 }
 
+.adviser-workspace-tabs {
+  grid-column: 1 / -1;
+  border-bottom: var(--me-border-width) solid var(--me-color-border);
+}
+
+.adviser-workspace-tabs nav {
+  display: flex;
+  gap: 0 var(--me-space-l);
+}
+
+.invitations .adviser-workspace-tabs a {
+  margin-bottom: calc(-1 * var(--me-border-width));
+  padding-block: var(--me-space-s);
+  color: var(--me-color-text);
+  white-space: nowrap;
+  text-decoration: none;
+  background: none;
+  border-bottom: var(--me-border-width-strong) solid transparent;
+}
+
+.invitations .adviser-workspace-tabs a:hover {
+  color: var(--me-color-link);
+  border-bottom-color: var(--me-color-border-strong);
+}
+
+.invitations .adviser-workspace-tabs [aria-current='page'] {
+  color: var(--me-color-action);
+  font-weight: var(--me-font-weight-bold);
+  border-bottom-color: var(--me-color-action);
+}
+
+.adviser-workspace-tabs .adviser-planning-tab {
+  margin-inline-start: auto;
+}
+
 .adviser-sidebar {
   position: sticky;
-  top: 1rem;
-  padding: 0.75rem;
+  top: var(--me-space-m);
+  padding: var(--me-space-s);
 }
 
 .adviser-sidebar nav {
   display: grid;
-  gap: 0.25rem;
+  gap: var(--me-space-2xs);
   margin: 0;
 }
 
-.adviser-sidebar nav + nav {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--invite-line);
+.adviser-sidebar a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--me-space-xs);
+  padding: var(--me-space-xs) var(--me-space-s);
+  color: var(--me-color-link);
+  font-weight: var(--me-font-weight-bold);
+  text-decoration: none;
+  border-radius: var(--me-radius-m);
 }
 
-.adviser-sidebar a {
-  display: block;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.65rem;
-  color: var(--invite-blue);
-  font-weight: 650;
+.adviser-sidebar a:hover {
+  background: var(--me-color-surface-subtle);
+  text-decoration: underline;
+}
+
+.invitations .adviser-sidebar [aria-current='page'] {
+  color: var(--me-color-action);
+  background: var(--me-color-surface-brand);
 }
 
 @media (max-width: 760px) {
   .adviser-workspace {
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--me-space-s);
+  }
+
+  .adviser-workspace-tabs nav,
+  .adviser-sidebar nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .adviser-workspace-tabs .adviser-planning-tab {
+    margin-inline-start: 0;
   }
 
   .adviser-sidebar {
     position: static;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
   }
 
   .adviser-sidebar nav {
-    display: flex;
-    flex-wrap: wrap;
+    gap: var(--me-space-xs);
+    padding-bottom: var(--me-space-2xs);
   }
-}
 
-.adviser-workspace-tabs {
-  grid-column: 1 / -1;
-  padding: 0.6rem 0.75rem;
-}
+  .adviser-sidebar a {
+    flex: none;
+    padding: var(--me-space-2xs) var(--me-space-s);
+    font-weight: var(--me-font-weight-regular);
+    white-space: nowrap;
+    background: var(--me-color-surface);
+    border: var(--me-border-width) solid var(--me-color-border);
+    border-radius: var(--me-radius-badge);
+  }
 
-.adviser-workspace-tabs .adviser-planning-tab {
-  margin-inline-start: auto;
+  .invitations .adviser-sidebar [aria-current='page'] {
+    font-weight: var(--me-font-weight-bold);
+    border-color: var(--me-color-action);
+  }
 }
 
 .adviser-matching-criteria {
@@ -478,7 +517,7 @@
 .adviser-score-breakdown div {
   padding: 0.4rem 0.6rem;
   border-radius: 0.45rem;
-  background: var(--invite-paper);
+  background: var(--me-color-surface-subtle);
 }
 
 .adviser-score-breakdown dd {
@@ -487,14 +526,14 @@
 
 .adviser-match-comparison {
   margin-top: 0.75rem;
-  border-top: 1px solid var(--invite-line);
+  border-top: 1px solid var(--me-color-border);
   padding-top: 0.6rem;
   font-size: 0.875rem;
 }
 
 .adviser-match-comparison summary {
   width: fit-content;
-  color: var(--invite-blue);
+  color: var(--me-color-link);
 }
 
 .adviser-match-comparison table {

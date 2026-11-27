@@ -3,7 +3,7 @@
   <p>{% translate "Employer accounts are created by our Match Europe advisers. To request an invitation, contact Eric Barthélémy." context "employer invitation help" %}</p>
   {% if team_contact_email %}
     <p>
-      <a class="nav-pill"
+      <a class="{{ link_class|default:'nav-pill' }}"
          href="mailto:{{ team_contact_email }}"
          rel="noopener">{% translate "Contact Eric Barthélémy" context "employer invitation help" %}</a>
     </p>
