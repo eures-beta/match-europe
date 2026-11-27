@@ -17,7 +17,7 @@ from django.views.decorators.http import require_http_methods
 from eures_beta.matching import (
     access,
     match_lifecycle as service,
-    introduction_followup,
+    match_followup,
 )
 from eures_beta.matching.models import CandidateOfferConversation
 from eures_beta.users.email_login import email_ready
@@ -210,7 +210,7 @@ def detail(request, pk):
         match = get_object_or_404(service.matches(), pk=pk)
         item = row(match, request.user)
         review, plan = item['review'], item['plan']
-        current = introduction_followup.context(review) if review else None
+        current = match_followup.context(review) if review else None
         recipients = current['recipients'] if current else {}
         role = (
             item['waiting']
@@ -241,7 +241,7 @@ def detail(request, pk):
                 'stamp': current['stamp'] if current else '',
                 'recipient': role,
                 'language': language,
-                'message': introduction_followup.draft(role),
+                'message': match_followup.draft(role),
             },
             auto_id='reminder_%s',
         )
@@ -270,7 +270,7 @@ def detail(request, pk):
                     elif action == 'reminder':
                         if not review:
                             raise Http404
-                        introduction_followup.reminder(
+                        match_followup.reminder(
                             request.user, review.pk, **form.cleaned_data
                         )
                     else:
@@ -283,12 +283,12 @@ def detail(request, pk):
                         + action
                         + '#matching-title'
                     )
-                except (service.Changed, introduction_followup.Changed):
+                except (service.Changed, match_followup.Changed):
                     error, status = (
                         _('This matching changed. Reload it before acting.'),
                         409,
                     )
-                except introduction_followup.RetryLater:
+                except match_followup.RetryLater:
                     error, status = _('Wait a moment before resending.'), 429
                 except ValidationError as exc:
                     error, status = exc.messages[0], 400

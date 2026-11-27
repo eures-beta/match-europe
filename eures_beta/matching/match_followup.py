@@ -21,8 +21,8 @@ from .models import (
     CandidateOfferConversation,
     CandidateOfferReview,
     EmployerOfferConsent,
-    IntroductionFollowup,
-    IntroductionFollowupEvent,
+    MatchFollowup,
+    MatchFollowupEvent,
     MatchConclusion,
 )
 
@@ -41,13 +41,13 @@ def reviews():
         'match__candidate__user',
         'match__offer__employer',
         'assigned_to_adviser',
-        'introduction_followup',
+        'match_followup',
     )
 
 
 def context(review):
     state = offer_review_services.review_state(review)
-    plan = IntroductionFollowup.objects.filter(match=review.match).first()
+    plan = MatchFollowup.objects.filter(match=review.match).first()
     thread = CandidateOfferConversation.objects.filter(offer_review=review).first()
     agreement = employer_consent.eligible_agreement(state)
     consent = (
@@ -199,9 +199,7 @@ def plan(adviser, pk, stamp, **values):
         raise ValidationError(
             _('Verify the employer’s hiring declaration before closing this matching.')
         )
-    followup = current['plan'] or IntroductionFollowup(
-        review=review, match=review.match
-    )
+    followup = current['plan'] or MatchFollowup(review=review, match=review.match)
     if followup.review_id is None:
         followup.review = review
     for key in ('next_action', 'waiting_for', 'due_on', 'outcome', 'closure_reason'):
@@ -214,7 +212,7 @@ def plan(adviser, pk, stamp, **values):
     followup.version += 1
     followup.full_clean()
     followup.save()
-    IntroductionFollowupEvent.objects.create(
+    MatchFollowupEvent.objects.create(
         followup=followup,
         actor=adviser,
         action='plan',
@@ -246,7 +244,7 @@ def reminder(adviser, pk, stamp, recipient, message, language='fr'):
             raise ValidationError(_('This person cannot be reminded at this stage.'))
         followup = current['plan']
         if not followup:
-            followup = IntroductionFollowup.objects.create(
+            followup = MatchFollowup.objects.create(
                 match=review.match,
                 review=review,
                 next_action=str(_('Follow up on this matching')),
@@ -260,7 +258,7 @@ def reminder(adviser, pk, stamp, recipient, message, language='fr'):
         user, route, target = current['recipients'][recipient]
         if not user.is_active or user.kind != recipient:
             raise Changed
-        event = IntroductionFollowupEvent.objects.create(
+        event = MatchFollowupEvent.objects.create(
             followup=followup,
             actor=adviser,
             action='reminder',

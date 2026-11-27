@@ -10,8 +10,8 @@ from .models import (
     CandidateOfferMatch,
     CandidateOfferReview,
     CandidateOfferConversation,
-    IntroductionFollowup,
-    IntroductionFollowupEvent,
+    MatchFollowup,
+    MatchFollowupEvent,
     MatchConclusion,
     MatchConclusionEvent,
 )
@@ -312,7 +312,7 @@ def can_report(user, match):
         return False
     if (
         match.decision != 'retained'
-        or IntroductionFollowup.objects.filter(match=match, outcome='stopped').exists()
+        or MatchFollowup.objects.filter(match=match, outcome='stopped').exists()
     ):
         return False
     return (
@@ -386,7 +386,7 @@ def conclude(user, pk, action, version, *, start_on=None, reason='', verified=Fa
         start_on=obj.start_on,
         reason=obj.reason,
     )
-    plan = IntroductionFollowup.objects.filter(match=match).first()
+    plan = MatchFollowup.objects.filter(match=match).first()
     if plan:
         plan.version += 1
         plan.due_on = None
@@ -417,9 +417,7 @@ def schedule(user, pk, *, due_on, version, next_action='', waiting_for='adviser'
         raise Changed
     if not due_on or waiting_for not in ('adviser', 'candidate', 'employer'):
         raise ValidationError(_('Choose a check-in date and a responsible person.'))
-    plan = current['plan'] or IntroductionFollowup(
-        match=match, review=current['review']
-    )
+    plan = current['plan'] or MatchFollowup(match=match, review=current['review'])
     if not plan.review_id and current['review']:
         plan.review = current['review']
     plan.due_on, plan.waiting_for, plan.next_action = (
@@ -431,7 +429,7 @@ def schedule(user, pk, *, due_on, version, next_action='', waiting_for='adviser'
     plan.version += 1
     plan.full_clean()
     plan.save()
-    IntroductionFollowupEvent.objects.create(
+    MatchFollowupEvent.objects.create(
         followup=plan,
         actor=user,
         action='plan',

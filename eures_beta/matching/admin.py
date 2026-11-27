@@ -4,8 +4,8 @@ from .models import (
     EmployerCandidateReview,
     MatchConclusion,
     MatchConclusionEvent,
-    IntroductionFollowup,
-    IntroductionFollowupEvent,
+    MatchFollowup,
+    MatchFollowupEvent,
     CandidateSupport,
     JobOfferSupport,
     CandidateOfferMatch,
@@ -25,7 +25,7 @@ class MatchConclusionMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id',)
 
 
-@admin.register(IntroductionFollowup, IntroductionFollowupEvent)
+@admin.register(MatchFollowup, MatchFollowupEvent)
 class FollowupMetadataAdmin(MetadataOnlyAdmin):
     list_display = ('id',)
 

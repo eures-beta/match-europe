@@ -4,8 +4,8 @@ from datetime import timedelta
 
 from django.utils import timezone
 
-from eures_beta.matching import introduction_followup as followup
-from eures_beta.matching.models import IntroductionFollowup
+from eures_beta.matching import match_followup as followup
+from eures_beta.matching.models import MatchFollowup
 
 
 def seed_followups(adviser, identifiers):
@@ -37,10 +37,7 @@ def seed_followups(adviser, identifiers):
     )
     for key, waiting, days, outcome, action, reason in scenarios:
         review = followup.reviews().filter(match__offer_id=identifiers(key)).first()
-        if (
-            review is None
-            or IntroductionFollowup.objects.filter(match=review.match).exists()
-        ):
+        if review is None or MatchFollowup.objects.filter(match=review.match).exists():
             continue
         followup.plan(
             adviser,

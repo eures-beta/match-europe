@@ -9,14 +9,14 @@ from django.utils import timezone
 
 from eures_beta.matching import (
     match_lifecycle as life,
-    introduction_followup,
+    match_followup,
     review_email,
 )
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferConversation,
     EmployerOfferConsent,
-    IntroductionFollowup,
+    MatchFollowup,
     MatchConclusion,
     MatchConclusionEvent,
 )
@@ -86,7 +86,7 @@ class MatchLifeLineTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
-        plan = IntroductionFollowup.objects.get(match=match)
+        plan = MatchFollowup.objects.get(match=match)
         self.assertIsNone(plan.review_id)
         self.assertFalse(
             match.__class__.objects.filter(
@@ -121,7 +121,7 @@ class MatchLifeLineTests(TestCase):
         self.assertEqual(current['waiting'], 'candidate')
         self.assertEqual(current['action'], 'candidate_reminder')
         self.review.refresh_from_db()
-        reminders = introduction_followup.context(self.review)['recipients']
+        reminders = match_followup.context(self.review)['recipients']
         self.assertEqual(reminders['candidate'][1], 'candidate_offer_confirmation')
 
     def test_completed_replies_without_a_sharing_decision_still_wait_for_the_candidate(
@@ -207,11 +207,11 @@ class MatchLifeLineTests(TestCase):
         )
         thread.refresh_from_db()
         self.assertEqual(thread.state, 'open')
-        plan = IntroductionFollowup.objects.get(match=self.match)
+        plan = MatchFollowup.objects.get(match=self.match)
         self.assertEqual(plan.outcome, 'hired')
         self.assertIsNone(plan.due_on)
         self.review.refresh_from_db()
-        self.assertEqual(introduction_followup.context(self.review)['recipients'], {})
+        self.assertEqual(match_followup.context(self.review)['recipients'], {})
         with patch.object(review_email, 'send_mail') as send:
             self.assertFalse(review_email.send(self.review.pk, adviser=self.adviser))
             send.assert_not_called()
@@ -313,13 +313,13 @@ class MatchLifeLineTests(TestCase):
 
     def test_reminder_does_not_require_manually_inventing_a_plan_first(self):
         self.review.refresh_from_db()
-        current = introduction_followup.context(self.review)
+        current = match_followup.context(self.review)
         self.assertIsNone(current['plan'])
-        event = introduction_followup.reminder(
+        event = match_followup.reminder(
             self.adviser, self.review.pk, current['stamp'], 'candidate', 'Please reply'
         )
         self.assertEqual(event.delivery_status, 'disabled')
-        plan = IntroductionFollowup.objects.get(match=self.match)
+        plan = MatchFollowup.objects.get(match=self.match)
         self.assertIsNone(plan.due_on)
 
     def test_matching_and_employer_links_are_preserved_after_sign_in(self):

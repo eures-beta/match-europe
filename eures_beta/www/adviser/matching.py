@@ -34,7 +34,7 @@ from eures_beta.matching.models import (
     CandidateOfferReview,
     MatchEvaluation,
     CandidateOfferMatch,
-    IntroductionFollowup,
+    MatchFollowup,
     MatchConclusion,
 )
 from eures_beta.matching.presentation import present
@@ -115,7 +115,7 @@ def open_conversations():
 
 def render_workspace(request, template, status=200, **context):
     if access.can_view_pairs(request.user):
-        context['followup_due_count'] = IntroductionFollowup.objects.filter(
+        context['followup_due_count'] = MatchFollowup.objects.filter(
             outcome='open', due_on__lte=timezone.localdate()
         ).count()
         context['hiring_confirmation_count'] = MatchConclusion.objects.filter(

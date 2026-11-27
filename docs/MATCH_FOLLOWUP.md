@@ -55,7 +55,7 @@ soumissions ; une réponse reçue invalide un formulaire périmé.
 
 ## Stockage et vérification
 
-`IntroductionFollowup` est lié au matching ; sa revue devient facultative.
+`MatchFollowup` est lié au matching ; sa revue devient facultative.
 Ses événements conservent dates, auteurs, messages et résultats du transport.
 `MatchConclusion` et ses événements distinguent déclaration employeur et
 confirmation conseiller. Les rôles sont également contrôlés dans PostgreSQL.
@@ -73,6 +73,6 @@ la connexion du moteur de migration, y compris sur une base nommée autrement
 que `default`. `tests/matching/test_migration_database_alias.py` vérifie ce ciblage ;
 `make users-upgrade-test` éprouve la transition complète dans une base isolée.
 
-Recette : `make test TESTS='tests.matching.test_match_lifecycle tests.matching.test_match_lifecycle_migration tests.matching.test_introduction_followup'`,
+Recette : `make test TESTS='tests.matching.test_match_lifecycle tests.matching.test_match_lifecycle_migration tests.matching.test_match_followup'`,
 puis contrôles communs Python, HTML/CSS et gettext. Le transport réel doit être
 vérifié séparément dans un environnement configuré autorisé.
