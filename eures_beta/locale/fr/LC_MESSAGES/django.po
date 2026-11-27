@@ -9324,3 +9324,11 @@ msgstr "Absent"
 msgid "Adviser %(number)s"
 msgstr "Conseiller %(number)s"
 
+#: eures_beta/users/admin_site.py
+msgid "Planning"
+msgstr "Planning"
+
+#: eures_beta/users/admin_site.py
+msgid "Adviser availability"
+msgstr "Disponibilités des conseillers"
+

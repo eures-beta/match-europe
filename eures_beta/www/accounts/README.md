@@ -18,4 +18,6 @@ Les routes de compte restent sous `/accounts/` ; la relecture conseiller est dé
 Le suivi des confirmations quitte le tableau de bord technique : il utilise
 `/matching/offer-reviews/<id>/`, sans changement de la vue conseiller.
 
-Le planning des conseillers est accessible via la route nommée `adviser_planning` sous `/adviser/planning/`.
+Le planning interne utilise la route `adviser_planning` sous `/adviser/planning/`.
+GET et POST exigent un conseiller actif avec `is_staff=True` ; l’onglet est masqué
+pour les autres conseillers, qui gardent leurs autres accès métier.

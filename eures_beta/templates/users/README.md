@@ -18,5 +18,5 @@ Ces templates communs aux conseillers et employeurs utilisent gettext et le
 - [adviser_matching_lifecycle_detail.html](adviser_matching_lifecycle_detail.html) — Étape, action, date et conclusion.
 - [matching_lifeline.html](matching_lifeline.html) — Les huit étapes et leurs preuves disponibles.
 
-- [adviser_planning.html](adviser_planning.html) — Calendrier hebdomadaire avec édition de la ligne du conseiller connecté.
+- [adviser_planning.html](adviser_planning.html) — Calendrier interne réservé aux conseillers staff, avec édition de sa seule propre ligne.
 

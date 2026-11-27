@@ -32,8 +32,8 @@ Références : [utilisateurs](USER_MODEL.md), [inscription](CANDIDATE_EMAIL_REGI
 
 ## D03 — Autorisations et administration
 
-Tous les conseillers actifs ont les mêmes droits métier. Les groupes et permissions
-Django supplémentaires ne doivent pas bloquer invitation, revue ou suivi.
+Les conseillers actifs ont les mêmes droits d’invitation, revue et suivi.
+Le planning interne exige aussi `is_staff` ; les autres droits restent inchangés.
 Propriété des objets, CSRF, consentement et validation restent obligatoires.
 L'administration est en consultation même pour les superutilisateurs ; le rôle
 métier n'octroie pas d'accès admin. Ces deux décisions limitent les habilitations

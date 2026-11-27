@@ -104,6 +104,26 @@ class ReadOnlyAdminTests(TestCase):
     def test_every_installed_model_is_explicitly_registered(self):
         self.assertEqual(set(apps.get_models()), set(admin.site._registry))
 
+    def test_availability_has_its_own_admin_section_without_an_extra_model(self):
+        page = self.client.get(reverse('admin:index'))
+        groups = page.context['app_list']
+        planning = next(
+            group for group in groups if group['app_label'] == 'adviser_planning'
+        )
+        self.assertEqual(
+            [entry['object_name'] for entry in planning['models']],
+            ['AdviserAvailability'],
+        )
+        users = next(group for group in groups if group['app_label'] == 'users')
+        self.assertNotIn(
+            'AdviserAvailability', [entry['object_name'] for entry in users['models']]
+        )
+        self.assertEqual(AdviserAvailability._meta.app_label, 'users')
+        self.assertEqual(self.client.get(planning['app_url']).status_code, 200)
+        self.client.force_login(self.staff)
+        groups = self.client.get(reverse('admin:index')).context['app_list']
+        self.assertNotIn('adviser_planning', [group['app_label'] for group in groups])
+
     def test_superuser_can_list_all_models_and_read_business_objects(self):
         for record in self.records:
             with self.subTest(model=record._meta.label):
