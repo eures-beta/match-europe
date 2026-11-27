@@ -1,27 +1,24 @@
-{% autoescape off %}{{ greeting }}{% endautoescape %}
+{% load i18n %}{% autoescape off %}{{ greeting }}
 
-Des employeurs recrutent actuellement
+{% if adviser_name %}{% if organization_name %}{% blocktranslate %}I am {{ adviser_name }}, an adviser at {{ organization_name }} within the European EURES network.{% endblocktranslate %}{% else %}{% blocktranslate %}I am {{ adviser_name }}, an adviser within the European EURES network.{% endblocktranslate %}{% endif %}{% else %}{% if organization_name %}{% blocktranslate %}We are contacting you from {{ organization_name }} within the European EURES network.{% endblocktranslate %}{% else %}{% translate "We are contacting you on behalf of the Match Europe team within the European EURES network." %}{% endif %}{% endif %}
 
-Votre profil pourrait correspondre à des besoins déjà exprimés par des entreprises partenaires.
+{% if adviser_name %}{% translate "I am contacting you as part of Match Europe, an experiment that aims to make it easier to access job opportunities in other European countries." %}{% else %}{% translate "As part of Match Europe, an experiment, we aim to make it easier to access job opportunities in other European countries." %}{% endif %}
 
-Nous vous invitons à répondre à un court questionnaire afin de mieux comprendre votre disponibilité, votre mobilité et le type d’opportunités qui vous correspondent.
-Ce questionnaire constitue la première étape pour pouvoir vous proposer à des employeurs partenaires lorsqu’un besoin correspond à votre profil.
+{% translate "Partner companies are currently looking for candidates and your profile could meet their needs." %}
 
-Voir si mon profil correspond : {{ link }}
+{% if adviser_name %}{% translate "I therefore invite you to complete a short questionnaire so that we can better understand your professional plans and identify opportunities that may interest you." %}{% else %}{% translate "We invite you to complete a short questionnaire so that we can better understand your professional plans and identify opportunities that may interest you." %}{% endif %}
 
-Le questionnaire prend 2 à 3 minutes et vous permet d’être positionné sur des opportunités correspondant à votre profil.
+{% translate "See if my profile matches" %} : {{ link }}
 
-À retenir
-- Première étape avant proposition à des employeurs partenaires
-- Analyse réalisée dans le cadre d’EURES beta par France Travail et EURES
+{% translate "The questionnaire takes 2 to 3 minutes. Participation is free and without obligation." %}
 
-Vous recevez ce message dans le cadre de l’expérimentation EURES beta portée par France Travail et EURES.
+{% translate "Kind regards," context "candidate invitation" %}
+{% if adviser_name %}{{ adviser_name }}{% else %}{% translate "Match Europe team" %}{% endif %}
+{% translate "EURES adviser" %}{% if organization_name %} – {{ organization_name }}{% endif %}
 
-EURES est le réseau européen de coopération pour l’emploi, qui facilite les recrutements et les opportunités professionnelles en Europe.
+{% translate "You are receiving this message as part of the EURES beta experiment led by France Travail and EURES." %}
 
-Informations sur vos données : {{ privacy }}
+{% translate "EURES is the European employment cooperation network that facilitates recruitment and job opportunities across Europe." %}
 
-Cordialement,
-
-Équipe Match Europe
-Conseiller EURES - France Travail
+{% translate "Information on how your data is processed" %} : {{ privacy }}
+{% endautoescape %}

@@ -110,7 +110,10 @@ def render_message(
     language='fr',
 ):
     with translation.override(
-        language if recipient_kind == RecipientKind.EMPLOYER else 'fr'
+        language
+        if recipient_kind == RecipientKind.EMPLOYER
+        or (recipient_kind == RecipientKind.CANDIDATE and not reminder)
+        else 'fr'
     ):
         return render_invitation(
             recipient_kind, recipient, origin, link, reminder, adviser
@@ -136,7 +139,9 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
         'privacy': origin + reverse('privacy') if origin else '#',
         'reminder': reminder,
     }
-    if recipient_kind == RecipientKind.EMPLOYER:
+    if recipient_kind == RecipientKind.CANDIDATE and not reminder:
+        context['greeting'] = translation.gettext('Hello,')
+    if recipient_kind in (RecipientKind.EMPLOYER, RecipientKind.CANDIDATE):
         context.update(
             adviser_name=adviser.get_full_name(),
             organization_name=adviser.organization_name.strip(),
@@ -149,7 +154,7 @@ def render_invitation(recipient_kind, recipient, origin, link, reminder, adviser
             subject = 'Rappel — ' + subject
     else:
         stem = base + recipient_kind + ('/reminder' if reminder else '/invitation')
-        subject = render_to_string(stem + '.subject').strip()
+        subject = render_to_string(stem + '.subject', context).strip()
     context['subject'] = subject
     return (
         subject,
@@ -359,7 +364,8 @@ def send_batch(request, payload):
                     request.user,
                     language=(
                         payload.get('language', 'fr')
-                        if payload['recipient_kind'] == RecipientKind.EMPLOYER
+                        if payload['recipient_kind']
+                        in (RecipientKind.EMPLOYER, RecipientKind.CANDIDATE)
                         else 'fr'
                     ),
                     recipient_kind=payload['recipient_kind'],
