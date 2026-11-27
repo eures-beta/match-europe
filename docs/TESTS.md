@@ -23,6 +23,11 @@ Le contrat du workflow se vérifie avec
 
 ## Django et PostgreSQL
 
+Le job CI PostgreSQL dispose de 30 minutes pour l’installation, la suite complète
+et la transition des utilisateurs. Les allers-retours de migrations sur données
+remplies peuvent dépasser l’ancien plafond de 15 minutes. Un dépassement interrompt
+la validation : il ne vaut jamais réussite et ne doit pas masquer un test en échec.
+
 Installer les dépendances avec `make install-test`. Chaque worktree possède son
 `.env` ignoré par Git et une `PGDATABASE` locale distincte ; le rôle PostgreSQL
 doit pouvoir créer la base de test. Ne pas partager cette base entre exécutions

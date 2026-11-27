@@ -6,6 +6,8 @@ aucune version d'une branche absente ou en fin de vie n'est proposée.
 Voir [la maintenance Python](../docs/PYTHON_RUNTIME.md).
 
 [workflows/](workflows/) contient les contrôles de qualité et les signaux de recette.
+La validation PostgreSQL complète garde tous ses contrôles et dispose de 30 minutes,
+notamment pour les migrations aller-retour ; voir [les tests](../docs/TESTS.md).
 `preview-request.yml` reçoit les événements de PR sans checkout ni secret.
 `preview-relay.yml` s’exécute depuis main et transmet uniquement l’identifiant du
 signal au contrôleur privé ; aucun code de la PR n’est exécuté avec ses secrets.
