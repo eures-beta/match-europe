@@ -2,6 +2,10 @@
 
 [users/test_preview_data.py](users/test_preview_data.py) vérifie le jeu complet
 des recettes : modèles peuplés, liens, parcours, refus et conservation à la relance.
+[users/test_return_path.py](users/test_return_path.py) vérifie la compatibilité
+du rôle avec la destination reprise après connexion ;
+[employers/test_import_access.py](employers/test_import_access.py) couvre aussi
+la connexion par lien magique après une visite de l’import avec un autre rôle.
 
 Tous les tests Python et JavaScript sont réunis ici, par domaine. Ce dossier
 est un paquet Python, pas une application Django.

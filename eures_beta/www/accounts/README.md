@@ -8,7 +8,7 @@ Connexion, déconnexion, compte et orientation vers le tableau de bord du rôle 
 
 - [__init__.py](__init__.py) — Déclare le paquet Python, sans modèle ni effet au chargement.
 - [forms.py](forms.py) — Définit et valide les formulaires propres aux écrans de ce parcours.
-- [return_path.py](return_path.py) — Conserve uniquement l’import employeur ou le dialogue d’une offre candidat après connexion ; les droits sur l’offre restent vérifiés à l’arrivée.
+- [return_path.py](return_path.py) — Reprend l’import employeur ou le dialogue candidat uniquement pour le rôle connecté compatible, sinon revient au tableau de bord ; les droits sur l’offre restent vérifiés à l’arrivée.
 - [test_accounts.py](test_accounts.py) — Expose les comptes fictifs uniquement dans les environnements explicitement autorisés.
 - [urls.py](urls.py) — Associe les URL existantes aux vues, sans changer leur nom public.
 - [views.py](views.py) — Traite les requêtes de ce parcours et prépare les réponses.
