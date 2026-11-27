@@ -112,11 +112,17 @@ class AdviserPlanningTests(TestCase):
                 client = Client()
                 if user:
                     client.force_login(user)
-                self.assertEqual(client.get(self.url).status_code, 403)
+                self.assertEqual(
+                    client.get(self.url).status_code,
+                    302 if user is None or not user.is_active else 404,
+                )
                 response = client.post(
                     self.url, {'day': self.day.isoformat(), 'status': 'present'}
                 )
-                self.assertEqual(response.status_code, 403)
+                self.assertEqual(
+                    response.status_code,
+                    302 if user is None or not user.is_active else 404,
+                )
         self.assertFalse(StaffDailyAvailability.objects.exists())
 
     def test_non_staff_adviser_keeps_business_access_but_has_no_planning_tab(self):
@@ -210,3 +216,18 @@ class AdviserPlanningTests(TestCase):
             ).status_code,
             403,
         )
+
+    def test_anonymous_login_keeps_the_planning_destination(self):
+        response = self.client.get(self.url)
+        from urllib.parse import parse_qs, urlsplit
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(urlsplit(response.url).path, reverse('magic_login'))
+        self.assertEqual(parse_qs(urlsplit(response.url).query)['next'], [self.url])
+
+    def test_non_staff_receives_a_branded_404(self):
+        self.client.force_login(self.non_staff)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, '404.html')
+        self.assertContains(response, 'Match Europe', status_code=404)

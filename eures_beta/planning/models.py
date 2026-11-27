@@ -12,6 +12,7 @@ class StaffDailyAvailability(models.Model):
     present = models.BooleanField()
 
     class Meta:
+        verbose_name_plural = 'staff daily availabilities'
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'day'],

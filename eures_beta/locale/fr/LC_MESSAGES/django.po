@@ -9343,3 +9343,15 @@ msgstr "Équipe"
 #, python-format
 msgid "Staff %(number)s"
 msgstr "Membre %(number)s"
+
+msgid "Page not found"
+msgstr "Page introuvable"
+
+msgid "The requested page is unavailable."
+msgstr "La page demandée est indisponible."
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "This page is unavailable for this account."
+msgstr "Cette page est indisponible pour ce compte."

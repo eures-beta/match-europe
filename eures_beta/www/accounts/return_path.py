@@ -12,7 +12,20 @@ def canonical_destination(destination):
         if url.scheme or url.netloc or url.fragment:
             return ''
         query = parse_qs(url.query, keep_blank_values=True)
-        if set(query) - {'lang'} or len(query.get('lang', [])) > 1:
+        planning = url.path == reverse('staff_planning')
+        if planning and 'week' in query:
+            from datetime import date
+
+            values = query['week']
+            if (
+                len(values) != 1
+                or date.fromisoformat(values[0]).isoformat() != values[0]
+            ):
+                return ''
+        if (
+            set(query) - ({'lang', 'week'} if planning else {'lang'})
+            or len(query.get('lang', [])) > 1
+        ):
             return ''
         language = query.get('lang', [''])[0]
         if language and language not in ('fr', 'en', 'de'):
@@ -24,6 +37,7 @@ def canonical_destination(destination):
             except Resolver404:
                 match = None
             if match and match.url_name in {
+                'staff_planning',
                 'candidate_offer_dialogue',
                 'candidate_offer_confirmation',
                 'adviser_followup_list',
@@ -33,7 +47,10 @@ def canonical_destination(destination):
                 'respond_employer_consent',
             }:
                 path = reverse(match.url_name, kwargs=match.kwargs)
-                return path + ('?' + urlencode({'lang': language}) if language else '')
+                parameters = {'lang': language} if language else {}
+                if planning and query.get('week'):
+                    parameters['week'] = query['week'][0]
+                return path + ('?' + urlencode(parameters) if parameters else '')
             from eures_beta.www.public.redirects import old_import_destination
 
             old_path, old_language = old_import_destination(url.path)
@@ -65,6 +82,12 @@ def remember(request):
 def consume(request, default, *, user=None):
     destination = canonical_destination(request.session.pop('login_return_path', ''))
     user = request.user if user is None else user
+    if destination and urlsplit(destination).path == reverse('staff_planning'):
+        return (
+            destination
+            if user.is_authenticated and user.is_active and user.is_staff
+            else default
+        )
     if destination:
         kind = 'employer' if is_import_destination(destination) else 'candidate'
         if user.is_authenticated and user.is_active and user.kind == kind:
