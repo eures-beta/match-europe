@@ -159,7 +159,7 @@ DATABASES = {
 
 # One connection policy for local development, previews and production.
 # Reuse is per worker thread; deployments must budget their total connections.
-DATABASES['default']['CONN_MAX_AGE'] = 60
+DATABASES['default']['CONN_MAX_AGE'] = int(os.environ.get('DB_CONN_MAX_AGE', '60'))
 DATABASES['default']['CONN_HEALTH_CHECKS'] = True
 DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 

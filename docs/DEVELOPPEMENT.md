@@ -167,7 +167,8 @@ n’est modifiée par cette PR. Les comptes fictifs restent explicitement activ�
 avec `TEST_ACCOUNTS_ENABLED`, incompatibles avec les envois réels.
 
 La politique de connexions PostgreSQL est identique en local, en recette et en
-production : réutilisation pendant 60 secondes (`CONN_MAX_AGE`), contrôle de
+production : réutilisation pendant 60 secondes par défaut (`CONN_MAX_AGE`).
+`DB_CONN_MAX_AGE=0` ferme les connexions après chaque requête sur une base à faible quota ; ce réglage est explicite et indépendant de l’environnement. Politique, contrôle de
 validité (`CONN_HEALTH_CHECKS`) et délai d’ouverture de connexion de 10 secondes
 (`connect_timeout`). Ce dernier ne limite pas la durée des requêtes SQL.
 `PGSSLMODE` continue de configurer le transport TLS propre à la connexion.
