@@ -9420,3 +9420,7 @@ msgstr "Prüfung durch die kandidierende Person"
 msgid "Conclusion"
 msgstr "Abschluss"
 
+
+#, python-format
+msgid "Select %s to view"
+msgstr "%s zur Ansicht auswählen"

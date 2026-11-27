@@ -98,3 +98,5 @@ La navigation gauche est masquée par défaut en l’absence de préférence nav
 Le bouton natif Django permet de la rouvrir et mémorise le choix. Un choix déjà
 enregistré reste respecté. Le comportement du panneau de filtres à droite reste
 inchangé : visible par défaut, avec son propre bouton et sa propre préférence.
+
+Les noms singuliers et pluriels des modèles restent en anglais dans l’index, la navigation, les listes et les fiches. Le reste de l’interface Django suit la langue choisie. Une façade de métadonnées propre aux ModelAdmin évite de modifier `Model._meta` partagé avec les parcours utilisateur et les requêtes concurrentes.

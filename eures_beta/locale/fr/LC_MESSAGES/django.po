@@ -9420,3 +9420,7 @@ msgstr "Examen candidat"
 msgid "Conclusion"
 msgstr "Conclusion"
 
+
+#, python-format
+msgid "Select %s to view"
+msgstr "Sélectionnez l’objet %s à consulter"
