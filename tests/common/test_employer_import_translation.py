@@ -90,13 +90,18 @@ class JobOfferCompatibilityTests(TestCase):
         )
 
     def test_old_login_destinations_are_normalized_without_allowing_external_urls(self):
+        from django.contrib.auth import get_user_model
         from django.test import RequestFactory
         from eures_beta.www.accounts.return_path import consume, remember
 
+        employer = get_user_model()(
+            email='legacy-import@example.invalid', kind='employer'
+        )
         for language in ('fr', 'en', 'de'):
             old = f'/employer/pages/import-v2-{language}.html'
             canonical = f'/employer/import/?lang={language}'
             request = RequestFactory().get('/accounts/login/', {'next': old})
+            request.user = employer
             request.session = {}
             remember(request)
             self.assertEqual(request.session['login_return_path'], canonical)
