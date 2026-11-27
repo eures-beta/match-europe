@@ -1,4 +1,5 @@
 import csv
+from datetime import timedelta
 import io
 import logging
 import uuid
@@ -16,6 +17,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone, translation
+from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
@@ -23,7 +25,6 @@ from django.views.decorators.http import require_http_methods
 from eures_beta.invitations.services import (
     create_invitation,
     invitation_token,
-    record_invitation_attempt,
     validate_origin,
 )
 from eures_beta.invitations.models import Invitation
@@ -37,7 +38,6 @@ from eures_beta.www.accounts.views import email_ready, selected_language
 logger = logging.getLogger(__name__)
 RecipientKind = Invitation.RecipientKind
 SALT = 'users.adviser-invitations.preview'
-MAX_ROWS = 10
 
 
 def csv_recipients(upload):
@@ -65,10 +65,6 @@ def csv_recipients(upload):
         seen = set()
         errors = []
         for index, row in enumerate(reader, start=2):
-            if index > MAX_ROWS + 1:
-                raise ValidationError(
-                    f'Importez {MAX_ROWS} destinataires au maximum par fichier.'
-                )
             if None in row or any(value is None for value in row.values()):
                 errors.append(f'Ligne {index} : nombre de colonnes incorrect.')
                 continue
@@ -355,8 +351,6 @@ def invitations_tab(request):
 
 
 def send_batch(request, payload):
-    sent = 0
-    unsent = 0
     for recipient in payload['recipients']:
         try:
             with transaction.atomic():
@@ -374,9 +368,23 @@ def send_batch(request, payload):
                 if deliver(request, invitation):
                     invitation.email_sent_at = timezone.now()
                     invitation.save(update_fields=['email_sent_at'])
-                    sent += 1
+                    messages.success(
+                        request,
+                        (
+                            _('%(email)s — Email saved to the local outbox.')
+                            if local_outbox_enabled()
+                            else _('%(email)s — Email accepted by the sending service.')
+                        )
+                        % {'email': recipient['email']},
+                    )
                 else:
-                    unsent += 1
+                    messages.warning(
+                        request,
+                        _(
+                            '%(email)s — Invitation saved, email not sent. Retry from tracking.'
+                        )
+                        % {'email': recipient['email']},
+                    )
         except (ValidationError, IntegrityError) as error:
             reason = (
                 error.messages[0]
@@ -384,18 +392,6 @@ def send_batch(request, payload):
                 else 'Adresse déjà invitée.'
             )
             messages.error(request, f"{recipient['email']} — {reason}")
-    if sent:
-        text = (
-            f'{sent} e-mail(s) déposé(s) dans la boîte locale.'
-            if local_outbox_enabled()
-            else f'{sent} e-mail(s) accepté(s) par le service d’envoi.'
-        )
-        messages.success(request, text)
-    if unsent:
-        messages.warning(
-            request,
-            f'{unsent} invitation(s) enregistrée(s), e-mail en attente. Vous pouvez réessayer dans le suivi.',
-        )
 
 
 def valid_identifier(value):
@@ -430,7 +426,11 @@ def change_invitation(request, identifier, *, resend, nonce=None):
         raise ValidationError(
             'Le compte à l’origine de cette invitation ne peut plus l’envoyer.'
         )
-    record_invitation_attempt(actor, timezone.now())
+    last_sent_at = invitation.reminder_sent_at or invitation.email_sent_at
+    if last_sent_at and timezone.now() < last_sent_at + timedelta(hours=24):
+        raise ValidationError(
+            _('Please wait 24 hours after the last email before sending a reminder.')
+        )
     invitation.nonce = uuid.uuid4()
     invitation.expires_at = invitation_expiry()
     reminder = bool(invitation.email_sent_at)

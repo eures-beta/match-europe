@@ -1,6 +1,5 @@
 """Explicit adviser invitations, separate from sign-in for existing accounts."""
 
-from datetime import timedelta
 import uuid
 
 from django.conf import settings
@@ -10,12 +9,11 @@ from django.db import transaction
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone, translation
-from django.utils.crypto import salted_hmac
 from django.utils.translation import gettext as _
 
 from .models import Invitation
 from .defaults import invitation_expiry
-from eures_beta.users.models import LoginRateLimit, User
+from eures_beta.users.models import User
 from .permissions import can_invite
 from eures_beta.emails.origins import validate_origin
 
@@ -51,21 +49,6 @@ def find_invitation(token, *, lock=False):
     ).first()
 
 
-def record_invitation_attempt(adviser, now):
-    """Charge the shared quota while the caller holds the adviser's row lock."""
-    key = salted_hmac('employer-invitation-limit', str(adviser.pk)).hexdigest()
-    bucket, _created = LoginRateLimit.objects.get_or_create(
-        key=key, defaults={'expires': now + timedelta(hours=1)}
-    )
-    if bucket.expires <= now:
-        bucket.attempts = 0
-        bucket.expires = now + timedelta(hours=1)
-    if bucket.attempts >= 10:
-        raise ValidationError(_('Too many invitations. Please try again later.'))
-    bucket.attempts += 1
-    bucket.save(update_fields=['attempts', 'expires'])
-
-
 @transaction.atomic
 def create_invitation(
     adviser,
@@ -76,7 +59,7 @@ def create_invitation(
     first_name='',
     last_name='',
 ):
-    # Serialize simultaneous invitations by one adviser, including the rate limit.
+    # Serialize simultaneous confirmations to prevent duplicate invitations.
     adviser = User.objects.select_for_update().get(pk=adviser.pk)
     if not can_invite(adviser):
         raise ValidationError(_('You are not allowed to invite employers.'))
@@ -84,7 +67,6 @@ def create_invitation(
     if User.objects.filter(email__iexact=email).exists():
         raise ValidationError(_('An account already exists for this email address.'))
     now = timezone.now()
-    record_invitation_attempt(adviser, now)
     invitation = (
         Invitation.objects.select_for_update().filter(email__iexact=email).first()
     )

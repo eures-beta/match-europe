@@ -6,7 +6,7 @@ commune des droits ; cette application possède les données et services d’inv
 L’interface HTTP est dans [www/invitations/](../www/invitations/).
 
 - `models.py`, `defaults.py` : invitation, destinataire, dates et expiration ;
-- `services.py` : création, signature des liens, validation et quota ;
+- `services.py` : création, signature des liens, validation sans quota horaire ;
 - [Interface web](../www/invitations/) : préparation manuelle/CSV, aperçu, envoi, suivi avec dates d’envoi initial et de dernière relance, et acceptation protégée ;
 - `permissions.py`, `signals.py`, `eligibility.py` : rôle conseiller actif,
   droits historiques et reconnaissance des candidats invités ;

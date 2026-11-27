@@ -42,7 +42,7 @@
                      accept=".csv,text/csv"
                      aria-describedby="csv-help"
                      required>
-              <p id="csv-help" class="invitation-hint">CSV UTF-8, 10 destinataires maximum. Colonne <code>email</code> obligatoire. Colonnes <code>prénom</code> et <code>nom</code> facultatives.</p>
+              <p id="csv-help" class="invitation-hint">{% translate "UTF-8 CSV, maximum file size: 64 KB." %} Colonne <code>email</code> obligatoire. Colonnes <code>prénom</code> et <code>nom</code> facultatives.</p>
               <button class="primary-action" name="action" value="import">Vérifier et prévisualiser</button>
             {% else %}
               <div class="invitation-names">

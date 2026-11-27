@@ -8466,3 +8466,21 @@ msgstr "Match Europe – Rückmeldung"
 msgctxt "candidate shell"
 msgid "Report a problem or a suggestion"
 msgstr "Ein Problem oder einen Vorschlag melden"
+
+msgid "Please wait 24 hours after the last email before sending a reminder."
+msgstr "Bitte warten Sie nach der letzten E-Mail 24 Stunden, bevor Sie eine Erinnerung senden."
+
+#, python-format
+msgid "%(email)s — Email saved to the local outbox."
+msgstr "%(email)s — E-Mail im lokalen Postausgang gespeichert."
+
+#, python-format
+msgid "%(email)s — Email accepted by the sending service."
+msgstr "%(email)s — E-Mail vom Versanddienst angenommen."
+
+#, python-format
+msgid "%(email)s — Invitation saved, email not sent. Retry from tracking."
+msgstr "%(email)s — Einladung gespeichert, E-Mail nicht gesendet. Versuchen Sie es in der Übersicht erneut."
+
+msgid "UTF-8 CSV, maximum file size: 64 KB."
+msgstr "UTF-8-CSV, maximale Dateigröße: 64 KB."
