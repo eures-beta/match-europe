@@ -9,7 +9,7 @@ from django.test import TransactionTestCase, override_settings
 
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.users.test_accounts import prepared_user
-from .test_schema_names import assert_schema_names
+from tests.matching.test_schema_names import assert_schema_names
 
 
 @override_settings(

@@ -11,7 +11,9 @@ ni sous-domaine, ni préfixe aux URL.
 | `eures_beta/invitations/` | Modèle, services, autorisations et administration des invitations |
 | `eures_beta/employers/` | Offres, établissements, propriété, lecture et validation des offres |
 | `eures_beta/candidates/` | Profil, inscription, brouillons et validation partagée du questionnaire |
-| `eures_beta/matching/` | Calculs, évaluations, décisions, confirmations et conversations |
+| `eures_beta/matching/` | Calculs, évaluations et présélection humaine |
+| `eures_beta/introductions/` | Revues candidat/employeur, accords de partage et conversations |
+| `eures_beta/followup/` | Accompagnement candidat/offre, actions, relances et conclusion |
 | `eures_beta/occupations/` et `skills/` | Catalogues, recherche et services de compétences |
 | `eures_beta/templates/`, `static/`, `locale/` | Ressources partagées de présentation et traductions |
 | `tests/` | Tests centralisés par domaine, y compris ceux des interfaces |
@@ -25,9 +27,9 @@ des offres dans `employers/offer_validation.py`. La disponibilité des emails de
 connexion reste dans `users/email_login.py` pour l’inscription et la connexion.
 
 Les paquets web ne sont pas enregistrés comme nouvelles applications Django.
-Les applications qui possèdent les modèles, leurs labels, migrations, tables,
-permissions et ContentTypes ne changent pas. Aucun déplacement de données ni
-nouvelle migration ne sont nécessaires. Les anciens modules Python sont retirés,
+Le déplacement des seuls adaptateurs web ne change pas les modèles. Le découpage
+métier ultérieur en `matching`, `introductions` et `followup` possède ses propres
+migrations conservant les données et permissions ; voir [les domaines](MATCHING_DOMAINS.md). Les anciens modules Python sont retirés,
 sans alias de compatibilité ; les imports, mocks et routes utilisent leurs
 nouveaux emplacements. Les adresses et noms de routes publics restent identiques.
 

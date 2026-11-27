@@ -16,15 +16,15 @@ from eures_beta.candidates.models import (
     CandidatePushSubscription,
 )
 from eures_beta.employers.models import JobOffer
-from eures_beta.matching.models import (
+from eures_beta.introductions.models import (
     CandidateOfferConversation,
     CandidateOfferReview,
-    CandidateOfferMatch,
     CandidateOfferReviewAnswer,
     CandidateOfferReviewEvent,
     CandidateProfileSharing,
 )
-from eures_beta.matching import review_workflow
+from eures_beta.matching.models import CandidateOfferMatch
+from eures_beta.introductions import review_workflow
 from eures_beta.users.models import User
 from eures_beta.users.preview_data.report import model_counts
 from eures_beta.users.preview_data.scenarios import identifier
@@ -76,11 +76,11 @@ class PreviewDataTests(TestCase):
             (9, 16, 18),
         )
         self.assertEqual(counts['employers.EmployerProfile'], 1)
-        self.assertEqual(counts['matching.JobOfferSupport'], 16)
-        self.assertEqual(counts['matching.MatchFollowup'], 3)
-        self.assertEqual(counts['matching.MatchFollowupEvent'], 3)
-        self.assertEqual(counts['matching.MatchConclusion'], 1)
-        self.assertEqual(counts['matching.MatchConclusionEvent'], 1)
+        self.assertEqual(counts['followup.JobOfferSupport'], 16)
+        self.assertEqual(counts['followup.MatchFollowup'], 3)
+        self.assertEqual(counts['followup.MatchFollowupEvent'], 3)
+        self.assertEqual(counts['followup.MatchConclusion'], 1)
+        self.assertEqual(counts['followup.MatchConclusionEvent'], 1)
         before = self.snapshot()
         call_command('seed_test_accounts', stdout=StringIO())
         self.assertEqual(self.snapshot(), before)
@@ -177,7 +177,7 @@ class PreviewDataTests(TestCase):
         from django.utils import timezone
         from eures_beta.employers.models import EmployerProfile
         from eures_beta.invitations.models import Invitation
-        from eures_beta.matching.models import CandidateOfferConversationMessage
+        from eures_beta.introductions.models import CandidateOfferConversationMessage
         from eures_beta.users.demo_employers import LEGACY_EMPLOYER_EMAIL
 
         employer = prepared_user('employer')
@@ -218,7 +218,7 @@ class PreviewDataTests(TestCase):
             for row in expected['employers.EmployerProfile']
             if row['user_id'] != legacy.pk
         ]
-        for row in expected['matching.CandidateOfferConversationMessage']:
+        for row in expected['introductions.CandidateOfferConversationMessage']:
             if row['author_id'] == legacy.pk:
                 row['author_id'] = employer.pk
         for row in expected['invitations.Invitation']:
@@ -227,7 +227,7 @@ class PreviewDataTests(TestCase):
         for row in expected['employers.JobOffer']:
             if row['employer_id'] == legacy.pk:
                 row['employer_id'] = employer.pk
-        for row in expected['matching.CandidateOfferConversation']:
+        for row in expected['introductions.CandidateOfferConversation']:
             if row['employer_id'] == legacy.pk:
                 row['employer_id'] = employer.pk
         call_command('seed_test_accounts', stdout=StringIO())
@@ -258,7 +258,7 @@ class PreviewDataTests(TestCase):
         output = StringIO()
         call_command('seed_test_accounts', report=True, stdout=output)
         self.assertEqual(before, self.snapshot())
-        self.assertIn('matching.CandidateOfferConversation: 5', output.getvalue())
+        self.assertIn('introductions.CandidateOfferConversation: 5', output.getvalue())
         self.assertNotIn('@', output.getvalue())
 
     def test_full_dataset_is_refused_in_production_or_a_nonfictional_database(self):

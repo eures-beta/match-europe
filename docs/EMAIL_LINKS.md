@@ -88,7 +88,7 @@ retours encodés, échappement HTML, FR/EN/DE, secours des cinq templates riches
 les parcours réels en boîte mémoire : connexion, dépôt conseiller, inscription,
 invitation, proposition d'offre et notifications. Aucun e-mail réel n'est envoyé.
 
-Commande : `make test TESTS='tests.emails tests.users.test_magic_login tests.candidates.test_registration tests.invitations tests.employers.test_adviser_deposit tests.matching.test_review_email tests.matching.test_review_workflow'`.
+Commande : `make test TESTS='tests.emails tests.users.test_magic_login tests.candidates.test_registration tests.invitations tests.employers.test_adviser_deposit tests.introductions.test_review_email tests.introductions.test_review_workflow'`.
 Compléter par les contrôles habituels et une réception manuelle dans les clients
 concernés après livraison autorisée. Les tests MIME ne valent pas une validation
 visuelle sur Gmail, Outlook, Thunderbird ou Apple Mail.

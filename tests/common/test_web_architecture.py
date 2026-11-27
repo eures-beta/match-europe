@@ -15,6 +15,8 @@ class WebArchitectureTests(SimpleTestCase):
             'employers',
             'candidates',
             'matching',
+            'introductions',
+            'followup',
             'occupations',
             'skills',
             'planning',

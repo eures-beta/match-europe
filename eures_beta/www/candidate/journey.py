@@ -198,7 +198,7 @@ def workflow(request, language):
                 except registration.StaleProfile:
                     return render(
                         request,
-                        'matching/dialogue_profile_conflict.html',
+                        'introductions/dialogue_profile_conflict.html',
                         {'page_language': language},
                         status=409,
                     )

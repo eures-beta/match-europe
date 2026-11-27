@@ -9,20 +9,16 @@ from django.utils import timezone
 from eures_beta.planning.preview_data import seed_availability
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
-from eures_beta.matching import (
-    offer_review_services as reviews,
-    review_workflow,
-    services,
-)
-from eures_beta.matching.models import (
+from eures_beta.introductions import offer_review_services as reviews, review_workflow
+from eures_beta.matching import services
+from eures_beta.introductions.models import (
     EmployerCandidateReview,
-    CandidateOfferMatch,
     CandidateOfferReview,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
-    CandidateSupport,
-    JobOfferSupport,
 )
+from eures_beta.matching.models import CandidateOfferMatch
+from eures_beta.followup.models import CandidateSupport, JobOfferSupport
 from .supporting import seed_supporting_data
 
 NAMESPACE = 'match-europe.preview-dataset.v1.'

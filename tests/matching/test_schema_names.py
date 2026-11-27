@@ -9,7 +9,7 @@ from django.db.migrations.executor import MigrationExecutor
 from django.test import TestCase, TransactionTestCase
 from django.apps import apps as current_apps
 
-from .fixtures.historical import seed_matching
+from tests.matching.fixtures.historical import seed_matching
 from tests.common.migration_state import historical_targets, prepare_historical
 
 NAMES = import_module('eures_beta.matching.migrations.0011_harmonize_database_objects')

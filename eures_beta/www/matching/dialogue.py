@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.matching import (
+from eures_beta.introductions import (
     offer_review_services as offer_reviews,
     dialogue_services as dialogue,
 )
@@ -279,7 +279,7 @@ def conversation(request, pk):
 
     return render(
         request,
-        'matching/dialogue.html',
+        'introductions/dialogue.html',
         dict(
             obj=obj,
             shared_conversation=conversations(request.user)

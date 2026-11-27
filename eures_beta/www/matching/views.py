@@ -14,13 +14,10 @@ from eures_beta.matching.access import (
     matchable_offers,
     can_change_match,
 )
-from eures_beta.matching.offer_review_services import review_state
+from eures_beta.introductions.offer_review_services import review_state
 from eures_beta.www.matching.offer_reviews import display_rows
-from eures_beta.matching.models import (
-    CandidateOfferMatch,
-    MatchEvaluation,
-    CandidateOfferReview,
-)
+from eures_beta.matching.models import CandidateOfferMatch, MatchEvaluation
+from eures_beta.introductions.models import CandidateOfferReview
 from eures_beta.matching.services import calculate, decide, inputs, StaleEvaluation
 from eures_beta.matching.presentation import present, DECISIONS
 from eures_beta.candidates.occupation_choices import resolve_reference

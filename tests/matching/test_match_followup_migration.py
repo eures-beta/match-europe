@@ -5,10 +5,10 @@ from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase, override_settings
 
-from eures_beta.matching import offer_review_services
+from eures_beta.introductions import offer_review_services
 from eures_beta.matching.models import CandidateOfferMatch
 from eures_beta.users.test_accounts import prepared_user
-from .test_schema_names import assert_schema_names
+from tests.matching.test_schema_names import assert_schema_names
 
 
 @override_settings(
@@ -66,8 +66,12 @@ class IntroductionFollowupMigrationTests(TransactionTestCase):
                 .exists()
             )
         assert_schema_names(self, apps)
-        self.migrate('0025_employer_consent_database_names')
-        self.assertTrue(type(review).objects.filter(pk=review.pk).exists())
+        apps = self.migrate('0025_employer_consent_database_names')
+        self.assertTrue(
+            apps.get_model('matching', 'CandidateOfferReview')
+            .objects.filter(pk=review.pk)
+            .exists()
+        )
         self.assertNotIn(
             'matching_introductionfollowup', connection.introspection.table_names()
         )

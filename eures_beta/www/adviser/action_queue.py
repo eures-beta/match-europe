@@ -11,12 +11,10 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.matching import access, search_queue
-from eures_beta.matching.models import (
-    CandidateSupport,
-    JobOfferSupport,
-    MatchEvaluation,
-)
+from eures_beta.matching import access
+from eures_beta.followup import search_queue
+from eures_beta.followup.models import CandidateSupport, JobOfferSupport
+from eures_beta.matching.models import MatchEvaluation
 from eures_beta.www.accounts.views import selected_language
 
 

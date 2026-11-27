@@ -1,6 +1,6 @@
 """Preserve old preview conversations while extending the current migration graph."""
 
-from .fixtures.historical import seed_matching
+from tests.matching.fixtures.historical import seed_matching
 from tests.common.migration_state import historical_targets, prepare_historical
 
 from importlib import import_module

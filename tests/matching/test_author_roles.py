@@ -10,12 +10,12 @@ from django.test import TestCase, TransactionTestCase, override_settings
 
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.matching import services
-from eures_beta.matching.models import (
+from eures_beta.introductions.models import (
     CandidateOfferReview,
     CandidateOfferReviewAnswer,
     CandidateProfileSharing,
-    MatchDecision,
 )
+from eures_beta.matching.models import MatchDecision
 from eures_beta.users.models import User
 
 DEMO = dict(

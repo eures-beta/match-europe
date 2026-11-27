@@ -11,16 +11,14 @@ from django.utils import timezone
 
 from eures_beta.candidates.models import CandidateProfile
 from eures_beta.employers.models import JobOffer
-from eures_beta.matching import search_queue, services
-from eures_beta.matching.models import (
-    CandidateSupport,
-    JobOfferSupport,
-    CandidateOfferMatch,
-    CandidateOfferReview,
-)
+from eures_beta.followup import search_queue
+from eures_beta.matching import services
+from eures_beta.followup.models import CandidateSupport, JobOfferSupport
+from eures_beta.matching.models import CandidateOfferMatch
+from eures_beta.introductions.models import CandidateOfferReview
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
-from tests.matching.test_dialogue import SETTINGS
+from tests.introductions.test_dialogue import SETTINGS
 
 
 @override_settings(**{**SETTINGS, 'ALBERT_SIMULATED': True})

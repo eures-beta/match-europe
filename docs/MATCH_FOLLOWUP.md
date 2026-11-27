@@ -73,6 +73,6 @@ la connexion du moteur de migration, y compris sur une base nommée autrement
 que `default`. `tests/matching/test_migration_database_alias.py` vérifie ce ciblage ;
 `make users-upgrade-test` éprouve la transition complète dans une base isolée.
 
-Recette : `make test TESTS='tests.matching.test_match_lifecycle tests.matching.test_match_lifecycle_migration tests.matching.test_match_followup'`,
+Recette : `make test TESTS='tests.followup.test_match_lifecycle tests.followup.test_match_lifecycle_migration tests.followup.test_match_followup'`,
 puis contrôles communs Python, HTML/CSS et gettext. Le transport réel doit être
 vérifié séparément dans un environnement configuré autorisé.

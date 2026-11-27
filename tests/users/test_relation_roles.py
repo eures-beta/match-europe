@@ -9,11 +9,8 @@ from django.db.migrations.executor import MigrationExecutor
 from django.test import TestCase, TransactionTestCase, override_settings
 from eures_beta.employers.models import JobOffer
 from eures_beta.invitations.models import Invitation
-from eures_beta.matching.models import (
-    CandidateOfferReview,
-    CandidateSupport,
-    JobOfferSupport,
-)
+from eures_beta.introductions.models import CandidateOfferReview
+from eures_beta.followup.models import CandidateSupport, JobOfferSupport
 from eures_beta.users.models import User
 
 DEMO = dict(
@@ -194,7 +191,7 @@ class RelationRoleMigrationTests(TransactionTestCase):
                 result.append((rows, oid, constraints, indexes))
             return result
 
-        modern = snapshot(executor.loader.project_state(targets).apps, True)
+        modern = snapshot(self.migrate(targets), True)
         old = self.migrate(before)
         old_invitation = old.get_model('invitations', 'Invitation').objects.get(
             email='roundtrip-role@example.invalid'

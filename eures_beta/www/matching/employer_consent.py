@@ -13,8 +13,9 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.matching import access, employer_consent, offer_review_services
-from eures_beta.matching.models import (
+from eures_beta.matching import access
+from eures_beta.introductions import employer_consent, offer_review_services
+from eures_beta.introductions.models import (
     CandidateOfferReview,
     CandidateProfileSharing,
     EmployerCandidateReview,
@@ -181,7 +182,7 @@ def prepare(request, pk):
             question_rows = [(question, None) for question in questions]
         return render(
             request,
-            'matching/employer_consent.html',
+            'introductions/employer_consent.html',
             {
                 'page_language': language,
                 'review': review,
@@ -244,7 +245,7 @@ def respond(request, pk):
                 )
         return render(
             request,
-            'matching/employer_consent.html',
+            'introductions/employer_consent.html',
             {
                 'page_language': language,
                 'review': review,

@@ -3,7 +3,7 @@ from django.core.management import call_command
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase, override_settings
-from eures_beta.matching.models import CandidateOfferReview
+from eures_beta.introductions.models import CandidateOfferReview
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -26,7 +26,7 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
         call_command('seed_test_accounts', minimal=True, stdout=StringIO())
         call_command('seed_matching_trial', stdout=StringIO())
         review = CandidateOfferReview.objects.first()
-        from eures_beta.matching import offer_review_services as service
+        from eures_beta.introductions import offer_review_services as service
 
         row = next(r for r in service.review_state(review)['rows'] if r['askable'])
         answer = service.answer(
@@ -37,7 +37,7 @@ class ReviewWorkflowMigrationTests(TransactionTestCase):
             'yes',
         )
         # Preserve an existing recorded choice without suggesting it is currently valid.
-        from eures_beta.matching.models import CandidateProfileSharing
+        from eures_beta.introductions.models import CandidateProfileSharing
 
         agreement = CandidateProfileSharing.objects.create(
             review=review,

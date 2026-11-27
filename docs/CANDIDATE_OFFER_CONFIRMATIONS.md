@@ -86,7 +86,7 @@ arrière habituel avec suppression des trois tables nouvellement créées.
 migration figée, avec des données non vides. Il vérifie leur conservation,
 l’aller-retour, les séquences, la création vierge et le refus des divergences.
 
-Utiliser `make test TESTS=tests.matching.test_offer_reviews` pour les tests ciblés, `make test` pour
+Utiliser `make test TESTS=tests.introductions.test_offer_reviews` pour les tests ciblés, `make test` pour
 la suite PostgreSQL et `make check` pour les contrôles Django et de migration.
 
 Les anciennes tables conservées lors du renommage initial sont ensuite renommées

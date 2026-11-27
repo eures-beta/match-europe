@@ -51,7 +51,7 @@ après acceptation SMTP et avant enregistrement du résultat laisse un état
 incertain ; une relance peut produire un doublon. La livraison exactement une
 fois n’est pas garantie par SMTP.
 
-`make test TESTS=tests.matching.test_review_email` couvre déclenchement, absence
+`make test TESTS=tests.introductions.test_review_email` couvre déclenchement, absence
 de Push, erreurs, relance, langues, authentification et retour sur la bonne offre.
 Les tests simulent les services externes : ils ne prouvent pas la délivrabilité
 du fournisseur ni le ton réel d’Albert. Aucune configuration distante n’est

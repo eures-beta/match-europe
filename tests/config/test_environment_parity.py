@@ -27,7 +27,7 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
                 'from django.conf import settings; '
                 'from eures_beta.employers.offer_structuring import enabled as offer; '
                 'from eures_beta.skills.albert_skills import enabled as skills; '
-                'from eures_beta.matching.dialogue_services import enabled as dialogue; '
+                'from eures_beta.introductions.dialogue_services import enabled as dialogue; '
                 'print(json.dumps([offer(), skills(), dialogue(), '
                 'settings.ALBERT_SIMULATED, settings.EMAIL_DELIVERY_ENABLED, '
                 'settings.TEAM_CONTACT_EMAIL]))',

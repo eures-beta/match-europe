@@ -105,6 +105,8 @@ INSTALLED_APPS = [
     'eures_beta.candidates.apps.CandidatesConfig',
     'eures_beta.employers.apps.EmployersConfig',
     'eures_beta.matching',
+    'eures_beta.introductions',
+    'eures_beta.followup',
 ]
 
 MIDDLEWARE = [
