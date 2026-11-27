@@ -87,7 +87,7 @@ class MatchLifeLineTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         plan = MatchFollowup.objects.get(match=match)
-        self.assertIsNone(plan.review_id)
+        self.assertFalse(hasattr(plan, 'review_id'))
         self.assertFalse(
             match.__class__.objects.filter(
                 pk=match.pk, candidate_offer_review__isnull=False

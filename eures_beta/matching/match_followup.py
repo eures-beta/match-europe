@@ -41,7 +41,7 @@ def reviews():
         'match__candidate__user',
         'match__offer__employer',
         'assigned_to_adviser',
-        'match_followup',
+        'match__followup',
     )
 
 
@@ -199,9 +199,7 @@ def plan(adviser, pk, stamp, **values):
         raise ValidationError(
             _('Verify the employer’s hiring declaration before closing this matching.')
         )
-    followup = current['plan'] or MatchFollowup(review=review, match=review.match)
-    if followup.review_id is None:
-        followup.review = review
+    followup = current['plan'] or MatchFollowup(match=review.match)
     for key in ('next_action', 'waiting_for', 'due_on', 'outcome', 'closure_reason'):
         setattr(followup, key, values[key])
     if followup.outcome != 'open':
@@ -246,7 +244,6 @@ def reminder(adviser, pk, stamp, recipient, message, language='fr'):
         if not followup:
             followup = MatchFollowup.objects.create(
                 match=review.match,
-                review=review,
                 next_action=str(_('Follow up on this matching')),
                 waiting_for=recipient,
                 updated_by_adviser=adviser,

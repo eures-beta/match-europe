@@ -417,9 +417,7 @@ def schedule(user, pk, *, due_on, version, next_action='', waiting_for='adviser'
         raise Changed
     if not due_on or waiting_for not in ('adviser', 'candidate', 'employer'):
         raise ValidationError(_('Choose a check-in date and a responsible person.'))
-    plan = current['plan'] or MatchFollowup(match=match, review=current['review'])
-    if not plan.review_id and current['review']:
-        plan.review = current['review']
+    plan = current['plan'] or MatchFollowup(match=match)
     plan.due_on, plan.waiting_for, plan.next_action = (
         due_on,
         waiting_for,
