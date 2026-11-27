@@ -10,22 +10,35 @@ class AdviserPlanningTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.adviser = User.objects.create_user(
-            'planner@example.invalid', kind='adviser', first_name='Camille Test'
+            'planner@example.invalid',
+            kind='adviser',
+            first_name='Camille Test',
+            is_staff=True,
         )
         cls.colleague = User.objects.create_user(
-            'colleague@example.invalid', kind='adviser', first_name='Sam Test'
+            'colleague@example.invalid',
+            kind='adviser',
+            first_name='Sam Test',
+            is_staff=True,
+        )
+        cls.non_staff = User.objects.create_user(
+            'nonstaff@example.invalid', kind='adviser', first_name='Nonstaff Test'
         )
         cls.inactive = User.objects.create_user(
             'inactive@example.invalid',
             kind='adviser',
             is_active=False,
+            is_staff=True,
             first_name='Inactive Test',
         )
         cls.candidate = User.objects.create_user(
-            'candidate@example.invalid', kind='candidate', first_name='Candidate Test'
+            'candidate@example.invalid',
+            kind='candidate',
+            first_name='Candidate Test',
+            is_staff=True,
         )
         cls.employer = User.objects.create_user(
-            'employer@example.invalid', kind='employer'
+            'employer@example.invalid', kind='employer', is_staff=True
         )
 
     def setUp(self):
@@ -41,6 +54,7 @@ class AdviserPlanningTests(TestCase):
         self.assertContains(response, 'Camille Test')
         self.assertContains(response, 'Sam Test')
         self.assertNotContains(response, 'Inactive Test')
+        self.assertNotContains(response, 'Nonstaff Test')
         self.assertNotContains(response, 'Candidate Test')
         self.assertNotContains(response, self.colleague.email)
         self.assertContains(response, 'name="status"', count=7)
@@ -88,7 +102,13 @@ class AdviserPlanningTests(TestCase):
         self.assertFalse(other.present)
 
     def test_guest_and_other_roles_cannot_read_or_save(self):
-        for user in (None, self.candidate, self.employer, self.inactive):
+        for user in (
+            None,
+            self.candidate,
+            self.employer,
+            self.inactive,
+            self.non_staff,
+        ):
             with self.subTest(user=user):
                 client = Client()
                 if user:
@@ -99,6 +119,20 @@ class AdviserPlanningTests(TestCase):
                 )
                 self.assertEqual(response.status_code, 403)
         self.assertFalse(AdviserAvailability.objects.exists())
+
+    def test_non_staff_adviser_keeps_business_access_but_has_no_planning_tab(self):
+        self.client.force_login(self.non_staff)
+        for route in ('dashboard', 'adviser_invitations', 'adviser_followup_list'):
+            with self.subTest(route=route):
+                response = self.client.get(reverse(route), follow=True)
+                self.assertEqual(response.status_code, 200)
+                self.assertNotContains(response, 'adviser-planning-tab')
+
+    def test_staff_superuser_adviser_can_use_the_planning(self):
+        self.adviser.is_superuser = True
+        self.adviser.save(update_fields=['is_superuser'])
+        self.client.force_login(self.adviser)
+        self.assertEqual(self.client.get(self.url).status_code, 200)
 
     def test_invalid_week_date_and_status_are_rejected(self):
         self.client.force_login(self.adviser)

@@ -32,8 +32,8 @@
   Ces protections ne doivent pas restreindre un parcours métier.
 - Vérifier côté serveur authentification, rôle actif, propriété, consentement,
   CSRF et validité des données. Pas de droits déduits de l'interface ou d'une IP.
-- Tous les conseillers actifs ont les mêmes droits métier, sans habilitation
-  Django individuelle ni groupe supplémentaire. Cela ne donne aucun droit admin.
+- Les conseillers actifs ont les mêmes droits métier sans permissions individuelles.
+  Le planning interne exige aussi `is_staff` ; cela n’étend pas les droits admin.
 - L'admin Django est en consultation, même pour les superutilisateurs : pas
   d'ajout, modification, suppression ou action groupée ; utiliser `users/admin_base.py`.
 - Connexion : seulement un compte existant actif, jamais de création implicite.

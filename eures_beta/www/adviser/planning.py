@@ -2,6 +2,7 @@
 
 from datetime import date, timedelta
 
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -34,6 +35,8 @@ def monday(day):
 @adviser_required
 @require_http_methods(['GET', 'POST'])
 def planning(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
     language = selected_language(request)
     today = timezone.localdate()
     selected = parse_day(request.GET.get('week', today.isoformat()))
@@ -54,9 +57,9 @@ def planning(request):
             reverse('adviser_planning', query={'lang': language, 'week': start})
         )
 
-    advisers = User.objects.filter(is_active=True, kind=User.Kind.ADVISER).order_by(
-        'last_name', 'first_name', 'pk'
-    )
+    advisers = User.objects.filter(
+        is_active=True, is_staff=True, kind=User.Kind.ADVISER
+    ).order_by('last_name', 'first_name', 'pk')
     availability = {
         (adviser_id, day): present
         for adviser_id, day, present in AdviserAvailability.objects.filter(

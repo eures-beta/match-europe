@@ -27,6 +27,7 @@ Voir [la documentation de transition](../../docs/USER_MODEL.md).
 - [Droits administratifs](../../../docs/ADMIN_PERMISSIONS.md) — Politique versionnée, synchronisation et création restreinte de conseillers.
 - [permissions.py](permissions.py) — Accès métier fondé sur le rôle conseiller actif et réconciliation des droits administratifs historiques.
 - [admin_config.py](admin_config.py) — Retire l'édition des groupes après découverte des administrations.
+- [admin_site.py](admin_site.py) — Regroupe visuellement les disponibilités sous « Planning », sans nouvelle application ni changement des droits administratifs.
 - [__init__.py](__init__.py) — Identifie le paquet Python.
 - [admin.py](admin.py) — Adapte l’administration Django au compte sans username et au kind immuable.
 - [apps.py](apps.py) — Déclare l’application Django users.
@@ -53,4 +54,4 @@ L’envoi SMTP reste désactivé jusqu’à sa configuration privée.
 [Mon compte](../../docs/ACCOUNT_PAGES.md) affiche les informations de l’utilisateur
 connecté en lecture seule ; le lien d’administration est réservé aux comptes staff.
 
-- [models.py](models.py) définit aussi `AdviserAvailability`, une disponibilité par conseiller et par jour. Une date sans enregistrement est affichée comme présente.
+- [models.py](models.py) définit aussi `AdviserAvailability`, une disponibilité par conseiller et par jour. Le planning interne exige un conseiller actif staff ; une date sans enregistrement est affichée comme présente.
