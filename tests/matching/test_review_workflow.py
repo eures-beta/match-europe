@@ -17,7 +17,7 @@ from eures_beta.candidates.models import CandidateProfileReviewSuggestion
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferReview,
-    EmployerOfferConsent,
+    EmployerCandidateReview,
 )
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
@@ -145,9 +145,9 @@ class ReviewWorkflowTests(TestCase):
         )
         from django.utils import timezone
 
-        EmployerOfferConsent.objects.create(
+        EmployerCandidateReview.objects.create(
             agreement=answers.review_state(self.review)['agreement'],
-            adviser=self.other,
+            requested_by_adviser=self.other,
             employer=self.match.offer.employer,
             decision='accepted',
             replies={'contact': 'no', 'conditions': [], 'interest': 'yes'},

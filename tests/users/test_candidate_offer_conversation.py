@@ -11,7 +11,7 @@ from eures_beta.matching.models import (
     CandidateOfferReview,
     CandidateOfferMatch,
     CandidateOfferConversation,
-    EmployerOfferConsent,
+    EmployerCandidateReview,
 )
 from tests.matching.test_dialogue import SETTINGS
 from eures_beta.users.models import User
@@ -105,9 +105,9 @@ class CandidateOfferConversationTests(TestCase):
         self.assertEqual(
             self.adviser_client.post(self.start, {'body': 'Premature'}).status_code, 404
         )
-        self.consent = EmployerOfferConsent.objects.create(
+        self.consent = EmployerCandidateReview.objects.create(
             agreement=offer_review_services.review_state(self.review)['agreement'],
-            adviser=self.adviser,
+            requested_by_adviser=self.adviser,
             employer=self.employer,
             decision='accepted',
             replies={'contact': 'no', 'conditions': [], 'interest': 'yes'},
