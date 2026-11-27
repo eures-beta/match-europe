@@ -5,12 +5,11 @@ on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 
-concurrency:
-  group: black-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   black:
+    if: >-
+      github.event_name == 'push' || github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.repo.full_name != github.repository
     name: Black
     runs-on: ubuntu-latest
     timeout-minutes: 5

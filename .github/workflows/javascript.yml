@@ -2,11 +2,11 @@ name: Format JavaScript et CSS
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
-concurrency:
-  group: javascript-${{ github.ref }}
-  cancel-in-progress: true
 jobs:
   prettier:
+    if: >-
+      github.event_name == 'push' || github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.repo.full_name != github.repository
     name: Prettier
     runs-on: ubuntu-latest
     steps:
