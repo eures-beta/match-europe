@@ -32,13 +32,13 @@
     <p>{% translate "Choose who should act and when you will check progress. Saving this date does not send a reminder." %}</p>
     <form method="post">
       {% csrf_token %}{{ plan_form.non_field_errors }}{{ plan_form.stamp }}
-      {% include "eures/form_field.html" with field=plan_form.next_action %}
-      {% include "eures/form_field.html" with field=plan_form.waiting_for %}
-      {% include "eures/form_field.html" with field=plan_form.due_on %}
+      {% include "form_field.html" with field=plan_form.next_action %}
+      {% include "form_field.html" with field=plan_form.waiting_for %}
+      {% include "form_field.html" with field=plan_form.due_on %}
       <details {% if plan_form.outcome.errors or plan_form.closure_reason.errors or followup.plan.outcome and followup.plan.outcome != 'open' %}open{% endif %}>
         <summary>{% translate "Close or reopen this follow-up" %}</summary>
-        {% include "eures/form_field.html" with field=plan_form.outcome %}
-        {% include "eures/form_field.html" with field=plan_form.closure_reason %}
+        {% include "form_field.html" with field=plan_form.outcome %}
+        {% include "form_field.html" with field=plan_form.closure_reason %}
       </details>
       <button class="btn btn-primary mt-3"
               name="action"
@@ -57,7 +57,7 @@
       {% endif %}
       <form method="post">
         {% csrf_token %}{{ reminder_form.non_field_errors }}
-        {% for field in reminder_form %}{% if field.is_hidden %}{{ field }}{% else %}{% include "eures/form_field.html" %}{% endif %}{% endfor %}
+        {% for field in reminder_form %}{% if field.is_hidden %}{{ field }}{% else %}{% include "form_field.html" %}{% endif %}{% endfor %}
         <button class="btn btn-primary" name="action" value="reminder" type="submit">
           {% if email_available %}
             {% translate "Send this reminder by email" %}
