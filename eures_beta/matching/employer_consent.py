@@ -3,7 +3,7 @@
 from django.utils.translation import gettext as _
 
 from . import access, dialogue_albert, review_workflow
-from .models import EmployerOfferConsent
+from .models import EmployerCandidateReview
 
 
 def eligible_agreement(state):
@@ -74,9 +74,9 @@ def question_text(question):
 
 def decision_for(replies):
     if replies.get('interest') == 'no' or 'blocked' in replies['conditions']:
-        return EmployerOfferConsent.Decision.DECLINED
+        return EmployerCandidateReview.Decision.DECLINED
     if 'clarify' in replies['conditions']:
-        return EmployerOfferConsent.Decision.CLARIFY
+        return EmployerCandidateReview.Decision.CLARIFY
     if replies.get('interest') == 'yes':
-        return EmployerOfferConsent.Decision.ACCEPTED
-    return EmployerOfferConsent.Decision.PENDING
+        return EmployerCandidateReview.Decision.ACCEPTED
+    return EmployerCandidateReview.Decision.PENDING

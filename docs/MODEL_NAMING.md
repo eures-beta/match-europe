@@ -15,6 +15,7 @@ suivent le concept actuel (`offer_review_services.py`, `profile.py`).
 | CandidateOfferReview | matching_confirmationrequest | matching_candidateofferreview |
 | CandidateOfferReviewAnswer | matching_confirmationanswer | matching_candidateofferreviewanswer |
 | CandidateProfileSharing | matching_transmissionagreement | matching_candidateprofilesharing |
+| EmployerCandidateReview | matching_employerofferconsent | matching_employercandidatereview |
 | Invitation | users_invitation | invitations_invitation |
 | OccupationSkillSuggestion | occupations_occupationskillsuggestion | skills_occupationskillsuggestion |
 
