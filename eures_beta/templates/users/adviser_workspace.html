@@ -16,11 +16,12 @@
            {% endblock %}>{% translate "Invite" %}</a>
         <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;tab=history"
            {% if history_tab %} aria-current="page"{% endif %}>Données et historique</a>
-        <a href="{% url 'adviser_planning' %}?lang={{ dashboard_language }}"
-           {% if planning_tab %}aria-current="page"{% endif %}>{% translate "Agent schedule" %}</a>
         <a href="{% url 'adviser_offers' %}?lang={{ dashboard_language }}"
            {% if deposit_tab %}aria-current="page"{% endif %}>{% translate "My deposited offers" %}</a>
         {% block adviser_tabs %}{% endblock %}
+        <a class="adviser-planning-tab"
+           href="{% url 'adviser_planning' %}?lang={{ dashboard_language }}"
+           {% if planning_tab %}aria-current="page"{% endif %}>{% translate "Agent schedule" %}</a>
       </nav>
     </header>
     {% block adviser_sidebar %}

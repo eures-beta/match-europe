@@ -45,8 +45,20 @@ class AdviserPlanningTests(TestCase):
         self.assertNotContains(response, self.colleague.email)
         self.assertContains(response, 'name="status"', count=7)
         self.assertContains(response, 'planning-status-absent', count=1)
+        self.assertContains(response, 'planning-status-present', count=13)
+        self.assertNotContains(response, 'planning-status-unspecified')
+        self.assertEqual(AdviserAvailability.objects.count(), 1)
         self.assertEqual(response.context['previous_week'], date(2026, 11, 16))
         self.assertEqual(response.context['next_week'], date(2026, 11, 30))
+
+    def test_planning_is_the_last_dashboard_tab(self):
+        self.client.force_login(self.adviser)
+        response = self.client.get(reverse('dashboard'), {'lang': 'en'})
+        self.assertContains(response, 'adviser-planning-tab')
+        tabs = response.content.decode().split('adviser-workspace-tabs', 1)[1]
+        tab_links = tabs.split('</nav>', 1)[0].rsplit('<a ', 2)[1:]
+        self.assertIn(reverse('adviser_offers'), tab_links[0])
+        self.assertIn(reverse('adviser_planning'), tab_links[1])
 
     def test_save_change_and_retry_only_touch_signed_in_adviser(self):
         other = AdviserAvailability.objects.create(
@@ -57,14 +69,19 @@ class AdviserPlanningTests(TestCase):
         client.get(self.url)
         data = {
             'day': self.day.isoformat(),
-            'status': 'present',
+            'status': 'absent',
             'adviser': self.colleague.pk,
         }
         self.assertEqual(client.post(self.url, data).status_code, 403)
         data['csrfmiddlewaretoken'] = client.cookies['csrftoken'].value
-        for status in ('present', 'present', 'absent'):
+        for status in ('absent', 'absent', 'present'):
             response = client.post(self.url, {**data, 'status': status})
             self.assertRedirects(response, self.url)
+            self.assertContains(
+                client.get(self.url),
+                'planning-status-absent',
+                count=2 if status == 'absent' else 1,
+            )
             own = AdviserAvailability.objects.get(adviser=self.adviser, day=self.day)
             self.assertEqual(own.present, status == 'present')
         other.refresh_from_db()

@@ -64,7 +64,6 @@ def planning(request):
         ).values_list('adviser_id', 'day', 'present')
     }
     statuses = {
-        None: ('unspecified', _('Not specified'), 'present', _('Mark as present')),
         True: ('present', _('Present'), 'absent', _('Mark as absent')),
         False: ('absent', _('Absent'), 'present', _('Mark as present')),
     }
@@ -75,7 +74,8 @@ def planning(request):
             'organisation': adviser.organization_name,
             'own': adviser.pk == request.user.pk,
             'days': [
-                (day, *statuses[availability.get((adviser.pk, day))]) for day in days
+                (day, *statuses[availability.get((adviser.pk, day), True)])
+                for day in days
             ],
         }
         for adviser in advisers
