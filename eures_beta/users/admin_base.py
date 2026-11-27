@@ -6,6 +6,8 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from django.contrib import admin
 from django.core.exceptions import PermissionDenied
 from django.utils.html import format_html
+from django.utils.translation import gettext as _
+from .admin_labels import EnglishModelOptions
 
 SECRET_KEY = re.compile(
     r'password|secret|token|sesame|invitation|authorization|cookie|session|api.?key|nonce|digest',
@@ -43,6 +45,17 @@ class ReadOnlyAdmin(admin.ModelAdmin):
     change_form_template = 'admin/read_only_change_form.html'
     list_per_page = 50
     exclude = ('password', 'session_key', 'session_data', 'nonce', 'digest')
+
+    def __init__(self, model, admin_site):
+        super().__init__(model, admin_site)
+        self.opts = EnglishModelOptions(model._meta)
+
+    def get_changelist_instance(self, request):
+        changelist = super().get_changelist_instance(request)
+        changelist.opts = self.opts
+        changelist.lookup_opts = self.opts
+        changelist.title = _('Select %s to view') % self.opts.verbose_name
+        return changelist
 
     def allowed(self, request):
         user = request.user
