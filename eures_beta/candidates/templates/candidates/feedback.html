@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if candidate_feedback_email %}
+{% if team_contact_email %}
   {% blocktranslate asvar feedback_subject context "candidate feedback" %}Match Europe – candidate feedback (step {{ step }} of 4){% endblocktranslate %}
   <section class="journey-feedback"
            id="candidate-feedback"
@@ -7,7 +7,7 @@
     <h2 id="candidate-feedback-title">{% translate "A problem or a suggestion?" context "candidate feedback" %}</h2>
     <p>{% translate "This service is new. Tell us what does not work or what could be better." context "candidate feedback" %}</p>
     <p>
-      <a href="mailto:{{ candidate_feedback_email }}?subject={{ feedback_subject|urlencode }}">{% translate "Write to the team" context "candidate feedback" %}</a> : {{ candidate_feedback_email }}
+      <a href="mailto:{{ team_contact_email }}?subject={{ feedback_subject|urlencode }}">{% translate "Write to the team" context "candidate feedback" %}</a> : {{ team_contact_email }}
     </p>
   </section>
 {% endif %}

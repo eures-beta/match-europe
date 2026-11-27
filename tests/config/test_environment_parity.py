@@ -28,9 +28,10 @@ class EnvironmentParitySettingsTests(SimpleTestCase):
                 'from eures_beta.employers.offer_structuring import enabled as offer; '
                 'from eures_beta.skills.albert_skills import enabled as skills; '
                 'from eures_beta.matching.dialogue_services import enabled as dialogue; '
+                'from eures_beta.employers.contact import adviser_contact_url; '
                 'print(json.dumps([offer(), skills(), dialogue(), '
                 'settings.ALBERT_SIMULATED, settings.EMAIL_DELIVERY_ENABLED, '
-                'settings.EMPLOYER_ADVISER_CONTACT_URL]))',
+                'adviser_contact_url()]))',
             ],
             env={**values, 'DJANGO_SETTINGS_MODULE': 'config.settings'},
             capture_output=True,

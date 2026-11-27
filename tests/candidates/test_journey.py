@@ -603,7 +603,7 @@ class CandidateFeedbackTests(TestCase):
         )
         self.assertContains(response, 'Un problème ou une suggestion ?')
 
-    @override_settings(CANDIDATE_FEEDBACK_EMAIL='retours@example.invalid')
+    @override_settings(TEAM_CONTACT_EMAIL='retours@example.invalid')
     def test_feedback_address_comes_from_the_setting_with_the_step_in_subject(self):
         response = self.get()
         self.assertContains(response, 'href="mailto:retours@example.invalid?subject=')

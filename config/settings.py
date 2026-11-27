@@ -43,15 +43,12 @@ CANDIDATE_REGISTRATION_MAX_AGE = 60 * 60
 ALBERT_DIALOGUE_MODEL = os.environ.get('ALBERT_DIALOGUE_MODEL', ALBERT_MODEL)
 SKILLS_ALBERT_SOURCE_DIR = BASE_DIR / '.runtime' / 'catalog-sources'
 DEMO_ACCOUNTS_ENABLED = os.environ.get('DEMO_ACCOUNTS_ENABLED', '0') == '1'
-# Team contact for employers requesting a Match Europe invitation.
-EMPLOYER_ADVISER_CONTACT_URL = os.environ.get(
-    'EMPLOYER_ADVISER_CONTACT_URL',
-    'mailto:eric.barthelemy@francetravail.fr',
+# Shared team address for public contact, feedback and privacy requests.
+TEAM_CONTACT_EMAIL = (
+    os.environ.get('TEAM_CONTACT_EMAIL') or 'eric.barthelemy@francetravail.fr'
 )
-# Team address receiving problems and suggestions from candidates.
-CANDIDATE_FEEDBACK_EMAIL = (
-    os.environ.get('CANDIDATE_FEEDBACK_EMAIL') or 'eric.barthelemy@francetravail.fr'
-)
+# Optional alternative destination for employers requesting an invitation.
+EMPLOYER_ADVISER_CONTACT_URL = os.environ.get('EMPLOYER_ADVISER_CONTACT_URL', '')
 if DEMO_ACCOUNTS_ENABLED and (
     DJANGO_ENVIRONMENT not in ('local', 'preview') or EMAIL_DELIVERY_ENABLED
 ):
@@ -139,7 +136,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'eures_beta.users.test_accounts.context',
                 'eures_beta.employers.contact.context',
-                'eures_beta.candidates.feedback.context',
+                'eures_beta.www.contact.context',
             ],
         },
     },
