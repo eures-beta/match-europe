@@ -95,5 +95,5 @@ Voir [contrat et recette](docs/REVIEW_HANDOFF.md). Publication et recette 7 jour
 
 `codex/adviser-followup` suit désormais chaque matching dès sa création, avec
 ligne de vie, relances et embauche déclarée par l’employeur puis confirmée par
-le conseiller. Migrations additives 0028–0031 ; [contrat](docs/INTRODUCTION_FOLLOWUP.md).
+le conseiller. Migrations additives 0028–0032 ; [contrat](docs/MATCH_FOLLOWUP.md).
 PR #292 sur #291 ; recette jetable 7 jours demandée. Aucune fusion ni livraison en production.

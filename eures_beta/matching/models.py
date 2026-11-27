@@ -310,7 +310,7 @@ class EmployerCandidateReview(models.Model):
         return super().save(*args, **kwargs)
 
 
-class IntroductionFollowup(models.Model):
+class MatchFollowup(models.Model):
     """Shared adviser planning; closing this record never changes consent."""
 
     class WaitingFor(models.TextChoices):
@@ -328,7 +328,7 @@ class IntroductionFollowup(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='introduction_followup',
+        related_name='match_followup',
     )
     match = models.OneToOneField(
         CandidateOfferMatch, on_delete=models.CASCADE, related_name='followup'
@@ -358,11 +358,11 @@ class IntroductionFollowup(models.Model):
         return super().save(*args, **kwargs)
 
 
-class IntroductionFollowupEvent(models.Model):
+class MatchFollowupEvent(models.Model):
     """Adviser-only audit of plans and explicit email attempts; no login links."""
 
     followup = models.ForeignKey(
-        IntroductionFollowup, on_delete=models.CASCADE, related_name='events'
+        MatchFollowup, on_delete=models.CASCADE, related_name='events'
     )
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -374,7 +374,7 @@ class IntroductionFollowupEvent(models.Model):
         choices=[('plan', _('Follow-up updated')), ('reminder', _('Reminder'))],
     )
     recipient = models.CharField(
-        max_length=12, blank=True, choices=IntroductionFollowup.WaitingFor.choices
+        max_length=12, blank=True, choices=MatchFollowup.WaitingFor.choices
     )
     message = models.TextField(max_length=2000, blank=True)
     snapshot = models.JSONField(default=dict)

@@ -78,7 +78,7 @@ l'intérêt pour l'employeur. Un refus arrête la proposition sans motif obligat
 ni changement de profil. Les réserves restent dans le résumé à relire avant
 l'accord distinct de transmission ; Albert accompagne sans décider.
 Le profil vérifié et ses modifications confirmées déclenchent le matching après commit.
-Le [suivi](INTRODUCTION_FOLLOWUP.md) porte sur le matching dès sa création ;
+Le [suivi](MATCH_FOLLOWUP.md) porte sur le matching dès sa création ;
 l’employeur déclare l’embauche, le conseiller la vérifie et clôture.
 Références : [questionnaire](CANDIDATE_JOURNEY.md), [stockage](CANDIDATE_PROFILE_STORAGE.md),
 [matching](MATCHING.md), [confirmations](CANDIDATE_OFFER_CONFIRMATIONS.md),

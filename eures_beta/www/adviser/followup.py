@@ -12,8 +12,8 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_http_methods
 
-from eures_beta.matching import access, introduction_followup as service
-from eures_beta.matching.models import IntroductionFollowup
+from eures_beta.matching import access, match_followup as service
+from eures_beta.matching.models import MatchFollowup
 from eures_beta.www.accounts.views import selected_language
 from eures_beta.www.forms import bootstrap_form
 from eures_beta.users.email_login import email_ready
@@ -24,7 +24,7 @@ class PlanForm(forms.Form):
     stamp = forms.CharField(widget=forms.HiddenInput, max_length=64)
     next_action = forms.CharField(label=_('What needs to happen next?'), max_length=500)
     waiting_for = forms.ChoiceField(
-        label=_('Who needs to act?'), choices=IntroductionFollowup.WaitingFor.choices
+        label=_('Who needs to act?'), choices=MatchFollowup.WaitingFor.choices
     )
     due_on = forms.DateField(
         label=_('When will you check this dossier again?'),
@@ -35,7 +35,7 @@ class PlanForm(forms.Form):
         widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
     )
     outcome = forms.ChoiceField(
-        label=_('Outcome'), choices=IntroductionFollowup.Outcome.choices
+        label=_('Outcome'), choices=MatchFollowup.Outcome.choices
     )
     closure_reason = forms.CharField(
         label=_('Reason for closing'),
@@ -73,8 +73,7 @@ class ReminderForm(forms.Form):
     def __init__(self, recipients, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['recipient'].choices = [
-            (role, dict(IntroductionFollowup.WaitingFor.choices)[role])
-            for role in recipients
+            (role, dict(MatchFollowup.WaitingFor.choices)[role]) for role in recipients
         ]
 
 
@@ -83,7 +82,7 @@ def presentation(review, current):
     today = timezone.localdate()
     plan = current['plan']
     role = plan.waiting_for if plan else current['waiting']
-    role_label = dict(IntroductionFollowup.WaitingFor.choices)[role]
+    role_label = dict(MatchFollowup.WaitingFor.choices)[role]
     default_action = {
         'candidate': _('Collect the candidate’s reply'),
         'employer': _('Collect the employer’s decision'),
@@ -166,15 +165,13 @@ def index(request):
         if section not in ('all', 'unplanned', 'upcoming'):
             section = 'all'
         query = service.reviews()
-        active = query.exclude(introduction_followup__outcome__in=['hired', 'stopped'])
+        active = query.exclude(match_followup__outcome__in=['hired', 'stopped'])
         counts = active.aggregate(
             total=Count('pk'),
-            due=Count(
-                'pk', filter=Q(introduction_followup__due_on__lte=timezone.localdate())
-            ),
-            unplanned=Count('pk', filter=Q(introduction_followup__due_on__isnull=True)),
+            due=Count('pk', filter=Q(match_followup__due_on__lte=timezone.localdate())),
+            unplanned=Count('pk', filter=Q(match_followup__due_on__isnull=True)),
             upcoming=Count(
-                'pk', filter=Q(introduction_followup__due_on__gt=timezone.localdate())
+                'pk', filter=Q(match_followup__due_on__gt=timezone.localdate())
             ),
         )
         if (
@@ -185,24 +182,16 @@ def index(request):
         ):
             due_only = True
         if closed:
-            query = query.filter(
-                introduction_followup__outcome__in=['hired', 'stopped']
-            )
+            query = query.filter(match_followup__outcome__in=['hired', 'stopped'])
         else:
-            query = query.exclude(
-                introduction_followup__outcome__in=['hired', 'stopped']
-            )
+            query = query.exclude(match_followup__outcome__in=['hired', 'stopped'])
         if due_only:
-            query = query.filter(
-                introduction_followup__due_on__lte=timezone.localdate()
-            )
+            query = query.filter(match_followup__due_on__lte=timezone.localdate())
         elif not closed and section == 'unplanned':
-            query = query.filter(introduction_followup__due_on__isnull=True)
+            query = query.filter(match_followup__due_on__isnull=True)
         elif not closed and section == 'upcoming':
-            query = query.filter(introduction_followup__due_on__gt=timezone.localdate())
-        query = query.order_by(
-            F('introduction_followup__due_on').asc(nulls_last=True), 'pk'
-        )
+            query = query.filter(match_followup__due_on__gt=timezone.localdate())
+        query = query.order_by(F('match_followup__due_on').asc(nulls_last=True), 'pk')
         page = Paginator(query, 20).get_page(request.GET.get('page'))
         rows = [
             dict(review=review, **presentation(review, service.context(review)))

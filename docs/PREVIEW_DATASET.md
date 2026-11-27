@@ -25,8 +25,8 @@ ensuite changent ces nombres. Les tables intermédiaires automatiques sont exclu
 | CandidateOfferConversation | 0 | 5 |
 | CandidateOfferConversationMessage | 0 | 6 |
 | EmployerOfferConsent | 0 | 1 |
-| IntroductionFollowup | 0 | 3 |
-| IntroductionFollowupEvent | 0 | 3 |
+| MatchFollowup | 0 | 3 |
+| MatchFollowupEvent | 0 | 3 |
 | CandidateSupport | 0 | 5 |
 | JobOfferSupport | 0 | 16 |
 | CandidateProfileReviewSuggestion | 0 | 2 |

@@ -10,15 +10,15 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from eures_beta.matching import introduction_followup as followup
+from eures_beta.matching import match_followup as followup
 from eures_beta.matching import offer_review_services as answers, review_workflow
 from eures_beta.matching.models import (
     CandidateOfferMatch,
     CandidateOfferConversation,
     CandidateOfferConversationMessage,
     EmployerOfferConsent,
-    IntroductionFollowup,
-    IntroductionFollowupEvent,
+    MatchFollowup,
+    MatchFollowupEvent,
 )
 from eures_beta.users.models import User
 from eures_beta.users.test_accounts import prepared_user
@@ -30,7 +30,7 @@ from eures_beta.users.test_accounts import prepared_user
     EMAIL_DELIVERY_ENABLED=False,
     ALBERT_SIMULATED=True,
 )
-class IntroductionFollowupTests(TestCase):
+class MatchFollowupTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         call_command('seed_test_accounts', minimal=True, stdout=StringIO())
@@ -103,7 +103,7 @@ class IntroductionFollowupTests(TestCase):
         self.assertContains(
             self.client.get(self.url + '?lang=en'), 'What should you do now?'
         )
-        self.assertEqual(IntroductionFollowup.objects.count(), 0)
+        self.assertEqual(MatchFollowup.objects.count(), 0)
         plan = self.plan()
         self.assertTrue(self.current()['due'])
         self.client.force_login(self.other)
@@ -136,7 +136,7 @@ class IntroductionFollowupTests(TestCase):
                 'Please reply',
             )
         self.assertEqual(
-            IntroductionFollowupEvent.objects.filter(action='reminder').count(), 1
+            MatchFollowupEvent.objects.filter(action='reminder').count(), 1
         )
 
     def test_email_is_single_recipient_and_has_no_private_plan_or_tokens_in_history(
@@ -282,7 +282,7 @@ class IntroductionFollowupTests(TestCase):
     def test_database_refuses_non_adviser_authors(self):
         plan = self.plan()
         with self.assertRaises(DatabaseError), transaction.atomic():
-            IntroductionFollowup.objects.filter(pk=plan.pk).update(
+            MatchFollowup.objects.filter(pk=plan.pk).update(
                 updated_by_adviser=self.candidate
             )
 
@@ -357,7 +357,7 @@ class IntroductionFollowupTests(TestCase):
         )
         response = self.client.post(self.url, data, follow=True)
         self.assertEqual(response.status_code, 200)
-        event = IntroductionFollowupEvent.objects.get(action='reminder')
+        event = MatchFollowupEvent.objects.get(action='reminder')
         self.assertEqual(event.delivery_status, 'disabled')
         self.assertContains(response, 'Pouvez-vous répondre ?')
 
