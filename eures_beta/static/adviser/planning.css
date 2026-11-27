@@ -28,8 +28,6 @@
   padding: 0.3rem 0.5rem;
   border: 1px solid transparent;
   border-radius: 0.35rem;
-  color: var(--invite-ink, #243246);
-  background-color: var(--invite-paper);
   font: inherit;
   font-size: 0.875rem;
 }
