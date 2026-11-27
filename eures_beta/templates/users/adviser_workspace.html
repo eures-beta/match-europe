@@ -25,28 +25,28 @@
       </nav>
     </header>
     {% block adviser_sidebar %}
-    <aside class="adviser-sidebar invitation-card">
-      {% block adviser_subnav %}
-        <nav aria-label="{% translate 'To review' %}">
-          <a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}"
-             {% if followup_tab %}aria-current="page"{% endif %}>{% translate "Matching follow-up" %}{% if followup_due_count %} · {{ followup_due_count }}{% endif %}</a>
-          {% if queue_navigation %}
-            {% for item in queue_navigation %}
-              <a class="adviser-action-link"
-                 href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view={{ item.key }}"
-                 {% if queue_section == item.key %}aria-current="page"{% endif %}><span>{{ item.title }}</span>{% if item.count %}<span class="adviser-action-count"
-                                                                                                                                        aria-label="{% blocktranslate count counter=item.count %}{{ counter }} action to handle{% plural %}{{ counter }} actions to handle{% endblocktranslate %}">{{ item.count }}</span>{% endif %}</a>
-            {% endfor %}
-          {% else %}
-            <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}">{% translate "Matchings to validate" %}</a>
-            <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=offers">{% translate "Offers without candidates" %}</a>
-            <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=candidates">{% translate "Candidates without an offer" %}</a>
-          {% endif %}
-          <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations"
-             {% if tracking %} aria-current="page"{% endif %}>{% translate "Open conversations" %}{% if ready_review_count %} · {{ ready_review_count }}{% endif %}</a>
-        </nav>
-      {% endblock %}
-    </aside>
+      <aside class="adviser-sidebar invitation-card">
+        {% block adviser_subnav %}
+          <nav aria-label="{% translate 'To review' %}">
+            <a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}"
+               {% if followup_tab %}aria-current="page"{% endif %}>{% translate "Matching follow-up" %}{% if followup_due_count %} · {{ followup_due_count }}{% endif %}</a>
+            {% if queue_navigation %}
+              {% for item in queue_navigation %}
+                <a class="adviser-action-link"
+                   href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view={{ item.key }}"
+                   {% if queue_section == item.key %}aria-current="page"{% endif %}><span>{{ item.title }}</span>{% if item.count %}<span class="adviser-action-count"
+                                                                                                                                          aria-label="{% blocktranslate count counter=item.count %}{{ counter }} action to handle{% plural %}{{ counter }} actions to handle{% endblocktranslate %}">{{ item.count }}</span>{% endif %}</a>
+              {% endfor %}
+            {% else %}
+              <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}">{% translate "Matchings to validate" %}</a>
+              <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=offers">{% translate "Offers without candidates" %}</a>
+              <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=candidates">{% translate "Candidates without an offer" %}</a>
+            {% endif %}
+            <a href="{% url 'dashboard' %}?lang={{ dashboard_language }}&amp;view=conversations"
+               {% if tracking %} aria-current="page"{% endif %}>{% translate "Open conversations" %}{% if ready_review_count %} · {{ ready_review_count }}{% endif %}</a>
+          </nav>
+        {% endblock %}
+      </aside>
     {% endblock %}
     <div class="adviser-workspace-content{% if planning_tab %} adviser-planning-content{% endif %}">
       {% if hiring_confirmation_count %}<p class="alert alert-info" role="status"><a href="{% url 'adviser_followup_list' %}?lang={{ dashboard_language }}&amp;filter=confirm">{% translate "Hiring to confirm" %} · {{ hiring_confirmation_count }}</a></p>{% endif %}
