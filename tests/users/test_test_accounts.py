@@ -137,7 +137,7 @@ class TestAccountAccessTests(TestCase):
     @override_settings(DJANGO_ENVIRONMENT='local')
     def test_seed_is_idempotent_and_preserves_edits(self):
         self.seed()
-        self.assertEqual(User.objects.count(), 8)
+        self.assertEqual(User.objects.count(), 9)
         self.assertEqual(JobOffer.objects.count(), 3)
         identities = list(User.objects.order_by('pk').values_list('pk', flat=True))
         offer = JobOffer.objects.first()
@@ -173,7 +173,7 @@ class TestAccountAccessTests(TestCase):
                 if identities is not None:
                     self.assertEqual(current, identities)
                 identities = current
-                self.assertEqual(len(current), 8)
+                self.assertEqual(len(current), 9)
                 self.assertEqual(CandidateProfile.objects.count(), 5)
                 self.assertEqual(CandidateOfferMatch.objects.count(), 5)
                 self.assertEqual(CandidateOfferReview.objects.count(), 1)
@@ -223,7 +223,8 @@ class TestAccountAccessTests(TestCase):
                 '/admin/' if key == 'admin' else '/accounts/dashboard/',
             )
             self.assertEqual(
-                client.get('/admin/').status_code, 200 if key == 'admin' else 302
+                client.get('/admin/').status_code,
+                200 if key in {'staff', 'admin'} else 302,
             )
         self.assertEqual(len(mail.outbox), 0)
 
@@ -325,7 +326,25 @@ class TestAccountAccessTests(TestCase):
         self.client.post(reverse('test_account_sign_in'), {'account': 'admin'})
         self.assertContains(self.client.get('/admin/'), 'test-accounts-banner')
 
-    def test_selector_uses_the_five_approved_labels_in_order(self):
+    def test_staff_demo_has_planning_without_superuser_access(self):
+        self.seed()
+        user = prepared_user('staff')
+        self.assertEqual(user.kind, User.Kind.ADVISER)
+        self.assertTrue(user.is_staff)
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.has_usable_password())
+        self.client.post(reverse('test_account_sign_in'), {'account': 'staff'})
+        self.assertEqual(self.client.get(reverse('adviser_planning')).status_code, 200)
+        self.assertEqual(
+            self.client.get(
+                reverse('admin:users_adviseravailability_changelist')
+            ).status_code,
+            403,
+        )
+        self.client.post(reverse('test_account_sign_in'), {'account': 'adviser'})
+        self.assertEqual(self.client.get(reverse('adviser_planning')).status_code, 403)
+
+    def test_selector_uses_the_six_approved_labels_in_order(self):
         self.seed()
         expected = {
             'fr': [
@@ -333,6 +352,7 @@ class TestAccountAccessTests(TestCase):
                 'Employeur',
                 'Candidat (profil complet)',
                 'Candidat (profil incomplet)',
+                'Staff (conseiller)',
                 'Super administrateur',
             ],
             'en': [
@@ -340,6 +360,7 @@ class TestAccountAccessTests(TestCase):
                 'Employer',
                 'Candidate (complete profile)',
                 'Candidate (incomplete profile)',
+                'Staff (adviser)',
                 'Super administrator',
             ],
             'de': [
@@ -347,6 +368,7 @@ class TestAccountAccessTests(TestCase):
                 'Arbeitgeber',
                 'Bewerber (vollständiges Profil)',
                 'Bewerber (unvollständiges Profil)',
+                'Mitarbeiter (Berater)',
                 'Superadministrator',
             ],
         }
@@ -360,6 +382,7 @@ class TestAccountAccessTests(TestCase):
                         'employer',
                         'candidate-pwa',
                         'candidate-pwa-replay',
+                        'staff',
                         'admin',
                     ],
                 )

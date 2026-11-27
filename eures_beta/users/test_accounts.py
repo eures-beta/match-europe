@@ -19,6 +19,13 @@ ACCOUNTS = {
         'is_superuser': False,
         'label': _('Employer'),
     },
+    'staff': {
+        'email': 'staff@demo.example.invalid',
+        'kind': User.Kind.ADVISER,
+        'is_staff': True,
+        'is_superuser': False,
+        'label': _('Staff (adviser)'),
+    },
     'admin': {
         'email': 'admin@demo.example.invalid',
         'kind': User.Kind.ADVISER,
@@ -51,6 +58,7 @@ def account_specs():
         'adviser': ACCOUNTS['adviser'],
         'employer': ACCOUNTS['employer'],
         **PWA_ACCOUNTS,
+        'staff': ACCOUNTS['staff'],
         'admin': ACCOUNTS['admin'],
     }
 
