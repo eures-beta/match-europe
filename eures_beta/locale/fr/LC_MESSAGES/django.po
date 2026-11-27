@@ -711,7 +711,7 @@ msgstr "Construire un moteur de matching reposant sur des règles objectives et 
 #: eures_beta/journal.py:295
 msgctxt "project journal"
 msgid "The score is not an automatic decision. It becomes a decision-support tool used to compare profiles, understand their strengths and limits, and prepare a more effective human intervention."
-msgstr "Le score ne constitue pas une décision automatique. Il devient un outil d’aide à la décision permettant de comparer les profils, de comprendre leurs points forts et leurs limites et de préparer une intervention humaine la plus efficace."
+msgstr "Le score ne constitue pas une décision automatique. Il devient un outil d’aide à la décision permettant de comparer les profils, de comprendre leurs points forts et leurs limites et de préparer une intervention humaine la plus efficace possible."
 
 #: eures_beta/journal.py:299
 msgctxt "project journal"
