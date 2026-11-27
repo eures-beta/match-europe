@@ -38,12 +38,6 @@ comme déjà déployés. Son ordre et ses SHA sont des informations GitHub péri
 pas une liste à dupliquer dans ce fichier.
 
 - [#203](https://github.com/eures-beta/match-europe/pull/203) : design system Bootstrap/ECL.
-- [#204](https://github.com/eures-beta/match-europe/pull/204) et
-  [#208](https://github.com/eures-beta/match-europe/pull/208) : routes explicites
-  et compatibilité des anciennes adresses.
-- [#206](https://github.com/eures-beta/match-europe/pull/206) et
-  [#207](https://github.com/eures-beta/match-europe/pull/207) :
-  simplification des réglages et politique de connexions PostgreSQL commune.
 - [#209](https://github.com/eures-beta/match-europe/pull/209) : validation CI interne
   portée par push ; les jobs pull_request ignorés ne remplacent pas cette preuve.
 - [#211](https://github.com/eures-beta/match-europe/pull/211) : CSS web externe et lint.
